@@ -138,6 +138,50 @@ const widgetRenderers: Record<string, (json: unknown) => ReactNode> = {
   soundcards: (d) => <SoundCards spec={d as SoundCardsSpec} />,
 };
 
+/* Read-aloud for the content BLOCKS (steps/keyvalue/…). The section-heading
+   speaker only reads prose — it strips fenced blocks — so a child who can't
+   read would miss the cards. Each block gets its own speaker that reads it. */
+function s(x: unknown): string {
+  return typeof x === "string" ? x : typeof x === "number" ? String(x) : "";
+}
+function blockSpeechText(lang: string, data: unknown): string {
+  try {
+    const arr = Array.isArray(data) ? (data as Record<string, unknown>[]) : [];
+    switch (lang) {
+      case "steps":
+        return arr.map((i) => [s(i.title), s(i.body)].filter(Boolean).join(". ")).join(". ");
+      case "keyvalue":
+        return arr.map((i) => `${s(i.k)}: ${s(i.v)}`).join(". ");
+      case "stats":
+        return arr.map((i) => [s(i.label), s(i.value), s(i.hint)].filter(Boolean).join(", ")).join(". ");
+      case "meters":
+        return arr.map((i) => `${s(i.label)}: ${s(i.value)}${i.max != null ? ` de ${s(i.max)}` : ""}. ${s(i.caption)}`).join(". ");
+      case "compare":
+        return arr
+          .map((c) => `${s(c.title)}. ${(Array.isArray(c.rows) ? (c.rows as Record<string, unknown>[]) : []).map((r) => `${s(r.label)}: ${s(r.value)}`).join(". ")}`)
+          .join(". ");
+      case "quote":
+        return s((data as Record<string, unknown>)?.text);
+      default:
+        return ""; // `summary` already carries its own "Ouvir" button
+    }
+  } catch {
+    return "";
+  }
+}
+
+function SpeakableBlock({ text, children }: { text: string; children: ReactNode }) {
+  if (!canSpeak() || !text.trim()) return <>{children}</>;
+  return (
+    <div className="block-audio">
+      {children}
+      <button type="button" className="block-audio__btn" onClick={() => speak(text)} aria-label="Ouvir" title="Ouvir">
+        <Icon name="speaker" size={18} />
+      </button>
+    </div>
+  );
+}
+
 function jsonError(lang: string, e: unknown): ReactNode {
   return (
     <pre style={{ background: "var(--danger-soft)", color: "var(--danger)", padding: 12, borderRadius: "var(--radius-sm)", whiteSpace: "pre-wrap" }}>
@@ -206,7 +250,8 @@ const components: Components = {
     }
     if (lang in infographicRenderers) {
       try {
-        return infographicRenderers[lang](JSON.parse(source));
+        const data = JSON.parse(source);
+        return <SpeakableBlock text={blockSpeechText(lang, data)}>{infographicRenderers[lang](data)}</SpeakableBlock>;
       } catch (e) {
         return jsonError(lang, e);
       }

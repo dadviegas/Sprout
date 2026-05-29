@@ -378,6 +378,17 @@
 .section-sub {
   color: var(--ink-2); margin: -8px 2px 14px; font-size: .98em; max-width: 60ch;
 }
+/* Per-block read-aloud: a floating speaker on each content block (steps,
+   keyvalue, …) so a child who can't read can hear the cards too. */
+.prose .block-audio { position: relative; }
+.prose .block-audio > .block-audio__btn {
+  position: absolute; top: 2px; right: 4px; z-index: 2;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--surface-2); border: 2px solid var(--border); color: var(--ink-2);
+  box-shadow: var(--shadow-sm);
+}
+.prose .block-audio > .block-audio__btn:hover { color: var(--primary); border-color: var(--border-strong); transform: translateY(-1px); }
 
 /* index/tree drawer (optional, for parents) */
 .drawer-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 40; }

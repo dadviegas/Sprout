@@ -1,0 +1,116 @@
+/* Sprout — design tokens. Adapted from the Atlantis "Atlas" system:
+   calm near-black dark + clean paper light, soft layered shadows, a single
+   green primary with blue/violet accents. Per-subject accents layer on top.
+   Palette via [data-palette="sprout"], theme via [data-theme]. */
+
+[data-palette="sprout"],
+[data-palette="sprout"][data-theme="light"] {
+  /* LIGHT — clean paper, Atlantis green */
+  --bg:          #f5f7fa;
+  --bg-2:        #eef1f5;
+  --bg-elev:     #ffffff;
+  --surface:     #ffffff;
+  --surface-2:   #f0f3f6;
+  --surface-3:   #e6eaef;
+  --ink:         #18202b;
+  --ink-2:       #56616f;
+  --ink-3:       #8893a1;
+  --border:      #dde3ea;
+  --border-soft: #e9eef3;
+  --border-strong:#c6ced8;
+
+  --primary:     #1f9d6b;
+  --primary-soft:#dff3ea;
+  --accent:      #3b6fd4;
+  --accent-soft: #dde8fb;
+  --warn:        #c2851f;
+  --warn-soft:   #f8edd2;
+  --danger:      #d83b42;
+  --danger-soft: #fbdcde;
+  --info:        #3b6fd4;
+  --info-soft:   #dde8fb;
+  --ok:          #1f9d6b;
+  --ok-soft:     #dff3ea;
+  --code-bg:     #18202b;
+  --code-ink:    #f5f7fa;
+
+  --subj-mat:    #2f6df0;  --subj-mat-soft:#dde7fc;
+  --subj-pt:     #e23b6d;  --subj-pt-soft: #fbdce6;
+  --subj-edm:    #1f9d6b;  --subj-edm-soft:#dff3ea;
+  --subj-en:     #7b52d4;  --subj-en-soft: #ebe2fb;
+  --subj-mundo:  #0d97a8;  --subj-mundo-soft:#d0eff2;
+  --subj-cid:    #e07b00;  --subj-cid-soft: #fceacf;
+  --subj-art:    #c0299a;  --subj-art-soft: #fbd9f0;
+  --subj-fis:    #e0392b;  --subj-fis-soft: #fbdad7;
+
+  --shadow-color: 220 25% 45%;
+}
+
+[data-palette="sprout"][data-theme="dark"] {
+  /* DARK — Atlantis night: near-black slate, subtle borders, accent glow */
+  --bg:          #0a0e13;
+  --bg-2:        #070a0e;
+  --bg-elev:     #11161d;
+  --surface:     #141a22;
+  --surface-2:   #1a212b;
+  --surface-3:   #222b37;
+  --ink:         #e6edf3;
+  --ink-2:       #9aa7b4;
+  --ink-3:       #69737f;
+  --border:      #262f3a;
+  --border-soft: #1c242e;
+  --border-strong:#3a4655;
+
+  --primary:     #4cc38a;
+  --primary-soft:#11281e;
+  --accent:      #6ea8fe;
+  --accent-soft: #122036;
+  --warn:        #e0a458;
+  --warn-soft:   #2c2310;
+  --danger:      #f2545b;
+  --danger-soft: #2e1417;
+  --info:        #6ea8fe;
+  --info-soft:   #122036;
+  --ok:          #4cc38a;
+  --ok-soft:     #11281e;
+  --code-bg:     #070a0e;
+  --code-ink:    #e6edf3;
+
+  --subj-mat:    #6ea8fe;  --subj-mat-soft:#10203a;
+  --subj-pt:     #ff7aa8;  --subj-pt-soft: #2e1622;
+  --subj-edm:    #4cc38a;  --subj-edm-soft:#11281e;
+  --subj-en:     #b08cff;  --subj-en-soft: #1e1838;
+  --subj-mundo:  #3fcedd;  --subj-mundo-soft:#0b2a2f;
+  --subj-cid:    #ffb44d;  --subj-cid-soft: #2c1d05;
+  --subj-art:    #f178c7;  --subj-art-soft: #2c0c22;
+  --subj-fis:    #ff7a6e;  --subj-fis-soft: #2e110e;
+
+  --shadow-color: 220 50% 2%;
+}
+
+:root {
+  --d: 1;
+  --base-font: 17px;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-lg: 20px;
+
+  --font-sans: "Nunito", ui-rounded, system-ui, sans-serif;
+  --font-display: "Baloo 2", "Nunito", ui-rounded, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Geist Mono", ui-monospace, monospace;
+
+  /* soft, layered shadows (Atlantis) */
+  --shadow-sm: 0 1px 2px hsl(var(--shadow-color) / 0.4);
+  --shadow-md: 0 4px 14px hsl(var(--shadow-color) / 0.45);
+  --shadow-lg: 0 14px 36px hsl(var(--shadow-color) / 0.5);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 120ms;
+  --dur-mid: 240ms;
+  --dur-slow: 420ms;
+}
+
+[data-density="compact"] { --d: 0.9;  --base-font: 15px; }
+[data-density="comfy"]   { --d: 1;    --base-font: 17px; }
+[data-density="airy"]    { --d: 1.15; --base-font: 19px; }

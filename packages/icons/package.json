@@ -1,0 +1,23 @@
+{
+  "name": "@sprout/icons",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Sistema de ícones SVG do Sprout — conjunto coeso numa grelha 24×24, exportado como componente <Icon name>.",
+  "type": "module",
+  "main": "src/index.tsx",
+  "types": "src/index.tsx",
+  "exports": {
+    ".": "./src/index.tsx"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "react": "^18.3.1",
+    "typescript": "^5.6.3"
+  }
+}

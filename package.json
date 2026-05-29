@@ -1,0 +1,13 @@
+{
+  "name": "sprout",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Sprout — app de aprendizagem para o 1.º ciclo do ensino básico (1.º ao 4.º ano) em Portugal.",
+  "scripts": {
+    "dev": "pnpm --filter @sprout/web dev",
+    "build": "pnpm --filter @sprout/web build",
+    "validate": "pnpm --filter @sprout/web validate",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "packageManager": "pnpm@10.13.1"
+}

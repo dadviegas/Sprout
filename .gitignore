@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+*.tsbuildinfo
+
+# Logs
+*.log
+
+# Local env
+.env
+.env.local
+.env.*.local
+
+# Local tooling / testing scratch
+.playwright-mcp/
+
+# Editor / OS
+.DS_Store
+.vscode/
+.idea/
+*.swp

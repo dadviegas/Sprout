@@ -1,0 +1,48 @@
+# ─────────────────────────────────────────────────────────────────────────
+# Sprout — page settings. Edit here to change copy/structure without touching
+# code. Loaded (and type-checked) through src/site-config.ts.
+# Note: lesson lists live in content/curriculum.ts (they import .md files);
+# this file owns presentation — names, copy, icons, ordering.
+# ─────────────────────────────────────────────────────────────────────────
+
+brand:
+  name: Sprout
+  tagline: Aprender a brincar
+
+mascot:
+  name: Feijãozinho
+  emoji: "🌱"
+
+# "O Mundo & Curiosidades" — common-sense / general-culture area (not a school
+# subject, not tied to a grade). Açores and Portugal sit on the home screen;
+# the wider world is gathered under the "beyond" entry. Each ring's `ring`
+# number links to the matching tier in content/curriculum.ts.
+mundo:
+  sectionTitle: O Mundo & Curiosidades
+  sectionSub: "Coisas boas de saber, dos Açores ao mundo inteiro — não é matéria de escola. 🌍"
+  beyond:
+    label: Pelo mundo fora
+    blurb: "Europa, oceanos, continentes e maravilhas"
+    sub: "Para lá de Portugal: a Europa, os oceanos e o mundo inteiro. 🌍"
+    icon: world
+  rings:
+    - ring: 1
+      label: Os Açores
+      blurb: "As minhas ilhas: vulcões, lagoas e baleias"
+      icon: island
+      home: true
+    - ring: 2
+      label: Portugal
+      blurb: "O nosso país de uma ponta à outra"
+      icon: flag
+      home: true
+    - ring: 3
+      label: A Europa e o Atlântico
+      blurb: "O oceano à nossa volta e a Europa"
+      icon: wave2
+      home: false
+    - ring: 4
+      label: O mundo inteiro
+      blurb: "Continentes, oceanos e maravilhas"
+      icon: world
+      home: false

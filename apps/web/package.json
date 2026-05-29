@@ -1,0 +1,31 @@
+{
+  "name": "@sprout/web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Aplicação web do Sprout (Rspack + React 18 + TypeScript).",
+  "scripts": {
+    "dev": "rspack serve",
+    "validate": "node scripts/validate-content.mjs",
+    "build": "node scripts/validate-content.mjs && rspack build",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@sprout/icons": "workspace:*",
+    "@sprout/ui": "workspace:*",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-markdown": "^9.1.0",
+    "rehype-raw": "^7.0.0",
+    "remark-gfm": "^4.0.1"
+  },
+  "devDependencies": {
+    "@rspack/cli": "^1.1.4",
+    "@rspack/core": "^1.1.4",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^22.9.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "js-yaml": "^4.1.1",
+    "typescript": "^5.6.3"
+  }
+}

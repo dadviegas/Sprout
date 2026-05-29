@@ -25,7 +25,7 @@ Documento honesto sobre o que **já existe** e o que **ainda falta**. Atualizado
 **MAS** isto é uma **seleção**, não cobertura total das Aprendizagens Essenciais. Cada tema é uma lição curta. Ver **[docs/COVERAGE.md](docs/COVERAGE.md)** para o mapa honesto (público = privado: mesmo currículo nacional) do que está `✅ coberto`, `🟡 raso` ou `❌ em falta`.
 
 Por fazer, por ordem:
-1. **Aprofundar** as lições existentes (mais sub-tópicos e prática por tema).
+1. **Aprofundar** as lições existentes (mais sub-tópicos e prática por tema). ✅ **feito para as 4 áreas novas** (Educação Física, Educação Artística, Cidadania, O Mundo — 57 lições: mais secções de exemplos, um "exemplo passo a passo" e ~4 perguntas de treino + ~5 no teste final). Falta aprofundar do mesmo modo as 4 disciplinas base (Matemática, Português, Estudo do Meio, Inglês).
 2. **Encher domínios em falta** nas 4 disciplinas — Português **Oralidade** e **Educação Literária** já preenchidos (contos, lengalengas, poemas, fábulas, autores do PNL, falar/debater) ✅; falta aprofundar Matemática (cálculo mental, dados) e Estudo do Meio (experiências).
 3. ~~**Acrescentar 3 áreas novas**: Cidadania e Desenvolvimento, Educação Artística, Educação Física~~ ✅ **(feito — 7 disciplinas escolares no total; cada área nova com 12 lições, 3/ano).**
 4. **Revisão pedagógica** por docente do 1.º ciclo antes de fechar qualquer tema.

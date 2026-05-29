@@ -44,6 +44,10 @@ export interface Achievement {
 
 const STORAGE_KEY = "sprout.progress.v1";
 const ACHIEVEMENTS_KEY = "sprout.achievements.v1";
+const HISTORY_KEY = "sprout.history.v1";
+
+/** How many recently-opened lessons to remember (newest first). */
+const MAX_HISTORY = 20;
 
 function emptyLesson(): LessonProgress {
   return { visited: false, done: false, bestStars: 0, bestPct: 0, quizzes: {} };
@@ -62,6 +66,28 @@ function load(): ProgressMap {
 
 function loadAchievements(): Achievement[] {
   return store.getSync<Achievement[]>(ACHIEVEMENTS_KEY, []);
+}
+
+/** Recently-opened lesson ids, newest first. Guard the shape so a stale/garbled
+ *  value can never crash the home screen. */
+function loadHistory(): string[] {
+  const h = store.getSync<unknown>(HISTORY_KEY, []);
+  return Array.isArray(h) ? h.filter((id): id is string => typeof id === "string").slice(0, MAX_HISTORY) : [];
+}
+
+/** Merge two recency lists keeping order (current wins, then any older ids the
+ *  durable backend still has), de-duplicated and capped — so a hydrate never
+ *  drops what was just opened this session. */
+function mergeHistory(a: string[], b: string[]): string[] {
+  const out: string[] = [];
+  const seen = new Set<string>();
+  for (const id of [...a, ...b]) {
+    if (seen.has(id)) continue;
+    seen.add(id);
+    out.push(id);
+    if (out.length >= MAX_HISTORY) break;
+  }
+  return out;
 }
 
 /** Merge two achievement logs, de-duplicating by (lessonId + timestamp) so a
@@ -110,8 +136,12 @@ function mergeProgress(a: ProgressMap, b: ProgressMap): ProgressMap {
 interface ProgressContextValue {
   progress: ProgressMap;
   achievements: Achievement[];
+  /** Recently-opened lesson ids, newest first (max 20). */
+  history: string[];
   lessonOf: (lessonId: string) => LessonProgress;
   markVisited: (lessonId: string) => void;
+  /** Push a lesson to the front of the recently-seen list. */
+  recordSeen: (lessonId: string) => void;
   recordQuiz: (lessonId: string, quizId: string, score: QuizScore, isFinal: boolean) => void;
   totalStars: number;
   resetAll: () => void;
@@ -122,6 +152,7 @@ const ProgressContext = createContext<ProgressContextValue | null>(null);
 export function ProgressProvider({ children }: { children: ReactNode }) {
   const [progress, setProgress] = useState<ProgressMap>(load);
   const [achievements, setAchievements] = useState<Achievement[]>(loadAchievements);
+  const [history, setHistory] = useState<string[]>(loadHistory);
 
   useEffect(() => {
     store.set(STORAGE_KEY, progress);
@@ -131,6 +162,10 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     store.set(ACHIEVEMENTS_KEY, achievements);
   }, [achievements]);
 
+  useEffect(() => {
+    store.set(HISTORY_KEY, history);
+  }, [history]);
+
   // When the durable backend finishes hydrating (and on any external write,
   // e.g. another tab), merge its data in without dropping in-session state.
   useEffect(() => {
@@ -139,11 +174,13 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
       if (!alive) return;
       setProgress((cur) => mergeProgress(cur, load()));
       setAchievements((cur) => mergeAchievements(cur, loadAchievements()));
+      setHistory((cur) => mergeHistory(cur, loadHistory()));
     };
     void store.ready.then(sync);
     const unsubP = store.subscribe(STORAGE_KEY, sync);
     const unsubA = store.subscribe(ACHIEVEMENTS_KEY, sync);
-    return () => { alive = false; unsubP(); unsubA(); };
+    const unsubH = store.subscribe(HISTORY_KEY, sync);
+    return () => { alive = false; unsubP(); unsubA(); unsubH(); };
   }, []);
 
   const lessonOf = useCallback(
@@ -156,6 +193,13 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
       const cur = prev[lessonId] ?? emptyLesson();
       if (cur.visited) return prev;
       return { ...prev, [lessonId]: { ...cur, visited: true } };
+    });
+  }, []);
+
+  const recordSeen = useCallback((lessonId: string) => {
+    setHistory((prev) => {
+      if (prev[0] === lessonId) return prev; // already most-recent — no-op
+      return [lessonId, ...prev.filter((id) => id !== lessonId)].slice(0, MAX_HISTORY);
     });
   }, []);
 
@@ -214,8 +258,10 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   const resetAll = useCallback(() => {
     store.remove(STORAGE_KEY);
     store.remove(ACHIEVEMENTS_KEY);
+    store.remove(HISTORY_KEY);
     setProgress({});
     setAchievements([]);
+    setHistory([]);
   }, []);
 
   const totalStars = useMemo(
@@ -224,8 +270,8 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   );
 
   const value = useMemo(
-    () => ({ progress, achievements, lessonOf, markVisited, recordQuiz, totalStars, resetAll }),
-    [progress, achievements, lessonOf, markVisited, recordQuiz, totalStars, resetAll],
+    () => ({ progress, achievements, history, lessonOf, markVisited, recordSeen, recordQuiz, totalStars, resetAll }),
+    [progress, achievements, history, lessonOf, markVisited, recordSeen, recordQuiz, totalStars, resetAll],
   );
 
   return <ProgressContext.Provider value={value}>{children}</ProgressContext.Provider>;

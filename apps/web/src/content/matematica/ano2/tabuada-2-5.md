@@ -6,20 +6,21 @@ Multiplicar é **somar muitas vezes o mesmo número**. É mais rápido! 🏎️
 
 ## Tabuada do 2 (de 2 em 2)
 
-| Conta | Resultado |
-| --- | --- |
-| 1 × 2 | 2 |
-| 2 × 2 | 4 |
-| 3 × 2 | 6 |
-| 4 × 2 | 8 |
-| 5 × 2 | 10 |
-| 10 × 2 | 20 |
+Toca numa linha para a ouvir — ou em **Ouvir tudo** para a tabuada inteira!
+
+```tabuada
+{ "of": 2 }
+```
 
 Repara: **2, 4, 6, 8, 10...** — saltamos sempre 2! 🦘
 
 ## Tabuada do 5 (de 5 em 5)
 
 A tabuada do 5 é fácil: termina sempre em **0** ou **5**.
+
+```tabuada
+{ "of": 5 }
+```
 
 > 5, 10, 15, 20, 25, 30... ✋✋✋✋✋✋
 

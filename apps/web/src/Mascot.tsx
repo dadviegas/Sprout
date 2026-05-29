@@ -1,5 +1,5 @@
 import { Icon } from "@sprout/icons";
-import { speak, canSpeak } from "@sprout/ui";
+import { Speaker } from "@sprout/ui";
 
 export type Mood = "happy" | "cheer" | "think" | "idle";
 
@@ -26,11 +26,7 @@ export function Mascot({
       </div>
       <div className="bubble">
         <span>{message}</span>
-        {speakable && canSpeak() && (
-          <button className="bubble-speak" onClick={() => speak(message)} aria-label="Ouvir" title="Ouvir">
-            <Icon name="speaker" size={18} />
-          </button>
-        )}
+        {speakable && <Speaker text={message} className="bubble-speak" />}
       </div>
     </div>
   );

@@ -1,7 +1,9 @@
 // Public API of the @sprout/ui package.
 // Styles are exposed as a subpath: import "@sprout/ui/styles/tokens.css".
 
-export { speak, canSpeak } from "./speak";
+export { speak, speakSequence, speakable, canSpeak, stop, subscribeSpeaking, speakingToken } from "./speak";
+export { Speaker, useSpeaker } from "./Speaker";
+export type { SpeakerProps } from "./Speaker";
 
 export { Badge } from "./Badge";
 export type { BadgeKind, BadgeProps } from "./Badge";
@@ -38,3 +40,7 @@ export { TenFrame } from "./widgets/TenFrame";
 export type { TenFrameSpec } from "./widgets/TenFrame";
 export { SoundCards } from "./widgets/SoundCards";
 export type { SoundCardsSpec, SoundItem } from "./widgets/SoundCards";
+export { Tabuada } from "./widgets/Tabuada";
+export type { TabuadaSpec } from "./widgets/Tabuada";
+export { MathBlock } from "./widgets/MathBlock";
+export type { MathSpec } from "./widgets/MathBlock";

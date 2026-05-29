@@ -61,6 +61,8 @@ export const ICONS = {
       <path d="M14.5 9.5a3.5 3.5 0 0 1 0 5M17 7a7 7 0 0 1 0 10" />
     </>
   ),
+  // A filled rounded square — the "parar" (stop) state of a read-aloud button.
+  stop: <rect x="6" y="6" width="12" height="12" rx="3" fill="currentColor" />,
   star: <path d="M12 3.5l2.6 5.3 5.8.9-4.2 4.1 1 5.8-5.2-2.8-5.2 2.8 1-5.8-4.2-4.1 5.8-.9z" />,
   check: <path d="M5 12.5l4.5 4.5L19 7" />,
   sparkle: (

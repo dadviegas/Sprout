@@ -17,11 +17,54 @@ Nos Açores há muitas **lendas**: histórias antigas que os avós contam aos ne
 
 > A **Lagoa Azul** e a **Lagoa Verde** existem mesmo! Estão juntinhas, dentro de uma cratera enorme de um vulcão. 🌋
 
-## Porque é uma lenda? 🤔
+## As duas lagoas a sério 💧
 
-Uma **lenda** é uma história inventada para explicar uma coisa bonita da natureza. A água não é mesmo de lágrimas — mas é uma forma gira de contar a paisagem!
+A lenda é gira, mas as lagoas existem de verdade — e tu podes ir vê-las! Olha o que sabemos sobre elas:
 
-> [!TIP] **Para saberes mais** 🌱 A água das duas lagoas até está ligada por baixo! As cores diferentes são por causa da **profundidade** e do **céu** que se reflete — a mais funda parece mais azul. 💧
+```keyvalue
+[
+  { "k": "Lagoa Azul 💙", "v": "a maior das duas, com água que parece o céu" },
+  { "k": "Lagoa Verde 💚", "v": "mais pequena, com cor de relva à volta 🌿" },
+  { "k": "Estão juntas", "v": "uma ponte separa-as, mas a água passa por baixo 🌉" },
+  { "k": "Onde ficam", "v": "numa cratera enorme na ilha de São Miguel 🌋" }
+]
+```
+
+> A cratera é tão grande que cabe lá dentro uma aldeia inteirinha, com casas, igreja e escola! 🏘️
+
+## O que é uma lenda? 🤔
+
+Uma **lenda** é uma história inventada para explicar uma coisa bonita da natureza. A água não é mesmo de lágrimas — mas é uma forma gira de contar a paisagem! Vê a diferença:
+
+```compare
+[
+  { "title": "A lenda 🧚", "rows": [
+    { "label": "Quem fez as lagoas?", "value": "as lágrimas dos dois amigos 🥹" },
+    { "label": "Porquê azul e verde?", "value": "os olhos da princesa e do pastor 💙💚" }
+  ] },
+  { "title": "A verdade 💧", "highlight": true, "rows": [
+    { "label": "Quem fez as lagoas?", "value": "a chuva, dentro de uma cratera 🌧️" },
+    { "label": "Porquê azul e verde?", "value": "a profundidade e o céu refletido ☀️" }
+  ] }
+]
+```
+
+> **Truque:** uma lenda começa quase sempre com **"Era uma vez…"**. Se a história tem reis, fadas ou magia para explicar a natureza, é uma lenda! ✨
+
+## Um exemplo passo a passo 🔍
+
+Imagina que vais à beira da cratera com a tua família. Como percebes qual é a Lagoa Azul e qual é a Verde? Faz assim:
+
+```steps
+[
+  { "title": "1. Olha para o céu", "body": "se o dia está limpo, o céu reflete-se na água 🌤️" },
+  { "title": "2. Procura a maior", "body": "a lagoa maior e mais funda parece mais azul 💙" },
+  { "title": "3. Procura a mais pequena", "body": "a mais pequena, com relva à volta, parece mais verde 💚" },
+  { "title": "4. Vê a ponte", "body": "no meio há uma ponte — de um lado azul, do outro verde! 🌉" }
+]
+```
+
+> [!TIP] **Para saberes mais** 🌱 A água das duas lagoas até está ligada por baixo! As cores diferentes são por causa da **profundidade** e do **céu** que se reflete — a parte mais funda parece mais azul, e a mais rasa, com plantas, parece mais verde. 💧
 
 ## Vamos praticar 🎈
 
@@ -34,7 +77,15 @@ Uma **lenda** é uma história inventada para explicar uma coisa bonita da natur
   { "q": "Uma lenda é…", "layout": "grid", "options": [
     { "t": "uma história antiga que se conta", "emoji": "📖", "correct": true },
     { "t": "um animal do mar", "emoji": "🐟" }
-  ], "explain": "Uma lenda é uma história antiga, passada de avós para netos." }
+  ], "explain": "Uma lenda é uma história antiga, passada de avós para netos." },
+  { "q": "O que separa as duas lagoas?", "layout": "grid", "options": [
+    { "t": "Uma muralha gigante", "emoji": "🧱" },
+    { "t": "Uma ponte", "emoji": "🌉", "correct": true }
+  ], "explain": "Há uma ponte no meio — de um lado azul, do outro verde!" },
+  { "q": "Qual a verdadeira razão das cores?", "layout": "grid", "options": [
+    { "t": "A profundidade e o céu refletido", "emoji": "☀️", "correct": true },
+    { "t": "Alguém pintou a água", "emoji": "🎨" }
+  ], "explain": "A parte mais funda parece azul; a mais rasa, com plantas, verde." }
 ] }
 ```
 
@@ -53,6 +104,14 @@ Uma **lenda** é uma história inventada para explicar uma coisa bonita da natur
   { "q": "As lagoas estão dentro de quê?", "layout": "grid", "options": [
     { "t": "Uma cratera de um vulcão", "emoji": "🌋", "correct": true },
     { "t": "Uma cidade grande", "emoji": "🏙️" }
-  ], "explain": "Estão dentro de uma enorme cratera de um vulcão antigo." }
+  ], "explain": "Estão dentro de uma enorme cratera de um vulcão antigo." },
+  { "q": "Na lenda, a princesa tinha olhos…", "layout": "grid", "options": [
+    { "t": "cor do céu (azuis)", "emoji": "💙", "correct": true },
+    { "t": "cor da relva (verdes)", "emoji": "💚" }
+  ], "explain": "A princesa tinha olhos azuis; o pastor, olhos verdes." },
+  { "q": "Como começa quase sempre uma lenda?", "layout": "grid", "options": [
+    { "t": "Com \"Era uma vez…\"", "emoji": "✨", "correct": true },
+    { "t": "Com uma lista de compras", "emoji": "🛒" }
+  ], "explain": "As lendas começam com \"Era uma vez…\" — são histórias antigas." }
 ] }
 ```

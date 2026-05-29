@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, Suspense, lazy, type ReactNode } from "react";
-import { ProgressProvider, useProgress, LessonContext } from "./progress";
+import { ProgressProvider, useProgress, LessonContext, type ProgressMap } from "./progress";
 import { loadTheme, loadView, NAV_KEY, THEME_KEY, type View } from "./nav";
 import { store } from "./storage";
 import {
@@ -12,6 +12,7 @@ import {
   MUNDO_BEYOND,
   subjectById,
   findLesson,
+  lessonMeta,
   YEARS,
   yearLabel,
   tierLabel,
@@ -21,6 +22,7 @@ import {
   type Lesson,
 } from "./content/curriculum";
 import { Icon, type IconName } from "@sprout/icons";
+import { Speaker, stop as stopSpeech } from "@sprout/ui";
 import { site } from "./site-config";
 import { Mascot } from "./Mascot";
 import { CommandCenter } from "./CommandCenter";
@@ -118,7 +120,8 @@ const LESSON_ICON: Record<string, IconName> = {
   "ef-4-olimpicos": "trophy", "ef-4-vida-ativa": "heart", "ef-4-seguranca": "warn",
 };
 
-const lessonIcon = (subjectId: string, l: Lesson): IconName => LESSON_ICON[l.id] ?? SUBJECT_ICON[subjectId];
+const lessonIconById = (subjectId: string, lessonId: string): IconName => LESSON_ICON[lessonId] ?? SUBJECT_ICON[subjectId];
+const lessonIcon = (subjectId: string, l: Lesson): IconName => lessonIconById(subjectId, l.id);
 
 export function App() {
   return (
@@ -137,7 +140,12 @@ function Root() {
 
   useEffect(() => store.set(THEME_KEY, theme), [theme]);
   useEffect(() => store.set(NAV_KEY, view), [view]);
-  useEffect(() => window.scrollTo({ top: 0 }), [view]);
+  // Changing screen stops any read-aloud and scrolls to the top, so audio from
+  // the previous page never keeps playing over the new one.
+  useEffect(() => {
+    stopSpeech();
+    window.scrollTo({ top: 0 });
+  }, [view]);
 
   // Cmd/Ctrl+K toggles the command center from anywhere.
   useEffect(() => {
@@ -200,6 +208,10 @@ function Root() {
             onPick={(year) => go({ kind: "year", year })}
             onPickRing={(ring) => go({ kind: "subject", year: ring, subjectId: mundoSubject.id })}
             onOpenMundo={() => go({ kind: "mundo" })}
+            onOpenLesson={(lessonId) => {
+              const m = lessonMeta.get(lessonId);
+              if (m) go({ kind: "lesson", year: m.year, subjectId: m.subjectId, lessonId });
+            }}
           />
         )}
         {view.kind === "mundo" && (
@@ -450,18 +462,66 @@ function CardProgress({ pct, done, real, stars, color }: { pct: number; done: nu
   );
 }
 
+/* ---------------- recently seen (quick-resume strip) ---------------- */
+
+// The last lessons the child opened (newest first). Lets them hop straight back
+// in without re-walking year → subject. Only real lessons are tracked, so every
+// chip is openable; ids whose lesson no longer exists are skipped.
+function RecentlySeen({
+  history,
+  progress,
+  onOpen,
+}: {
+  history: string[];
+  progress: ProgressMap;
+  onOpen: (lessonId: string) => void;
+}) {
+  const items = history.map((id) => lessonMeta.get(id) && { id, meta: lessonMeta.get(id)! }).filter(Boolean) as {
+    id: string;
+    meta: NonNullable<ReturnType<typeof lessonMeta.get>>;
+  }[];
+  if (items.length === 0) return null;
+
+  return (
+    <>
+      <h2 className="section-title"><Icon name="clock" size={24} /> Visto recentemente</h2>
+      <div className="recent-row">
+        {items.map(({ id, meta }) => (
+          <button
+            key={id}
+            className="recent-chip"
+            style={{ ["--c" as string]: meta.color }}
+            onClick={() => onOpen(id)}
+            title={`${meta.title} · ${meta.subjectLabel} · ${tierLabel(meta.subjectId, meta.year)}`}
+          >
+            <span className="recent-chip__icon" style={{ color: meta.color }}>
+              <Icon name={lessonIconById(meta.subjectId, id)} size={18} />
+            </span>
+            <span className="recent-chip__title">{meta.title}</span>
+            {progress[id]?.done && (
+              <Icon name="star" size={13} fill="currentColor" style={{ color: "var(--warn)", flexShrink: 0 }} />
+            )}
+          </button>
+        ))}
+      </div>
+    </>
+  );
+}
+
 /* ---------------- home: pick a year ---------------- */
 
 function Home({
   onPick,
   onPickRing,
   onOpenMundo,
+  onOpenLesson,
 }: {
   onPick: (year: YearN) => void;
   onPickRing: (ring: YearN) => void;
   onOpenMundo: () => void;
+  onOpenLesson: (lessonId: string) => void;
 }) {
-  const { progress, totalStars } = useProgress();
+  const { progress, history, totalStars } = useProgress();
   const greeting =
     totalStars === 0
       ? `Olá! Eu sou o ${site.mascot.name}. Em que ano andas? Toca no teu ano!`
@@ -470,6 +530,8 @@ function Home({
   return (
     <div>
       <Mascot message={greeting} mood={totalStars > 0 ? "cheer" : "happy"} />
+
+      <RecentlySeen history={history} progress={progress} onOpen={onOpenLesson} />
       <h2 className="section-title"><Icon name="calendar" size={26} /> Escolhe o teu ano</h2>
       <div className="card-grid cols-4">
         {YEARS.map((y) => {
@@ -672,8 +734,11 @@ function LessonView({
   lesson: Lesson;
   onDoneNext: (v: View) => void;
 }) {
-  const { markVisited, progress } = useProgress();
-  useEffect(() => markVisited(lesson.id), [lesson.id, markVisited]);
+  const { markVisited, recordSeen, progress } = useProgress();
+  useEffect(() => {
+    markVisited(lesson.id);
+    if (lesson.body) recordSeen(lesson.id); // only real lessons join "recently seen"
+  }, [lesson.id, lesson.body, markVisited, recordSeen]);
 
   const p = progress[lesson.id];
 

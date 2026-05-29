@@ -12,22 +12,31 @@ import {
   Fraction, type FractionSpec,
   Money, type MoneySpec,
   SoundCards, type SoundCardsSpec,
-  speak, canSpeak,
+  Tabuada, type TabuadaSpec,
+  MathBlock, type MathSpec,
+  Speaker, canSpeak,
 } from "@sprout/ui";
 import { Quiz, type QuizSpec } from "./Quiz";
 import { Icon, iconNames, type IconName } from "@sprout/icons";
 
 /* ---- read-aloud helpers (the child may not read yet) ---- */
 
-/** Strip markdown + fenced blocks + callout markers so speech reads clean prose. */
+/** Strip markdown + fenced blocks + callout markers so speech reads clean prose.
+ *  Line, list and table boundaries become sentence breaks (". ") so the engine
+ *  pauses between rows/items instead of reading everything run-on. */
 function toPlainText(md: string): string {
   return md
-    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/```[\s\S]*?```/g, " ") // fenced widget/quiz blocks
     .replace(/\[!(NOTE|TIP|WARNING|DANGER|SUCCESS)\]/gi, " ")
-    .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
-    .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
-    .replace(/[#>*_`~|]+/g, " ")
-    .replace(/\s+/g, " ")
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, " ") // images
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1") // links → their text
+    .replace(/^\s*\|?[\s:|-]*-{2,}[\s:|-]*\|?\s*$/gm, "") // table separator rows
+    .replace(/^[ \t]*[-+]\s+/gm, "") // list bullets
+    .replace(/[#>*_`~]+/g, " ") // markdown punctuation (the table pipe is handled next)
+    .replace(/\|/g, ", ") // table cell separator → slight pause
+    .replace(/\n+/g, ". ") // line / row boundary → sentence pause
+    .replace(/[ \t]+/g, " ")
+    .replace(/(\.\s*){2,}/g, ". ") // collapse repeated ". ."
     .trim();
 }
 
@@ -43,15 +52,6 @@ function sectionText(source: string, node: unknown): string {
   const next = rest.match(/\n#{1,6}\s/);
   const bodyMd = next ? rest.slice(0, next.index) : rest;
   return toPlainText(`${heading}\n${bodyMd}`);
-}
-
-function SpeakButton({ text, label = "Ouvir" }: { text: string; label?: string }) {
-  if (!canSpeak() || !text) return null;
-  return (
-    <button type="button" className="prose-speak" onClick={() => speak(text)} aria-label={label} title={label}>
-      <Icon name="speaker" size={18} />
-    </button>
-  );
 }
 
 /* ---- summary block: what you'll learn + examples + read-aloud ---- */
@@ -73,11 +73,9 @@ function Summary({ spec }: { spec: SummarySpec }) {
       <div className="lesson-summary__head">
         <span className="lesson-summary__icon"><Icon name="tip" size={22} /></span>
         <strong>O que vais aprender</strong>
-        {canSpeak() && (
-          <button type="button" className="lesson-summary__speak" onClick={() => speak(sayText)} aria-label="Ouvir o resumo">
-            <Icon name="speaker" size={18} /> Ouvir
-          </button>
-        )}
+        <Speaker text={sayText} className="lesson-summary__speak" label="Ouvir o resumo">
+          {" "}Ouvir
+        </Speaker>
       </div>
       {learn.length > 0 && (
         <ul className="lesson-summary__list">
@@ -136,6 +134,8 @@ const widgetRenderers: Record<string, (json: unknown) => ReactNode> = {
   fraction: (d) => <Fraction spec={d as FractionSpec} />,
   money: (d) => <Money spec={d as MoneySpec} />,
   soundcards: (d) => <SoundCards spec={d as SoundCardsSpec} />,
+  tabuada: (d) => <Tabuada spec={d as TabuadaSpec} />,
+  math: (d) => <MathBlock spec={d as MathSpec} />,
 };
 
 /* Read-aloud for the content BLOCKS (steps/keyvalue/…). The section-heading
@@ -175,9 +175,7 @@ function SpeakableBlock({ text, children }: { text: string; children: ReactNode 
   return (
     <div className="block-audio">
       {children}
-      <button type="button" className="block-audio__btn" onClick={() => speak(text)} aria-label="Ouvir" title="Ouvir">
-        <Icon name="speaker" size={18} />
-      </button>
+      <Speaker text={text} className="block-audio__btn" />
     </div>
   );
 }
@@ -278,13 +276,13 @@ export function Markdown({ children }: { children: string }) {
     h2: ({ node, children: c }) => (
       <h2 className="prose-h">
         <span className="prose-h__text">{c}</span>
-        <SpeakButton text={sectionText(source, node)} label="Ouvir esta parte" />
+        <Speaker text={sectionText(source, node)} label="Ouvir esta parte" />
       </h2>
     ),
     h3: ({ node, children: c }) => (
       <h3 className="prose-h">
         <span className="prose-h__text">{c}</span>
-        <SpeakButton text={sectionText(source, node)} label="Ouvir esta parte" />
+        <Speaker text={sectionText(source, node)} label="Ouvir esta parte" />
       </h3>
     ),
   };

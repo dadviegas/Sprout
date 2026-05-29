@@ -14,6 +14,36 @@ A música é feita de sons. E os sons são todos diferentes! Vamos ouvir com ate
 ]
 ```
 
+## Sons à tua volta 🌍
+
+Há sons por todo o lado! Alguns são da natureza, outros são feitos por pessoas e máquinas. Consegues imaginar cada um?
+
+```keyvalue
+[
+  { "k": "Trovão", "v": "muito forte e grave — assusta! ⛈️" },
+  { "k": "Pingo de chuva", "v": "fraco e agudo, tic-tic 💧" },
+  { "k": "Buzina do carro", "v": "forte, para avisar 🚗" },
+  { "k": "Gato a ronronar", "v": "fraco e grave, baixinho 🐱" }
+]
+```
+
+## Sons fortes e sons fracos 🥁🤫
+
+Vamos comparar para perceber bem a diferença entre um som forte e um som fraco:
+
+```compare
+[
+  { "title": "Forte 🥁", "rows": [
+    { "label": "Exemplos", "value": "tambor, trovão, gritar" },
+    { "label": "Ouve-se", "value": "de muito longe! 📢" }
+  ] },
+  { "title": "Fraco 🤫", "rows": [
+    { "label": "Exemplos", "value": "sussurro, folha a cair" },
+    { "label": "Ouve-se", "value": "só de muito perto 🤏" }
+  ] }
+]
+```
+
 ## O silêncio também conta 🤫
 
 ```steps
@@ -21,6 +51,19 @@ A música é feita de sons. E os sons são todos diferentes! Vamos ouvir com ate
   { "title": "Música tem sons…", "body": "fortes, fracos, rápidos, lentos 🎵" },
   { "title": "…e pausas", "body": "os momentos de silêncio dão ritmo 🤫" },
   { "title": "Experimenta", "body": "bate palmas e depois para — isso já é ritmo! 👏" }
+]
+```
+
+## Um exemplo passo a passo 🔍
+
+Vamos fazer música só com o corpo! Tenta este ritmo simples, devagar primeiro:
+
+```steps
+[
+  { "title": "1. Bate uma palma forte", "body": "PÁ! — um som forte 👏" },
+  { "title": "2. Faz silêncio", "body": "espera um momento, sem som 🤫" },
+  { "title": "3. Bate duas palmas fracas", "body": "pá-pá, baixinho 👏👏" },
+  { "title": "4. Repete tudo", "body": "forte… silêncio… fraco-fraco — já é uma canção! 🎶" }
 ]
 ```
 
@@ -39,7 +82,15 @@ A música é feita de sons. E os sons são todos diferentes! Vamos ouvir com ate
   { "q": "O canto de um passarinho é um som…", "layout": "grid", "options": [
     { "t": "agudo", "emoji": "🐦", "correct": true },
     { "t": "grave", "emoji": "🦁" }
-  ], "explain": "É agudo — fininho e alto." }
+  ], "explain": "É agudo — fininho e alto." },
+  { "q": "Um sussurro é um som…", "layout": "grid", "options": [
+    { "t": "forte", "emoji": "📢" },
+    { "t": "fraco", "emoji": "🤫", "correct": true }
+  ], "explain": "Um sussurro é fraco, só se ouve de perto." },
+  { "q": "O rugido de um leão é um som…", "layout": "grid", "options": [
+    { "t": "grave", "emoji": "🦁", "correct": true },
+    { "t": "agudo", "emoji": "🐦" }
+  ], "explain": "É grave — grosso e fundo." }
 ] }
 ```
 
@@ -51,10 +102,18 @@ A música é feita de sons. E os sons são todos diferentes! Vamos ouvir com ate
     { "t": "lenta", "emoji": "😴", "correct": true },
     { "t": "rápida", "emoji": "🏃" }
   ], "explain": "É lenta e calma, para adormecer." },
+  { "q": "Um trovão é um som…", "layout": "grid", "options": [
+    { "t": "fraco", "emoji": "🤫" },
+    { "t": "forte", "emoji": "⛈️", "correct": true }
+  ], "explain": "Um trovão é muito forte — ouve-se de longe!" },
   { "q": "O silêncio, na música…", "layout": "grid", "options": [
     { "t": "também faz parte e dá ritmo", "emoji": "🤫", "correct": true },
     { "t": "estraga tudo", "emoji": "🚫" }
   ], "explain": "As pausas de silêncio dão ritmo à música." },
+  { "q": "Uma corrida faz lembrar um som…", "layout": "grid", "options": [
+    { "t": "rápido", "emoji": "🏃", "correct": true },
+    { "t": "lento", "emoji": "🐌" }
+  ], "explain": "Uma corrida é rápida, cheia de energia." },
   { "q": "Fazer música com palmas e pés chama-se…", "layout": "grid", "options": [
     { "t": "percussão corporal", "emoji": "🙌", "correct": true },
     { "t": "pintura", "emoji": "🎨" }

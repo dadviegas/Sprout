@@ -1,5 +1,5 @@
 import { Icon } from "@sprout/icons";
-import { speak } from "../speak";
+import { speak, speakable } from "../speak";
 
 /* MathBlock — kid-friendly math notation, no LaTeX/KaTeX dependency.
  * Renders an expression with proper operators (×, ÷, −) and STACKED fractions
@@ -36,14 +36,6 @@ function renderToken(tok: string, key: number) {
 const OPERATORS: Record<string, string> = {
   "*": "×", x: "×", X: "×", "//": "÷", "-": "−", ">=": "≥", "<=": "≤", "!=": "≠",
 };
-
-function speakable(expr: string): string {
-  return expr
-    .replace(/(\d+)\/(\d+)/g, "$1 sobre $2")
-    .replace(/\*/g, " vezes ").replace(/\bx\b/gi, " vezes ")
-    .replace(/\+/g, " mais ").replace(/-/g, " menos ")
-    .replace(/=/g, " igual a ").replace(/\s+/g, " ").trim();
-}
 
 export function MathBlock({ spec }: { spec: MathSpec }) {
   // Split on whitespace; map standalone operators to pretty symbols; stack fractions.

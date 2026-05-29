@@ -378,6 +378,20 @@
 .section-sub {
   color: var(--ink-2); margin: -8px 2px 14px; font-size: .98em; max-width: 60ch;
 }
+/* "Visto recentemente" — compact quick-resume chips on the home screen */
+.recent-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 2px 26px; }
+.recent-chip {
+  --c: var(--accent);
+  display: inline-flex; align-items: center; gap: 8px;
+  max-width: 260px; padding: 8px 14px;
+  border-radius: 999px; background: var(--surface);
+  border: 2px solid var(--border); color: var(--ink); font-weight: 700;
+  transition: transform var(--dur-fast), border-color var(--dur-fast), box-shadow var(--dur-fast);
+}
+.recent-chip:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--c) 55%, var(--border)); box-shadow: var(--shadow-sm); }
+.recent-chip:active { transform: translateY(0) scale(.97); }
+.recent-chip__icon { display: inline-flex; flex-shrink: 0; }
+.recent-chip__title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 /* Per-block read-aloud: a floating speaker on each content block (steps,
    keyvalue, …) so a child who can't read can hear the cards too. */
 .prose .block-audio { position: relative; }
@@ -552,6 +566,35 @@
   width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center;
   border-radius: 50%; background: var(--primary-soft); color: var(--primary);
 }
+
+/* tabuada (read aloud: "três vezes dois é igual a seis") */
+.tabuada-widget { border-color: color-mix(in srgb, var(--subj-mat) 55%, var(--border)); }
+.tabuada-widget .w-badge { background: var(--subj-mat); }
+.tabuada-grid {
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+.tabuada__head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.tabuada__head strong { font-family: var(--font-display); font-size: 1.1em; }
+.tabuada__play {
+  margin-left: auto; display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px; border-radius: 999px; font-weight: 700; font-size: .82em;
+  background: var(--subj-mat-soft); color: var(--subj-mat);
+  border: 2px solid color-mix(in srgb, var(--subj-mat) 30%, transparent);
+}
+.tabuada__play:hover { background: var(--subj-mat); color: #fff; }
+.tabuada__rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.tabuada__row {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%;
+  padding: 8px 14px; border-radius: var(--radius-sm);
+  background: var(--surface-2); border: 2px solid var(--border); color: var(--ink);
+  font-size: 1.15em; transition: transform .12s, border-color .12s;
+}
+.tabuada__row:hover { transform: translateX(2px); border-color: var(--subj-mat); color: var(--subj-mat); }
+.tabuada__row:active { transform: scale(.98); }
+.tabuada__calc { font-family: var(--font-mono); font-weight: 700; letter-spacing: .5px; }
+.tabuada__calc strong { color: var(--subj-mat); }
+.tabuada__op { color: var(--ink-3); }
 
 /* ---- Test CTA at end of a lesson ---- */
 .test-cta {

@@ -1,5 +1,7 @@
 # Fusos horários e hemisférios 🕐
 
+> [!NOTE] **O que vais aprender** 👀 Vais perceber porque há **horas diferentes** pelo mundo (os fusos horários) e como a Terra se divide em duas metades — os **hemisférios**! 🌍
+
 Já reparaste que os **Açores têm uma hora diferente** do resto de Portugal? Isso são os **fusos horários**! 🌍
 
 ## Porque há horas diferentes? ⏰
@@ -10,11 +12,26 @@ A Terra é redonda e **gira**. Como o Sol não pode iluminar tudo ao mesmo tempo
 [
   { "title": "O Sol nasce a este", "body": "primeiro ilumina um lado do mundo ☀️" },
   { "title": "A Terra gira", "body": "e o dia vai 'caminhando' para oeste 🌍" },
-  { "title": "Horas diferentes", "body": "por isso cada zona tem a sua hora ⏰" }
+  { "title": "Horas diferentes", "body": "por isso cada zona tem a sua hora ⏰" },
+  { "title": "Quando aqui é dia", "body": "do outro lado do mundo é noite 🌙" }
 ]
 ```
 
 > Os **Açores** têm **menos 1 hora** que Lisboa. Quando em Lisboa é meio-dia 🕛, nos Açores são **11 horas**! 🕚
+
+## A hora pelo mundo 🌎
+
+Quando em **Lisboa** é **meio-dia** (12h), olha o que se passa nos outros sítios ao mesmo tempo:
+
+```keyvalue
+[
+  { "k": "Açores 🌋", "v": "11h (menos 1 hora)" },
+  { "k": "Lisboa 🇵🇹", "v": "12h (meio-dia)" },
+  { "k": "Paris / Madrid 🇫🇷🇪🇸", "v": "13h (mais 1 hora)" },
+  { "k": "Brasília 🇧🇷", "v": "8 ou 9h da manhã (cá já é tarde, lá é manhã)" },
+  { "k": "Tóquio 🇯🇵", "v": "21h da noite (lá já anoiteceu!)" }
+]
+```
 
 ## Hemisférios — o mundo em metades 🌐
 
@@ -28,7 +45,22 @@ A Terra divide-se ao meio por uma linha imaginária, o **Equador**:
 ]
 ```
 
-> [!TIP] No Hemisfério Sul as estações estão **trocadas**: o **Natal** na Austrália é em pleno **verão**, com praia! 🎄☀️
+## Um exemplo passo a passo 🔍
+
+Em **Lisboa** o relógio marca **15h** (3 da tarde). Que horas serão nos **Açores** nesse momento? Vamos calcular!
+
+```steps
+[
+  { "title": "1. Vê a hora de Lisboa", "body": "são 15h em Lisboa 🕒" },
+  { "title": "2. Lembra-te da regra", "body": "os Açores têm MENOS 1 hora que Lisboa" },
+  { "title": "3. Faz a conta", "body": "15h − 1 hora = 14h ➖" },
+  { "title": "4. Resposta", "body": "nos Açores são 14h (2 da tarde) 🕑" }
+]
+```
+
+> **Truque:** os Açores estão sempre **1 hora atrás** de Lisboa. Tira sempre **1 hora** à hora do Continente! ➖
+
+> [!TIP] **Para saberes mais** 🌱 No Hemisfério Sul as estações estão **trocadas**: o **Natal** na Austrália é em pleno **verão**, com praia! 🎄☀️ E há uma linha especial, a **Linha Internacional de Data**, no meio do Pacífico — quem a atravessa muda de **dia**! 📅
 
 ## Vamos praticar 🎈
 
@@ -41,7 +73,13 @@ A Terra divide-se ao meio por uma linha imaginária, o **Equador**:
       "explain": "Os Açores estão 1 hora atrás." },
     { "q": "Porque há horas diferentes no mundo?", "layout": "grid",
       "options": [ { "t": "a Terra gira", "emoji": "🌍", "correct": true }, { "t": "os relógios avariam" } ],
-      "explain": "A Terra gira; o Sol ilumina uma parte de cada vez." }
+      "explain": "A Terra gira; o Sol ilumina uma parte de cada vez." },
+    { "q": "Se em Lisboa é meio-dia (12h), nos Açores são…", "layout": "grid",
+      "options": [ { "t": "11h", "emoji": "🕚", "correct": true }, { "t": "13h", "emoji": "🕐" } ],
+      "explain": "Menos 1 hora: 12h − 1 = 11h." },
+    { "q": "A linha imaginária que divide a Terra ao meio é o…", "layout": "grid",
+      "options": [ { "t": "Equador", "emoji": "🌐", "correct": true }, { "t": "arco-íris", "emoji": "🌈" } ],
+      "explain": "O Equador separa os dois hemisférios." }
   ]
 }
 ```
@@ -65,7 +103,10 @@ A Terra divide-se ao meio por uma linha imaginária, o **Equador**:
       "explain": "Hemisfério Norte." },
     { "q": "Na Austrália, o Natal é no...", "layout": "grid",
       "options": [ { "t": "verão", "emoji": "☀️", "correct": true }, { "t": "inverno com neve" } ],
-      "explain": "No Sul as estações estão trocadas — Natal no verão!" }
+      "explain": "No Sul as estações estão trocadas — Natal no verão!" },
+    { "q": "Em Lisboa são 15h. Nos Açores são…", "layout": "grid",
+      "options": [ { "t": "14h", "emoji": "🕑", "correct": true }, { "t": "16h", "emoji": "🕓" } ],
+      "explain": "Menos 1 hora: 15h − 1 = 14h." }
   ]
 }
 ```

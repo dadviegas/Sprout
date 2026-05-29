@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Icon, type IconName } from "@sprout/icons";
-import { speak, canSpeak, Confetti } from "@sprout/ui";
+import { speak, Speaker, Confetti } from "@sprout/ui";
 import { starsForPct, useLessonId, useProgress } from "./progress";
 
 export interface QuizOption {
@@ -29,15 +29,6 @@ function StarRow({ n, size = 24 }: { n: number; size?: number }) {
         <Icon key={i} name="star" size={size} fill={i < n ? "currentColor" : "none"} style={{ color: i < n ? "var(--warn)" : "var(--ink-3)" }} />
       ))}
     </span>
-  );
-}
-
-function SpeakBtn({ text, label }: { text: string; label: string }) {
-  if (!canSpeak()) return null;
-  return (
-    <button className="iconbtn" onClick={() => speak(text)} aria-label={label} title={label}>
-      <Icon name="speaker" size={20} />
-    </button>
   );
 }
 
@@ -120,7 +111,7 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
             <button className="pill ghost" onClick={retry}>
               <Icon name="refresh" size={18} /> Tentar outra vez
             </button>
-            <SpeakBtn text={msg} label="Ouvir" />
+            <Speaker text={msg} className="iconbtn" size={20} />
           </div>
         </div>
       </div>
@@ -149,7 +140,7 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
       <div className="question">
         {question.emoji && <span className="qemoji">{question.emoji}</span>}
         <span>{question.q}</span>
-        <SpeakBtn text={questionSpeech} label="Ouvir a pergunta e as opções" />
+        <Speaker text={questionSpeech} className="iconbtn" size={20} label="Ouvir a pergunta e as opções" />
       </div>
 
       <div className={`options ${question.layout === "grid" ? "grid" : ""}`}>
@@ -176,12 +167,17 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
           <div className={`feedback ${isCorrect ? "good" : "bad"}`}>
             <Icon name={isCorrect ? "check" : "info"} size={20} />
             <span>{isCorrect ? "Certo!" : "Quase!"} {question.explain ?? ""}</span>
+            <Speaker
+              text={`${isCorrect ? "Certo!" : "Quase!"} ${question.explain ?? ""}`}
+              className="iconbtn"
+              size={20}
+              label="Ouvir"
+            />
           </div>
           <div className="quiz-foot">
             <button className="pill" onClick={next}>
               {i + 1 < total ? "Próxima" : "Ver resultado"} <Icon name="arrowRight" size={18} />
             </button>
-            {question.explain && <SpeakBtn text={question.explain} label="Ouvir explicação" />}
           </div>
         </>
       )}

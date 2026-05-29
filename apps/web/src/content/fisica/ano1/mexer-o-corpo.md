@@ -1,8 +1,8 @@
 # Mexer o corpo: correr, saltar, rolar 🤸
 
-> [!NOTE] **O que vais aprender** 👀 Vais conhecer muitas formas de **mexer o corpo** — correr, saltar, rolar, rastejar, trepar — perceber **porque** faz tão bem e aprender a **aquecer** antes de brincar! 🏃
+> [!NOTE] **O que vais aprender** 👀 Vais conhecer muitas formas de **mexer o corpo** — correr, saltar, rolar, rastejar, trepar, equilibrar — aprender a **atirar e agarrar** uma bola, perceber **porque** mexer faz tão bem e como **aquecer** antes de brincar! 🏃
 
-O teu corpo foi feito para **mexer**! Cada movimento ajuda-te a ficar mais forte, mais rápido e mais ágil. E o melhor de tudo: mexer é **divertido**! 💪
+O teu corpo foi feito para **mexer**! Tens músculos e ossos que adoram trabalhar. Cada movimento te deixa mais forte, mais rápido e mais ágil — e o melhor de tudo é que mexer é mesmo **divertido**! Vamos lá pôr este corpo a brincar. 💪
 
 ## Formas de te moveres 🏃
 
@@ -15,7 +15,38 @@ Há muitas maneiras de pôr o corpo em movimento. Olha bem para cada uma — qua
   { "k": "Rolar", "v": "o corpo a dar voltas no chão, num colchão 🤸" },
   { "k": "Rastejar", "v": "andar de barriga no chão, como um soldado 🐍" },
   { "k": "Trepar", "v": "subir com as mãos e os pés, como um macaco 🐒" },
-  { "k": "Equilibrar", "v": "andar numa linha sem cair, de braços abertos 🤹" }
+  { "k": "Equilibrar", "v": "andar numa linha sem cair, de braços abertos 🤹" },
+  { "k": "Galopar", "v": "saltitar para a frente como um cavalinho 🐴" }
+]
+```
+
+## Devagar ou depressa? 🐢🐇
+
+O corpo pode mexer-se **devagarinho** ou **muito depressa** — e tu mandas! Saber controlar a velocidade ajuda-te a não cair e a brincar com cuidado.
+
+```compare
+[
+  { "title": "Devagar 🐢", "rows": [
+    { "label": "Como andas", "value": "passinho a passinho, com calma 🚶" },
+    { "label": "Bom para", "value": "equilibrar e não te magoares" }
+  ] },
+  { "title": "Depressa 🐇", "rows": [
+    { "label": "Como andas", "value": "a correr com tudo! 🏃", "highlight": true },
+    { "label": "Bom para", "value": "fugir na apanhada e ficar com fôlego forte" }
+  ] }
+]
+```
+
+## Atirar e agarrar 🏐
+
+Mexer o corpo também é usar as **mãos**! Atirar e agarrar uma bola treina a tua **pontaria** e os teus dedos. Repara como se faz:
+
+```steps
+[
+  { "title": "Olha para o alvo", "body": "primeiro vês para onde queres atirar 👀" },
+  { "title": "Atira a bola", "body": "estica o braço e larga a bola na direção certa 🏐" },
+  { "title": "Mãos prontas para agarrar", "body": "abre bem as mãos, como uma concha, para a bola não escapar 🤲" },
+  { "title": "Chuta com o pé", "body": "também podes usar o pé para dar um pontapé na bola ⚽" }
 ]
 ```
 
@@ -28,7 +59,7 @@ Muitas brincadeiras já são exercício — e tu nem dás conta! Repara nestes e
   { "title": "À apanhada", "body": "corres atrás dos amigos e foges deles — pernas a mil! 🏃" },
   { "title": "Ao elástico ou à corda", "body": "saltas, saltas e voltas a saltar 🪢" },
   { "title": "No escorrega e nas barras", "body": "trepas, sobes e equilibras-te 🛝" },
-  { "title": "À cabra-cega", "body": "andas devagar, com cuidado, a sentir onde estão as coisas 🙈" }
+  { "title": "À bola", "body": "atiras, agarras e chutas com os amigos ⚽" }
 ]
 ```
 
@@ -36,7 +67,7 @@ Muitas brincadeiras já são exercício — e tu nem dás conta! Repara nestes e
 
 ## Mexer faz bem 💛
 
-Sabes porque os adultos dizem sempre "vai brincar lá para fora"? Porque mexer faz mesmo bem:
+Sabes porque os adultos dizem sempre "vai brincar lá para fora"? Porque mexer faz mesmo bem ao teu corpo todo:
 
 ```steps
 [
@@ -47,20 +78,24 @@ Sabes porque os adultos dizem sempre "vai brincar lá para fora"? Porque mexer f
 ]
 ```
 
-## Um exemplo passo a passo: aquecer antes de brincar 🔍
+E não te esqueças: depois de mexeres muito, o corpo perde água a suar — por isso bebe **água** para te sentires bem! 💧
 
-Antes de correres muito, o corpo precisa de "acordar" os músculos — chama-se **aquecer**. Faz sempre assim:
+## Um exemplo passo a passo 🔍
+
+Imagina que vais brincar à corrida no recreio com os amigos. Antes de correres muito, o corpo precisa de "acordar" os músculos — chama-se **aquecer**. Faz sempre assim, por ordem:
 
 ```steps
 [
   { "title": "1. Roda os braços", "body": "faz círculos grandes, 10 vezes para a frente e 10 para trás 🙆" },
   { "title": "2. Marcha no lugar", "body": "levanta bem os joelhos e conta até 20 🚶" },
   { "title": "3. Estica devagar", "body": "tenta tocar nos pés sem dar puxões — bem devagarinho 🦵" },
-  { "title": "4. Já podes brincar!", "body": "agora os músculos estão quentes e prontos 🔥" }
+  { "title": "4. Já podes correr!", "body": "agora os músculos estão quentes e prontos para a corrida 🔥" }
 ]
 ```
 
-> [!TIP] **Para saberes mais** 🌱 Quando corres, o teu **coração** bate mais depressa para levar mais "combustível" (chama-se **oxigénio**) aos músculos. Por isso ficas ofegante — é o corpo a trabalhar muito bem! ❤️
+> **Truque:** para te lembrares da ordem de aquecer, pensa de cima para baixo — **braços** primeiro, depois **pernas**, e por fim **esticar**. Cabeça aos pés! 🧍
+
+> [!TIP] **Para saberes mais** 🌱 Quando corres, o teu **coração** bate mais depressa para levar mais "combustível" (chama-se **oxigénio**) aos músculos. Por isso ficas ofegante e respiras mais fundo — é o corpo a trabalhar muito bem! Em descanso o coração bate à vontade, mas a correr pode bater quase o **dobro** das vezes. ❤️
 
 ## Vamos praticar 🎈
 
@@ -81,7 +116,23 @@ Antes de correres muito, o corpo precisa de "acordar" os músculos — chama-se 
   { "q": "Mexer o corpo faz-te ficar…", "layout": "grid", "options": [
     { "t": "mais forte e mais feliz", "emoji": "💪", "correct": true },
     { "t": "mais fraco", "emoji": "🚫" }
-  ], "explain": "Mexer deixa-te mais forte, feliz e a dormir melhor." }
+  ], "explain": "Mexer deixa-te mais forte, feliz e a dormir melhor." },
+  { "q": "Para agarrar uma bola, as mãos ficam…", "layout": "grid", "options": [
+    { "t": "abertas, como uma concha", "emoji": "🤲", "correct": true },
+    { "t": "fechadas em punho", "emoji": "✊" }
+  ], "explain": "Abre bem as mãos, como uma concha, para a bola não escapar!" },
+  { "q": "O corpo pode mexer-se devagar e também…", "layout": "grid", "options": [
+    { "t": "muito depressa", "emoji": "🐇", "correct": true },
+    { "t": "só parado", "emoji": "🛑" }
+  ], "explain": "Tu mandas: podes ir devagarinho ou bem depressa." },
+  { "q": "Saltitar para a frente como um cavalinho é…", "layout": "grid", "options": [
+    { "t": "galopar", "emoji": "🐴", "correct": true },
+    { "t": "rastejar", "emoji": "🐍" }
+  ], "explain": "Galopar é saltitar para a frente, como um cavalinho!" },
+  { "q": "Depois de correres muito, deves…", "layout": "grid", "options": [
+    { "t": "beber água", "emoji": "💧", "correct": true },
+    { "t": "não beber nada", "emoji": "🚱" }
+  ], "explain": "A correr perdes água a suar — por isso bebe água!" }
 ] }
 ```
 
@@ -108,6 +159,22 @@ Antes de correres muito, o corpo precisa de "acordar" os músculos — chama-se 
   { "q": "Quando corres, o coração bate mais depressa porque…", "layout": "grid", "options": [
     { "t": "leva mais oxigénio aos músculos", "emoji": "❤️", "correct": true },
     { "t": "está com medo", "emoji": "😨" }
-  ], "explain": "Bate mais depressa para alimentar os músculos." }
+  ], "explain": "Bate mais depressa para alimentar os músculos." },
+  { "q": "Dar voltas no chão, num colchão, é…", "layout": "grid", "options": [
+    { "t": "rolar", "emoji": "🤸", "correct": true },
+    { "t": "trepar", "emoji": "🐒" }
+  ], "explain": "Rolar é o corpo a dar voltas no chão." },
+  { "q": "Qual destes movimentos usa mais as MÃOS?", "layout": "grid", "options": [
+    { "t": "atirar e agarrar uma bola", "emoji": "🏐", "correct": true },
+    { "t": "correr depressa", "emoji": "🏃" }
+  ], "explain": "Atirar e agarrar treina as mãos e a pontaria!" },
+  { "q": "Ao aquecer, o que fazes primeiro?", "layout": "grid", "options": [
+    { "t": "rodar os braços", "emoji": "🙆", "correct": true },
+    { "t": "começar logo a correr a toda a força", "emoji": "💥" }
+  ], "explain": "Aquece de cima para baixo: braços, pernas e depois esticar." },
+  { "q": "Mexer o corpo ajuda-te a dormir…", "layout": "grid", "options": [
+    { "t": "melhor e mais descansado", "emoji": "😴", "correct": true },
+    { "t": "pior", "emoji": "🚫" }
+  ], "explain": "Quem corre e brinca dorme mais descansado!" }
 ] }
 ```

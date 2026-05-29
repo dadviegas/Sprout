@@ -19,6 +19,16 @@ A Terra é redonda e **gira**. Como o Sol não pode iluminar tudo ao mesmo tempo
 
 > Os **Açores** têm **menos 1 hora** que Lisboa. Quando em Lisboa é meio-dia 🕛, nos Açores são **11 horas**! 🕚
 
+## Vê a Terra a girar 🌍
+
+A Terra está sempre a **girar**. O lado virado para o Sol tem **dia** ☀️; o lado escondido tem **noite** 🌙. Olha como vão mudando — e toca numa cidade para ouvires se aí é dia ou noite:
+
+```daynight
+{ "title": "Onde é dia? Onde é noite?" }
+```
+
+> Repara: quando em **Portugal** é dia, em **Tóquio** já é noite! É por isso que há **horas diferentes** pelo mundo. 🌍
+
 ## A hora pelo mundo 🌎
 
 Quando em **Lisboa** é **meio-dia** (12h), olha o que se passa nos outros sítios ao mesmo tempo:

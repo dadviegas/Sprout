@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Icon } from "@sprout/icons";
 import { speak } from "../speak";
+import { Speaker } from "../Speaker";
 import { colorVar, piePath } from "./geo";
 
 export interface FractionSpec {
@@ -75,7 +76,7 @@ export function Fraction({ spec }: { spec: FractionSpec }) {
             <span>{parts}</span>
           </div>
           <div className="w-readout-sm">{filled} de {parts} {NAMES[parts] ?? "partes"}</div>
-          <button className="iconbtn" onClick={() => speak(`${filled} de ${parts}`)} aria-label="Ouvir"><Icon name="speaker" size={18} /></button>
+          <Speaker text={`${filled} de ${parts}`} className="prose-speak" />
         </div>
       </div>
     </div>

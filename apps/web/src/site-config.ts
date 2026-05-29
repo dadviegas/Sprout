@@ -26,6 +26,11 @@ export interface SiteConfig {
     beyond: { label: string; blurb: string; sub: string; icon: string };
     rings: MundoRingConfig[];
   };
+  /** "Saber de cor" — cross-cutting study/reference area copy. */
+  estudo: {
+    sectionTitle: string;
+    sectionSub: string;
+  };
 }
 
 export const site = raw as SiteConfig;

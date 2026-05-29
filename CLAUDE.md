@@ -57,9 +57,18 @@ common sense, Açores → world). Single-page, no server; progress is local.
 ## Markdown/widget blocks (for lesson authors)
 
 `quiz`, `soundcards`, `clock`, `shape`, `numberline`, `tenframe`, `fraction`,
-`money`; infographics `stats`/`steps`/`compare`/`meters`/`keyvalue`/`quote`;
-callouts `> [!NOTE]/[!TIP]/…`. The `icon` field in `steps`/`keyvalue` accepts an
+`money`, `solarsystem`, `daynight`; infographics
+`stats`/`steps`/`compare`/`meters`/`keyvalue`/`quote`; callouts
+`> [!NOTE]/[!TIP]/…`. The `icon` field in `steps`/`keyvalue` accepts an
 `@sprout/icons` name or an emoji.
+
+- `money` has two modes: **collect** (`items` + `target` — tap coins to fill a
+  mealheiro) and **pay** (`price` — tap a notes+coins palette to build exactly
+  the amount to pay). Passing `price` selects pay mode.
+- `solarsystem` is an animated orbit diagram (Sun + planets + nested moons); each
+  body has `orbit`/`size`/`period`/`color`/`fact`, tap-to-hear, play/pause,
+  honours `prefers-reduced-motion`. `daynight` is a spinning Earth showing which
+  places are in day vs. night (the idea behind time zones).
 
 ## Commands
 

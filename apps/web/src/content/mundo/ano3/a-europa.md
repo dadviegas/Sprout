@@ -20,6 +20,12 @@ A **Europa** tem muitos países, juntinhos. Portugal fica num cantinho a **sudoe
 
 > Muitos países da Europa juntaram-se na **União Europeia** e usam a mesma moeda: o **euro** 💶. Portugal também!
 
+Como em muitos países da Europa pagamos em euros, experimenta tu! Toca nas notas e moedas para pagares um **gelado** numa viagem pela Europa: 🍦
+
+```money
+{ "title": "Um gelado na Europa 🍦", "price": 2.5 }
+```
+
 ## A Europa em números 🔢
 
 A Europa é um dos **continentes mais pequenos**, mas tem **muitos países** juntinhos. Repara:

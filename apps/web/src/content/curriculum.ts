@@ -212,6 +212,13 @@ import mundoMaravilhas from "./mundo/ano4/maravilhas-do-mundo.md";
 import mundoAnimaisCont from "./mundo/ano4/animais-dos-continentes.md";
 import mundoBandeiras from "./mundo/ano4/bandeiras-do-mundo.md";
 
+/* ---- Saber de cor (study/reference area — not grade-based) ---- */
+import estudoTabuadas from "./estudo/tabuadas.md";
+import estudoAlfabeto from "./estudo/alfabeto.md";
+import estudoNumeros from "./estudo/numeros.md";
+import estudoDinheiro from "./estudo/dinheiro.md";
+import estudoDiasMeses from "./estudo/dias-e-meses.md";
+
 /* The four school subjects, navigated year-first (1.º–4.º ano). */
 export const schoolSubjects: Subject[] = [
   {
@@ -519,16 +526,47 @@ export const mundoSubject: Subject = {
     },
 };
 
-/** Every subject INCLUDING the cross-cutting "O Mundo" area — used for lookups,
- *  global search and achievements. The home screen, however, lists the school
- *  subjects per year and "O Mundo" as its own separate section. */
-export const subjects: Subject[] = [...schoolSubjects, mundoSubject];
+/* "Saber de cor" — a cross-cutting study/reference area (like "O Mundo", NOT a
+ * school subject and NOT tied to a grade): things every child should know by
+ * heart — tabuadas, the alphabet, numbers, days and months — all read-aloud.
+ * Its topics live in the single tier (1) used for storage/lookup; the area is
+ * never shown as "X.º ano" (see tierLabel + isEstudo). */
+export const estudoSubject: Subject = {
+  id: "estudo",
+  label: site.estudo.sectionTitle,
+  emoji: "🧠",
+  color: "var(--accent)",
+  colorSoft: "var(--accent-soft)",
+  blurb: site.estudo.sectionSub,
+  years: {
+    1: [
+      { id: "estudo-tabuadas", title: "Tabuadas", emoji: "✖️", body: estudoTabuadas },
+      { id: "estudo-alfabeto", title: "O alfabeto", emoji: "🔤", body: estudoAlfabeto },
+      { id: "estudo-numeros", title: "Os números", emoji: "🔢", body: estudoNumeros },
+      { id: "estudo-dinheiro", title: "O dinheiro", emoji: "💶", body: estudoDinheiro },
+      { id: "estudo-dias-meses", title: "Dias e meses", emoji: "📅", body: estudoDiasMeses },
+    ],
+    2: [],
+    3: [],
+    4: [],
+  },
+};
+
+/** Every subject INCLUDING the cross-cutting "O Mundo" and "Saber de cor" areas
+ *  — used for lookups, global search and achievements. The home screen lists
+ *  the school subjects per year and these two areas as their own sections. */
+export const subjects: Subject[] = [...schoolSubjects, mundoSubject, estudoSubject];
 
 export const YEARS: YearN[] = [1, 2, 3, 4];
 export const yearLabel = (y: YearN) => `${y}.º ano`;
 
 export const MUNDO_ID = "mundo";
 export const isMundo = (subjectId: string): boolean => subjectId === MUNDO_ID;
+
+export const ESTUDO_ID = "estudo";
+export const isEstudo = (subjectId: string): boolean => subjectId === ESTUDO_ID;
+/** The study area's topics (its single, non-grade tier). */
+export const estudoTopics = estudoSubject.years[1];
 
 /* The proximity rings of "O Mundo" (home → world). Each ring maps onto the
  * 1–4 "year" slot, but is named and described as a ring, never as a grade.
@@ -551,10 +589,12 @@ export const MUNDO_BEYOND = site.mundo.beyond;
 
 const MUNDO_RING_LABEL = Object.fromEntries(mundoRings.map((r) => [r.ring, r.label])) as Record<YearN, string>;
 
-/** Label for the middle navigation tier: a school "X.º ano" or — for the
- *  cross-cutting "O Mundo" area — the name of the proximity ring. */
+/** Label for the middle navigation tier: a school "X.º ano", the name of the
+ *  proximity ring for "O Mundo", or nothing for the grade-less study area. */
 export function tierLabel(subjectId: string, tier: YearN): string {
-  return isMundo(subjectId) ? MUNDO_RING_LABEL[tier] : yearLabel(tier);
+  if (isMundo(subjectId)) return MUNDO_RING_LABEL[tier];
+  if (isEstudo(subjectId)) return ""; // not grade-based, no tier label
+  return yearLabel(tier);
 }
 
 export const subjectById = new Map(subjects.map((s) => [s.id, s]));

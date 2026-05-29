@@ -10,6 +10,9 @@ import {
   mundoInnerRings,
   isMundoHomeRing,
   MUNDO_BEYOND,
+  estudoSubject,
+  estudoTopics,
+  isEstudo,
   subjectById,
   findLesson,
   lessonMeta,
@@ -51,6 +54,7 @@ const SUBJECT_ICON: Record<string, IconName> = {
   "estudo-do-meio": "world",
   ingles: "language",
   mundo: "compass",
+  estudo: "star",
   cidadania: "heart",
   artistica: "palette",
   fisica: "body",
@@ -70,6 +74,7 @@ const LESSON_ICON: Record<string, IconName> = {
   "mat-1-comparar": "plusminus", "mat-1-ordinais": "trophy", "mat-1-dobro-metade": "fraction",
   "mat-2-tabuada": "times", "mat-2-numeros-100": "abacus", "mat-2-dinheiro": "coin", "mat-2-horas": "clock",
   "mat-2-tabuada-3-4-10": "times", "mat-2-par-impar": "abacus", "mat-2-solidos": "shapes", "mat-2-padroes": "shapes",
+  "estudo-tabuadas": "times", "estudo-alfabeto": "letters", "estudo-numeros": "abacus", "estudo-dias-meses": "calendar",
   "mat-3-multiplicacao": "times", "mat-3-divisao": "divide", "mat-3-fracoes": "fraction", "mat-3-medida": "ruler",
   "mat-3-numeros-1000": "abacus", "mat-3-multiplos": "times", "mat-3-calendario": "calendar",
   "mat-4-decimais": "abacus", "mat-4-area": "ruler", "mat-4-dados": "chart", "mat-4-problemas": "tip",
@@ -193,6 +198,20 @@ function Root() {
     };
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
+  }, []);
+
+  // In-lesson links (`[texto](lesson:<id>)` in markdown) navigate within the app
+  // instead of reloading the page. Markdown dispatches this event so it doesn't
+  // need the navigation function threaded down to it.
+  useEffect(() => {
+    const onNavigate = (e: Event) => {
+      const lessonId = (e as CustomEvent<{ lessonId?: string }>).detail?.lessonId;
+      const m = lessonId ? lessonMeta.get(lessonId) : undefined;
+      if (m && lessonId) go({ kind: "lesson", year: m.year, subjectId: m.subjectId, lessonId });
+    };
+    window.addEventListener("sprout:navigate", onNavigate);
+    return () => window.removeEventListener("sprout:navigate", onNavigate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -336,6 +355,18 @@ function TopBar({
                   </span>
                 )}
               </>
+            ) : subject && isEstudo(subject.id) ? (
+              // "Saber de cor" — grade-less study area, never "X.º ano". Just the
+              // area name (a link back to its overview when on a topic).
+              deeperThanSubject ? (
+                <button className="crumb-link" style={{ color: subject.color }} onClick={() => onGo({ kind: "subject", year: view.year, subjectId: subject.id })}>
+                  <Icon name={SUBJECT_ICON[subject.id]} size={18} /> {subject.label}
+                </button>
+              ) : (
+                <span style={{ color: subject.color, display: "inline-flex", alignItems: "center", gap: 4 }}>
+                  <Icon name={SUBJECT_ICON[subject.id]} size={18} /> {subject.label}
+                </span>
+              )
             ) : (
               <>
                 {deeperThanYear ? (
@@ -411,6 +442,7 @@ function BigCard({
   soon,
   children,
   onClick,
+  say,
 }: {
   iconName?: IconName;
   numberLabel?: string;
@@ -422,31 +454,34 @@ function BigCard({
   soon?: boolean;
   children?: ReactNode;
   onClick: () => void;
+  /** what to read aloud for this card (the child can't read the title) */
+  say?: string;
 }) {
+  // The card is itself a <button>, so the read-aloud control is a SIBLING in a
+  // positioned wrapper (a button can't nest a button) and floats in the corner.
   return (
-    <button
-      className={`big-card lesson-card ${soon ? "soon" : ""}`}
-      style={{ ["--c" as string]: color, ["--c-soft" as string]: colorSoft }}
-      onClick={onClick}
-    >
-      <div className="bc-media">
-        <span className="bc-motif" aria-hidden />
-        <span className={`bc-art ${numberLabel ? "num" : ""}`}>
-          {numberLabel ? numberLabel : iconName ? <Icon name={iconName} size={38} /> : null}
-        </span>
-      </div>
-      <div className="bc-body">
-        {kicker && (
-          <div className="bc-kicker">
-            <span className="bc-dot" />
-            {kicker}
-          </div>
-        )}
-        <h3 className="bc-title">{title}</h3>
-        {sub}
-        {children}
-      </div>
-    </button>
+    <div className="card-slot" style={{ ["--c" as string]: color, ["--c-soft" as string]: colorSoft }}>
+      <button className={`big-card lesson-card ${soon ? "soon" : ""}`} onClick={onClick}>
+        <div className="bc-media">
+          <span className="bc-motif" aria-hidden />
+          <span className={`bc-art ${numberLabel ? "num" : ""}`}>
+            {numberLabel ? numberLabel : iconName ? <Icon name={iconName} size={38} /> : null}
+          </span>
+        </div>
+        <div className="bc-body">
+          {kicker && (
+            <div className="bc-kicker">
+              <span className="bc-dot" />
+              {kicker}
+            </div>
+          )}
+          <h3 className="bc-title">{title}</h3>
+          {sub}
+          {children}
+        </div>
+      </button>
+      {say && <Speaker text={say} className="card-speak" label={`Ouvir: ${title}`} size={18} />}
+    </div>
   );
 }
 
@@ -546,6 +581,7 @@ function Home({
               color={s.color}
               colorSoft={s.soft}
               sub={<span className="sub">{schoolSubjects.length} matérias para explorar</span>}
+              say={`${yearLabel(y)}. ${schoolSubjects.length} matérias para explorar.`}
               onClick={() => onPick(y)}
             >
               <CardProgress pct={pctOf(st)} done={st.done} real={st.real} stars={st.stars} color={s.color} />
@@ -576,6 +612,7 @@ function Home({
               color={mundoSubject.color}
               colorSoft={mundoSubject.colorSoft}
               sub={<span className="sub">{r.blurb}</span>}
+              say={`${r.label}. ${r.blurb}.`}
               onClick={() => onPickRing(r.ring)}
             >
               <CardProgress pct={pctOf(st)} done={st.done} real={st.real} stars={st.stars} color={mundoSubject.color} />
@@ -590,6 +627,7 @@ function Home({
           color={mundoSubject.color}
           colorSoft={mundoSubject.colorSoft}
           sub={<span className="sub">{MUNDO_BEYOND.blurb}</span>}
+          say={`${MUNDO_BEYOND.label}. ${MUNDO_BEYOND.blurb}.`}
           onClick={onOpenMundo}
         >
           {(() => {
@@ -603,6 +641,32 @@ function Home({
             return <CardProgress pct={st.real ? st.done / st.real : 0} done={st.done} real={st.real} stars={st.stars} color={mundoSubject.color} />;
           })()}
         </BigCard>
+      </div>
+
+      {/* "Saber de cor" — a cross-cutting study/reference area (not a school
+          subject, not a grade): tabuadas, alfabeto, números, dias e meses, all
+          read-aloud. Its own home section, like "O Mundo". */}
+      <h2 className="section-title" style={{ marginTop: 36 }}>
+        <span style={{ color: estudoSubject.color, display: "inline-flex" }}>
+          <Icon name={SUBJECT_ICON[estudoSubject.id]} size={26} />
+        </span>
+        {site.estudo.sectionTitle}
+      </h2>
+      <p className="section-sub">{site.estudo.sectionSub}</p>
+      <div className="card-grid cols-4">
+        {estudoTopics.map((t) => (
+          <BigCard
+            key={t.id}
+            iconName={lessonIcon(estudoSubject.id, t)}
+            kicker="Saber de cor"
+            title={t.title}
+            color={estudoSubject.color}
+            colorSoft={estudoSubject.colorSoft}
+            sub={<span className="sub">Toca para ouvir e treinar</span>}
+            say={t.title}
+            onClick={() => onOpenLesson(t.id)}
+          />
+        ))}
       </div>
     </div>
   );
@@ -634,6 +698,7 @@ function MundoView({ onPick }: { onPick: (ring: YearN) => void }) {
               color={mundoSubject.color}
               colorSoft={mundoSubject.colorSoft}
               sub={<span className="sub">{r.blurb}</span>}
+              say={`${r.label}. ${r.blurb}.`}
               onClick={() => onPick(r.ring)}
             >
               <CardProgress pct={pctOf(st)} done={st.done} real={st.real} stars={st.stars} color={mundoSubject.color} />
@@ -665,6 +730,7 @@ function YearView({ year, onPick }: { year: YearN; onPick: (subjectId: string) =
               color={s.color}
               colorSoft={s.colorSoft}
               sub={<span className="sub">{s.blurb}</span>}
+              say={`${s.label}. ${s.blurb}.`}
               onClick={() => onPick(s.id)}
             >
               <CardProgress pct={pctOf(st)} done={st.done} real={st.real} stars={st.stars} color={s.color} />
@@ -681,14 +747,14 @@ function YearView({ year, onPick }: { year: YearN; onPick: (subjectId: string) =
 function SubjectView({ subject, year, onPick }: { subject: Subject; year: YearN; onPick: (lessonId: string) => void }) {
   const { progress } = useProgress();
   const lessons = subject.years[year];
-  const tier = tierLabel(subject.id, year);
+  const tier = tierLabel(subject.id, year); // "" for the grade-less study area
   return (
     <div>
-      <Mascot message={`${subject.label} • ${tier}. Escolhe uma lição para começar!`} mood="happy" />
+      <Mascot message={`${subject.label}${tier ? ` • ${tier}` : ""}. Escolhe uma lição para começar!`} mood="happy" />
       <h2 className="section-title">
         <span style={{ color: subject.color, display: "inline-flex" }}><Icon name={SUBJECT_ICON[subject.id]} size={26} /></span>
         {subject.label}
-        <span style={{ color: "var(--ink-3)", fontWeight: 500 }}> · {tier}</span>
+        {tier && <span style={{ color: "var(--ink-3)", fontWeight: 500 }}> · {tier}</span>}
       </h2>
       <div className="card-grid cols-3">
         {lessons.map((l) => {
@@ -703,6 +769,7 @@ function SubjectView({ subject, year, onPick }: { subject: Subject; year: YearN;
               color={subject.color}
               colorSoft={subject.colorSoft}
               soon={soon}
+              say={`${l.title}.${soon ? " Em breve." : ""}`}
               onClick={() => onPick(l.id)}
               sub={
                 soon ? (

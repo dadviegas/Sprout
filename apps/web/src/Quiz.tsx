@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Icon, type IconName } from "@sprout/icons";
-import { speak, Speaker, Confetti } from "@sprout/ui";
+import { Speaker, Confetti } from "@sprout/ui";
 import { starsForPct, useLessonId, useProgress } from "./progress";
 
 export interface QuizOption {
@@ -53,13 +53,6 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, nonce]);
 
-  // Read each question aloud when it appears, so early readers (1.º ano)
-  // can follow along without needing to tap the speaker first.
-  useEffect(() => {
-    if (phase === "asking" && question) speak(question.q);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [i, phase, nonce]);
-
   const choose = (idx: number) => {
     if (picked !== null) return;
     setPicked(idx);
@@ -111,7 +104,7 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
             <button className="pill ghost" onClick={retry}>
               <Icon name="refresh" size={18} /> Tentar outra vez
             </button>
-            <Speaker text={msg} className="iconbtn" size={20} />
+            <Speaker text={msg} className="prose-speak" size={20} />
           </div>
         </div>
       </div>
@@ -140,7 +133,7 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
       <div className="question">
         {question.emoji && <span className="qemoji">{question.emoji}</span>}
         <span>{question.q}</span>
-        <Speaker text={questionSpeech} className="iconbtn" size={20} label="Ouvir a pergunta e as opções" />
+        <Speaker text={questionSpeech} className="prose-speak" size={20} label="Ouvir a pergunta e as opções" />
       </div>
 
       <div className={`options ${question.layout === "grid" ? "grid" : ""}`}>
@@ -169,7 +162,7 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
             <span>{isCorrect ? "Certo!" : "Quase!"} {question.explain ?? ""}</span>
             <Speaker
               text={`${isCorrect ? "Certo!" : "Quase!"} ${question.explain ?? ""}`}
-              className="iconbtn"
+              className="prose-speak"
               size={20}
               label="Ouvir"
             />

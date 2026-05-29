@@ -61,12 +61,46 @@ export function speakable(text: string): string {
    the active one. */
 let nextToken = 0;
 let playingToken: number | null = null;
+let watchdog: number | null = null;
 const listeners = new Set<() => void>();
 
 function setPlaying(token: number | null): void {
   if (playingToken === token) return;
   playingToken = token;
   listeners.forEach((l) => l());
+}
+
+function clearWatchdog(): void {
+  if (watchdog != null) {
+    window.clearInterval(watchdog);
+    watchdog = null;
+  }
+}
+
+/* Web Speech is flaky: Chrome sometimes never fires `end` (so a play→stop
+   button would stay stuck on "stop"), and it can leave the engine paused after
+   cancel() (so audio "works once then stops"). A watchdog polls the real engine
+   state: it nudges a paused engine back to life and, once speech has actually
+   finished, clears the playing flag so the button reverts to "ouvir". */
+function startWatchdog(token: number): void {
+  clearWatchdog();
+  let sawSpeaking = false;
+  let ticks = 0;
+  watchdog = window.setInterval(() => {
+    const synth = window.speechSynthesis;
+    ticks++;
+    if (synth.speaking || synth.pending) {
+      sawSpeaking = true;
+      if (synth.paused) synth.resume(); // Chrome sometimes pauses mid-utterance
+      return;
+    }
+    // Not speaking. Done once we've seen it start (or waited ~2s for an engine
+    // that silently dropped the utterance) — then revert the button to "ouvir".
+    if (sawSpeaking || ticks > 10) {
+      if (playingToken === token) setPlaying(null);
+      clearWatchdog();
+    }
+  }, 200);
 }
 
 /** Subscribe to playback start/stop. Returns an unsubscribe function. */
@@ -83,6 +117,7 @@ export function speakingToken(): number | null {
 /** Stop any read-aloud immediately (e.g. the user tapped "parar", or the page
  *  changed). Safe to call when nothing is playing. */
 export function stop(): void {
+  clearWatchdog();
   if (typeof window !== "undefined" && window.speechSynthesis) window.speechSynthesis.cancel();
   setPlaying(null);
 }
@@ -106,6 +141,7 @@ function utterAll(parts: string[], token: number): void {
   // newer tap, or stop(), will have moved it on — don't clobber that).
   const finish = () => {
     if (playingToken === token) setPlaying(null);
+    clearWatchdog();
   };
   const utterances = parts.map(makeUtterance);
   // Queue each part as its own utterance: the gap between utterances gives a
@@ -116,8 +152,10 @@ function utterAll(parts: string[], token: number): void {
     synth.speak(u);
   }
   setPlaying(token);
-  // Chrome occasionally leaves synthesis paused right after cancel(); nudge it.
+  // Chrome occasionally leaves synthesis paused right after cancel(); nudge it,
+  // and the watchdog keeps nudging + clears the flag when speech really ends.
   if (synth.paused) synth.resume();
+  startWatchdog(token);
 }
 
 /** Run `fn` once voices are available — Web Speech loads them asynchronously,

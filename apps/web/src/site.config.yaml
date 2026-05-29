@@ -13,6 +13,14 @@ mascot:
   name: Feijãozinho
   emoji: "🌱"
 
+# "Saber de cor" — a cross-cutting study / reference area (not a school subject,
+# not tied to a grade): things every child should know by heart — tabuadas, o
+# alfabeto, os números, os dias e os meses — all read-aloud. The topic pages
+# live in content/curriculum.ts (estudoSubject); this owns the section copy.
+estudo:
+  sectionTitle: Saber de cor
+  sectionSub: "Coisas para saber de cor — toca para ouvir e treinar! 🧠"
+
 # "O Mundo & Curiosidades" — common-sense / general-culture area (not a school
 # subject, not tied to a grade). Açores and Portugal sit on the home screen;
 # the wider world is gathered under the "beyond" entry. Each ring's `ring`

@@ -34,6 +34,20 @@ Experimenta também este:
 
 > Um gelado custa **1€**. Tens uma moeda de **2€**. O troco é **1€**! 🍦
 
+## Vamos pagar na loja! 💳
+
+Agora és **tu** a pagar! Toca nas **notas** e nas **moedas** até teres o dinheiro certo. Tenta pagar **certinho** — assim nem precisas de troco! 😎
+
+```money
+{ "title": "Um gelado 🍦", "price": 1.5 }
+```
+
+E este, que tem cêntimos? Começa pela nota ou moeda **maior** e vai juntando as pequeninas:
+
+```money
+{ "title": "Uma caixa de lápis ✏️", "price": 2.35 }
+```
+
 ## Vamos praticar 🎈
 
 ```quiz

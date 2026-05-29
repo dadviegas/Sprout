@@ -1,8 +1,15 @@
 import type { ReactNode } from "react";
+import { Speaker } from "./Speaker";
 
 /* Infographic primitives from the atlantis design system: StatGrid, Steps,
    Compare, Quote, Meters, KeyValueGrid. Rendered from JSON fenced-code blocks
-   by the Markdown component. Kept verbatim aside from the icons import. */
+   by the Markdown component. Each item carries its own read-aloud speaker
+   (the child can't read), so every card is individually hearable. */
+
+/** Plain text of a field for read-aloud (markdown JSON gives strings/numbers). */
+function txt(x: ReactNode): string {
+  return typeof x === "string" ? x : typeof x === "number" ? String(x) : "";
+}
 
 type Trend = "up" | "down" | "neutral" | "warn";
 export type Tone = "primary" | "accent" | "ok" | "warn" | "danger" | "info";
@@ -82,7 +89,8 @@ function Stat({ value, label, delta, trend, hint, tone, index = 0 }: StatItem & 
       }}
     >
       <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 5, background: gradient(t) }} />
-      <div style={{ fontSize: ".82em", color: "var(--ink-2)", fontWeight: 700 }}>{label}</div>
+      <Speaker text={[label, value, hint].map(txt).filter(Boolean).join(". ")} className="ig-speak ig-speak--corner" size={15} />
+      <div style={{ fontSize: ".82em", color: "var(--ink-2)", fontWeight: 700, paddingRight: 28 }}>{label}</div>
       <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginTop: 6 }}>
         <div
           style={{
@@ -158,7 +166,10 @@ export function Steps({ items }: { items: Step[] }) {
               {step.icon ?? i + 1}
             </div>
             <div>
-              <div style={{ fontWeight: 700, color: "var(--ink)", fontFamily: "var(--font-display)" }}>{step.title}</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 700, color: "var(--ink)", fontFamily: "var(--font-display)" }}>
+                <span>{step.title}</span>
+                <Speaker text={[txt(step.title), txt(step.body)].filter(Boolean).join(". ")} className="ig-speak" size={15} />
+              </div>
               {step.body && <div style={{ color: "var(--ink-2)", fontSize: ".95em", marginTop: 2, lineHeight: 1.55 }}>{step.body}</div>}
             </div>
           </li>
@@ -196,6 +207,11 @@ export function Compare({ columns }: { columns: CompareCol[] }) {
           >
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
               <div style={{ fontWeight: 700, color: "var(--ink)", fontSize: "1.1em", flex: 1, fontFamily: "var(--font-display)" }}>{col.title}</div>
+              <Speaker
+                text={`${txt(col.title)}. ${col.rows.map((r) => `${txt(r.label)}: ${txt(r.value)}`).join(". ")}`}
+                className="ig-speak"
+                size={15}
+              />
               {col.badge && (
                 <span
                   style={{
@@ -255,6 +271,7 @@ export function Quote({ children, by, role }: { children: ReactNode; by?: string
       }}
     >
       <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 5, background: gradient("accent") }} />
+      <Speaker text={[txt(children), by, role].filter(Boolean).join(". ")} className="ig-speak ig-speak--corner" size={15} />
       <div style={{ fontSize: "3em", lineHeight: 0.8, color: "var(--accent)", fontFamily: "Georgia, serif", alignSelf: "flex-start" }}>&ldquo;</div>
       <div style={{ flex: 1 }}>
         <blockquote style={{ margin: 0, fontStyle: "italic", color: "var(--ink)", fontSize: "1.15em", lineHeight: 1.55 }}>{children}</blockquote>
@@ -291,7 +308,10 @@ export function Meters({ items }: { items: MeterItem[] }) {
         return (
           <div key={i}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", fontSize: ".92em", marginBottom: 6 }}>
-              <span style={{ color: "var(--ink)", fontWeight: 700 }}>{m.label}</span>
+              <span style={{ color: "var(--ink)", fontWeight: 700, display: "inline-flex", alignItems: "center", gap: 8 }}>
+                {m.label}
+                <Speaker text={`${txt(m.label)}: ${m.value}${m.max != null ? ` de ${m.max}` : ""}. ${txt(m.caption)}`} className="ig-speak" size={15} />
+              </span>
               <span style={{ color: toneRing[t], fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>
                 {m.value}
                 {m.max != null ? ` / ${m.max}` : "%"}
@@ -349,8 +369,11 @@ export function KeyValueGrid({ items }: { items: KeyValueItem[] }) {
             >
               {it.icon ?? <span style={{ fontWeight: 800, fontSize: ".9em", padding: "0 4px" }}>{(i + 1).toString().padStart(2, "0")}</span>}
             </div>
-            <div style={{ minWidth: 0 }}>
-              <div style={{ fontSize: ".78em", color: "var(--ink-2)", textTransform: "uppercase", letterSpacing: ".06em", fontWeight: 700 }}>{it.k}</div>
+            <div style={{ minWidth: 0, flex: 1 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: ".78em", color: "var(--ink-2)", textTransform: "uppercase", letterSpacing: ".06em", fontWeight: 700 }}>
+                <span>{it.k}</span>
+                <Speaker text={`${txt(it.k)}: ${txt(it.v)}`} className="ig-speak" size={14} />
+              </div>
               <div style={{ color: "var(--ink)", marginTop: 3, fontWeight: 600 }}>{it.v}</div>
             </div>
           </div>

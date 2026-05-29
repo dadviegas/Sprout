@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { Icon } from "@sprout/icons";
 import { speak } from "../speak";
+import { Speaker } from "../Speaker";
 import { polar } from "./geo";
 import { Confetti } from "../Confetti";
 
@@ -150,7 +151,7 @@ export function Clock({ spec }: { spec: ClockSpec }) {
       {mode === "set" && spec.prompt && (
         <p className="clock-prompt">
           {spec.prompt}{" "}
-          <button className="iconbtn" style={{ width: 34, height: 34 }} onClick={() => speak(spec.prompt!)} aria-label="Ouvir"><Icon name="speaker" size={18} /></button>
+          <Speaker text={spec.prompt!} className="prose-speak" />
         </p>
       )}
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Icon } from "@sprout/icons";
 import { speak } from "../speak";
+import { Speaker } from "../Speaker";
 
 export interface TenFrameSpec {
   count?: number; // initial filled
@@ -43,7 +44,7 @@ export function TenFrame({ spec }: { spec: TenFrameSpec }) {
       <div className="w-btnrow">
         <span className="stat-chip">Total: {total} {total === 10 ? "— cheia!" : ""}</span>
         <button className="pill ghost" onClick={() => { setCells(Array(10).fill(false)); }}><Icon name="trash" size={18} /> Limpar</button>
-        <button className="iconbtn" onClick={() => speak(`Tenho ${total}`)} aria-label="Ouvir"><Icon name="speaker" size={18} /></button>
+        <Speaker text={`Tenho ${total}`} className="prose-speak" />
       </div>
     </div>
   );

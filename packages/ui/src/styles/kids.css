@@ -108,13 +108,33 @@
               box-shadow var(--dur-mid) var(--ease-out);
   animation: sproutPopIn .45s var(--ease-out) both;
 }
-/* staggered entrance */
-.card-grid .big-card:nth-child(2) { animation-delay: .05s; }
-.card-grid .big-card:nth-child(3) { animation-delay: .10s; }
-.card-grid .big-card:nth-child(4) { animation-delay: .15s; }
-.card-grid .big-card:nth-child(5) { animation-delay: .20s; }
-.card-grid .big-card:nth-child(6) { animation-delay: .25s; }
-.card-grid .big-card:nth-child(n+7) { animation-delay: .30s; }
+/* Card wrapper: lets the read-aloud button float over the tile without nesting
+   a <button> inside the card <button>. Layout-neutral — the card fills the slot
+   exactly, so the tile looks unchanged. */
+.card-slot { position: relative; display: flex; }
+.card-slot > .big-card { flex: 1 1 auto; width: 100%; }
+
+/* read-aloud button in the tile's top-right corner — same green as everywhere */
+.card-speak {
+  position: absolute; top: 10px; right: 10px; z-index: 3;
+  display: inline-grid; place-items: center;
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--primary-soft); color: var(--primary);
+  border: 1px solid color-mix(in srgb, var(--primary) 35%, var(--border));
+  box-shadow: var(--shadow-sm);
+  cursor: pointer; transition: transform .12s, background .12s;
+}
+.card-speak:hover { transform: scale(1.08); background: var(--primary); color: #fff; }
+.card-speak:active { transform: scale(.92); }
+.card-speak[data-playing] { background: var(--primary); color: #fff; }
+
+/* staggered entrance (cards are wrapped in .card-slot, so index by the slot) */
+.card-grid > :nth-child(2) .big-card { animation-delay: .05s; }
+.card-grid > :nth-child(3) .big-card { animation-delay: .10s; }
+.card-grid > :nth-child(4) .big-card { animation-delay: .15s; }
+.card-grid > :nth-child(5) .big-card { animation-delay: .20s; }
+.card-grid > :nth-child(6) .big-card { animation-delay: .25s; }
+.card-grid > :nth-child(n+7) .big-card { animation-delay: .30s; }
 
 .big-card:hover {
   transform: translateY(-3px);
@@ -392,17 +412,20 @@
 .recent-chip:active { transform: translateY(0) scale(.97); }
 .recent-chip__icon { display: inline-flex; flex-shrink: 0; }
 .recent-chip__title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-/* Per-block read-aloud: a floating speaker on each content block (steps,
-   keyvalue, …) so a child who can't read can hear the cards too. */
-.prose .block-audio { position: relative; }
-.prose .block-audio > .block-audio__btn {
-  position: absolute; top: 2px; right: 4px; z-index: 2;
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 34px; height: 34px; border-radius: 50%;
-  background: var(--surface-2); border: 2px solid var(--border); color: var(--ink-2);
-  box-shadow: var(--shadow-sm);
+/* Per-item read-aloud: a small green speaker on EACH card in a content block
+   (steps, keyvalue, stats, …) so a child who can't read hears each one. */
+.ig-speak {
+  flex-shrink: 0;
+  display: inline-grid; place-items: center;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--primary-soft); color: var(--primary);
+  border: 1px solid color-mix(in srgb, var(--primary) 35%, var(--border));
+  cursor: pointer; transition: transform .12s, background .12s;
 }
-.prose .block-audio > .block-audio__btn:hover { color: var(--primary); border-color: var(--border-strong); transform: translateY(-1px); }
+.ig-speak:hover { background: var(--primary); color: #fff; transform: scale(1.08); }
+.ig-speak:active { transform: scale(.92); }
+.ig-speak[data-playing] { background: var(--primary); color: #fff; }
+.ig-speak--corner { position: absolute; top: 10px; right: 10px; z-index: 2; }
 
 /* index/tree drawer (optional, for parents) */
 .drawer-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 40; }
@@ -509,6 +532,61 @@
 .coin:hover { transform: translateY(-3px); }
 .coin:active { transform: translateY(2px); }
 .coin.picked { opacity: 1; outline: 4px solid color-mix(in srgb, var(--primary) 60%, transparent); outline-offset: 2px; }
+.coin.pay-coin { opacity: 1; }
+
+/* money — pay-the-price builder */
+.pay-widget .w-badge { background: var(--subj-mat); }
+.pay-widget { border-color: color-mix(in srgb, var(--subj-mat) 55%, var(--border)); }
+.pay-price {
+  margin-left: auto; display: inline-flex; align-items: center; gap: 4px;
+  font-family: var(--font-display); font-weight: 800; color: var(--ink);
+  background: var(--surface-2); border-radius: 999px; padding: 4px 6px 4px 14px;
+}
+.pay-tray {
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+  margin-top: 12px; padding: 12px; min-height: 64px;
+  border: 3px dashed var(--border); border-radius: var(--radius);
+  background: var(--surface-2);
+}
+.pay-tray.empty { justify-content: center; }
+.pay-chip { position: relative; }
+.pay-count {
+  position: absolute; top: -8px; right: -8px;
+  background: var(--subj-mat); color: #fff;
+  font-size: .72em; font-weight: 800; line-height: 1;
+  border-radius: 999px; padding: 3px 6px; border: 2px solid var(--surface);
+}
+
+/* solar system — animated orbits */
+.solarsystem-widget { border-color: color-mix(in srgb, var(--info) 55%, var(--border)); }
+.solarsystem-widget .w-badge { background: #2b2f55; }
+.ss-stage {
+  border-radius: var(--radius); overflow: hidden;
+  background: radial-gradient(circle at 50% 45%, #1a1f3d 0%, #0c0f24 70%);
+}
+.ss-svg { display: block; width: 100%; height: auto; max-height: 60vh; margin: 0 auto; }
+.ss-track { fill: none; stroke: rgba(255,255,255,.16); stroke-width: 1; stroke-dasharray: 2 5; }
+.ss-body { cursor: pointer; }
+.ss-body:hover circle, .ss-body:focus-visible circle { filter: brightness(1.18); }
+.ss-body:focus-visible { outline: none; }
+.ss-info {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  margin-top: 12px; min-height: 28px;
+}
+.ss-info strong { font-family: var(--font-display); }
+
+/* day & night — spinning Earth */
+.daynight-widget { border-color: color-mix(in srgb, var(--info) 55%, var(--border)); }
+.daynight-widget .w-badge { background: var(--subj-edm); }
+.dn-stage {
+  border-radius: var(--radius); overflow: hidden;
+  background: radial-gradient(circle at 70% 50%, #2a2f52 0%, #0c0f24 75%);
+}
+.dn-svg { display: block; width: 100%; height: auto; max-height: 52vh; margin: 0 auto; }
+.dn-place { cursor: pointer; }
+.dn-label { fill: #fff; font-family: var(--font-display); font-weight: 700; paint-order: stroke; stroke: rgba(0,0,0,.45); stroke-width: 3px; }
+.dn-place:hover circle, .dn-place:focus-visible circle { stroke: #fff; }
+.dn-place:focus-visible { outline: none; }
 
 /* topbar brand + crumb home */
 .brand-badge {
@@ -532,10 +610,13 @@
   display: inline-flex; align-items: center; justify-content: center;
   width: 34px; height: 34px; flex-shrink: 0;
   border-radius: 50%; margin-left: 8px; vertical-align: middle;
-  background: var(--surface-2); color: var(--ink-2);
-  border: 2px solid var(--border);
+  background: var(--primary-soft); color: var(--primary);
+  border: 1px solid color-mix(in srgb, var(--primary) 35%, var(--border));
+  transition: transform .12s, background .12s;
 }
+.bubble-speak:hover { background: var(--primary); color: #fff; }
 .bubble-speak:active { transform: scale(.92); }
+.bubble-speak[data-playing] { background: var(--primary); color: #fff; }
 .hero .bubble { display: flex; align-items: center; gap: 6px; }
 
 /* sound cards (1.º ano: see · hear · repeat) */
@@ -548,7 +629,8 @@
 .soundcard {
   position: relative;
   display: flex; flex-direction: column; align-items: center; gap: 6px;
-  padding: 16px 12px 14px; min-height: 124px;
+  /* extra top room so the big label clears the speaker badge in the corner */
+  padding: 30px 14px 14px; min-height: 124px;
   border-radius: var(--radius);
   background: var(--surface-2);
   border: 3px solid var(--border);
@@ -558,12 +640,13 @@
 .soundcard:hover { transform: translateY(-3px); border-color: var(--primary); }
 .soundcard:active { transform: scale(.96); }
 .soundcard .sc-icon { width: 54px; height: 54px; color: var(--primary); }
-.soundcard .sc-big { font-family: var(--font-display); font-weight: 800; font-size: 2.6em; color: var(--primary); line-height: 1; }
-.soundcard .sc-label { font-family: var(--font-display); font-weight: 700; font-size: 1.05em; }
+/* keep the word inside the card: never let it slide under the corner badge */
+.soundcard .sc-big { font-family: var(--font-display); font-weight: 800; font-size: 2.4em; color: var(--primary); line-height: 1.05; max-width: 100%; padding: 0 4px; text-align: center; }
+.soundcard .sc-label { font-family: var(--font-display); font-weight: 700; font-size: 1.05em; max-width: 100%; text-align: center; }
 .soundcard .sc-hint { font-size: .82em; color: var(--ink-2); }
 .soundcard .sc-speak {
-  position: absolute; top: 8px; right: 8px;
-  width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center;
+  position: absolute; top: 6px; right: 6px;
+  width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center;
   border-radius: 50%; background: var(--primary-soft); color: var(--primary);
 }
 
@@ -574,27 +657,39 @@
   display: grid; gap: 16px;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
-.tabuada__head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-.tabuada__head strong { font-family: var(--font-display); font-size: 1.1em; }
+.tabuada__head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.tabuada__head strong { font-family: var(--font-display); font-size: 1em; white-space: nowrap; }
 .tabuada__play {
-  margin-left: auto; display: inline-flex; align-items: center; gap: 6px;
-  padding: 5px 12px; border-radius: 999px; font-weight: 700; font-size: .82em;
-  background: var(--subj-mat-soft); color: var(--subj-mat);
-  border: 2px solid color-mix(in srgb, var(--subj-mat) 30%, transparent);
+  margin-left: auto; flex-shrink: 0;
+  display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;
+  padding: 3px 10px; border-radius: 999px; font-weight: 700; font-size: .72em;
+  background: var(--primary-soft); color: var(--primary);
+  border: 1px solid color-mix(in srgb, var(--primary) 35%, var(--border));
 }
-.tabuada__play:hover { background: var(--subj-mat); color: #fff; }
+.tabuada__play:hover, .tabuada__play[data-playing] { background: var(--primary); color: #fff; }
 .tabuada__rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+/* widget lists live inside .prose, which adds a 🟢 bullet — suppress it here */
+.prose .tabuada__rows > li { margin: 0; padding-left: 0; }
+.prose .tabuada__rows > li::before { content: none; }
 .tabuada__row {
-  display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%;
-  padding: 8px 14px; border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%;
+  padding: 7px 12px; border-radius: var(--radius-sm);
   background: var(--surface-2); border: 2px solid var(--border); color: var(--ink);
-  font-size: 1.15em; transition: transform .12s, border-color .12s;
+  font-size: 1.05em; transition: transform .12s, border-color .12s;
 }
 .tabuada__row:hover { transform: translateX(2px); border-color: var(--subj-mat); color: var(--subj-mat); }
 .tabuada__row:active { transform: scale(.98); }
-.tabuada__calc { font-family: var(--font-mono); font-weight: 700; letter-spacing: .5px; }
+.tabuada__calc { white-space: nowrap; font-family: var(--font-mono); font-weight: 700; letter-spacing: .3px; }
 .tabuada__calc strong { color: var(--subj-mat); }
 .tabuada__op { color: var(--ink-3); }
+
+/* in-lesson link: [texto](lesson:<id>) — jumps to another lesson */
+.prose .lesson-link {
+  color: var(--primary); font-weight: 700; cursor: pointer;
+  text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 2px;
+  text-decoration-color: color-mix(in srgb, var(--primary) 45%, transparent);
+}
+.prose .lesson-link:hover { text-decoration-color: var(--primary); }
 
 /* ---- Test CTA at end of a lesson ---- */
 .test-cta {

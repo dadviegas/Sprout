@@ -25,7 +25,7 @@ const FINAL_MARKER = "## 🎯 Questionário final";
 // `widgetRenderers` / `infographicRenderers` maps + the `quiz` branch there.
 const JSON_BLOCKS = new Set([
   "quiz",
-  "shape", "clock", "numberline", "tenframe", "fraction", "money", "shop", "solarsystem", "daynight", "soundcards", "tabuada", "math",
+  "shape", "clock", "numberline", "tenframe", "fraction", "money", "shop", "solarsystem", "daynight", "soundcards", "dictionary", "tabuada", "math", "chart",
   "summary", "stats", "steps", "meters", "keyvalue", "compare", "quote",
 ]);
 
@@ -105,10 +105,12 @@ function validateFile(absPath, errors, warnings) {
 
   for (const [id, n] of quizIds) if (n > 1) errors.push(`${rel}: id de quiz repetido '${id}' (${n}×) — colide no progresso`);
 
-  // Reference pages (the "Saber de cor" study area) are not graded lessons, so
-  // they're exempt from the final-test requirement — they just hold things to
-  // know by heart (tabuadas, alfabeto, …) with read-aloud, no questionnaire.
-  const isReference = rel.split(/[\\/]/).includes("estudo");
+  // Reference pages (the "Saber de cor" study area and "O Dicionário") are not
+  // graded lessons, so they're exempt from the final-test requirement — they
+  // just hold things to know (tabuadas, alfabeto, word meanings by letter, …)
+  // with read-aloud, no questionnaire.
+  const parts = rel.split(/[\\/]/);
+  const isReference = parts.includes("estudo") || parts.includes("dicionario");
   if (isReference) return;
 
   if (markerAt < 0) errors.push(`${rel}: falta o marcador do teste final "${FINAL_MARKER}"`);

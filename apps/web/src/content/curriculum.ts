@@ -35,7 +35,7 @@ export interface Subject {
 }
 
 /* Page settings (names, copy, icons, ordering) live in the YAML config. */
-import { site, type MundoRingConfig } from "../site-config";
+import { site, type MundoRingConfig, type PaisConfig } from "../site-config";
 
 /* ---- Matemática ---- */
 import matNumeros10 from "./matematica/ano1/numeros-ate-10.md";
@@ -103,6 +103,20 @@ import ptFabulas from "./portugues/ano3/fabulas.md";
 import ptFalarPublico from "./portugues/ano3/falar-para-os-outros.md";
 import ptAutores from "./portugues/ano4/autores-portugueses.md";
 import ptDebater from "./portugues/ano4/ouvir-e-debater.md";
+// AE coverage — Português (gramática/ortografia gaps)
+import ptMascFem from "./portugues/ano1/masculino-feminino.md";
+import ptDigrafos from "./portugues/ano2/digrafos.md";
+import ptSonsDoS from "./portugues/ano3/sons-do-s.md";
+import ptPrefixos from "./portugues/ano4/prefixos-sufixos.md";
+// AE coverage — Português (gramática/ortografia/texto, lote 2)
+import ptPalavrasDia from "./portugues/ano1/palavras-do-dia-a-dia.md";
+import ptAdjetivos2 from "./portugues/ano2/adjetivos.md";
+import ptArtigos from "./portugues/ano2/artigos.md";
+import ptPronomes from "./portugues/ano3/pronomes.md";
+import ptHomofonos from "./portugues/ano3/palavras-que-confundem.md";
+import ptFraseComplexa from "./portugues/ano4/frase-simples-complexa.md";
+import ptNoticia from "./portugues/ano4/noticia.md";
+import ptHifenX from "./portugues/ano4/o-hifen-e-o-x.md";
 
 /* ---- Estudo do Meio ---- */
 import edmCorpo from "./estudo-do-meio/ano1/o-meu-corpo.md";
@@ -220,6 +234,48 @@ import estudoDinheiro from "./estudo/dinheiro.md";
 import estudoLoja from "./estudo/loja.md";
 import estudoDiasMeses from "./estudo/dias-e-meses.md";
 
+/* ---- O Dicionário (reference area — by letter, not grade-based) ---- */
+import dicA from "./dicionario/a.md";
+import dicB from "./dicionario/b.md";
+import dicC from "./dicionario/c.md";
+import dicD from "./dicionario/d.md";
+import dicE from "./dicionario/e.md";
+import dicF from "./dicionario/f.md";
+import dicG from "./dicionario/g.md";
+import dicH from "./dicionario/h.md";
+import dicI from "./dicionario/i.md";
+import dicJ from "./dicionario/j.md";
+import dicK from "./dicionario/k.md";
+import dicL from "./dicionario/l.md";
+import dicM from "./dicionario/m.md";
+import dicN from "./dicionario/n.md";
+import dicO from "./dicionario/o.md";
+import dicP from "./dicionario/p.md";
+import dicQ from "./dicionario/q.md";
+import dicR from "./dicionario/r.md";
+import dicS from "./dicionario/s.md";
+import dicT from "./dicionario/t.md";
+import dicU from "./dicionario/u.md";
+import dicV from "./dicionario/v.md";
+import dicW from "./dicionario/w.md";
+import dicX from "./dicionario/x.md";
+import dicY from "./dicionario/y.md";
+import dicZ from "./dicionario/z.md";
+
+/* ---- Países (get-to-know-a-country area — not grade-based) ---- */
+import paisesPtPais from "./paises/portugal/o-pais.md";
+import paisesPtBandeira from "./paises/portugal/bandeira-e-simbolos.md";
+import paisesPtHino from "./paises/portugal/o-hino.md";
+import paisesPtComida from "./paises/portugal/comida-e-tradicoes.md";
+import paisesPtNatureza from "./paises/portugal/natureza-e-animais.md";
+import paisesPtCuriosidades from "./paises/portugal/curiosidades-e-recordes.md";
+import paisesCaPais from "./paises/canada/o-pais.md";
+import paisesCaBandeira from "./paises/canada/bandeira-e-simbolos.md";
+import paisesCaHino from "./paises/canada/o-hino.md";
+import paisesCaComida from "./paises/canada/comida-e-tradicoes.md";
+import paisesCaNatureza from "./paises/canada/natureza-e-animais.md";
+import paisesCaCuriosidades from "./paises/canada/curiosidades-e-recordes.md";
+
 /* The four school subjects, navigated year-first (1.º–4.º ano). */
 export const schoolSubjects: Subject[] = [
   {
@@ -288,6 +344,8 @@ export const schoolSubjects: Subject[] = [
         { id: "pt-1-rimas", title: "Rimas e lengalengas", emoji: "🎵", body: ptRimas },
         { id: "pt-1-ouvir-falar", title: "Saber ouvir e falar", emoji: "👂", body: ptOuvirFalar },
         { id: "pt-1-contos", title: "Os contos tradicionais", emoji: "📖", body: ptContos },
+        { id: "pt-1-masculino-feminino", title: "Masculino e feminino", emoji: "👫", body: ptMascFem },
+        { id: "pt-1-palavras-dia", title: "Palavras do dia a dia", emoji: "🗂️", body: ptPalavrasDia },
       ],
       2: [
         { id: "pt-2-pontuacao", title: "Sinais de pontuação", emoji: "❓", body: ptPontuacao },
@@ -297,6 +355,9 @@ export const schoolSubjects: Subject[] = [
         { id: "pt-2-silaba-tonica", title: "A sílaba mais forte", emoji: "👏", body: ptSilabaTonica },
         { id: "pt-2-recontar", title: "Contar e recontar uma história", emoji: "🗣️", body: ptRecontar },
         { id: "pt-2-poemas", title: "Poemas e lengalengas", emoji: "🎵", body: ptPoemas },
+        { id: "pt-2-digrafos", title: "Dígrafos (ch, lh, nh)", emoji: "🤝", body: ptDigrafos },
+        { id: "pt-2-adjetivos", title: "Como é? Os adjetivos", emoji: "🎨", body: ptAdjetivos2 },
+        { id: "pt-2-artigos", title: "Artigos: o, a, um, uma", emoji: "🔤", body: ptArtigos },
       ],
       3: [
         { id: "pt-3-sinonimos", title: "Sinónimos e antónimos", emoji: "🔁", body: ptSinonimos },
@@ -306,6 +367,9 @@ export const schoolSubjects: Subject[] = [
         { id: "pt-3-leitura-compreensao", title: "Compreender o que leio", emoji: "🔍", body: ptCompreensao },
         { id: "pt-3-fabulas", title: "As fábulas e a moral", emoji: "🦊", body: ptFabulas },
         { id: "pt-3-falar-publico", title: "Falar para os outros", emoji: "🎤", body: ptFalarPublico },
+        { id: "pt-3-sons-do-s", title: "Os sons do «s»", emoji: "🐍", body: ptSonsDoS },
+        { id: "pt-3-pronomes", title: "Pronomes: trocar o nome", emoji: "👤", body: ptPronomes },
+        { id: "pt-3-homofonos", title: "Palavras que confundem", emoji: "🎭", body: ptHomofonos },
       ],
       4: [
         { id: "pt-4-classes", title: "Classes de palavras", emoji: "🧩", body: ptClasses },
@@ -315,6 +379,10 @@ export const schoolSubjects: Subject[] = [
         { id: "pt-4-acentos", title: "Acentos e ortografia", emoji: "´", body: ptAcentos },
         { id: "pt-4-autores", title: "Histórias e autores portugueses", emoji: "✍️", body: ptAutores },
         { id: "pt-4-debater", title: "Ouvir, opinar e debater", emoji: "💬", body: ptDebater },
+        { id: "pt-4-prefixos-sufixos", title: "Prefixos e sufixos", emoji: "🧱", body: ptPrefixos },
+        { id: "pt-4-frase-complexa", title: "Frase simples e frase complexa", emoji: "🔗", body: ptFraseComplexa },
+        { id: "pt-4-noticia", title: "A notícia", emoji: "📰", body: ptNoticia },
+        { id: "pt-4-hifen-x", title: "O hífen e o «x»", emoji: "✖️", body: ptHifenX },
       ],
     },
   },
@@ -554,10 +622,95 @@ export const estudoSubject: Subject = {
   },
 };
 
-/** Every subject INCLUDING the cross-cutting "O Mundo" and "Saber de cor" areas
- *  — used for lookups, global search and achievements. The home screen lists
- *  the school subjects per year and these two areas as their own sections. */
-export const subjects: Subject[] = [...schoolSubjects, mundoSubject, estudoSubject];
+/* "O Dicionário" — a cross-cutting reference area (like "Saber de cor", NOT a
+ * school subject and NOT tied to a grade): word meanings for early readers,
+ * organised by letter. Each letter is one page (its single tier-1 "lesson")
+ * holding a `dictionary` widget of read-aloud word cards. The area is never
+ * shown as "X.º ano" (see tierLabel + isDicionario). All 26 letters are here,
+ * including K, W and Y — whose pages hold mostly words borrowed from other
+ * languages (kiwi, wi-fi, ioga), with a note for the child. */
+export const dicionarioSubject: Subject = {
+  id: "dicionario",
+  label: site.dicionario.sectionTitle,
+  emoji: "📖",
+  color: "var(--subj-pt)",
+  colorSoft: "var(--subj-pt-soft)",
+  blurb: site.dicionario.sectionSub,
+  years: {
+    1: [
+      { id: "dic-a", title: "A", emoji: "🍎", body: dicA },
+      { id: "dic-b", title: "B", emoji: "🐝", body: dicB },
+      { id: "dic-c", title: "C", emoji: "🐱", body: dicC },
+      { id: "dic-d", title: "D", emoji: "🦷", body: dicD },
+      { id: "dic-e", title: "E", emoji: "🐘", body: dicE },
+      { id: "dic-f", title: "F", emoji: "🔥", body: dicF },
+      { id: "dic-g", title: "G", emoji: "🐈", body: dicG },
+      { id: "dic-h", title: "H", emoji: "🌿", body: dicH },
+      { id: "dic-i", title: "I", emoji: "🏝️", body: dicI },
+      { id: "dic-j", title: "J", emoji: "🪟", body: dicJ },
+      { id: "dic-k", title: "K", emoji: "🥝", body: dicK },
+      { id: "dic-l", title: "L", emoji: "🌙", body: dicL },
+      { id: "dic-m", title: "M", emoji: "🐈", body: dicM },
+      { id: "dic-n", title: "N", emoji: "☁️", body: dicN },
+      { id: "dic-o", title: "O", emoji: "🥚", body: dicO },
+      { id: "dic-p", title: "P", emoji: "🦆", body: dicP },
+      { id: "dic-q", title: "Q", emoji: "🧀", body: dicQ },
+      { id: "dic-r", title: "R", emoji: "🐀", body: dicR },
+      { id: "dic-s", title: "S", emoji: "☀️", body: dicS },
+      { id: "dic-t", title: "T", emoji: "🐢", body: dicT },
+      { id: "dic-u", title: "U", emoji: "🍇", body: dicU },
+      { id: "dic-v", title: "V", emoji: "🐄", body: dicV },
+      { id: "dic-w", title: "W", emoji: "🧇", body: dicW },
+      { id: "dic-x", title: "X", emoji: "♟️", body: dicX },
+      { id: "dic-y", title: "Y", emoji: "🧘", body: dicY },
+      { id: "dic-z", title: "Z", emoji: "🦓", body: dicZ },
+    ],
+    2: [],
+    3: [],
+    4: [],
+  },
+};
+
+/* "Países" — a get-to-know-a-country area (like "O Mundo" and "Saber de cor",
+ * NOT a school subject and NOT tied to a grade). Each COUNTRY reuses a 1–4
+ * "year" slot for storage/lookup only; it's named and shown as the country,
+ * never as a grade (see tierLabel + isPaises). The two countries hold the SAME
+ * set of parallel lessons (o país, a bandeira, o hino, a comida, a natureza, as
+ * curiosidades) so a child can compare them side by side. */
+export const paisesSubject: Subject = {
+  id: "paises",
+  label: site.paises.sectionTitle,
+  emoji: "🌍",
+  color: "var(--subj-paises)",
+  colorSoft: "var(--subj-paises-soft)",
+  blurb: site.paises.sectionSub,
+  years: {
+    1: [
+      { id: "paises-pt-pais", title: "Portugal: o país", emoji: "🇵🇹", body: paisesPtPais, pais: "Portugal" },
+      { id: "paises-pt-bandeira", title: "A bandeira e os símbolos", emoji: "🏳️", body: paisesPtBandeira, pais: "Portugal" },
+      { id: "paises-pt-hino", title: "O hino: «A Portuguesa»", emoji: "🎵", body: paisesPtHino, pais: "Portugal" },
+      { id: "paises-pt-comida", title: "Comida e tradições", emoji: "🍽️", body: paisesPtComida, pais: "Portugal" },
+      { id: "paises-pt-natureza", title: "Natureza e animais", emoji: "🌳", body: paisesPtNatureza, pais: "Portugal" },
+      { id: "paises-pt-curiosidades", title: "Curiosidades e recordes", emoji: "✨", body: paisesPtCuriosidades, pais: "Portugal" },
+    ],
+    2: [
+      { id: "paises-ca-pais", title: "Canadá: o país", emoji: "🇨🇦", body: paisesCaPais, pais: "Canadá" },
+      { id: "paises-ca-bandeira", title: "A bandeira e os símbolos", emoji: "🍁", body: paisesCaBandeira, pais: "Canadá" },
+      { id: "paises-ca-hino", title: "O hino: «O Canada»", emoji: "🎵", body: paisesCaHino, pais: "Canadá" },
+      { id: "paises-ca-comida", title: "Comida e tradições", emoji: "🍁", body: paisesCaComida, pais: "Canadá" },
+      { id: "paises-ca-natureza", title: "Natureza e animais", emoji: "🐻", body: paisesCaNatureza, pais: "Canadá" },
+      { id: "paises-ca-curiosidades", title: "Curiosidades e recordes", emoji: "✨", body: paisesCaCuriosidades, pais: "Canadá" },
+    ],
+    3: [],
+    4: [],
+  },
+};
+
+/** Every subject INCLUDING the cross-cutting "O Mundo", "Saber de cor",
+ *  "O Dicionário" and "Países" areas — used for lookups, global search and
+ *  achievements. The home screen lists the school subjects per year and these
+ *  areas as their own sections. */
+export const subjects: Subject[] = [...schoolSubjects, mundoSubject, estudoSubject, dicionarioSubject, paisesSubject];
 
 export const YEARS: YearN[] = [1, 2, 3, 4];
 export const yearLabel = (y: YearN) => `${y}.º ano`;
@@ -569,6 +722,21 @@ export const ESTUDO_ID = "estudo";
 export const isEstudo = (subjectId: string): boolean => subjectId === ESTUDO_ID;
 /** The study area's topics (its single, non-grade tier). */
 export const estudoTopics = estudoSubject.years[1];
+
+export const DICIONARIO_ID = "dicionario";
+export const isDicionario = (subjectId: string): boolean => subjectId === DICIONARIO_ID;
+/** The dictionary's letters (its single, non-grade tier). */
+export const dicionarioLetters = dicionarioSubject.years[1];
+
+/* The countries of the "Países" area. Each country maps onto a 1–4 "year" slot,
+ * but is named and shown as the country, never as a grade. Presentation (label,
+ * blurb, icon) comes from the YAML page config; lesson lists stay in
+ * paisesSubject above. */
+export const PAISES_ID = "paises";
+export const isPaises = (subjectId: string): boolean => subjectId === PAISES_ID;
+export type PaisRing = PaisConfig;
+export const paisesCountries: PaisRing[] = site.paises.countries;
+const PAIS_TIER_LABEL = Object.fromEntries(paisesCountries.map((c) => [c.tier, c.label])) as Record<YearN, string>;
 
 /* The proximity rings of "O Mundo" (home → world). Each ring maps onto the
  * 1–4 "year" slot, but is named and described as a ring, never as a grade.
@@ -595,7 +763,8 @@ const MUNDO_RING_LABEL = Object.fromEntries(mundoRings.map((r) => [r.ring, r.lab
  *  proximity ring for "O Mundo", or nothing for the grade-less study area. */
 export function tierLabel(subjectId: string, tier: YearN): string {
   if (isMundo(subjectId)) return MUNDO_RING_LABEL[tier];
-  if (isEstudo(subjectId)) return ""; // not grade-based, no tier label
+  if (isPaises(subjectId)) return PAIS_TIER_LABEL[tier]; // the country name, never a grade
+  if (isEstudo(subjectId) || isDicionario(subjectId)) return ""; // not grade-based, no tier label
   return yearLabel(tier);
 }
 

@@ -280,6 +280,14 @@ export const ICONS = {
       <circle cx="16.5" cy="19" r="1.4" />
     </>
   ),
+  // A phone/tablet — the "Tecnologia" shelf in the shop.
+  device: (
+    <>
+      <rect x="6.5" y="3" width="11" height="18" rx="2.5" />
+      <path d="M10 5.5h4" />
+      <circle cx="12" cy="18.3" r="1" />
+    </>
+  ),
   fraction: (
     <>
       <circle cx="12" cy="12" r="8.5" />

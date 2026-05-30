@@ -13,6 +13,11 @@ import {
   estudoSubject,
   estudoTopics,
   isEstudo,
+  dicionarioSubject,
+  isDicionario,
+  paisesSubject,
+  paisesCountries,
+  isPaises,
   subjectById,
   findLesson,
   lessonMeta,
@@ -55,6 +60,8 @@ const SUBJECT_ICON: Record<string, IconName> = {
   ingles: "language",
   mundo: "compass",
   estudo: "star",
+  dicionario: "letters",
+  paises: "map",
   cidadania: "heart",
   artistica: "palette",
   fisica: "body",
@@ -112,6 +119,10 @@ const LESSON_ICON: Record<string, IconName> = {
   "mundo-3-vizinhos": "people", "mundo-3-animais-oceano": "wave2",
   "mundo-4-continentes": "world", "mundo-4-fusos": "clock", "mundo-4-maravilhas": "castle",
   "mundo-4-animais": "paw", "mundo-4-bandeiras": "flag",
+  "paises-pt-pais": "map", "paises-pt-bandeira": "flag", "paises-pt-hino": "quote",
+  "paises-pt-comida": "apple", "paises-pt-natureza": "paw", "paises-pt-curiosidades": "sparkle",
+  "paises-ca-pais": "map", "paises-ca-bandeira": "flag", "paises-ca-hino": "quote",
+  "paises-ca-comida": "apple", "paises-ca-natureza": "paw", "paises-ca-curiosidades": "sparkle",
   "cid-1-direitos": "tag", "cid-1-reciclar": "plant", "cid-1-diferentes": "people",
   "cid-2-emocoes": "heart", "cid-2-poupar": "coin", "cid-2-ajudar": "people",
   "cid-3-internet": "lock", "cid-3-igualdade": "people", "cid-3-consumir": "tip",
@@ -228,6 +239,8 @@ function Root() {
             onPick={(year) => go({ kind: "year", year })}
             onPickRing={(ring) => go({ kind: "subject", year: ring, subjectId: mundoSubject.id })}
             onOpenMundo={() => go({ kind: "mundo" })}
+            onOpenDicionario={() => go({ kind: "subject", year: 1, subjectId: dicionarioSubject.id })}
+            onPickCountry={(tier) => go({ kind: "subject", year: tier, subjectId: paisesSubject.id })}
             onOpenLesson={(lessonId) => {
               const m = lessonMeta.get(lessonId);
               if (m) go({ kind: "lesson", year: m.year, subjectId: m.subjectId, lessonId });
@@ -356,9 +369,24 @@ function TopBar({
                   </span>
                 )}
               </>
-            ) : subject && isEstudo(subject.id) ? (
-              // "Saber de cor" — grade-less study area, never "X.º ano". Just the
-              // area name (a link back to its overview when on a topic).
+            ) : subject && isPaises(subject.id) ? (
+              // "Países" — country profiles, never "X.º ano". Show the country
+              // name (a link back to that country's lesson list when on a lesson).
+              deeperThanSubject ? (
+                <button className="crumb-link" style={{ color: subject.color }} onClick={() => onGo({ kind: "subject", year: view.year, subjectId: subject.id })}>
+                  <Icon name={(paisesCountries.find((c) => c.tier === view.year)?.icon ?? SUBJECT_ICON[subject.id]) as IconName} size={18} />
+                  {tierLabel(subject.id, view.year)}
+                </button>
+              ) : (
+                <span style={{ color: subject.color, display: "inline-flex", alignItems: "center", gap: 4 }}>
+                  <Icon name={(paisesCountries.find((c) => c.tier === view.year)?.icon ?? SUBJECT_ICON[subject.id]) as IconName} size={18} />
+                  {tierLabel(subject.id, view.year)}
+                </span>
+              )
+            ) : subject && (isEstudo(subject.id) || isDicionario(subject.id)) ? (
+              // "Saber de cor" / "O Dicionário" — grade-less areas, never
+              // "X.º ano". Just the area name (a link back to its overview when
+              // on a topic/letter).
               deeperThanSubject ? (
                 <button className="crumb-link" style={{ color: subject.color }} onClick={() => onGo({ kind: "subject", year: view.year, subjectId: subject.id })}>
                   <Icon name={SUBJECT_ICON[subject.id]} size={18} /> {subject.label}
@@ -553,11 +581,15 @@ function Home({
   onPick,
   onPickRing,
   onOpenMundo,
+  onOpenDicionario,
+  onPickCountry,
   onOpenLesson,
 }: {
   onPick: (year: YearN) => void;
   onPickRing: (ring: YearN) => void;
   onOpenMundo: () => void;
+  onOpenDicionario: () => void;
+  onPickCountry: (tier: YearN) => void;
   onOpenLesson: (lessonId: string) => void;
 }) {
   const { progress, history, totalStars } = useProgress();
@@ -672,6 +704,61 @@ function Home({
           />
         ))}
       </div>
+
+      {/* "O Dicionário" — a cross-cutting reference area (not a school subject,
+          not a grade): word meanings for early readers, by letter. Its own home
+          section; one card opens the A–Z letters grid (the SubjectView). */}
+      <h2 className="section-title" style={{ marginTop: 36 }}>
+        <span style={{ color: dicionarioSubject.color, display: "inline-flex" }}>
+          <Icon name={SUBJECT_ICON[dicionarioSubject.id]} size={26} />
+        </span>
+        {site.dicionario.sectionTitle}
+      </h2>
+      <p className="section-sub">{site.dicionario.sectionSub}</p>
+      <div className="card-grid">
+        <BigCard
+          iconName={SUBJECT_ICON[dicionarioSubject.id]}
+          kicker="Dicionário"
+          title="As palavras de A a Z"
+          color={dicionarioSubject.color}
+          colorSoft={dicionarioSubject.colorSoft}
+          sub={<span className="sub">Escolhe uma letra para veres o que as palavras significam</span>}
+          say="O Dicionário. Escolhe uma letra para veres o que as palavras significam."
+          onClick={onOpenDicionario}
+        />
+      </div>
+
+      {/* "Países" — a get-to-know-a-country area (not a school subject, not a
+          grade). One card per country; each opens its own section of parallel
+          lessons (o país, a bandeira, o hino, a comida, a natureza, as
+          curiosidades) so the child can compare the two side by side. */}
+      <h2 className="section-title" style={{ marginTop: 36 }}>
+        <span style={{ color: paisesSubject.color, display: "inline-flex" }}>
+          <Icon name={SUBJECT_ICON[paisesSubject.id]} size={26} />
+        </span>
+        {site.paises.sectionTitle}
+      </h2>
+      <p className="section-sub">{site.paises.sectionSub}</p>
+      <div className="card-grid">
+        {paisesCountries.map((c) => {
+          const st = yearStats(progress, paisesSubject, c.tier);
+          return (
+            <BigCard
+              key={c.tier}
+              iconName={c.icon as IconName}
+              kicker="Países"
+              title={c.label}
+              color={paisesSubject.color}
+              colorSoft={paisesSubject.colorSoft}
+              sub={<span className="sub">{c.blurb}</span>}
+              say={`${c.label}. ${c.blurb}.`}
+              onClick={() => onPickCountry(c.tier)}
+            >
+              <CardProgress pct={pctOf(st)} done={st.done} real={st.real} stars={st.stars} color={paisesSubject.color} />
+            </BigCard>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -752,31 +839,37 @@ function SubjectView({ subject, year, onPick }: { subject: Subject; year: YearN;
   const { progress } = useProgress();
   const lessons = subject.years[year];
   const tier = tierLabel(subject.id, year); // "" for the grade-less study area
+  const dict = isDicionario(subject.id);
   return (
     <div>
-      <Mascot message={`${subject.label}${tier ? ` • ${tier}` : ""}. Escolhe uma lição para começar!`} mood="happy" />
+      <Mascot message={dict ? `${subject.label}. Escolhe uma letra para veres o que as palavras significam!` : `${subject.label}${tier ? ` • ${tier}` : ""}. Escolhe uma lição para começar!`} mood="happy" />
       <h2 className="section-title">
         <span style={{ color: subject.color, display: "inline-flex" }}><Icon name={SUBJECT_ICON[subject.id]} size={26} /></span>
         {subject.label}
         {tier && <span style={{ color: "var(--ink-3)", fontWeight: 500 }}> · {tier}</span>}
       </h2>
-      <div className="card-grid cols-3">
+      {/* The dictionary shows one big-letter card per letter (like the year
+          cards); school/study lessons show their topic icon. */}
+      <div className={`card-grid ${dict ? "cols-4" : "cols-3"}`}>
         {lessons.map((l) => {
           const p = progress[l.id];
           const soon = !l.body;
           return (
             <BigCard
               key={l.id}
-              iconName={lessonIcon(subject.id, l)}
-              kicker={subject.label}
-              title={l.title}
+              iconName={dict ? undefined : lessonIcon(subject.id, l)}
+              numberLabel={dict ? l.title : undefined}
+              kicker={dict ? "Letra" : subject.label}
+              title={dict ? `Letra ${l.title}` : l.title}
               color={subject.color}
               colorSoft={subject.colorSoft}
               soon={soon}
-              say={`${l.title}.${soon ? " Em breve." : ""}`}
+              say={dict ? `Letra ${l.title}.` : `${l.title}.${soon ? " Em breve." : ""}`}
               onClick={() => onPick(l.id)}
               sub={
-                soon ? (
+                dict ? (
+                  <span className="sub">Toca para ver as palavras ›</span>
+                ) : soon ? (
                   <span className="tag"><Icon name="lock" size={13} /> Em breve</span>
                 ) : p?.done ? (
                   <Stars n={p.bestStars} />

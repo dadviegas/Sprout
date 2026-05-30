@@ -57,9 +57,9 @@ common sense, Açores → world). Single-page, no server; progress is local.
 ## Markdown/widget blocks (for lesson authors)
 
 `quiz`, `soundcards`, `clock`, `shape`, `numberline`, `tenframe`, `fraction`,
-`money`, `shop`, `solarsystem`, `daynight`, `tabuada`, `math`; infographics
-`stats`/`steps`/`compare`/`meters`/`keyvalue`/`quote`; callouts
-`> [!NOTE]/[!TIP]/…`. The `icon` field in `steps`/`keyvalue` accepts an
+`money`, `shop`, `solarsystem`, `daynight`, `tabuada`, `math`, `chart`,
+`dictionary`; infographics `stats`/`steps`/`compare`/`meters`/`keyvalue`/`quote`;
+callouts `> [!NOTE]/[!TIP]/…`. The `icon` field in `steps`/`keyvalue` accepts an
 `@sprout/icons` name or an emoji.
 
 - `money` has two modes: **collect** (`items` + `target` — tap coins to fill a
@@ -69,6 +69,35 @@ common sense, Açores → world). Single-page, no server; progress is local.
   body has `orbit`/`size`/`period`/`color`/`fact`, tap-to-hear, play/pause,
   honours `prefers-reduced-motion`. `daynight` is a spinning Earth showing which
   places are in day vs. night (the idea behind time zones).
+
+### Math & graphics (for "math e gráficos" in lessons)
+
+- `math` renders kid-friendly notation **without LaTeX/KaTeX** — pretty operators
+  (×, ÷, −, ≥, ≤, ≠) and **stacked fractions** written `a/b`. This is deliberate:
+  1.º ciclo, not algebra — don't reach for a math engine.
+  ````md
+  ```math
+  { "expr": "1/2 + 1/4 = 3/4", "say": "um meio mais um quarto é igual a três quartos" }
+  ```
+  ````
+  `say` is the optional read-aloud text; without it one is built from `expr`.
+- `chart` draws a **bar / pie / line** chart as plain inline SVG — no chart
+  library, coloured from the design tokens, with a read-aloud speaker. Fields:
+  `type` (`bar`|`pie`|`line`, default `bar`), `labels` (one per point), `data`
+  (numbers, same length as `labels`), optional `title`, `unit` (e.g. `"milhões"`,
+  spoken and shown), `colors` (override the token palette), and `say` (read-aloud
+  override). Use `bar`/`line` to compare amounts, `pie` for parts of a whole
+  (slices show %). Example — comparing two countries (e.g. Portugal vs. Canadá):
+  ````md
+  ```chart
+  { "type": "bar", "title": "População (milhões)",
+    "labels": ["Portugal", "Canadá"], "data": [10, 39],
+    "unit": "milhões",
+    "say": "Portugal tem cerca de 10 milhões; o Canadá tem cerca de 39." }
+  ```
+  ````
+  For a side-by-side fact table (capital, área, língua…) prefer the `compare`
+  infographic; reach for `chart` when a number is worth *seeing* as bars/slices.
 
 ## Commands
 

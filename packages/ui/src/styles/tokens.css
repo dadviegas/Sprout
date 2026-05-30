@@ -42,6 +42,7 @@
   --subj-cid:    #e07b00;  --subj-cid-soft: #fceacf;
   --subj-art:    #c0299a;  --subj-art-soft: #fbd9f0;
   --subj-fis:    #e0392b;  --subj-fis-soft: #fbdad7;
+  --subj-paises: #4b54d6;  --subj-paises-soft:#e1e3fb;
 
   --shadow-color: 220 25% 45%;
 }
@@ -84,6 +85,7 @@
   --subj-cid:    #ffb44d;  --subj-cid-soft: #2c1d05;
   --subj-art:    #f178c7;  --subj-art-soft: #2c0c22;
   --subj-fis:    #ff7a6e;  --subj-fis-soft: #2e110e;
+  --subj-paises: #9aa0ff;  --subj-paises-soft:#181a3a;
 
   --shadow-color: 220 50% 2%;
 }

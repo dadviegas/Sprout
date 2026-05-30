@@ -21,6 +21,33 @@ estudo:
   sectionTitle: Saber de cor
   sectionSub: "Coisas para saber de cor — toca para ouvir e treinar! 🧠"
 
+# "O Dicionário" — a cross-cutting reference area (not a school subject, not tied
+# to a grade): word meanings for early readers, organised by letter. Each letter
+# is its own page (a "lesson") that lists words as read-aloud cards. The letters
+# live in content/curriculum.ts (dicionarioSubject); this owns the section copy.
+dicionario:
+  sectionTitle: O Dicionário
+  sectionSub: "O que significam as palavras? Escolhe uma letra e toca para ouvir! 📖"
+
+# "Países" — get-to-know-a-country area (not a school subject, not tied to a
+# grade). One card per country on the home screen; each opens its own section
+# of parallel lessons (o país, bandeira, hino, comida, natureza, curiosidades).
+# Each country's `tier` number links to the matching tier in curriculum.ts.
+# Built so two countries sit side by side with the SAME lessons — easy to
+# compare, easy to add more later (up to four tiers).
+paises:
+  sectionTitle: Países
+  sectionSub: "Conhece dois países de cima a baixo — e compara-os! 🌍"
+  countries:
+    - tier: 1
+      label: Portugal
+      blurb: "O nosso país: bandeira, hino, comida e recordes"
+      icon: flag
+    - tier: 2
+      label: Canadá
+      blurb: "Um país enorme de neve, florestas e lagos"
+      icon: flag
+
 # "O Mundo & Curiosidades" — common-sense / general-culture area (not a school
 # subject, not tied to a grade). Açores and Portugal sit on the home screen;
 # the wider world is gathered under the "beyond" entry. Each ring's `ring`

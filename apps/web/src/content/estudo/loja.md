@@ -10,10 +10,11 @@ sério. E se pagares **a mais**, a caixa diz-te quanto é o **troco**! 🎧
     "Escolher produtos e pôr no carrinho",
     "Somar o preço de tudo o que escolhes",
     "Pagar com notas e moedas (podes juntar muitas!)",
+    "Pagar coisas caras com as notas grandes — até à de 500€",
     "Perceber o que é o troco quando pagas a mais"
   ],
-  "examples": ["Bola = 5€", "2 maçãs = 1€", "Pago 10€ por 7€ → troco 3€"],
-  "say": "Vamos às compras! Vais escolher produtos, pôr no carrinho, somar os preços e pagar com notas e moedas. Se pagares a mais, há troco!"
+  "examples": ["Bola = 5€", "2 maçãs = 1€", "Pago 10€ por 7€ → troco 3€", "iPad = 449,99€ → notas de 200€ + 50€"],
+  "say": "Vamos às compras! Vais escolher produtos, pôr no carrinho, somar os preços e pagar com notas e moedas. Há coisas baratas e coisas caras, como um iPad ou um computador. Se pagares a mais, há troco!"
 }
 ```
 
@@ -48,15 +49,19 @@ custa. É fácil de descobrir: **o que deste − o que custa**.
 
 ## A loja 🏬
 
-Enche o carrinho, vai à caixa e paga! Não há respostas erradas — **experimenta**
-à vontade. 😄
+Enche o carrinho, vai à caixa e paga! Há **brinquedos**, **comida** e até uma
+prateleira de **Tecnologia** com coisas **caras** — um **iPad**, um **iPhone**,
+um **Mac**… Para as pagares, precisas das **notas grandes**: a caixa tem desde a
+de 5€ até à de **500€**, a maior que existe! Não há respostas erradas —
+**experimenta** à vontade. 😄
 
 ```shop
 { "title": "A loja do Sprout" }
 ```
 
 > [!TIP] Para pagar **mais depressa**, começa pela **nota maior** e só depois
-> juntas as moedas pequeninas para acertar os cêntimos. 💶🪙
+> juntas as moedas pequeninas para acertar os cêntimos. Um **iPad de 449,99€**?
+> Duas notas de **200€**, uma de **50€** e ainda faltam os cêntimos! 💶🪙
 
 > **Para saberes mais 🌱** Quando uma loja não tem a moeda certa para o troco,
 > em Portugal **arredonda** ao cêntimo mais próximo. Por isso é que às vezes uma

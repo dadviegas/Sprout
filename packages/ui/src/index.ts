@@ -50,3 +50,7 @@ export { Tabuada } from "./widgets/Tabuada";
 export type { TabuadaSpec } from "./widgets/Tabuada";
 export { MathBlock } from "./widgets/MathBlock";
 export type { MathSpec } from "./widgets/MathBlock";
+export { Chart } from "./widgets/Chart";
+export type { ChartSpec } from "./widgets/Chart";
+export { Dictionary } from "./widgets/Dictionary";
+export type { DictionarySpec, DictEntry } from "./widgets/Dictionary";

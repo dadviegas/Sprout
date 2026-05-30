@@ -18,11 +18,12 @@ export interface ShopSpec {
   only?: string[];
 }
 
-// Notes + coins the till offers, biggest first (pay big, top up with small).
-// Includes 2c and 1c so odd-cent prices (e.g. 10,66 €) can be paid exactly.
-const PALETTE = [50, 20, 10, 5, 2, 1, 0.5, 0.2, 0.1, 0.05, 0.02, 0.01];
-// Every value the till can hand back as change, biggest first (greedy makes change).
-const CHANGE_VALUES = [500, 200, 100, 50, 20, 10, 5, 2, 1, 0.5, 0.2, 0.1, 0.05, 0.02, 0.01];
+// Every euro note and coin, biggest first: the till offers the full range to pay
+// with — up to the 500€ note, so even an iPad or a Mac is payable — and includes
+// 2c and 1c so odd-cent prices (e.g. 10,66 €) can be paid exactly.
+const PALETTE = [500, 200, 100, 50, 20, 10, 5, 2, 1, 0.5, 0.2, 0.1, 0.05, 0.02, 0.01];
+// Change is handed back from the same set, biggest first (greedy makes change).
+const CHANGE_VALUES = PALETTE;
 
 const cents = (v: number) => Math.round(v * 100);
 
@@ -82,6 +83,7 @@ const CAT_TABS: { id: "tudo" | ShopCat; label: string; icon: IconName }[] = [
   { id: "tudo", label: "Tudo", icon: "grid" },
   { id: "brinquedo", label: "Brinquedos", icon: "teddy" },
   { id: "comida", label: "Comida", icon: "apple" },
+  { id: "tecnologia", label: "Tecnologia", icon: "device" },
 ];
 
 function Art({ id }: { id: string }) {

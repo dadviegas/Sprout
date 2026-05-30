@@ -15,8 +15,10 @@ import {
   SolarSystem, type SolarSystemSpec,
   DayNight, type DayNightSpec,
   SoundCards, type SoundCardsSpec,
+  Dictionary, type DictionarySpec,
   Tabuada, type TabuadaSpec,
   MathBlock, type MathSpec,
+  Chart, type ChartSpec,
   Speaker,
 } from "@sprout/ui";
 import { Quiz, type QuizSpec } from "./Quiz";
@@ -132,6 +134,9 @@ const infographicRenderers: Record<string, (json: unknown) => ReactNode> = {
   },
 };
 
+/** Portuguese-aware, accent-insensitive sort for dictionary word cards. */
+const dictCollator = new Intl.Collator("pt", { sensitivity: "base" });
+
 const widgetRenderers: Record<string, (json: unknown) => ReactNode> = {
   shape: (d) => <Shape spec={d as ShapeSpec} />,
   clock: (d) => <Clock spec={d as ClockSpec} />,
@@ -143,8 +148,16 @@ const widgetRenderers: Record<string, (json: unknown) => ReactNode> = {
   solarsystem: (d) => <SolarSystem spec={d as SolarSystemSpec} />,
   daynight: (d) => <DayNight spec={d as DayNightSpec} />,
   soundcards: (d) => <SoundCards spec={d as SoundCardsSpec} />,
+  dictionary: (d) => {
+    // Show the word cards alphabetically (pt collation: á sorts with a),
+    // so authors don't have to hand-sort the entries in the .md block.
+    const spec = d as DictionarySpec;
+    const entries = [...spec.entries].sort((a, b) => dictCollator.compare(a.word, b.word));
+    return <Dictionary spec={{ ...spec, entries }} />;
+  },
   tabuada: (d) => <Tabuada spec={d as TabuadaSpec} />,
   math: (d) => <MathBlock spec={d as MathSpec} />,
+  chart: (d) => <Chart spec={d as ChartSpec} />,
 };
 
 function jsonError(lang: string, e: unknown): ReactNode {

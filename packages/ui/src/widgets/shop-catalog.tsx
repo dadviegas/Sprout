@@ -1,14 +1,16 @@
 import type { ReactNode } from "react";
 
-/* The Sprout shop's goods — toys and food a child actually wants — each with a
- * hand-drawn, colourful SVG. Kept apart from the Shop widget's logic so the
- * catalogue reads as plain data. Most prices carry real cents (e.g. 10,66 €), so
- * the child practises paying odd amounts — the till offers 1c and 2c coins too,
- * so any total can still be paid exactly (and any change made) with euro coins.
+/* The Sprout shop's goods — toys, food and a few pricey gadgets a child actually
+ * wants — each with a hand-drawn, colourful SVG. Kept apart from the Shop
+ * widget's logic so the catalogue reads as plain data. Most prices carry real
+ * cents (e.g. 10,66 €), so the child practises paying odd amounts — the till
+ * offers 1c and 2c coins too, so any total can still be paid exactly (and any
+ * change made) with euro coins. The "tecnologia" shelf climbs into the hundreds,
+ * so the till's big notes (100€, 200€, 500€) finally get used.
  *
  * Every drawing lives on a 0–48 canvas; the Shop wraps it in one <svg>. */
 
-export type ShopCat = "brinquedo" | "comida";
+export type ShopCat = "brinquedo" | "comida" | "tecnologia";
 
 export interface ShopProduct {
   id: string; // also the key into PRODUCT_ART
@@ -512,6 +514,91 @@ export const PRODUCT_ART: Record<string, ReactNode> = {
       <circle cx="21" cy="26" r="1.6" fill="#ff922b" />
     </>
   ),
+  nutella: (
+    <>
+      <rect x="15" y="13" width="18" height="27" rx="3" fill="#f1e3d3" />
+      <rect x="16" y="8" width="16" height="6" rx="2" fill="#c0392b" />
+      <rect x="17" y="19" width="14" height="13" rx="1.5" fill="#fff" />
+      <ellipse cx="24" cy="26" rx="6" ry="5" fill="#6b3410" />
+      <path d="M21 24c1.5 1.5 4.5 1.5 6 0" stroke="#f1e3d3" strokeWidth="1.4" fill="none" strokeLinecap="round" />
+    </>
+  ),
+  bongo: (
+    <>
+      <rect x="15" y="14" width="18" height="26" rx="2" fill="#ff922b" />
+      <path d="M15 14h18v3.5H15z" fill="#e8590c" />
+      <path d="M30 14l4-8" stroke="#f06595" strokeWidth="2.5" strokeLinecap="round" />
+      <circle cx="24" cy="29" r="5.5" fill="#ffe066" />
+      <path d="M24 23.5v11M18.5 29h11" stroke="#fab005" strokeWidth="1.4" />
+    </>
+  ),
+  gomas: (
+    <>
+      <path d="M12 15h24l-2.5 25H14.5z" fill="#dee2e6" opacity="0.55" />
+      <circle cx="19" cy="24" r="4" fill="#ff6b6b" />
+      <circle cx="29" cy="22" r="4" fill="#69db7c" />
+      <circle cx="24" cy="31" r="4" fill="#ffd43b" />
+      <circle cx="18" cy="33" r="3.4" fill="#cc5de8" />
+      <circle cx="30" cy="32" r="3.4" fill="#4dabf7" />
+    </>
+  ),
+  chupa: (
+    <>
+      <circle cx="19" cy="16" r="11" fill="#ff6b6b" />
+      <path d="M19 16a3 3 0 0 1 3-3 5 5 0 0 1 5 5 7 7 0 0 1-7 7 9 9 0 0 1-9-9" fill="none" stroke="#fff" strokeWidth="2" />
+      <rect x="17.7" y="26" width="2.6" height="15" rx="1.3" fill="#e9ecef" stroke="#ced4da" strokeWidth="0.8" />
+    </>
+  ),
+  sumol: (
+    <>
+      <rect x="16" y="9" width="16" height="31" rx="3" fill="#ff922b" />
+      <ellipse cx="24" cy="9" rx="8" ry="2.2" fill="#ced4da" />
+      <circle cx="24" cy="24" r="5.5" fill="#fff" fillOpacity="0.9" />
+      <circle cx="24" cy="24" r="3.2" fill="#ffd43b" />
+      <path d="M16 31h16" stroke="#e8590c" strokeWidth="2.2" />
+    </>
+  ),
+  // ---------------- tecnologia ----------------
+  iphone: (
+    <>
+      <rect x="16" y="6" width="16" height="36" rx="4" fill="#343a40" />
+      <rect x="18.5" y="11" width="11" height="24" rx="1.5" fill="#74c0fc" />
+      <rect x="21" y="8" width="6" height="1.6" rx="0.8" fill="#495057" />
+      <circle cx="24" cy="38.5" r="1.6" fill="#495057" />
+    </>
+  ),
+  ipad: (
+    <>
+      <rect x="9" y="5" width="30" height="38" rx="4" fill="#495057" />
+      <rect x="12" y="10" width="24" height="28" rx="1.5" fill="#74c0fc" />
+      <circle cx="24" cy="7.6" r="0.9" fill="#adb5bd" />
+      <circle cx="24" cy="40.4" r="1.4" fill="#adb5bd" />
+    </>
+  ),
+  mac: (
+    <>
+      <rect x="9" y="9" width="30" height="20" rx="2" fill="#343a40" />
+      <rect x="11.5" y="11.5" width="25" height="15" rx="1" fill="#74c0fc" />
+      <path d="M9 29h30l3 4H6z" fill="#adb5bd" />
+      <path d="M21 31h6" stroke="#868e96" strokeWidth="1.5" strokeLinecap="round" />
+    </>
+  ),
+  auscultadores: (
+    <>
+      <path d="M9 26v-3a15 15 0 0 1 30 0v3" fill="none" stroke="#343a40" strokeWidth="3" strokeLinecap="round" />
+      <rect x="6" y="24" width="7" height="13" rx="3" fill="#ff6b6b" />
+      <rect x="35" y="24" width="7" height="13" rx="3" fill="#ff6b6b" />
+    </>
+  ),
+  relogio: (
+    <>
+      <rect x="18" y="6" width="12" height="9" rx="2" fill="#495057" />
+      <rect x="18" y="33" width="12" height="9" rx="2" fill="#495057" />
+      <rect x="13" y="13" width="22" height="22" rx="6" fill="#343a40" />
+      <rect x="16" y="16" width="16" height="16" rx="4" fill="#69db7c" />
+      <path d="M24 20v4l2.5 1.6" stroke="#1b5e20" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+    </>
+  ),
 };
 
 /* The shop's shelves. Prices climb with the toy; food is pocket-money cheap.
@@ -576,4 +663,16 @@ export const CATALOG: ShopProduct[] = [
   { id: "pipocas", name: "Pipocas", price: 1.85, cat: "comida" },
   { id: "sandes", name: "Sandes", price: 2.49, cat: "comida" },
   { id: "cereais", name: "Cereais", price: 3, cat: "comida" },
+  // guloseimas e bebidas — favoritas dos miúdos
+  { id: "nutella", name: "Nutella", price: 3.49, cat: "comida" },
+  { id: "bongo", name: "Bongo", price: 0.89, cat: "comida" },
+  { id: "sumol", name: "Sumol", price: 0.95, cat: "comida" },
+  { id: "gomas", name: "Gomas", price: 1.2, cat: "comida" },
+  { id: "chupa", name: "Chupa-chupa", price: 0.3, cat: "comida" },
+  // tecnologia — coisas caras (centenas de euros): treina as notas grandes!
+  { id: "auscultadores", name: "Auscultadores", price: 149.9, cat: "tecnologia" },
+  { id: "relogio", name: "Relógio inteligente", price: 299, cat: "tecnologia" },
+  { id: "ipad", name: "iPad", price: 449.99, cat: "tecnologia" },
+  { id: "iphone", name: "iPhone", price: 799, cat: "tecnologia" },
+  { id: "mac", name: "Mac", price: 1199, cat: "tecnologia" },
 ];

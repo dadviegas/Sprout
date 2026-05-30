@@ -816,6 +816,51 @@
   border-radius: 50%; background: var(--primary-soft); color: var(--primary);
 }
 
+/* dictionary — word cards (emoji + word + simple meaning), each read aloud */
+.dictionary-widget { border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); }
+.dictionary-widget .w-badge { background: var(--accent); }
+/* "Ouvir tudo" — a pill (icon + label), pushed to the right of the head */
+.dict-hear-all {
+  margin-left: auto; flex-shrink: 0;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 999px; border: none;
+  background: var(--accent); color: #fff;
+  font-family: var(--font-display); font-weight: 700; font-size: .85em;
+  cursor: pointer; transition: transform .12s, filter .12s;
+}
+.dict-hear-all:hover { transform: translateY(-1px); filter: brightness(1.08); }
+.dict-hear-all:active { transform: translateY(0) scale(.97); }
+.dict-hear-all[data-playing] { filter: brightness(1.15); }
+.dict-grid {
+  display: grid; gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+.dict-card {
+  position: relative; text-align: left;
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 16px 16px 14px;
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  border: 3px solid var(--border);
+  color: var(--ink);
+  transition: transform .15s cubic-bezier(.34,1.56,.64,1), border-color .15s;
+}
+.dict-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+.dict-card:active { transform: scale(.97); }
+.dict-card .dict-emoji { font-size: 2.2em; line-height: 1; }
+.dict-card .dict-word {
+  font-family: var(--font-display); font-weight: 800; font-size: 1.3em;
+  color: var(--accent); line-height: 1.1;
+  /* keep the word clear of the speaker badge in the corner */
+  padding-right: 26px;
+}
+.dict-card .dict-meaning { font-size: .92em; color: var(--ink-2); line-height: 1.35; }
+.dict-card .dict-speak {
+  position: absolute; top: 12px; right: 12px;
+  width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%; background: var(--accent-soft); color: var(--accent);
+}
+
 /* tabuada (read aloud: "três vezes dois é igual a seis") */
 .tabuada-widget { border-color: color-mix(in srgb, var(--subj-mat) 55%, var(--border)); }
 .tabuada-widget .w-badge { background: var(--subj-mat); }

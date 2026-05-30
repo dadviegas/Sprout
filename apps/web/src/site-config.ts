@@ -17,6 +17,15 @@ export interface MundoRingConfig {
   home: boolean;
 }
 
+export interface PaisConfig {
+  /** which tier slot (1–4) holds this country's lessons in curriculum.ts */
+  tier: YearN;
+  label: string;
+  blurb: string;
+  /** name of an @sprout/icons icon */
+  icon: string;
+}
+
 export interface SiteConfig {
   brand: { name: string; tagline: string };
   mascot: { name: string; emoji: string };
@@ -30,6 +39,17 @@ export interface SiteConfig {
   estudo: {
     sectionTitle: string;
     sectionSub: string;
+  };
+  /** "O Dicionário" — cross-cutting reference area copy (word meanings by letter). */
+  dicionario: {
+    sectionTitle: string;
+    sectionSub: string;
+  };
+  /** "Países" — get-to-know-a-country area; one card per country (Portugal, Canadá). */
+  paises: {
+    sectionTitle: string;
+    sectionSub: string;
+    countries: PaisConfig[];
   };
 }
 

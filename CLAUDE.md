@@ -56,12 +56,18 @@ common sense, Açores → world). Single-page, no server; progress is local.
 
 ## Markdown/widget blocks (for lesson authors)
 
-`quiz`, `soundcards`, `clock`, `shape`, `numberline`, `tenframe`, `fraction`,
-`money`, `shop`, `solarsystem`, `daynight`, `tabuada`, `math`, `chart`,
-`dictionary`; infographics `stats`/`steps`/`compare`/`meters`/`keyvalue`/`quote`;
+`quiz`, `soundcards`, `clock`, `shape`, `angle`, `numberline`, `tenframe`,
+`fraction`, `money`, `shop`, `solarsystem`, `daynight`, `tabuada`, `math`,
+`chart`, `dictionary`; infographics `stats`/`steps`/`compare`/`meters`/`keyvalue`/`quote`;
 callouts `> [!NOTE]/[!TIP]/…`. The `icon` field in `steps`/`keyvalue` accepts an
 `@sprout/icons` name or an emoji.
 
+- `angle` draws an angle as inline SVG — a vertex with two sides (semirretas), a
+  tinted opening arc, the little square at exactly 90°, and a live name
+  (agudo/reto/obtuso/raso) read aloud. Interactive by default (drag the tip or
+  use −/+ to open/close the "boca de crocodilo"); pass `"interactive": false`
+  for a fixed reference diagram. Fields: `angle` (0–180, default 45), `title`,
+  `color` (subject key, default `mat`).
 - `money` has two modes: **collect** (`items` + `target` — tap coins to fill a
   mealheiro) and **pay** (`price` — tap a notes+coins palette to build exactly
   the amount to pay). Passing `price` selects pay mode.

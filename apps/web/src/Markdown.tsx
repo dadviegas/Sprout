@@ -6,6 +6,7 @@ import {
   Callout, type CalloutKind,
   StatGrid, Steps, Compare, Quote, Meters, KeyValueGrid,
   Shape, type ShapeSpec,
+  Angle, type AngleSpec,
   Clock, type ClockSpec,
   NumberLine, type NumberLineSpec,
   TenFrame, type TenFrameSpec,
@@ -139,6 +140,7 @@ const dictCollator = new Intl.Collator("pt", { sensitivity: "base" });
 
 const widgetRenderers: Record<string, (json: unknown) => ReactNode> = {
   shape: (d) => <Shape spec={d as ShapeSpec} />,
+  angle: (d) => <Angle spec={d as AngleSpec} />,
   clock: (d) => <Clock spec={d as ClockSpec} />,
   numberline: (d) => <NumberLine spec={d as NumberLineSpec} />,
   tenframe: (d) => <TenFrame spec={d as TenFrameSpec} />,

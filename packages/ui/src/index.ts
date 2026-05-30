@@ -42,6 +42,8 @@ export { NumberLine } from "./widgets/NumberLine";
 export type { NumberLineSpec } from "./widgets/NumberLine";
 export { Shape } from "./widgets/Shape";
 export type { ShapeKind, ShapeItem, ShapeSpec } from "./widgets/Shape";
+export { Angle } from "./widgets/Angle";
+export type { AngleSpec } from "./widgets/Angle";
 export { TenFrame } from "./widgets/TenFrame";
 export type { TenFrameSpec } from "./widgets/TenFrame";
 export { SoundCards } from "./widgets/SoundCards";

@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Icon } from "@sprout/icons";
+import type { DictEntry, DictionarySpec } from "@sprout/ui";
 import {
   subjects,
   YEARS,
   tierLabel,
+  DICIONARIO_ID,
   type YearN,
 } from "./content/curriculum";
 import type { View } from "./nav";
@@ -12,6 +14,8 @@ import type { View } from "./nav";
  * Command Center — a Cmd/Ctrl+K palette to search every lesson across
  * all subjects and years. Matches lesson titles AND body text, can be
  * filtered by year and subject, and shows a short preview of the match.
+ * It also searches the dictionary word-by-word: every word card across
+ * the letter pages is its own result that opens the page it lives on.
  * ------------------------------------------------------------------ */
 
 interface Entry {
@@ -112,9 +116,86 @@ function buildIndex(): Entry[] {
   return out;
 }
 
+/* ---- Dictionary words ------------------------------------------------ *
+ * The letter pages embed their word cards in a ```dictionary block. We pull
+ * those out so each word becomes its own searchable result that opens the
+ * page it lives on (the dictionary is not grade-based — see tierLabel). */
+
+interface WordEntry {
+  word: string;
+  meaning: string;
+  emoji?: string;
+  letter: string;     // the page's letter, e.g. "B" — shown on the result tag
+  lessonId: string;   // the letter page to open, e.g. "dic-b"
+  subjectLabel: string;
+  color: string;
+  fword: string;      // accent-folded word + meaning, for matching
+  fmeaning: string;
+}
+
+/** Pull the entries out of a lesson body's ```dictionary block. Returns [] if
+ *  there's no such block or its JSON is malformed (validated by `pnpm validate`). */
+function dictEntriesOf(body: string | undefined): DictEntry[] {
+  if (!body) return [];
+  const m = body.match(/```dictionary\s*\r?\n([\s\S]*?)\r?\n```/);
+  if (!m) return [];
+  try {
+    const spec = JSON.parse(m[1]) as DictionarySpec;
+    return Array.isArray(spec.entries) ? spec.entries : [];
+  } catch {
+    return [];
+  }
+}
+
+function buildWordIndex(): WordEntry[] {
+  const out: WordEntry[] = [];
+  const dic = subjects.find((s) => s.id === DICIONARIO_ID);
+  if (!dic) return out;
+  for (const l of dic.years[1]) {
+    for (const e of dictEntriesOf(l.body)) {
+      out.push({
+        word: e.word,
+        meaning: e.meaning,
+        emoji: e.emoji,
+        letter: l.title, // the page title is the letter, e.g. "B"
+        lessonId: l.id,
+        subjectLabel: dic.label,
+        color: dic.color,
+        fword: fold(e.word),
+        fmeaning: fold(e.meaning),
+      });
+    }
+  }
+  return out;
+}
+
 interface Hit extends Entry {
   score: number;
   preview: { before: string; match: string; after: string } | null;
+  /** present on dictionary-word results: the letter page they live on */
+  word?: { letter: string };
+}
+
+/** Map a matched dictionary word onto the shared Hit shape so it renders and
+ *  navigates like a lesson result (opening its letter page). */
+function wordToHit(w: WordEntry, score: number, q: string): Hit {
+  return {
+    lessonId: w.lessonId,
+    title: w.word,
+    emoji: w.emoji,
+    subjectId: DICIONARIO_ID,
+    subjectLabel: w.subjectLabel,
+    color: w.color,
+    year: 1,
+    hasBody: true,
+    text: w.meaning,
+    ftitle: w.fword,
+    ftext: w.fmeaning,
+    words: [],
+    score,
+    preview: makePreview(w.meaning, w.fmeaning, q),
+    word: { letter: w.letter },
+  };
 }
 
 /** Find `q` in `text` ignoring accents. `ftext` is the length-preserving fold
@@ -140,6 +221,7 @@ export function CommandCenter({
   onGo: (v: View) => void;
 }) {
   const index = useMemo(buildIndex, []);
+  const wordIndex = useMemo(buildWordIndex, []);
   const [q, setQ] = useState("");
   const [year, setYear] = useState<YearN | "all">("all");
   const [subjectId, setSubjectId] = useState<string | "all">("all");
@@ -185,8 +267,30 @@ export function CommandCenter({
       })
       .filter((e) => e.score > 0)
       .sort((a, b) => b.score - a.score || Number(b.hasBody) - Number(a.hasBody));
-    return ranked.slice(0, 40);
-  }, [index, q, year, subjectId]);
+
+    // Dictionary words: matched word-by-word and merged into the same list.
+    // The dictionary isn't grade-based, so word results follow only the
+    // subject filter (shown when "all" or the dictionary is selected), never
+    // the year filter. Skipped on an empty query so we don't list every word.
+    const includeWords = qWords.length > 0 && (subjectId === "all" || subjectId === DICIONARIO_ID);
+    const wordHits = !includeWords
+      ? []
+      : wordIndex
+          .map((w): Hit | null => {
+            let score = 0;
+            if (w.fword.startsWith(fq)) score = 6;
+            else if (w.fword.includes(fq)) score = 5;
+            else if (w.fmeaning.includes(fq)) score = 3;
+            else if (qWords.every((qw) => w.fword.includes(qw) || w.fmeaning.includes(qw) || fuzzyHits([w.fword], qw)))
+              score = 2;
+            return score ? wordToHit(w, score, q.trim()) : null;
+          })
+          .filter((h): h is Hit => h !== null);
+
+    return [...ranked, ...wordHits]
+      .sort((a, b) => b.score - a.score || Number(b.hasBody) - Number(a.hasBody))
+      .slice(0, 50);
+  }, [index, wordIndex, q, year, subjectId]);
 
   useEffect(() => setActive(0), [q, year, subjectId]);
 
@@ -267,7 +371,11 @@ export function CommandCenter({
               <span className="cmdk-row-main">
                 <span className="cmdk-row-top">
                   <span className="cmdk-row-title">{h.title}</span>
-                  <span className="cmdk-row-tag"><span className="cmdk-chip-dot" /> {h.subjectLabel} · {tierLabel(h.subjectId, h.year)}</span>
+                  <span className="cmdk-row-tag">
+                    <span className="cmdk-chip-dot" /> {h.subjectLabel}
+                    {(h.word?.letter ?? tierLabel(h.subjectId, h.year)) &&
+                      ` · ${h.word?.letter ?? tierLabel(h.subjectId, h.year)}`}
+                  </span>
                   {!h.hasBody && <span className="cmdk-soon">Em breve</span>}
                 </span>
                 {h.preview && (h.preview.before || h.preview.match || h.preview.after) && (

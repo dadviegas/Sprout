@@ -41,6 +41,12 @@ Um **ângulo** é a **abertura** entre duas semirretas que partem do mesmo ponto
 
 O pontinho onde as duas semirretas se juntam chama-se **vértice**, e cada linha é um **lado** do ângulo. O tamanho do ângulo **não** depende do comprimento dos lados — depende só de **quanto abre** a boca.
 
+Experimenta! Arrasta a ponta para abrir e fechar a boca do crocodilo e vê o ângulo a mudar de nome. 🐊
+
+```angle
+{ "title": "Abre e fecha a boca!", "angle": 45 }
+```
+
 ```keyvalue
 [
   { "k": "Vértice", "v": "o ponto onde o ângulo começa 📍" },
@@ -57,6 +63,20 @@ Há três ângulos que tens mesmo de conhecer. O **reto** é o «chefe» — med
 - **Reto**: a boca está aberta no canto certinho. Mede **90°**. ➕
 - **Agudo**: a boca está **mais fechada** que o reto — um ângulo pequenino. É **menor que 90°**. 🤏
 - **Obtuso**: a boca está **mais aberta** que o reto, bem escancarada. É **maior que 90°**. 😮
+
+Olha bem para os três, lado a lado — repara onde fica o canto certinho do reto:
+
+```angle
+{ "title": "Agudo (menos de 90°)", "angle": 40, "interactive": false, "color": "ok" }
+```
+
+```angle
+{ "title": "Reto (90° certinho)", "angle": 90, "interactive": false }
+```
+
+```angle
+{ "title": "Obtuso (mais de 90°)", "angle": 130, "interactive": false, "color": "accent" }
+```
 
 ```compare
 [

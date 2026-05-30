@@ -70,6 +70,7 @@ import matDecimais from "./matematica/ano4/decimais.md";
 import matArea from "./matematica/ano4/area-perimetro.md";
 import matDados from "./matematica/ano4/graficos-tabelas.md";
 import matProblemas from "./matematica/ano4/resolver-problemas.md";
+import matEstimar from "./matematica/ano4/estimar-arredondar.md";
 
 /* ---- Português ---- */
 import ptVogais from "./portugues/ano1/vogais.md";
@@ -317,6 +318,7 @@ export const schoolSubjects: Subject[] = [
       ],
       4: [
         { id: "mat-4-numeros-milhao", title: "Números até ao milhão", emoji: "🔢", body: matMilhao },
+        { id: "mat-4-estimar", title: "Estimar e arredondar", emoji: "🎯", body: matEstimar },
         { id: "mat-4-decimais", title: "Números decimais", emoji: "🔢", body: matDecimais },
         { id: "mat-4-fracoes-decimais", title: "Frações e decimais", emoji: "🍕", body: matFracDec },
         { id: "mat-4-area", title: "Área e perímetro", emoji: "📐", body: matArea },

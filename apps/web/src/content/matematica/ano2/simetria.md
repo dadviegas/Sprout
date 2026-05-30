@@ -17,6 +17,12 @@ Uma figura tem **simetria** quando uma metade é o **espelho** da outra. Se pude
 ]
 ```
 
+Carrega em **Espelhar** e vê a outra metade aparecer, igualzinha à primeira mas ao contrário — como num espelho! 🪞
+
+```symmetry
+{ "shape": "coracao" }
+```
+
 ## O eixo de simetria ✂️
 
 A linha onde **dobramos** a figura para as metades coincidirem chama-se **eixo de simetria**. É como uma dobra invisível que divide a figura em duas partes iguaizinhas. 📏
@@ -47,6 +53,12 @@ A simetria está em coisas que vês todos os dias! Algumas figuras são simétri
     { "label": "Um sapato 👟", "value": "o bico só está de um lado" }
   ] }
 ]
+```
+
+A borboleta é o exemplo perfeito: a asa da direita é o espelho da asa da esquerda. 🦋
+
+```symmetry
+{ "shape": "borboleta", "title": "A borboleta 🦋" }
 ```
 
 ## As letras maiúsculas 🔤

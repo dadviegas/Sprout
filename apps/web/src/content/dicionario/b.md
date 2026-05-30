@@ -87,7 +87,6 @@ Palavras que começam por **B**! Toca para ouvires o que significam. 👂
     { "word": "barulhento", "meaning": "Que faz muito barulho, muito alto e agitado." },
     { "word": "barulho", "meaning": "Um som forte e confuso que ouvimos ao nosso redor." },
     { "word": "bravo", "meaning": "Que está com raiva, ou que é corajoso e forte — depende do contexto!" },
-    { "word": "brincar", "meaning": "Divertires-te com jogos, brinquedos e amigos." },
     { "word": "bater", "meaning": "Dar pancadas em algo, como bater palmas ou bater à porta." },
     { "word": "buscar", "meaning": "Ir procurar e trazer alguma coisa ou alguém." },
     { "word": "bailar", "meaning": "Dançar ao ritmo da música, movendo o corpo com graça." },
@@ -193,7 +192,6 @@ Palavras que começam por **B**! Toca para ouvires o que significam. 👂
     { "word": "bolota de carvalho", "meaning": "O fruto do carvalho, uma bolotinha que cai no outono." },
     { "word": "bueiro", "meaning": "Uma abertura no chão da rua por onde a água da chuva escoa." },
     { "word": "buzio", "emoji": "🐚", "meaning": "Uma concha do mar, grande e enrolada, que produz um som quando sopramos nela." },
-    { "word": "búzio", "emoji": "🐚", "meaning": "Uma concha do mar grande e bonita onde podes ouvir o som das ondas." },
     { "word": "baloiçar", "meaning": "Mover-se de um lado para o outro suavemente, como num baloiço." },
     { "word": "baloiço de parque", "emoji": "🎡", "meaning": "O baloiço do parque infantil onde as crianças se embalam com alegria." },
     { "word": "balanço", "meaning": "O movimento de vai e vem, como quando estás no baloiço." },
@@ -209,7 +207,6 @@ Palavras que começam por **B**! Toca para ouvires o que significam. 👂
     { "word": "borracha de silicone", "meaning": "Um material maleável e macio usado para fazer moldes e objetos flexíveis." },
     { "word": "brincadeira", "meaning": "Uma atividade divertida que fazes por prazer, sem obrigações." },
     { "word": "bisavó", "emoji": "👵", "meaning": "A mãe da tua avó ou do teu avô, uma senhora muito especial." },
-    { "word": "bisavô", "emoji": "👴", "meaning": "O pai da tua avó ou do teu avô, um senhor com muitas histórias para contar." },
     { "word": "bebé gorducho", "meaning": "Um bebé rechonchudo e fofo, com bochechas rosadas." },
     { "word": "boné de pala", "emoji": "🧢", "meaning": "Um chapéu com uma aba à frente para proteger os olhos do sol." },
     { "word": "brinco de argola", "meaning": "Um brinco em forma de aro redondo que se usa na orelha." }

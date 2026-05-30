@@ -29,7 +29,6 @@ Palavras que começam por **U**! Toca para ouvires o que significam. 👂
     { "word": "ultrapassar", "meaning": "Ir mais além do que outro, como quando ultrapassas um carro na estrada." },
     { "word": "umidade", "meaning": "A sensação de ar molhado, como num dia depois da chuva." },
     { "word": "unifamiliar", "meaning": "Uma casa pensada para uma só família viver." },
-    { "word": "unânime", "meaning": "Quando todos estão de acordo, sem ninguém discordar." },
     { "word": "usufruir", "meaning": "Aproveitar algo com prazer, como usufruir de um dia de sol." },
     { "word": "útero", "meaning": "A parte do corpo da mãe onde o bebé cresce antes de nascer." },
     { "word": "urologia", "meaning": "A área da medicina que cuida dos rins e do xixi." },

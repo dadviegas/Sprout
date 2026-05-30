@@ -64,7 +64,11 @@ Os **pontos cardeais** são as **4 direções principais** que nos ajudam a sabe
 ]
 ```
 
-A **rosa dos ventos** é um desenho parecido com uma estrela que mostra todos os pontos cardeais de uma vez. 🌹 Vês quase sempre uma num canto do mapa.
+A **rosa dos ventos** é um desenho parecido com uma estrela que mostra todos os pontos cardeais de uma vez. 🌹 Vês quase sempre uma num canto do mapa. Toca em cada ponto para descobrires onde fica:
+
+```compass
+{ "title": "A rosa dos ventos 🌹" }
+```
 
 ## Os 4 pontos colaterais 🪁
 

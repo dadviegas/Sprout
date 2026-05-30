@@ -503,6 +503,48 @@
 }
 .angle-hint { color: var(--ink-2); font-weight: 600; margin: 0; }
 
+/* area & perimeter grid */
+.areagrid-body { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+.areagrid-svg { width: 260px; max-width: 64vw; height: auto; flex-shrink: 0; margin: 0 auto; display: block; }
+.areagrid-side { flex: 1; min-width: 170px; display: grid; gap: 12px; align-content: start; }
+.areagrid-stat { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+.areagrid-num { font-family: var(--font-display); font-weight: 800; font-size: 2em; line-height: 1; color: var(--ink); }
+.areagrid-unit { font-weight: 700; color: var(--ink-2); }
+.areagrid-lbl { width: 100%; color: var(--ink-3); font-size: .85em; font-weight: 600; }
+
+/* symmetry */
+.symmetry-body { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+.symmetry-svg { width: 230px; max-width: 60vw; height: auto; flex-shrink: 0; margin: 0 auto; display: block; }
+.symmetry-side { flex: 1; min-width: 160px; display: grid; gap: 10px; align-content: start; justify-items: start; }
+.symmetry-note { color: var(--ink-2); font-weight: 600; margin: 0; }
+
+/* compass — rosa dos ventos */
+.compass-body { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+.compass-svg { width: 220px; max-width: 60vw; height: auto; flex-shrink: 0; margin: 0 auto; display: block; }
+.compass-side { flex: 1; min-width: 160px; display: grid; gap: 8px; align-content: start; }
+.compass-name { font-family: var(--font-display); font-weight: 800; font-size: 1.7em; line-height: 1; }
+.compass-key { color: var(--ink-3); font-weight: 700; font-size: .7em; }
+.compass-hint { color: var(--ink-2); font-weight: 600; margin: 0; }
+
+/* water cycle */
+.watercycle-body { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+.watercycle-svg { width: 320px; max-width: 78vw; height: auto; flex-shrink: 0; margin: 0 auto; display: block; }
+.watercycle-side { flex: 1; min-width: 160px; display: grid; gap: 10px; align-content: start; justify-items: start; }
+.wc-drop { animation: wc-travel 9s linear infinite; }
+.wc-drop.paused { animation-play-state: paused; }
+@keyframes wc-travel {
+  0%   { transform: translate(92px, 146px); opacity: 0; }
+  6%   { opacity: 1; }
+  30%  { transform: translate(150px, 60px); opacity: 1; }
+  55%  { transform: translate(232px, 132px); opacity: 1; }
+  80%  { transform: translate(250px, 150px); opacity: 1; }
+  94%  { transform: translate(120px, 150px); opacity: 1; }
+  100% { transform: translate(92px, 146px); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wc-drop { animation: none; opacity: 0; }
+}
+
 /* number line */
 .numberline-scroll { overflow-x: auto; padding-bottom: 4px; }
 

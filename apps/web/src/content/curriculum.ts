@@ -70,6 +70,9 @@ import matDecimais from "./matematica/ano4/decimais.md";
 import matArea from "./matematica/ano4/area-perimetro.md";
 import matDados from "./matematica/ano4/graficos-tabelas.md";
 import matProblemas from "./matematica/ano4/resolver-problemas.md";
+// AE coverage — Matemática (gaps: simetria, romanos, estimativa)
+import matSimetria from "./matematica/ano2/simetria.md";
+import matRomanos from "./matematica/ano3/numeros-romanos.md";
 import matEstimar from "./matematica/ano4/estimar-arredondar.md";
 
 /* ---- Português ---- */
@@ -161,6 +164,15 @@ import enNumbers20 from "./ingles/ano1/numbers-11-20.md";
 import enFoodBasics from "./ingles/ano2/food-basics.md";
 import enHouse from "./ingles/ano3/my-house.md";
 import enJobs from "./ingles/ano4/jobs.md";
+// AE coverage — Inglês (gaps: classroom, feelings, sports, nature, routines, directions, comparatives, travel)
+import enClassroom from "./ingles/ano1/classroom.md";
+import enFeelings from "./ingles/ano1/feelings.md";
+import enSports from "./ingles/ano2/sports.md";
+import enNature from "./ingles/ano2/nature.md";
+import enRoutines from "./ingles/ano3/routines.md";
+import enDirections from "./ingles/ano3/directions.md";
+import enComparatives from "./ingles/ano4/comparatives.md";
+import enTravel from "./ingles/ano4/travel.md";
 
 /* ---- Cidadania e Desenvolvimento ---- */
 import cidDireitos from "./cidadania/ano1/direitos-e-deveres.md";
@@ -306,6 +318,7 @@ export const schoolSubjects: Subject[] = [
         { id: "mat-2-horas", title: "As horas no relógio", emoji: "🕐", body: matHoras },
         { id: "mat-2-solidos", title: "Sólidos geométricos", emoji: "🧊", body: matSolidos },
         { id: "mat-2-padroes", title: "Sequências e padrões", emoji: "🔁", body: matPadroes },
+        { id: "mat-2-simetria", title: "Simetria e eixos", emoji: "🦋", body: matSimetria },
       ],
       3: [
         { id: "mat-3-numeros-1000", title: "Números até 1000", emoji: "💯", body: matNumeros1000 },
@@ -315,6 +328,7 @@ export const schoolSubjects: Subject[] = [
         { id: "mat-3-fracoes", title: "Frações simples", emoji: "🍕", body: matFracoes },
         { id: "mat-3-medida", title: "Comprimento e massa", emoji: "📏", body: matMedida },
         { id: "mat-3-calendario", title: "O calendário e o tempo", emoji: "📅", body: matCalendario },
+        { id: "mat-3-romanos", title: "Numerais romanos", emoji: "🏛️", body: matRomanos },
       ],
       4: [
         { id: "mat-4-numeros-milhao", title: "Números até ao milhão", emoji: "🔢", body: matMilhao },
@@ -440,24 +454,32 @@ export const schoolSubjects: Subject[] = [
         { id: "en-1-colours", title: "Colours", emoji: "🌈", body: enColours },
         { id: "en-1-numbers", title: "Numbers 1–10", emoji: "🔢", body: enNumbers },
         { id: "en-1-numbers-20", title: "Numbers 11–20", emoji: "🔢", body: enNumbers20 },
+        { id: "en-1-classroom", title: "In the classroom", emoji: "🎒", body: enClassroom },
+        { id: "en-1-feelings", title: "Feelings", emoji: "😀", body: enFeelings },
       ],
       2: [
         { id: "en-2-animals", title: "Animals", emoji: "🐶", body: enAnimals },
         { id: "en-2-body", title: "My body", emoji: "🖐️", body: enBody },
         { id: "en-2-family", title: "My family", emoji: "👪", body: enFamily },
         { id: "en-2-food", title: "Food & drinks", emoji: "🍎", body: enFoodBasics },
+        { id: "en-2-sports", title: "Sports", emoji: "⚽", body: enSports },
+        { id: "en-2-nature", title: "Nature", emoji: "🌳", body: enNature },
       ],
       3: [
         { id: "en-3-food", title: "Food", emoji: "🍎", body: enFood },
         { id: "en-3-house", title: "My house", emoji: "🏠", body: enHouse },
         { id: "en-3-toys", title: "Toys", emoji: "🧸", body: enToys },
         { id: "en-3-clothes", title: "Clothes", emoji: "👕", body: enClothes },
+        { id: "en-3-routines", title: "Daily routines", emoji: "⏰", body: enRoutines },
+        { id: "en-3-directions", title: "Directions", emoji: "🧭", body: enDirections },
       ],
       4: [
         { id: "en-4-days", title: "Days & months", emoji: "📆", body: enDays },
         { id: "en-4-jobs", title: "Jobs", emoji: "👩‍🏫", body: enJobs },
         { id: "en-4-weather", title: "Weather", emoji: "☀️", body: enWeather },
         { id: "en-4-time", title: "What time is it?", emoji: "⏰", body: enTime },
+        { id: "en-4-comparatives", title: "Comparatives", emoji: "📏", body: enComparatives },
+        { id: "en-4-travel", title: "Travel & transport", emoji: "✈️", body: enTravel },
       ],
     },
   },

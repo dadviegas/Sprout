@@ -46,6 +46,12 @@ A **área** é a medida do **espaço que a figura ocupa** por dentro. Conta-se e
 ]
 ```
 
+Experimenta! Muda o comprimento e a largura e repara como a **área** (os quadradinhos de dentro) e o **perímetro** (a volta) mudam — às vezes de maneiras diferentes! 🔲🟦
+
+```areagrid
+{ "width": 4, "height": 3 }
+```
+
 ## Perímetro NÃO é área 🚦
 
 Esta é a parte que confunde toda a gente — por isso vais aprendê-la bem! São medidas **diferentes** e até têm **unidades diferentes**.

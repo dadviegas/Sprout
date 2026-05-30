@@ -25,7 +25,7 @@ const FINAL_MARKER = "## 🎯 Questionário final";
 // `widgetRenderers` / `infographicRenderers` maps + the `quiz` branch there.
 const JSON_BLOCKS = new Set([
   "quiz",
-  "shape", "angle", "clock", "numberline", "tenframe", "fraction", "money", "shop", "solarsystem", "daynight", "soundcards", "dictionary", "tabuada", "math", "chart",
+  "shape", "angle", "areagrid", "symmetry", "compass", "watercycle", "clock", "numberline", "tenframe", "fraction", "money", "shop", "solarsystem", "daynight", "soundcards", "dictionary", "tabuada", "math", "chart",
   "summary", "stats", "steps", "meters", "keyvalue", "compare", "quote",
 ]);
 

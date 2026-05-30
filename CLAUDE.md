@@ -57,7 +57,7 @@ common sense, Açores → world). Single-page, no server; progress is local.
 ## Markdown/widget blocks (for lesson authors)
 
 `quiz`, `soundcards`, `clock`, `shape`, `numberline`, `tenframe`, `fraction`,
-`money`, `solarsystem`, `daynight`; infographics
+`money`, `shop`, `solarsystem`, `daynight`, `tabuada`, `math`; infographics
 `stats`/`steps`/`compare`/`meters`/`keyvalue`/`quote`; callouts
 `> [!NOTE]/[!TIP]/…`. The `icon` field in `steps`/`keyvalue` accepts an
 `@sprout/icons` name or an emoji.
@@ -84,6 +84,14 @@ only shows as an error card when that lesson is opened. `pnpm validate`
 (`apps/web/scripts/validate-content.mjs`, zero deps) catches those before the
 build: invalid JSON, a quiz with no `correct` option, a missing final test,
 colliding quiz ids. Run it after authoring lessons.
+
+**Run content checks via the `pnpm` scripts, never the raw script.** Use
+`pnpm validate` / `pnpm typecheck` / `pnpm lint` — not `node scripts/…` — so the
+checks stay on the project's allowlist and don't trigger a permission prompt.
+Don't spin up throwaway `node -e "…"` or `node /tmp/test_*.js` scripts to probe
+regex/string behaviour; reason it through inline instead. `node …` is arbitrary
+code execution, so it (correctly) prompts every time and must never be added to
+an allowlist — keep approving those one-off, but never "for all projects".
 
 Adding/changing a lesson = one `.md` file + one line in `curriculum.ts`.
 Changing page copy/branding = edit `site.config.yaml`.

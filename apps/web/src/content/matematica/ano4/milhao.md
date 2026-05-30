@@ -1,65 +1,98 @@
 # Números até ao milhão 🔢
 
-Já sabes contar até mil? Boa! Agora vamos muito mais longe — até ao **milhão** (1 000 000)! 🚀 Vais ver que é só juntar grupos.
+> [!NOTE] **O que vais aprender** 👀 Vais aprender a **ler, escrever, comparar e ordenar** números muito grandes — até ao **milhão** (1 000 000) — e a descobrir quanto vale cada algarismo conforme o lugar onde está. 🚀
 
-## Como crescem os números grandes
+Já sabes contar até mil? Boa! Agora vamos muito, mas mesmo muito mais longe — até ao **milhão**! Pode parecer assustador, mas tem um segredo: os números grandes são só **grupinhos** mais pequenos juntos. Quando descobrires o truque, vais ler números enormes sem pestanejar. Vamos a isto! 🎉
 
-Os números grandes crescem aos saltos, sempre a multiplicar por 10. Cada salto tem um nome:
+## Como crescem os números grandes 📈
+
+Os números grandes crescem sempre **aos saltos**, multiplicando por **10** de cada vez. Cada salto tem um nome especial:
 
 ```keyvalue
 [
-  { "k": "1 unidade", "v": "1 🙂" },
-  { "k": "1 dezena", "v": "10 (dez unidades)" },
-  { "k": "1 centena", "v": "100 (cem)" },
-  { "k": "1 milhar", "v": "1 000 (mil!)" },
-  { "k": "1 dezena de milhar", "v": "10 000 (dez mil)" },
-  { "k": "1 centena de milhar", "v": "100 000 (cem mil)" },
+  { "k": "1 unidade (U)", "v": "1 🙂" },
+  { "k": "1 dezena (D)", "v": "10 (dez unidades)" },
+  { "k": "1 centena (C)", "v": "100 (dez dezenas)" },
+  { "k": "1 milhar (M)", "v": "1 000 (mil!)" },
+  { "k": "1 dezena de milhar (DM)", "v": "10 000 (dez mil)" },
+  { "k": "1 centena de milhar (CM)", "v": "100 000 (cem mil)" },
   { "k": "1 milhão", "v": "1 000 000 (mil milhares!) 🎉" }
 ]
 ```
 
-Repara: o **milhão** tem **6 zeros**. É o número 1 com 6 amigos a fazer fila atrás! 0️⃣
+Repara: o **milhão** é o número **1** com **6 zeros** atrás — 6 amiguinhos a fazer fila! 0️⃣0️⃣0️⃣0️⃣0️⃣0️⃣
 
-Para lermos mais fácil, separamos os algarismos em grupinhos de 3, da direita para a esquerda: **245 800**. Assim não nos perdemos! 👀
+## Separar em classes e ordens 🗂️
+
+Para não nos perdermos, separamos os algarismos em **grupinhos de 3**, sempre da **direita para a esquerda**. Cada grupo é uma **classe**: a classe das **unidades** e a classe dos **milhares**. Dentro de cada classe há 3 **ordens** (unidades, dezenas, centenas).
+
+```compare
+[
+  { "title": "Classe dos MILHARES", "rows": [
+    { "label": "Centenas de milhar", "value": "100 000" },
+    { "label": "Dezenas de milhar", "value": "10 000" },
+    { "label": "Unidades de milhar", "value": "1 000" }
+  ] },
+  { "title": "Classe das UNIDADES", "rows": [
+    { "label": "Centenas", "value": "100" },
+    { "label": "Dezenas", "value": "10" },
+    { "label": "Unidades", "value": "1", "highlight": true }
+  ] }
+]
+```
+
+Por isso escrevemos **245 800** com um espaço (e nunca com ponto): assim vês logo **245** milhares e **800** unidades. Muito mais fácil de ler! 👀
+
+## O valor de cada algarismo 📍
+
+O mesmo algarismo vale coisas **diferentes** conforme o lugar onde está. É a **posição** que manda! No número **362 540**:
+
+```stats
+[
+  { "label": "3", "value": "300 000", "hint": "está nas centenas de milhar" },
+  { "label": "6", "value": "60 000", "hint": "está nas dezenas de milhar" },
+  { "label": "2", "value": "2 000", "hint": "está nas unidades de milhar" },
+  { "label": "5", "value": "500", "hint": "está nas centenas" },
+  { "label": "4", "value": "40", "hint": "está nas dezenas" },
+  { "label": "0", "value": "0", "hint": "está nas unidades" }
+]
+```
+
+Se somares tudo — 300 000 + 60 000 + 2 000 + 500 + 40 + 0 — voltas a obter **362 540**. A isto chama-se **decomposição** do número! 🧩
+
+## Comparar e ordenar números 🪜
+
+Para saber qual número é **maior**, há uma regra simples:
+
+```steps
+[
+  { "title": "Conta os algarismos", "body": "Quem tiver MAIS algarismos é o maior. 1 200 000 (7 algarismos) > 999 999 (6 algarismos).", "icon": "📏" },
+  { "title": "Se tiverem o mesmo número de algarismos…", "body": "Compara da ESQUERDA para a direita, ordem a ordem.", "icon": "👈" },
+  { "title": "Para o primeiro que for diferente", "body": "Quem tiver o algarismo maior nessa ordem ganha. Em 845 000 e 839 000, o 4 > 3, logo 845 000 é maior.", "icon": "🏆" }
+]
+```
+
+Os sinais que usamos: **>** (maior que), **<** (menor que) e **=** (igual). O biquinho aponta sempre para o número **mais pequeno**! 🐊
 
 ## Um exemplo passo a passo 🔍
 
-Vamos ler o número **362 540** e descobrir o que vale cada algarismo.
+Vamos ler o número **407 060** e descobrir o que vale cada algarismo.
 
 ```steps
 [
-  { "title": "Separa em grupos de 3", "body": "Da direita para a esquerda: 362 | 540. O grupo da esquerda são os MILHARES." },
-  { "title": "Lê o grupo da esquerda", "body": "362 milhares → 'trezentos e sessenta e dois mil'." },
-  { "title": "Lê o grupo da direita", "body": "540 → 'quinhentos e quarenta'." },
-  { "title": "Junta tudo", "body": "Trezentos e sessenta e dois mil, quinhentos e quarenta! 🎉" }
+  { "title": "Separa em grupos de 3", "body": "Da direita para a esquerda: 407 | 060. O grupo da esquerda são os MILHARES.", "icon": "✂️" },
+  { "title": "Lê o grupo da esquerda", "body": "407 milhares → 'quatrocentos e sete mil'.", "icon": "👈" },
+  { "title": "Cuidado com os zeros!", "body": "Os zeros guardam o lugar: aqui não há dezenas de milhar nem centenas.", "icon": "0️⃣" },
+  { "title": "Lê o grupo da direita", "body": "060 → 'sessenta'.", "icon": "👉" },
+  { "title": "Junta tudo", "body": "Quatrocentos e sete mil e sessenta! 🎉", "icon": "✅" }
 ]
 ```
 
-E o valor de cada algarismo? O **3** está nas centenas de milhar → vale **300 000**. O **6** vale **60 000**, o **2** vale **2 000**, o **5** vale **500**, o **4** vale **40** e o **0** vale **0**. A posição é que manda! 📍
+## Truque do número grande 🪄
 
-## Truque 🪄
+> **Truque:** conta os **zeros** para saberes o nome — **3 zeros = mil**, **6 zeros = milhão**. E para ler qualquer número, separa SEMPRE em grupos de 3 a partir da direita: lês o grupo da esquerda e dizes "mil", depois lês o resto. Os **zeros não se leem**, mas guardam o lugar! ✨
 
-Conta os **zeros** para saberes o nome do número grande! 🔢
-
-- 3 zeros → **mil** (1 000) → "1 grupinho à esquerda"
-- 6 zeros → **milhão** (1 000 000) → "2 grupinhos à esquerda"
-
-E há um atalho ainda melhor: separa SEMPRE em grupos de 3 a contar da direita. O 1.º grupo são as unidades, o 2.º grupo são os **milhares**. Lês o grupo da esquerda, dizes "mil", e depois lês o resto. Fácil! ✨
-
-## Resolver um problema 🧩
-
-> *Um estádio de futebol tem lugares para 65 000 pessoas. Numa final estiveram lá 64 800 adeptos. O estádio ficou cheio?* ⚽
-
-```steps
-[
-  { "title": "Lê com atenção", "body": "A pergunta é: ficou cheio? Ou seja, são 64 800 IGUAL ou MAIOR que 65 000?" },
-  { "title": "Vê os dados", "body": "Cabem 65 000. Estiveram 64 800." },
-  { "title": "Compara as centenas de milhar e milhares", "body": "65 000 tem 65 milhares. 64 800 tem 64 milhares e um bocadinho. 64 < 65!" },
-  { "title": "Responde e confirma", "body": "Não ficou cheio! Faltaram 65 000 − 64 800 = 200 lugares vazios. ✔️" }
-]
-```
-
-> [!TIP] **Para saberes mais** 🌱 Depois do milhão (6 zeros) vem o **mil milhões** (9 zeros) e a seguir o **bilião** (12 zeros)! Em Portugal, mil milhões também se chama "um milhar de milhões". 🤯
+> [!TIP] **Para saberes mais** 🌱 Depois do milhão (6 zeros) vem **mil milhões** (9 zeros) e depois o **bilião** (12 zeros)! Atenção: em Portugal, "um bilião" é um milhão de milhões, mas nos Estados Unidos *billion* é só mil milhões — por isso é fácil baralhar quando ouves notícias estrangeiras. 🤯
 
 ## Vamos praticar 🎈
 
@@ -68,11 +101,32 @@ E há um atalho ainda melhor: separa SEMPRE em grupos de 3 a contar da direita. 
   "id": "mat-4-milhao-pratica",
   "questions": [
     { "q": "Quantos zeros tem um milhão?", "layout": "grid",
-      "options": [ { "t": "6", "correct": true }, { "t": "3" }, { "t": "9" } ],
+      "options": [ { "t": "6", "emoji": "6️⃣", "correct": true }, { "t": "3" }, { "t": "9" } ],
       "explain": "Um milhão é 1 000 000 — o 1 com 6 zeros atrás!" },
     { "q": "No número 250 000, quanto vale o algarismo 2?", "layout": "grid",
       "options": [ { "t": "200 000", "correct": true }, { "t": "2 000" }, { "t": "2" } ],
-      "explain": "O 2 está nas centenas de milhar: vale 200 000." }
+      "explain": "O 2 está nas centenas de milhar: vale 200 000." },
+    { "q": "Quantas unidades tem 1 milhar?", "layout": "grid",
+      "options": [ { "t": "1 000", "correct": true }, { "t": "100" }, { "t": "10" } ],
+      "explain": "1 milhar = 1 000 unidades (mil)." },
+    { "q": "Como se separa, com espaços, o número quarenta mil e quinhentos?", "layout": "grid",
+      "options": [ { "t": "40 500", "correct": true }, { "t": "405 000" }, { "t": "4 500" } ],
+      "explain": "Quarenta mil é 40 000; mais quinhentos dá 40 500." },
+    { "q": "Qual destes números é o MAIOR?", "layout": "grid",
+      "options": [ { "t": "320 000", "correct": true }, { "t": "98 000" }, { "t": "65 400" } ],
+      "explain": "320 000 tem mais algarismos e mais centenas de milhar — é o maior!" },
+    { "q": "Que sinal pomos? 64 000 ___ 65 000", "layout": "grid",
+      "options": [ { "t": "<", "emoji": "🐊", "correct": true }, { "t": ">" }, { "t": "=" } ],
+      "explain": "64 000 é menor que 65 000, por isso usamos <." },
+    { "q": "No número 362 540, em que ordem está o algarismo 6?", "layout": "grid",
+      "options": [ { "t": "dezenas de milhar", "correct": true }, { "t": "centenas de milhar" }, { "t": "unidades" } ],
+      "explain": "O 6 está nas dezenas de milhar: vale 60 000." },
+    { "q": "Quanto é 300 000 + 60 000 + 2 000 + 500 + 40?", "layout": "grid",
+      "options": [ { "t": "362 540", "correct": true }, { "t": "326 450" }, { "t": "360 254" } ],
+      "explain": "É a decomposição de 362 540 — somando tudo voltamos ao número!" },
+    { "q": "Como se lê o número 407 060?", "layout": "grid",
+      "options": [ { "t": "quatrocentos e sete mil e sessenta", "correct": true }, { "t": "quarenta e sete mil e sessenta" }, { "t": "quatro mil e setenta e seis" } ],
+      "explain": "407 milhares = quatrocentos e sete mil; 060 = sessenta." }
   ]
 }
 ```
@@ -86,7 +140,7 @@ E há um atalho ainda melhor: separa SEMPRE em grupos de 3 a contar da direita. 
   "title": "Números até ao milhão",
   "questions": [
     { "q": "Como se lê o número 1 000 000?", "layout": "grid",
-      "options": [ { "t": "um milhão", "correct": true }, { "t": "mil" }, { "t": "cem mil" } ],
+      "options": [ { "t": "um milhão", "emoji": "🎉", "correct": true }, { "t": "mil" }, { "t": "cem mil" } ],
       "explain": "1 000 000 lê-se 'um milhão' — tem 6 zeros." },
     { "q": "Quantas unidades tem 1 milhar?", "layout": "grid",
       "options": [ { "t": "1 000", "correct": true }, { "t": "100" }, { "t": "10" } ],
@@ -96,7 +150,22 @@ E há um atalho ainda melhor: separa SEMPRE em grupos de 3 a contar da direita. 
       "explain": "O 8 está nas dezenas de milhar: vale 80 000." },
     { "q": "Qual destes números é o MAIOR?", "layout": "grid",
       "options": [ { "t": "320 000", "correct": true }, { "t": "98 000" }, { "t": "65 400" } ],
-      "explain": "320 000 tem 6 algarismos e mais centenas de milhar — é o maior!" }
+      "explain": "320 000 tem 6 algarismos e mais centenas de milhar — é o maior!" },
+    { "q": "Separamos os algarismos em grupos de quantos?", "layout": "grid",
+      "options": [ { "t": "3", "emoji": "3️⃣", "correct": true }, { "t": "2" }, { "t": "5" } ],
+      "explain": "Em grupos de 3, da direita para a esquerda: 245 800." },
+    { "q": "Que sinal completa: 845 000 ___ 839 000?", "layout": "grid",
+      "options": [ { "t": ">", "correct": true }, { "t": "<" }, { "t": "=" } ],
+      "explain": "Na 1.ª ordem diferente, 4 > 3, logo 845 000 é maior." },
+    { "q": "No número 600 000, em que ordem está o 6?", "layout": "grid",
+      "options": [ { "t": "centenas de milhar", "correct": true }, { "t": "dezenas de milhar" }, { "t": "unidades de milhar" } ],
+      "explain": "O 6 vale 600 000 — está nas centenas de milhar." },
+    { "q": "Que número vem logo a seguir a 999 999?", "layout": "grid",
+      "options": [ { "t": "1 000 000", "emoji": "🚀", "correct": true }, { "t": "100 000" }, { "t": "999 990" } ],
+      "explain": "999 999 + 1 = 1 000 000, ou seja, um milhão!" },
+    { "q": "Quanto vale 'quatrocentos e sete mil e sessenta' em algarismos?", "layout": "grid",
+      "options": [ { "t": "407 060", "correct": true }, { "t": "47 060" }, { "t": "470 060" } ],
+      "explain": "407 milhares e 60 unidades: 407 060." }
   ]
 }
 ```

@@ -520,19 +520,41 @@
 .fraction-num { display: flex; flex-direction: column; align-items: center; font-family: var(--font-display); font-weight: 800; font-size: 2.4em; line-height: 1; }
 .fraction-line { width: 34px; height: 4px; background: currentColor; border-radius: 2px; margin: 2px 0; }
 
-/* money */
-.coins { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+/* money — every coin & note is drawn by MoneyToken, so the look is identical
+   in the mealheiro (collect), the till (pay) and the reference gallery (show) */
+.coins { display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end; }
 .coin {
-  display: inline-flex; align-items: center; justify-content: center;
-  font-family: var(--font-display); font-weight: 800; color: #3a2a10;
-  border: 3px solid rgba(0,0,0,.18);
-  box-shadow: 0 4px 0 rgba(0,0,0,.18); font-size: .95em;
+  display: inline-flex; flex-direction: column; align-items: center; gap: 6px;
+  background: none; border: 0; padding: 0; cursor: pointer;
   transition: transform .12s, opacity .12s; opacity: .55;
 }
 .coin:hover { transform: translateY(-3px); }
 .coin:active { transform: translateY(2px); }
-.coin.picked { opacity: 1; outline: 4px solid color-mix(in srgb, var(--primary) 60%, transparent); outline-offset: 2px; }
+.coin.picked { opacity: 1; }
+.coin.picked .money-token { outline: 4px solid color-mix(in srgb, var(--primary) 65%, transparent); outline-offset: 3px; }
 .coin.pay-coin { opacity: 1; }
+
+/* one drawn coin or note: its face & value live in an inline <svg> (MoneyToken);
+   the span is the physical token — rounded, bordered, with a chunky toy shadow */
+.money-token {
+  position: relative; display: inline-block; overflow: hidden; line-height: 0;
+  box-shadow: 0 4px 0 rgba(0,0,0,.22);
+}
+.money-token--coin {
+  width: 56px; height: 56px; border-radius: 50%; border: 2px solid rgba(0,0,0,.16);
+}
+.money-token--note {
+  width: 96px; height: 54px; border-radius: 8px; border: 1px solid rgba(0,0,0,.18);
+}
+.mtoken-svg { display: block; width: 100%; height: 100%; }
+.mtoken-num { font-family: var(--font-display); font-weight: 800; }
+.mtoken-euro { font-family: var(--font-display); font-weight: 800; letter-spacing: .18em; opacity: .82; }
+
+/* show mode: a tap-to-hear gallery with a small caption under each coin/note */
+.show-widget .money-token--coin { width: 64px; height: 64px; }
+.show-widget .money-token--note { width: 108px; height: 60px; }
+.money-show { gap: 4px; }
+.money-show__cap { font-size: .82em; color: var(--ink-2); font-weight: 600; }
 
 /* money — pay-the-price builder */
 .pay-widget .w-badge { background: var(--subj-mat); }
@@ -556,6 +578,150 @@
   font-size: .72em; font-weight: 800; line-height: 1;
   border-radius: 999px; padding: 3px 6px; border: 2px solid var(--surface);
 }
+
+/* shop — a play till: browse the shelves, fill a cart, pay at the counter */
+.shop-widget { border-color: color-mix(in srgb, var(--subj-mat) 55%, var(--border)); }
+.shop-widget .w-badge { background: var(--subj-mat); }
+
+.shop-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.shop-tab {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-display); font-weight: 700; font-size: .92em;
+  padding: 6px 14px; border-radius: 999px; cursor: pointer;
+  background: var(--surface-2); border: 2px solid var(--border); color: var(--ink-2);
+  transition: transform var(--dur-fast), background var(--dur-fast), border-color var(--dur-fast);
+}
+.shop-tab:hover { transform: translateY(-1px); border-color: var(--border-strong); }
+.shop-tab.on { background: var(--subj-mat); border-color: var(--subj-mat); color: #fff; }
+
+.shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(108px, 1fr)); gap: 12px; }
+.shop-card {
+  position: relative; display: flex; flex-direction: column;
+  border-radius: var(--radius); background: var(--surface-2);
+  border: 2px solid var(--border); overflow: hidden;
+  transition: transform var(--dur-fast), border-color var(--dur-fast), box-shadow var(--dur-fast);
+}
+.shop-card:hover { transform: translateY(-3px); border-color: var(--subj-mat); box-shadow: 0 12px 22px -18px var(--subj-mat); }
+.shop-card.in-cart { border-color: var(--subj-mat); background: var(--subj-mat-soft); }
+.shop-card__buy {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  background: none; border: 0; cursor: pointer; padding: 12px 8px 10px; width: 100%;
+}
+.shop-card__buy:active { transform: scale(.96); }
+.shop-art { width: 56px; height: 56px; display: block; }
+.shop-art--mini { width: 34px; height: 34px; flex-shrink: 0; }
+.shop-card__name { font-family: var(--font-display); font-weight: 700; font-size: .82em; color: var(--ink); text-align: center; line-height: 1.15; }
+.shop-card__price { font-family: var(--font-display); font-weight: 800; font-size: .9em; color: var(--subj-mat); }
+.shop-card__hear {
+  position: absolute; top: 4px; left: 4px; z-index: 2;
+  width: 28px; height: 28px; padding: 0; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 999px; border: 0; background: color-mix(in srgb, var(--surface) 80%, transparent); color: var(--ink-2); cursor: pointer;
+}
+.shop-card__hear:hover { color: var(--subj-mat); }
+.shop-card__badge {
+  position: absolute; top: 4px; right: 4px; z-index: 2;
+  min-width: 22px; height: 22px; padding: 0 5px; border-radius: 999px;
+  background: var(--subj-mat); color: #fff; border: 2px solid var(--surface);
+  font-family: var(--font-display); font-weight: 800; font-size: .8em;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+/* per-product quantity stepper (− N +), shown on the tile once it's in the cart */
+.shop-card__qty {
+  display: flex; align-items: center; justify-content: space-between; gap: 6px;
+  border-top: 2px solid var(--border); background: var(--surface); padding: 4px 8px;
+}
+.shop-card__qty button {
+  border: 0; background: none; cursor: pointer; color: var(--ink-2);
+  width: 26px; height: 26px; border-radius: 8px;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.shop-card__qty button:hover { color: var(--subj-mat); background: var(--subj-mat-soft); }
+.shop-card__qty b { font-family: var(--font-display); font-weight: 800; min-width: 16px; text-align: center; color: var(--ink); }
+
+/* cart */
+.shop-cart {
+  margin-top: 16px; padding: 14px; border-radius: var(--radius);
+  border: 3px dashed var(--border); background: var(--surface-2);
+}
+.shop-cart.empty { text-align: center; }
+.shop-cart__head { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); margin-bottom: 8px; }
+.shop-cart__count {
+  background: var(--subj-mat); color: #fff; border-radius: 999px;
+  font-size: .8em; font-weight: 800; padding: 2px 8px;
+}
+.shop-cart__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.shop-cart__list li {
+  display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 10px;
+  padding: 6px 8px; border-radius: var(--radius-sm); background: var(--surface);
+}
+.shop-cart__name { font-weight: 700; color: var(--ink); }
+.shop-cart__qtybox { display: inline-flex; align-items: center; gap: 8px; }
+.shop-cart__qtybox button {
+  width: 26px; height: 26px; border-radius: 999px; border: 2px solid var(--border);
+  background: var(--surface-2); cursor: pointer; color: var(--ink-2);
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.shop-cart__qtybox button:hover { border-color: var(--subj-mat); color: var(--subj-mat); }
+.shop-cart__qtybox b { font-family: var(--font-display); min-width: 14px; text-align: center; }
+.shop-cart__line { font-family: var(--font-display); font-weight: 800; color: var(--ink); }
+.shop-cart__foot { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
+.shop-total { font-family: var(--font-display); font-size: 1.1em; }
+.shop-total strong { color: var(--subj-mat); }
+.shop-pay-btn { margin-left: auto; }
+
+/* checkout / receipt */
+.shop-back { margin-bottom: 12px; }
+.shop-receipt { border-radius: var(--radius); background: var(--surface-2); padding: 12px 14px; margin-bottom: 14px; }
+.shop-receipt__head { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); margin-bottom: 8px; }
+.shop-receipt ul { list-style: none; margin: 0 0 6px; padding: 0; display: grid; gap: 4px; }
+.shop-receipt li { display: flex; justify-content: space-between; gap: 12px; font-weight: 600; color: var(--ink-2); }
+.shop-receipt__total {
+  display: flex; align-items: center; gap: 8px; padding-top: 8px;
+  border-top: 2px dashed var(--border); font-family: var(--font-display);
+}
+.shop-receipt__total span:first-child { font-size: 1.05em; }
+.shop-receipt__total strong { font-size: 1.25em; color: var(--subj-mat); }
+.shop-step { font-weight: 600; color: var(--ink-2); margin: 4px 0 10px; }
+.shop-feedback { display: flex; align-items: center; gap: 8px; }
+.shop-change {
+  margin-top: 14px; padding: 14px; border-radius: var(--radius);
+  background: var(--ok-soft); border: 3px solid color-mix(in srgb, var(--ok) 45%, var(--border));
+}
+.shop-change__head { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); font-size: 1.1em; margin-bottom: 10px; }
+.shop-change__head strong { color: var(--ok); font-size: 1.15em; }
+.shop-change__sum {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px;
+  font-family: var(--font-display); font-weight: 700; color: var(--ink-2); margin-bottom: 10px;
+}
+.shop-change__sum strong { color: var(--ink); }
+.shop-change__op { color: var(--ink-3); font-size: 1.1em; }
+.shop-change__answer { margin-top: 12px; padding-top: 12px; border-top: 2px dashed color-mix(in srgb, var(--ok) 45%, var(--border)); }
+.shop-done { margin-top: 16px; }
+.shop-done__summary {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  font-family: var(--font-display); font-size: 1.05em; margin-bottom: 12px;
+}
+.shop-done__summary strong { color: var(--subj-mat); }
+/* notes-then-coins grouped palette */
+.pay-groups { display: flex; flex-direction: column; gap: 10px; }
+.pay-group { display: flex; flex-direction: column; gap: 6px; }
+.pay-group__label {
+  font-family: var(--font-display); font-weight: 800; font-size: .78em;
+  text-transform: uppercase; letter-spacing: .04em; color: var(--ink-3);
+}
+/* little nudges + the "conta para a frente" helper */
+.shop-tip { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 8px 0 0; font-weight: 600; color: var(--ink-2); }
+.shop-count {
+  margin-top: 10px; padding: 12px; border-radius: var(--radius);
+  background: var(--surface-2); border: 2px dashed var(--border);
+}
+.shop-count__title { display: block; font-family: var(--font-display); margin-bottom: 8px; color: var(--ink); }
+.shop-count__steps { display: flex; flex-wrap: wrap; gap: 8px; }
+.shop-count__hop {
+  font-family: var(--font-display); font-weight: 700; color: var(--ink-2);
+  background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 4px 10px;
+}
+.shop-count__hop b { color: var(--subj-mat); }
 
 /* solar system — animated orbits */
 .solarsystem-widget { border-color: color-mix(in srgb, var(--info) 55%, var(--border)); }
@@ -675,10 +841,12 @@
   display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%;
   padding: 7px 12px; border-radius: var(--radius-sm);
   background: var(--surface-2); border: 2px solid var(--border); color: var(--ink);
-  font-size: 1.05em; transition: transform .12s, border-color .12s;
+  font-size: 1.05em; transition: transform .12s, border-color .12s, background .12s, color .12s;
 }
 .tabuada__row:hover { transform: translateX(2px); border-color: var(--subj-mat); color: var(--subj-mat); }
 .tabuada__row:active { transform: scale(.98); }
+.tabuada__row[data-playing] { background: var(--primary); border-color: var(--primary); color: #fff; }
+.tabuada__row[data-playing] .tabuada__calc strong, .tabuada__row[data-playing] .tabuada__op { color: #fff; }
 .tabuada__calc { white-space: nowrap; font-family: var(--font-mono); font-weight: 700; letter-spacing: .3px; }
 .tabuada__calc strong { color: var(--subj-mat); }
 .tabuada__op { color: var(--ink-3); }

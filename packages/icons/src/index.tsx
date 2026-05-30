@@ -273,6 +273,13 @@ export const ICONS = {
       <path d="M14.8 9.6a3.6 3.6 0 1 0 0 4.8M8.5 11h4.5M8.5 13h4.5" />
     </>
   ),
+  cart: (
+    <>
+      <path d="M3.5 4.5h2.2l2 11h9.6l1.8-7.5H6.4" />
+      <circle cx="9" cy="19" r="1.4" />
+      <circle cx="16.5" cy="19" r="1.4" />
+    </>
+  ),
   fraction: (
     <>
       <circle cx="12" cy="12" r="8.5" />

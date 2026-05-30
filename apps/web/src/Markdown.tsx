@@ -11,6 +11,7 @@ import {
   TenFrame, type TenFrameSpec,
   Fraction, type FractionSpec,
   Money, type MoneySpec,
+  Shop, type ShopSpec,
   SolarSystem, type SolarSystemSpec,
   DayNight, type DayNightSpec,
   SoundCards, type SoundCardsSpec,
@@ -33,11 +34,14 @@ function toPlainText(md: string): string {
     .replace(/!\[[^\]]*\]\([^)]*\)/g, " ") // images
     .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1") // links → their text
     .replace(/^\s*\|?[\s:|-]*-{2,}[\s:|-]*\|?\s*$/gm, "") // table separator rows
+    .replace(/^[ \t]*\|/gm, "").replace(/\|[ \t]*$/gm, "") // drop outer table pipes (avoid leading/trailing commas)
     .replace(/^[ \t]*[-+]\s+/gm, "") // list bullets
     .replace(/[#>*_`~]+/g, " ") // markdown punctuation (the table pipe is handled next)
-    .replace(/\|/g, ", ") // table cell separator → slight pause
+    .replace(/\|/g, ", ") // inner table cell separator → slight pause
     .replace(/\n+/g, ". ") // line / row boundary → sentence pause
     .replace(/[ \t]+/g, " ")
+    .replace(/\s+([.,])/g, "$1") // no space before a comma/period
+    .replace(/,\s*\./g, ".") // ", ." → "." (no double pause between table rows)
     .replace(/(\.\s*){2,}/g, ". ") // collapse repeated ". ."
     .trim();
 }
@@ -135,6 +139,7 @@ const widgetRenderers: Record<string, (json: unknown) => ReactNode> = {
   tenframe: (d) => <TenFrame spec={d as TenFrameSpec} />,
   fraction: (d) => <Fraction spec={d as FractionSpec} />,
   money: (d) => <Money spec={d as MoneySpec} />,
+  shop: (d) => <Shop spec={d as ShopSpec} />,
   solarsystem: (d) => <SolarSystem spec={d as SolarSystemSpec} />,
   daynight: (d) => <DayNight spec={d as DayNightSpec} />,
   soundcards: (d) => <SoundCards spec={d as SoundCardsSpec} />,
@@ -231,6 +236,7 @@ const components: Components = {
   a({ href, children }) {
     if (href && href.startsWith("lesson:")) {
       const lessonId = href.slice("lesson:".length);
+      const navigate = () => window.dispatchEvent(new CustomEvent("sprout:navigate", { detail: { lessonId } }));
       return (
         <a
           className="lesson-link"
@@ -238,7 +244,13 @@ const components: Components = {
           tabIndex={0}
           onClick={(e) => {
             e.preventDefault();
-            window.dispatchEvent(new CustomEvent("sprout:navigate", { detail: { lessonId } }));
+            navigate();
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              navigate();
+            }
           }}
         >
           {children}

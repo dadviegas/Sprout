@@ -217,6 +217,7 @@ import estudoTabuadas from "./estudo/tabuadas.md";
 import estudoAlfabeto from "./estudo/alfabeto.md";
 import estudoNumeros from "./estudo/numeros.md";
 import estudoDinheiro from "./estudo/dinheiro.md";
+import estudoLoja from "./estudo/loja.md";
 import estudoDiasMeses from "./estudo/dias-e-meses.md";
 
 /* The four school subjects, navigated year-first (1.º–4.º ano). */
@@ -544,6 +545,7 @@ export const estudoSubject: Subject = {
       { id: "estudo-alfabeto", title: "O alfabeto", emoji: "🔤", body: estudoAlfabeto },
       { id: "estudo-numeros", title: "Os números", emoji: "🔢", body: estudoNumeros },
       { id: "estudo-dinheiro", title: "O dinheiro", emoji: "💶", body: estudoDinheiro },
+      { id: "estudo-loja", title: "Vamos às compras!", emoji: "🛒", body: estudoLoja },
       { id: "estudo-dias-meses", title: "Dias e meses", emoji: "📅", body: estudoDiasMeses },
     ],
     2: [],

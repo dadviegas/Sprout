@@ -8,20 +8,17 @@ papel). Aqui tens **todas**! Toca em cada uma para ouvir quanto vale. 🎧
 São **8 moedas**. As mais pequenas são **cêntimos**; as duas maiores valem
 **euros**.
 
-```soundcards
-{
-  "title": "As 8 moedas",
-  "items": [
-    { "label": "1c", "say": "um cêntimo", "hint": "cor de cobre" },
-    { "label": "2c", "say": "dois cêntimos", "hint": "cor de cobre" },
-    { "label": "5c", "say": "cinco cêntimos", "hint": "cor de cobre" },
-    { "label": "10c", "say": "dez cêntimos", "hint": "dourada" },
-    { "label": "20c", "say": "vinte cêntimos", "hint": "dourada" },
-    { "label": "50c", "say": "cinquenta cêntimos", "hint": "dourada" },
-    { "label": "1€", "say": "um euro", "hint": "prata e ouro" },
-    { "label": "2€", "say": "dois euros", "hint": "ouro e prata" }
-  ]
-}
+```money
+{ "mode": "show", "title": "As 8 moedas", "show": [
+  { "v": 0.01, "note": "cor de cobre" },
+  { "v": 0.02, "note": "cor de cobre" },
+  { "v": 0.05, "note": "cor de cobre" },
+  { "v": 0.1, "note": "dourada" },
+  { "v": 0.2, "note": "dourada" },
+  { "v": 0.5, "note": "dourada" },
+  { "v": 1, "note": "prata e ouro" },
+  { "v": 2, "note": "ouro e prata" }
+] }
 ```
 
 > [!TIP] As moedas **castanhas** (cor de cobre) valem pouco: **1c, 2c, 5c**. As
@@ -31,24 +28,23 @@ São **8 moedas**. As mais pequenas são **cêntimos**; as duas maiores valem
 ## As notas 💶
 
 As notas são de **papel** e cada uma tem uma **cor diferente** — assim
-reconhece-las num instante!
+reconhece-las num instante! Há **7 notas**, da mais pequena (5€) à maior (500€).
 
-```soundcards
-{
-  "title": "As notas e as suas cores",
-  "items": [
-    { "label": "5€", "say": "cinco euros", "hint": "cinzenta" },
-    { "label": "10€", "say": "dez euros", "hint": "vermelha" },
-    { "label": "20€", "say": "vinte euros", "hint": "azul" },
-    { "label": "50€", "say": "cinquenta euros", "hint": "laranja" },
-    { "label": "100€", "say": "cem euros", "hint": "verde" },
-    { "label": "200€", "say": "duzentos euros", "hint": "amarela" }
-  ]
-}
+```money
+{ "mode": "show", "title": "As notas e as suas cores", "show": [
+  { "v": 5, "note": "cinzenta" },
+  { "v": 10, "note": "vermelha" },
+  { "v": 20, "note": "azul" },
+  { "v": 50, "note": "laranja" },
+  { "v": 100, "note": "verde" },
+  { "v": 200, "note": "amarela" },
+  { "v": 500, "note": "roxa" }
+] }
 ```
 
 > [!TIP] Quanto **maior** o número, **mais vale** a nota. E a cor ajuda-te: a de
-> **20€** é **azul** e a de **50€** é **laranja**! 🌈
+> **20€** é **azul**, a de **50€** é **laranja** e a maior de todas, a de
+> **500€**, é **roxa**! 🌈
 
 ## A regra de ouro 💡
 
@@ -72,12 +68,16 @@ moeda **maior** e vai juntando as pequeninas:
 ```keyvalue
 [
   { "k": "2€", "v": "a moeda de 2€, ou 1€ + 1€" },
-  { "k": "5€", "v": "a nota de 5€, ou 2€ + 2€ + 1€" },
   { "k": "7€", "v": "nota de 5€ + moeda de 2€" },
   { "k": "12€", "v": "nota de 10€ + moeda de 2€" },
-  { "k": "75c", "v": "50c + 20c + 5c" }
+  { "k": "75c", "v": "50c + 20c + 5c" },
+  { "k": "375,55€", "v": "200€ + 100€ + 50€ + 20€ + 5€ + 50c + 5c" }
 ]
 ```
+
+> [!TIP] Em valores **grandes** usamos sobretudo **notas**, e juntamos moedas só
+> para os **cêntimos** do fim. Para **375,55€**: as notas fazem os **375€** e as
+> moedas (50c + 5c) fazem os **55 cêntimos**. 💶🪙
 
 ## Experimenta tu! 🎈
 
@@ -91,6 +91,12 @@ E agora paga **certinho** — escolhe notas e moedas até dar o valor:
 
 ```money
 { "title": "Paga 7€ 🧸", "price": 7 }
+```
+
+Pronto para um **valor grande**? Paga **375,55€** com notas **e** moedas:
+
+```money
+{ "title": "Uma bicicleta 🚲", "price": 375.55, "palette": [200, 100, 50, 20, 10, 5, 2, 1, 0.5, 0.2, 0.1, 0.05] }
 ```
 
 > **Para saberes mais 🌱** O euro (€) não é só nosso! Muitos países da Europa

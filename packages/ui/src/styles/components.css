@@ -67,6 +67,7 @@
 }
 .prose-speak:hover { transform: scale(1.1); background: var(--primary); color: #fff; }
 .prose-speak:active { transform: scale(.92); }
+.prose-speak[data-playing] { background: var(--primary); color: #fff; }
 
 /* lesson summary block ("O que vais aprender") */
 .lesson-summary {
@@ -89,6 +90,7 @@
 }
 .lesson-summary__speak:hover { transform: translateY(-1px); filter: brightness(1.08); }
 .lesson-summary__speak:active { transform: translateY(0) scale(.97); }
+.lesson-summary__speak[data-playing] { filter: brightness(1.15); }
 .lesson-summary__list { margin: 12px 0 0; padding-left: 0; }
 .lesson-summary__ex {
   margin-top: 12px; padding-top: 10px;

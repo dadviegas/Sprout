@@ -32,6 +32,8 @@ export { Fraction } from "./widgets/Fraction";
 export type { FractionSpec } from "./widgets/Fraction";
 export { Money } from "./widgets/Money";
 export type { MoneySpec } from "./widgets/Money";
+export { Shop } from "./widgets/Shop";
+export type { ShopSpec } from "./widgets/Shop";
 export { SolarSystem } from "./widgets/SolarSystem";
 export type { SolarSystemSpec, OrbitBody } from "./widgets/SolarSystem";
 export { DayNight } from "./widgets/DayNight";

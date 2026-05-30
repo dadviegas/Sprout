@@ -42,10 +42,11 @@ export function canSpeak(): boolean {
 export function speakable(text: string): string {
   return text
     .replace(/(\d)\s*[×x*]\s*(\d)/gi, "$1 vezes $2") // 3 × 2 / 3x2 / 3*2
-    .replace(/(\d)\s*[÷:]\s*(\d)/g, "$1 a dividir por $2") // 6 ÷ 2
+    .replace(/(\d)\s*÷\s*(\d)/g, "$1 a dividir por $2") // 6 ÷ 2 (NOT ":", which is clock time)
     .replace(/(\d)\s*\/\s*(\d)/g, "$1 sobre $2") // fractions: 1/2
     .replace(/(\d)\s*\+\s*(\d)/g, "$1 mais $2") // 2 + 2
-    .replace(/(\d)\s*[-−]\s*(\d)/g, "$1 menos $2") // 5 − 2 (not "bem-vindo")
+    .replace(/(\d)\s*−\s*(\d)/g, "$1 menos $2") // true minus 5 − 2
+    .replace(/(\d) +- +(\d)/g, "$1 menos $2") // spaced hyphen 5 - 2 (not ranges "1-2-3")
     .replace(/(\d)\s*=\s*(\d)/g, "$1 é igual a $2") // = → "é igual a"
     .replace(/(\d)\s*<\s*(\d)/g, "$1 é menor que $2")
     .replace(/(\d)\s*>\s*(\d)/g, "$1 é maior que $2")
@@ -146,11 +147,13 @@ function utterAll(parts: string[], token: number): void {
   const utterances = parts.map(makeUtterance);
   // Queue each part as its own utterance: the gap between utterances gives a
   // natural pause, so a list (e.g. a tabuada) is read line by line, not run-on.
-  utterances[utterances.length - 1].addEventListener("end", finish);
-  for (const u of utterances) {
-    u.addEventListener("error", finish);
-    synth.speak(u);
-  }
+  // Only the LAST utterance signals completion — an `error` on an EARLIER one
+  // (mid-sequence) must not mark the whole run done while later lines still play
+  // (the watchdog is the fallback if the last one never fires either event).
+  const last = utterances[utterances.length - 1];
+  last.addEventListener("end", finish);
+  last.addEventListener("error", finish);
+  for (const u of utterances) synth.speak(u);
   setPlaying(token);
   // Chrome occasionally leaves synthesis paused right after cancel(); nudge it,
   // and the watchdog keeps nudging + clears the flag when speech really ends.

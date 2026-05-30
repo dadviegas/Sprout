@@ -75,6 +75,7 @@ const LESSON_ICON: Record<string, IconName> = {
   "mat-2-tabuada": "times", "mat-2-numeros-100": "abacus", "mat-2-dinheiro": "coin", "mat-2-horas": "clock",
   "mat-2-tabuada-3-4-10": "times", "mat-2-par-impar": "abacus", "mat-2-solidos": "shapes", "mat-2-padroes": "shapes",
   "estudo-tabuadas": "times", "estudo-alfabeto": "letters", "estudo-numeros": "abacus", "estudo-dias-meses": "calendar",
+  "estudo-dinheiro": "coin", "estudo-loja": "cart",
   "mat-3-multiplicacao": "times", "mat-3-divisao": "divide", "mat-3-fracoes": "fraction", "mat-3-medida": "ruler",
   "mat-3-numeros-1000": "abacus", "mat-3-multiplos": "times", "mat-3-calendario": "calendar",
   "mat-4-decimais": "abacus", "mat-4-area": "ruler", "mat-4-dados": "chart", "mat-4-problemas": "tip",
@@ -521,13 +522,15 @@ function RecentlySeen({
     <>
       <h2 className="section-title"><Icon name="clock" size={24} /> Visto recentemente</h2>
       <div className="recent-row">
-        {items.map(({ id, meta }) => (
+        {items.map(({ id, meta }) => {
+          const tier = tierLabel(meta.subjectId, meta.year); // "" for the grade-less study area
+          return (
           <button
             key={id}
             className="recent-chip"
             style={{ ["--c" as string]: meta.color }}
             onClick={() => onOpen(id)}
-            title={`${meta.title} · ${meta.subjectLabel} · ${tierLabel(meta.subjectId, meta.year)}`}
+            title={`${meta.title} · ${meta.subjectLabel}${tier ? ` · ${tier}` : ""}`}
           >
             <span className="recent-chip__icon" style={{ color: meta.color }}>
               <Icon name={lessonIconById(meta.subjectId, id)} size={18} />
@@ -537,7 +540,8 @@ function RecentlySeen({
               <Icon name="star" size={13} fill="currentColor" style={{ color: "var(--warn)", flexShrink: 0 }} />
             )}
           </button>
-        ))}
+          );
+        })}
       </div>
     </>
   );

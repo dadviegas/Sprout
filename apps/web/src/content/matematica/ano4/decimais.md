@@ -52,6 +52,13 @@ Um número decimal é só outra maneira de escrever uma **fração**. Olha: meio
 { "parts": 4, "filled": 1, "shape": "bar", "title": "Um quarto da tablete = 1/4 = 0,25", "color": "primary" }
 ```
 
+E aqui está a ponte para os decimais: **metade** é o mesmo que **5 décimas**. Corta a barra em 10 e pinta 5 — fica exatamente a mesma metade! Por isso **1/2 = 5/10 = 0,5**.
+
+```fractionstrips
+{ "mode": "equivalent", "title": "1/2 = 5/10 = 0,5", "color": "accent",
+  "rows": [ { "parts": 2, "filled": 1 }, { "parts": 10, "filled": 5 } ] }
+```
+
 ```keyvalue
 [
   { "k": "1/2", "v": "= 0,5  (metade) 🍰" },
@@ -116,6 +123,11 @@ Vamos resolver juntos: *«Tens 2,50 € e gastas 1,20 € num gelado 🍦. Com q
 {
   "id": "mat4-dec-pratica",
   "questions": [
+    { "gen": { "kind": "fraction", "shape": "pie", "max": 8 } },
+    { "q": "Que decimal vale a parte pintada?", "layout": "grid",
+      "figure": { "parts": 4, "filled": 1, "shape": "pie", "color": "primary" },
+      "options": [ { "t": "0,25", "correct": true }, { "t": "0,5" }, { "t": "0,75" } ],
+      "explain": "Está pintada 1 de 4 partes: 1/4 = 0,25." },
     { "q": "Como se lê 2,5?", "layout": "grid",
       "options": [ { "t": "dois vírgula cinco", "emoji": "🔢", "correct": true }, { "t": "vinte e cinco" }, { "t": "vinte e cinco mil" } ],
       "explain": "A vírgula lê-se «vírgula»: dois vírgula cinco." },

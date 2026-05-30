@@ -511,6 +511,7 @@
 .areagrid-num { font-family: var(--font-display); font-weight: 800; font-size: 2em; line-height: 1; color: var(--ink); }
 .areagrid-unit { font-weight: 700; color: var(--ink-2); }
 .areagrid-lbl { width: 100%; color: var(--ink-3); font-size: .85em; font-weight: 600; }
+.areagrid-side .clock-ctrl > span { width: 104px; }
 
 /* symmetry */
 .symmetry-body { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
@@ -571,6 +572,36 @@
 .fraction-readout { display: grid; gap: 6px; justify-items: center; }
 .fraction-num { display: flex; flex-direction: column; align-items: center; font-family: var(--font-display); font-weight: 800; font-size: 2.4em; line-height: 1; }
 .fraction-line { width: 34px; height: 4px; background: currentColor; border-radius: 2px; margin: 2px 0; }
+/* anatomy captions on the paint toy (labels: true) */
+.fraction-readout.has-anat { gap: 4px; max-width: 220px; }
+.fraction-readout .anat-cap { font-size: .78em; font-weight: 700; color: var(--ink-3); text-align: center; line-height: 1.2; }
+
+/* fraction strips — the "fraction wall" (equivalent / compare) */
+.fstrips-body { display: grid; gap: 8px; }
+.fstrip-row { display: flex; align-items: center; gap: 12px; padding: 4px 8px; border-radius: var(--radius-sm); }
+.fstrip-row.is-max { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); }
+.fstrip-label { font-family: var(--font-display); font-weight: 800; font-size: 1.25em; min-width: 48px; text-align: center; color: var(--ink); }
+.fstrip-svg { width: 240px; max-width: 58vw; height: auto; display: block; }
+.fstrips-concl { display: flex; align-items: center; gap: 10px; margin-top: 12px; font-weight: 700; color: var(--ink-2); flex-wrap: wrap; }
+
+/* fraction of a set — groups of objects, the taken ones boxed */
+.fof-body { display: grid; gap: 14px; justify-items: center; }
+.fof-groups { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+.fof-group {
+  display: flex; flex-wrap: wrap; gap: 4px; max-width: 140px; padding: 8px;
+  border-radius: 14px; border: 2px dashed var(--border-strong); background: var(--surface-2);
+  align-content: center; justify-content: center;
+}
+.fof-group.is-on { border-style: solid; border-color: var(--accent); background: color-mix(in srgb, var(--accent) 16%, var(--surface)); }
+.fof-group.fof-leftover { border-color: var(--danger); opacity: .7; }
+.fof-emoji { font-size: 1.5em; line-height: 1.1; }
+.fof-result { font-family: var(--font-display); font-weight: 800; font-size: 1.6em; color: var(--ink); }
+.fof-result strong { color: var(--accent); }
+
+/* a fraction figure drawn inside a quiz question */
+.quiz .qfigure { display: flex; justify-content: center; margin: 4px 0 14px; }
+.quiz .qfigure-svg { width: 130px; height: auto; max-width: 46vw; }
+.quiz .qfigure-svg.is-bar { width: 260px; max-width: 70vw; }
 
 /* money — every coin & note is drawn by MoneyToken, so the look is identical
    in the mealheiro (collect), the till (pay) and the reference gallery (show) */

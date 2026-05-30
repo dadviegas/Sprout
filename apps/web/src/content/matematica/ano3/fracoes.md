@@ -16,6 +16,12 @@ Uma fração tem sempre **dois números**, um por cima do outro, separados por u
 ]
 ```
 
+Olha a fração **por dentro**: pinta as fatias e repara nos rótulos a apontar — o número de **cima** conta as partes pintadas (numerador) e o de **baixo** conta as partes todas (denominador).
+
+```fraction
+{ "parts": 4, "filled": 3, "labels": true, "shape": "pie", "title": "A fração por dentro", "color": "accent" }
+```
+
 > A regra de ouro: o todo só vira fração quando as partes são **todas iguais**! Se cortares a pizza em fatias tortas e diferentes, isso não conta. 🟰
 
 ## Como se lê e se escreve ✍️
@@ -65,6 +71,13 @@ Aqui vem o truque que muita gente confunde! Quando o número de **baixo** é mai
 ]
 ```
 
+Vê com os teus olhos: as três barras têm o **mesmo tamanho**, mas só está pintada **1** fatia em cada. Quem tem a fatia pintada mais comprida ganha!
+
+```fractionstrips
+{ "mode": "compare", "title": "Qual é a maior?", "color": "primary",
+  "rows": [ { "parts": 2, "filled": 1 }, { "parts": 4, "filled": 1 }, { "parts": 8, "filled": 1 } ] }
+```
+
 > [!TIP] Pensa numa pizza para ti sozinho (1/2 cada metade — que fartura!) e na mesma pizza para uma turma inteira (1/20 cada — só uma migalha 🤏). Quanto mais gente, mais pequena a fatia!
 
 ## Frações especiais 🌟
@@ -80,6 +93,16 @@ Há frações com um truque escondido. Quando o número de cima é **igual** ao 
 ```
 
 > Se comeres **as 8 fatias** de uma pizza partida em 8, comeste **8/8** — ou seja, a **pizza toda**! 🍕😋
+
+## Frações de um grupo 🍬
+
+Uma fração também serve para repartir um **grupo de coisas**, não só uma pizza. Para descobrir **1/3 de 12 rebuçados**, divides os 12 em **3 grupos iguais** e ficas com **1** grupo. Conta quantos rebuçados ficam na caixa pintada:
+
+```fractionof
+{ "whole": 12, "parts": 3, "take": 1, "emoji": "🍬", "title": "1/3 de 12 rebuçados", "color": "accent" }
+```
+
+> **Truque:** o número de **baixo** diz em quantos grupos divides; o de **cima** diz quantos grupos levas. Então **1/3 de 12 = 12 ÷ 3 = 4**. 🍬
 
 ## Um exemplo passo a passo 🔍
 
@@ -97,7 +120,14 @@ Vamos resolver juntos: *«Cortei um bolo em 6 fatias iguais e comi 2. Que fraç�
 
 > **Truque:** lembra-te de **«Cima = Comi, Baixo = Bocados»**! O número de cima são as partes que tens (que comeste); o de baixo são todos os bocados em que partiste o todo. 🍰
 
-> [!TIP] **Para saberes mais** 🌱 Duas frações podem valer o **mesmo** mesmo parecendo diferentes — chamam-se **frações equivalentes**. Por exemplo, **1/2 = 2/4 = 4/8**: metade da pizza é sempre metade, quer a cortes em 2, em 4 ou em 8 fatias! Experimenta com o brinquedo lá em cima. 🤓
+> [!TIP] **Para saberes mais** 🌱 Duas frações podem valer o **mesmo** mesmo parecendo diferentes — chamam-se **frações equivalentes**. Por exemplo, **1/2 = 2/4 = 4/8**: metade da pizza é sempre metade, quer a cortes em 2, em 4 ou em 8 fatias! Vê nas barras aqui em baixo. 🤓
+
+As três barras são do mesmo tamanho e têm sempre **a mesma parte pintada** — só muda em quantos bocados a cortei:
+
+```fractionstrips
+{ "mode": "equivalent", "title": "1/2 = 2/4 = 4/8", "color": "accent",
+  "rows": [ { "parts": 2, "filled": 1 }, { "parts": 4, "filled": 2 }, { "parts": 8, "filled": 4 } ] }
+```
 
 ## Vamos praticar 🎈
 
@@ -105,6 +135,8 @@ Vamos resolver juntos: *«Cortei um bolo em 6 fatias iguais e comi 2. Que fraç�
 {
   "id": "mat3-frac-pratica",
   "questions": [
+    { "gen": { "kind": "fraction", "shape": "pie", "max": 6 } },
+    { "gen": { "kind": "fraction", "shape": "bar", "max": 8 } },
     { "q": "Partiste uma pizza em 2 e comeste 1 fatia. Que fração comeste?", "emoji": "🍕", "layout": "grid",
       "options": [ { "t": "1/2", "correct": true }, { "t": "1/4" }, { "t": "2/2" } ],
       "explain": "1 parte de 2 = 1/2 (metade)." },
@@ -144,6 +176,11 @@ Vamos resolver juntos: *«Cortei um bolo em 6 fatias iguais e comi 2. Que fraç�
   "final": true,
   "title": "Frações simples",
   "questions": [
+    { "q": "Que fração está pintada?", "layout": "grid",
+      "figure": { "parts": 4, "filled": 3, "shape": "pie", "color": "accent" },
+      "options": [ { "t": "3/4", "correct": true }, { "t": "4/3" }, { "t": "1/4" } ],
+      "explain": "Estão pintadas 3 de 4 partes: 3/4." },
+    { "gen": { "kind": "fraction", "shape": "bar", "max": 6 } },
     { "q": "Na fração 3/4, o número de baixo (4) diz...", "layout": "grid",
       "options": [ { "t": "em quantas partes dividimos", "correct": true }, { "t": "quantas partes temos" } ],
       "explain": "O denominador (em baixo) diz em quantas partes se dividiu." },

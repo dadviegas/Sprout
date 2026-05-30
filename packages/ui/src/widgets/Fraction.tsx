@@ -10,6 +10,7 @@ export interface FractionSpec {
   shape?: "pie" | "bar";
   color?: string;
   title?: string;
+  labels?: boolean; // annotate the readout with numerador/denominador captions
 }
 
 const NAMES: Record<number, string> = { 2: "meios", 3: "terços", 4: "quartos", 5: "quintos", 6: "sextos", 8: "oitavos" };
@@ -69,14 +70,23 @@ export function Fraction({ spec }: { spec: FractionSpec }) {
           </div>
         )}
 
-        <div className="fraction-readout">
+        <div className={`fraction-readout${spec.labels ? " has-anat" : ""}`}>
+          {spec.labels && <span className="anat-cap anat-top">partes pintadas — numerador</span>}
           <div className="fraction-num" style={{ color: stroke }}>
             <span>{filled}</span>
             <span className="fraction-line" />
             <span>{parts}</span>
           </div>
+          {spec.labels && <span className="anat-cap anat-bot">partes ao todo — denominador</span>}
           <div className="w-readout-sm">{filled} de {parts} {NAMES[parts] ?? "partes"}</div>
-          <Speaker text={`${filled} de ${parts}`} className="prose-speak" />
+          <Speaker
+            text={
+              spec.labels
+                ? `${filled} de ${parts}. Em cima, o numerador: as partes pintadas. Em baixo, o denominador: as partes ao todo.`
+                : `${filled} de ${parts}`
+            }
+            className="prose-speak"
+          />
         </div>
       </div>
     </div>

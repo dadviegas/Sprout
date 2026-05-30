@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Icon, type IconName } from "@sprout/icons";
-import { Speaker, Confetti } from "@sprout/ui";
+import { Speaker, Confetti, FractionFigure, type FractionFigureSpec } from "@sprout/ui";
 import { starsForPct, useLessonId, useProgress } from "./progress";
 
 export interface QuizOption {
@@ -8,12 +8,75 @@ export interface QuizOption {
   emoji?: string;
   correct?: boolean;
 }
+/** Recipe for a question built fresh at run time (a new one on every retry),
+ *  so practice never repeats the same numbers. Today only fraction-naming. */
+export interface QuizGen {
+  kind: "fraction";
+  shape?: "pie" | "bar";
+  max?: number; // largest denominator, default 6
+}
 export interface QuizQuestion {
-  q: string;
+  q?: string; // optional when `gen` builds the question
   emoji?: string;
   layout?: "grid" | "list";
-  options: QuizOption[];
+  options?: QuizOption[]; // optional when `gen` builds the options
   explain?: string;
+  figure?: FractionFigureSpec; // a fraction drawn above the options
+  gen?: QuizGen; // build q + figure + options dynamically
+}
+
+/* ---- dynamic questions: a tiny seeded RNG keeps each question stable while
+   it's on screen, but changes it on every retry (seed folds in the nonce). ---- */
+function mulberry32(seed: number): () => number {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function hashSeed(s: string): number {
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619);
+  return h >>> 0;
+}
+function shuffle<T>(arr: T[], rnd: () => number): T[] {
+  const a = arr.slice();
+  for (let k = a.length - 1; k > 0; k--) {
+    const j = Math.floor(rnd() * (k + 1));
+    [a[k], a[j]] = [a[j], a[k]];
+  }
+  return a;
+}
+
+function genFraction(gen: QuizGen, rnd: () => number): QuizQuestion {
+  const max = Math.min(Math.max(gen.max ?? 6, 3), 10);
+  const parts = 2 + Math.floor(rnd() * (max - 1)); // 2..max
+  const filled = 1 + Math.floor(rnd() * (parts - 1)); // 1..parts-1
+  const correct = `${filled}/${parts}`;
+  const seen = new Set([correct]);
+  const opts: QuizOption[] = [{ t: correct, correct: true }];
+  const candidates = [`${parts}/${filled}`, `${filled + 1}/${parts}`, `${filled - 1 || 1}/${parts}`, `${filled}/${parts + 1}`];
+  for (const c of shuffle(candidates, rnd)) {
+    if (opts.length >= 3) break;
+    if (!seen.has(c)) {
+      seen.add(c);
+      opts.push({ t: c });
+    }
+  }
+  return {
+    q: "Que fração está pintada?",
+    layout: "grid",
+    figure: { parts, filled, shape: gen.shape ?? "pie" },
+    options: shuffle(opts, rnd),
+    explain: `Estão pintadas ${filled} de ${parts} partes: ${correct}.`,
+  };
+}
+
+function resolveQuestion(raw: QuizQuestion, seed: number): QuizQuestion {
+  if (raw.gen?.kind === "fraction") return { ...raw, ...genFraction(raw.gen, mulberry32(seed)) };
+  return raw;
 }
 export interface QuizSpec {
   id?: string;
@@ -43,7 +106,13 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
   const [nonce, setNonce] = useState(0); // forces confetti remount on retry
 
   const total = spec.questions.length;
-  const question = spec.questions[i];
+  // Resolve `gen` questions into concrete ones; the seed (quizId + index +
+  // nonce) keeps the same question while it's shown and re-rolls it on retry.
+  const question = useMemo(
+    () => resolveQuestion(spec.questions[i], hashSeed(quizId) + i * 101 + nonce * 7919),
+    [spec.questions, i, quizId, nonce],
+  );
+  const options = question.options ?? [];
   const isFinal = !!spec.final;
 
   useEffect(() => {
@@ -56,7 +125,7 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
   const choose = (idx: number) => {
     if (picked !== null) return;
     setPicked(idx);
-    if (question.options[idx]?.correct) setCorrectCount((c) => c + 1);
+    if (options[idx]?.correct) setCorrectCount((c) => c + 1);
   };
 
   const next = () => {
@@ -112,11 +181,11 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
   }
 
   const answered = picked !== null;
-  const isCorrect = answered && !!question.options[picked!]?.correct;
+  const isCorrect = answered && !!options[picked!]?.correct;
   // Read-aloud of the question PLUS the options, for non-readers navigating by
   // keyboard or who need to hear the choices.
-  const optionsText = question.options.map((o) => o.t).filter(Boolean).join(", ");
-  const questionSpeech = optionsText ? `${question.q}. As opções são: ${optionsText}.` : question.q;
+  const optionsText = options.map((o) => o.t).filter(Boolean).join(", ");
+  const questionSpeech = optionsText ? `${question.q}. As opções são: ${optionsText}.` : question.q ?? "";
 
   return (
     <div className={`quiz ${isFinal ? "is-final" : ""}`}>
@@ -136,8 +205,20 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
         <Speaker text={questionSpeech} className="prose-speak" size={20} label="Ouvir a pergunta e as opções" />
       </div>
 
+      {question.figure && (
+        <div className="qfigure">
+          <FractionFigure
+            parts={question.figure.parts}
+            filled={question.figure.filled}
+            shape={question.figure.shape}
+            color={question.figure.color}
+            className={`qfigure-svg${question.figure.shape === "bar" ? " is-bar" : ""}`}
+          />
+        </div>
+      )}
+
       <div className={`options ${question.layout === "grid" ? "grid" : ""}`}>
-        {question.options.map((opt, idx) => {
+        {options.map((opt, idx) => {
           const reveal = answered;
           const right = reveal && opt.correct;
           const wrong = reveal && idx === picked && !opt.correct;

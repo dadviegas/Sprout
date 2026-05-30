@@ -363,7 +363,7 @@ export function CommandCenter({
           )}
           {hits.map((h, i) => (
             <button
-              key={`${h.subjectId}-${h.lessonId}`}
+              key={h.word ? `dw-${h.word.letter}-${h.title}` : `${h.subjectId}-${h.lessonId}`}
               data-i={i}
               className={`cmdk-row ${i === active ? "active" : ""}`}
               style={{ ["--c" as string]: h.color }}

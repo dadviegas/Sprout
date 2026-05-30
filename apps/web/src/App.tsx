@@ -178,20 +178,24 @@ function Root() {
     const id = focusWordRef.current;
     if (!id) return;
     focusWordRef.current = null;
-    let raf = 0;
-    let tries = 0;
-    const tick = () => {
+    // The letter page can carry 200+ cards and renders a beat after the view
+    // switches, so we wait for the card to appear (MutationObserver) rather
+    // than guessing a frame budget. Scroll it to the middle and pulse it once.
+    let done = false;
+    const focus = () => {
       const el = document.getElementById(id);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "center" });
-        el.classList.add("is-focus");
-        window.setTimeout(() => el.classList.remove("is-focus"), 2200);
-        return;
-      }
-      if (tries++ < 30) raf = requestAnimationFrame(tick);
+      if (!el || done) return !!el;
+      done = true;
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      el.classList.add("is-focus");
+      window.setTimeout(() => el.classList.remove("is-focus"), 2200);
+      return true;
     };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    if (focus()) return;
+    const obs = new MutationObserver(() => { if (focus()) obs.disconnect(); });
+    obs.observe(document.body, { childList: true, subtree: true });
+    const stop = window.setTimeout(() => obs.disconnect(), 6000);
+    return () => { obs.disconnect(); window.clearTimeout(stop); };
   }, [view]);
 
   // Cmd/Ctrl+K toggles the command center from anywhere.

@@ -25,7 +25,7 @@ const FINAL_MARKER = "## 🎯 Questionário final";
 // `widgetRenderers` / `infographicRenderers` maps + the `quiz` branch there.
 const JSON_BLOCKS = new Set([
   "quiz",
-  "shape", "angle", "areagrid", "symmetry", "compass", "watercycle", "clock", "numberline", "tenframe", "fraction", "money", "shop", "solarsystem", "daynight", "soundcards", "dictionary", "tabuada", "math", "chart",
+  "shape", "angle", "areagrid", "symmetry", "compass", "watercycle", "clock", "numberline", "tenframe", "fraction", "fractionstrips", "fractionof", "money", "shop", "solarsystem", "daynight", "soundcards", "dictionary", "tabuada", "math", "chart",
   "summary", "stats", "steps", "meters", "keyvalue", "compare", "quote",
 ]);
 
@@ -59,6 +59,12 @@ function validateQuiz(spec, where, errors) {
   }
   spec.questions.forEach((q, qi) => {
     const at = `${where} · pergunta ${qi + 1}`;
+    // A `gen` question is built at run time (q + figure + options), so it has
+    // no static text/options to validate here — just check the recipe shape.
+    if (q && typeof q.gen === "object" && q.gen !== null) {
+      if (typeof q.gen.kind !== "string") errors.push(`${at}: 'gen' precisa de 'kind'`);
+      return;
+    }
     if (!q || typeof q.q !== "string" || q.q.trim() === "") errors.push(`${at}: falta o texto 'q'`);
     if (!Array.isArray(q.options) || q.options.length < 2) {
       errors.push(`${at}: precisa de pelo menos 2 'options'`);

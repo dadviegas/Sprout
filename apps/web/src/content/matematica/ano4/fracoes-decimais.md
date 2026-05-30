@@ -45,6 +45,13 @@ Depois da vírgula, cada lugar tem um nome! A **primeira** casa são as **décim
 
 > [!NOTE] Quando lês **0,5** dizes «zero vírgula cinco» e quer dizer **5 décimas**. Como 5 décimas é metade de 10 décimas... é mesmo metade! 🎯
 
+Vê com os teus olhos: **1/2** e **5/10** pintam exatamente a mesma parte da barra — por isso são a mesma fatia e valem **0,5**.
+
+```fractionstrips
+{ "mode": "equivalent", "title": "1/2 = 5/10 = 0,5", "color": "accent",
+  "rows": [ { "parts": 2, "filled": 1 }, { "parts": 10, "filled": 5 } ] }
+```
+
 ## Frações no número certo da reta 📏
 
 Os decimais vivem na **reta numérica**, mesmo entre os números inteiros. O 0,5 fica exatamente a meio do caminho entre o 0 e o 1!
@@ -101,6 +108,11 @@ Vamos descobrir juntos quanto é **3/4** em decimal. Vais ver que é fácil!
 {
   "id": "mat-4-fracoes-decimais-pratica",
   "questions": [
+    { "gen": { "kind": "fraction", "shape": "bar", "max": 8 } },
+    { "q": "Que decimal vale a parte pintada?", "layout": "grid",
+      "figure": { "parts": 2, "filled": 1, "shape": "pie", "color": "accent" },
+      "options": [ { "t": "0,5", "correct": true }, { "t": "0,25" }, { "t": "0,1" } ],
+      "explain": "Está pintada 1 de 2 partes: 1/2 = 0,5." },
     { "q": "Quanto é 1/2 em decimal?", "layout": "grid",
       "options": [ { "t": "0,5", "correct": true, "emoji": "🍕" }, { "t": "0,25" }, { "t": "0,1" } ],
       "explain": "Metade de 1 é 0,5. Certinho!" },

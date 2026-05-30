@@ -24,6 +24,9 @@ common sense, Açores → world). Single-page, no server; progress is local.
   `@sprout/icons` (`<Icon name=… />`). Emoji are fine *inside* lesson content.
 - **Read-aloud everywhere.** Every question/explanation/message must be hearable
   (speaker icon) — the target child can't read yet.
+- **Speech only on a button/tap.** `speak()` may only fire from an explicit click
+  — the speaker button, a +/− button, or a tappable element. Never speak on a
+  drag, hover, or automatically (no autoplay on mount/navigation).
 - **Lessons** open with an "O que vais aprender" summary, then worked examples,
   a mental trick, a walked-through problem, a "Para saberes mais 🌱" stretch
   fact (one notch above grade level), and end with practice + a final `quiz`
@@ -56,11 +59,15 @@ common sense, Açores → world). Single-page, no server; progress is local.
 
 ## Markdown/widget blocks (for lesson authors)
 
-`quiz`, `soundcards`, `clock`, `shape`, `angle`, `numberline`, `tenframe`,
-`fraction`, `money`, `shop`, `solarsystem`, `daynight`, `tabuada`, `math`,
-`chart`, `dictionary`; infographics `stats`/`steps`/`compare`/`meters`/`keyvalue`/`quote`;
+`quiz`, `soundcards`, `clock`, `shape`, `angle`, `areagrid`, `symmetry`,
+`compass`, `watercycle`, `numberline`, `tenframe`, `fraction`, `money`, `shop`,
+`solarsystem`, `daynight`, `tabuada`, `math`, `chart`, `dictionary`;
+infographics `stats`/`steps`/`compare`/`meters`/`keyvalue`/`quote`;
 callouts `> [!NOTE]/[!TIP]/…`. The `icon` field in `steps`/`keyvalue` accepts an
 `@sprout/icons` name or an emoji.
+
+Each SVG widget teaches one idea with a kid metaphor and read-aloud (audio fires
+only on a button/tap — see the speech rule below). New ones:
 
 - `angle` draws an angle as inline SVG — a vertex with two sides (semirretas), a
   tinted opening arc, the little square at exactly 90°, and a live name
@@ -68,6 +75,18 @@ callouts `> [!NOTE]/[!TIP]/…`. The `icon` field in `steps`/`keyvalue` accepts 
   use −/+ to open/close the "boca de crocodilo"); pass `"interactive": false`
   for a fixed reference diagram. Fields: `angle` (0–180, default 45), `title`,
   `color` (subject key, default `mat`).
+- `areagrid` shows a rectangle of unit squares — área (the filled squares) vs
+  perímetro (the bold outline) — with side labels and live `w×h` / `2(w+h)`.
+  Resize with −/+. Fields: `width` (1–10), `height` (1–8), `unit` (default
+  `cm`), `title`, `interactive`, `color`.
+- `symmetry` shows a figure as a left half + a mirror half across a dashed eixo;
+  tap **Espelhar** to reveal the reflection coinciding. Fields: `shape`
+  (`coracao`|`borboleta`|`arvore`), `title`, `interactive`.
+- `compass` is the rosa dos ventos — N/S/E/O (+ NE/NO/SE/SO), tap a point to
+  rotate the needle and hear it. Fields: `title`, `colaterais` (default true).
+- `watercycle` is the labelled water-cycle scene (sun, sea, cloud, rain, river)
+  with four tappable stages and a looping droplet that honours reduced-motion.
+  Field: `title`.
 - `money` has two modes: **collect** (`items` + `target` — tap coins to fill a
   mealheiro) and **pay** (`price` — tap a notes+coins palette to build exactly
   the amount to pay). Passing `price` selects pay mode.

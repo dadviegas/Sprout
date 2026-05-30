@@ -85,7 +85,7 @@ export function Angle({ spec }: { spec: AngleSpec }) {
           style={{ touchAction: interactive ? "none" : undefined, cursor: interactive ? "grab" : "default" }}
           onPointerDown={interactive ? (e) => { dragging.current = true; (e.target as Element).setPointerCapture?.(e.pointerId); const d = degFromPointer(e); if (d != null) setDeg(d); } : undefined}
           onPointerMove={interactive ? (e) => { if (dragging.current) { e.preventDefault(); const d = degFromPointer(e); if (d != null) setDeg(d); } } : undefined}
-          onPointerUp={interactive ? () => { if (dragging.current) { dragging.current = false; const k = classify(deg); speak(sayAngle(deg, k.name, k.hint)); } } : undefined}
+          onPointerUp={interactive ? () => { dragging.current = false; } : undefined}
         >
           {/* the opening: tinted arc (+ the little square when it's a right angle) */}
           <path d={arcPath} fill="none" stroke={arcStroke} strokeWidth="4" strokeLinecap="round" />

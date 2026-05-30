@@ -912,6 +912,15 @@
   width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center;
   border-radius: 50%; background: var(--accent-soft); color: var(--accent);
 }
+/* the card the command center scrolled to: a brief glow ring to point it out */
+.dict-card.is-focus { border-color: var(--accent); animation: dict-focus 1.4s ease-out; }
+@keyframes dict-focus {
+  0% { box-shadow: 0 0 0 6px var(--accent-soft); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dict-card.is-focus { animation: none; box-shadow: 0 0 0 4px var(--accent-soft); }
+}
 
 /* tabuada (read aloud: "três vezes dois é igual a seis") */
 .tabuada-widget { border-color: color-mix(in srgb, var(--subj-mat) 55%, var(--border)); }

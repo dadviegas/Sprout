@@ -164,6 +164,36 @@ function Root() {
     window.scrollTo({ top: 0 });
   }, [view]);
 
+  // A dictionary-word result in the command center opens the letter page and
+  // asks to focus one word card. We capture the target id, then — once the new
+  // page has rendered — scroll that card into view and pulse it. The rAF loop
+  // retries until the card mounts (and runs after the scroll-to-top above).
+  const focusWordRef = useRef<string | null>(null);
+  useEffect(() => {
+    const onFocus = (e: Event) => { focusWordRef.current = (e as CustomEvent<{ id?: string }>).detail?.id ?? null; };
+    window.addEventListener("sprout:focusword", onFocus);
+    return () => window.removeEventListener("sprout:focusword", onFocus);
+  }, []);
+  useEffect(() => {
+    const id = focusWordRef.current;
+    if (!id) return;
+    focusWordRef.current = null;
+    let raf = 0;
+    let tries = 0;
+    const tick = () => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        el.classList.add("is-focus");
+        window.setTimeout(() => el.classList.remove("is-focus"), 2200);
+        return;
+      }
+      if (tries++ < 30) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [view]);
+
   // Cmd/Ctrl+K toggles the command center from anywhere.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {

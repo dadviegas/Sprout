@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Icon } from "@sprout/icons";
-import type { DictEntry, DictionarySpec } from "@sprout/ui";
+import { dictWordId, type DictEntry, type DictionarySpec } from "@sprout/ui";
 import {
   subjects,
   YEARS,
@@ -295,6 +295,9 @@ export function CommandCenter({
   useEffect(() => setActive(0), [q, year, subjectId]);
 
   const choose = (h: Hit) => {
+    // Dictionary-word results open the letter page AND scroll to that exact word
+    // card; App listens for this and focuses it once the page has rendered.
+    if (h.word) window.dispatchEvent(new CustomEvent("sprout:focusword", { detail: { id: dictWordId(h.title) } }));
     onGo(
       h.hasBody
         ? { kind: "lesson", year: h.year, subjectId: h.subjectId, lessonId: h.lessonId }

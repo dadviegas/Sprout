@@ -10,7 +10,7 @@ Documento honesto sobre o que **já existe** e o que **ainda falta**. Atualizado
 - **Config da página:** marca, mascote e a estrutura de "O Mundo" em `apps/web/src/site.config.yaml` (editar a página = editar YAML). ✅
 - **Ícones:** todo o *chrome* usa `@sprout/icons` (sem emoji solto). ✅
 - **Widgets interativos:** Relógio, Formas SVG, Reta numérica, Caixa do 10, Frações, Dinheiro, SoundCards. ✅ (componentes prontos)
-- **Lições:** **154** com questionário · **0** placeholders. **7 disciplinas escolares** (Matemática, Português, Estudo do Meio, Inglês, Cidadania, Educação Física, Artes) + a área **O Mundo** ✅🎉
+- **Lições:** **~334** com questionário final · **0** placeholders. **Disciplinas escolares** (Matemática, Português, Estudo do Meio, Inglês, Cidadania, Educação Física, Educação Artística — Visual/Musical/Tecnológica) + a área **O Mundo** + um **Dicionário**. Já há também conteúdo de **2.º ciclo** (Ciências Naturais, HGP) a começar. ✅🎉
 - **Design:** redesign "Atlas night" (cartões Atlantis, escuro+claro refeitos). ✅
 - **Procura:** centro de comandos **Ctrl/Cmd+K** (todas as lições, filtros ano/matéria, pré-visualização). ✅
 - **Dados:** **IndexedDB** atrás de interface trocável (`apps/web/src/storage/`), com espelho localStorage. ✅
@@ -48,7 +48,12 @@ Os widgets já existem mas faltam **lições que os usem** (há ficheiros pronto
 
 ### Blocos de markdown disponíveis (para autores)
 
-`quiz`, `soundcards`, `clock`, `shape`, `numberline`, `tenframe`, `fraction`, `money`, e os infográficos `stats`/`steps`/`compare`/`meters`/`keyvalue`/`quote`, mais callouts `> [!NOTE]/[!TIP]/...`.
+`quiz`, `soundcards`, `clock`, `shape`, `angle`, `areagrid`, `symmetry`,
+`compass`, `watercycle`, `bodysystem`, `timeline`, `mapapt`, `numberline`,
+`tenframe`, `fraction`, `money`, `shop`, `solarsystem`, `daynight`, `tabuada`,
+`math`, `chart`, `dictionary`, e os infográficos
+`stats`/`steps`/`compare`/`meters`/`keyvalue`/`quote`, mais callouts
+`> [!NOTE]/[!TIP]/...`. (Lista canónica e descrição de cada bloco em `CLAUDE.md`.)
 
 ## 3) Ícones
 

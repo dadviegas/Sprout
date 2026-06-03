@@ -85,6 +85,16 @@ E quando uma coisa fica **entre** dois pontos cardeais? Aí usamos os **pontos c
 
 > [!TIP] No nome colateral, o **Norte** ou o **Sul** vem sempre **primeiro**: dizemos *Nordeste* e *Sudoeste*, nunca «Estenorte». 😉
 
+## Vamos ler um mapa a sério 🇵🇹
+
+Agora junta tudo num mapa verdadeiro: o de **Portugal**! Lembra-te de que o **Norte fica para cima** e o **Sul para baixo**. Por isso, no cimo do mapa estão as terras do Norte (como **Braga** e **Viana do Castelo**) e, lá em baixo, o **Algarve** (Sul ☀️). À esquerda fica o **Oeste**, onde está o **mar** 🌊; à direita, o **Este**, onde fica a **Espanha**. Toca em cada ponto para ouvires onde fica e qual é a sua capital de distrito:
+
+```mapapt
+{ "title": "O mapa de Portugal 🇵🇹" }
+```
+
+> [!TIP] Repara: os **Açores** 🌋 e a **Madeira** 🏝️ ficam no **oceano**, a Oeste do Continente. São as nossas ilhas — por isso aparecem dentro do mar no mapa, e não coladas ao resto do país.
+
 ## Como te orientas na natureza 🌞
 
 Não tens uma bússola à mão? Não faz mal! A natureza tem **pistas** que te dizem onde ficam os pontos cardeais.
@@ -147,7 +157,10 @@ Imagina que estás de manhã num campo, sem bússola, e queres descobrir todos o
       "explain": "Entre o Norte e o Este fica o Nordeste (NE)." },
     { "q": "Estás virado para Este (o Sol da manhã). O que fica atrás de ti?", "layout": "grid",
       "options": [ { "t": "O Oeste", "emoji": "🌇", "correct": true }, { "t": "O Norte", "emoji": "❄️" }, { "t": "O Sul", "emoji": "☀️" } ],
-      "explain": "Se olhas para Este, atrás de ti fica o Oeste, o lado contrário." }
+      "explain": "Se olhas para Este, atrás de ti fica o Oeste, o lado contrário." },
+    { "q": "No mapa de Portugal, em que parte fica o Algarve?", "layout": "grid",
+      "options": [ { "t": "Em baixo, a Sul", "emoji": "☀️", "correct": true }, { "t": "Em cima, a Norte", "emoji": "❄️" }, { "t": "Dentro do mar", "emoji": "🌊" } ],
+      "explain": "O Algarve fica em baixo no mapa, a Sul. O Norte (Braga, Viana) fica em cima." }
   ]
 }
 ```
@@ -186,7 +199,10 @@ Imagina que estás de manhã num campo, sem bússola, e queres descobrir todos o
       "explain": "Entre o Sul e o Oeste fica o Sudoeste (SO)." },
     { "q": "Porque é que a agulha da bússola aponta para o Norte?", "layout": "grid",
       "options": [ { "t": "Porque a Terra funciona como um íman gigante", "emoji": "🧲", "correct": true }, { "t": "Porque tem pilhas", "emoji": "🔋" }, { "t": "Porque está pintada de azul", "emoji": "🎨" } ],
-      "explain": "A Terra é como um íman gigante e atrai a agulha para o Norte." }
+      "explain": "A Terra é como um íman gigante e atrai a agulha para o Norte." },
+    { "q": "No mapa de Portugal, onde aparecem os Açores e a Madeira?", "layout": "grid",
+      "options": [ { "t": "No oceano, a Oeste do Continente", "emoji": "🌊", "correct": true }, { "t": "Coladas ao Norte do país", "emoji": "❄️" }, { "t": "No meio de Espanha", "emoji": "🇪🇸" } ],
+      "explain": "São ilhas! Por isso ficam no oceano, a Oeste do Continente." }
   ]
 }
 ```

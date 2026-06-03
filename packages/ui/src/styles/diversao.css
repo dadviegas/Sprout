@@ -947,7 +947,85 @@
   100% { transform: scale(1.8); opacity: 0; }
 }
 
+/* Velho Oeste — on-screen controls (Roblox-style): a thumb-stick bottom-left,
+   action buttons bottom-right. Overlaid on the canvas; only the controls catch
+   pointers so the rest of the scene stays untouched. Big targets for little
+   fingers; touch-action:none so dragging never scrolls the page. */
+.vq-controls {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: clamp(12px, 3vw, 24px);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.vq-stick {
+  position: relative;
+  width: clamp(96px, 26vw, 128px);
+  height: clamp(96px, 26vw, 128px);
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.12));
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25), inset 0 2px 8px rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(2px);
+  pointer-events: auto;
+  touch-action: none;
+}
+.vq-knob {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 44%;
+  height: 44%;
+  margin: -22% 0 0 -22%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 32%, #fff, #d7c3a0 80%);
+  border: 2px solid rgba(120, 80, 40, 0.5);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+.vq-actions {
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(10px, 3vw, 18px);
+  pointer-events: auto;
+}
+.vq-btn {
+  display: grid;
+  place-items: center;
+  width: clamp(62px, 17vw, 78px);
+  height: clamp(62px, 17vw, 78px);
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  color: #fff;
+  cursor: pointer;
+  touch-action: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.28);
+  transition: transform var(--dur-fast) var(--ease-out), filter var(--dur-fast);
+}
+.vq-btn:active {
+  transform: scale(0.92);
+  filter: brightness(1.15);
+}
+.vq-btn--jump {
+  background: radial-gradient(circle at 50% 35%, #76d35f, #3fa12e);
+}
+.vq-btn--squirt {
+  width: clamp(54px, 14vw, 66px);
+  height: clamp(54px, 14vw, 66px);
+  background: radial-gradient(circle at 50% 35%, #5fcdf0, #2b97c9);
+}
+.vq-jump-glyph {
+  display: grid;
+  place-items: center;
+  transform: rotate(-90deg); /* the "forward" chevron points up = jump */
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .vq-btn { transition: none; }
   .dv-room,
   .dv-tool,
   .dv-seg,

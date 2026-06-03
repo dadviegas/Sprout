@@ -118,6 +118,13 @@ export const sfx = {
     tone({ freq: 220, slideTo: 70, dur: 0.3, type: "sawtooth", gain: 0.18 });
     noise(0.26, 0.18);
   },
+  /** Water-pistol squirt — a quick wet "pssht" (a falling chirp + soft hiss). */
+  squirt: (): void => {
+    tone({ freq: 900, slideTo: 280, dur: 0.18, type: "sine", gain: 0.12 });
+    noise(0.14, 0.1);
+  },
+  /** Bounced off an enemy's head (stomp) — a springy little boing. */
+  boing: (): void => tone({ freq: 320, slideTo: 720, dur: 0.16, type: "triangle", gain: 0.16 }),
   /** Round started — a short ready beep. */
   start: (): void => {
     tone({ freq: 520, dur: 0.1, type: "square", gain: 0.12 });

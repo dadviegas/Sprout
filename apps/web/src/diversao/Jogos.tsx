@@ -7,6 +7,7 @@ import { Xadrez } from "./Xadrez";
 import { Damas } from "./Damas";
 import { Salta } from "./Salta";
 import { Foguetao } from "./Foguetao";
+import { VelhoOeste } from "./VelhoOeste";
 
 /* Jogos — a little arcade. The hub shows game cards; picking one swaps to it
  * with a "Voltar aos jogos" button (kept in local state, so it stays inside the
@@ -16,7 +17,7 @@ import { Foguetao } from "./Foguetao";
  * Emoji are used INSIDE the games (game content, not chrome) — allowed by the
  * project conventions; the chrome (buttons, back arrow) uses @sprout/icons. */
 
-type GameId = "xadrez" | "damas" | "salta" | "foguetao" | "memoria" | "sequencia" | "apanha" | "toupeira" | "conta" | "soma";
+type GameId = "xadrez" | "damas" | "salta" | "foguetao" | "oeste" | "memoria" | "sequencia" | "apanha" | "toupeira" | "conta" | "soma";
 
 /* Each tile gets a little illustrated scene (same playful, multi-colour spirit
  * as the memory-card art) on a 0 0 48 48 grid, tinted with the tile's accent via
@@ -185,11 +186,26 @@ const ART_FOGUETAO = (
   </g>
 );
 
+// Velho Oeste — a cowboy hat with a shiny sheriff star, on a desert mesa.
+const ART_OESTE = (
+  <g>
+    <path d="M3 41c0-8 8-13 21-13s21 5 21 13z" fill="#d99a6a" />
+    <path d="M14 28h8v6h-8z" fill="#a85636" transform="skewX(-6)" opacity="0.5" />
+    {/* hat */}
+    <ellipse cx="24" cy="30" rx="17" ry="4.2" style={{ fill: "var(--c)" }} />
+    <path d="M14 30c0-7 2-13 10-13s10 6 10 13z" style={{ fill: "var(--c)" }} />
+    <rect x="14" y="27.5" width="20" height="3" rx="1.5" fill="#7c531f" />
+    {/* sheriff star */}
+    <path d="M24 6l2.2 4.6 5 .5-3.7 3.4 1 5-4.5-2.5-4.5 2.5 1-5-3.7-3.4 5-.5z" fill="#ffce3a" stroke="#c9870f" strokeWidth="1" strokeLinejoin="round" />
+  </g>
+);
+
 const GAMES: { id: GameId; art: ReactNode; accent: string; accentSoft: string; label: string; blurb: string; rules: string }[] = [
   { id: "xadrez", art: ART_XADREZ, accent: "var(--subj-hgp)", accentSoft: "var(--subj-hgp-soft)", label: "Xadrez", blurb: "Joga contra o computador ou um amigo.", rules: "Xadrez. Toca numa peça branca e depois no quadrado para onde queres ir. Dá xeque-mate ao rei! Podes jogar contra o computador ou contra um amigo na mesma máquina." },
   { id: "damas", art: ART_DAMAS, accent: "var(--subj-fis)", accentSoft: "var(--subj-fis-soft)", label: "Damas", blurb: "Salta por cima e come as peças.", rules: "Damas. Toca numa peça branca e depois no quadrado em diagonal para onde queres ir. Salta por cima de uma peça do adversário para a comeres — e se puderes comer, tens de comer! Chega ao outro lado para a tua peça virar dama e poder andar para todos os lados. Joga contra o computador ou contra um amigo." },
   { id: "salta", art: ART_SALTA, accent: "var(--subj-cn)", accentSoft: "var(--subj-cn-soft)", label: "Salta!", blurb: "Salta e apanha as estrelas.", rules: "Salta! O Saltão corre pela relva. Toca no ecrã para ele saltar — toca outra vez no ar para dar um salto duplo. Passa por cima das pedras e dos troncos e apanha as estrelas a brilhar. Quanto mais tempo aguentares, mais depressa fica!" },
   { id: "foguetao", art: ART_FOGUETAO, accent: "var(--subj-paises)", accentSoft: "var(--subj-paises-soft)", label: "Foguetão", blurb: "Voa e desvia-te dos meteoros.", rules: "Foguetão! Arrasta o dedo pelo ecrã para guiar o foguetão pelo espaço. Desvia-te dos meteoros, apanha as gemas a brilhar e agarra o escudo azul para ficares protegido uns segundos. Vê até onde consegues chegar!" },
+  { id: "oeste", art: ART_OESTE, accent: "var(--subj-hgp)", accentSoft: "var(--subj-hgp-soft)", label: "Velho Oeste", blurb: "Salta pelo Oeste e chega ao saloon.", rules: "Velho Oeste! Usa o manípulo redondo em baixo à esquerda para andar para a frente e para trás, e o botão verde à direita para saltar — toca outra vez no ar para um salto duplo. Apanha as moedas de ouro, a estrela dourada transforma-te em Xerife, a malagueta dá-te turbo e o coração verde dá-te uma vida. Salta em cima dos bandidos ou apanha a pistola de água para os pôr a fugir. Procura os segredos escondidos e chega ao saloon no fim de cada nível!" },
   { id: "memoria", art: ART_MEMORIA, accent: "var(--subj-en)", accentSoft: "var(--subj-en-soft)", label: "Memória", blurb: "Encontra os pares iguais.", rules: "Jogo da memória. Toca em duas cartas para as virar. Se forem iguais, ficam viradas. Encontra todos os pares!" },
   { id: "sequencia", art: ART_SEQUENCIA, accent: "var(--subj-mundo)", accentSoft: "var(--subj-mundo-soft)", label: "Sequência de cores", blurb: "Decora e repete as cores.", rules: "Sequência de cores. Vê a ordem das cores que se acendem e repete tocando nelas pela mesma ordem. A cada ronda fica mais comprida!" },
   { id: "apanha", art: ART_APANHA, accent: "var(--joy)", accentSoft: "var(--joy-soft)", label: "Apanha a fruta", blurb: "Toca na fruta antes de cair.", rules: "Apanha a fruta! Toca na fruta enquanto ela cai para a apanhares. Quantas consegues apanhar?" },
@@ -231,6 +247,7 @@ export function Jogos() {
     <GameFrame onBack={() => setGame("hub")} say={meta.rules}>
       {game === "salta" && <Salta />}
       {game === "foguetao" && <Foguetao />}
+      {game === "oeste" && <VelhoOeste />}
       {game === "memoria" && <Memoria />}
       {game === "sequencia" && <Sequencia />}
       {game === "apanha" && <Apanha />}

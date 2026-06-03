@@ -334,7 +334,7 @@ export function Salta() {
     sfx.unlock();
     const G = gameRef.current;
     G.phase = "playing";
-    G.speed = reduced ? 175 : 250;
+    G.speed = reduced ? 160 : 220;
     G.dist = 0;
     G.collected = 0;
     G.combo = 0;
@@ -346,8 +346,8 @@ export function Salta() {
     G.stars = [];
     G.parts = [];
     G.floats = [];
-    G.obSpawn = 0.9;
-    G.starSpawn = 0.6;
+    G.obSpawn = 1.5; // a gentle grace period before the first obstacle
+    G.starSpawn = 0.5; // but a star almost straight away, to invite a jump
     setPhase("playing");
     setScore(0);
     setLives(HEARTS);
@@ -431,7 +431,9 @@ export function Salta() {
           const ow = kind === "rock" ? rand(34, 52) : rand(48, 72);
           const oh = kind === "rock" ? ow * rand(0.7, 0.95) : rand(26, 40);
           G.obstacles.push({ x: w + 40, w: ow, h: oh, kind });
-          G.obSpawn = rand(300, 470) / G.speed;
+          // space obstacles by distance so the rhythm stays jumpable as it speeds
+          // up; the wider early gaps shrink a little as the run goes on
+          G.obSpawn = rand(360, 520) / G.speed;
         }
         G.starSpawn -= dt;
         if (G.starSpawn <= 0) {

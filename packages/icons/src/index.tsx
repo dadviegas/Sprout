@@ -36,6 +36,72 @@ export const ICONS = {
       <path d="M14.5 9h3M16 9v.3c0 2-1.4 3.6-3 4.4" />
     </>
   ),
+  // ---- 2.º ciclo subjects + science/arts extras ----
+  microscope: (
+    <>
+      <path d="M9.2 4.4l2.6 1.5-2.4 4.2-2.6-1.5z" />
+      <path d="M11.2 10.1c2.5 1.5 3.4 4.7 1.9 7.4" />
+      <path d="M6.5 20.5h9.5" />
+      <path d="M9 20.5a4 4 0 0 1 4-4" />
+      <path d="M7.6 13.4l2.1 1.2" />
+    </>
+  ),
+  scroll: (
+    <>
+      <path d="M9 4h9a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-3" />
+      <path d="M15 6v11a3 3 0 0 1-3 3H7a2 2 0 0 1-2-2 2 2 0 0 1 2-2h6" />
+      <path d="M9 4a2 2 0 0 0-2 2v9" />
+      <path d="M10.5 9.5h3M10.5 12h3" />
+    </>
+  ),
+  brush: (
+    <>
+      <path d="M18.8 5.2a2 2 0 0 0-2.8 0l-6 6 2.8 2.8 6-6a2 2 0 0 0 0-2.8z" />
+      <path d="M9.8 11.4l2.8 2.8" />
+      <path d="M9 13.2c-1.6 0-2.9 1.3-2.9 2.9 0 1.2-1 1.9-1.9 2.2 1 1.1 2.8 1.7 4.3 1 1.4-.6 2.4-2 2.4-3.5a2.6 2.6 0 0 0-1.9-2.6z" />
+    </>
+  ),
+  gear: (
+    <>
+      <circle cx="12" cy="12" r="3.2" />
+      <path d="M12 2.6v3M12 18.4v3M21.4 12h-3M5.6 12h-3M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1M18.6 18.6l-2.1-2.1M7.5 7.5 5.4 5.4" />
+    </>
+  ),
+  music: (
+    <>
+      <path d="M9 17V6.5l9-2V15" />
+      <circle cx="7" cy="17" r="2" />
+      <circle cx="16" cy="15" r="2" />
+    </>
+  ),
+  atom: (
+    <>
+      <circle cx="12" cy="12" r="1.5" />
+      <ellipse cx="12" cy="12" rx="9" ry="3.6" />
+      <ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(60 12 12)" />
+      <ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(120 12 12)" />
+    </>
+  ),
+  leaf: (
+    <>
+      <path d="M5 19c0-8 5-13 14-14 1 9-4 14-14 14z" />
+      <path d="M9 15c2-3 4-5 7-6.5" />
+    </>
+  ),
+  mountain: (
+    <>
+      <path d="M2.5 19h19L15 7l-3 5-2.2-3.5z" />
+      <path d="M13.4 10.8l1.6-1.4 1.2 1.8" />
+    </>
+  ),
+  bolt: <path d="M13 3 5 13h5l-1 8 8-11h-5z" />,
+  target: (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <circle cx="12" cy="12" r="4.5" />
+      <circle cx="12" cy="12" r="1" />
+    </>
+  ),
   // ---- chrome / navigation ----
   home: (
     <>
@@ -48,6 +114,10 @@ export const ICONS = {
   forward: <path d="M9.5 5.5L16 12l-6.5 6.5" />,
   menu: <path d="M4 7h16M4 12h16M4 17h16" />,
   close: <path d="M6 6l12 12M18 6L6 18" />,
+  // enter fullscreen — four corners opening outward
+  expand: <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />,
+  // exit fullscreen — four corners closing inward
+  collapse: <path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5" />,
   sun: (
     <>
       <circle cx="12" cy="12" r="4" />
@@ -365,6 +435,22 @@ export const ICONS = {
     </>
   ),
   arrowRight: <path d="M5 12h14M13 6l6 6-6 6" />,
+  // ---- diversão ----
+  game: (
+    <>
+      <rect x="2.5" y="7.5" width="19" height="9.5" rx="4.75" />
+      <path d="M7 11v2.5M5.75 12.25h2.5" />
+      <circle cx="15.6" cy="11.4" r="1.05" fill="currentColor" stroke="none" />
+      <circle cx="17.8" cy="13.4" r="1.05" fill="currentColor" stroke="none" />
+    </>
+  ),
+  blocks: (
+    <>
+      <rect x="3.5" y="12.5" width="8" height="8" rx="1.6" />
+      <rect x="12.5" y="12.5" width="8" height="8" rx="1.6" />
+      <rect x="8" y="3.6" width="8" height="8" rx="1.6" />
+    </>
+  ),
 } as const;
 
 export type IconName = keyof typeof ICONS;

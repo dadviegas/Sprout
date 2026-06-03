@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@rive-app/react-canvas": "^4.28.6",
     "@sprout/icons": "workspace:*",
     "@sprout/ui": "workspace:*",
     "react": "^18.3.1",

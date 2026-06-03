@@ -1,0 +1,916 @@
+/* Diversão — the playful area (garden / arcade / toy box). All colours come from
+ * the design tokens so it themes with light/dark. Canvases use touch-action:none
+ * so dragging to play never scrolls the page on iPad/phone. Motion is disabled
+ * under prefers-reduced-motion at the bottom of this file. */
+
+/* ---- hub: room / game cards ---- */
+.dv-rooms,
+.dv-games {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 8px;
+}
+
+/* Each slot carries its own accent (--c / --c-soft set inline per room/game),
+ * falling back to the Diversão coral if a slot doesn't set one. */
+.dv-room-slot {
+  position: relative;
+  --c: var(--joy);
+  --c-soft: var(--joy-soft);
+}
+
+.dv-room {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 20px;
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out), border-color var(--dur-fast);
+}
+.dv-room:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--c);
+}
+.dv-room:active {
+  transform: translateY(0);
+}
+.dv-room:hover .dv-room__icon {
+  transform: scale(1.06) rotate(-3deg);
+}
+
+/* Room + game tiles share one look: an illustrated scene on a tinted disc, lit
+ * by the slot's accent — playful but still graceful. */
+.dv-room__icon {
+  display: grid;
+  place-items: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(120% 120% at 50% 28%, var(--c-soft), var(--surface-2) 88%);
+  border: 1px solid var(--c-soft);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--dur-mid) var(--ease-spring);
+}
+.dv-room__art {
+  width: 60px;
+  height: 60px;
+}
+.dv-room__label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--ink);
+}
+.dv-room__blurb {
+  color: var(--ink-2);
+  font-size: 0.95rem;
+}
+.dv-room__speak {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--ink-2);
+  cursor: pointer;
+}
+.dv-room__speak[data-playing] {
+  color: var(--c);
+  border-color: var(--c);
+}
+
+/* ---- a room screen (toolbar + stage) ---- */
+.dv-room-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.dv-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.dv-toolbar__group {
+  display: inline-flex;
+  gap: 8px;
+}
+.dv-toolbar__group + .dv-toolbar__group {
+  margin-left: auto;
+}
+
+.dv-tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 46px;
+  min-height: 46px;
+  padding: 0 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-out), background var(--dur-fast), border-color var(--dur-fast);
+}
+.dv-tool:hover {
+  border-color: var(--joy);
+}
+.dv-tool:active {
+  transform: scale(0.96);
+}
+.dv-tool.is-active,
+.dv-tool[data-playing] {
+  background: var(--joy-soft);
+  border-color: var(--joy);
+  color: var(--joy);
+}
+.dv-tool--wide {
+  padding: 0 16px;
+}
+
+/* ---- canvases ---- */
+.dv-canvas {
+  display: block;
+  width: 100%;
+  height: clamp(320px, 60vh, 560px);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  touch-action: none; /* dragging to play must not scroll the page */
+}
+.dv-canvas--garden,
+.dv-canvas--game {
+  background: linear-gradient(180deg, var(--accent-soft), var(--surface));
+}
+
+.dv-hint {
+  color: var(--ink-2);
+  text-align: center;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* ---- garden ---- */
+.dv-garden {
+  position: relative;
+}
+.dv-garden__empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  color: var(--ink-2);
+  pointer-events: none;
+  padding: 24px;
+}
+.dv-garden__empty p {
+  max-width: 22ch;
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+/* The progressive-enhancement plaque (HTML-in-Canvas, Chrome+flag only). It is a
+ * canvas child, so normal browsers never render it; these styles only show up
+ * when drawElementImage() paints it into the scene. */
+.dv-plaque {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 20px;
+  color: #fff;
+  background: linear-gradient(90deg, var(--joy), var(--warn));
+  box-shadow: var(--shadow-md);
+  animation: dv-shimmer 2.4s var(--ease-out) infinite;
+}
+@keyframes dv-shimmer {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.25); }
+}
+
+/* ---- play area (games) ---- */
+.dv-play {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+}
+/* Fullscreen (the chess board's "ecrã inteiro" button): the room fills the screen,
+   centers vertically, and the board drops its 700px cap to use the whole height. */
+.dv-play.is-fullscreen {
+  height: 100%;
+  justify-content: center;
+  padding: 12px;
+  box-sizing: border-box;
+  overflow: auto;
+  background: var(--bg);
+}
+.dv-play.is-fullscreen .xb-board {
+  width: min(94vw, 82vh);
+}
+
+.dv-scorebar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.dv-score {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: var(--joy);
+}
+
+/* Memória — difficulty segmented control */
+.dv-segment {
+  display: inline-flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.dv-seg {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  min-height: 46px;
+  padding: 6px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background var(--dur-fast), border-color var(--dur-fast);
+}
+.dv-seg small {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.72rem;
+  color: var(--ink-3);
+}
+.dv-seg:hover {
+  border-color: var(--joy);
+}
+.dv-seg.is-active {
+  background: var(--joy-soft);
+  border-color: var(--joy);
+  color: var(--joy);
+}
+.dv-seg.is-active small {
+  color: var(--joy);
+}
+/* compact, single-line variant — sits inline in a toolbar row (e.g. chess) */
+.dv-segment--inline .dv-seg {
+  flex-direction: row;
+  min-height: 46px;
+  padding: 0 14px;
+  font-size: 0.95rem;
+}
+
+/* Memória — card grid (columns + max-width set inline per difficulty) */
+.mem-grid {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+  margin: 0 auto;
+}
+.mem-card {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  background: var(--surface-2);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-spring), background var(--dur-fast), border-color var(--dur-fast);
+}
+.mem-card:active {
+  transform: scale(0.95);
+}
+.mem-card.is-up {
+  background: var(--joy-soft);
+  border-color: var(--joy);
+}
+.mem-card.is-matched {
+  background: var(--primary-soft);
+  border-color: var(--primary);
+  cursor: default;
+}
+.mem-art {
+  width: 70%;
+  height: 70%;
+}
+.mem-back {
+  width: 46%;
+  height: 46%;
+  color: var(--ink-3);
+  opacity: 0.55;
+}
+.mem-grid.no-anim .mem-card {
+  transition: none;
+}
+
+.dv-win {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: var(--ink);
+}
+
+/* Sequência de cores (Simon) */
+.simon {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  width: min(360px, 80vw);
+  margin: 0 auto;
+}
+.simon-pad {
+  aspect-ratio: 1;
+  border: none;
+  border-radius: var(--radius-lg);
+  background: var(--pad);
+  opacity: 0.42;
+  cursor: pointer;
+  transition: opacity var(--dur-fast), transform var(--dur-fast) var(--ease-spring), box-shadow var(--dur-fast);
+}
+.simon-pad.is-active {
+  opacity: 1;
+  transform: scale(1.04);
+  box-shadow: 0 0 26px var(--pad);
+}
+.simon-pad:disabled {
+  cursor: default;
+}
+.simon.no-anim .simon-pad {
+  transition: none;
+}
+
+/* Apanha a toupeira (whack-a-mole) */
+.mole-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  width: min(380px, 84vw);
+  margin: 0 auto;
+}
+.mole-hole {
+  aspect-ratio: 1;
+  border: none;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 32%, var(--surface-3), var(--surface-2));
+  box-shadow: inset 0 -8px 14px rgba(0, 0, 0, 0.25);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.mole {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4%;
+  font-size: clamp(30px, 9vw, 52px);
+  transform: translateY(115%);
+  transition: transform var(--dur-mid) var(--ease-spring);
+  pointer-events: none;
+}
+.mole-hole.has-mole .mole {
+  transform: translateY(0);
+}
+
+/* Soma rápida */
+.dv-sum {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2rem, 8vw, 3rem);
+  color: var(--ink);
+}
+.dv-sum__op {
+  color: var(--joy);
+}
+.dv-sum__q {
+  color: var(--ink-3);
+}
+.dv-sum__speak {
+  font-size: 1rem;
+}
+
+/* Conta comigo */
+.dv-conta__q {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.4rem;
+  margin: 0;
+  color: var(--ink);
+}
+.dv-conta__objects {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  font-size: clamp(34px, 8vw, 52px);
+  min-height: 64px;
+  max-width: 520px;
+}
+.dv-conta__options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+.dv-num {
+  min-width: 68px;
+  min-height: 68px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.8rem;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-spring), background var(--dur-fast), border-color var(--dur-fast);
+}
+.dv-num:hover {
+  border-color: var(--joy);
+}
+.dv-num:active {
+  transform: scale(0.94);
+  background: var(--joy-soft);
+}
+
+/* Xadrez */
+.xb-msg {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--ink-2);
+  min-height: 1.4em;
+}
+.xb-msg.is-check { color: var(--warn); }
+.xb-msg.is-over { color: var(--joy); }
+
+.xb-board {
+  position: relative;
+  width: min(96vw, 74vh, 700px); /* big; the single-row toolbar leaves it the height */
+  aspect-ratio: 1;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  touch-action: manipulation; /* tappable without double-tap zoom on iPad/phone */
+  user-select: none;
+  container-type: size; /* lets the piece glyphs scale with the board (cqw) */
+}
+/* cinematic "juice": the board jolts + zooms a touch when a piece is taken
+   (toggled by setHit in Xadrez.tsx; never fires under reduced motion) */
+.xb-board.is-hit { animation: xb-hit 0.42s var(--ease-out); }
+@keyframes xb-hit {
+  0%   { transform: translate(0, 0) scale(1); }
+  18%  { transform: translate(-1.4%, 1%) scale(1.03); }
+  38%  { transform: translate(1.4%, -0.8%) scale(1.035); }
+  58%  { transform: translate(-1%, 0.6%) scale(1.025); }
+  78%  { transform: translate(0.7%, -0.3%) scale(1.015); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+.xb-squares {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+}
+.xb-sq {
+  border: none;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.xb-sq.light { background: #f1e7d2; } /* warm cream */
+.xb-sq.dark { background: #6fa06a; }  /* friendly green */
+.xb-sq:disabled { cursor: default; }
+.xb-sq.sel { box-shadow: inset 0 0 0 4px var(--joy); }
+/* king in check / checkmated → red alert so you SEE the state */
+.xb-sq.check {
+  background: radial-gradient(circle, rgba(216, 59, 66, 0.85), rgba(216, 59, 66, 0.35));
+  animation: xb-check 0.85s ease-in-out infinite;
+}
+.xb-sq.mate {
+  background: radial-gradient(circle, rgba(216, 59, 66, 0.95), rgba(216, 59, 66, 0.6));
+  box-shadow: inset 0 0 0 5px var(--danger);
+}
+@keyframes xb-check {
+  0%, 100% { box-shadow: inset 0 0 0 4px var(--danger); }
+  50% { box-shadow: inset 0 0 0 8px var(--danger); }
+}
+.xb-dot {
+  width: 32%;
+  height: 32%;
+  border-radius: 50%;
+  background: rgba(31, 41, 51, 0.34);
+  animation: xb-pulse 1.1s var(--ease-out) infinite;
+}
+.xb-dot.cap {
+  width: 84%;
+  height: 84%;
+  background: none;
+  border: 5px solid rgba(216, 59, 66, 0.6);
+  box-sizing: border-box;
+}
+@keyframes xb-pulse {
+  0%, 100% { transform: scale(0.8); opacity: 0.65; }
+  50% { transform: scale(1); opacity: 1; }
+}
+
+.xb-pieces {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.xb-piece {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12.5%;
+  height: 12.5%;
+  display: grid;
+  place-items: center;
+  transition: transform 0.34s ease-in-out; /* smooth glide across to the square */
+  will-change: transform;
+}
+.xb-piece.lift { z-index: 3; } /* the mover / picked-up piece rides above the rest */
+.xb-piece.dead { z-index: 6; } /* the struck piece is knocked off ON TOP, so the kill is seen */
+
+/* The "character" in a square — either a Unicode glyph (.xb-glyph) or a dropped-in
+   sprite (.xb-sprite). Both carry .xb-char, which holds the walk / attack / capture
+   animations. Pieces sit STILL when idle and only move while being used; the swing
+   pivots near the feet so the weapon arcs like a real strike. The --ax/--ay/--rot
+   custom props (set per piece in Xadrez.tsx) aim the thrust and the knock-off. */
+.xb-char {
+  transform-origin: 50% 82%;
+}
+.xb-glyph {
+  font-size: 9.6cqw; /* ~0.77 of a cell — scales with the board */
+  line-height: 1;
+}
+/* a sprite sized to sit neatly INSIDE the square (contained, centered), lifted off
+   the board with a soft shadow. Falls back to .xb-glyph when no art file is present
+   (see Xadrez.tsx). */
+.xb-sprite {
+  width: 92%;
+  height: 92%;
+  object-fit: contain;
+  /* a drop shadow + a tight dark halo (outline-like) so the piece pops off any square */
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 2px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 1px rgba(0, 0, 0, 0.4));
+  -webkit-user-drag: none;
+}
+/* a dropped-in Rive character renders to its own <canvas> — fill the square */
+.xb-rive { width: 100%; height: 100%; }
+/* per-piece sizes so the rank reads at a glance: pawns smallest, king biggest */
+.xb-pc-p { width: 66%; height: 66%; }
+.xb-pc-n, .xb-pc-b, .xb-pc-r { width: 85%; height: 85%; }
+.xb-pc-q { width: 94%; height: 94%; }
+.xb-pc-k { width: 100%; height: 100%; }
+.xb-piece.white .xb-glyph {
+  color: #fbfbf7;
+  text-shadow: 0 1px 0 #4f463a, 0 0 2px rgba(0, 0, 0, 0.5), 1px 1px 1px rgba(0, 0, 0, 0.4);
+}
+.xb-piece.black .xb-glyph {
+  color: #232a2f;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.35);
+}
+/* the picked-up piece lifts (static — no bob) so you see what's selected */
+.xb-piece.sel .xb-char {
+  transform: scale(1.12) translateY(-6%);
+  filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.4));
+}
+/* Flat pieces (a dropped-in image) and glyphs animate as a WHOLE — they can't move
+   limbs. Rigged characters (.xb-rig) are handled below: their limbs do the moving. */
+/* WALK: one smooth stride — a gentle sway, no fast waddle */
+.xb-char.walking:not(.xb-rig) { animation: xb-walk 0.5s ease-in-out; }
+@keyframes xb-walk {
+  0%   { transform: translateY(0) rotate(0); }
+  25%  { transform: translateY(-5%) rotate(-2.5deg); }
+  50%  { transform: translateY(0) rotate(0); }
+  75%  { transform: translateY(-5%) rotate(2.5deg); }
+  100% { transform: translateY(0) rotate(0); }
+}
+/* ATTACK: settle after walking in → wind the weapon back → thrust along the
+   approach direction → recover. Reads as a real strike with the held weapon. */
+.xb-char.attacking:not(.xb-rig) { animation: xb-attack 0.62s var(--ease-out); }
+@keyframes xb-attack {
+  0%, 24% { transform: translate(0, 0) rotate(0) scale(1); }
+  42%     { transform: translate(calc(var(--ax, 0) * -9%), calc(var(--ay, 0) * -9%)) rotate(calc(var(--rot, 1) * -12deg)) scale(1.08); }
+  60%     { transform: translate(calc(var(--ax, 0) * 26%), calc(var(--ay, 0) * 26%)) rotate(calc(var(--rot, 1) * 15deg)) scale(1.16); }
+  78%     { transform: translate(calc(var(--ax, 0) * 7%), calc(var(--ay, 0) * 7%)) rotate(calc(var(--rot, 1) * 4deg)) scale(1.04); }
+  100%    { transform: translate(0, 0) rotate(0) scale(1); }
+}
+/* ---- rigged "living" characters (pieces.tsx): the limbs move, not the whole body ---- */
+.xb-rig { overflow: visible; } /* let a swinging arm/leg spill past the viewBox */
+/* limb pivots: legs swing from the hip, the arm from the shoulder, the cape from the neck */
+.xc-leg { transform-box: fill-box; transform-origin: 50% 0%; }
+.xc-arm { transform-box: view-box; transform-origin: 63px 62px; }
+.xc-cape { transform-box: fill-box; transform-origin: 50% 0%; }
+/* WALK: legs stride in opposite phase, the weapon arm counter-swings, the cape sways,
+   the whole body gives a soft bob. */
+.xb-rig.walking { animation: xb-bob 0.5s ease-in-out; }
+@keyframes xb-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3%); } }
+.xb-rig.walking .xc-leg-a { animation: xc-step 0.5s ease-in-out; }
+.xb-rig.walking .xc-leg-b { animation: xc-step 0.5s ease-in-out reverse; }
+.xb-rig.walking .xc-arm { animation: xc-armswing 0.5s ease-in-out; }
+.xb-rig.walking .xc-cape { animation: xc-sway 0.6s ease-in-out; }
+@keyframes xc-step { 0%, 100% { transform: rotate(15deg); } 50% { transform: rotate(-15deg); } }
+@keyframes xc-armswing { 0%, 100% { transform: rotate(-7deg); } 50% { transform: rotate(7deg); } }
+@keyframes xc-sway { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
+/* ATTACK: the whole body lunges toward the victim (xb-attack) while the weapon arm
+   winds back, then drives the blade/lance forward, then recovers. */
+.xb-rig.attacking { animation: xb-attack 0.62s var(--ease-out); }
+.xb-rig.attacking .xc-arm { animation: xc-strike 0.62s var(--ease-out); }
+@keyframes xc-strike {
+  0%, 18% { transform: rotate(0deg); }   /* weapon upright */
+  38%     { transform: rotate(-34deg); } /* raise it back — wind up */
+  56%     { transform: rotate(74deg); }  /* drive it forward — the strike */
+  72%     { transform: rotate(66deg); }  /* held in the enemy */
+  100%    { transform: rotate(0deg); }
+}
+
+/* CAPTURE: the struck piece recoils, then is knocked off the way the blow came —
+   delayed so it reacts when the attacker's thrust lands (≈ IMPACT_MS). */
+.xb-piece.dead .xb-char { animation: xb-capture 0.46s var(--ease-out) 0.34s forwards; }
+@keyframes xb-capture {
+  0%   { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
+  18%  { transform: translate(calc(var(--ax, 0) * 10%), calc(var(--ay, 0) * 10% - 8%)) rotate(calc(var(--rot, 1) * -12deg)) scale(1.06); opacity: 1; }
+  100% { transform: translate(calc(var(--ax, 0) * 62%), calc(var(--ay, 0) * 62% + 26%)) rotate(calc(var(--rot, 1) * 78deg)) scale(0.18); opacity: 0; }
+}
+/* the "pow" flash left behind by a capture */
+.xb-burst {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12.5%;
+  height: 12.5%;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.xb-burst::after {
+  content: "";
+  width: 76%;
+  height: 76%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 210, 60, 0.95), rgba(216, 59, 66, 0.55) 55%, transparent 72%);
+  animation: xb-burst 0.44s var(--ease-out) forwards;
+}
+/* an expanding shockwave ring on top of the flash — extra punch on the hit */
+.xb-burst::before {
+  content: "";
+  position: absolute;
+  width: 48%;
+  height: 48%;
+  border-radius: 50%;
+  border: 4px solid rgba(255, 226, 120, 0.9);
+  box-sizing: border-box;
+  animation: xb-ring 0.5s var(--ease-out) forwards;
+}
+@keyframes xb-ring {
+  0% { transform: scale(0.3); opacity: 0.95; }
+  100% { transform: scale(2.7); opacity: 0; }
+}
+@keyframes xb-burst {
+  0% { transform: scale(0.3); opacity: 0.95; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+/* Damas (draughts) — kept independent of the chess .xb-* styles on purpose (the
+   chess board is changing). Round discs on the same cream + green board; a dama
+   wears a little crown. */
+.dm-msg {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--ink-2);
+  min-height: 1.4em;
+}
+.dm-msg.is-over { color: var(--joy); }
+
+.dm-board {
+  position: relative;
+  width: min(96vw, 74vh, 700px);
+  aspect-ratio: 1;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  touch-action: manipulation;
+  user-select: none;
+}
+.dm-squares {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+}
+.dm-sq {
+  border: none;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.dm-sq.light { background: #f1e7d2; } /* warm cream */
+.dm-sq.dark { background: #6fa06a; }  /* friendly green */
+.dm-sq:disabled { cursor: default; }
+.dm-sq.sel { box-shadow: inset 0 0 0 4px var(--joy); }
+.dm-dot {
+  width: 30%;
+  height: 30%;
+  border-radius: 50%;
+  background: rgba(31, 41, 51, 0.34);
+  animation: dm-pulse 1.1s var(--ease-out) infinite;
+}
+.dm-dot.cap {
+  width: 84%;
+  height: 84%;
+  background: none;
+  border: 5px solid rgba(216, 59, 66, 0.6);
+  box-sizing: border-box;
+}
+@keyframes dm-pulse {
+  0%, 100% { transform: scale(0.8); opacity: 0.65; }
+  50% { transform: scale(1); opacity: 1; }
+}
+
+.dm-pieces {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.dm-piece {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12.5%;
+  height: 12.5%;
+  display: grid;
+  place-items: center;
+  transition: transform 0.26s var(--ease-out);
+  will-change: transform;
+}
+.dm-disc {
+  width: 74%;
+  height: 74%;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.28), inset 0 2px 4px rgba(255, 255, 255, 0.45), 0 2px 3px rgba(0, 0, 0, 0.35);
+  /* gentle idle bob so the discs feel like little characters (delay set inline) */
+  animation: dm-idle 2.6s var(--ease-out) infinite;
+}
+.dm-piece.white .dm-disc { background: radial-gradient(circle at 38% 32%, #ffffff, #e9e1cf 70%, #d6cab1); }
+.dm-piece.black .dm-disc { background: radial-gradient(circle at 38% 32%, #4c545c, #262b31 70%, #14181c); }
+.dm-crown {
+  width: 48%;
+  height: 48%;
+}
+.dm-crown path {
+  fill: #f5c542;
+  stroke: rgba(0, 0, 0, 0.28);
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+@keyframes dm-idle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5%); }
+}
+/* the picked-up disc lifts and stops bobbing */
+.dm-piece.sel .dm-disc {
+  animation: none;
+  transform: scale(1.14) translateY(-7%);
+  box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.28), inset 0 2px 4px rgba(255, 255, 255, 0.45), 0 6px 7px rgba(0, 0, 0, 0.4);
+}
+/* a moving disc hops to its square; a capturer lunges */
+.dm-disc.walking { animation: dm-walk 0.32s var(--ease-out) 2; }
+.dm-disc.attacking { animation: dm-attack 0.36s var(--ease-out); }
+@keyframes dm-walk {
+  0% { transform: translateY(0); }
+  25% { transform: translateY(-13%); }
+  50% { transform: translateY(0); }
+  75% { transform: translateY(-7%); }
+  100% { transform: translateY(0); }
+}
+@keyframes dm-attack {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.32); }
+  100% { transform: scale(1); }
+}
+/* eaten disc gets knocked off the board */
+.dm-piece.dead .dm-disc { animation: dm-capture 0.4s var(--ease-out) forwards; }
+@keyframes dm-capture {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  30% { transform: translateY(-13%) scale(1.2); }
+  100% { transform: translateY(28%) scale(0); opacity: 0; }
+}
+/* the "pow" flash left behind by a capture */
+.dm-burst {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12.5%;
+  height: 12.5%;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.dm-burst::after {
+  content: "";
+  width: 76%;
+  height: 76%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 210, 60, 0.95), rgba(216, 59, 66, 0.55) 55%, transparent 72%);
+  animation: dm-burst 0.44s var(--ease-out) forwards;
+}
+@keyframes dm-burst {
+  0% { transform: scale(0.3); opacity: 0.95; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dv-room,
+  .dv-tool,
+  .dv-seg,
+  .mem-card,
+  .dv-num,
+  .simon-pad,
+  .mole,
+  .dv-room__icon,
+  .xb-piece,
+  .dm-piece {
+    transition: none;
+  }
+  .dv-room:hover .dv-room__icon {
+    transform: none;
+  }
+  .dv-plaque,
+  .xb-dot,
+  .xb-char,
+  .xb-sq.check,
+  .dm-dot,
+  .dm-disc {
+    animation: none;
+  }
+  .xb-piece.dead .xb-char,
+  .dm-piece.dead .dm-disc {
+    animation: none;
+    opacity: 0;
+  }
+}

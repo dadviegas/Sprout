@@ -1,0 +1,8 @@
+# Bundled lesson pictures
+#
+# Put raster pictures (jpg/png/webp) here and reference them in a lesson with
+# the `figure` block, e.g.  { "src": "img/serra-da-estrela.jpg", "alt": "…" }.
+# This folder is served at the site root in dev and copied into the build.
+#
+# Prefer inline SVG illustrations (written straight in the .md, theme-aware,
+# no licensing) over raster images whenever you can.

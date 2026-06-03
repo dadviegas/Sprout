@@ -142,6 +142,10 @@ interface ProgressContextValue {
   markVisited: (lessonId: string) => void;
   /** Push a lesson to the front of the recently-seen list. */
   recordSeen: (lessonId: string) => void;
+  /** Drop one lesson from the recently-seen list. */
+  removeSeen: (lessonId: string) => void;
+  /** Empty the recently-seen list. */
+  clearHistory: () => void;
   recordQuiz: (lessonId: string, quizId: string, score: QuizScore, isFinal: boolean) => void;
   totalStars: number;
   resetAll: () => void;
@@ -202,6 +206,12 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
       return [lessonId, ...prev.filter((id) => id !== lessonId)].slice(0, MAX_HISTORY);
     });
   }, []);
+
+  const removeSeen = useCallback((lessonId: string) => {
+    setHistory((prev) => prev.filter((id) => id !== lessonId));
+  }, []);
+
+  const clearHistory = useCallback(() => setHistory([]), []);
 
   const recordQuiz = useCallback(
     (lessonId: string, quizId: string, score: QuizScore, isFinal: boolean) => {
@@ -270,8 +280,8 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   );
 
   const value = useMemo(
-    () => ({ progress, achievements, history, lessonOf, markVisited, recordSeen, recordQuiz, totalStars, resetAll }),
-    [progress, achievements, history, lessonOf, markVisited, recordSeen, recordQuiz, totalStars, resetAll],
+    () => ({ progress, achievements, history, lessonOf, markVisited, recordSeen, removeSeen, clearHistory, recordQuiz, totalStars, resetAll }),
+    [progress, achievements, history, lessonOf, markVisited, recordSeen, removeSeen, clearHistory, recordQuiz, totalStars, resetAll],
   );
 
   return <ProgressContext.Provider value={value}>{children}</ProgressContext.Provider>;

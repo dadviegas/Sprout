@@ -21,6 +21,33 @@ estudo:
   sectionTitle: Saber de cor
   sectionSub: "Coisas para saber de cor — toca para ouvir e treinar! 🧠"
 
+# "Diversão" — the playful area (not a school subject, not tied to a grade):
+# a magical garden that grows with every lesson done, a little arcade of games,
+# and a toy box to poke at. All read-aloud; works on tablet, phone and desktop.
+# The rooms live in code (apps/web/src/diversao/); this owns the section copy.
+diversao:
+  sectionTitle: Diversão
+  sectionSub: "Joga, planta e brinca — o teu cantinho divertido! 🎉"
+  # accent: a token name (resolved to var(<accent>) / var(<accent>-soft)) — the
+  # single source for each room's colour, used by the hub and the home cards so
+  # they agree. Green garden, coral arcade (the Diversão signature), violet box.
+  rooms:
+    - id: jardim
+      label: O teu jardim
+      blurb: "Cada lição que acabas faz crescer uma planta nova."
+      icon: plant
+      accent: "--primary"
+    - id: jogos
+      label: Jogos
+      blurb: "Memória, apanha e conta — joga e aprende."
+      icon: game
+      accent: "--joy"
+    - id: caixa
+      label: Caixa de brincar
+      blurb: "Toca no ecrã e faz magia com cores e bolinhas."
+      icon: blocks
+      accent: "--subj-en"
+
 # "O Dicionário" — a cross-cutting reference area (not a school subject, not tied
 # to a grade): word meanings for early readers, organised by letter. Each letter
 # is its own page (a "lesson") that lists words as read-aloud cards. The letters

@@ -40,6 +40,12 @@ export interface SiteConfig {
     sectionTitle: string;
     sectionSub: string;
   };
+  /** "Diversão" — playful area: a garden, an arcade, and a toy box (not a subject). */
+  diversao: {
+    sectionTitle: string;
+    sectionSub: string;
+    rooms: { id: "jardim" | "jogos" | "caixa"; label: string; blurb: string; icon: string; accent: string }[];
+  };
   /** "O Dicionário" — cross-cutting reference area copy (word meanings by letter). */
   dicionario: {
     sectionTitle: string;

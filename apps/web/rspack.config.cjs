@@ -17,6 +17,9 @@ module.exports = {
     hot: true,
     open: false,
     historyApiFallback: true,
+    // Serve bundled pictures from apps/web/static/ (e.g. static/img/foo.jpg is
+    // reachable in a lesson as "img/foo.jpg"). Inline SVG is still preferred.
+    static: { directory: path.resolve(__dirname, "static") },
     onListening(server) {
       const url = `http://localhost:${server.server.address().port}/`;
       console.log(`\n\x1b[32m🌱 Sprout pronto em\x1b[0m \x1b[1m${url}\x1b[0m\n`);
@@ -54,6 +57,9 @@ module.exports = {
       },
       { test: /\.css$/, type: "css/auto" },
       { test: /\.md$/, type: "asset/source" },
+      // Raster pictures imported from JS get a hashed URL. (Lessons usually use
+      // inline SVG or static/img/ paths instead — see Figure widget.)
+      { test: /\.(png|jpe?g|gif|webp|avif)$/, type: "asset/resource" },
       // Page settings live in YAML; parse them at build time into a JS object.
       { test: /\.ya?ml$/, type: "javascript/auto", use: [path.resolve(__dirname, "yaml-loader.cjs")] },
     ],
@@ -61,5 +67,8 @@ module.exports = {
   experiments: { css: true },
   plugins: [
     new rspack.HtmlRspackPlugin({ template: "./public/index.html" }),
+    // Copy bundled pictures (apps/web/static/**) into the build output so
+    // "img/foo.jpg" paths in lessons resolve in production too.
+    new rspack.CopyRspackPlugin({ patterns: [{ from: "static", to: ".", noErrorOnMissing: true }] }),
   ],
 };

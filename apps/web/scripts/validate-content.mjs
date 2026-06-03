@@ -25,7 +25,7 @@ const FINAL_MARKER = "## 🎯 Questionário final";
 // `widgetRenderers` / `infographicRenderers` maps + the `quiz` branch there.
 const JSON_BLOCKS = new Set([
   "quiz",
-  "shape", "angle", "areagrid", "symmetry", "compass", "watercycle", "clock", "numberline", "tenframe", "fraction", "fractionstrips", "fractionof", "money", "shop", "solarsystem", "daynight", "soundcards", "dictionary", "tabuada", "math", "chart",
+  "shape", "angle", "areagrid", "symmetry", "compass", "watercycle", "clock", "numberline", "tenframe", "fraction", "fractionstrips", "fractionof", "money", "shop", "solarsystem", "daynight", "soundcards", "dictionary", "tabuada", "drill", "figure", "math", "chart",
   "summary", "stats", "steps", "meters", "keyvalue", "compare", "quote",
 ]);
 
@@ -80,6 +80,52 @@ function validateQuiz(spec, where, errors) {
   });
 }
 
+// Infographic blocks render from a TOP-LEVEL ARRAY of items. A valid-JSON but
+// wrong-shaped block (e.g. an object `{ "items": [...] }`) used to crash the
+// whole lesson at render time (`columns.map is not a function`), so we reject
+// the shape here. Required keys mirror the component interfaces in
+// packages/ui/src/Infographic.tsx.
+const INFOGRAPHIC = {
+  steps: { required: ["title"], wrongKey: { text: "title" } },
+  stats: { required: ["value", "label"] },
+  meters: { required: ["label", "value"] },
+  keyvalue: { required: ["k", "v"], wrongKey: { label: "k", value: "v" } },
+  compare: { required: ["title", "rows"] },
+};
+
+function validateInfographic(lang, data, where, errors) {
+  const spec = INFOGRAPHIC[lang];
+  if (!spec) return;
+  if (!Array.isArray(data)) {
+    errors.push(`${where}: bloco '${lang}' tem de ser uma LISTA [ … ] (encontrei um objeto { … })`);
+    return;
+  }
+  data.forEach((item, i) => {
+    const at = `${where} · item ${i + 1}`;
+    if (typeof item !== "object" || item === null) {
+      errors.push(`${at}: deve ser um objeto`);
+      return;
+    }
+    for (const key of spec.required) {
+      if (!(key in item)) {
+        const swapped = spec.wrongKey && Object.entries(spec.wrongKey).find(([w, r]) => r === key && w in item);
+        errors.push(`${at}: falta '${key}'${swapped ? ` (encontrei '${swapped[0]}' — usa '${key}')` : ""}`);
+      }
+    }
+    if (lang === "compare") {
+      if (item.rows !== undefined && !Array.isArray(item.rows)) errors.push(`${at}: 'rows' tem de ser uma lista`);
+      if (Array.isArray(item.rows)) {
+        item.rows.forEach((r, ri) => {
+          if (!r || typeof r !== "object" || !("label" in r) || !("value" in r)) {
+            const kv = r && typeof r === "object" && ("k" in r || "v" in r);
+            errors.push(`${at} · linha ${ri + 1}: precisa de 'label' e 'value'${kv ? " (encontrei 'k'/'v' — usa 'label'/'value')" : ""}`);
+          }
+        });
+      }
+    }
+  });
+}
+
 function validateFile(absPath, errors, warnings) {
   const rel = relative(ROOT, absPath);
   const md = readFileSync(absPath, "utf8");
@@ -98,6 +144,7 @@ function validateFile(absPath, errors, warnings) {
       errors.push(`${rel}:${b.line}: bloco '${b.lang}' com JSON inválido — ${e.message}`);
       continue;
     }
+    validateInfographic(b.lang, data, `${rel}:${b.line}`, errors);
     if (b.lang !== "quiz") continue;
 
     validateQuiz(data, `${rel}:${b.line}`, errors);

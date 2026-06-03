@@ -19,6 +19,12 @@ Um **sistema** é um grupo de **órgãos** que trabalham juntos para fazer um tr
 ]
 ```
 
+Toca em cada sistema para o veres aceso no corpo e ouvires o que faz. 👇
+
+```bodysystem
+{ "title": "A equipa de sistemas" }
+```
+
 ## O sistema digestivo: a viagem da comida 🍎
 
 Quando comes uma maçã, ela faz uma **viagem** comprida pelo teu corpo. No fim, o que é bom vira **energia** e o resto sai como **cocó**.

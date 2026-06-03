@@ -9,12 +9,12 @@ Todos os dias fazes muitas coisas: acordas, lavas os dentes, vais para a escola.
 Logo de manhã, há coisas que fazes sempre. Vamos dizê-las em inglês!
 
 ```keyvalue
-{ "items": [
+[
   { "icon": "⏰", "k": "Wake up", "v": "acordar" },
   { "icon": "🛏️", "k": "Get up", "v": "levantar-se" },
   { "icon": "🪥", "k": "Brush my teeth", "v": "lavar os dentes" },
   { "icon": "💧", "k": "Wash my face", "v": "lavar a cara" }
-] }
+]
 ```
 
 Repete comigo: **wake up**, **get up**, **brush my teeth**, **wash my face**!
@@ -24,12 +24,12 @@ Repete comigo: **wake up**, **get up**, **brush my teeth**, **wash my face**!
 Depois de te arranjares, comes e vais para a escola. Aqui estão essas ações em inglês!
 
 ```keyvalue
-{ "items": [
+[
   { "icon": "🥣", "k": "Have breakfast", "v": "tomar o pequeno-almoço" },
   { "icon": "🎒", "k": "Go to school", "v": "ir para a escola" },
   { "icon": "✏️", "k": "Do my homework", "v": "fazer os trabalhos de casa" },
   { "icon": "🛏️", "k": "Go to bed", "v": "ir para a cama" }
-] }
+]
 ```
 
 Repete comigo: **have breakfast**, **go to school**, **do my homework**, **go to bed**!
@@ -39,12 +39,12 @@ Repete comigo: **have breakfast**, **go to school**, **do my homework**, **go to
 Para dizeres a que horas fazes uma coisa, usas **at** e a hora. É muito fácil!
 
 ```keyvalue
-{ "items": [
+[
   { "icon": "🕖", "k": "I wake up at 7 o'clock", "v": "acordo às 7" },
   { "icon": "🥣", "k": "I have breakfast at 8", "v": "tomo o pequeno-almoço às 8" },
   { "icon": "🎒", "k": "I go to school at 9", "v": "vou para a escola às 9" },
   { "icon": "🛏️", "k": "I go to bed at 9", "v": "vou para a cama às 9" }
-] }
+]
 ```
 
 Reparaste? Primeiro dizes **I** + a ação, e depois **at** + a hora. Tão simples como um relógio a fazer tique-taque! 🕰️
@@ -54,11 +54,11 @@ Reparaste? Primeiro dizes **I** + a ação, e depois **at** + a hora. Tão simpl
 O dia tem partes diferentes. Em inglês também têm nomes!
 
 ```keyvalue
-{ "items": [
+[
   { "icon": "🌅", "k": "Morning", "v": "manhã" },
   { "icon": "🌞", "k": "Afternoon", "v": "tarde" },
   { "icon": "🌙", "k": "Evening", "v": "noite" }
-] }
+]
 ```
 
 De **morning** acordas, à **afternoon** brincas, e à **evening** vais para a cama. 🌟
@@ -68,14 +68,14 @@ De **morning** acordas, à **afternoon** brincas, e à **evening** vais para a c
 Vamos contar uma manhã inteira em inglês, com calma, do início ao fim.
 
 ```steps
-{ "items": [
-  { "n": 1, "t": "I wake up at 7 o'clock — acordo às 7." },
-  { "n": 2, "t": "I get up — levanto-me da cama." },
-  { "n": 3, "t": "I brush my teeth — lavo os dentes." },
-  { "n": 4, "t": "I wash my face — lavo a cara." },
-  { "n": 5, "t": "I have breakfast — tomo o pequeno-almoço." },
-  { "n": 6, "t": "I go to school — vou para a escola!" }
-] }
+[
+  { "title": "I wake up at 7 o'clock", "body": "acordo às 7." },
+  { "title": "I get up", "body": "levanto-me da cama." },
+  { "title": "I brush my teeth", "body": "lavo os dentes." },
+  { "title": "I wash my face", "body": "lavo a cara." },
+  { "title": "I have breakfast", "body": "tomo o pequeno-almoço." },
+  { "title": "I go to school", "body": "vou para a escola!" }
+]
 ```
 
 > **Truque:** Pensa no teu próprio dia por ordem, de manhã à noite, e diz cada passo em inglês — como se estivesses a contar a tua história!

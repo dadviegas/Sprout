@@ -43,6 +43,13 @@
   --subj-art:    #c0299a;  --subj-art-soft: #fbd9f0;
   --subj-fis:    #e0392b;  --subj-fis-soft: #fbdad7;
   --subj-paises: #4b54d6;  --subj-paises-soft:#e1e3fb;
+  --joy:         #ff7a59;  --joy-soft:      #ffe3da;  /* "Diversão" — warm, playful coral */
+  /* 2.º ciclo (5.º–6.º) subjects */
+  --subj-cn:     #0ea371;  --subj-cn-soft:  #d6f3e8;
+  --subj-hgp:    #b06a25;  --subj-hgp-soft: #f4e7d6;
+  --subj-ev:     #0e9aa7;  --subj-ev-soft:  #d2eef1;
+  --subj-et:     #5b7083;  --subj-et-soft:  #e2e8ee;
+  --subj-emus:   #c026d3;  --subj-emus-soft:#f7d9fa;
 
   --shadow-color: 220 25% 45%;
 }
@@ -86,6 +93,13 @@
   --subj-art:    #f178c7;  --subj-art-soft: #2c0c22;
   --subj-fis:    #ff7a6e;  --subj-fis-soft: #2e110e;
   --subj-paises: #9aa0ff;  --subj-paises-soft:#181a3a;
+  --joy:         #ff9a73;  --joy-soft:      #2e160e;  /* "Diversão" — warm, playful coral */
+  /* 2.º ciclo (5.º–6.º) subjects */
+  --subj-cn:     #34d399;  --subj-cn-soft:  #0c2a20;
+  --subj-hgp:    #d6a05f;  --subj-hgp-soft: #2a1d0e;
+  --subj-ev:     #3fc5d1;  --subj-ev-soft:  #0a2a2e;
+  --subj-et:     #9fb2c4;  --subj-et-soft:  #161d24;
+  --subj-emus:   #e879f9;  --subj-emus-soft:#2a0c2e;
 
   --shadow-color: 220 50% 2%;
 }

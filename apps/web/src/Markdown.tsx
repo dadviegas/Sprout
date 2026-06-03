@@ -1,7 +1,7 @@
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
-import { Children, isValidElement, type ReactNode } from "react";
+import { Children, Component, isValidElement, type ReactNode } from "react";
 import {
   Callout, type CalloutKind,
   StatGrid, Steps, Compare, Quote, Meters, KeyValueGrid,
@@ -11,6 +11,9 @@ import {
   Symmetry, type SymmetrySpec,
   Compass, type CompassSpec,
   WaterCycle, type WaterCycleSpec,
+  BodySystem, type BodySystemSpec,
+  Timeline, type TimelineSpec,
+  MapaPt, type MapaPtSpec,
   Clock, type ClockSpec,
   NumberLine, type NumberLineSpec,
   TenFrame, type TenFrameSpec,
@@ -24,6 +27,8 @@ import {
   SoundCards, type SoundCardsSpec,
   Dictionary, type DictionarySpec,
   Tabuada, type TabuadaSpec,
+  Drill, type DrillSpec,
+  Figure, type FigureSpec,
   MathBlock, type MathSpec,
   Chart, type ChartSpec,
   Speaker,
@@ -151,6 +156,9 @@ const widgetRenderers: Record<string, (json: unknown) => ReactNode> = {
   symmetry: (d) => <Symmetry spec={d as SymmetrySpec} />,
   compass: (d) => <Compass spec={d as CompassSpec} />,
   watercycle: (d) => <WaterCycle spec={d as WaterCycleSpec} />,
+  bodysystem: (d) => <BodySystem spec={d as BodySystemSpec} />,
+  timeline: (d) => <Timeline spec={d as TimelineSpec} />,
+  mapapt: (d) => <MapaPt spec={d as MapaPtSpec} />,
   clock: (d) => <Clock spec={d as ClockSpec} />,
   numberline: (d) => <NumberLine spec={d as NumberLineSpec} />,
   tenframe: (d) => <TenFrame spec={d as TenFrameSpec} />,
@@ -170,6 +178,8 @@ const widgetRenderers: Record<string, (json: unknown) => ReactNode> = {
     return <Dictionary spec={{ ...spec, entries }} />;
   },
   tabuada: (d) => <Tabuada spec={d as TabuadaSpec} />,
+  drill: (d) => <Drill spec={d as DrillSpec} />,
+  figure: (d) => <Figure spec={d as FigureSpec} />,
   math: (d) => <MathBlock spec={d as MathSpec} />,
   chart: (d) => <Chart spec={d as ChartSpec} />,
 };
@@ -211,6 +221,21 @@ function extractCalloutKind(children: ReactNode): { kind: CalloutKind; stripped:
   return { kind, stripped: [newP, ...arr.slice(1)] };
 }
 
+/* A widget/infographic that throws WHILE RENDERING (e.g. a `compare` block whose
+ * JSON is valid but the wrong shape, so `columns.map` blows up) would otherwise
+ * crash the whole lesson — the throw happens during React render, after the
+ * JSON.parse try/catch above. This per-block boundary turns such a failure into
+ * one inline error card, so the rest of the lesson keeps working. */
+class BlockBoundary extends Component<{ lang: string; children: ReactNode }, { failed: boolean; msg: string }> {
+  state = { failed: false, msg: "" };
+  static getDerivedStateFromError(e: unknown): { failed: boolean; msg: string } {
+    return { failed: true, msg: e instanceof Error ? e.message : String(e) };
+  }
+  render() {
+    return this.state.failed ? jsonError(this.props.lang, this.state.msg) : this.props.children;
+  }
+}
+
 const components: Components = {
   // react-markdown wraps fenced blocks in <pre>. Our `code` renderer returns
   // rich block components (Quiz, infographics) for special languages, so we
@@ -228,21 +253,21 @@ const components: Components = {
     if (lang === "quiz") {
       try {
         const spec = JSON.parse(source) as QuizSpec;
-        return <Quiz spec={spec} quizId={spec.id ?? hashId(source)} />;
+        return <BlockBoundary lang="quiz"><Quiz spec={spec} quizId={spec.id ?? hashId(source)} /></BlockBoundary>;
       } catch (e) {
         return jsonError("quiz", e);
       }
     }
     if (lang in widgetRenderers) {
       try {
-        return widgetRenderers[lang](JSON.parse(source));
+        return <BlockBoundary lang={lang}>{widgetRenderers[lang](JSON.parse(source))}</BlockBoundary>;
       } catch (e) {
         return jsonError(lang, e);
       }
     }
     if (lang in infographicRenderers) {
       try {
-        return infographicRenderers[lang](JSON.parse(source));
+        return <BlockBoundary lang={lang}>{infographicRenderers[lang](JSON.parse(source))}</BlockBoundary>;
       } catch (e) {
         return jsonError(lang, e);
       }

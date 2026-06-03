@@ -60,7 +60,7 @@ common sense, Açores → world). Single-page, no server; progress is local.
 ## Markdown/widget blocks (for lesson authors)
 
 `quiz`, `soundcards`, `clock`, `shape`, `angle`, `areagrid`, `symmetry`,
-`compass`, `watercycle`, `numberline`, `tenframe`, `fraction`, `money`, `shop`,
+`compass`, `watercycle`, `bodysystem`, `timeline`, `mapapt`, `numberline`, `tenframe`, `fraction`, `money`, `shop`,
 `solarsystem`, `daynight`, `tabuada`, `math`, `chart`, `dictionary`;
 infographics `stats`/`steps`/`compare`/`meters`/`keyvalue`/`quote`;
 callouts `> [!NOTE]/[!TIP]/…`. The `icon` field in `steps`/`keyvalue` accepts an
@@ -87,12 +87,34 @@ only on a button/tap — see the speech rule below). New ones:
 - `watercycle` is the labelled water-cycle scene (sun, sea, cloud, rain, river)
   with four tappable stages and a looping droplet that honours reduced-motion.
   Field: `title`.
+- `bodysystem` is a neutral human silhouette whose organ systems light up one at
+  a time — tap a chip (respiratório, circulatório, digestivo, excretor, nervoso,
+  locomotor) to see that system's organs on the body and hear what it does. The
+  heart gives a gentle beat for the circulatory system (honours reduced-motion).
+  Fields: `title`, `systems` (subset of the six keys above, in order; default
+  all six). Use the full set for "os sistemas do corpo" and a single-key subset
+  (e.g. `["digestivo"]`) to locate one system in its own lesson.
+- `timeline` is a horizontal "linha do tempo" — dated markers on an arrow,
+  oldest→newest, evenly spaced; tap a marker to highlight it and hear the event.
+  Data-driven like `chart`. Fields: `title`, `events` (`{ year, label, say?,
+  emoji? }`, `year` shown on the axis and `label` in the readout), `color`
+  (subject key, default `hgp`). Good for História/datas and any chronology.
+- `mapapt` is a stylised, tappable map of Portugal — the 18 mainland districts as
+  numbered dots placed by relative geography (north→south), plus Açores/Madeira
+  in the ocean as Regiões Autónomas (different colour, not numbered). Tap a place
+  to hear where it is and its capital. Built-in catalog (geography is the single
+  source of truth, like `compass`). Fields: `title`, `color` (subject key,
+  default `edm`). The silhouette is deliberately schematic, not survey-accurate.
 - `money` has two modes: **collect** (`items` + `target` — tap coins to fill a
   mealheiro) and **pay** (`price` — tap a notes+coins palette to build exactly
   the amount to pay). Passing `price` selects pay mode.
 - `solarsystem` is an animated orbit diagram (Sun + planets + nested moons); each
   body has `orbit`/`size`/`period`/`color`/`fact`, tap-to-hear, play/pause,
-  honours `prefers-reduced-motion`. `daynight` is a spinning Earth showing which
+  honours `prefers-reduced-motion`. Pass `"layout": "lineup"` for the static
+  *parade* view instead — the Sun + planets stood side by side on a starry sky,
+  sized by `size` to compare, tap-to-hear (no orbits, so `orbit`/`period` are
+  ignored). Add optional `dwarfs` (same `SpaceBody` shape) to show Plutão & co.
+  small after the eight planets. `daynight` is a spinning Earth showing which
   places are in day vs. night (the idea behind time zones).
 
 ### Math & graphics (for "math e gráficos" in lessons)

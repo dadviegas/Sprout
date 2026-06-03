@@ -39,3 +39,35 @@ dela! 🎧
 
 > [!TIP] As letras **a, e, i, o, u** são as **vogais**. Todas as outras são
 > **consoantes**. 🎵
+
+## Treina agora! 🎯
+
+Sabes dizer se uma letra é **vogal** ou **consoante**? Escolhe! 🔤
+
+```drill
+{ "mode": "choose", "title": "Vogal ou consoante?", "choices": 2, "items": [
+  { "front": "A", "back": "vogal", "options": ["consoante"] },
+  { "front": "M", "back": "consoante", "options": ["vogal"] },
+  { "front": "E", "back": "vogal", "options": ["consoante"] },
+  { "front": "T", "back": "consoante", "options": ["vogal"] },
+  { "front": "U", "back": "vogal", "options": ["consoante"] },
+  { "front": "B", "back": "consoante", "options": ["vogal"] },
+  { "front": "O", "back": "vogal", "options": ["consoante"] },
+  { "front": "S", "back": "consoante", "options": ["vogal"] }
+] }
+```
+
+E que letra vem **a seguir** no alfabeto? Pensa… e depois vira o cartão! 🃏
+
+```drill
+{ "mode": "flip", "title": "Que letra vem a seguir?", "items": [
+  { "front": "Depois do A vem…", "back": "B" },
+  { "front": "Depois do D vem…", "back": "E" },
+  { "front": "Depois do H vem…", "back": "I" },
+  { "front": "Depois do L vem…", "back": "M" },
+  { "front": "Depois do O vem…", "back": "P" },
+  { "front": "Depois do R vem…", "back": "S" },
+  { "front": "Depois do V vem…", "back": "W" },
+  { "front": "Depois do Y vem…", "back": "Z" }
+] }
+```

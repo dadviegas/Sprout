@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState, Suspense, lazy, type ReactNode } from "react";
 import { ProgressProvider, useProgress, LessonContext, type ProgressMap } from "./progress";
-import { loadTheme, loadView, NAV_KEY, THEME_KEY, type View } from "./nav";
+import { loadTheme, loadView, NAV_KEY, THEME_KEY, type View, type DiversaoRoom } from "./nav";
 import { store } from "./storage";
 import {
-  schoolSubjects,
   mundoSubject,
   mundoRings,
   mundoHomeRings,
@@ -22,11 +21,15 @@ import {
   findLesson,
   lessonMeta,
   YEARS,
+  subjectsForYear,
+  CYCLE_YEARS,
+  CYCLE_LABEL,
   yearLabel,
   tierLabel,
   isMundo,
   type Subject,
   type YearN,
+  type Cycle,
   type Lesson,
 } from "./content/curriculum";
 import { Icon, type IconName } from "@sprout/icons";
@@ -35,6 +38,7 @@ import { site } from "./site-config";
 import { Mascot } from "./Mascot";
 import { CommandCenter } from "./CommandCenter";
 import { AchievementsPanel } from "./Achievements";
+import { SimuladoLauncher } from "./Simulado";
 import { splitLesson } from "./lesson-content";
 import { Stars, ProgressBar, yearStats, yearAllStats, pctOf } from "./ui";
 
@@ -42,6 +46,10 @@ import { Stars, ProgressBar, yearStats, yearAllStats, pctOf } from "./ui";
 // interactive widget — heavy, and only needed on lesson/test screens. Lazy-load
 // it so the home/year/subject screens (and first paint) stay lean.
 const Markdown = lazy(() => import("./Markdown").then((m) => ({ default: m.Markdown })));
+
+// "Diversão" pulls in <canvas> games + animation loops — heavy and only needed
+// when the child opens the fun area, so lazy-load it to keep first paint lean.
+const Diversao = lazy(() => import("./diversao/Diversao").then((m) => ({ default: m.Diversao })));
 
 function LessonBody({ children }: { children: string }) {
   return (
@@ -65,6 +73,12 @@ const SUBJECT_ICON: Record<string, IconName> = {
   cidadania: "heart",
   artistica: "palette",
   fisica: "body",
+  // 2.º ciclo (5.º–6.º) subjects
+  ciencias: "microscope",
+  hgp: "scroll",
+  "ed-visual": "brush",
+  "ed-tecnologica": "gear",
+  "ed-musical": "music",
 };
 
 const YEAR_STYLE: Record<YearN, { color: string; soft: string }> = {
@@ -72,6 +86,8 @@ const YEAR_STYLE: Record<YearN, { color: string; soft: string }> = {
   2: { color: "var(--subj-mat)", soft: "var(--subj-mat-soft)" },
   3: { color: "var(--subj-en)", soft: "var(--subj-en-soft)" },
   4: { color: "var(--accent)", soft: "var(--accent-soft)" },
+  5: { color: "var(--subj-cn)", soft: "var(--subj-cn-soft)" },
+  6: { color: "var(--subj-hgp)", soft: "var(--subj-hgp-soft)" },
 };
 
 // Per-lesson topic icons (all from @sprout/icons). Fallback: the subject icon.
@@ -83,6 +99,11 @@ const LESSON_ICON: Record<string, IconName> = {
   "mat-2-tabuada-3-4-10": "times", "mat-2-par-impar": "abacus", "mat-2-solidos": "shapes", "mat-2-padroes": "shapes",
   "estudo-tabuadas": "times", "estudo-alfabeto": "letters", "estudo-numeros": "abacus", "estudo-dias-meses": "calendar",
   "estudo-dinheiro": "coin", "estudo-loja": "cart",
+  "estudo-pontuacao": "quote", "estudo-classes": "tag", "estudo-verbos": "clock", "estudo-formas": "shapes",
+  "estudo-medidas": "ruler", "estudo-formulas": "math", "estudo-romanos": "scroll", "estudo-planetas": "planet",
+  "estudo-continentes": "world", "estudo-pontos-cardeais": "compass", "estudo-datas": "castle", "estudo-distritos": "map",
+  "pt-1-ditongos": "speaker", "pt-2-ordem-alfabetica": "letters", "pt-3-discurso-direto": "quote",
+  "pt-3-aumentativo-diminutivo": "letters", "pt-4-adverbios": "tag", "pt-4-sujeito-predicado": "tag",
   "mat-3-multiplicacao": "times", "mat-3-divisao": "divide", "mat-3-fracoes": "fraction", "mat-3-medida": "ruler",
   "mat-3-numeros-1000": "abacus", "mat-3-multiplos": "times", "mat-3-calendario": "calendar",
   "mat-4-decimais": "abacus", "mat-4-area": "ruler", "mat-4-dados": "chart", "mat-4-problemas": "tip",
@@ -274,6 +295,7 @@ function Root() {
             onPickRing={(ring) => go({ kind: "subject", year: ring, subjectId: mundoSubject.id })}
             onOpenMundo={() => go({ kind: "mundo" })}
             onOpenDicionario={() => go({ kind: "subject", year: 1, subjectId: dicionarioSubject.id })}
+            onOpenDiversao={(room) => go({ kind: "diversao", room })}
             onPickCountry={(tier) => go({ kind: "subject", year: tier, subjectId: paisesSubject.id })}
             onOpenLesson={(lessonId) => {
               const m = lessonMeta.get(lessonId);
@@ -307,6 +329,11 @@ function Root() {
             lesson={findLesson(view.subjectId, view.year, view.lessonId)!}
             onGo={go}
           />
+        )}
+        {view.kind === "diversao" && (
+          <Suspense fallback={<div className="lesson-loading">A preparar a diversão…</div>}>
+            <Diversao room={view.room} onOpenRoom={(room) => go({ kind: "diversao", room })} />
+          </Suspense>
         )}
       </div>
 
@@ -374,7 +401,26 @@ function TopBar({
               <Icon name="home" size={18} />
             </button>
             <span className="sep">›</span>
-            {view.kind === "mundo" ? (
+            {view.kind === "diversao" ? (
+              // "Diversão" hub, plus the room name when inside one (a link back).
+              <>
+                {view.room ? (
+                  <button className="crumb-link" style={{ color: "var(--joy)" }} onClick={() => onGo({ kind: "diversao" })}>
+                    <Icon name="sparkle" size={18} /> {site.diversao.sectionTitle}
+                  </button>
+                ) : (
+                  <span style={{ color: "var(--joy)", display: "inline-flex", alignItems: "center", gap: 4 }}>
+                    <Icon name="sparkle" size={18} /> {site.diversao.sectionTitle}
+                  </span>
+                )}
+                {view.room && (
+                  <>
+                    <span className="sep">›</span>
+                    <span className="ell">{site.diversao.rooms.find((r) => r.id === view.room)?.label ?? ""}</span>
+                  </>
+                )}
+              </>
+            ) : view.kind === "mundo" ? (
               // The "Pelo mundo fora" overview itself.
               <span style={{ color: mundoSubject.color, display: "inline-flex", alignItems: "center", gap: 4 }}>
                 <Icon name={MUNDO_BEYOND.icon as IconName} size={18} /> {MUNDO_BEYOND.label}
@@ -569,37 +615,68 @@ function RecentlySeen({
   history,
   progress,
   onOpen,
+  onRemove,
+  onClear,
 }: {
   history: string[];
   progress: ProgressMap;
   onOpen: (lessonId: string) => void;
+  onRemove: (lessonId: string) => void;
+  onClear: () => void;
 }) {
+  const [editing, setEditing] = useState(false);
   const items = history.map((id) => lessonMeta.get(id) && { id, meta: lessonMeta.get(id)! }).filter(Boolean) as {
     id: string;
     meta: NonNullable<ReturnType<typeof lessonMeta.get>>;
   }[];
+  // Editing only makes sense with items on screen; the section unmounts when the
+  // list empties, so the toggle never lingers in an "editing but empty" state.
   if (items.length === 0) return null;
 
   return (
     <>
-      <h2 className="section-title"><Icon name="clock" size={24} /> Visto recentemente</h2>
+      <h2 className="section-title">
+        <Icon name="clock" size={24} /> Visto recentemente
+        <span className="recent-tools">
+          {editing && (
+            <button className="recent-tool recent-tool--danger" onClick={onClear}>
+              <Icon name="trash" size={15} /> Limpar
+            </button>
+          )}
+          <button
+            className={`recent-tool ${editing ? "on" : ""}`}
+            onClick={() => setEditing((e) => !e)}
+            aria-label={editing ? "Concluir edição da lista" : "Editar a lista"}
+          >
+            <Icon name={editing ? "check" : "pencil"} size={15} />
+            {editing ? "Concluir" : "Editar"}
+          </button>
+        </span>
+      </h2>
       <div className="recent-row">
         {items.map(({ id, meta }) => {
           const tier = tierLabel(meta.subjectId, meta.year); // "" for the grade-less study area
+          // In edit mode a tap removes the chip instead of opening it; the close
+          // icon and red tint make the changed action obvious to a young child.
           return (
           <button
             key={id}
-            className="recent-chip"
+            className={`recent-chip ${editing ? "is-editing" : ""}`}
             style={{ ["--c" as string]: meta.color }}
-            onClick={() => onOpen(id)}
-            title={`${meta.title} · ${meta.subjectLabel}${tier ? ` · ${tier}` : ""}`}
+            onClick={() => (editing ? onRemove(id) : onOpen(id))}
+            aria-label={editing ? `Remover ${meta.title}` : undefined}
+            title={editing ? `Remover ${meta.title}` : `${meta.title} · ${meta.subjectLabel}${tier ? ` · ${tier}` : ""}`}
           >
             <span className="recent-chip__icon" style={{ color: meta.color }}>
               <Icon name={lessonIconById(meta.subjectId, id)} size={18} />
             </span>
             <span className="recent-chip__title">{meta.title}</span>
-            {progress[id]?.done && (
-              <Icon name="star" size={13} fill="currentColor" style={{ color: "var(--warn)", flexShrink: 0 }} />
+            {editing ? (
+              <Icon name="close" size={15} className="recent-chip__x" />
+            ) : (
+              progress[id]?.done && (
+                <Icon name="star" size={13} fill="currentColor" style={{ color: "var(--warn)", flexShrink: 0 }} />
+              )
             )}
           </button>
           );
@@ -616,6 +693,7 @@ function Home({
   onPickRing,
   onOpenMundo,
   onOpenDicionario,
+  onOpenDiversao,
   onPickCountry,
   onOpenLesson,
 }: {
@@ -623,10 +701,11 @@ function Home({
   onPickRing: (ring: YearN) => void;
   onOpenMundo: () => void;
   onOpenDicionario: () => void;
+  onOpenDiversao: (room: DiversaoRoom) => void;
   onPickCountry: (tier: YearN) => void;
   onOpenLesson: (lessonId: string) => void;
 }) {
-  const { progress, history, totalStars } = useProgress();
+  const { progress, history, totalStars, removeSeen, clearHistory } = useProgress();
   const greeting =
     totalStars === 0
       ? `Olá! Eu sou o ${site.mascot.name}. Em que ano andas? Toca no teu ano!`
@@ -636,28 +715,61 @@ function Home({
     <div>
       <Mascot message={greeting} mood={totalStars > 0 ? "cheer" : "happy"} />
 
-      <RecentlySeen history={history} progress={progress} onOpen={onOpenLesson} />
+      <RecentlySeen history={history} progress={progress} onOpen={onOpenLesson} onRemove={removeSeen} onClear={clearHistory} />
       <h2 className="section-title"><Icon name="calendar" size={26} /> Escolhe o teu ano</h2>
-      <div className="card-grid cols-4">
-        {YEARS.map((y) => {
-          const st = yearAllStats(progress, y);
-          const s = YEAR_STYLE[y];
-          return (
-            <BigCard
-              key={y}
-              numberLabel={`${y}`}
-              kicker="Ano"
-              title={yearLabel(y)}
-              color={s.color}
-              colorSoft={s.soft}
-              sub={<span className="sub">{schoolSubjects.length} matérias para explorar</span>}
-              say={`${yearLabel(y)}. ${schoolSubjects.length} matérias para explorar.`}
-              onClick={() => onPick(y)}
-            >
-              <CardProgress pct={pctOf(st)} done={st.done} real={st.real} stars={st.stars} color={s.color} />
-            </BigCard>
-          );
-        })}
+      {([1, 2] as Cycle[]).map((cycle) => (
+        <div key={cycle} className="cycle-block">
+          <p className="cycle-label">{CYCLE_LABEL[cycle]}</p>
+          <div className={`card-grid ${cycle === 1 ? "cols-4" : ""}`}>
+            {CYCLE_YEARS[cycle].map((y) => {
+              const st = yearAllStats(progress, y);
+              const s = YEAR_STYLE[y];
+              const nSubj = subjectsForYear(y).length;
+              return (
+                <BigCard
+                  key={y}
+                  numberLabel={`${y}`}
+                  kicker="Ano"
+                  title={yearLabel(y)}
+                  color={s.color}
+                  colorSoft={s.soft}
+                  sub={<span className="sub">{nSubj} matérias para explorar</span>}
+                  say={`${yearLabel(y)}. ${nSubj} matérias para explorar.`}
+                  onClick={() => onPick(y)}
+                >
+                  <CardProgress pct={pctOf(st)} done={st.done} real={st.real} stars={st.stars} color={s.color} />
+                </BigCard>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+
+      {/* "Diversão" — a playful area (not a school subject, not a grade): a
+          garden that grows with every lesson done, a little arcade of games,
+          and a toy box to poke at. Pure fun, all read-aloud, works on touch
+          and desktop. Sits high up — it's the reward for learning. */}
+      <h2 className="section-title" style={{ marginTop: 36 }}>
+        <span style={{ color: "var(--joy)", display: "inline-flex" }}>
+          <Icon name="sparkle" size={26} />
+        </span>
+        {site.diversao.sectionTitle}
+      </h2>
+      <p className="section-sub">{site.diversao.sectionSub}</p>
+      <div className="card-grid cols-3">
+        {site.diversao.rooms.map((r) => (
+          <BigCard
+            key={r.id}
+            iconName={r.icon as IconName}
+            kicker="Diversão"
+            title={r.label}
+            color={`var(${r.accent})`}
+            colorSoft={`var(${r.accent}-soft)`}
+            sub={<span className="sub">{r.blurb}</span>}
+            say={`${r.label}. ${r.blurb}`}
+            onClick={() => onOpenDiversao(r.id)}
+          />
+        ))}
       </div>
 
       {/* "O Mundo" is its own area — common sense and general culture, NOT a
@@ -844,7 +956,7 @@ function YearView({ year, onPick }: { year: YearN; onPick: (subjectId: string) =
       <Mascot message={`Boa escolha — ${yearLabel(year)}! Agora escolhe uma matéria para explorar.`} mood="happy" />
       <h2 className="section-title">{yearLabel(year)} · As matérias</h2>
       <div className="card-grid">
-        {schoolSubjects.map((s) => {
+        {subjectsForYear(year).map((s) => {
           const st = yearStats(progress, s, year);
           return (
             <BigCard
@@ -915,6 +1027,10 @@ function SubjectView({ subject, year, onPick }: { subject: Subject; year: YearN;
           );
         })}
       </div>
+
+      {/* "Try it out": a mixed mock test across this matéria (school subjects,
+          "O Mundo" and "Países"). Self-hides where there are no quizzes. */}
+      <SimuladoLauncher subject={subject} year={year} />
     </div>
   );
 }
@@ -1088,7 +1204,7 @@ function IndexDrawer({ onClose, onGo }: { onClose: () => void; onGo: (v: View) =
         {YEARS.map((y) => (
           <div key={y}>
             <div className="tree-subj" style={{ color: YEAR_STYLE[y].color }}>{yearLabel(y)}</div>
-            {schoolSubjects.map((s) => (
+            {subjectsForYear(y).map((s) => (
               <div key={s.id}>
                 <div className="tree-year" style={{ display: "flex", alignItems: "center", gap: 6 }}>
                   <span style={{ color: s.color, display: "inline-flex" }}><Icon name={SUBJECT_ICON[s.id]} size={16} /></span>

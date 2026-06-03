@@ -1,7 +1,18 @@
 /* ------------------------------------------------------------------ *
- * Sprout curriculum — 1.º ao 4.º ano (1.º ciclo, Portugal).
+ * Sprout curriculum — 1.º ao 6.º ano (1.º e 2.º ciclo, Portugal).
  *
- * Structure: Subject → Year (1–4) → Lessons.
+ * Structure: Subject → Year (1–6) → Lessons.
+ *
+ * The two cycles have DIFFERENT subject sets (Decreto-Lei 55/2018):
+ *   • 1.º ciclo (1–4): Matemática, Português, Estudo do Meio, Inglês,
+ *     Cidadania, Artes, Educação Física.
+ *   • 2.º ciclo (5–6): Matemática, Português, Inglês, Ciências Naturais,
+ *     História e Geografia de Portugal, Educação Visual, Educação
+ *     Tecnológica, Educação Musical, Educação Física, Cidadania.
+ * A subject simply leaves the years it doesn't teach as `[]`; the year
+ * screen only shows subjects that actually have lessons that year
+ * (see `subjectsForYear`). So "Estudo do Meio" is empty in 5–6 and
+ * "Ciências Naturais" is empty in 1–4, with no special-casing.
  * A lesson with `body` is a complete lesson (markdown imported from a .md
  * file). A lesson without `body` is registered in the skeleton and renders a
  * friendly "em construção" placeholder — so the full map of what a child
@@ -11,7 +22,11 @@
  * Topic breakdown follows the Aprendizagens Essenciais / Metas Curriculares.
  * ------------------------------------------------------------------ */
 
-export type YearN = 1 | 2 | 3 | 4;
+export type YearN = 1 | 2 | 3 | 4 | 5 | 6;
+
+/** The school cycle a year belongs to (1.º ciclo = 1–4, 2.º ciclo = 5–6). */
+export type Cycle = 1 | 2;
+export const cycleOf = (y: YearN): Cycle => (y <= 4 ? 1 : 2);
 
 export interface Lesson {
   id: string;
@@ -118,9 +133,16 @@ import ptAdjetivos2 from "./portugues/ano2/adjetivos.md";
 import ptArtigos from "./portugues/ano2/artigos.md";
 import ptPronomes from "./portugues/ano3/pronomes.md";
 import ptHomofonos from "./portugues/ano3/palavras-que-confundem.md";
+import ptDiscursoDireto from "./portugues/ano3/discurso-direto.md";
 import ptFraseComplexa from "./portugues/ano4/frase-simples-complexa.md";
 import ptNoticia from "./portugues/ano4/noticia.md";
 import ptHifenX from "./portugues/ano4/o-hifen-e-o-x.md";
+// AE coverage — Português (lacunas 1.º ciclo)
+import ptDitongos from "./portugues/ano1/ditongos.md";
+import ptOrdemAlfabetica from "./portugues/ano2/ordem-alfabetica.md";
+import ptAumentativoDiminutivo from "./portugues/ano3/aumentativo-diminutivo.md";
+import ptAdverbios from "./portugues/ano4/adverbios.md";
+import ptSujeitoPredicado from "./portugues/ano4/sujeito-predicado.md";
 
 /* ---- Estudo do Meio ---- */
 import edmCorpo from "./estudo-do-meio/ano1/o-meu-corpo.md";
@@ -246,6 +268,19 @@ import estudoNumeros from "./estudo/numeros.md";
 import estudoDinheiro from "./estudo/dinheiro.md";
 import estudoLoja from "./estudo/loja.md";
 import estudoDiasMeses from "./estudo/dias-e-meses.md";
+// Saber de cor — novos temas (referência interativa, vários domínios)
+import estudoPontuacao from "./estudo/pontuacao.md";
+import estudoClasses from "./estudo/classes-palavras.md";
+import estudoVerbos from "./estudo/verbos.md";
+import estudoFormas from "./estudo/formas.md";
+import estudoMedidas from "./estudo/medidas.md";
+import estudoFormulas from "./estudo/formulas.md";
+import estudoRomanos from "./estudo/romanos.md";
+import estudoPlanetas from "./estudo/planetas.md";
+import estudoContinentes from "./estudo/continentes.md";
+import estudoPontosCardeais from "./estudo/pontos-cardeais.md";
+import estudoDatas from "./estudo/datas-portugal.md";
+import estudoDistritos from "./estudo/distritos.md";
 
 /* ---- O Dicionário (reference area — by letter, not grade-based) ---- */
 import dicA from "./dicionario/a.md";
@@ -288,6 +323,168 @@ import paisesCaHino from "./paises/canada/o-hino.md";
 import paisesCaComida from "./paises/canada/comida-e-tradicoes.md";
 import paisesCaNatureza from "./paises/canada/natureza-e-animais.md";
 import paisesCaCuriosidades from "./paises/canada/curiosidades-e-recordes.md";
+
+/* ---- 2.º ciclo (5.º–6.º) lesson bodies — filled in as lessons are written ---- */
+// Matemática 5.º
+import mat5Naturais from "./matematica/ano5/naturais.md";
+import mat5MdcMmc from "./matematica/ano5/mdc-mmc.md";
+import mat5Fracoes from "./matematica/ano5/fracoes.md";
+import mat5Decimais from "./matematica/ano5/decimais.md";
+import mat5Potencias from "./matematica/ano5/potencias.md";
+import mat5AngulosPoligonos from "./matematica/ano5/angulos-poligonos.md";
+import mat5AreaPerimetro from "./matematica/ano5/area-perimetro.md";
+import mat5Solidos from "./matematica/ano5/solidos.md";
+import mat5Dados from "./matematica/ano5/dados.md";
+// Português 5.º
+import pt5Oralidade from "./portugues/ano5/oralidade.md";
+import pt5NarrativoLer from "./portugues/ano5/narrativo-ler.md";
+import pt5NarrativoEscrever from "./portugues/ano5/narrativo-escrever.md";
+import pt5Classes from "./portugues/ano5/classes.md";
+import pt5Verbos from "./portugues/ano5/verbos.md";
+import pt5Funcoes from "./portugues/ano5/funcoes.md";
+import pt5Ortografia from "./portugues/ano5/ortografia.md";
+import pt5Poesia from "./portugues/ano5/poesia.md";
+import pt5Literaria from "./portugues/ano5/literaria.md";
+// Inglês 5.º
+import en5Greetings from "./ingles/ano5/greetings.md";
+import en5Personal from "./ingles/ano5/personal.md";
+import en5Family from "./ingles/ano5/family.md";
+import en5School from "./ingles/ano5/school.md";
+import en5Routines from "./ingles/ano5/routines.md";
+import en5PresentSimple from "./ingles/ano5/present-simple.md";
+import en5Hobbies from "./ingles/ano5/hobbies.md";
+import en5Food from "./ingles/ano5/food.md";
+// Ciências Naturais 5.º
+import cn5Agua from "./ciencias/ano5/agua.md";
+import cn5Ar from "./ciencias/ano5/ar.md";
+import cn5RochasSolo from "./ciencias/ano5/rochas-solo.md";
+import cn5AnimaisDiversidade from "./ciencias/ano5/animais-diversidade.md";
+import cn5AnimaisFuncoes from "./ciencias/ano5/animais-funcoes.md";
+import cn5Plantas from "./ciencias/ano5/plantas.md";
+import cn5Ecossistemas from "./ciencias/ano5/ecossistemas.md";
+// História e Geografia de Portugal 5.º
+import hgp5PrimeirosPovos from "./hgp/ano5/primeiros-povos.md";
+import hgp5Romanos from "./hgp/ano5/romanos.md";
+import hgp5Muculmanos from "./hgp/ano5/muculmanos.md";
+import hgp5Formacao from "./hgp/ano5/formacao.md";
+import hgp5Consolidacao from "./hgp/ano5/consolidacao.md";
+import hgp5Crise1383 from "./hgp/ano5/crise-1383.md";
+import hgp5Sociedade from "./hgp/ano5/sociedade.md";
+// Educação Visual 5.º
+import ev5PontoLinha from "./ed-visual/ano5/ponto-linha.md";
+import ev5Cor from "./ed-visual/ano5/cor.md";
+import ev5Formas from "./ed-visual/ano5/formas.md";
+import ev5Textura from "./ed-visual/ano5/textura.md";
+import ev5Comunicacao from "./ed-visual/ano5/comunicacao.md";
+import ev5Geometria from "./ed-visual/ano5/geometria.md";
+// Educação Tecnológica 5.º
+import et5OQueE from "./ed-tecnologica/ano5/o-que-e.md";
+import et5Materiais from "./ed-tecnologica/ano5/materiais.md";
+import et5Medicao from "./ed-tecnologica/ano5/medicao.md";
+import et5Seguranca from "./ed-tecnologica/ano5/seguranca.md";
+import et5Estruturas from "./ed-tecnologica/ano5/estruturas.md";
+import et5Projeto from "./ed-tecnologica/ano5/projeto.md";
+// Educação Musical 5.º
+import em5SomSilencio from "./ed-musical/ano5/som-silencio.md";
+import em5Ritmo from "./ed-musical/ano5/ritmo.md";
+import em5Melodia from "./ed-musical/ano5/melodia.md";
+import em5Notas from "./ed-musical/ano5/notas.md";
+import em5Dinamica from "./ed-musical/ano5/dinamica.md";
+import em5Instrumentos from "./ed-musical/ano5/instrumentos.md";
+// Educação Física 5.º
+import ef5Aptidao from "./fisica/ano5/aptidao.md";
+import ef5Ginastica from "./fisica/ano5/ginastica.md";
+import ef5Coletivos from "./fisica/ano5/coletivos.md";
+import ef5Atletismo from "./fisica/ano5/atletismo.md";
+import ef5Raquetas from "./fisica/ano5/raquetas.md";
+import ef5Fairplay from "./fisica/ano5/fairplay.md";
+// Cidadania 5.º
+import cid5DireitosHumanos from "./cidadania/ano5/direitos-humanos.md";
+import cid5Igualdade from "./cidadania/ano5/igualdade.md";
+import cid5Intercultural from "./cidadania/ano5/intercultural.md";
+import cid5Saude from "./cidadania/ano5/saude.md";
+import cid5Ambiente from "./cidadania/ano5/ambiente.md";
+// ---- 6.º ano ----
+// Matemática 6.º
+import mat6Inteiros from "./matematica/ano6/inteiros.md";
+import mat6FracoesOperacoes from "./matematica/ano6/fracoes-operacoes.md";
+import mat6Potencias from "./matematica/ano6/potencias.md";
+import mat6Proporcionalidade from "./matematica/ano6/proporcionalidade.md";
+import mat6Percentagens from "./matematica/ano6/percentagens.md";
+import mat6Equacoes from "./matematica/ano6/equacoes.md";
+import mat6Circulo from "./matematica/ano6/circulo.md";
+import mat6Volumes from "./matematica/ano6/volumes.md";
+import mat6Graficos from "./matematica/ano6/graficos.md";
+// Português 6.º
+import pt6Descritivo from "./portugues/ano6/descritivo.md";
+import pt6NoticiaEntrevista from "./portugues/ano6/noticia-entrevista.md";
+import pt6Classes from "./portugues/ano6/classes.md";
+import pt6Sintaxe from "./portugues/ano6/sintaxe.md";
+import pt6Verbos from "./portugues/ano6/verbos.md";
+import pt6GrauNome from "./portugues/ano6/grau-nome.md";
+import pt6Teatro from "./portugues/ano6/teatro.md";
+import pt6Recursos from "./portugues/ano6/recursos.md";
+import pt6Literaria from "./portugues/ano6/literaria.md";
+// Inglês 6.º
+import en6PresentContinuous from "./ingles/ano6/present-continuous.md";
+import en6PastSimple from "./ingles/ano6/past-simple.md";
+import en6Town from "./ingles/ano6/town.md";
+import en6Travel from "./ingles/ano6/travel.md";
+import en6Comparatives from "./ingles/ano6/comparatives.md";
+import en6Shopping from "./ingles/ano6/shopping.md";
+import en6Health from "./ingles/ano6/health.md";
+import en6Future from "./ingles/ano6/future.md";
+// Ciências Naturais 6.º
+import cn6Microorganismos from "./ciencias/ano6/microorganismos.md";
+import cn6Digestivo from "./ciencias/ano6/digestivo.md";
+import cn6Respiratorio from "./ciencias/ano6/respiratorio.md";
+import cn6Circulatorio from "./ciencias/ano6/circulatorio.md";
+import cn6Excretor from "./ciencias/ano6/excretor.md";
+import cn6Reproducao from "./ciencias/ano6/reproducao.md";
+import cn6Saude from "./ciencias/ano6/saude.md";
+// História e Geografia de Portugal 6.º
+import hgp6Descobrimentos from "./hgp/ano6/descobrimentos.md";
+import hgp6Imperio from "./hgp/ano6/imperio.md";
+import hgp6Restauracao from "./hgp/ano6/restauracao.md";
+import hgp6Pombal from "./hgp/ano6/pombal.md";
+import hgp6Liberalismo from "./hgp/ano6/liberalismo.md";
+import hgp6Republica from "./hgp/ano6/republica.md";
+import hgp6EstadoNovo from "./hgp/ano6/estado-novo.md";
+import hgp6Democracia from "./hgp/ano6/democracia.md";
+// Educação Visual 6.º
+import ev6LuzSombra from "./ed-visual/ano6/luz-sombra.md";
+import ev6Volume from "./ed-visual/ano6/volume.md";
+import ev6Padrao from "./ed-visual/ano6/padrao.md";
+import ev6CorHarmonias from "./ed-visual/ano6/cor-harmonias.md";
+import ev6Design from "./ed-visual/ano6/design.md";
+import ev6Patrimonio from "./ed-visual/ano6/patrimonio.md";
+// Educação Tecnológica 6.º
+import et6Mecanismos from "./ed-tecnologica/ano6/mecanismos.md";
+import et6Energia from "./ed-tecnologica/ano6/energia.md";
+import et6Eletricidade from "./ed-tecnologica/ano6/eletricidade.md";
+import et6Reciclar from "./ed-tecnologica/ano6/reciclar.md";
+import et6Comunicacao from "./ed-tecnologica/ano6/comunicacao.md";
+import et6Fabrico from "./ed-tecnologica/ano6/fabrico.md";
+// Educação Musical 6.º
+import em6Forma from "./ed-musical/ano6/forma.md";
+import em6Escala from "./ed-musical/ano6/escala.md";
+import em6Harmonia from "./ed-musical/ano6/harmonia.md";
+import em6Generos from "./ed-musical/ano6/generos.md";
+import em6Portuguesa from "./ed-musical/ano6/portuguesa.md";
+import em6Criar from "./ed-musical/ano6/criar.md";
+// Educação Física 6.º
+import ef6Condicao from "./fisica/ano6/condicao.md";
+import ef6Aparelhos from "./fisica/ano6/aparelhos.md";
+import ef6Voleibol from "./fisica/ano6/voleibol.md";
+import ef6Atletismo from "./fisica/ano6/atletismo.md";
+import ef6Danca from "./fisica/ano6/danca.md";
+import ef6Natureza from "./fisica/ano6/natureza.md";
+// Cidadania 6.º
+import cid6Financeira from "./cidadania/ano6/financeira.md";
+import cid6Protecao from "./cidadania/ano6/protecao.md";
+import cid6Media from "./cidadania/ano6/media.md";
+import cid6Voluntariado from "./cidadania/ano6/voluntariado.md";
+import cid6Sustentavel from "./cidadania/ano6/sustentavel.md";
 
 /* The four school subjects, navigated year-first (1.º–4.º ano). */
 export const schoolSubjects: Subject[] = [
@@ -341,6 +538,28 @@ export const schoolSubjects: Subject[] = [
         { id: "mat-4-dados", title: "Gráficos e tabelas", emoji: "📊", body: matDados },
         { id: "mat-4-problemas", title: "Resolver problemas", emoji: "🧩", body: matProblemas },
       ],
+      5: [
+        { id: "mat-5-naturais", title: "Números naturais e operações", emoji: "🔢", body: mat5Naturais },
+        { id: "mat-5-mdc-mmc", title: "Múltiplos, divisores, m.d.c. e m.m.c.", emoji: "🔗", body: mat5MdcMmc },
+        { id: "mat-5-fracoes", title: "Frações: comparar e operar", emoji: "🍕", body: mat5Fracoes },
+        { id: "mat-5-decimais", title: "Números racionais não negativos", emoji: "🔟", body: mat5Decimais },
+        { id: "mat-5-potencias", title: "Potências de base 10", emoji: "⏫", body: mat5Potencias },
+        { id: "mat-5-angulos-poligonos", title: "Ângulos e polígonos", emoji: "📐", body: mat5AngulosPoligonos },
+        { id: "mat-5-area-perimetro", title: "Perímetros e áreas", emoji: "🟦", body: mat5AreaPerimetro },
+        { id: "mat-5-solidos", title: "Sólidos geométricos", emoji: "🧊", body: mat5Solidos },
+        { id: "mat-5-dados", title: "Organização e tratamento de dados", emoji: "📊", body: mat5Dados },
+      ],
+      6: [
+        { id: "mat-6-inteiros", title: "Números inteiros relativos", emoji: "➖", body: mat6Inteiros },
+        { id: "mat-6-fracoes-operacoes", title: "Multiplicar e dividir frações", emoji: "✖️", body: mat6FracoesOperacoes },
+        { id: "mat-6-potencias", title: "Potências e expressões numéricas", emoji: "⏫", body: mat6Potencias },
+        { id: "mat-6-proporcionalidade", title: "Proporcionalidade direta", emoji: "⚖️", body: mat6Proporcionalidade },
+        { id: "mat-6-percentagens", title: "Percentagens", emoji: "💯", body: mat6Percentagens },
+        { id: "mat-6-equacoes", title: "Expressões e equações", emoji: "🟰", body: mat6Equacoes },
+        { id: "mat-6-circulo", title: "Circunferência e círculo", emoji: "⭕", body: mat6Circulo },
+        { id: "mat-6-volumes", title: "Volumes de sólidos", emoji: "📦", body: mat6Volumes },
+        { id: "mat-6-graficos", title: "Representar e interpretar dados", emoji: "📈", body: mat6Graficos },
+      ],
     },
   },
   {
@@ -362,6 +581,7 @@ export const schoolSubjects: Subject[] = [
         { id: "pt-1-contos", title: "Os contos tradicionais", emoji: "📖", body: ptContos },
         { id: "pt-1-masculino-feminino", title: "Masculino e feminino", emoji: "👫", body: ptMascFem },
         { id: "pt-1-palavras-dia", title: "Palavras do dia a dia", emoji: "🗂️", body: ptPalavrasDia },
+        { id: "pt-1-ditongos", title: "Ditongos: dois sons juntos", emoji: "🔊", body: ptDitongos },
       ],
       2: [
         { id: "pt-2-pontuacao", title: "Sinais de pontuação", emoji: "❓", body: ptPontuacao },
@@ -374,6 +594,7 @@ export const schoolSubjects: Subject[] = [
         { id: "pt-2-digrafos", title: "Dígrafos (ch, lh, nh)", emoji: "🤝", body: ptDigrafos },
         { id: "pt-2-adjetivos", title: "Como é? Os adjetivos", emoji: "🎨", body: ptAdjetivos2 },
         { id: "pt-2-artigos", title: "Artigos: o, a, um, uma", emoji: "🔤", body: ptArtigos },
+        { id: "pt-2-ordem-alfabetica", title: "Ordem alfabética e o dicionário", emoji: "🔤", body: ptOrdemAlfabetica },
       ],
       3: [
         { id: "pt-3-sinonimos", title: "Sinónimos e antónimos", emoji: "🔁", body: ptSinonimos },
@@ -386,6 +607,8 @@ export const schoolSubjects: Subject[] = [
         { id: "pt-3-sons-do-s", title: "Os sons do «s»", emoji: "🐍", body: ptSonsDoS },
         { id: "pt-3-pronomes", title: "Pronomes: trocar o nome", emoji: "👤", body: ptPronomes },
         { id: "pt-3-homofonos", title: "Palavras que confundem", emoji: "🎭", body: ptHomofonos },
+        { id: "pt-3-discurso-direto", title: "O discurso direto", emoji: "💬", body: ptDiscursoDireto },
+        { id: "pt-3-aumentativo-diminutivo", title: "Aumentativo e diminutivo", emoji: "🔍", body: ptAumentativoDiminutivo },
       ],
       4: [
         { id: "pt-4-classes", title: "Classes de palavras", emoji: "🧩", body: ptClasses },
@@ -399,6 +622,30 @@ export const schoolSubjects: Subject[] = [
         { id: "pt-4-frase-complexa", title: "Frase simples e frase complexa", emoji: "🔗", body: ptFraseComplexa },
         { id: "pt-4-noticia", title: "A notícia", emoji: "📰", body: ptNoticia },
         { id: "pt-4-hifen-x", title: "O hífen e o «x»", emoji: "✖️", body: ptHifenX },
+        { id: "pt-4-adverbios", title: "Os advérbios", emoji: "🏃", body: ptAdverbios },
+        { id: "pt-4-sujeito-predicado", title: "Sujeito e predicado", emoji: "🧱", body: ptSujeitoPredicado },
+      ],
+      5: [
+        { id: "pt-5-oralidade", title: "Ouvir, falar e apresentar", emoji: "🗣️", body: pt5Oralidade },
+        { id: "pt-5-narrativo-ler", title: "Ler textos narrativos", emoji: "📖", body: pt5NarrativoLer },
+        { id: "pt-5-narrativo-escrever", title: "Escrever uma narrativa", emoji: "✍️", body: pt5NarrativoEscrever },
+        { id: "pt-5-classes", title: "Classes de palavras", emoji: "🧩", body: pt5Classes },
+        { id: "pt-5-verbos", title: "Os verbos: tempos e modos", emoji: "⏳", body: pt5Verbos },
+        { id: "pt-5-funcoes", title: "Funções sintáticas", emoji: "🔗", body: pt5Funcoes },
+        { id: "pt-5-ortografia", title: "Ortografia e acentuação", emoji: "🔤", body: pt5Ortografia },
+        { id: "pt-5-poesia", title: "O texto poético", emoji: "🎵", body: pt5Poesia },
+        { id: "pt-5-literaria", title: "Educação Literária: autores", emoji: "📚", body: pt5Literaria },
+      ],
+      6: [
+        { id: "pt-6-descritivo", title: "Texto descritivo e narrativo", emoji: "🖼️", body: pt6Descritivo },
+        { id: "pt-6-noticia-entrevista", title: "Notícia e entrevista", emoji: "📰", body: pt6NoticiaEntrevista },
+        { id: "pt-6-classes", title: "Classes de palavras (II)", emoji: "🧩", body: pt6Classes },
+        { id: "pt-6-sintaxe", title: "A frase e as suas funções", emoji: "🔗", body: pt6Sintaxe },
+        { id: "pt-6-verbos", title: "Conjugar verbos", emoji: "⏳", body: pt6Verbos },
+        { id: "pt-6-grau-nome", title: "Nome, grau e flexão", emoji: "🔤", body: pt6GrauNome },
+        { id: "pt-6-teatro", title: "O texto dramático", emoji: "🎭", body: pt6Teatro },
+        { id: "pt-6-recursos", title: "Poesia e recursos expressivos", emoji: "✨", body: pt6Recursos },
+        { id: "pt-6-literaria", title: "Educação Literária: clássicos", emoji: "📚", body: pt6Literaria },
       ],
     },
   },
@@ -439,6 +686,10 @@ export const schoolSubjects: Subject[] = [
         { id: "edm-4-mapas", title: "Mapas e pontos cardeais", emoji: "🧭", body: edmMapas },
         { id: "edm-4-historia", title: "História de Portugal", emoji: "🏰", body: edmHistoria },
       ],
+      // Estudo do Meio is a 1.º-ciclo subject — in 5.º/6.º it splits into
+      // Ciências Naturais + História e Geografia de Portugal (see below).
+      5: [],
+      6: [],
     },
   },
   {
@@ -481,6 +732,26 @@ export const schoolSubjects: Subject[] = [
         { id: "en-4-comparatives", title: "Comparatives", emoji: "📏", body: enComparatives },
         { id: "en-4-travel", title: "Travel & transport", emoji: "✈️", body: enTravel },
       ],
+      5: [
+        { id: "en-5-greetings", title: "Greetings & introductions", emoji: "👋", body: en5Greetings },
+        { id: "en-5-personal", title: "Personal information", emoji: "🪪", body: en5Personal },
+        { id: "en-5-family", title: "Family & friends", emoji: "👪", body: en5Family },
+        { id: "en-5-school", title: "School subjects", emoji: "🎒", body: en5School },
+        { id: "en-5-routines", title: "Daily routines", emoji: "⏰", body: en5Routines },
+        { id: "en-5-present-simple", title: "Present simple", emoji: "🔁", body: en5PresentSimple },
+        { id: "en-5-hobbies", title: "Hobbies & free time", emoji: "🎮", body: en5Hobbies },
+        { id: "en-5-food", title: "Food & meals", emoji: "🍽️", body: en5Food },
+      ],
+      6: [
+        { id: "en-6-present-continuous", title: "Present continuous", emoji: "🏃", body: en6PresentContinuous },
+        { id: "en-6-past-simple", title: "Past simple", emoji: "⏪", body: en6PastSimple },
+        { id: "en-6-town", title: "Places in town & directions", emoji: "🏙️", body: en6Town },
+        { id: "en-6-travel", title: "Holidays & travel", emoji: "✈️", body: en6Travel },
+        { id: "en-6-comparatives", title: "Comparatives & superlatives", emoji: "📏", body: en6Comparatives },
+        { id: "en-6-shopping", title: "Clothes & shopping", emoji: "🛍️", body: en6Shopping },
+        { id: "en-6-health", title: "Health & body", emoji: "🩺", body: en6Health },
+        { id: "en-6-future", title: "Future plans (going to)", emoji: "🔮", body: en6Future },
+      ],
     },
   },
   {
@@ -510,6 +781,20 @@ export const schoolSubjects: Subject[] = [
         { id: "cid-4-sustentavel", title: "Cuidar dos recursos do planeta", emoji: "🌍", body: cidSustentavel },
         { id: "cid-4-democracia", title: "Regras, votar e decidir juntos", emoji: "🗳️", body: cidDemocracia },
         { id: "cid-4-saude", title: "Saúde, sono e ecrãs", emoji: "😴", body: cidSaude },
+      ],
+      5: [
+        { id: "cid-5-direitos-humanos", title: "Os direitos humanos", emoji: "🕊️", body: cid5DireitosHumanos },
+        { id: "cid-5-igualdade", title: "Igualdade de género", emoji: "⚖️", body: cid5Igualdade },
+        { id: "cid-5-intercultural", title: "Viver com culturas diferentes", emoji: "🌍", body: cid5Intercultural },
+        { id: "cid-5-saude", title: "Saúde e bem-estar", emoji: "🧘", body: cid5Saude },
+        { id: "cid-5-ambiente", title: "Educação ambiental", emoji: "🌱", body: cid5Ambiente },
+      ],
+      6: [
+        { id: "cid-6-financeira", title: "Educação financeira", emoji: "💰", body: cid6Financeira },
+        { id: "cid-6-protecao", title: "Risco e proteção civil", emoji: "🚨", body: cid6Protecao },
+        { id: "cid-6-media", title: "Media e mundo digital", emoji: "📱", body: cid6Media },
+        { id: "cid-6-voluntariado", title: "Solidariedade e voluntariado", emoji: "🤲", body: cid6Voluntariado },
+        { id: "cid-6-sustentavel", title: "Desenvolvimento sustentável", emoji: "♻️", body: cid6Sustentavel },
       ],
     },
   },
@@ -541,6 +826,10 @@ export const schoolSubjects: Subject[] = [
         { id: "art-4-compositores", title: "A música e os compositores", emoji: "🎼", body: artCompositores },
         { id: "art-4-dancas-mundo", title: "Danças do mundo e de Portugal", emoji: "💃", body: artDancasMundo },
       ],
+      // Educação Artística is a 1.º-ciclo subject — in 5.º/6.º it splits into
+      // Educação Visual, Educação Tecnológica and Educação Musical (see below).
+      5: [],
+      6: [],
     },
   },
   {
@@ -570,6 +859,164 @@ export const schoolSubjects: Subject[] = [
         { id: "ef-4-olimpicos", title: "Os Jogos Olímpicos", emoji: "🏅", body: efOlimpicos },
         { id: "ef-4-vida-ativa", title: "Uma vida ativa e saudável", emoji: "🏃", body: efVidaAtiva },
         { id: "ef-4-seguranca", title: "Desporto em segurança", emoji: "🦺", body: efSeguranca },
+      ],
+      5: [
+        { id: "ef-5-aptidao", title: "Aptidão física e aquecimento", emoji: "🔥", body: ef5Aptidao },
+        { id: "ef-5-ginastica", title: "Ginástica de solo", emoji: "🤸", body: ef5Ginastica },
+        { id: "ef-5-coletivos", title: "Jogos desportivos coletivos", emoji: "⚽", body: ef5Coletivos },
+        { id: "ef-5-atletismo", title: "Atletismo: correr e saltar", emoji: "🏃", body: ef5Atletismo },
+        { id: "ef-5-raquetas", title: "Jogos de raquetas", emoji: "🏸", body: ef5Raquetas },
+        { id: "ef-5-fairplay", title: "Regras e fair play", emoji: "🤝", body: ef5Fairplay },
+      ],
+      6: [
+        { id: "ef-6-condicao", title: "Condição física e saúde", emoji: "💪", body: ef6Condicao },
+        { id: "ef-6-aparelhos", title: "Ginástica de aparelhos", emoji: "🤸", body: ef6Aparelhos },
+        { id: "ef-6-voleibol", title: "Voleibol e andebol", emoji: "🏐", body: ef6Voleibol },
+        { id: "ef-6-atletismo", title: "Atletismo: lançamentos", emoji: "🥏", body: ef6Atletismo },
+        { id: "ef-6-danca", title: "A dança", emoji: "💃", body: ef6Danca },
+        { id: "ef-6-natureza", title: "Desportos de natureza", emoji: "🧗", body: ef6Natureza },
+      ],
+    },
+  },
+
+  /* ---- 2.º ciclo only (5.º–6.º ano) ---- */
+  {
+    id: "ciencias",
+    label: "Ciências Naturais",
+    emoji: "🔬",
+    color: "var(--subj-cn)",
+    colorSoft: "var(--subj-cn-soft)",
+    blurb: "A água, o ar, os seres vivos e o teu corpo — investiga!",
+    years: {
+      1: [], 2: [], 3: [], 4: [],
+      5: [
+        { id: "cn-5-agua", title: "A água: importância e qualidade", emoji: "💧", body: cn5Agua },
+        { id: "cn-5-ar", title: "O ar e a atmosfera", emoji: "🌬️", body: cn5Ar },
+        { id: "cn-5-rochas-solo", title: "Rochas, solo e minerais", emoji: "🪨", body: cn5RochasSolo },
+        { id: "cn-5-animais-diversidade", title: "Diversidade nos animais", emoji: "🐾", body: cn5AnimaisDiversidade },
+        { id: "cn-5-animais-funcoes", title: "Como vivem os animais", emoji: "🦅", body: cn5AnimaisFuncoes },
+        { id: "cn-5-plantas", title: "Diversidade nas plantas", emoji: "🌻", body: cn5Plantas },
+        { id: "cn-5-ecossistemas", title: "Proteger os seres vivos", emoji: "🌍", body: cn5Ecossistemas },
+      ],
+      6: [
+        { id: "cn-6-microorganismos", title: "Os micro-organismos", emoji: "🦠", body: cn6Microorganismos },
+        { id: "cn-6-digestivo", title: "Sistema digestivo", emoji: "🍎", body: cn6Digestivo },
+        { id: "cn-6-respiratorio", title: "Sistema respiratório", emoji: "🫁", body: cn6Respiratorio },
+        { id: "cn-6-circulatorio", title: "Sistema circulatório", emoji: "❤️", body: cn6Circulatorio },
+        { id: "cn-6-excretor", title: "Sistema excretor", emoji: "💦", body: cn6Excretor },
+        { id: "cn-6-reproducao", title: "Transmissão da vida", emoji: "👶", body: cn6Reproducao },
+        { id: "cn-6-saude", title: "Saúde e agressões do meio", emoji: "🩺", body: cn6Saude },
+      ],
+    },
+  },
+  {
+    id: "hgp",
+    label: "História e Geografia",
+    emoji: "🏰",
+    color: "var(--subj-hgp)",
+    colorSoft: "var(--subj-hgp-soft)",
+    blurb: "Como nasceu Portugal — dos primeiros povos até hoje.",
+    years: {
+      1: [], 2: [], 3: [], 4: [],
+      5: [
+        { id: "hgp-5-primeiros-povos", title: "Os primeiros povos da Península", emoji: "🏹", body: hgp5PrimeirosPovos },
+        { id: "hgp-5-romanos", title: "Os romanos na Península Ibérica", emoji: "🏛️", body: hgp5Romanos },
+        { id: "hgp-5-muculmanos", title: "Muçulmanos e cristãos", emoji: "🕌", body: hgp5Muculmanos },
+        { id: "hgp-5-formacao", title: "A formação de Portugal", emoji: "🛡️", body: hgp5Formacao },
+        { id: "hgp-5-consolidacao", title: "Consolidar o reino", emoji: "👑", body: hgp5Consolidacao },
+        { id: "hgp-5-crise-1383", title: "A crise de 1383-1385", emoji: "⚔️", body: hgp5Crise1383 },
+        { id: "hgp-5-sociedade", title: "A sociedade medieval", emoji: "🏰", body: hgp5Sociedade },
+      ],
+      6: [
+        { id: "hgp-6-descobrimentos", title: "Os Descobrimentos", emoji: "⛵", body: hgp6Descobrimentos },
+        { id: "hgp-6-imperio", title: "O império português", emoji: "🌍", body: hgp6Imperio },
+        { id: "hgp-6-restauracao", title: "União Ibérica e Restauração", emoji: "👑", body: hgp6Restauracao },
+        { id: "hgp-6-pombal", title: "O século XVIII e o Marquês de Pombal", emoji: "🏛️", body: hgp6Pombal },
+        { id: "hgp-6-liberalismo", title: "O Liberalismo", emoji: "📜", body: hgp6Liberalismo },
+        { id: "hgp-6-republica", title: "A 1.ª República", emoji: "🇵🇹", body: hgp6Republica },
+        { id: "hgp-6-estado-novo", title: "O Estado Novo e o 25 de Abril", emoji: "🌼", body: hgp6EstadoNovo },
+        { id: "hgp-6-democracia", title: "Portugal democrático e a Europa", emoji: "🇪🇺", body: hgp6Democracia },
+      ],
+    },
+  },
+  {
+    id: "ed-visual",
+    label: "Educação Visual",
+    emoji: "🎨",
+    color: "var(--subj-ev)",
+    colorSoft: "var(--subj-ev-soft)",
+    blurb: "Ponto, linha, cor e forma — vê e cria com os olhos!",
+    years: {
+      1: [], 2: [], 3: [], 4: [],
+      5: [
+        { id: "ev-5-ponto-linha", title: "O ponto e a linha", emoji: "✏️", body: ev5PontoLinha },
+        { id: "ev-5-cor", title: "A cor e o círculo cromático", emoji: "🎨", body: ev5Cor },
+        { id: "ev-5-formas", title: "Formas e contornos", emoji: "🔷", body: ev5Formas },
+        { id: "ev-5-textura", title: "A textura", emoji: "🧱", body: ev5Textura },
+        { id: "ev-5-comunicacao", title: "Comunicação visual", emoji: "📢", body: ev5Comunicacao },
+        { id: "ev-5-geometria", title: "Traçados geométricos", emoji: "📐", body: ev5Geometria },
+      ],
+      6: [
+        { id: "ev-6-luz-sombra", title: "A luz e a sombra", emoji: "💡", body: ev6LuzSombra },
+        { id: "ev-6-volume", title: "Volume e perspetiva", emoji: "🧊", body: ev6Volume },
+        { id: "ev-6-padrao", title: "Padrão e módulo", emoji: "🔳", body: ev6Padrao },
+        { id: "ev-6-cor-harmonias", title: "Harmonias e contrastes de cor", emoji: "🌈", body: ev6CorHarmonias },
+        { id: "ev-6-design", title: "Design e cartaz", emoji: "🖼️", body: ev6Design },
+        { id: "ev-6-patrimonio", title: "Património visual", emoji: "🏛️", body: ev6Patrimonio },
+      ],
+    },
+  },
+  {
+    id: "ed-tecnologica",
+    label: "Educação Tecnológica",
+    emoji: "⚙️",
+    color: "var(--subj-et)",
+    colorSoft: "var(--subj-et-soft)",
+    blurb: "Materiais, estruturas, energia — construir e inventar!",
+    years: {
+      1: [], 2: [], 3: [], 4: [],
+      5: [
+        { id: "et-5-o-que-e", title: "O que é a tecnologia", emoji: "⚙️", body: et5OQueE },
+        { id: "et-5-materiais", title: "Materiais e propriedades", emoji: "🧰", body: et5Materiais },
+        { id: "et-5-medicao", title: "Medição e rigor", emoji: "📏", body: et5Medicao },
+        { id: "et-5-seguranca", title: "Higiene e segurança", emoji: "🦺", body: et5Seguranca },
+        { id: "et-5-estruturas", title: "As estruturas", emoji: "🏗️", body: et5Estruturas },
+        { id: "et-5-projeto", title: "Do projeto ao objeto", emoji: "🛠️", body: et5Projeto },
+      ],
+      6: [
+        { id: "et-6-mecanismos", title: "Mecanismos e movimento", emoji: "⚙️", body: et6Mecanismos },
+        { id: "et-6-energia", title: "Energia e suas fontes", emoji: "⚡", body: et6Energia },
+        { id: "et-6-eletricidade", title: "Circuitos elétricos", emoji: "🔌", body: et6Eletricidade },
+        { id: "et-6-reciclar", title: "Materiais e reciclagem", emoji: "♻️", body: et6Reciclar },
+        { id: "et-6-comunicacao", title: "Tecnologias de comunicação", emoji: "📡", body: et6Comunicacao },
+        { id: "et-6-fabrico", title: "Planear e fabricar", emoji: "🏭", body: et6Fabrico },
+      ],
+    },
+  },
+  {
+    id: "ed-musical",
+    label: "Educação Musical",
+    emoji: "🎵",
+    color: "var(--subj-emus)",
+    colorSoft: "var(--subj-emus-soft)",
+    blurb: "Som, ritmo e melodia — ouvir, tocar e criar música!",
+    years: {
+      1: [], 2: [], 3: [], 4: [],
+      5: [
+        { id: "em-5-som-silencio", title: "O som e o silêncio", emoji: "🔊", body: em5SomSilencio },
+        { id: "em-5-ritmo", title: "A pulsação e o ritmo", emoji: "🥁", body: em5Ritmo },
+        { id: "em-5-melodia", title: "A melodia", emoji: "🎶", body: em5Melodia },
+        { id: "em-5-notas", title: "A altura dos sons", emoji: "🎼", body: em5Notas },
+        { id: "em-5-dinamica", title: "Dinâmica e andamento", emoji: "📢", body: em5Dinamica },
+        { id: "em-5-instrumentos", title: "Instrumentos da orquestra", emoji: "🎻", body: em5Instrumentos },
+      ],
+      6: [
+        { id: "em-6-forma", title: "A forma musical", emoji: "🧩", body: em6Forma },
+        { id: "em-6-escala", title: "Escala e tonalidade", emoji: "🎼", body: em6Escala },
+        { id: "em-6-harmonia", title: "A harmonia", emoji: "🎹", body: em6Harmonia },
+        { id: "em-6-generos", title: "Géneros musicais", emoji: "🎵", body: em6Generos },
+        { id: "em-6-portuguesa", title: "A música portuguesa", emoji: "🇵🇹", body: em6Portuguesa },
+        { id: "em-6-criar", title: "Criar e improvisar", emoji: "✨", body: em6Criar },
       ],
     },
   },
@@ -616,6 +1063,9 @@ export const mundoSubject: Subject = {
         { id: "mundo-4-animais", title: "Animais de cada continente", emoji: "🦁", body: mundoAnimaisCont, zona: "Mundo" },
         { id: "mundo-4-bandeiras", title: "Bandeiras do mundo", emoji: "🏳️", body: mundoBandeiras, zona: "Mundo" },
       ],
+      // "O Mundo" uses tiers 1–4 as proximity rings; 5–6 are unused here.
+      5: [],
+      6: [],
     },
 };
 
@@ -639,10 +1089,24 @@ export const estudoSubject: Subject = {
       { id: "estudo-dinheiro", title: "O dinheiro", emoji: "💶", body: estudoDinheiro },
       { id: "estudo-loja", title: "Vamos às compras!", emoji: "🛒", body: estudoLoja },
       { id: "estudo-dias-meses", title: "Dias e meses", emoji: "📅", body: estudoDiasMeses },
+      { id: "estudo-pontuacao", title: "Os sinais de pontuação", emoji: "❓", body: estudoPontuacao },
+      { id: "estudo-classes", title: "As classes de palavras", emoji: "🧩", body: estudoClasses },
+      { id: "estudo-verbos", title: "Conjugar os verbos", emoji: "⏳", body: estudoVerbos },
+      { id: "estudo-formas", title: "As formas e os sólidos", emoji: "🔷", body: estudoFormas },
+      { id: "estudo-medidas", title: "As unidades de medida", emoji: "📏", body: estudoMedidas },
+      { id: "estudo-formulas", title: "Fórmulas de área e perímetro", emoji: "📐", body: estudoFormulas },
+      { id: "estudo-romanos", title: "Os numerais romanos", emoji: "🏛️", body: estudoRomanos },
+      { id: "estudo-planetas", title: "Os planetas", emoji: "🪐", body: estudoPlanetas },
+      { id: "estudo-continentes", title: "Continentes e oceanos", emoji: "🌐", body: estudoContinentes },
+      { id: "estudo-pontos-cardeais", title: "Os pontos cardeais", emoji: "🧭", body: estudoPontosCardeais },
+      { id: "estudo-datas", title: "Datas da História de Portugal", emoji: "🏰", body: estudoDatas },
+      { id: "estudo-distritos", title: "Os distritos de Portugal", emoji: "🗺️", body: estudoDistritos },
     ],
     2: [],
     3: [],
     4: [],
+    5: [],
+    6: [],
   },
 };
 
@@ -692,6 +1156,8 @@ export const dicionarioSubject: Subject = {
     2: [],
     3: [],
     4: [],
+    5: [],
+    6: [],
   },
 };
 
@@ -727,6 +1193,8 @@ export const paisesSubject: Subject = {
     ],
     3: [],
     4: [],
+    5: [],
+    6: [],
   },
 };
 
@@ -736,8 +1204,18 @@ export const paisesSubject: Subject = {
  *  areas as their own sections. */
 export const subjects: Subject[] = [...schoolSubjects, mundoSubject, estudoSubject, dicionarioSubject, paisesSubject];
 
-export const YEARS: YearN[] = [1, 2, 3, 4];
+export const YEARS: YearN[] = [1, 2, 3, 4, 5, 6];
+/** Years grouped by cycle, for the home screen's two sections. */
+export const CYCLE_YEARS: Record<Cycle, YearN[]> = { 1: [1, 2, 3, 4], 2: [5, 6] };
+export const CYCLE_LABEL: Record<Cycle, string> = { 1: "1.º ciclo", 2: "2.º ciclo" };
 export const yearLabel = (y: YearN) => `${y}.º ano`;
+
+/** The school subjects actually taught in a given year (those with lessons).
+ *  Drives the year screen and the per-year "matérias" count, so the 2.º ciclo
+ *  shows its own subjects (Ciências, HGP, Ed. Visual…) and not the 1.º-ciclo
+ *  ones — and vice-versa — without any hard-coded per-cycle lists. */
+export const subjectsForYear = (year: YearN): Subject[] =>
+  schoolSubjects.filter((s) => s.years[year].length > 0);
 
 export const MUNDO_ID = "mundo";
 export const isMundo = (subjectId: string): boolean => subjectId === MUNDO_ID;

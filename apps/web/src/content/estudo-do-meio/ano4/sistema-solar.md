@@ -30,6 +30,32 @@ Toca em cada planeta para ouvires o nome e uma curiosidade. Repara na **Lua** a 
 }
 ```
 
+## Vê-os em fila, lado a lado 📏
+
+Agora vê o Sol e os planetas **em fila**, a começar no que está mais perto do Sol. Repara nos **tamanhos**: a Terra é pequenina ao pé de **Júpiter** e **Saturno**! Toca em cada um para o ouvires. 👀
+
+```solarsystem
+{
+  "layout": "lineup",
+  "title": "Os planetas em fila",
+  "say": "Aqui estão o Sol e os oito planetas em fila, do mais perto do Sol ao mais longe: Mercúrio, Vénus, Terra, Marte, Júpiter, Saturno, Úrano e Neptuno. Repara como Júpiter e Saturno são muito maiores do que a Terra. Lá ao fundo está o Plutão, um planeta anão.",
+  "center": { "name": "Sol", "emoji": "☀️", "fact": "uma estrela gigante; está no centro de tudo e dá-nos luz e calor" },
+  "bodies": [
+    { "name": "Mercúrio", "size": 5, "color": "#b8b0a8", "emoji": "🔥", "fact": "o mais perto do Sol e muito quente" },
+    { "name": "Vénus", "size": 8, "color": "#e6c98a", "emoji": "✨", "fact": "o mais brilhante no céu da noite" },
+    { "name": "Terra", "size": 8.5, "color": "#4a90d9", "emoji": "🌍", "fact": "o nosso planeta, o único com água e vida" },
+    { "name": "Marte", "size": 6, "color": "#d1603f", "emoji": "🔴", "fact": "o planeta vermelho, cheio de poeira cor de ferrugem" },
+    { "name": "Júpiter", "size": 17, "color": "#d8a878", "emoji": "🪐", "fact": "o maior de todos os planetas" },
+    { "name": "Saturno", "size": 14, "color": "#d8c89a", "emoji": "💍", "ring": true, "fact": "tem anéis lindos feitos de gelo e pedrinhas" },
+    { "name": "Úrano", "size": 10, "color": "#9fd8d8", "emoji": "❄️", "fact": "gelado e azul-esverdeado; gira deitado de lado" },
+    { "name": "Neptuno", "size": 9, "color": "#4a6fd9", "emoji": "🔵", "fact": "o mais longe do Sol, muito frio e azul" }
+  ],
+  "dwarfs": [
+    { "name": "Plutão", "size": 3, "color": "#c9a98f", "emoji": "❄️", "fact": "um planeta anão, lá muito longe e no frio; já foi contado como planeta" }
+  ]
+}
+```
+
 ## Os 8 planetas (do mais perto do Sol ao mais longe) 🌟
 
 Os planetas andam todos à volta do Sol, mas alguns estão **mais perto** e outros **muito mais longe**. Aqui estão por ordem, começando no que está mais junto ao Sol:

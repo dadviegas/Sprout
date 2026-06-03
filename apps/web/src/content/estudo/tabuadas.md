@@ -11,6 +11,22 @@ em **Ouvir tudo** para ouvires a tabuada inteira, de cima a baixo. 🎧
 > **10**. Depois, lembra-te: **3 × 4** dá o mesmo que **4 × 3**, por isso quando
 > sabes uma, já sabes a outra! 🔁
 
+## Treina agora! 🎯
+
+Já ouviste as tabuadas — agora **testa-te a sério**. Toca no altifalante 🔊 para
+ouvires a pergunta e vê quantas acertas **seguidas** (a sequência 🔥)!
+
+```drill
+{ "mode": "choose", "title": "Mistura das tabuadas (2, 3, 4, 5 e 10)", "generate": { "kind": "tabuadas", "tables": [2, 3, 4, 5, 10] }, "limit": 12 }
+```
+
+E em **cartões**: olha para a conta, pensa na resposta… e só depois toca em
+**Ver e ouvir a resposta** para confirmares. Sê honesto contigo! 🃏
+
+```drill
+{ "mode": "flip", "title": "Cartões da tabuada do 7", "generate": { "kind": "tabuada", "of": 7 } }
+```
+
 ## Onde treinar com jogos
 
 Queres praticar a brincar? Vai à **Matemática**:

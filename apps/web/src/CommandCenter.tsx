@@ -9,6 +9,7 @@ import {
   type YearN,
 } from "./content/curriculum";
 import type { View } from "./nav";
+import { useProgress } from "./progress";
 
 /* ------------------------------------------------------------------ *
  * Command Center — a Cmd/Ctrl+K palette to search every lesson across
@@ -174,6 +175,8 @@ interface Hit extends Entry {
   preview: { before: string; match: string; after: string } | null;
   /** present on dictionary-word results: the letter page they live on */
   word?: { letter: string };
+  /** true on the recently-opened lessons shown for an empty query */
+  recent?: boolean;
 }
 
 /** Map a matched dictionary word onto the shared Hit shape so it renders and
@@ -222,6 +225,8 @@ export function CommandCenter({
 }) {
   const index = useMemo(buildIndex, []);
   const wordIndex = useMemo(buildWordIndex, []);
+  const byId = useMemo(() => new Map(index.map((e) => [e.lessonId, e] as const)), [index]);
+  const { history } = useProgress();
   const [q, setQ] = useState("");
   const [year, setYear] = useState<YearN | "all">("all");
   const [subjectId, setSubjectId] = useState<string | "all">("all");
@@ -240,13 +245,23 @@ export function CommandCenter({
     const scoped = index.filter(
       (e) => (year === "all" || e.year === year) && (subjectId === "all" || e.subjectId === subjectId),
     );
+
+    // Empty query → the recently-opened lessons (newest first), scoped by the
+    // active filters. Mirrors the home strip so the palette opens onto "what
+    // you were just doing" instead of dumping every lesson.
+    if (qWords.length === 0) {
+      const inScope = new Set(scoped.map((e) => e.lessonId));
+      return history
+        .map((id) => byId.get(id))
+        .filter((e): e is Entry => !!e && inScope.has(e.lessonId))
+        .map((e) => ({ ...e, score: 1, preview: null, recent: true }));
+    }
+
     const ranked = scoped
       .map((e): Hit => {
         let score = 0;
         let fuzzyOnly = false;
-        if (qWords.length === 0) {
-          score = 1; // empty query — list everything in the current scope
-        } else if (e.ftitle.startsWith(fq)) {
+        if (e.ftitle.startsWith(fq)) {
           score = 5;
         } else if (e.ftitle.includes(fq)) {
           score = 4;
@@ -290,9 +305,11 @@ export function CommandCenter({
     return [...ranked, ...wordHits]
       .sort((a, b) => b.score - a.score || Number(b.hasBody) - Number(a.hasBody))
       .slice(0, 50);
-  }, [index, wordIndex, q, year, subjectId]);
+  }, [index, wordIndex, byId, history, q, year, subjectId]);
 
   useEffect(() => setActive(0), [q, year, subjectId]);
+
+  const recentMode = q.trim() === ""; // showing the recently-opened list, not search results
 
   const choose = (h: Hit) => {
     // Dictionary-word results open the letter page AND scroll to that exact word
@@ -357,10 +374,11 @@ export function CommandCenter({
         <div className="cmdk-results" ref={listRef}>
           {hits.length === 0 && (
             <div className="cmdk-empty">
-              <Icon name="search" size={28} />
-              <p>Nada encontrado. Tenta outra palavra.</p>
+              <Icon name={recentMode ? "clock" : "search"} size={28} />
+              <p>{recentMode ? "Ainda não abriste nenhuma lição. Escreve para procurar." : "Nada encontrado. Tenta outra palavra."}</p>
             </div>
           )}
+          {recentMode && hits.length > 0 && <div className="cmdk-caption"><Icon name="clock" size={14} /> Visto recentemente</div>}
           {hits.map((h, i) => (
             <button
               key={h.word ? `dw-${h.word.letter}-${h.title}` : `${h.subjectId}-${h.lessonId}`}

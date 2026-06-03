@@ -8,10 +8,13 @@ import { Damas } from "./Damas";
 import { Salta } from "./Salta";
 import { Foguetao } from "./Foguetao";
 import { VelhoOeste } from "./VelhoOeste";
+import { Domino } from "./Domino";
 
-// Velho Oeste 3D pulls in Babylon.js (a big engine), so it's lazy-loaded into
-// its own chunk — it only downloads when a child actually opens that game.
+// Velho Oeste 3D and Xadrez 3D pull in Babylon.js (a big engine), so they're
+// lazy-loaded into their own chunks — they only download when a child actually
+// opens that game (and the two share the Babylon chunk).
 const Oeste3D = lazy(() => import("./oeste3d/Oeste3D").then((m) => ({ default: m.Oeste3D })));
+const Xadrez3D = lazy(() => import("./xadrez3d/Xadrez3D").then((m) => ({ default: m.Xadrez3D })));
 
 /* Jogos — a little arcade. The hub shows game cards; picking one swaps to it
  * with a "Voltar aos jogos" button (kept in local state, so it stays inside the
@@ -21,7 +24,7 @@ const Oeste3D = lazy(() => import("./oeste3d/Oeste3D").then((m) => ({ default: m
  * Emoji are used INSIDE the games (game content, not chrome) — allowed by the
  * project conventions; the chrome (buttons, back arrow) uses @sprout/icons. */
 
-type GameId = "xadrez" | "damas" | "salta" | "foguetao" | "oeste" | "oeste3d" | "memoria" | "sequencia" | "apanha" | "toupeira" | "conta" | "soma";
+type GameId = "xadrez" | "xadrez3d" | "damas" | "domino" | "salta" | "foguetao" | "oeste" | "oeste3d" | "memoria" | "sequencia" | "apanha" | "toupeira" | "conta" | "soma";
 
 /* Each tile gets a little illustrated scene (same playful, multi-colour spirit
  * as the memory-card art) on a 0 0 48 48 grid, tinted with the tile's accent via
@@ -139,6 +142,26 @@ const ART_XADREZ = (
   </g>
 );
 
+// Xadrez 3D — an isometric board (a 3D rhombus with depth) and a king standing
+// proud on it, to read as the 3D version of chess.
+const ART_XADREZ3D = (
+  <g>
+    {/* board top (rhombus) with a couple of dark squares for the checker feel */}
+    <path d="M24 12 L42 22 L24 32 L6 22 Z" fill="#e9d3a4" />
+    <path d="M24 12 L33 17 L24 22 L15 17 Z" style={{ fill: "var(--c)" }} opacity="0.85" />
+    <path d="M24 22 L33 27 L24 32 L15 27 Z" style={{ fill: "var(--c)" }} opacity="0.85" />
+    {/* board depth (two side faces) */}
+    <path d="M6 22 L24 32 L24 38 L6 28 Z" fill="#7a4a24" />
+    <path d="M42 22 L24 32 L24 38 L42 28 Z" fill="#9a6230" />
+    {/* a king standing on the board */}
+    <ellipse cx="24" cy="20" rx="6" ry="2.6" fill="#1c2530" opacity="0.16" />
+    <path d="M21 19 q-1.6 -5 3 -7 q4.6 2 3 7 Z" fill="#f4ecd8" stroke="#cdbfa6" strokeWidth="0.8" />
+    <rect x="22.2" y="5.5" width="3.6" height="6.5" rx="1.2" fill="#f4ecd8" stroke="#cdbfa6" strokeWidth="0.8" />
+    <rect x="21.5" y="3" width="5" height="2.4" rx="0.8" fill="#ffce3a" />
+    <rect x="23" y="1" width="2" height="3.2" rx="0.6" fill="#ffce3a" />
+  </g>
+);
+
 // Damas — the same wooden board with a crowned "dama" (two stacked discs).
 const ART_DAMAS = (
   <g>
@@ -155,6 +178,26 @@ const ART_DAMAS = (
     <circle cx="24" cy="28" r="8" fill="#fbfbf7" stroke="#cdbfa6" strokeWidth="1.5" />
     <circle cx="24" cy="22" r="8" fill="#fbfbf7" stroke="#cdbfa6" strokeWidth="1.5" />
     <path d="M19 23 L17.6 17 L21 19.5 L24 14.5 L27 19.5 L30.4 17 L29 23 Z" style={{ fill: "var(--c)" }} />
+  </g>
+);
+
+// Dominó — a single tile stood at a slight tilt, showing 5 | 3 in accent pips.
+const ART_DOMINO = (
+  <g transform="rotate(-8 24 24)">
+    <rect x="9" y="7" width="30" height="34" rx="5" fill="#fffef9" stroke="#cdbfa6" strokeWidth="1.6" />
+    <line x1="9" y1="24" x2="39" y2="24" stroke="#cdbfa6" strokeWidth="1.6" />
+    <g style={{ fill: "var(--c)" }}>
+      {/* top half — 5 pips */}
+      <circle cx="16" cy="12" r="2" />
+      <circle cx="32" cy="12" r="2" />
+      <circle cx="24" cy="15.5" r="2" />
+      <circle cx="16" cy="19" r="2" />
+      <circle cx="32" cy="19" r="2" />
+      {/* bottom half — 3 pips */}
+      <circle cx="16" cy="29" r="2" />
+      <circle cx="24" cy="32.5" r="2" />
+      <circle cx="32" cy="36" r="2" />
+    </g>
   </g>
 );
 
@@ -218,7 +261,9 @@ const ART_OESTE3D = (
 
 const GAMES: { id: GameId; art: ReactNode; accent: string; accentSoft: string; label: string; blurb: string; rules: string }[] = [
   { id: "xadrez", art: ART_XADREZ, accent: "var(--subj-hgp)", accentSoft: "var(--subj-hgp-soft)", label: "Xadrez", blurb: "Joga contra o computador ou um amigo.", rules: "Xadrez. Toca numa peça branca e depois no quadrado para onde queres ir. Dá xeque-mate ao rei! Podes jogar contra o computador ou contra um amigo na mesma máquina." },
+  { id: "xadrez3d", art: ART_XADREZ3D, accent: "var(--subj-mat)", accentSoft: "var(--subj-mat-soft)", label: "Xadrez 3D", blurb: "Xadrez com peças a sério em 3D.", rules: "Xadrez 3D! As mesmas regras do xadrez, mas com peças a sério em três dimensões. Toca numa peça branca e depois no quadrado para onde queres ir; as jogadas possíveis acendem-se no tabuleiro. Arrasta com o dedo para rodares o tabuleiro e veres de todos os lados. Joga contra o computador ou contra um amigo na mesma máquina." },
   { id: "damas", art: ART_DAMAS, accent: "var(--subj-fis)", accentSoft: "var(--subj-fis-soft)", label: "Damas", blurb: "Salta por cima e come as peças.", rules: "Damas. Toca numa peça branca e depois no quadrado em diagonal para onde queres ir. Salta por cima de uma peça do adversário para a comeres — e se puderes comer, tens de comer! Chega ao outro lado para a tua peça virar dama e poder andar para todos os lados. Joga contra o computador ou contra um amigo." },
+  { id: "domino", art: ART_DOMINO, accent: "var(--subj-pt)", accentSoft: "var(--subj-pt-soft)", label: "Dominó", blurb: "Faz pares, marca pontos e bate o teu recorde.", rules: "Dominó! Cada um fica com sete peças. Na tua vez, arrasta uma peça para uma das pontas da fila — ou toca para a encaixares sozinha. A peça tem de ter o mesmo número da ponta. Sempre que as pontas somam 5, 10 ou 15, ganhas logo esses pontos! Se não tiveres jeito, tira uma peça do monte; se o monte acabar, passas a vez. Ganhas a ronda quando ficares sem peças e levas os pontos das peças que sobram ao computador. Escolhe o nível: quanto mais difícil, mais pontos valem! O melhor de cada dia fica guardado para tentares bater o recorde." },
   { id: "salta", art: ART_SALTA, accent: "var(--subj-cn)", accentSoft: "var(--subj-cn-soft)", label: "Salta!", blurb: "Salta e apanha as estrelas.", rules: "Salta! O Saltão corre pela relva. Toca no ecrã para ele saltar — toca outra vez no ar para dar um salto duplo. Passa por cima das pedras e dos troncos e apanha as estrelas a brilhar. Quanto mais tempo aguentares, mais depressa fica!" },
   { id: "foguetao", art: ART_FOGUETAO, accent: "var(--subj-paises)", accentSoft: "var(--subj-paises-soft)", label: "Foguetão", blurb: "Voa e desvia-te dos meteoros.", rules: "Foguetão! Arrasta o dedo pelo ecrã para guiar o foguetão pelo espaço. Desvia-te dos meteoros, apanha as gemas a brilhar e agarra o escudo azul para ficares protegido uns segundos. Vê até onde consegues chegar!" },
   { id: "oeste", art: ART_OESTE, accent: "var(--subj-hgp)", accentSoft: "var(--subj-hgp-soft)", label: "Velho Oeste", blurb: "Salta pelo Oeste e chega ao saloon.", rules: "Velho Oeste! Usa o manípulo redondo em baixo à esquerda para andar para a frente e para trás, e o botão verde à direita para saltar — toca outra vez no ar para um salto duplo. Apanha as moedas de ouro, a estrela dourada transforma-te em Xerife, a malagueta dá-te turbo e o coração verde dá-te uma vida. Salta em cima dos bandidos ou apanha a pistola de água para os pôr a fugir. Procura os segredos escondidos e chega ao saloon no fim de cada nível!" },
@@ -259,7 +304,14 @@ export function Jogos() {
   // Chess and damas carry their own compact toolbar (with the back button) so all
   // their controls sit on one row, leaving the most height for the board.
   if (game === "xadrez") return <Xadrez onBack={() => setGame("hub")} />;
+  if (game === "xadrez3d")
+    return (
+      <Suspense fallback={<p className="dv-hint">A carregar o tabuleiro 3D…</p>}>
+        <Xadrez3D onBack={() => setGame("hub")} />
+      </Suspense>
+    );
   if (game === "damas") return <Damas onBack={() => setGame("hub")} />;
+  if (game === "domino") return <Domino onBack={() => setGame("hub")} />;
   return (
     <GameFrame onBack={() => setGame("hub")} say={meta.rules}>
       {game === "salta" && <Salta />}

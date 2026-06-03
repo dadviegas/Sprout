@@ -45,14 +45,23 @@ interface Piece {
   dead?: boolean; // captured — kept briefly so it can animate out, ignored by game logic
 }
 type Mode = "cpu" | "2p";
+type Level = "facil" | "medio" | "dificil";
 
 const SIDE_PT: Record<Color, string> = { w: "brancas", b: "pretas" };
+const LEVEL_PT: Record<Level, string> = { facil: "Fácil", medio: "Médio", dificil: "Difícil" };
+// How hard the computer plays: how many turns it looks ahead, and how often it
+// just plays a random legal move (a "blunder") so a learner can win. "Difícil"
+// keeps the original strong search.
+const LEVELS: Record<Level, { depth: number; blunder: number }> = {
+  facil: { depth: 1, blunder: 0.45 },
+  medio: { depth: 3, blunder: 0.12 },
+  dificil: { depth: 5, blunder: 0 },
+};
 
 const DIAG = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
 const WHITE_FWD = [[-1, -1], [-1, 1]];
 const BLACK_FWD = [[1, -1], [1, 1]];
 
-const DEPTH = 5; // turns of lookahead — plenty for a fun, beatable opponent
 const NODE_CAP = 200_000; // safety: never let the AI search run away
 const MATE = 1e7;
 const MAN = 100;
@@ -202,15 +211,17 @@ function search(g: Grid, color: Color, depth: number, alpha: number, beta: numbe
   return best;
 }
 
-function aiTurn(g: Grid, color: Color): Turn | null {
+function aiTurn(g: Grid, color: Color, depth: number, blunder: number): Turn | null {
   const turns = enumerateTurns(g, color);
   if (!turns.length) return null;
+  // Easy levels sometimes just play a random legal turn, so a learner can win.
+  if (Math.random() < blunder) return turns[(Math.random() * turns.length) | 0];
   turns.sort((a, b) => capCount(b) - capCount(a));
   const nodes = { n: 0 };
   let best = -Infinity;
   let choices: Turn[] = [];
   for (const t of turns) {
-    const sc = -search(t.grid, opp(color), DEPTH - 1, -Infinity, Infinity, nodes);
+    const sc = -search(t.grid, opp(color), depth - 1, -Infinity, Infinity, nodes);
     if (sc > best + 1) { best = sc; choices = [t]; }
     else if (Math.abs(sc - best) <= 1) choices.push(t); // vary play among near-equal moves
   }
@@ -239,6 +250,7 @@ const CROWN = (
 export function Damas({ onBack }: { onBack: () => void }) {
   const reduced = prefersReducedMotion();
   const [mode, setMode] = useState<Mode>("cpu");
+  const [level, setLevel] = useState<Level>("medio"); // computer strength (cpu mode)
   const [started, setStarted] = useState(false); // first move made → hide the mode chooser
   const [pieces, setPieces] = useState<Piece[]>(initPieces);
   const [turn, setTurn] = useState<Color>("w");
@@ -348,7 +360,7 @@ export function Damas({ onBack }: { onBack: () => void }) {
   const computerTurn = (cur: Piece[]) => {
     setThinking(false);
     const live = cur.filter((p) => !p.dead);
-    const t = aiTurn(gridFromPieces(live), "b");
+    const t = aiTurn(gridFromPieces(live), "b", LEVELS[level].depth, LEVELS[level].blunder);
     if (!t) return; // safety — endTurn already covered "no move"
     const run = (pcs: Piece[], i: number) => {
       const np = playStep(pcs, t.steps[i]);
@@ -406,6 +418,15 @@ export function Damas({ onBack }: { onBack: () => void }) {
             <button className={`dv-seg ${mode === "2p" ? "is-active" : ""}`} onClick={() => newGame("2p")} aria-pressed={mode === "2p"}>
               2 jogadores
             </button>
+          </div>
+        )}
+        {!started && mode === "cpu" && (
+          <div className="dv-segment dv-segment--inline" role="group" aria-label="Nível do computador">
+            {(["facil", "medio", "dificil"] as Level[]).map((lv) => (
+              <button key={lv} className={`dv-seg ${level === lv ? "is-active" : ""}`} onClick={() => setLevel(lv)} aria-pressed={level === lv}>
+                {LEVEL_PT[lv]}
+              </button>
+            ))}
           </div>
         )}
         <button className="dv-tool dv-tool--wide" onClick={() => newGame()}>

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, Suspense, lazy, type ReactNode } from "react";
 import { Icon } from "@sprout/icons";
 import { Speaker, Confetti, speak } from "@sprout/ui";
 import { fitCanvas, pointerPos, prefersReducedMotion } from "./canvas";
@@ -9,6 +9,10 @@ import { Salta } from "./Salta";
 import { Foguetao } from "./Foguetao";
 import { VelhoOeste } from "./VelhoOeste";
 
+// Velho Oeste 3D pulls in Babylon.js (a big engine), so it's lazy-loaded into
+// its own chunk — it only downloads when a child actually opens that game.
+const Oeste3D = lazy(() => import("./oeste3d/Oeste3D").then((m) => ({ default: m.Oeste3D })));
+
 /* Jogos — a little arcade. The hub shows game cards; picking one swaps to it
  * with a "Voltar aos jogos" button (kept in local state, so it stays inside the
  * diversao/jogos nav entry). Three small, touch-first, read-aloud games. All
@@ -17,7 +21,7 @@ import { VelhoOeste } from "./VelhoOeste";
  * Emoji are used INSIDE the games (game content, not chrome) — allowed by the
  * project conventions; the chrome (buttons, back arrow) uses @sprout/icons. */
 
-type GameId = "xadrez" | "damas" | "salta" | "foguetao" | "oeste" | "memoria" | "sequencia" | "apanha" | "toupeira" | "conta" | "soma";
+type GameId = "xadrez" | "damas" | "salta" | "foguetao" | "oeste" | "oeste3d" | "memoria" | "sequencia" | "apanha" | "toupeira" | "conta" | "soma";
 
 /* Each tile gets a little illustrated scene (same playful, multi-colour spirit
  * as the memory-card art) on a 0 0 48 48 grid, tinted with the tile's accent via
@@ -200,12 +204,25 @@ const ART_OESTE = (
   </g>
 );
 
+// Velho Oeste 3D — an isometric desert mesa block (3 faces = depth) with the
+// sheriff star, to read as the 3D version of the cowboy game.
+const ART_OESTE3D = (
+  <g>
+    <path d="M24 16 L40 24 L24 32 L8 24 Z" fill="#e3b277" />
+    <path d="M8 24 L24 32 L24 44 L8 36 Z" fill="#a9733f" />
+    <path d="M40 24 L24 32 L24 44 L40 36 Z" fill="#c08a4e" />
+    <ellipse cx="31" cy="22.5" rx="2.6" ry="1.4" fill="#ffd23a" stroke="#c9870f" strokeWidth="0.6" />
+    <path d="M24 5l1.9 4 4.3.4-3.2 2.9.9 4.3-3.9-2.1-3.9 2.1.9-4.3-3.2-2.9 4.3-.4z" fill="#ffce3a" stroke="#c9870f" strokeWidth="0.9" strokeLinejoin="round" />
+  </g>
+);
+
 const GAMES: { id: GameId; art: ReactNode; accent: string; accentSoft: string; label: string; blurb: string; rules: string }[] = [
   { id: "xadrez", art: ART_XADREZ, accent: "var(--subj-hgp)", accentSoft: "var(--subj-hgp-soft)", label: "Xadrez", blurb: "Joga contra o computador ou um amigo.", rules: "Xadrez. Toca numa peça branca e depois no quadrado para onde queres ir. Dá xeque-mate ao rei! Podes jogar contra o computador ou contra um amigo na mesma máquina." },
   { id: "damas", art: ART_DAMAS, accent: "var(--subj-fis)", accentSoft: "var(--subj-fis-soft)", label: "Damas", blurb: "Salta por cima e come as peças.", rules: "Damas. Toca numa peça branca e depois no quadrado em diagonal para onde queres ir. Salta por cima de uma peça do adversário para a comeres — e se puderes comer, tens de comer! Chega ao outro lado para a tua peça virar dama e poder andar para todos os lados. Joga contra o computador ou contra um amigo." },
   { id: "salta", art: ART_SALTA, accent: "var(--subj-cn)", accentSoft: "var(--subj-cn-soft)", label: "Salta!", blurb: "Salta e apanha as estrelas.", rules: "Salta! O Saltão corre pela relva. Toca no ecrã para ele saltar — toca outra vez no ar para dar um salto duplo. Passa por cima das pedras e dos troncos e apanha as estrelas a brilhar. Quanto mais tempo aguentares, mais depressa fica!" },
   { id: "foguetao", art: ART_FOGUETAO, accent: "var(--subj-paises)", accentSoft: "var(--subj-paises-soft)", label: "Foguetão", blurb: "Voa e desvia-te dos meteoros.", rules: "Foguetão! Arrasta o dedo pelo ecrã para guiar o foguetão pelo espaço. Desvia-te dos meteoros, apanha as gemas a brilhar e agarra o escudo azul para ficares protegido uns segundos. Vê até onde consegues chegar!" },
   { id: "oeste", art: ART_OESTE, accent: "var(--subj-hgp)", accentSoft: "var(--subj-hgp-soft)", label: "Velho Oeste", blurb: "Salta pelo Oeste e chega ao saloon.", rules: "Velho Oeste! Usa o manípulo redondo em baixo à esquerda para andar para a frente e para trás, e o botão verde à direita para saltar — toca outra vez no ar para um salto duplo. Apanha as moedas de ouro, a estrela dourada transforma-te em Xerife, a malagueta dá-te turbo e o coração verde dá-te uma vida. Salta em cima dos bandidos ou apanha a pistola de água para os pôr a fugir. Procura os segredos escondidos e chega ao saloon no fim de cada nível!" },
+  { id: "oeste3d", art: ART_OESTE3D, accent: "var(--subj-mat)", accentSoft: "var(--subj-mat-soft)", label: "Velho Oeste 3D", blurb: "Aventura 3D: corre, salta e molha bandidos.", rules: "Velho Oeste 3D! Arrasta o manípulo à esquerda para o vaqueiro andar e usa os botões à direita para saltar e disparar a pistola de água. Salta de mesa em mesa, apanha as moedas de ouro, molha os bandidos ou salta-lhes em cima, e chega ao saloon!" },
   { id: "memoria", art: ART_MEMORIA, accent: "var(--subj-en)", accentSoft: "var(--subj-en-soft)", label: "Memória", blurb: "Encontra os pares iguais.", rules: "Jogo da memória. Toca em duas cartas para as virar. Se forem iguais, ficam viradas. Encontra todos os pares!" },
   { id: "sequencia", art: ART_SEQUENCIA, accent: "var(--subj-mundo)", accentSoft: "var(--subj-mundo-soft)", label: "Sequência de cores", blurb: "Decora e repete as cores.", rules: "Sequência de cores. Vê a ordem das cores que se acendem e repete tocando nelas pela mesma ordem. A cada ronda fica mais comprida!" },
   { id: "apanha", art: ART_APANHA, accent: "var(--joy)", accentSoft: "var(--joy-soft)", label: "Apanha a fruta", blurb: "Toca na fruta antes de cair.", rules: "Apanha a fruta! Toca na fruta enquanto ela cai para a apanhares. Quantas consegues apanhar?" },
@@ -248,6 +265,11 @@ export function Jogos() {
       {game === "salta" && <Salta />}
       {game === "foguetao" && <Foguetao />}
       {game === "oeste" && <VelhoOeste />}
+      {game === "oeste3d" && (
+        <Suspense fallback={<p className="dv-hint">A carregar o mundo 3D…</p>}>
+          <Oeste3D />
+        </Suspense>
+      )}
       {game === "memoria" && <Memoria />}
       {game === "sequencia" && <Sequencia />}
       {game === "apanha" && <Apanha />}

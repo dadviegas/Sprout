@@ -46,6 +46,7 @@ interface Piece {
 // rotation sign, so one keyframe set serves every direction (see diversao.css).
 interface Dir { x: number; y: number; rot: number; }
 type Mode = "cpu" | "2p";
+type Level = "facil" | "medio" | "dificil";
 interface Rights { wK: boolean; wQ: boolean; bK: boolean; bQ: boolean; }
 
 const FULL_RIGHTS: Rights = { wK: true, wQ: true, bK: true, bQ: true };
@@ -73,13 +74,21 @@ const hasArtFile = (url: string): Promise<boolean> => {
 };
 const VAL: Record<string, number> = { p: 100, n: 320, b: 330, r: 500, q: 900, k: 0 };
 const SIDE_PT: Record<Color, string> = { w: "brancas", b: "pretas" };
+const LEVEL_PT: Record<Level, string> = { facil: "Fácil", medio: "Médio", dificil: "Difícil" };
+// How hard the computer plays: how many half-moves it looks ahead, and how often
+// it just plays a random legal move (a "blunder") so a learner can win.
+// "Difícil" keeps the original strong search.
+const LEVELS: Record<Level, { depth: number; blunder: number }> = {
+  facil: { depth: 1, blunder: 0.45 },
+  medio: { depth: 2, blunder: 0.12 },
+  dificil: { depth: 3, blunder: 0 },
+};
 
 const KN = [[-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1]];
 const KI = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
 const ROOK = [[-1, 0], [1, 0], [0, -1], [0, 1]];
 const BISH = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
 
-const DEPTH = 3;
 const NODE_CAP = 250_000; // safety: never let the AI search run away
 const MATE = 1e7;
 
@@ -291,15 +300,17 @@ function search(g: Grid, color: Color, depth: number, alpha: number, beta: numbe
   return best;
 }
 
-function aiMove(g: Grid, color: Color, rights: Rights): Move | null {
+function aiMove(g: Grid, color: Color, rights: Rights, depth: number, blunder: number): Move | null {
   const legal = legalMoves(g, color, rights);
   if (!legal.length) return null;
+  // Easy levels sometimes just play a random legal move, so a learner can win.
+  if (Math.random() < blunder) return legal[(Math.random() * legal.length) | 0];
   legal.sort((a, b) => capScore(g, b) - capScore(g, a));
   const nodes = { n: 0 };
   let best = -Infinity;
   let choices: Move[] = [];
   for (const m of legal) {
-    const sc = -search(applyGrid(g, m), opp(color), DEPTH - 1, -Infinity, Infinity, nodes);
+    const sc = -search(applyGrid(g, m), opp(color), depth - 1, -Infinity, Infinity, nodes);
     if (sc > best + 1) { best = sc; choices = [m]; }
     else if (Math.abs(sc - best) <= 1) choices.push(m); // vary play among near-equal moves
   }
@@ -417,6 +428,7 @@ function PieceFigure({ t, anim, dir, dead }: { t: string; anim: "walk" | "attack
 export function Xadrez({ onBack }: { onBack: () => void }) {
   const reduced = prefersReducedMotion();
   const [mode, setMode] = useState<Mode>("cpu");
+  const [level, setLevel] = useState<Level>("medio"); // computer strength (cpu mode)
   const [started, setStarted] = useState(false); // first move made → hide the mode chooser, grow the board
   const [pieces, setPieces] = useState<Piece[]>(initPieces);
   const [turn, setTurn] = useState<Color>("w");
@@ -532,7 +544,7 @@ export function Xadrez({ onBack }: { onBack: () => void }) {
   const computerMove = (cur: Piece[]) => {
     setThinking(false);
     const gBefore = gridFromPieces(cur);
-    const m = aiMove(gBefore, "b", rights.current);
+    const m = aiMove(gBefore, "b", rights.current, LEVELS[level].depth, LEVELS[level].blunder);
     if (!m) return; // safety; status already covered mate/stalemate
     const moverId = cur.find((p) => !p.dead && p.r === m.fr && p.c === m.fc)?.id;
     const capture = !m.castle && !!gBefore[m.tr][m.tc];
@@ -596,6 +608,15 @@ export function Xadrez({ onBack }: { onBack: () => void }) {
             <button className={`dv-seg ${mode === "2p" ? "is-active" : ""}`} onClick={() => newGame("2p")} aria-pressed={mode === "2p"}>
               2 jogadores
             </button>
+          </div>
+        )}
+        {!started && mode === "cpu" && (
+          <div className="dv-segment dv-segment--inline" role="group" aria-label="Nível do computador">
+            {(["facil", "medio", "dificil"] as Level[]).map((lv) => (
+              <button key={lv} className={`dv-seg ${level === lv ? "is-active" : ""}`} onClick={() => setLevel(lv)} aria-pressed={level === lv}>
+                {LEVEL_PT[lv]}
+              </button>
+            ))}
           </div>
         )}
         <button className="dv-tool dv-tool--wide" onClick={() => newGame()}>

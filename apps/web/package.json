@@ -10,6 +10,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@babylonjs/core": "^9.10.1",
+    "@babylonjs/loaders": "^9.10.1",
     "@rive-app/react-canvas": "^4.28.6",
     "@sprout/icons": "workspace:*",
     "@sprout/ui": "workspace:*",

@@ -10,6 +10,12 @@ importers:
 
   apps/web:
     dependencies:
+      '@babylonjs/core':
+        specifier: ^9.10.1
+        version: 9.10.1
+      '@babylonjs/loaders':
+        specifier: ^9.10.1
+        version: 9.10.1(@babylonjs/core@9.10.1)(babylonjs-gltf2interface@9.10.1)
       '@rive-app/react-canvas':
         specifier: ^4.28.6
         version: 4.28.6(react@18.3.1)
@@ -95,6 +101,15 @@ importers:
         version: 5.9.3
 
 packages:
+
+  '@babylonjs/core@9.10.1':
+    resolution: {integrity: sha512-w7jhzzAHEh9hrCXtsQeUh7i8RL6x3PE+ExhBqVTn49GRfUdnzwhh3SPQgf0TKwGqelvBTA112TuIl6cENfzE2A==}
+
+  '@babylonjs/loaders@9.10.1':
+    resolution: {integrity: sha512-swnOC1mCK4T/o6SS3kmJiFl2KtZc9wZWwYVNIl5uq0f2so8VFkaSu3+FqAZwzwdzS+vXyan7fn+ZgVrSrTbQ9w==}
+    peerDependencies:
+      '@babylonjs/core': ^9.0.0
+      babylonjs-gltf2interface: ^9.0.0
 
   '@discoveryjs/json-ext@0.5.7':
     resolution: {integrity: sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==}
@@ -490,6 +505,9 @@ packages:
 
   array-flatten@1.1.1:
     resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==}
+
+  babylonjs-gltf2interface@9.10.1:
+    resolution: {integrity: sha512-EsqvRsqTXS1kHQtQkVuXU/l2wufBeGSpL4Zo6KKg6JbkDQ7jvTU27ICr9SoyunTQhkF5V/NG68zAFLCLeELyNw==}
 
   bail@2.0.2:
     resolution: {integrity: sha512-0xO6mYd7JB2YesxDKplafRpsiOzPt9V02ddPCLbY1xYGPOX24NTyN50qnUxgCPcSoYMhKpAuBTjQoRZCAkUDRw==}
@@ -1557,6 +1575,13 @@ packages:
 
 snapshots:
 
+  '@babylonjs/core@9.10.1': {}
+
+  '@babylonjs/loaders@9.10.1(@babylonjs/core@9.10.1)(babylonjs-gltf2interface@9.10.1)':
+    dependencies:
+      '@babylonjs/core': 9.10.1
+      babylonjs-gltf2interface: 9.10.1
+
   '@discoveryjs/json-ext@0.5.7': {}
 
   '@emnapi/core@1.10.0':
@@ -1997,6 +2022,8 @@ snapshots:
   argparse@2.0.1: {}
 
   array-flatten@1.1.1: {}
+
+  babylonjs-gltf2interface@9.10.1: {}
 
   bail@2.0.2: {}
 

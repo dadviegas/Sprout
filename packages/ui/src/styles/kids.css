@@ -615,18 +615,41 @@
   .bodysys-pulse { animation: none; }
 }
 
-/* timeline — linha do tempo */
+/* timeline — linha do tempo (vertical: oldest at the top, joined by a spine) */
 .timeline-widget { border-color: color-mix(in srgb, var(--subj-hgp) 55%, var(--border)); }
 .timeline-widget .w-badge { background: var(--subj-hgp); }
-.timeline-body { display: grid; gap: 12px; }
-.timeline-scroll { overflow-x: auto; }
-.timeline-svg { height: auto; display: block; margin: 0 auto; }
-.timeline-readout {
-  display: grid; gap: 6px; justify-items: start;
-  background: var(--surface-2); border-radius: var(--radius); padding: 12px 14px;
+.timeline-list { list-style: none; margin: 0; padding: 2px 0 0; display: grid; }
+.timeline-item {
+  display: grid; grid-template-columns: 42px 1fr; gap: 14px;
+  padding-bottom: 16px;
 }
-.timeline-year { font-family: var(--font-display); font-weight: 800; font-size: 1.7em; line-height: 1; }
-.timeline-label { color: var(--ink-2); font-weight: 600; margin: 0; }
+.timeline-item:last-child { padding-bottom: 0; }
+/* the spine: a line through the marker column, anchored at each dot's centre
+   and overshooting 18px down to meet the next dot (hidden after the last). */
+.timeline-marker { position: relative; display: flex; justify-content: center; align-items: flex-start; }
+.timeline-marker::before {
+  content: ""; position: absolute; left: 50%; transform: translateX(-50%);
+  top: 18px; bottom: -18px; width: 3px;
+  background: color-mix(in srgb, var(--tl) 35%, var(--border));
+}
+.timeline-item:last-child .timeline-marker::before { display: none; }
+.timeline-dot {
+  position: relative; z-index: 1;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--surface); border: 3px solid var(--tl);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.05em; line-height: 1;
+}
+.timeline-dot--plain { background: var(--tl); }
+.timeline-card {
+  background: var(--surface-2); border: 2px solid var(--border);
+  border-radius: var(--radius); padding: 10px 14px;
+}
+.timeline-card-head { display: flex; align-items: center; gap: 8px; }
+.timeline-year { font-family: var(--font-display); font-weight: 800; font-size: 1.3em; line-height: 1.1; color: var(--tl); }
+.timeline-card-head .prose-speak { margin-left: auto; }
+.timeline-label { margin: 4px 0 0; color: var(--ink); font-weight: 600; }
+.timeline-detail { margin: 4px 0 0; color: var(--ink-2); font-size: .92em; line-height: 1.5; }
 
 /* mapa de Portugal — distritos */
 .mapapt-widget { border-color: color-mix(in srgb, var(--subj-edm) 55%, var(--border)); }

@@ -21,13 +21,13 @@ No fim do século XIX, muita gente andava descontente com os reis. O país estav
 
 A tensão era tanta que, em **1 de fevereiro de 1908**, em Lisboa, o **rei D. Carlos** e o seu filho mais velho foram **assassinados** em plena rua (o **regicídio**). Subiu ao trono o jovem **D. Manuel II** — que seria o **último rei de Portugal**.
 
-```steps
-[
-  { "title": "1908 — Regicídio ⚫", "body": "o rei D. Carlos e o príncipe herdeiro são mortos em Lisboa", "icon": "⚫" },
-  { "title": "Sobe D. Manuel II 👑", "body": "o filho mais novo torna-se rei, com apenas 18 anos", "icon": "👑" },
-  { "title": "Cresce a revolta 🔥", "body": "a monarquia está fraca e os republicanos ganham apoio", "icon": "🔥" },
-  { "title": "5 de outubro de 1910 🇵🇹", "body": "uma revolução em Lisboa proclama a República; o rei parte para o exílio", "icon": "🇵🇹" }
-]
+```timeline
+{ "title": "Do regicídio à República", "events": [
+  { "year": 1908, "emoji": "⚫", "label": "Regicídio", "body": "o rei D. Carlos e o príncipe herdeiro são mortos em Lisboa", "say": "Mil novecentos e oito: o regicídio. O rei D. Carlos e o príncipe herdeiro são mortos em Lisboa." },
+  { "year": 1908, "emoji": "👑", "label": "Sobe D. Manuel II", "body": "o filho mais novo torna-se rei, com apenas 18 anos", "say": "Ainda em mil novecentos e oito, sobe D. Manuel segundo: o filho mais novo torna-se rei, com apenas dezoito anos." },
+  { "year": "1908–10", "emoji": "🔥", "label": "Cresce a revolta", "body": "a monarquia está fraca e os republicanos ganham apoio", "say": "Nos anos seguintes, cresce a revolta: a monarquia está fraca e os republicanos ganham apoio." },
+  { "year": 1910, "emoji": "🇵🇹", "label": "5 de outubro — a República", "body": "uma revolução em Lisboa proclama a República; o rei parte para o exílio", "say": "Cinco de outubro de mil novecentos e dez: uma revolução em Lisboa proclama a República e o rei parte para o exílio." }
+] }
 ```
 
 ## 5 de outubro de 1910: nasce a República 🇵🇹

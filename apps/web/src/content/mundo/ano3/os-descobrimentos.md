@@ -20,16 +20,16 @@ Cada marinheiro abriu um caminho novo. Estes são os nomes que tens de conhecer:
 
 ## A linha do tempo desta aventura ⏳
 
-Olha para os Descobrimentos como uma **régua do tempo**: à esquerda o mais antigo, à direita o mais recente.
+Olha para os Descobrimentos como uma **linha do tempo**: de cima para baixo, do mais antigo ao mais recente. Toca em cada momento para o ouvires! 👇
 
-```steps
-[
-  { "title": "Início do séc. XV", "body": "o Infante D. Henrique junta marinheiros e estudiosos para preparar as viagens 🧭", "icon": "🧭" },
-  { "title": "1427 — Os Açores", "body": "os navegadores portugueses encontram as ilhas dos Açores, vazias no meio do Atlântico 🏝️", "icon": "🏝️" },
-  { "title": "1488 — Bartolomeu Dias", "body": "passa o ponto mais a sul de África e abre o caminho para a Índia 🌊", "icon": "🌍" },
-  { "title": "1498 — Vasco da Gama", "body": "chega à Índia de barco, pela primeira vez 🇮🇳", "icon": "⛵" },
-  { "title": "1500 — Pedro Álvares Cabral", "body": "chega ao Brasil, do outro lado do oceano 🇧🇷", "icon": "🗺️" }
-]
+```timeline
+{ "title": "A aventura, passo a passo", "events": [
+  { "year": "Início do séc. XV", "emoji": "🧭", "label": "O Infante prepara as viagens", "body": "o Infante D. Henrique junta marinheiros e estudiosos para preparar as viagens", "say": "No início do século quinze, o Infante D. Henrique junta marinheiros e estudiosos para preparar as viagens." },
+  { "year": 1427, "emoji": "🏝️", "label": "Os Açores", "body": "os navegadores portugueses encontram as ilhas dos Açores, vazias no meio do Atlântico", "say": "Mil quatrocentos e vinte e sete: os navegadores portugueses encontram as ilhas dos Açores, vazias no meio do Atlântico." },
+  { "year": 1488, "emoji": "🌍", "label": "Bartolomeu Dias", "body": "passa o ponto mais a sul de África e abre o caminho para a Índia", "say": "Mil quatrocentos e oitenta e oito: Bartolomeu Dias passa o ponto mais a sul de África e abre o caminho para a Índia." },
+  { "year": 1498, "emoji": "🇮🇳", "label": "Vasco da Gama", "body": "chega à Índia de barco, pela primeira vez", "say": "Mil quatrocentos e noventa e oito: Vasco da Gama chega à Índia de barco, pela primeira vez." },
+  { "year": 1500, "emoji": "🇧🇷", "label": "Pedro Álvares Cabral", "body": "chega ao Brasil, do outro lado do oceano", "say": "Mil e quinhentos: Pedro Álvares Cabral chega ao Brasil, do outro lado do oceano." }
+] }
 ```
 
 ## A caravela: o barco mágico ⛵

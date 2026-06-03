@@ -5,6 +5,8 @@ import { fitCanvas, pointerPos, prefersReducedMotion } from "./canvas";
 import { MEM_ART, MEM_BACK, type MemArt } from "./mem-art";
 import { Xadrez } from "./Xadrez";
 import { Damas } from "./Damas";
+import { Salta } from "./Salta";
+import { Foguetao } from "./Foguetao";
 
 /* Jogos — a little arcade. The hub shows game cards; picking one swaps to it
  * with a "Voltar aos jogos" button (kept in local state, so it stays inside the
@@ -14,7 +16,7 @@ import { Damas } from "./Damas";
  * Emoji are used INSIDE the games (game content, not chrome) — allowed by the
  * project conventions; the chrome (buttons, back arrow) uses @sprout/icons. */
 
-type GameId = "xadrez" | "damas" | "memoria" | "sequencia" | "apanha" | "toupeira" | "conta" | "soma";
+type GameId = "xadrez" | "damas" | "salta" | "foguetao" | "memoria" | "sequencia" | "apanha" | "toupeira" | "conta" | "soma";
 
 /* Each tile gets a little illustrated scene (same playful, multi-colour spirit
  * as the memory-card art) on a 0 0 48 48 grid, tinted with the tile's accent via
@@ -151,9 +153,43 @@ const ART_DAMAS = (
   </g>
 );
 
+// Salta! — the green hero mid-hop along a hill, a dashed jump arc and a star.
+const ART_SALTA = (
+  <g>
+    <path d="M3 41c0-9 8-15 21-15s21 6 21 15z" fill="#7bbf57" />
+    <path d="M9 38 Q24 7 39 30" fill="none" style={{ stroke: "var(--c)" }} strokeWidth="2.5" strokeLinecap="round" strokeDasharray="2 4" opacity="0.6" />
+    {sparkle(38, 12, 0.3, "#ffce3a")}
+    <g transform="translate(20 16)">
+      <ellipse cx="0" cy="0" rx="8" ry="8.2" fill="#6cd24a" />
+      <ellipse cx="0" cy="3.4" rx="4" ry="3.2" fill="#ffffff" opacity="0.5" />
+      <circle cx="-3" cy="-3" r="2.5" fill="#fff" />
+      <circle cx="3" cy="-3" r="2.5" fill="#fff" />
+      <circle cx="-2.4" cy="-2.6" r="1.1" fill="#1c2530" />
+      <circle cx="3.6" cy="-2.6" r="1.1" fill="#1c2530" />
+    </g>
+  </g>
+);
+
+// Foguetão — a rocket climbing through the stars with a little flame.
+const ART_FOGUETAO = (
+  <g>
+    {sparkle(11, 13, 0.26, "#ffce3a")}
+    {sparkle(39, 31, 0.22, "#9beaff")}
+    <path d="M21 33 L24 44 L27 33 Z" fill="#ffb02e" />
+    <path d="M22.6 33 L24 40 L25.4 33 Z" fill="#ff5d3a" />
+    <path d="M20 26 L15 33 L20 32 Z" style={{ fill: "var(--c)" }} />
+    <path d="M28 26 L33 33 L28 32 Z" style={{ fill: "var(--c)" }} />
+    <path d="M24 5 C30 11 30 24 28 33 L20 33 C18 24 18 11 24 5 Z" fill="#eef3fa" stroke="#c2cede" strokeWidth="1.2" />
+    <circle cx="24" cy="18" r="3.6" fill="#3aa0d8" />
+    <circle cx="22.7" cy="16.7" r="1.2" fill="#fff" opacity="0.85" />
+  </g>
+);
+
 const GAMES: { id: GameId; art: ReactNode; accent: string; accentSoft: string; label: string; blurb: string; rules: string }[] = [
   { id: "xadrez", art: ART_XADREZ, accent: "var(--subj-hgp)", accentSoft: "var(--subj-hgp-soft)", label: "Xadrez", blurb: "Joga contra o computador ou um amigo.", rules: "Xadrez. Toca numa peça branca e depois no quadrado para onde queres ir. Dá xeque-mate ao rei! Podes jogar contra o computador ou contra um amigo na mesma máquina." },
   { id: "damas", art: ART_DAMAS, accent: "var(--subj-fis)", accentSoft: "var(--subj-fis-soft)", label: "Damas", blurb: "Salta por cima e come as peças.", rules: "Damas. Toca numa peça branca e depois no quadrado em diagonal para onde queres ir. Salta por cima de uma peça do adversário para a comeres — e se puderes comer, tens de comer! Chega ao outro lado para a tua peça virar dama e poder andar para todos os lados. Joga contra o computador ou contra um amigo." },
+  { id: "salta", art: ART_SALTA, accent: "var(--subj-cn)", accentSoft: "var(--subj-cn-soft)", label: "Salta!", blurb: "Salta e apanha as estrelas.", rules: "Salta! O Saltão corre pela relva. Toca no ecrã para ele saltar — toca outra vez no ar para dar um salto duplo. Passa por cima das pedras e dos troncos e apanha as estrelas a brilhar. Quanto mais tempo aguentares, mais depressa fica!" },
+  { id: "foguetao", art: ART_FOGUETAO, accent: "var(--subj-paises)", accentSoft: "var(--subj-paises-soft)", label: "Foguetão", blurb: "Voa e desvia-te dos meteoros.", rules: "Foguetão! Arrasta o dedo pelo ecrã para guiar o foguetão pelo espaço. Desvia-te dos meteoros, apanha as gemas a brilhar e agarra o escudo azul para ficares protegido uns segundos. Vê até onde consegues chegar!" },
   { id: "memoria", art: ART_MEMORIA, accent: "var(--subj-en)", accentSoft: "var(--subj-en-soft)", label: "Memória", blurb: "Encontra os pares iguais.", rules: "Jogo da memória. Toca em duas cartas para as virar. Se forem iguais, ficam viradas. Encontra todos os pares!" },
   { id: "sequencia", art: ART_SEQUENCIA, accent: "var(--subj-mundo)", accentSoft: "var(--subj-mundo-soft)", label: "Sequência de cores", blurb: "Decora e repete as cores.", rules: "Sequência de cores. Vê a ordem das cores que se acendem e repete tocando nelas pela mesma ordem. A cada ronda fica mais comprida!" },
   { id: "apanha", art: ART_APANHA, accent: "var(--joy)", accentSoft: "var(--joy-soft)", label: "Apanha a fruta", blurb: "Toca na fruta antes de cair.", rules: "Apanha a fruta! Toca na fruta enquanto ela cai para a apanhares. Quantas consegues apanhar?" },
@@ -193,6 +229,8 @@ export function Jogos() {
   if (game === "damas") return <Damas onBack={() => setGame("hub")} />;
   return (
     <GameFrame onBack={() => setGame("hub")} say={meta.rules}>
+      {game === "salta" && <Salta />}
+      {game === "foguetao" && <Foguetao />}
       {game === "memoria" && <Memoria />}
       {game === "sequencia" && <Sequencia />}
       {game === "apanha" && <Apanha />}

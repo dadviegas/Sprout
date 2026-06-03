@@ -23,13 +23,13 @@ O rei **D. Fernando** morreu em **1383** e deixou só uma filha, a princesa **D.
 
 O povo de Lisboa **não queria** ser de Castela. Quando perceberam que D. Leonor Teles e o seu conselheiro, o conde Andeiro, queriam entregar o reino, revoltaram-se. Surge então uma figura-chave: **D. João, Mestre de Avis** — filho de um rei português, que se tornou o líder dos que defendiam a independência.
 
-```steps
-[
-  { "title": "1383 — morre D. Fernando 👑", "body": "fica o trono vazio e o perigo de Portugal cair nas mãos de Castela", "icon": "👑" },
-  { "title": "A revolta de Lisboa 🔥", "body": "o povo apoia D. João, Mestre de Avis, que mata o conde Andeiro e expulsa D. Leonor", "icon": "🔥" },
-  { "title": "Castela ataca ⚔️", "body": "o rei de Castela invade Portugal para pôr a mulher, D. Beatriz, no trono", "icon": "⚔️" },
-  { "title": "1385 — Cortes de Coimbra 📜", "body": "os representantes do reino escolhem D. João, Mestre de Avis, como REI: D. João I!", "icon": "📜" }
-]
+```timeline
+{ "title": "Da crise ao novo rei", "events": [
+  { "year": 1383, "emoji": "👑", "label": "Morre D. Fernando", "body": "fica o trono vazio e o perigo de Portugal cair nas mãos de Castela", "say": "Mil trezentos e oitenta e três: morre D. Fernando. Fica o trono vazio e o perigo de Portugal cair nas mãos de Castela." },
+  { "year": 1383, "emoji": "🔥", "label": "A revolta de Lisboa", "body": "o povo apoia D. João, Mestre de Avis, que mata o conde Andeiro e expulsa D. Leonor", "say": "Ainda em mil trezentos e oitenta e três, a revolta de Lisboa: o povo apoia D. João, Mestre de Avis, que mata o conde Andeiro e expulsa D. Leonor." },
+  { "year": 1384, "emoji": "⚔️", "label": "Castela ataca", "body": "o rei de Castela invade Portugal para pôr a mulher, D. Beatriz, no trono", "say": "Mil trezentos e oitenta e quatro: Castela ataca. O rei de Castela invade Portugal para pôr a mulher, D. Beatriz, no trono." },
+  { "year": 1385, "emoji": "📜", "label": "Cortes de Coimbra", "body": "os representantes do reino escolhem D. João, Mestre de Avis, como REI: D. João I!", "say": "Mil trezentos e oitenta e cinco: nas Cortes de Coimbra, os representantes do reino escolhem D. João, Mestre de Avis, como rei: D. João primeiro." }
+] }
 ```
 
 > [!NOTE] As **Cortes** eram uma espécie de grande reunião com representantes do povo, dos nobres e da Igreja. Em 1385, nas **Cortes de Coimbra**, foi um sábio chamado **João das Regras** quem defendeu, com argumentos, que D. João devia ser o rei. E assim foi! 🗣️

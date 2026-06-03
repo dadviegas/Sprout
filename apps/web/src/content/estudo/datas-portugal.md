@@ -12,7 +12,7 @@ para as ouvires e treina no fim! 🎧
 
 ## A linha do tempo ⏳
 
-Lê da esquerda para a direita, do mais antigo ao mais recente. Toca em cada
+Lê de cima para baixo, do mais antigo ao mais recente. Toca em cada
 marco para saberes o que aconteceu nesse ano! 👇
 
 ```timeline

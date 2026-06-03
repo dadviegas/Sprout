@@ -6,19 +6,19 @@ Portugal é um país **muito antigo** — já tem quase **900 anos**! Antes de t
 
 ## A linha do tempo de Portugal ⏳
 
-Olha a história de Portugal como uma **régua do tempo**: à esquerda o mais antigo, à direita o mais recente.
+Olha a história de Portugal como uma **linha do tempo**: começa em cima, no mais antigo, e desce até aos dias de hoje. Toca em cada momento para o ouvires! 👇
 
-```steps
-[
-  { "title": "Antes dos romanos", "body": "viviam aqui povos antigos, como os Lusitanos, com o chefe Viriato", "icon": "shield" },
-  { "title": "Os romanos", "body": "chegaram há mais de 2000 anos e trouxeram estradas, pontes e a língua que deu origem ao português 🏛️", "icon": "castle" },
-  { "title": "1143 — Nasce Portugal", "body": "D. Afonso Henriques torna-se o 1.º rei 👑", "icon": "castle" },
-  { "title": "1249 — Território completo", "body": "com a conquista do Algarve, Portugal fica com a forma que tem hoje 🗺️", "icon": "map" },
-  { "title": "1385 — Aljubarrota", "body": "Portugal vence Castela e continua independente ⚔️", "icon": "shield" },
-  { "title": "Séc. XV e XVI — Descobrimentos", "body": "os portugueses partem de barco a descobrir o mundo 🌍⛵", "icon": "world" },
-  { "title": "1910 — A República", "body": "Portugal deixa de ter rei 🗳️", "icon": "flag" },
-  { "title": "25 de abril de 1974", "body": "a Revolução dos Cravos trouxe a liberdade e a democracia 🌹", "icon": "heart" }
-]
+```timeline
+{ "title": "De Viriato aos dias de hoje", "events": [
+  { "year": "Antes dos romanos", "emoji": "🛡️", "label": "Os primeiros povos", "body": "viviam aqui povos antigos, como os Lusitanos, com o chefe Viriato", "say": "Antes dos romanos viviam aqui povos antigos, como os Lusitanos, com o chefe Viriato." },
+  { "year": "Os romanos", "emoji": "🏛️", "label": "Chegam os romanos", "body": "há mais de 2000 anos — trouxeram estradas, pontes e a língua que deu origem ao português", "say": "Os romanos chegaram há mais de dois mil anos e trouxeram estradas, pontes e a língua que deu origem ao português." },
+  { "year": 1143, "emoji": "👑", "label": "Nasce Portugal", "body": "D. Afonso Henriques torna-se o 1.º rei", "say": "Mil cento e quarenta e três: nasce Portugal. D. Afonso Henriques torna-se o primeiro rei." },
+  { "year": 1249, "emoji": "🗺️", "label": "Território completo", "body": "com a conquista do Algarve, Portugal fica com a forma que tem hoje", "say": "Mil duzentos e quarenta e nove: com a conquista do Algarve, Portugal fica com a forma que tem hoje." },
+  { "year": 1385, "emoji": "⚔️", "label": "Batalha de Aljubarrota", "body": "Portugal vence Castela e continua independente", "say": "Mil trezentos e oitenta e cinco: na Batalha de Aljubarrota, Portugal vence Castela e continua independente." },
+  { "year": "Séc. XV–XVI", "emoji": "⛵", "label": "Os Descobrimentos", "body": "os portugueses partem de barco a descobrir o mundo 🌍", "say": "Nos séculos quinze e dezasseis, os Descobrimentos: os portugueses partem de barco a descobrir o mundo." },
+  { "year": 1910, "emoji": "🗳️", "label": "A República", "body": "Portugal deixa de ter rei", "say": "Mil novecentos e dez: a República. Portugal deixa de ter rei." },
+  { "year": 1974, "emoji": "🌹", "label": "25 de Abril", "body": "a Revolução dos Cravos trouxe a liberdade e a democracia", "say": "Mil novecentos e setenta e quatro: o vinte e cinco de Abril. A Revolução dos Cravos trouxe a liberdade e a democracia." }
+] }
 ```
 
 > **Há quase 900 anos!** Faz a conta: de **1143** até hoje já passaram mais de **880 anos**. Portugal é um dos países mais antigos do mundo a ter sempre as mesmas fronteiras. 🎂
@@ -55,13 +55,13 @@ Portugal teve muitos reis. Estes quatro fizeram coisas que ainda hoje são impor
 
 Há mais de 500 anos, os marinheiros portugueses foram dos **primeiros do mundo** a navegar mares que ninguém conhecia. Saíram em **caravelas**, barcos pequenos mas muito rápidos.
 
-```steps
-[
-  { "title": "Infante D. Henrique", "body": "organizou as primeiras viagens e a escola de marinheiros 🧭" },
-  { "title": "1488 — Bartolomeu Dias", "body": "dobrou o Cabo da Boa Esperança, na ponta de África 🌍" },
-  { "title": "1498 — Vasco da Gama", "body": "chegou à Índia por mar, pela primeira vez 🇮🇳" },
-  { "title": "1500 — Pedro Álvares Cabral", "body": "chegou ao Brasil 🇧🇷" }
-]
+```timeline
+{ "title": "As viagens, uma de cada vez", "events": [
+  { "year": "Séc. XV", "emoji": "🧭", "label": "Infante D. Henrique", "body": "organizou as primeiras viagens e a escola de marinheiros", "say": "No século quinze, o Infante D. Henrique organizou as primeiras viagens e a escola de marinheiros." },
+  { "year": 1488, "emoji": "🌍", "label": "Bartolomeu Dias", "body": "dobrou o Cabo da Boa Esperança, na ponta de África", "say": "Mil quatrocentos e oitenta e oito: Bartolomeu Dias dobrou o Cabo da Boa Esperança, na ponta de África." },
+  { "year": 1498, "emoji": "🇮🇳", "label": "Vasco da Gama", "body": "chegou à Índia por mar, pela primeira vez", "say": "Mil quatrocentos e noventa e oito: Vasco da Gama chegou à Índia por mar, pela primeira vez." },
+  { "year": 1500, "emoji": "🇧🇷", "label": "Pedro Álvares Cabral", "body": "chegou ao Brasil", "say": "Mil e quinhentos: Pedro Álvares Cabral chegou ao Brasil." }
+] }
 ```
 
 ```compare

@@ -164,6 +164,69 @@
   background: linear-gradient(180deg, var(--accent-soft), var(--surface));
 }
 
+/* ---- arcade games (Salta!, Foguetão): full-bleed canvas + a centred start /
+   game-over overlay drawn on top of the live scene. The scrim is dark so white
+   text reads over any colourful frame, in both light and dark themes. ---- */
+.dv-arcade {
+  position: relative;
+  width: 100%;
+}
+.dv-arcade .dv-canvas {
+  width: 100%;
+}
+.dv-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  text-align: center;
+  border-radius: var(--radius-lg);
+  background: rgba(10, 14, 28, 0.5);
+  backdrop-filter: blur(2px);
+  color: #fff;
+}
+.dv-overlay__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.6rem, 6vw, 2.4rem);
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+.dv-overlay__sub {
+  margin: 0;
+  max-width: 30ch;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.92);
+}
+.dv-overlay__score {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(3rem, 14vw, 5rem);
+  line-height: 1;
+  color: #ffd23a;
+  text-shadow: 0 3px 14px rgba(0, 0, 0, 0.45);
+}
+.dv-overlay__best {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.92);
+}
+/* hearts (lives) in the arcade scorebar — filled = currentColor, empty = outline */
+.dv-score--hearts {
+  color: var(--danger);
+}
+
 .dv-hint {
   color: var(--ink-2);
   text-align: center;

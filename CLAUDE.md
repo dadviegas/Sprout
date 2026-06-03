@@ -94,11 +94,14 @@ only on a button/tap — see the speech rule below). New ones:
   Fields: `title`, `systems` (subset of the six keys above, in order; default
   all six). Use the full set for "os sistemas do corpo" and a single-key subset
   (e.g. `["digestivo"]`) to locate one system in its own lesson.
-- `timeline` is a horizontal "linha do tempo" — dated markers on an arrow,
-  oldest→newest, evenly spaced; tap a marker to highlight it and hear the event.
-  Data-driven like `chart`. Fields: `title`, `events` (`{ year, label, say?,
-  emoji? }`, `year` shown on the axis and `label` in the readout), `color`
-  (subject key, default `hgp`). Good for História/datas and any chronology.
+- `timeline` is a vertical "linha do tempo" — dated moments stacked oldest (top)
+  to newest (bottom), joined by a spine; each is a card with its year/era, a
+  headline, an optional detail line and its own read-aloud speaker, plus a marker
+  dot (the event's emoji, or a solid dot). Data-driven like `chart`. Fields:
+  `title`, `events` (`{ year, label, body?, say?, emoji? }` — `year` is the
+  date/era on the dot, `label` the headline, `body` an optional detail line),
+  `color` (subject key, default `hgp`). Good for História/datas and any
+  chronology.
 - `mapapt` is a stylised, tappable map of Portugal — the 18 mainland districts as
   numbered dots placed by relative geography (north→south), plus Açores/Madeira
   in the ocean as Regiões Autónomas (different colour, not numbered). Tap a place

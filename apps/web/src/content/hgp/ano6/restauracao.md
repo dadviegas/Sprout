@@ -8,13 +8,13 @@ Já imaginaste o teu país a ficar **60 anos sem rei próprio**, mandado por um 
 
 O rei **D. Sebastião** era jovem, sonhador e impaciente. Decidiu partir para uma **cruzada** em África, contra todos os conselhos. Em **1578**, na **Batalha de Alcácer-Quibir** (em Marrocos), o exército português foi destroçado e o rei **desapareceu** — nunca mais o viram. Não deixou filhos! 😱
 
-```steps
-[
-  { "title": "1578 — Alcácer-Quibir 🌫️", "body": "D. Sebastião desaparece na batalha; Portugal fica sem rei e sem herdeiro", "icon": "🌫️" },
-  { "title": "Reina o tio-avô 👴", "body": "o cardeal D. Henrique, já velho, governa pouco tempo e morre em 1580", "icon": "👴" },
-  { "title": "Crise de sucessão ⚖️", "body": "vários candidatos querem o trono — o mais forte é Filipe II de Espanha", "icon": "⚖️" },
-  { "title": "1580 — União Ibérica 👑", "body": "Filipe II de Espanha torna-se também rei de Portugal (Filipe I de Portugal)", "icon": "👑" }
-]
+```timeline
+{ "title": "Como Portugal perdeu o rei", "events": [
+  { "year": 1578, "emoji": "🌫️", "label": "Alcácer-Quibir", "body": "D. Sebastião desaparece na batalha; Portugal fica sem rei e sem herdeiro", "say": "Mil quinhentos e setenta e oito: na batalha de Alcácer-Quibir, D. Sebastião desaparece. Portugal fica sem rei e sem herdeiro." },
+  { "year": "1578–80", "emoji": "👴", "label": "Reina o tio-avô", "body": "o cardeal D. Henrique, já velho, governa pouco tempo e morre em 1580", "say": "Entre mil quinhentos e setenta e oito e mil quinhentos e oitenta, reina o tio-avô: o cardeal D. Henrique, já velho, governa pouco tempo e morre em mil quinhentos e oitenta." },
+  { "year": 1580, "emoji": "⚖️", "label": "Crise de sucessão", "body": "vários candidatos querem o trono — o mais forte é Filipe II de Espanha", "say": "Mil quinhentos e oitenta: crise de sucessão. Vários candidatos querem o trono; o mais forte é Filipe segundo de Espanha." },
+  { "year": 1580, "emoji": "👑", "label": "União Ibérica", "body": "Filipe II de Espanha torna-se também rei de Portugal (Filipe I de Portugal)", "say": "Ainda em mil quinhentos e oitenta, a União Ibérica: Filipe segundo de Espanha torna-se também rei de Portugal, como Filipe primeiro de Portugal." }
+] }
 ```
 
 > [!NOTE] Muita gente não acreditava que D. Sebastião tinha morrido. Diziam que ele voltaria, numa **manhã de nevoeiro**, para salvar Portugal. A esta esperança chama-se **«sebastianismo»** — e ainda hoje se usa a expressão *«esperar por D. Sebastião»* para quem espera por um milagre que não chega! 🌫️

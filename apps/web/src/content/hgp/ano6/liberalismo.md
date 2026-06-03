@@ -38,13 +38,13 @@ E então, no **Porto**, em **1820**, um grupo de pessoas fartas desta situação
 
 > [!NOTE] Uma **Constituição** é a **lei mais importante** de um país. É um conjunto de regras escritas que dizem como o país é governado e quais são os **direitos** das pessoas. O mais importante: até o **rei** tem de a cumprir! É como o «livro de regras» de toda a nação. 📖
 
-```steps
-[
-  { "title": "1820 — Revolução no Porto 🔥", "body": "os liberais exigem o regresso do rei e uma Constituição", "icon": "🔥" },
-  { "title": "1821 — Volta o rei 👑", "body": "D. João VI regressa do Brasil para reinar em Portugal", "icon": "👑" },
-  { "title": "1822 — Primeira Constituição 📜", "body": "Portugal aprova a sua primeira Constituição: o rei deixa de mandar sozinho!", "icon": "📜" },
-  { "title": "Nasce a monarquia constitucional ⚖️", "body": "continua a haver rei, mas com poderes limitados pela lei", "icon": "⚖️" }
-]
+```timeline
+{ "title": "Do Porto à Constituição", "events": [
+  { "year": 1820, "emoji": "🔥", "label": "Revolução no Porto", "body": "os liberais exigem o regresso do rei e uma Constituição", "say": "Mil oitocentos e vinte: a Revolução no Porto. Os liberais exigem o regresso do rei e uma Constituição." },
+  { "year": 1821, "emoji": "👑", "label": "Volta o rei", "body": "D. João VI regressa do Brasil para reinar em Portugal", "say": "Mil oitocentos e vinte e um: volta o rei. D. João sexto regressa do Brasil para reinar em Portugal." },
+  { "year": 1822, "emoji": "📜", "label": "Primeira Constituição", "body": "Portugal aprova a sua primeira Constituição: o rei deixa de mandar sozinho!", "say": "Mil oitocentos e vinte e dois: a primeira Constituição. Portugal aprova a sua primeira Constituição e o rei deixa de mandar sozinho." },
+  { "year": "Depois", "emoji": "⚖️", "label": "Nasce a monarquia constitucional", "body": "continua a haver rei, mas com poderes limitados pela lei", "say": "A partir daí nasce a monarquia constitucional: continua a haver rei, mas com poderes limitados pela lei." }
+] }
 ```
 
 ## Absoluta ou constitucional? ⚖️

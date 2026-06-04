@@ -101,19 +101,25 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
 
   const [i, setI] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
-  const [correctCount, setCorrectCount] = useState(0);
+  const [answers, setAnswers] = useState<(number | null)[]>(() => spec.questions.map(() => null));
   const [phase, setPhase] = useState<"asking" | "result">("asking");
   const [nonce, setNonce] = useState(0); // forces confetti remount on retry
 
   const total = spec.questions.length;
   // Resolve `gen` questions into concrete ones; the seed (quizId + index +
   // nonce) keeps the same question while it's shown and re-rolls it on retry.
-  const question = useMemo(
-    () => resolveQuestion(spec.questions[i], hashSeed(quizId) + i * 101 + nonce * 7919),
-    [spec.questions, i, quizId, nonce],
+  const questions = useMemo(
+    () => spec.questions.map((q, idx) => resolveQuestion(q, hashSeed(quizId) + idx * 101 + nonce * 7919)),
+    [spec.questions, quizId, nonce],
   );
+  const question = questions[i];
   const options = question.options ?? [];
   const isFinal = !!spec.final;
+  const correctCount = questions.reduce((sum, q, idx) => {
+    const answer = answers[idx];
+    return sum + (answer !== null && q.options?.[answer]?.correct ? 1 : 0);
+  }, 0);
+  const progressPct = total ? ((i + (picked !== null ? 1 : 0)) / total) * 100 : 0;
 
   useEffect(() => {
     if (phase === "result") {
@@ -125,7 +131,7 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
   const choose = (idx: number) => {
     if (picked !== null) return;
     setPicked(idx);
-    if (options[idx]?.correct) setCorrectCount((c) => c + 1);
+    setAnswers((prev) => prev.map((answer, answerIdx) => (answerIdx === i ? idx : answer)));
   };
 
   const next = () => {
@@ -140,7 +146,7 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
   const retry = () => {
     setI(0);
     setPicked(null);
-    setCorrectCount(0);
+    setAnswers(spec.questions.map(() => null));
     setPhase("asking");
     setNonce((n) => n + 1);
   };
@@ -148,6 +154,7 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
   if (phase === "result") {
     const pct = total ? correctCount / total : 0;
     const stars = starsForPct(pct);
+    const pctLabel = Math.round(pct * 100);
     const msg =
       stars === 3
         ? "Uau! Acertaste em tudo!"
@@ -165,10 +172,28 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
           <div className="score">
             {correctCount}/{total}
           </div>
+          <div className="result-percent">{pctLabel}% certo</div>
           <div className="stars">
             <StarRow n={stars} size={34} />
           </div>
           <p style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "1.15em", margin: "6px 0 4px" }}>{msg}</p>
+          <div className="quiz-review" aria-label="Revisão das respostas">
+            {questions.map((q, idx) => {
+              const answer = answers[idx];
+              const ok = answer !== null && !!q.options?.[answer]?.correct;
+              const correct = q.options?.find((o) => o.correct)?.t;
+              return (
+                <div key={idx} className={`quiz-review__item ${ok ? "ok" : "no"}`}>
+                  <span className="quiz-review__num">{idx + 1}</span>
+                  <span className="quiz-review__text">
+                    <strong>{ok ? "Certa" : "A rever"}</strong>
+                    {correct && <span>Resposta: {correct}</span>}
+                  </span>
+                  <Icon name={ok ? "check" : "info"} size={18} />
+                </div>
+              );
+            })}
+          </div>
           <div className="quiz-foot" style={{ justifyContent: "center" }}>
             <button className="pill ghost" onClick={retry}>
               <Icon name="refresh" size={18} /> Tentar outra vez
@@ -197,6 +222,26 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
         <span className="qcount">
           {i + 1} / {total}
         </span>
+      </div>
+      <div className="quiz-progress" aria-hidden="true">
+        <span style={{ width: `${progressPct}%` }} />
+      </div>
+      <div className="quiz-steps" aria-label={`Pergunta ${i + 1} de ${total}`}>
+        {questions.map((q, idx) => {
+          const answer = answers[idx];
+          const ok = answer !== null && !!q.options?.[answer]?.correct;
+          return (
+            <span
+              key={idx}
+              className={[
+                "quiz-step",
+                idx === i ? "current" : "",
+                answer !== null ? "done" : "",
+                answer !== null && !ok ? "miss" : "",
+              ].filter(Boolean).join(" ")}
+            />
+          );
+        })}
       </div>
 
       <div className="question">

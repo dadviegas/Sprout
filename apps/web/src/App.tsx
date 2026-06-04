@@ -51,9 +51,9 @@ const Markdown = lazy(() => import("./Markdown").then((m) => ({ default: m.Markd
 // when the child opens the fun area, so lazy-load it to keep first paint lean.
 const Diversao = lazy(() => import("./diversao/Diversao").then((m) => ({ default: m.Diversao })));
 
-function LessonBody({ children }: { children: string }) {
+function LessonBody({ children, className = "" }: { children: string; className?: string }) {
   return (
-    <div className="lesson-body">
+    <div className={`lesson-body ${className}`.trim()}>
       <Suspense fallback={<div className="lesson-loading">A preparar a lição…</div>}>
         <Markdown>{children}</Markdown>
       </Suspense>
@@ -1164,7 +1164,7 @@ function TestView({
           </div>
         </div>
 
-        <LessonBody>{test}</LessonBody>
+        <LessonBody className="test-body">{test}</LessonBody>
 
         <div className="row" style={{ justifyContent: "space-between", marginTop: 18 }}>
           <button className="pill ghost" onClick={() => onGo({ kind: "lesson", year, subjectId: subject.id, lessonId: lesson.id })}>

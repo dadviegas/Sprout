@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Icon } from "@sprout/icons";
-import { speak } from "../speak";
+import { speak, stop } from "../speak";
 import { Speaker } from "../Speaker";
 import { Confetti } from "../Confetti";
 
@@ -149,12 +149,14 @@ export function Drill({ spec }: { spec: DrillSpec }) {
     }
   };
   const next = () => {
+    stop(); // don't let this card's answer play over the next one
     setRevealed(false);
     setPicked(null);
     if (i + 1 >= total) setDone(true);
     else setI(i + 1);
   };
   const restart = () => {
+    stop();
     setRound((r) => r + 1);
     setI(0); setRevealed(false); setPicked(null);
     setScore(0); setStreak(0); setBest(0); setDone(false);

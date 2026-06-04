@@ -5,10 +5,10 @@
  *
  * The two cycles have DIFFERENT subject sets (Decreto-Lei 55/2018):
  *   • 1.º ciclo (1–4): Matemática, Português, Estudo do Meio, Inglês,
- *     Cidadania, Artes, Educação Física.
+ *     TIC, Cidadania, Artes, Educação Física.
  *   • 2.º ciclo (5–6): Matemática, Português, Inglês, Ciências Naturais,
  *     História e Geografia de Portugal, Educação Visual, Educação
- *     Tecnológica, Educação Musical, Educação Física, Cidadania.
+ *     Tecnológica, Educação Musical, Educação Física, TIC, Cidadania.
  * A subject simply leaves the years it doesn't teach as `[]`; the year
  * screen only shows subjects that actually have lessons that year
  * (see `subjectsForYear`). So "Estudo do Meio" is empty in 5–6 and
@@ -91,6 +91,7 @@ import matSimetria from "./matematica/ano2/simetria.md";
 import matProbleminhas from "./matematica/ano2/resolver-probleminhas.md";
 import matRomanos from "./matematica/ano3/numeros-romanos.md";
 import matEstimar from "./matematica/ano4/estimar-arredondar.md";
+import matCalculoMental from "./matematica/ano4/calculo-mental.md";
 
 /* ---- Português ---- */
 import ptVogais from "./portugues/ano1/vogais.md";
@@ -146,6 +147,7 @@ import ptOrdemAlfabetica from "./portugues/ano2/ordem-alfabetica.md";
 import ptAumentativoDiminutivo from "./portugues/ano3/aumentativo-diminutivo.md";
 import ptAdverbios from "./portugues/ano4/adverbios.md";
 import ptSujeitoPredicado from "./portugues/ano4/sujeito-predicado.md";
+import ptReverTexto from "./portugues/ano4/rever-texto.md";
 
 /* ---- Estudo do Meio ---- */
 import edmCorpo from "./estudo-do-meio/ano1/o-meu-corpo.md";
@@ -172,6 +174,7 @@ import edmEletricidade from "./estudo-do-meio/ano3/eletricidade-e-imanes.md";
 import edmExperiencias from "./estudo-do-meio/ano3/experiencias.md";
 import edmAmbiente from "./estudo-do-meio/ano4/proteger-o-ambiente.md";
 import edmMapas from "./estudo-do-meio/ano4/mapas-e-pontos-cardeais.md";
+import edmReisDinastias from "./estudo-do-meio/ano4/reis-e-dinastias.md";
 
 /* ---- Inglês ---- */
 import enHello from "./ingles/ano1/hello.md";
@@ -205,15 +208,18 @@ import enTravel from "./ingles/ano4/travel.md";
 import cidDireitos from "./cidadania/ano1/direitos-e-deveres.md";
 import cidReciclar from "./cidadania/ano1/reciclar.md";
 import cidDiferentes from "./cidadania/ano1/todos-diferentes.md";
+import cidEcras from "./cidadania/ano1/ecras-com-cuidado.md";
 import cidEmocoes from "./cidadania/ano2/emocoes.md";
 import cidPoupar from "./cidadania/ano2/poupar.md";
 import cidAjudar from "./cidadania/ano2/ajudar.md";
 import cidInternet from "./cidadania/ano3/internet-segura.md";
 import cidIgualdade from "./cidadania/ano3/igualdade.md";
 import cidConsumir from "./cidadania/ano3/consumir.md";
+import cidBullying from "./cidadania/ano3/bullying.md";
 import cidSustentavel from "./cidadania/ano4/sustentavel.md";
 import cidDemocracia from "./cidadania/ano4/democracia.md";
 import cidSaude from "./cidadania/ano4/saude-bem-estar.md";
+import cidComputadorFicheiros from "./cidadania/ano4/computador-ficheiros.md";
 
 /* ---- Educação Artística ---- */
 import artCores from "./artistica/ano1/as-cores.md";
@@ -409,6 +415,7 @@ import cid5Igualdade from "./cidadania/ano5/igualdade.md";
 import cid5Intercultural from "./cidadania/ano5/intercultural.md";
 import cid5Saude from "./cidadania/ano5/saude.md";
 import cid5Ambiente from "./cidadania/ano5/ambiente.md";
+import cid5TicPesquisa from "./cidadania/ano5/tic-pesquisa.md";
 // ---- 6.º ano ----
 // Matemática 6.º
 import mat6Inteiros from "./matematica/ano6/inteiros.md";
@@ -451,6 +458,7 @@ import cn6Saude from "./ciencias/ano6/saude.md";
 import hgp6Descobrimentos from "./hgp/ano6/descobrimentos.md";
 import hgp6Imperio from "./hgp/ano6/imperio.md";
 import hgp6Restauracao from "./hgp/ano6/restauracao.md";
+import hgp6Dinastias from "./hgp/ano6/dinastias.md";
 import hgp6Pombal from "./hgp/ano6/pombal.md";
 import hgp6Liberalismo from "./hgp/ano6/liberalismo.md";
 import hgp6Republica from "./hgp/ano6/republica.md";
@@ -490,6 +498,7 @@ import cid6Protecao from "./cidadania/ano6/protecao.md";
 import cid6Media from "./cidadania/ano6/media.md";
 import cid6Voluntariado from "./cidadania/ano6/voluntariado.md";
 import cid6Sustentavel from "./cidadania/ano6/sustentavel.md";
+import cid6Privacidade from "./cidadania/ano6/privacidade-palavras-passe.md";
 
 /* The four school subjects, navigated year-first (1.º–4.º ano). */
 export const schoolSubjects: Subject[] = [
@@ -539,6 +548,7 @@ export const schoolSubjects: Subject[] = [
         { id: "mat-4-estimar", title: "Estimar e arredondar", emoji: "🎯", body: matEstimar },
         { id: "mat-4-decimais", title: "Números decimais", emoji: "🔢", body: matDecimais },
         { id: "mat-4-fracoes-decimais", title: "Frações e decimais", emoji: "🍕", body: matFracDec },
+        { id: "mat-4-calculo-mental", title: "Cálculo mental", emoji: "🧠", body: matCalculoMental },
         { id: "mat-4-area", title: "Área e perímetro", emoji: "📐", body: matArea },
         { id: "mat-4-angulos", title: "Ângulos e retas", emoji: "📐", body: matAngulos },
         { id: "mat-4-volume", title: "Volume e capacidade", emoji: "🧴", body: matVolume },
@@ -632,6 +642,7 @@ export const schoolSubjects: Subject[] = [
         { id: "pt-4-hifen-x", title: "O hífen e o «x»", emoji: "✖️", body: ptHifenX },
         { id: "pt-4-adverbios", title: "Os advérbios", emoji: "🏃", body: ptAdverbios },
         { id: "pt-4-sujeito-predicado", title: "Sujeito e predicado", emoji: "🧱", body: ptSujeitoPredicado },
+        { id: "pt-4-rever-texto", title: "Rever e melhorar um texto", emoji: "✍️", body: ptReverTexto },
       ],
       5: [
         { id: "pt-5-oralidade", title: "Ouvir, falar e apresentar", emoji: "🗣️", body: pt5Oralidade },
@@ -695,6 +706,7 @@ export const schoolSubjects: Subject[] = [
         { id: "edm-4-ambiente", title: "Proteger o ambiente", emoji: "♻️", body: edmAmbiente },
         { id: "edm-4-mapas", title: "Mapas e pontos cardeais", emoji: "🧭", body: edmMapas },
         { id: "edm-4-historia", title: "História de Portugal", emoji: "🏰", body: edmHistoria },
+        { id: "edm-4-reis-dinastias", title: "Reis e famílias reais", emoji: "👑", body: edmReisDinastias },
       ],
       // Estudo do Meio is a 1.º-ciclo subject — in 5.º/6.º it splits into
       // Ciências Naturais + História e Geografia de Portugal (see below).
@@ -783,9 +795,9 @@ export const schoolSubjects: Subject[] = [
         { id: "cid-2-ajudar", title: "Ajudar e viver em comunidade", emoji: "🤲", body: cidAjudar },
       ],
       3: [
-        { id: "cid-3-internet", title: "Internet segura", emoji: "💻", body: cidInternet },
         { id: "cid-3-igualdade", title: "Meninos e meninas: iguais", emoji: "🙋", body: cidIgualdade },
         { id: "cid-3-consumir", title: "Consumir com cabeça", emoji: "🛒", body: cidConsumir },
+        { id: "cid-3-bullying", title: "Bullying: reconhecer e pedir ajuda", emoji: "🛡️", body: cidBullying },
       ],
       4: [
         { id: "cid-4-sustentavel", title: "Cuidar dos recursos do planeta", emoji: "🌍", body: cidSustentavel },
@@ -802,9 +814,35 @@ export const schoolSubjects: Subject[] = [
       6: [
         { id: "cid-6-financeira", title: "Educação financeira", emoji: "💰", body: cid6Financeira },
         { id: "cid-6-protecao", title: "Risco e proteção civil", emoji: "🚨", body: cid6Protecao },
-        { id: "cid-6-media", title: "Media e mundo digital", emoji: "📱", body: cid6Media },
         { id: "cid-6-voluntariado", title: "Solidariedade e voluntariado", emoji: "🤲", body: cid6Voluntariado },
         { id: "cid-6-sustentavel", title: "Desenvolvimento sustentável", emoji: "♻️", body: cid6Sustentavel },
+      ],
+    },
+  },
+  {
+    id: "tic",
+    label: "TIC",
+    emoji: "💻",
+    color: "var(--subj-tic)",
+    colorSoft: "var(--subj-tic-soft)",
+    blurb: "Computadores, internet, ficheiros e segurança digital.",
+    years: {
+      1: [
+        { id: "tic-1-ecras", title: "Ecrãs com cuidado", emoji: "💻", body: cidEcras },
+      ],
+      2: [],
+      3: [
+        { id: "tic-3-internet", title: "Internet segura", emoji: "💻", body: cidInternet },
+      ],
+      4: [
+        { id: "tic-4-computador-ficheiros", title: "O computador e os ficheiros", emoji: "🗂️", body: cidComputadorFicheiros },
+      ],
+      5: [
+        { id: "tic-5-pesquisa", title: "Pesquisar na internet com cabeça", emoji: "🔎", body: cid5TicPesquisa },
+      ],
+      6: [
+        { id: "tic-6-media", title: "Media e mundo digital", emoji: "📱", body: cid6Media },
+        { id: "tic-6-privacidade", title: "Privacidade e palavras-passe", emoji: "🔒", body: cid6Privacidade },
       ],
     },
   },
@@ -941,6 +979,7 @@ export const schoolSubjects: Subject[] = [
         { id: "hgp-6-descobrimentos", title: "Os Descobrimentos", emoji: "⛵", body: hgp6Descobrimentos },
         { id: "hgp-6-imperio", title: "O império português", emoji: "🌍", body: hgp6Imperio },
         { id: "hgp-6-restauracao", title: "União Ibérica e Restauração", emoji: "👑", body: hgp6Restauracao },
+        { id: "hgp-6-dinastias", title: "As dinastias de Portugal", emoji: "👑", body: hgp6Dinastias },
         { id: "hgp-6-pombal", title: "O século XVIII e o Marquês de Pombal", emoji: "🏛️", body: hgp6Pombal },
         { id: "hgp-6-liberalismo", title: "O Liberalismo", emoji: "📜", body: hgp6Liberalismo },
         { id: "hgp-6-republica", title: "A 1.ª República", emoji: "🇵🇹", body: hgp6Republica },

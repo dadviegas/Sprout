@@ -11,7 +11,7 @@ Estado: `✅ tratado` (lição completa: exemplos + truque + treino + teste) ·
 
 > **A app já cobre os dois ciclos** — **1.º ciclo (1.º–4.º ano)** e
 > **2.º ciclo (5.º–6.º ano)**, cada um com o seu conjunto próprio de disciplinas
-> (Decreto-Lei 55/2018). São **383 lições**, todas com questionário final.
+> (Decreto-Lei 55/2018). São **392 lições**, todas com questionário final.
 > A *estrutura* segue as AE; cada tema é **uma lição** (não a totalidade dos
 > descritores). Continua a ser uma **seleção curada**, não cobertura exaustiva —
 > e falta **revisão pedagógica por docente** antes de fechar qualquer tema.
@@ -20,19 +20,19 @@ Estado: `✅ tratado` (lição completa: exemplos + truque + treino + teste) ·
 
 ## Visão geral por ciclo
 
-### 1.º ciclo (1.º–4.º ano) — 167 lições
+### 1.º ciclo (1.º–4.º ano) — 173 lições
 
 | Disciplina | Lições | Estado |
 | --- | --- | --- |
-| Matemática | 36 | ✅ domínios todos representados |
-| Português | 48 | ✅ os 5 domínios cobertos |
-| Estudo do Meio | 23 | ✅ todos os blocos cobertos |
+| Matemática | 37 | ✅ domínios todos representados |
+| Português | 49 | ✅ os 5 domínios cobertos |
+| Estudo do Meio | 24 | ✅ todos os blocos cobertos |
 | Inglês *(obrigatório só 3.º–4.º; 1.º–2.º é AEC/bónus)* | 24 | ✅ vocabulário + primeiras estruturas |
-| Cidadania e Desenvolvimento | 12 | ✅ seleção dos domínios |
+| Cidadania e Desenvolvimento | 15 | ✅ seleção dos domínios |
 | Educação Artística | 12 | ✅ Visuais, Música, Teatro, Dança |
 | Educação Física | 12 | ✅ "conhecer sobre" (não se faz EF no ecrã) |
 
-### 2.º ciclo (5.º–6.º ano) — 139 lições
+### 2.º ciclo (5.º–6.º ano) — 142 lições
 
 | Disciplina | Lições | Estado |
 | --- | --- | --- |
@@ -40,12 +40,12 @@ Estado: `✅ tratado` (lição completa: exemplos + truque + treino + teste) ·
 | Português | 18 | ✅ leitura, escrita, gramática, literária |
 | Inglês | 16 | ✅ present/past/future, comparatives, temas |
 | Ciências Naturais | 14 | ✅ água/ar/solo/seres vivos (5.º) + corpo humano (6.º) |
-| História e Geografia de Portugal | 15 | ✅ primeiros povos → Portugal democrático |
+| História e Geografia de Portugal | 16 | ✅ primeiros povos → Portugal democrático |
 | Educação Visual | 12 | ✅ ponto/linha/cor/forma → luz, volume, design |
 | Educação Tecnológica | 12 | ✅ materiais, estruturas, energia, mecanismos |
 | Educação Musical | 12 | ✅ som, ritmo, melodia → forma, harmonia, géneros |
 | Educação Física | 12 | ✅ aptidão, ginástica, coletivos, atletismo |
-| Cidadania e Desenvolvimento | 10 | ✅ direitos humanos, intercultural, financeira, media |
+| Cidadania e Desenvolvimento | 12 | ✅ direitos humanos, intercultural, financeira, media, TIC |
 
 ### Áreas transversais (não são disciplina, não têm ano) — 77 lições
 
@@ -116,7 +116,7 @@ Domínios: **Compreensão oral**, **Interação/Produção oral**, **Leitura**,
 
 | Estado | Conteúdo |
 | --- | --- |
-| ✅ | 5.º: primeiros povos, romanos, muçulmanos/cristãos, formação e consolidação do reino, crise de 1383-85, sociedade medieval. 6.º: Descobrimentos, império, Restauração, Pombal, Liberalismo, 1.ª República, Estado Novo e 25 de Abril, Portugal democrático e a Europa |
+| ✅ | 5.º: primeiros povos, romanos, muçulmanos/cristãos, formação e consolidação do reino, crise de 1383-85, sociedade medieval. 6.º: Descobrimentos, império, Restauração, dinastias, Pombal, Liberalismo, 1.ª República, Estado Novo e 25 de Abril, Portugal democrático e a Europa |
 
 ## Educação Artística / Visual / Tecnológica / Musical
 
@@ -134,25 +134,46 @@ Domínios: **Compreensão oral**, **Interação/Produção oral**, **Leitura**,
 
 | Estado | Conteúdo |
 | --- | --- |
-| ✅ | 1.º ciclo: direitos/deveres, reciclagem, diferenças, emoções, poupar, ajudar, internet segura, igualdade, consumo, sustentabilidade, democracia, saúde/sono. 2.º ciclo: direitos humanos, igualdade de género, interculturalidade, saúde, ambiente, educação financeira, proteção civil, media, voluntariado, desenvolvimento sustentável |
+| ✅ | 1.º ciclo: direitos/deveres, reciclagem, diferenças, ecrãs com cuidado, emoções, poupar, ajudar, internet segura, bullying, igualdade, consumo, sustentabilidade, democracia, saúde/sono, computador/ficheiros. 2.º ciclo: direitos humanos, igualdade de género, interculturalidade, saúde, ambiente, pesquisa/TIC, educação financeira, proteção civil, media, privacidade/palavras-passe, voluntariado, desenvolvimento sustentável |
 
 ---
 
 ## O que ainda falta (resumo honesto)
 
-Já **não há domínios ou disciplinas em falta**: a estrutura cobre os dois ciclos,
-e os domínios que ainda estavam rasos foram preenchidos — OTD desde o 3.º
+Já não há **disciplinas inteiras** em falta: a estrutura cobre os dois ciclos,
+e vários domínios que estavam rasos foram preenchidos — OTD desde o 3.º
 (`mat-3-dados`), resolução de problemas desde o 2.º (`mat-2-problemas`), Leitura
 com fluência (`pt-2-ler-expressao`), experiências/método científico
 (`edm-3-experiencias`) e a localidade/instituições/festas (`edm-2-localidade`).
-O que falta é sobretudo **validação** e **continuar a aprofundar**:
+
+Mas ainda há **matéria concreta** que aparece em manuais/fichas e está ausente,
+dispersa ou pouco visível. Exemplos importantes:
+
+- **HGP:** as **dinastias de Portugal** já têm lição própria no 6.º ano e uma
+  ponte simples no 4.º; falta continuar a reforçar visualmente reis, mapas e
+  períodos.
+- **Cidadania/TIC:** já há bullying e pesquisa digital, mas faltam mais temas
+  práticos de sala e vida diária: regras da turma, convivência, participação,
+  responsabilidade, privacidade, autarquias/instituições e direitos aplicados a
+  situações concretas.
+- **Matemática:** falta **cálculo mental** como tema próprio.
+- **Português:** falta reforço de **produção escrita guiada** (planear,
+  escrever, rever, resumir).
+
+Ver também **[MATERIA_EM_FALTA.md](./MATERIA_EM_FALTA.md)** para a lista de
+trabalho mais direta.
+
+O que falta é sobretudo **matéria fina**, **validação** e **continuar a
+aprofundar**:
 
 1. **Tornar a resolução de problemas verdadeiramente transversal** — além das
    lições dedicadas (2.º e 4.º), semear pequenos problemas nas outras lições de
    Matemática, em vez de a concentrar num tema.
 2. **Revisão pedagógica** de todo o conteúdo por docente do 1.º/2.º ciclo antes
    de considerar qualquer tema "fechado".
-3. *(Opcional)* alargar as áreas transversais — mais países em **Países**, mais
+3. Criar as próximas lições em falta mais visíveis: **Cidadania prática**,
+   **TIC/ficheiros/apresentações** e mais reforço visual de HGP.
+4. *(Opcional)* alargar as áreas transversais — mais países em **Países**, mais
    curiosidades em **O Mundo**, e a futura **vista de mapa** que lê as etiquetas
    `zona`/`pais`.
 

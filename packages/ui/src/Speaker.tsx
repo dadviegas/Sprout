@@ -1,4 +1,4 @@
-import { useCallback, useRef, useSyncExternalStore, type ReactNode } from "react";
+import { useCallback, useRef, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
 import { Icon } from "@sprout/icons";
 import { speak, speakSequence, stop, canSpeak, subscribeSpeaking, speakingToken } from "./speak";
 
@@ -32,11 +32,12 @@ export interface SpeakerProps {
   label?: string;
   className?: string;
   size?: number;
+  style?: CSSProperties;
   /** optional visible text after the icon (e.g. "Ouvir") */
   children?: ReactNode;
 }
 
-export function Speaker({ text, parts, label = "Ouvir", className = "prose-speak", size = 18, children }: SpeakerProps) {
+export function Speaker({ text, parts, label = "Ouvir", className = "prose-speak", size = 18, style, children }: SpeakerProps) {
   const { playing, toggle } = useSpeaker();
   const arg = parts ?? text ?? "";
   const empty = Array.isArray(arg) ? arg.length === 0 : !arg.trim();
@@ -45,6 +46,7 @@ export function Speaker({ text, parts, label = "Ouvir", className = "prose-speak
     <button
       type="button"
       className={className}
+      style={style}
       data-playing={playing || undefined}
       onClick={() => toggle(arg)}
       aria-label={playing ? "Parar" : label}

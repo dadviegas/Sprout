@@ -71,6 +71,7 @@ const SUBJECT_ICON: Record<string, IconName> = {
   dicionario: "letters",
   paises: "map",
   cidadania: "heart",
+  tic: "device",
   artistica: "palette",
   fisica: "body",
   // 2.º ciclo (5.º–6.º) subjects

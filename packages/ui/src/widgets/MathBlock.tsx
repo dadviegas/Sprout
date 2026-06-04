@@ -1,5 +1,6 @@
 import { Icon } from "@sprout/icons";
-import { speak, speakable } from "../speak";
+import { speakable } from "../speak";
+import { useSpeaker } from "../Speaker";
 
 /* MathBlock — kid-friendly math notation, no LaTeX/KaTeX dependency.
  * Renders an expression with proper operators (×, ÷, −) and STACKED fractions
@@ -38,21 +39,24 @@ const OPERATORS: Record<string, string> = {
 };
 
 export function MathBlock({ spec }: { spec: MathSpec }) {
+  const { playing, toggle } = useSpeaker();
+  const say = spec.say ?? speakable(spec.expr);
   // Split on whitespace; map standalone operators to pretty symbols; stack fractions.
   const tokens = spec.expr.trim().split(/\s+/);
   return (
     <div className="math-block">
-      <div className="math-block__expr" role="img" aria-label={spec.say ?? speakable(spec.expr)}>
+      <div className="math-block__expr" role="img" aria-label={say}>
         {tokens.map((t, i) => renderToken(OPERATORS[t] ?? t, i))}
       </div>
       <button
         type="button"
         className="math-block__speak"
-        onClick={() => speak(spec.say ?? speakable(spec.expr))}
-        aria-label="Ouvir"
-        title="Ouvir"
+        data-playing={playing || undefined}
+        onClick={() => toggle(say)}
+        aria-label={playing ? "Parar" : "Ouvir"}
+        title={playing ? "Parar" : "Ouvir"}
       >
-        <Icon name="speaker" size={18} />
+        <Icon name={playing ? "stop" : "speaker"} size={18} />
       </button>
     </div>
   );

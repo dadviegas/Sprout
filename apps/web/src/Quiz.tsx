@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Icon, type IconName } from "@sprout/icons";
-import { Speaker, Confetti, FractionFigure, type FractionFigureSpec } from "@sprout/ui";
+import { Speaker, Confetti, FractionFigure, stop as stopSpeech, type FractionFigureSpec } from "@sprout/ui";
 import { starsForPct, useLessonId, useProgress } from "./progress";
 
 export interface QuizOption {
@@ -127,6 +127,13 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, nonce]);
+
+  // Stop any read-aloud when the question changes or we reach the result, so
+  // the previous question's audio never plays over the next screen. The child
+  // taps the speaker again to hear the new one.
+  useEffect(() => {
+    stopSpeech();
+  }, [i, phase]);
 
   const choose = (idx: number) => {
     if (picked !== null) return;

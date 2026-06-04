@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 import { Icon } from "@sprout/icons";
-import { speak } from "../speak";
-import { Speaker } from "../Speaker";
+import { Speaker, useSpeaker } from "../Speaker";
 import { polar } from "./geo";
 import { Confetti } from "../Confetti";
 
@@ -122,6 +121,7 @@ export function Clock({ spec }: { spec: ClockSpec }) {
   const [hour, setHour] = useState(mode === "set" ? 12 : initH);
   const [minute, setMinute] = useState(mode === "set" ? 0 : initM);
   const [checked, setChecked] = useState<null | boolean>(null);
+  const { playing: sayingTime, toggle: toggleTime } = useSpeaker();
 
   const interactive = mode !== "show";
   const targetH = norm12(spec.hour ?? 12);
@@ -162,7 +162,7 @@ export function Clock({ spec }: { spec: ClockSpec }) {
 
         <div className="clock-side">
           <div className="clock-readout">{digital(hour, minute)}</div>
-          <button className="pill ghost" onClick={() => speak(readTime(hour, minute))}><Icon name="speaker" size={18} /> {readTime(hour, minute)}</button>
+          <button className="pill ghost" data-playing={sayingTime || undefined} onClick={() => toggleTime(readTime(hour, minute))}><Icon name={sayingTime ? "stop" : "speaker"} size={18} /> {readTime(hour, minute)}</button>
 
           {interactive && (
             <>

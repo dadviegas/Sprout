@@ -1,6 +1,13 @@
 import { useRef, useState } from "react";
 import { Icon } from "@sprout/icons";
-import { speak, speakSequence } from "../speak";
+import { speak } from "../speak";
+import { Speaker } from "../Speaker";
+
+/** The full read-aloud for "Ouvir tudo": the intro line then each body's fact. */
+function allParts(spec: SolarSystemSpec, center: { name: string; emoji?: string; fact?: string }, bodies: { name: string; emoji?: string; fact?: string }[]): string[] {
+  const intro = spec.say ?? `${center.name}. ${bodyFact(center)}.`;
+  return [intro, ...bodies.map(bodyFact)];
+}
 
 /* A space body shown as a coloured disc — the shared shape for orbit + lineup. */
 export interface SpaceBody {
@@ -112,19 +119,12 @@ function SolarOrbits({ spec }: { spec: SolarSystemSpec }) {
     speak(bodyFact(b));
   };
 
-  const hearAll = () => {
-    const intro = spec.say ?? `${center.name}. ${bodyFact(center)}.`;
-    speakSequence([intro, ...spec.bodies.map(bodyFact)]);
-  };
-
   return (
     <div className="widget solarsystem-widget">
       <div className="w-head">
         <span className="w-badge"><Icon name="planet" size={16} /> No espaço</span>
         {spec.title && <strong>{spec.title}</strong>}
-        <button className="iconbtn" onClick={hearAll} aria-label="Ouvir tudo" style={{ marginLeft: "auto" }}>
-          <Icon name="speaker" size={18} />
-        </button>
+        <Speaker parts={allParts(spec, center, spec.bodies)} className="iconbtn" label="Ouvir tudo" style={{ marginLeft: "auto" }} />
         <button className="iconbtn" onClick={togglePlay} aria-label={paused ? "Pôr a andar" : "Parar"}>
           <Icon name={paused ? "forward" : "stop"} size={18} />
         </button>
@@ -151,9 +151,7 @@ function SolarOrbits({ spec }: { spec: SolarSystemSpec }) {
           <>
             <strong>{selected.name}{selected.emoji ? " " + selected.emoji : ""}</strong>
             {selected.fact && <span>{selected.fact}</span>}
-            <button className="iconbtn" onClick={() => speak(bodyFact(selected))} aria-label="Ouvir outra vez">
-              <Icon name="speaker" size={16} />
-            </button>
+            <Speaker text={bodyFact(selected)} className="iconbtn" size={16} label="Ouvir outra vez" />
           </>
         ) : (
           <span className="w-hint">{spec.caption ?? "Toca num planeta para saberes o nome e uma curiosidade. 🔭"}</span>
@@ -208,19 +206,13 @@ function SolarLineup({ spec }: { spec: SolarSystemSpec }) {
   const cy = H / 2;
 
   const pick = (b: SpaceBody) => { setSelected(b); speak(bodyFact(b)); };
-  const hearAll = () => {
-    const intro = spec.say ?? `${center.name}. ${bodyFact(center)}.`;
-    speakSequence([intro, ...items.slice(1).map(bodyFact)]);
-  };
 
   return (
     <div className="widget solarsystem-widget">
       <div className="w-head">
         <span className="w-badge"><Icon name="planet" size={16} /> No espaço</span>
         {spec.title && <strong>{spec.title}</strong>}
-        <button className="iconbtn" onClick={hearAll} aria-label="Ouvir tudo" style={{ marginLeft: "auto" }}>
-          <Icon name="speaker" size={18} />
-        </button>
+        <Speaker parts={allParts(spec, center, items.slice(1))} className="iconbtn" label="Ouvir tudo" style={{ marginLeft: "auto" }} />
       </div>
 
       <div className="ss-stage">
@@ -273,9 +265,7 @@ function SolarLineup({ spec }: { spec: SolarSystemSpec }) {
           <>
             <strong>{selected.name}{selected.emoji ? " " + selected.emoji : ""}</strong>
             {selected.fact && <span>{selected.fact}</span>}
-            <button className="iconbtn" onClick={() => speak(bodyFact(selected))} aria-label="Ouvir outra vez">
-              <Icon name="speaker" size={16} />
-            </button>
+            <Speaker text={bodyFact(selected)} className="iconbtn" size={16} label="Ouvir outra vez" />
           </>
         ) : (
           <span className="w-hint">{spec.caption ?? "Toca num planeta para o ouvires. Repara nos tamanhos! 🔭"}</span>

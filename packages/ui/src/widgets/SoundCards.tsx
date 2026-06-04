@@ -1,5 +1,5 @@
 import { Icon, type IconName } from "@sprout/icons";
-import { speak } from "../speak";
+import { useSpeaker } from "../Speaker";
 
 export interface SoundItem {
   /** optional icon from @sprout/icons; if omitted the label is shown big */
@@ -17,6 +17,31 @@ export interface SoundCardsSpec {
   items: SoundItem[];
 }
 
+/* One card: tap to hear its word; while it plays the corner icon turns into the
+   "parar" (stop) square and tapping again stops it — the same read/stop control
+   used everywhere (see Speaker). */
+function SoundCard({ item }: { item: SoundItem }) {
+  const { playing, toggle } = useSpeaker();
+  const say = item.say ?? item.label;
+  return (
+    <button
+      className="soundcard"
+      data-playing={playing || undefined}
+      onClick={() => toggle(say)}
+      aria-label={playing ? "Parar" : `Ouvir: ${say}`}
+    >
+      {item.icon ? (
+        <span className="sc-icon"><Icon name={item.icon} size="100%" /></span>
+      ) : (
+        <span className="sc-big">{item.label}</span>
+      )}
+      {item.icon && <span className="sc-label">{item.label}</span>}
+      {item.hint && <span className="sc-hint">{item.hint}</span>}
+      <span className="sc-speak"><Icon name={playing ? "stop" : "speaker"} size={18} /></span>
+    </button>
+  );
+}
+
 /* SoundCards — for early readers (1.º ano): each card shows an icon (or a big
    letter/word) plus the word, and reads it aloud in Portuguese when tapped.
    See · hear · repeat. */
@@ -32,16 +57,7 @@ export function SoundCards({ spec }: { spec: SoundCardsSpec }) {
       </div>
       <div className="soundcards">
         {spec.items.map((it, i) => (
-          <button key={i} className="soundcard" onClick={() => speak(it.say ?? it.label)} aria-label={`Ouvir: ${it.say ?? it.label}`}>
-            {it.icon ? (
-              <span className="sc-icon"><Icon name={it.icon} size="100%" /></span>
-            ) : (
-              <span className="sc-big">{it.label}</span>
-            )}
-            {it.icon && <span className="sc-label">{it.label}</span>}
-            {it.hint && <span className="sc-hint">{it.hint}</span>}
-            <span className="sc-speak"><Icon name="speaker" size={18} /></span>
-          </button>
+          <SoundCard key={i} item={it} />
         ))}
       </div>
     </div>

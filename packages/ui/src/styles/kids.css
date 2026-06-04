@@ -57,6 +57,8 @@
 }
 .iconbtn:hover { background: var(--surface-3); border-color: var(--border-strong); transform: translateY(-1px); }
 .iconbtn:active { transform: translateY(0) scale(.94); }
+/* a read-aloud iconbtn (e.g. SolarSystem's "Ouvir") while it's speaking */
+.iconbtn[data-playing] { background: var(--primary); border-color: var(--primary); color: #fff; }
 
 /* pill button — solid primary, flat Atlantis look.
    Uses the theme-aware --primary token; callers may override --primary inline
@@ -80,6 +82,8 @@
   box-shadow: var(--shadow-sm);
 }
 .pill.ghost:hover { background: var(--surface-2); filter: none; }
+/* read-aloud pill (e.g. the clock's "São X horas") while it's speaking */
+.pill.ghost[data-playing] { background: var(--primary); color: #fff; border-color: color-mix(in srgb, var(--primary) 70%, #000); }
 
 /* card grids */
 .card-grid {
@@ -1117,6 +1121,9 @@
   width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center;
   border-radius: 50%; background: var(--primary-soft); color: var(--primary);
 }
+/* while this card is reading, light up its border and fill the corner badge */
+.soundcard[data-playing] { border-color: var(--primary); }
+.soundcard[data-playing] .sc-speak { background: var(--primary); color: #fff; }
 
 /* dictionary — word cards (emoji + word + simple meaning), each read aloud */
 .dictionary-widget { border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); }
@@ -1162,6 +1169,9 @@
   width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center;
   border-radius: 50%; background: var(--accent-soft); color: var(--accent);
 }
+/* while this card is reading, light up its border and fill the corner badge */
+.dict-card[data-playing] { border-color: var(--accent); }
+.dict-card[data-playing] .dict-speak { background: var(--accent); color: #fff; }
 /* the card the command center scrolled to: a brief glow ring to point it out */
 .dict-card.is-focus { border-color: var(--accent); animation: dict-focus 1.4s ease-out; }
 @keyframes dict-focus {

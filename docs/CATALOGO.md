@@ -3,8 +3,8 @@
 Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o resumo
 "O que vais aprender" de cada uma. Gerado a partir de `apps/web/src/content/`.
 
-- **1.º ciclo (1.º–4.º ano):** Português, Matemática, Estudo do Meio, O Mundo, Inglês, Ed. Artística, Cidadania, Ed. Física.
-- **2.º ciclo (5.º–6.º ano):** Português, Matemática, Inglês, Ciências Naturais, História e Geografia de Portugal, Ed. Musical, Ed. Visual, Ed. Tecnológica, Cidadania, Ed. Física.
+- **1.º ciclo (1.º–4.º ano):** Português, Matemática, Estudo do Meio, O Mundo, Inglês, TIC, Ed. Artística, Cidadania, Ed. Física.
+- **2.º ciclo (5.º–6.º ano):** Português, Matemática, Inglês, Ciências Naturais, História e Geografia de Portugal, Ed. Musical, Ed. Visual, Ed. Tecnológica, TIC, Cidadania, Ed. Física.
 - **Transversais (sem ano):** páginas de país, centro de estudo, dicionário.
 
 ---
@@ -69,6 +69,9 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **Os meus direitos e deveres** — o que é um direito e um dever, e que andam juntos.
 - **Reciclar e cuidar da Terra** — separar o lixo, a regra dos 3 R, cuidar do planeta.
 - **Todos diferentes, todos amigos** — respeitar, incluir e ser amigo de toda a gente.
+
+**TIC**
+- **Ecrãs com cuidado** — pedir autorização, fazer pausas e proteger informação privada.
 
 **Ed. Física**
 - **Mexer o corpo: correr, saltar, rolar** — formas de mover o corpo, atirar/agarrar, aquecer.
@@ -203,6 +206,9 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 **Cidadania**
 - **Consumir com cabeça** — publicidade, querer vs. precisar, escolhas espertas.
 - **Meninos e meninas: iguais** — mesmas oportunidades; sem "coisas de menino/menina".
+- **Bullying: reconhecer, parar e pedir ajuda** — distinguir zanga de bullying e saber o que fazer.
+
+**TIC**
 - **Internet segura** — usar ecrãs em segurança, dados secretos, estranhos, pedir ajuda.
 
 **Ed. Física**
@@ -228,11 +234,13 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **Escrever uma carta e um convite** — partes da carta, o envelope, falar com cada pessoa.
 - **Ouvir, opinar e debater** — dar opinião com respeito, argumentar, ouvir, debater.
 - **Histórias e autores portugueses** — autores para crianças e tipos de obra.
+- **Rever e melhorar um texto** — ler de novo, organizar, melhorar frases e corrigir.
 
 **Matemática**
 - **Números até ao milhão** — ler, escrever, comparar, ordenar; valor de cada algarismo.
 - **Números decimais** — números entre inteiros (0,5; 3,75); ler, comparar, usar.
 - **Frações e decimais** — fração e número com vírgula podem dizer o mesmo.
+- **Cálculo mental** — decompor, fazer dezenas/centenas, compensar, estimar.
 - **Estimar e arredondar** — respostas aproximadas; arredondar à dezena/centena/milhar.
 - **Resolver problemas** — plano: ler, perceber os dados, escolher a conta, verificar.
 - **Ângulos e retas** — retas e ângulos reto, agudo e obtuso; medir com o canto da folha.
@@ -246,6 +254,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **O sistema solar** — Sol e 8 planetas, órbitas, luas e os movimentos da Terra.
 - **Os sistemas do corpo** — digestivo, respiratório, circulatório, locomotor, nervoso, excretor.
 - **Proteger o ambiente** — os 3 R, ecopontos, poupar água e energia.
+- **Reis e famílias reais** — monarquia, República, reis importantes e ideia simples de dinastia.
 
 **O Mundo** (anel 4 — Mundo)
 - **Os continentes e oceanos** — 7 continentes e 5 oceanos; o "planeta azul".
@@ -271,6 +280,9 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **Regras, votar e decidir juntos** — porque há regras, votar, democracia, decidir em grupo.
 - **Saúde, sono e ecrãs** — dormir, mexer, comer bem, mãos e ecrãs com conta.
 - **Cuidar dos recursos do planeta** — recursos naturais; renováveis vs. não renováveis.
+
+**TIC**
+- **O computador e os ficheiros** — ficheiros, pastas, nomes claros e cuidado com equipamento.
 
 **Ed. Física**
 - **Uma vida ativa e saudável** — mexer todos os dias dentro e fora da escola.
@@ -364,6 +376,9 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **Viver com culturas diferentes** — cultura, interculturalidade, preconceitos.
 - **Saúde e bem-estar** — corpo, cabeça e emoções; saúde mental; hábitos.
 
+**TIC**
+- **Pesquisar na internet com cabeça** — palavras-chave, fontes fiáveis, direitos de autor e trabalhos digitais.
+
 **Ed. Física**
 - **Aptidão física e aquecimento** — resistência, força, velocidade, flexibilidade; aquecer.
 - **Atletismo: correr e saltar** — corridas, saltos; partida, técnica.
@@ -421,6 +436,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **Os Descobrimentos** — porque foi Portugal o primeiro; o Infante D. Henrique, a Escola.
 - **O império português** — império em quatro continentes; o comércio das especiarias; Goa…
 - **União Ibérica e Restauração** — D. Sebastião, o rei de Espanha, a Restauração.
+- **As dinastias de Portugal** — as famílias de reis: Borgonha/Afonsina, Avis, Filipina e Bragança.
 - **O século XVIII e o Marquês de Pombal** — o ouro do Brasil; o terramoto de 1755.
 - **O Liberalismo** — direitos, leis iguais, a Constituição.
 - **A 1.ª República** — o 5 de outubro de 1910; o regicídio.
@@ -453,10 +469,13 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 
 **Cidadania**
 - **Educação financeira** — querer vs. precisar; orçamento; poupar; juros.
-- **Media e mundo digital** — notícia verdadeira vs. fake news; segurança; cyberbullying.
 - **Risco e proteção civil** — sismo, incêndio, números de emergência (112), kit.
 - **Desenvolvimento sustentável** — 3 pilares; pegada ecológica; Objetivos da ONU.
 - **Solidariedade e voluntariado** — ser voluntário; ajudar de várias formas.
+
+**TIC**
+- **Media e mundo digital** — notícia verdadeira vs. fake news; segurança; cyberbullying.
+- **Privacidade e palavras-passe** — dados pessoais, palavras-passe fortes e pensar antes de publicar.
 
 **Ed. Física**
 - **Condição física e saúde** — resistência, força, velocidade, flexibilidade; frequência cardíaca.

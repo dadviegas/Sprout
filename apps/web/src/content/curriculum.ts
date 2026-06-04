@@ -93,6 +93,7 @@ import matRomanos from "./matematica/ano3/numeros-romanos.md";
 import matEstimar from "./matematica/ano4/estimar-arredondar.md";
 import matCalculoMental from "./matematica/ano4/calculo-mental.md";
 import mat5ProblemasVariosPassos from "./matematica/ano5/problemas-varios-passos.md";
+import mat5DadosAMais from "./matematica/ano5/dados-a-mais-ou-a-menos.md";
 
 /* ---- Português ---- */
 import ptVogais from "./portugues/ano1/vogais.md";
@@ -151,6 +152,7 @@ import ptSujeitoPredicado from "./portugues/ano4/sujeito-predicado.md";
 import ptReverTexto from "./portugues/ano4/rever-texto.md";
 import ptPlanearTexto from "./portugues/ano4/planear-texto.md";
 import ptConectores from "./portugues/ano4/conectores.md";
+import ptRevisaoOrtografica from "./portugues/ano4/revisao-ortografica.md";
 import pt5Resumo from "./portugues/ano5/fazer-resumo.md";
 import pt5Descrever from "./portugues/ano5/descrever.md";
 
@@ -183,6 +185,7 @@ import edmMapas from "./estudo-do-meio/ano4/mapas-e-pontos-cardeais.md";
 import edmReisDinastias from "./estudo-do-meio/ano4/reis-e-dinastias.md";
 import edmRelevoClima from "./estudo-do-meio/ano4/relevo-clima-portugal.md";
 import edmFreguesiaMunicipio from "./estudo-do-meio/ano4/freguesia-municipio.md";
+import edmMapaLocalidade from "./estudo-do-meio/ano4/mapa-localidade.md";
 
 /* ---- Inglês ---- */
 import enHello from "./ingles/ano1/hello.md";
@@ -591,6 +594,7 @@ export const schoolSubjects: Subject[] = [
         { id: "mat-5-solidos", title: "Sólidos geométricos", emoji: "🧊", body: mat5Solidos },
         { id: "mat-5-dados", title: "Organização e tratamento de dados", emoji: "📊", body: mat5Dados },
         { id: "mat-5-problemas-varios-passos", title: "Problemas de vários passos", emoji: "🧩", body: mat5ProblemasVariosPassos },
+        { id: "mat-5-dados-a-mais", title: "Problemas com dados a mais ou em falta", emoji: "🔎", body: mat5DadosAMais },
       ],
       6: [
         { id: "mat-6-inteiros", title: "Números inteiros relativos", emoji: "➖", body: mat6Inteiros },
@@ -671,6 +675,7 @@ export const schoolSubjects: Subject[] = [
         { id: "pt-4-planear-texto", title: "Como planear um texto", emoji: "📝", body: ptPlanearTexto },
         { id: "pt-4-conectores", title: "Conectores: ligar ideias", emoji: "🔗", body: ptConectores },
         { id: "pt-4-rever-texto", title: "Rever e melhorar um texto", emoji: "✍️", body: ptReverTexto },
+        { id: "pt-4-revisao-ortografica", title: "Revisão ortográfica com checklist", emoji: "🔍", body: ptRevisaoOrtografica },
       ],
       5: [
         { id: "pt-5-oralidade", title: "Ouvir, falar e apresentar", emoji: "🗣️", body: pt5Oralidade },
@@ -736,6 +741,7 @@ export const schoolSubjects: Subject[] = [
         { id: "edm-4-corpo-sistemas", title: "Os sistemas do corpo", emoji: "❤️", body: edmCorpoSistemas },
         { id: "edm-4-ambiente", title: "Proteger o ambiente", emoji: "♻️", body: edmAmbiente },
         { id: "edm-4-mapas", title: "Mapas e pontos cardeais", emoji: "🧭", body: edmMapas },
+        { id: "edm-4-mapa-localidade", title: "Mapa da localidade e orientação", emoji: "🗺️", body: edmMapaLocalidade },
         { id: "edm-4-freguesia-municipio", title: "Freguesia, município e participação local", emoji: "🏘️", body: edmFreguesiaMunicipio },
         { id: "edm-4-relevo-clima", title: "Relevo e clima de Portugal", emoji: "🏞️", body: edmRelevoClima },
         { id: "edm-4-historia", title: "História de Portugal", emoji: "🏰", body: edmHistoria },

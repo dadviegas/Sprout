@@ -82,7 +82,7 @@ Lições sugeridas:
 - **4.º ano:** Participar na turma: votar, ouvir e decidir. ✅ criado no 4.º ano
 - **5.º ano:** Cidadania democrática: Constituição, direitos e instituições. ✅ criado no 5.º ano
 - **4.º ano / Estudo do Meio:** Freguesia, município e participação local. ✅ criado no 4.º ano
-- **6.º ano:** Privacidade, consentimento e responsabilidade digital.
+- **6.º ano:** Privacidade, consentimento e responsabilidade digital. ✅ criado no 6.º ano (tic-6-privacidade)
 
 ---
 
@@ -100,7 +100,7 @@ Já há páginas próprias para:
 Ainda falta reforçar:
 
 - problemas de vários passos dentro de outras lições;
-- problemas com dados a mais ou dados em falta;
+- problemas com dados a mais ou dados em falta; ✅ criado no 5.º ano (mat-5-dados-a-mais)
 - explicação escrita do raciocínio.
 
 ### Português
@@ -115,11 +115,11 @@ Já há páginas próprias para:
 
 Ainda falta reforçar:
 
-- revisão ortográfica com checklist.
+- revisão ortográfica com checklist. ✅ criado no 4.º ano (pt-4-revisao-ortografica)
 
 Lições futuras sugeridas:
 
-- **Revisão ortográfica com checklist**
+- **Revisão ortográfica com checklist** ✅ criado no 4.º ano
 
 ### Estudo do Meio
 
@@ -132,7 +132,7 @@ Já foi reforçado:
 Ainda falta ou está pouco separado:
 
 - sistemas do corpo separados por função;
-- mapas práticos da localidade com exercícios de orientação.
+- mapas práticos da localidade com exercícios de orientação. ✅ criado no 4.º ano (edm-4-mapa-localidade)
 
 ### Inglês
 

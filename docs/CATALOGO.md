@@ -242,6 +242,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **Como planear um texto** — tema, ideias, ordem, parágrafos, introdução, desenvolvimento e conclusão.
 - **Conectores: ligar ideias** — acrescentar, explicar, contrastar, dar exemplos e concluir.
 - **Rever e melhorar um texto** — ler de novo, organizar, melhorar frases e corrigir.
+- **Revisão ortográfica com checklist** — acentos, pontuação, maiúsculas, concordância e palavras que confundem.
 
 **Matemática**
 - **Números até ao milhão** — ler, escrever, comparar, ordenar; valor de cada algarismo.
@@ -258,6 +259,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 **Estudo do Meio**
 - **História de Portugal** — como nasceu Portugal, reis, Descobrimentos e grandes datas.
 - **Mapas e pontos cardeais** — ler mapas; 4 cardeais e 4 colaterais; orientar-se.
+- **Mapa da localidade e orientação** — ler um mapa simples, pontos de referência e dar percursos com direções.
 - **Freguesia, município e participação local** — localidade, freguesia, município, junta, câmara e participação.
 - **O sistema solar** — Sol e 8 planetas, órbitas, luas e os movimentos da Terra.
 - **Os sistemas do corpo** — digestivo, respiratório, circulatório, locomotor, nervoso, excretor.
@@ -330,6 +332,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **Sólidos geométricos** — poliedros vs. não poliedros; faces/arestas/vértices; Euler; prismas e pirâmides.
 - **Organização e tratamento de dados** — tabelas; barras, linha e circular; moda, média, amplitude.
 - **Problemas de vários passos** — ler, planear etapas, calcular por ordem e verificar unidades.
+- **Problemas com dados a mais ou em falta** — descobrir que dados são precisos, quais são distração e quando falta informação.
 
 **Inglês**
 - **Greetings & introductions** — cumprimentar conforme a hora; "How are you?"; apresentar.

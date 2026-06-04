@@ -81,6 +81,7 @@ Lições sugeridas:
 - **3.º ano:** Bullying: reconhecer, parar e pedir ajuda. ✅ criado no 3.º ano
 - **4.º ano:** Participar na turma: votar, ouvir e decidir. ✅ criado no 4.º ano
 - **5.º ano:** Cidadania democrática: Constituição, direitos e instituições. ✅ criado no 5.º ano
+- **4.º ano / Estudo do Meio:** Freguesia, município e participação local. ✅ criado no 4.º ano
 - **6.º ano:** Privacidade, consentimento e responsabilidade digital.
 
 ---
@@ -109,17 +110,16 @@ Já há páginas próprias para:
 - produção escrita guiada;
 - planificar, escrever, rever e melhorar;
 - resumos;
+- descrição de pessoas, lugares e objetos;
+- conectores.
 
 Ainda falta reforçar:
 
-- descrição de pessoas, lugares e objetos;
-- conectores;
 - revisão ortográfica com checklist.
 
 Lições futuras sugeridas:
 
-- **Descrever pessoas, lugares e objetos**
-- **Usar conectores para ligar ideias**
+- **Revisão ortográfica com checklist**
 
 ### Estudo do Meio
 
@@ -127,11 +127,12 @@ Já foi reforçado:
 
 - relevo e clima de Portugal;
 - segurança rodoviária;
+- freguesia, município e participação local.
 
 Ainda falta ou está pouco separado:
 
 - sistemas do corpo separados por função;
-- mapas da localidade, freguesia e município.
+- mapas práticos da localidade com exercícios de orientação.
 
 ### Inglês
 
@@ -139,29 +140,28 @@ Já foi reforçado:
 
 - listening;
 - pequenos diálogos;
+- escrita guiada;
+- perguntas e respostas em contexto.
 
 Ainda falta reforçar:
 
-- escrita guiada;
-- perguntas e respostas em contexto.
+- mais exercícios áudio/simulados por tema;
+- pequenas respostas escritas por unidade.
 
 ### TIC / Competências digitais
 
 TIC já está separada como área própria no currículo, com uma primeira progressão:
 ecrãs com cuidado, rato/teclado, internet segura, computador/ficheiros, escrever
 e formatar texto, pesquisa digital, apresentações, email/mensagens, media,
-privacidade e programação simples.
+privacidade, direitos de autor, programação simples e folha de cálculo.
 
 Temas ainda a reforçar:
 
-- direitos de autor com mais exemplos práticos;
-- folhas de cálculo muito simples;
 - organização de pastas em projetos longos;
 - mais exercícios de programação inicial / pensamento computacional.
 
 Lições futuras sugeridas:
 
-- **Folha de cálculo simples**
 - **Organizar um projeto digital**
 - **Criar e testar pequenos algoritmos**
 

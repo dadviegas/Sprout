@@ -240,6 +240,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **Ouvir, opinar e debater** — dar opinião com respeito, argumentar, ouvir, debater.
 - **Histórias e autores portugueses** — autores para crianças e tipos de obra.
 - **Como planear um texto** — tema, ideias, ordem, parágrafos, introdução, desenvolvimento e conclusão.
+- **Conectores: ligar ideias** — acrescentar, explicar, contrastar, dar exemplos e concluir.
 - **Rever e melhorar um texto** — ler de novo, organizar, melhorar frases e corrigir.
 
 **Matemática**
@@ -257,6 +258,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 **Estudo do Meio**
 - **História de Portugal** — como nasceu Portugal, reis, Descobrimentos e grandes datas.
 - **Mapas e pontos cardeais** — ler mapas; 4 cardeais e 4 colaterais; orientar-se.
+- **Freguesia, município e participação local** — localidade, freguesia, município, junta, câmara e participação.
 - **O sistema solar** — Sol e 8 planetas, órbitas, luas e os movimentos da Terra.
 - **Os sistemas do corpo** — digestivo, respiratório, circulatório, locomotor, nervoso, excretor.
 - **Proteger o ambiente** — os 3 R, ecopontos, poupar água e energia.
@@ -315,6 +317,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **Educação Literária: autores** — autores portugueses, géneros, autor/narrador/personagem.
 - **Ouvir, falar e apresentar** — ouvir sem interromper; apresentação oral com começo/meio/fim.
 - **Fazer um resumo** — encontrar ideias principais, cortar pormenores e escrever por palavras próprias.
+- **Descrever pessoas, lugares e objetos** — detalhes, ordem, adjetivos precisos e comparação.
 
 **Matemática**
 - **Números naturais e operações** — números enormes, classes e ordens, quatro operações, ordem.
@@ -336,6 +339,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **Daily routines** — o dia inteiro, a que horas, advérbios de frequência.
 - **Present simple** — rotinas; o -s da 3.ª pessoa; don't/doesn't.
 - **Short dialogues and listening practice** — diálogos curtos, perguntas úteis e escuta por palavras-chave.
+- **Guided writing: short texts** — modelo para escrever textos curtos em inglês com abertura, detalhes e final.
 - **Hobbies & free time** — passatempos; play / go / do.
 - **Food & meals** — refeições; contáveis/incontáveis; "Can I have…".
 
@@ -393,6 +397,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **Pesquisar na internet com cabeça** — palavras-chave, fontes fiáveis, direitos de autor e trabalhos digitais.
 - **Fazer uma apresentação simples** — diapositivos com uma ideia principal, imagens úteis, letra legível e ensaio.
 - **Email e mensagens com respeito** — assunto, saudação, pedido, despedida, anexos e privacidade.
+- **Direitos de autor e usar imagens com cuidado** — autor, fonte, citação, uso livre e respeito por obras.
 
 **Ed. Física**
 - **Aptidão física e aquecimento** — resistência, força, velocidade, flexibilidade; aquecer.
@@ -436,6 +441,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **Health & body** — partes do corpo, "I have a headache", conselhos com should.
 - **Clothes & shopping** — roupas, cores e tamanhos; "How much is it?", "Can I try…".
 - **Places in town & directions** — lugares da cidade, direções, preposições de lugar.
+- **Questions and answers in context** — who, where, when, why, how much e respostas curtas.
 - **Holidays & travel** — férias e viagens; transportes com by; férias passadas.
 
 **Ciências Naturais**
@@ -453,6 +459,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **O império português** — império em quatro continentes; o comércio das especiarias; Goa…
 - **União Ibérica e Restauração** — D. Sebastião, o rei de Espanha, a Restauração.
 - **As dinastias de Portugal** — as famílias de reis: Borgonha/Afonsina, Avis, Filipina e Bragança.
+- **Reis, datas e monumentos de Portugal** — linha do tempo, monumentos e imagens mentais para estudar.
 - **O século XVIII e o Marquês de Pombal** — o ouro do Brasil; o terramoto de 1755.
 - **O Liberalismo** — direitos, leis iguais, a Constituição.
 - **A 1.ª República** — o 5 de outubro de 1910; o regicídio.
@@ -495,6 +502,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **Media e mundo digital** — notícia verdadeira vs. fake news; segurança; cyberbullying.
 - **Privacidade e palavras-passe** — dados pessoais, palavras-passe fortes e pensar antes de publicar.
 - **Programação simples: instruções e algoritmos** — algoritmos, sequência, repetições, condições e depuração.
+- **Folha de cálculo simples** — células, linhas, colunas, fórmulas, tabelas e gráfico de barras.
 
 **Ed. Física**
 - **Condição física e saúde** — resistência, força, velocidade, flexibilidade; frequência cardíaca.

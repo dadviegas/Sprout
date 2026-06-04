@@ -1,0 +1,63 @@
+# Guided writing: short texts ✍️
+
+> [!NOTE] **What you will learn** 👀 You will learn how to write a short text in English with a plan: introduce yourself, add details and finish clearly.
+
+A short text is easier when you use a model. You can change the words to make it yours.
+
+```keyvalue
+[
+  { "k": "Opening", "v": "Hello! My name is..." },
+  { "k": "Details", "v": "I am... years old. I live in..." },
+  { "k": "Likes", "v": "I like... / I don't like..." },
+  { "k": "Ending", "v": "What about you?" }
+]
+```
+
+## A useful model
+
+```steps
+[
+  { "title": "1. Start", "body": "Hello! My name is Marta." },
+  { "title": "2. Add facts", "body": "I am ten years old. I live in Portugal." },
+  { "title": "3. Add likes", "body": "I like music and football." },
+  { "title": "4. Finish", "body": "What about you?" }
+]
+```
+
+```compare
+[
+  { "title": "Too short", "rows": [
+    { "label": "Text", "value": "Hello. I like football." }
+  ] },
+  { "title": "Better", "rows": [
+    { "label": "Text", "value": "Hello! My name is Tom. I am ten years old. I like football and science.", "highlight": true }
+  ] }
+]
+```
+
+## 🎯 Questionário final
+
+```quiz
+{
+  "id": "en-5-guided-writing-final",
+  "final": true,
+  "title": "Guided writing",
+  "questions": [
+    { "q": "A good opening is…", "layout": "grid",
+      "options": [ { "t": "Hello! My name is Ana.", "emoji": "👋", "correct": true }, { "t": "Blue and chair." }, { "t": "At because." } ],
+      "explain": "This opening introduces the writer." },
+    { "q": "Which sentence gives age?", "layout": "grid",
+      "options": [ { "t": "I am ten years old.", "emoji": "🎂", "correct": true }, { "t": "I like red." }, { "t": "It is under." } ],
+      "explain": "Years old is used for age." },
+    { "q": "I like music means…", "layout": "grid",
+      "options": [ { "t": "gosto de música", "emoji": "🎵", "correct": true }, { "t": "tenho fome" }, { "t": "está frio" } ],
+      "explain": "I like expresses preference." },
+    { "q": "A short text should have…", "layout": "grid",
+      "options": [ { "t": "clear sentences", "emoji": "✅", "correct": true }, { "t": "only random words" }, { "t": "no subject" } ],
+      "explain": "Clear sentences make the text understandable." },
+    { "q": "What about you? is useful to…", "layout": "grid",
+      "options": [ { "t": "ask the other person", "emoji": "❓", "correct": true }, { "t": "say goodbye forever" }, { "t": "count to ten" } ],
+      "explain": "It invites the other person to answer." }
+  ]
+}
+```

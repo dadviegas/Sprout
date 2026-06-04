@@ -11,7 +11,7 @@ Estado: `✅ tratado` (lição completa: exemplos + truque + treino + teste) ·
 
 > **A app já cobre os dois ciclos** — **1.º ciclo (1.º–4.º ano)** e
 > **2.º ciclo (5.º–6.º ano)**, cada um com o seu conjunto próprio de disciplinas
-> (Decreto-Lei 55/2018). São **409 lições**, todas com questionário final.
+> (Decreto-Lei 55/2018). São **417 lições**, todas com questionário final.
 > A *estrutura* segue as AE; cada tema é **uma lição** (não a totalidade dos
 > descritores). Continua a ser uma **seleção curada**, não cobertura exaustiva —
 > e falta **revisão pedagógica por docente** antes de fechar qualquer tema.
@@ -20,34 +20,34 @@ Estado: `✅ tratado` (lição completa: exemplos + truque + treino + teste) ·
 
 ## Visão geral por ciclo
 
-### 1.º ciclo (1.º–4.º ano) — 180 lições
+### 1.º ciclo (1.º–4.º ano) — 182 lições
 
 | Disciplina | Lições | Estado |
 | --- | --- | --- |
 | Matemática | 37 | ✅ domínios todos representados |
-| Português | 50 | ✅ os 5 domínios cobertos |
-| Estudo do Meio | 26 | ✅ todos os blocos cobertos |
+| Português | 51 | ✅ os 5 domínios cobertos |
+| Estudo do Meio | 27 | ✅ todos os blocos cobertos |
 | Inglês *(obrigatório só 3.º–4.º; 1.º–2.º é AEC/bónus)* | 24 | ✅ vocabulário + primeiras estruturas |
 | Cidadania e Desenvolvimento | 14 | ✅ seleção dos domínios |
 | TIC / Competências digitais | 5 | ✅ ecrãs, rato/teclado, internet segura, ficheiros, texto digital |
 | Educação Artística | 12 | ✅ Visuais, Música, Teatro, Dança |
 | Educação Física | 12 | ✅ "conhecer sobre" (não se faz EF no ecrã) |
 
-### 2.º ciclo (5.º–6.º ano) — 152 lições
+### 2.º ciclo (5.º–6.º ano) — 158 lições
 
 | Disciplina | Lições | Estado |
 | --- | --- | --- |
 | Matemática | 19 | ✅ números, geometria, dados, álgebra inicial, problemas |
-| Português | 19 | ✅ leitura, escrita, gramática, literária, resumo |
-| Inglês | 17 | ✅ present/past/future, comparatives, temas, diálogos |
+| Português | 20 | ✅ leitura, escrita, gramática, literária, resumo, descrição |
+| Inglês | 19 | ✅ present/past/future, comparatives, temas, diálogos, escrita guiada |
 | Ciências Naturais | 15 | ✅ água/ar/solo/seres vivos (5.º) + corpo humano (6.º) |
-| História e Geografia de Portugal | 16 | ✅ primeiros povos → Portugal democrático |
+| História e Geografia de Portugal | 17 | ✅ primeiros povos → Portugal democrático, monumentos |
 | Educação Visual | 13 | ✅ ponto/linha/cor/forma → luz, volume, perspetiva, design |
 | Educação Tecnológica | 13 | ✅ materiais, estruturas, energia, mecanismos, projeto técnico |
 | Educação Musical | 12 | ✅ som, ritmo, melodia → forma, harmonia, géneros |
 | Educação Física | 12 | ✅ aptidão, ginástica, coletivos, atletismo |
 | Cidadania e Desenvolvimento | 10 | ✅ direitos humanos, democracia, intercultural, financeira, sustentabilidade |
-| TIC / Competências digitais | 6 | ✅ pesquisa, apresentações, email, media, privacidade, programação |
+| TIC / Competências digitais | 8 | ✅ pesquisa, apresentações, email, direitos de autor, media, privacidade, programação, folha de cálculo |
 
 ### Áreas transversais (não são disciplina, não têm ano) — 77 lições
 

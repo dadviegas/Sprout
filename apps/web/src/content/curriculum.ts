@@ -150,7 +150,9 @@ import ptAdverbios from "./portugues/ano4/adverbios.md";
 import ptSujeitoPredicado from "./portugues/ano4/sujeito-predicado.md";
 import ptReverTexto from "./portugues/ano4/rever-texto.md";
 import ptPlanearTexto from "./portugues/ano4/planear-texto.md";
+import ptConectores from "./portugues/ano4/conectores.md";
 import pt5Resumo from "./portugues/ano5/fazer-resumo.md";
+import pt5Descrever from "./portugues/ano5/descrever.md";
 
 /* ---- Estudo do Meio ---- */
 import edmCorpo from "./estudo-do-meio/ano1/o-meu-corpo.md";
@@ -180,6 +182,7 @@ import edmAmbiente from "./estudo-do-meio/ano4/proteger-o-ambiente.md";
 import edmMapas from "./estudo-do-meio/ano4/mapas-e-pontos-cardeais.md";
 import edmReisDinastias from "./estudo-do-meio/ano4/reis-e-dinastias.md";
 import edmRelevoClima from "./estudo-do-meio/ano4/relevo-clima-portugal.md";
+import edmFreguesiaMunicipio from "./estudo-do-meio/ano4/freguesia-municipio.md";
 
 /* ---- Inglês ---- */
 import enHello from "./ingles/ano1/hello.md";
@@ -209,6 +212,7 @@ import enDirections from "./ingles/ano3/directions.md";
 import enComparatives from "./ingles/ano4/comparatives.md";
 import enTravel from "./ingles/ano4/travel.md";
 import en5DialoguesListening from "./ingles/ano5/dialogues-listening.md";
+import en5GuidedWriting from "./ingles/ano5/guided-writing.md";
 
 /* ---- Cidadania e Desenvolvimento ---- */
 import cidDireitos from "./cidadania/ano1/direitos-e-deveres.md";
@@ -429,6 +433,7 @@ import cid5TicPesquisa from "./cidadania/ano5/tic-pesquisa.md";
 import cid5DemocraciaInstituicoes from "./cidadania/ano5/democracia-instituicoes.md";
 import tic5Apresentacoes from "./tic/ano5/apresentacoes.md";
 import tic5Email from "./tic/ano5/email-mensagens.md";
+import tic5DireitosAutor from "./tic/ano5/direitos-autor.md";
 // ---- 6.º ano ----
 // Matemática 6.º
 import mat6Inteiros from "./matematica/ano6/inteiros.md";
@@ -459,6 +464,7 @@ import en6Comparatives from "./ingles/ano6/comparatives.md";
 import en6Shopping from "./ingles/ano6/shopping.md";
 import en6Health from "./ingles/ano6/health.md";
 import en6Future from "./ingles/ano6/future.md";
+import en6QuestionsAnswers from "./ingles/ano6/questions-answers.md";
 // Ciências Naturais 6.º
 import cn6Microorganismos from "./ciencias/ano6/microorganismos.md";
 import cn6Digestivo from "./ciencias/ano6/digestivo.md";
@@ -478,6 +484,7 @@ import hgp6Liberalismo from "./hgp/ano6/liberalismo.md";
 import hgp6Republica from "./hgp/ano6/republica.md";
 import hgp6EstadoNovo from "./hgp/ano6/estado-novo.md";
 import hgp6Democracia from "./hgp/ano6/democracia.md";
+import hgp6ReisMonumentos from "./hgp/ano6/reis-monumentos.md";
 // Educação Visual 6.º
 import ev6LuzSombra from "./ed-visual/ano6/luz-sombra.md";
 import ev6Volume from "./ed-visual/ano6/volume.md";
@@ -516,6 +523,7 @@ import cid6Voluntariado from "./cidadania/ano6/voluntariado.md";
 import cid6Sustentavel from "./cidadania/ano6/sustentavel.md";
 import cid6Privacidade from "./cidadania/ano6/privacidade-palavras-passe.md";
 import tic6Programacao from "./tic/ano6/programacao-simples.md";
+import tic6FolhaCalculo from "./tic/ano6/folha-calculo.md";
 
 /* The four school subjects, navigated year-first (1.º–4.º ano). */
 export const schoolSubjects: Subject[] = [
@@ -661,6 +669,7 @@ export const schoolSubjects: Subject[] = [
         { id: "pt-4-adverbios", title: "Os advérbios", emoji: "🏃", body: ptAdverbios },
         { id: "pt-4-sujeito-predicado", title: "Sujeito e predicado", emoji: "🧱", body: ptSujeitoPredicado },
         { id: "pt-4-planear-texto", title: "Como planear um texto", emoji: "📝", body: ptPlanearTexto },
+        { id: "pt-4-conectores", title: "Conectores: ligar ideias", emoji: "🔗", body: ptConectores },
         { id: "pt-4-rever-texto", title: "Rever e melhorar um texto", emoji: "✍️", body: ptReverTexto },
       ],
       5: [
@@ -672,6 +681,7 @@ export const schoolSubjects: Subject[] = [
         { id: "pt-5-funcoes", title: "Funções sintáticas", emoji: "🔗", body: pt5Funcoes },
         { id: "pt-5-ortografia", title: "Ortografia e acentuação", emoji: "🔤", body: pt5Ortografia },
         { id: "pt-5-resumo", title: "Fazer um resumo", emoji: "✂️", body: pt5Resumo },
+        { id: "pt-5-descrever", title: "Descrever pessoas, lugares e objetos", emoji: "🖼️", body: pt5Descrever },
         { id: "pt-5-poesia", title: "O texto poético", emoji: "🎵", body: pt5Poesia },
         { id: "pt-5-literaria", title: "Educação Literária: autores", emoji: "📚", body: pt5Literaria },
       ],
@@ -726,6 +736,7 @@ export const schoolSubjects: Subject[] = [
         { id: "edm-4-corpo-sistemas", title: "Os sistemas do corpo", emoji: "❤️", body: edmCorpoSistemas },
         { id: "edm-4-ambiente", title: "Proteger o ambiente", emoji: "♻️", body: edmAmbiente },
         { id: "edm-4-mapas", title: "Mapas e pontos cardeais", emoji: "🧭", body: edmMapas },
+        { id: "edm-4-freguesia-municipio", title: "Freguesia, município e participação local", emoji: "🏘️", body: edmFreguesiaMunicipio },
         { id: "edm-4-relevo-clima", title: "Relevo e clima de Portugal", emoji: "🏞️", body: edmRelevoClima },
         { id: "edm-4-historia", title: "História de Portugal", emoji: "🏰", body: edmHistoria },
         { id: "edm-4-reis-dinastias", title: "Reis e famílias reais", emoji: "👑", body: edmReisDinastias },
@@ -784,6 +795,7 @@ export const schoolSubjects: Subject[] = [
         { id: "en-5-routines", title: "Daily routines", emoji: "⏰", body: en5Routines },
         { id: "en-5-present-simple", title: "Present simple", emoji: "🔁", body: en5PresentSimple },
         { id: "en-5-dialogues-listening", title: "Short dialogues and listening practice", emoji: "🎧", body: en5DialoguesListening },
+        { id: "en-5-guided-writing", title: "Guided writing: short texts", emoji: "✍️", body: en5GuidedWriting },
         { id: "en-5-hobbies", title: "Hobbies & free time", emoji: "🎮", body: en5Hobbies },
         { id: "en-5-food", title: "Food & meals", emoji: "🍽️", body: en5Food },
       ],
@@ -795,6 +807,7 @@ export const schoolSubjects: Subject[] = [
         { id: "en-6-comparatives", title: "Comparatives & superlatives", emoji: "📏", body: en6Comparatives },
         { id: "en-6-shopping", title: "Clothes & shopping", emoji: "🛍️", body: en6Shopping },
         { id: "en-6-health", title: "Health & body", emoji: "🩺", body: en6Health },
+        { id: "en-6-questions-answers", title: "Questions and answers in context", emoji: "❓", body: en6QuestionsAnswers },
         { id: "en-6-future", title: "Future plans (going to)", emoji: "🔮", body: en6Future },
       ],
     },
@@ -870,11 +883,13 @@ export const schoolSubjects: Subject[] = [
         { id: "tic-5-pesquisa", title: "Pesquisar na internet com cabeça", emoji: "🔎", body: cid5TicPesquisa },
         { id: "tic-5-apresentacoes", title: "Fazer uma apresentação simples", emoji: "🖥️", body: tic5Apresentacoes },
         { id: "tic-5-email", title: "Email e mensagens com respeito", emoji: "✉️", body: tic5Email },
+        { id: "tic-5-direitos-autor", title: "Direitos de autor e usar imagens com cuidado", emoji: "🖼️", body: tic5DireitosAutor },
       ],
       6: [
         { id: "tic-6-media", title: "Media e mundo digital", emoji: "📱", body: cid6Media },
         { id: "tic-6-privacidade", title: "Privacidade e palavras-passe", emoji: "🔒", body: cid6Privacidade },
         { id: "tic-6-programacao", title: "Programação simples: instruções e algoritmos", emoji: "🤖", body: tic6Programacao },
+        { id: "tic-6-folha-calculo", title: "Folha de cálculo simples", emoji: "📊", body: tic6FolhaCalculo },
       ],
     },
   },
@@ -1013,6 +1028,7 @@ export const schoolSubjects: Subject[] = [
         { id: "hgp-6-imperio", title: "O império português", emoji: "🌍", body: hgp6Imperio },
         { id: "hgp-6-restauracao", title: "União Ibérica e Restauração", emoji: "👑", body: hgp6Restauracao },
         { id: "hgp-6-dinastias", title: "As dinastias de Portugal", emoji: "👑", body: hgp6Dinastias },
+        { id: "hgp-6-reis-monumentos", title: "Reis, datas e monumentos de Portugal", emoji: "🏰", body: hgp6ReisMonumentos },
         { id: "hgp-6-pombal", title: "O século XVIII e o Marquês de Pombal", emoji: "🏛️", body: hgp6Pombal },
         { id: "hgp-6-liberalismo", title: "O Liberalismo", emoji: "📜", body: hgp6Liberalismo },
         { id: "hgp-6-republica", title: "A 1.ª República", emoji: "🇵🇹", body: hgp6Republica },

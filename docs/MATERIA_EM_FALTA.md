@@ -77,10 +77,10 @@ Temas a criar ou reforçar:
 
 Lições sugeridas:
 
-- **1.º/2.º ano:** Regras da sala e respeito pelos outros.
-- **3.º ano:** Bullying: reconhecer, parar e pedir ajuda.
-- **4.º ano:** Participar na turma: votar, ouvir e decidir.
-- **5.º ano:** Cidadania democrática: Constituição, direitos e instituições.
+- **1.º/2.º ano:** Regras da sala e respeito pelos outros. ✅ base criada no 1.º ano
+- **3.º ano:** Bullying: reconhecer, parar e pedir ajuda. ✅ criado no 3.º ano
+- **4.º ano:** Participar na turma: votar, ouvir e decidir. ✅ criado no 4.º ano
+- **5.º ano:** Cidadania democrática: Constituição, direitos e instituições. ✅ criado no 5.º ano
 - **6.º ano:** Privacidade, consentimento e responsabilidade digital.
 
 ---
@@ -89,49 +89,59 @@ Lições sugeridas:
 
 ### Matemática
 
-Falta como tema próprio:
+Já há páginas próprias para:
 
 - cálculo mental;
 - estratégias de decomposição;
 - estimativas rápidas;
-- problemas de vários passos em mais lições, não só numa lição isolada.
+- problemas de vários passos.
 
-Lição sugerida:
+Ainda falta reforçar:
 
-**Cálculo mental: truques para pensar depressa**
+- problemas de vários passos dentro de outras lições;
+- problemas com dados a mais ou dados em falta;
+- explicação escrita do raciocínio.
 
 ### Português
 
-Falta reforçar:
+Já há páginas próprias para:
 
 - produção escrita guiada;
 - planificar, escrever, rever e melhorar;
 - resumos;
+
+Ainda falta reforçar:
+
 - descrição de pessoas, lugares e objetos;
 - conectores;
 - revisão ortográfica com checklist.
 
-Lições sugeridas:
+Lições futuras sugeridas:
 
-- **Como planear um texto**
-- **Como rever e melhorar um texto**
-- **Fazer um resumo**
+- **Descrever pessoas, lugares e objetos**
+- **Usar conectores para ligar ideias**
 
 ### Estudo do Meio
 
-Falta ou está pouco separado:
+Já foi reforçado:
 
 - relevo e clima de Portugal;
+- segurança rodoviária;
+
+Ainda falta ou está pouco separado:
+
 - sistemas do corpo separados por função;
-- segurança rodoviária, se não ficar em Cidadania;
 - mapas da localidade, freguesia e município.
 
 ### Inglês
 
-Falta reforçar:
+Já foi reforçado:
 
 - listening;
 - pequenos diálogos;
+
+Ainda falta reforçar:
+
 - escrita guiada;
 - perguntas e respostas em contexto.
 
@@ -159,13 +169,17 @@ Lições futuras sugeridas:
 
 ## Prioridade visual
 
-Estas matérias existem, mas precisam de mais imagens, mapas, linhas do tempo e
-diagramas para não ficarem condensadas:
+Estas matérias existem, e algumas já foram reforçadas com blocos visuais
+(`figure`, `compare`, `steps`, `bodysystem`). Ainda podem ganhar mais mapas,
+linhas do tempo e diagramas para não ficarem condensadas:
 
 - HGP: dinastias, reis, períodos, mapas, monumentos.
-- Ciências Naturais: corpo humano, sistemas, seres vivos, rochas, água e ar.
-- Educação Visual: cor, perspetiva, luz/sombra, património.
-- Educação Tecnológica: circuitos, mecanismos, energia, materiais.
+- Ciências Naturais: corpo humano e sistemas já têm mapa visual; falta reforçar
+  seres vivos, rochas, água e ar.
+- Educação Visual: perspetiva já ganhou página própria; falta reforçar cor,
+  luz/sombra e património.
+- Educação Tecnológica: projeto técnico já ganhou página própria; falta reforçar
+  circuitos, mecanismos, energia e materiais.
 
 ---
 

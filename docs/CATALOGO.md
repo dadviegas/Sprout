@@ -68,6 +68,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 **Cidadania**
 - **Os meus direitos e deveres** — o que é um direito e um dever, e que andam juntos.
 - **Reciclar e cuidar da Terra** — separar o lixo, a regra dos 3 R, cuidar do planeta.
+- **Regras da sala e respeito pelos outros** — ouvir, esperar a vez, cuidar dos materiais e ajudar.
 - **Todos diferentes, todos amigos** — respeitar, incluir e ser amigo de toda a gente.
 
 **TIC**
@@ -185,6 +186,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **Eletricidade e ímanes** — a eletricidade em segurança; polos dos ímanes e a bússola.
 - **Vamos fazer experiências!** — método científico; flutua/afunda e outras experiências.
 - **Portugal: o meu país** — onde fica, símbolos, rios, serras, ilhas e distritos.
+- **Segurança rodoviária** — atravessar na passadeira, semáforos, cinto, capacete e atenção na rua.
 
 **O Mundo** (anel 3 — Europa / Atlântico)
 - **A Europa** — o continente, países e capitais vizinhas, a bandeira das 12 estrelas, o euro.
@@ -237,6 +239,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **Escrever uma carta e um convite** — partes da carta, o envelope, falar com cada pessoa.
 - **Ouvir, opinar e debater** — dar opinião com respeito, argumentar, ouvir, debater.
 - **Histórias e autores portugueses** — autores para crianças e tipos de obra.
+- **Como planear um texto** — tema, ideias, ordem, parágrafos, introdução, desenvolvimento e conclusão.
 - **Rever e melhorar um texto** — ler de novo, organizar, melhorar frases e corrigir.
 
 **Matemática**
@@ -257,6 +260,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **O sistema solar** — Sol e 8 planetas, órbitas, luas e os movimentos da Terra.
 - **Os sistemas do corpo** — digestivo, respiratório, circulatório, locomotor, nervoso, excretor.
 - **Proteger o ambiente** — os 3 R, ecopontos, poupar água e energia.
+- **Relevo e clima de Portugal** — montanhas, planícies, vales, clima e diferenças entre regiões.
 - **Reis e famílias reais** — monarquia, República, reis importantes e ideia simples de dinastia.
 
 **O Mundo** (anel 4 — Mundo)
@@ -281,6 +285,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 
 **Cidadania**
 - **Regras, votar e decidir juntos** — porque há regras, votar, democracia, decidir em grupo.
+- **Participar na turma: votar, ouvir e decidir** — dar opinião, ouvir, comparar opções e aceitar decisões justas.
 - **Saúde, sono e ecrãs** — dormir, mexer, comer bem, mãos e ecrãs com conta.
 - **Cuidar dos recursos do planeta** — recursos naturais; renováveis vs. não renováveis.
 
@@ -309,6 +314,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **O texto poético** — versos, estrofes, rima, ritmo, comparação e metáfora.
 - **Educação Literária: autores** — autores portugueses, géneros, autor/narrador/personagem.
 - **Ouvir, falar e apresentar** — ouvir sem interromper; apresentação oral com começo/meio/fim.
+- **Fazer um resumo** — encontrar ideias principais, cortar pormenores e escrever por palavras próprias.
 
 **Matemática**
 - **Números naturais e operações** — números enormes, classes e ordens, quatro operações, ordem.
@@ -320,6 +326,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **Perímetros e áreas** — fórmulas do quadrado, retângulo e triângulo; unidades (cm, m, cm², m²).
 - **Sólidos geométricos** — poliedros vs. não poliedros; faces/arestas/vértices; Euler; prismas e pirâmides.
 - **Organização e tratamento de dados** — tabelas; barras, linha e circular; moda, média, amplitude.
+- **Problemas de vários passos** — ler, planear etapas, calcular por ordem e verificar unidades.
 
 **Inglês**
 - **Greetings & introductions** — cumprimentar conforme a hora; "How are you?"; apresentar.
@@ -328,6 +335,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **School subjects** — disciplinas, "I like / I don't like" e o horário.
 - **Daily routines** — o dia inteiro, a que horas, advérbios de frequência.
 - **Present simple** — rotinas; o -s da 3.ª pessoa; don't/doesn't.
+- **Short dialogues and listening practice** — diálogos curtos, perguntas úteis e escuta por palavras-chave.
 - **Hobbies & free time** — passatempos; play / go / do.
 - **Food & meals** — refeições; contáveis/incontáveis; "Can I have…".
 
@@ -378,6 +386,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **Os direitos humanos** — direitos de todas as pessoas; direitos da criança; deveres.
 - **Igualdade de género** — mesmos direitos e oportunidades; estereótipos.
 - **Viver com culturas diferentes** — cultura, interculturalidade, preconceitos.
+- **Democracia, Constituição e instituições** — democracia, lei fundamental, Assembleia, Governo e tribunais.
 - **Saúde e bem-estar** — corpo, cabeça e emoções; saúde mental; hábitos.
 
 **TIC**
@@ -437,6 +446,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **Transmissão da vida** — puberdade; como se forma um bebé; gravidez.
 - **Os micro-organismos** — bactérias, vírus e fungos; os úteis e os que fazem mal.
 - **Saúde e agressões do meio** — agressões (poluição, tabaco, álcool, ruído) e proteção.
+- **Mapa dos sistemas do corpo** — diagrama visual dos sistemas e como trabalham em conjunto.
 
 **História e Geografia de Portugal**
 - **Os Descobrimentos** — porque foi Portugal o primeiro; o Infante D. Henrique, a Escola.
@@ -461,6 +471,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **Harmonias e contrastes de cor** — harmonias e contrastes; complementares e análogas.
 - **A luz e a sombra** — sombra própria e projetada; zona de luz, meia-tinta e brilho.
 - **Volume e perspetiva** — figura plana (2D) vs. sólido (3D); dar profundidade.
+- **Perspetiva e profundidade** — tamanho, sobreposição, posição, linhas de fuga e claro-escuro.
 - **Padrão e módulo** — módulo e padrão; translação, rotação e simetria.
 - **Design e cartaz** — design; ingredientes de um cartaz; hierarquia visual.
 - **Património visual** — património material e imaterial; castelos, azulejos, fado, calçada.
@@ -470,6 +481,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **Circuitos elétricos** — pilha, fios, lâmpada, interruptor; aberto/fechado; série/paralelo.
 - **Mecanismos e movimento** — rodas dentadas, correias, alavancas, roldanas; força e velocidade.
 - **Tecnologias de comunicação** — emissor → mensagem → recetor; analógico vs. digital.
+- **Desenho e projeto técnico** — problema, esboço, medidas, materiais, protótipo e avaliação.
 - **Materiais e reciclagem** — materiais e propriedades; matérias-primas; os 3 R; separar.
 - **Planear e fabricar** — do problema ao produto; processo tecnológico; ferramentas.
 

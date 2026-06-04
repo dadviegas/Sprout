@@ -92,6 +92,7 @@ import matProbleminhas from "./matematica/ano2/resolver-probleminhas.md";
 import matRomanos from "./matematica/ano3/numeros-romanos.md";
 import matEstimar from "./matematica/ano4/estimar-arredondar.md";
 import matCalculoMental from "./matematica/ano4/calculo-mental.md";
+import mat5ProblemasVariosPassos from "./matematica/ano5/problemas-varios-passos.md";
 
 /* ---- Português ---- */
 import ptVogais from "./portugues/ano1/vogais.md";
@@ -148,6 +149,8 @@ import ptAumentativoDiminutivo from "./portugues/ano3/aumentativo-diminutivo.md"
 import ptAdverbios from "./portugues/ano4/adverbios.md";
 import ptSujeitoPredicado from "./portugues/ano4/sujeito-predicado.md";
 import ptReverTexto from "./portugues/ano4/rever-texto.md";
+import ptPlanearTexto from "./portugues/ano4/planear-texto.md";
+import pt5Resumo from "./portugues/ano5/fazer-resumo.md";
 
 /* ---- Estudo do Meio ---- */
 import edmCorpo from "./estudo-do-meio/ano1/o-meu-corpo.md";
@@ -172,9 +175,11 @@ import edmLocalidade from "./estudo-do-meio/ano2/a-minha-localidade.md";
 import edmAlimentacao from "./estudo-do-meio/ano3/alimentacao-saudavel.md";
 import edmEletricidade from "./estudo-do-meio/ano3/eletricidade-e-imanes.md";
 import edmExperiencias from "./estudo-do-meio/ano3/experiencias.md";
+import edmSegurancaRodoviaria from "./estudo-do-meio/ano3/seguranca-rodoviaria.md";
 import edmAmbiente from "./estudo-do-meio/ano4/proteger-o-ambiente.md";
 import edmMapas from "./estudo-do-meio/ano4/mapas-e-pontos-cardeais.md";
 import edmReisDinastias from "./estudo-do-meio/ano4/reis-e-dinastias.md";
+import edmRelevoClima from "./estudo-do-meio/ano4/relevo-clima-portugal.md";
 
 /* ---- Inglês ---- */
 import enHello from "./ingles/ano1/hello.md";
@@ -203,11 +208,13 @@ import enRoutines from "./ingles/ano3/routines.md";
 import enDirections from "./ingles/ano3/directions.md";
 import enComparatives from "./ingles/ano4/comparatives.md";
 import enTravel from "./ingles/ano4/travel.md";
+import en5DialoguesListening from "./ingles/ano5/dialogues-listening.md";
 
 /* ---- Cidadania e Desenvolvimento ---- */
 import cidDireitos from "./cidadania/ano1/direitos-e-deveres.md";
 import cidReciclar from "./cidadania/ano1/reciclar.md";
 import cidDiferentes from "./cidadania/ano1/todos-diferentes.md";
+import cidRegrasSala from "./cidadania/ano1/regras-sala.md";
 import cidEcras from "./cidadania/ano1/ecras-com-cuidado.md";
 import cidEmocoes from "./cidadania/ano2/emocoes.md";
 import cidPoupar from "./cidadania/ano2/poupar.md";
@@ -219,6 +226,7 @@ import cidBullying from "./cidadania/ano3/bullying.md";
 import cidSustentavel from "./cidadania/ano4/sustentavel.md";
 import cidDemocracia from "./cidadania/ano4/democracia.md";
 import cidSaude from "./cidadania/ano4/saude-bem-estar.md";
+import cidParticiparTurma from "./cidadania/ano4/participar-turma.md";
 import cidComputadorFicheiros from "./cidadania/ano4/computador-ficheiros.md";
 import ticRatoTeclado from "./tic/ano2/rato-e-teclado.md";
 import ticEscreverFormatar from "./tic/ano4/escrever-formatar.md";
@@ -418,6 +426,7 @@ import cid5Intercultural from "./cidadania/ano5/intercultural.md";
 import cid5Saude from "./cidadania/ano5/saude.md";
 import cid5Ambiente from "./cidadania/ano5/ambiente.md";
 import cid5TicPesquisa from "./cidadania/ano5/tic-pesquisa.md";
+import cid5DemocraciaInstituicoes from "./cidadania/ano5/democracia-instituicoes.md";
 import tic5Apresentacoes from "./tic/ano5/apresentacoes.md";
 import tic5Email from "./tic/ano5/email-mensagens.md";
 // ---- 6.º ano ----
@@ -458,6 +467,7 @@ import cn6Circulatorio from "./ciencias/ano6/circulatorio.md";
 import cn6Excretor from "./ciencias/ano6/excretor.md";
 import cn6Reproducao from "./ciencias/ano6/reproducao.md";
 import cn6Saude from "./ciencias/ano6/saude.md";
+import cn6MapaSistemas from "./ciencias/ano6/mapa-sistemas-corpo.md";
 // História e Geografia de Portugal 6.º
 import hgp6Descobrimentos from "./hgp/ano6/descobrimentos.md";
 import hgp6Imperio from "./hgp/ano6/imperio.md";
@@ -475,6 +485,7 @@ import ev6Padrao from "./ed-visual/ano6/padrao.md";
 import ev6CorHarmonias from "./ed-visual/ano6/cor-harmonias.md";
 import ev6Design from "./ed-visual/ano6/design.md";
 import ev6Patrimonio from "./ed-visual/ano6/patrimonio.md";
+import ev6Perspetiva from "./ed-visual/ano6/perspetiva-profundidade.md";
 // Educação Tecnológica 6.º
 import et6Mecanismos from "./ed-tecnologica/ano6/mecanismos.md";
 import et6Energia from "./ed-tecnologica/ano6/energia.md";
@@ -482,6 +493,7 @@ import et6Eletricidade from "./ed-tecnologica/ano6/eletricidade.md";
 import et6Reciclar from "./ed-tecnologica/ano6/reciclar.md";
 import et6Comunicacao from "./ed-tecnologica/ano6/comunicacao.md";
 import et6Fabrico from "./ed-tecnologica/ano6/fabrico.md";
+import et6ProjetoTecnico from "./ed-tecnologica/ano6/projeto-tecnico.md";
 // Educação Musical 6.º
 import em6Forma from "./ed-musical/ano6/forma.md";
 import em6Escala from "./ed-musical/ano6/escala.md";
@@ -570,6 +582,7 @@ export const schoolSubjects: Subject[] = [
         { id: "mat-5-area-perimetro", title: "Perímetros e áreas", emoji: "🟦", body: mat5AreaPerimetro },
         { id: "mat-5-solidos", title: "Sólidos geométricos", emoji: "🧊", body: mat5Solidos },
         { id: "mat-5-dados", title: "Organização e tratamento de dados", emoji: "📊", body: mat5Dados },
+        { id: "mat-5-problemas-varios-passos", title: "Problemas de vários passos", emoji: "🧩", body: mat5ProblemasVariosPassos },
       ],
       6: [
         { id: "mat-6-inteiros", title: "Números inteiros relativos", emoji: "➖", body: mat6Inteiros },
@@ -647,6 +660,7 @@ export const schoolSubjects: Subject[] = [
         { id: "pt-4-hifen-x", title: "O hífen e o «x»", emoji: "✖️", body: ptHifenX },
         { id: "pt-4-adverbios", title: "Os advérbios", emoji: "🏃", body: ptAdverbios },
         { id: "pt-4-sujeito-predicado", title: "Sujeito e predicado", emoji: "🧱", body: ptSujeitoPredicado },
+        { id: "pt-4-planear-texto", title: "Como planear um texto", emoji: "📝", body: ptPlanearTexto },
         { id: "pt-4-rever-texto", title: "Rever e melhorar um texto", emoji: "✍️", body: ptReverTexto },
       ],
       5: [
@@ -657,6 +671,7 @@ export const schoolSubjects: Subject[] = [
         { id: "pt-5-verbos", title: "Os verbos: tempos e modos", emoji: "⏳", body: pt5Verbos },
         { id: "pt-5-funcoes", title: "Funções sintáticas", emoji: "🔗", body: pt5Funcoes },
         { id: "pt-5-ortografia", title: "Ortografia e acentuação", emoji: "🔤", body: pt5Ortografia },
+        { id: "pt-5-resumo", title: "Fazer um resumo", emoji: "✂️", body: pt5Resumo },
         { id: "pt-5-poesia", title: "O texto poético", emoji: "🎵", body: pt5Poesia },
         { id: "pt-5-literaria", title: "Educação Literária: autores", emoji: "📚", body: pt5Literaria },
       ],
@@ -704,12 +719,14 @@ export const schoolSubjects: Subject[] = [
         { id: "edm-3-solidos-liquidos", title: "Sólidos, líquidos e gases", emoji: "🧊", body: edmEstados },
         { id: "edm-3-eletricidade", title: "Eletricidade e ímanes", emoji: "🧲", body: edmEletricidade },
         { id: "edm-3-experiencias", title: "Vamos fazer experiências!", emoji: "🔬", body: edmExperiencias },
+        { id: "edm-3-seguranca-rodoviaria", title: "Segurança rodoviária", emoji: "🚦", body: edmSegurancaRodoviaria },
       ],
       4: [
         { id: "edm-4-sistema-solar", title: "O sistema solar", emoji: "🪐", body: edmSistemaSolar },
         { id: "edm-4-corpo-sistemas", title: "Os sistemas do corpo", emoji: "❤️", body: edmCorpoSistemas },
         { id: "edm-4-ambiente", title: "Proteger o ambiente", emoji: "♻️", body: edmAmbiente },
         { id: "edm-4-mapas", title: "Mapas e pontos cardeais", emoji: "🧭", body: edmMapas },
+        { id: "edm-4-relevo-clima", title: "Relevo e clima de Portugal", emoji: "🏞️", body: edmRelevoClima },
         { id: "edm-4-historia", title: "História de Portugal", emoji: "🏰", body: edmHistoria },
         { id: "edm-4-reis-dinastias", title: "Reis e famílias reais", emoji: "👑", body: edmReisDinastias },
       ],
@@ -766,6 +783,7 @@ export const schoolSubjects: Subject[] = [
         { id: "en-5-school", title: "School subjects", emoji: "🎒", body: en5School },
         { id: "en-5-routines", title: "Daily routines", emoji: "⏰", body: en5Routines },
         { id: "en-5-present-simple", title: "Present simple", emoji: "🔁", body: en5PresentSimple },
+        { id: "en-5-dialogues-listening", title: "Short dialogues and listening practice", emoji: "🎧", body: en5DialoguesListening },
         { id: "en-5-hobbies", title: "Hobbies & free time", emoji: "🎮", body: en5Hobbies },
         { id: "en-5-food", title: "Food & meals", emoji: "🍽️", body: en5Food },
       ],
@@ -793,6 +811,7 @@ export const schoolSubjects: Subject[] = [
         { id: "cid-1-direitos", title: "Os meus direitos e deveres", emoji: "⚖️", body: cidDireitos },
         { id: "cid-1-reciclar", title: "Reciclar e cuidar da Terra", emoji: "♻️", body: cidReciclar },
         { id: "cid-1-diferentes", title: "Todos diferentes, todos amigos", emoji: "🤝", body: cidDiferentes },
+        { id: "cid-1-regras-sala", title: "Regras da sala e respeito pelos outros", emoji: "🤝", body: cidRegrasSala },
       ],
       2: [
         { id: "cid-2-emocoes", title: "As emoções e resolver zangas", emoji: "😊", body: cidEmocoes },
@@ -807,12 +826,14 @@ export const schoolSubjects: Subject[] = [
       4: [
         { id: "cid-4-sustentavel", title: "Cuidar dos recursos do planeta", emoji: "🌍", body: cidSustentavel },
         { id: "cid-4-democracia", title: "Regras, votar e decidir juntos", emoji: "🗳️", body: cidDemocracia },
+        { id: "cid-4-participar-turma", title: "Participar na turma: votar, ouvir e decidir", emoji: "🗳️", body: cidParticiparTurma },
         { id: "cid-4-saude", title: "Saúde, sono e ecrãs", emoji: "😴", body: cidSaude },
       ],
       5: [
         { id: "cid-5-direitos-humanos", title: "Os direitos humanos", emoji: "🕊️", body: cid5DireitosHumanos },
         { id: "cid-5-igualdade", title: "Igualdade de género", emoji: "⚖️", body: cid5Igualdade },
         { id: "cid-5-intercultural", title: "Viver com culturas diferentes", emoji: "🌍", body: cid5Intercultural },
+        { id: "cid-5-democracia-instituicoes", title: "Democracia, Constituição e instituições", emoji: "🏛️", body: cid5DemocraciaInstituicoes },
         { id: "cid-5-saude", title: "Saúde e bem-estar", emoji: "🧘", body: cid5Saude },
         { id: "cid-5-ambiente", title: "Educação ambiental", emoji: "🌱", body: cid5Ambiente },
       ],
@@ -965,6 +986,7 @@ export const schoolSubjects: Subject[] = [
         { id: "cn-6-excretor", title: "Sistema excretor", emoji: "💦", body: cn6Excretor },
         { id: "cn-6-reproducao", title: "Transmissão da vida", emoji: "👶", body: cn6Reproducao },
         { id: "cn-6-saude", title: "Saúde e agressões do meio", emoji: "🩺", body: cn6Saude },
+        { id: "cn-6-mapa-sistemas", title: "Mapa dos sistemas do corpo", emoji: "🧍", body: cn6MapaSistemas },
       ],
     },
   },
@@ -1021,6 +1043,7 @@ export const schoolSubjects: Subject[] = [
         { id: "ev-6-volume", title: "Volume e perspetiva", emoji: "🧊", body: ev6Volume },
         { id: "ev-6-padrao", title: "Padrão e módulo", emoji: "🔳", body: ev6Padrao },
         { id: "ev-6-cor-harmonias", title: "Harmonias e contrastes de cor", emoji: "🌈", body: ev6CorHarmonias },
+        { id: "ev-6-perspetiva", title: "Perspetiva e profundidade", emoji: "👀", body: ev6Perspetiva },
         { id: "ev-6-design", title: "Design e cartaz", emoji: "🖼️", body: ev6Design },
         { id: "ev-6-patrimonio", title: "Património visual", emoji: "🏛️", body: ev6Patrimonio },
       ],
@@ -1049,6 +1072,7 @@ export const schoolSubjects: Subject[] = [
         { id: "et-6-eletricidade", title: "Circuitos elétricos", emoji: "🔌", body: et6Eletricidade },
         { id: "et-6-reciclar", title: "Materiais e reciclagem", emoji: "♻️", body: et6Reciclar },
         { id: "et-6-comunicacao", title: "Tecnologias de comunicação", emoji: "📡", body: et6Comunicacao },
+        { id: "et-6-projeto-tecnico", title: "Desenho e projeto técnico", emoji: "📐", body: et6ProjetoTecnico },
         { id: "et-6-fabrico", title: "Planear e fabricar", emoji: "🏭", body: et6Fabrico },
       ],
     },

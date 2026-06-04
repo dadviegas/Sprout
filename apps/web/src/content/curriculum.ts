@@ -437,6 +437,7 @@ import cid5DemocraciaInstituicoes from "./cidadania/ano5/democracia-instituicoes
 import tic5Apresentacoes from "./tic/ano5/apresentacoes.md";
 import tic5Email from "./tic/ano5/email-mensagens.md";
 import tic5DireitosAutor from "./tic/ano5/direitos-autor.md";
+import tic5OrganizarProjeto from "./tic/ano5/organizar-projeto.md";
 // ---- 6.º ano ----
 // Matemática 6.º
 import mat6Inteiros from "./matematica/ano6/inteiros.md";
@@ -527,6 +528,7 @@ import cid6Sustentavel from "./cidadania/ano6/sustentavel.md";
 import cid6Privacidade from "./cidadania/ano6/privacidade-palavras-passe.md";
 import tic6Programacao from "./tic/ano6/programacao-simples.md";
 import tic6FolhaCalculo from "./tic/ano6/folha-calculo.md";
+import tic6Algoritmos from "./tic/ano6/algoritmos.md";
 
 /* The four school subjects, navigated year-first (1.º–4.º ano). */
 export const schoolSubjects: Subject[] = [
@@ -890,11 +892,13 @@ export const schoolSubjects: Subject[] = [
         { id: "tic-5-apresentacoes", title: "Fazer uma apresentação simples", emoji: "🖥️", body: tic5Apresentacoes },
         { id: "tic-5-email", title: "Email e mensagens com respeito", emoji: "✉️", body: tic5Email },
         { id: "tic-5-direitos-autor", title: "Direitos de autor e usar imagens com cuidado", emoji: "🖼️", body: tic5DireitosAutor },
+        { id: "tic-5-organizar-projeto", title: "Organizar um projeto digital", emoji: "📁", body: tic5OrganizarProjeto },
       ],
       6: [
         { id: "tic-6-media", title: "Media e mundo digital", emoji: "📱", body: cid6Media },
         { id: "tic-6-privacidade", title: "Privacidade e palavras-passe", emoji: "🔒", body: cid6Privacidade },
         { id: "tic-6-programacao", title: "Programação simples: instruções e algoritmos", emoji: "🤖", body: tic6Programacao },
+        { id: "tic-6-algoritmos", title: "Criar e testar pequenos algoritmos", emoji: "🧩", body: tic6Algoritmos },
         { id: "tic-6-folha-calculo", title: "Folha de cálculo simples", emoji: "📊", body: tic6FolhaCalculo },
       ],
     },

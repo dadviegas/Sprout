@@ -401,6 +401,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **Fazer uma apresentação simples** — diapositivos com uma ideia principal, imagens úteis, letra legível e ensaio.
 - **Email e mensagens com respeito** — assunto, saudação, pedido, despedida, anexos e privacidade.
 - **Direitos de autor e usar imagens com cuidado** — autor, fonte, citação, uso livre e respeito por obras.
+- **Organizar um projeto digital** — pastas por tema, nomes claros, versões e cópia de segurança na nuvem.
 
 **Ed. Física**
 - **Aptidão física e aquecimento** — resistência, força, velocidade, flexibilidade; aquecer.
@@ -505,6 +506,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **Media e mundo digital** — notícia verdadeira vs. fake news; segurança; cyberbullying.
 - **Privacidade e palavras-passe** — dados pessoais, palavras-passe fortes e pensar antes de publicar.
 - **Programação simples: instruções e algoritmos** — algoritmos, sequência, repetições, condições e depuração.
+- **Criar e testar pequenos algoritmos** — decompor, padrões, escrever o algoritmo, testar à mão e corrigir erros.
 - **Folha de cálculo simples** — células, linhas, colunas, fórmulas, tabelas e gráfico de barras.
 
 **Ed. Física**

@@ -157,13 +157,13 @@ privacidade, direitos de autor, programação simples e folha de cálculo.
 
 Temas ainda a reforçar:
 
-- organização de pastas em projetos longos;
-- mais exercícios de programação inicial / pensamento computacional.
+- organização de pastas em projetos longos; ✅ criado no 5.º ano (tic-5-organizar-projeto)
+- mais exercícios de programação inicial / pensamento computacional. ✅ criado no 6.º ano (tic-6-algoritmos)
 
 Lições futuras sugeridas:
 
-- **Organizar um projeto digital**
-- **Criar e testar pequenos algoritmos**
+- **Organizar um projeto digital** ✅ criado no 5.º ano
+- **Criar e testar pequenos algoritmos** ✅ criado no 6.º ano
 
 ---
 

@@ -11,7 +11,7 @@ Estado: `✅ tratado` (lição completa: exemplos + truque + treino + teste) ·
 
 > **A app já cobre os dois ciclos** — **1.º ciclo (1.º–4.º ano)** e
 > **2.º ciclo (5.º–6.º ano)**, cada um com o seu conjunto próprio de disciplinas
-> (Decreto-Lei 55/2018). São **420 lições**, todas com questionário final.
+> (Decreto-Lei 55/2018). São **422 lições**, todas com questionário final.
 > A *estrutura* segue as AE; cada tema é **uma lição** (não a totalidade dos
 > descritores). Continua a ser uma **seleção curada**, não cobertura exaustiva —
 > e falta **revisão pedagógica por docente** antes de fechar qualquer tema.
@@ -33,7 +33,7 @@ Estado: `✅ tratado` (lição completa: exemplos + truque + treino + teste) ·
 | Educação Artística | 12 | ✅ Visuais, Música, Teatro, Dança |
 | Educação Física | 12 | ✅ "conhecer sobre" (não se faz EF no ecrã) |
 
-### 2.º ciclo (5.º–6.º ano) — 159 lições
+### 2.º ciclo (5.º–6.º ano) — 161 lições
 
 | Disciplina | Lições | Estado |
 | --- | --- | --- |
@@ -47,7 +47,7 @@ Estado: `✅ tratado` (lição completa: exemplos + truque + treino + teste) ·
 | Educação Musical | 12 | ✅ som, ritmo, melodia → forma, harmonia, géneros |
 | Educação Física | 12 | ✅ aptidão, ginástica, coletivos, atletismo |
 | Cidadania e Desenvolvimento | 10 | ✅ direitos humanos, democracia, intercultural, financeira, sustentabilidade |
-| TIC / Competências digitais | 8 | ✅ pesquisa, apresentações, email, direitos de autor, media, privacidade, programação, folha de cálculo |
+| TIC / Competências digitais | 10 | ✅ pesquisa, apresentações, organizar projeto, email, direitos de autor, media, privacidade, programação, algoritmos, folha de cálculo |
 
 ### Áreas transversais (não são disciplina, não têm ano) — 77 lições
 
@@ -142,7 +142,7 @@ Domínios: **Compreensão oral**, **Interação/Produção oral**, **Leitura**,
 
 | Estado | Conteúdo |
 | --- | --- |
-| ✅ | 1.º ciclo: ecrãs com cuidado, rato/teclado, internet segura, computador/ficheiros, escrever/formatar texto. 2.º ciclo: pesquisa digital, apresentações, email/mensagens, media e mundo digital, privacidade/palavras-passe, programação simples |
+| ✅ | 1.º ciclo: ecrãs com cuidado, rato/teclado, internet segura, computador/ficheiros, escrever/formatar texto. 2.º ciclo: pesquisa digital, apresentações, organizar projetos digitais, email/mensagens, direitos de autor, media e mundo digital, privacidade/palavras-passe, programação simples, criar e testar algoritmos, folha de cálculo |
 
 ---
 
@@ -163,9 +163,9 @@ dispersa ou pouco visível. Exemplos importantes:
 - **Cidadania:** já há bullying, regras da sala, participação e democracia;
   falta aprofundar autarquias/instituições locais, responsabilidade diária e
   direitos aplicados a situações concretas.
-- **TIC:** já há progressão prática do 1.º ao 6.º ano; falta aprofundar folhas
-  de cálculo, organização de pastas em projetos longos e mais atividades de
-  programação.
+- **TIC:** progressão prática do 1.º ao 6.º ano, já com folha de cálculo,
+  organização de projetos digitais e criação/teste de algoritmos; falta sobretudo
+  semear mais pensamento computacional ao longo dos anos.
 - **Matemática:** cálculo mental e problemas de vários passos já têm páginas
   próprias; falta espalhar problemas pequenos por mais lições.
 - **Português:** planear, rever e resumir já têm páginas próprias; falta mais

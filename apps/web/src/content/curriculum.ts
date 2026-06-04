@@ -220,6 +220,8 @@ import cidSustentavel from "./cidadania/ano4/sustentavel.md";
 import cidDemocracia from "./cidadania/ano4/democracia.md";
 import cidSaude from "./cidadania/ano4/saude-bem-estar.md";
 import cidComputadorFicheiros from "./cidadania/ano4/computador-ficheiros.md";
+import ticRatoTeclado from "./tic/ano2/rato-e-teclado.md";
+import ticEscreverFormatar from "./tic/ano4/escrever-formatar.md";
 
 /* ---- Educação Artística ---- */
 import artCores from "./artistica/ano1/as-cores.md";
@@ -416,6 +418,8 @@ import cid5Intercultural from "./cidadania/ano5/intercultural.md";
 import cid5Saude from "./cidadania/ano5/saude.md";
 import cid5Ambiente from "./cidadania/ano5/ambiente.md";
 import cid5TicPesquisa from "./cidadania/ano5/tic-pesquisa.md";
+import tic5Apresentacoes from "./tic/ano5/apresentacoes.md";
+import tic5Email from "./tic/ano5/email-mensagens.md";
 // ---- 6.º ano ----
 // Matemática 6.º
 import mat6Inteiros from "./matematica/ano6/inteiros.md";
@@ -499,6 +503,7 @@ import cid6Media from "./cidadania/ano6/media.md";
 import cid6Voluntariado from "./cidadania/ano6/voluntariado.md";
 import cid6Sustentavel from "./cidadania/ano6/sustentavel.md";
 import cid6Privacidade from "./cidadania/ano6/privacidade-palavras-passe.md";
+import tic6Programacao from "./tic/ano6/programacao-simples.md";
 
 /* The four school subjects, navigated year-first (1.º–4.º ano). */
 export const schoolSubjects: Subject[] = [
@@ -830,19 +835,25 @@ export const schoolSubjects: Subject[] = [
       1: [
         { id: "tic-1-ecras", title: "Ecrãs com cuidado", emoji: "💻", body: cidEcras },
       ],
-      2: [],
+      2: [
+        { id: "tic-2-rato-teclado", title: "Rato, teclado e escrever no computador", emoji: "⌨️", body: ticRatoTeclado },
+      ],
       3: [
         { id: "tic-3-internet", title: "Internet segura", emoji: "💻", body: cidInternet },
       ],
       4: [
         { id: "tic-4-computador-ficheiros", title: "O computador e os ficheiros", emoji: "🗂️", body: cidComputadorFicheiros },
+        { id: "tic-4-escrever-formatar", title: "Escrever e formatar um texto", emoji: "📝", body: ticEscreverFormatar },
       ],
       5: [
         { id: "tic-5-pesquisa", title: "Pesquisar na internet com cabeça", emoji: "🔎", body: cid5TicPesquisa },
+        { id: "tic-5-apresentacoes", title: "Fazer uma apresentação simples", emoji: "🖥️", body: tic5Apresentacoes },
+        { id: "tic-5-email", title: "Email e mensagens com respeito", emoji: "✉️", body: tic5Email },
       ],
       6: [
         { id: "tic-6-media", title: "Media e mundo digital", emoji: "📱", body: cid6Media },
         { id: "tic-6-privacidade", title: "Privacidade e palavras-passe", emoji: "🔒", body: cid6Privacidade },
+        { id: "tic-6-programacao", title: "Programação simples: instruções e algoritmos", emoji: "🤖", body: tic6Programacao },
       ],
     },
   },

@@ -141,6 +141,9 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 - **Ajudar e viver em comunidade** — ajudar os outros e como funciona a comunidade.
 - **Poupar e gastar bem** — querer vs. precisar, de onde vem o dinheiro, poupar.
 
+**TIC**
+- **Rato, teclado e escrever no computador** — rato, teclado, cursor, teclas importantes e usar com cuidado.
+
 **Ed. Física**
 - **Equilíbrio e coordenação** — manter-se firme e várias partes do corpo a trabalhar juntas.
 - **Ganhar e perder com desportivismo** — fair-play: respeitar regras, colegas e adversários.
@@ -283,6 +286,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 
 **TIC**
 - **O computador e os ficheiros** — ficheiros, pastas, nomes claros e cuidado com equipamento.
+- **Escrever e formatar um texto** — título, parágrafos, revisão e formatação legível sem exageros.
 
 **Ed. Física**
 - **Uma vida ativa e saudável** — mexer todos os dias dentro e fora da escola.
@@ -378,6 +382,8 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 
 **TIC**
 - **Pesquisar na internet com cabeça** — palavras-chave, fontes fiáveis, direitos de autor e trabalhos digitais.
+- **Fazer uma apresentação simples** — diapositivos com uma ideia principal, imagens úteis, letra legível e ensaio.
+- **Email e mensagens com respeito** — assunto, saudação, pedido, despedida, anexos e privacidade.
 
 **Ed. Física**
 - **Aptidão física e aquecimento** — resistência, força, velocidade, flexibilidade; aquecer.
@@ -476,6 +482,7 @@ Inventário de todas as lições já escritas na app (1.º ao 6.º ano), com o r
 **TIC**
 - **Media e mundo digital** — notícia verdadeira vs. fake news; segurança; cyberbullying.
 - **Privacidade e palavras-passe** — dados pessoais, palavras-passe fortes e pensar antes de publicar.
+- **Programação simples: instruções e algoritmos** — algoritmos, sequência, repetições, condições e depuração.
 
 **Ed. Física**
 - **Condição física e saúde** — resistência, força, velocidade, flexibilidade; frequência cardíaca.

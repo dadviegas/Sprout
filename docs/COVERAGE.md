@@ -11,7 +11,7 @@ Estado: `✅ tratado` (lição completa: exemplos + truque + treino + teste) ·
 
 > **A app já cobre os dois ciclos** — **1.º ciclo (1.º–4.º ano)** e
 > **2.º ciclo (5.º–6.º ano)**, cada um com o seu conjunto próprio de disciplinas
-> (Decreto-Lei 55/2018). São **392 lições**, todas com questionário final.
+> (Decreto-Lei 55/2018). São **397 lições**, todas com questionário final.
 > A *estrutura* segue as AE; cada tema é **uma lição** (não a totalidade dos
 > descritores). Continua a ser uma **seleção curada**, não cobertura exaustiva —
 > e falta **revisão pedagógica por docente** antes de fechar qualquer tema.
@@ -20,7 +20,7 @@ Estado: `✅ tratado` (lição completa: exemplos + truque + treino + teste) ·
 
 ## Visão geral por ciclo
 
-### 1.º ciclo (1.º–4.º ano) — 173 lições
+### 1.º ciclo (1.º–4.º ano) — 175 lições
 
 | Disciplina | Lições | Estado |
 | --- | --- | --- |
@@ -28,11 +28,12 @@ Estado: `✅ tratado` (lição completa: exemplos + truque + treino + teste) ·
 | Português | 49 | ✅ os 5 domínios cobertos |
 | Estudo do Meio | 24 | ✅ todos os blocos cobertos |
 | Inglês *(obrigatório só 3.º–4.º; 1.º–2.º é AEC/bónus)* | 24 | ✅ vocabulário + primeiras estruturas |
-| Cidadania e Desenvolvimento | 15 | ✅ seleção dos domínios |
+| Cidadania e Desenvolvimento | 12 | ✅ seleção dos domínios |
+| TIC / Competências digitais | 5 | ✅ ecrãs, rato/teclado, internet segura, ficheiros, texto digital |
 | Educação Artística | 12 | ✅ Visuais, Música, Teatro, Dança |
 | Educação Física | 12 | ✅ "conhecer sobre" (não se faz EF no ecrã) |
 
-### 2.º ciclo (5.º–6.º ano) — 142 lições
+### 2.º ciclo (5.º–6.º ano) — 145 lições
 
 | Disciplina | Lições | Estado |
 | --- | --- | --- |
@@ -45,7 +46,8 @@ Estado: `✅ tratado` (lição completa: exemplos + truque + treino + teste) ·
 | Educação Tecnológica | 12 | ✅ materiais, estruturas, energia, mecanismos |
 | Educação Musical | 12 | ✅ som, ritmo, melodia → forma, harmonia, géneros |
 | Educação Física | 12 | ✅ aptidão, ginástica, coletivos, atletismo |
-| Cidadania e Desenvolvimento | 12 | ✅ direitos humanos, intercultural, financeira, media, TIC |
+| Cidadania e Desenvolvimento | 9 | ✅ direitos humanos, intercultural, financeira, sustentabilidade |
+| TIC / Competências digitais | 6 | ✅ pesquisa, apresentações, email, media, privacidade, programação |
 
 ### Áreas transversais (não são disciplina, não têm ano) — 77 lições
 
@@ -134,7 +136,13 @@ Domínios: **Compreensão oral**, **Interação/Produção oral**, **Leitura**,
 
 | Estado | Conteúdo |
 | --- | --- |
-| ✅ | 1.º ciclo: direitos/deveres, reciclagem, diferenças, ecrãs com cuidado, emoções, poupar, ajudar, internet segura, bullying, igualdade, consumo, sustentabilidade, democracia, saúde/sono, computador/ficheiros. 2.º ciclo: direitos humanos, igualdade de género, interculturalidade, saúde, ambiente, pesquisa/TIC, educação financeira, proteção civil, media, privacidade/palavras-passe, voluntariado, desenvolvimento sustentável |
+| ✅ | 1.º ciclo: direitos/deveres, reciclagem, diferenças, emoções, poupar, ajudar, bullying, igualdade, consumo, sustentabilidade, democracia, saúde/sono. 2.º ciclo: direitos humanos, igualdade de género, interculturalidade, saúde, ambiente, educação financeira, proteção civil, voluntariado, desenvolvimento sustentável |
+
+## TIC / Competências digitais
+
+| Estado | Conteúdo |
+| --- | --- |
+| ✅ | 1.º ciclo: ecrãs com cuidado, rato/teclado, internet segura, computador/ficheiros, escrever/formatar texto. 2.º ciclo: pesquisa digital, apresentações, email/mensagens, media e mundo digital, privacidade/palavras-passe, programação simples |
 
 ---
 
@@ -152,10 +160,13 @@ dispersa ou pouco visível. Exemplos importantes:
 - **HGP:** as **dinastias de Portugal** já têm lição própria no 6.º ano e uma
   ponte simples no 4.º; falta continuar a reforçar visualmente reis, mapas e
   períodos.
-- **Cidadania/TIC:** já há bullying e pesquisa digital, mas faltam mais temas
+- **Cidadania:** já há bullying e vários domínios base, mas faltam mais temas
   práticos de sala e vida diária: regras da turma, convivência, participação,
-  responsabilidade, privacidade, autarquias/instituições e direitos aplicados a
-  situações concretas.
+  responsabilidade, autarquias/instituições e direitos aplicados a situações
+  concretas.
+- **TIC:** já há progressão prática do 1.º ao 6.º ano; falta aprofundar folhas
+  de cálculo, organização de pastas em projetos longos e mais atividades de
+  programação.
 - **Matemática:** falta **cálculo mental** como tema próprio.
 - **Português:** falta reforço de **produção escrita guiada** (planear,
   escrever, rever, resumir).
@@ -172,7 +183,7 @@ aprofundar**:
 2. **Revisão pedagógica** de todo o conteúdo por docente do 1.º/2.º ciclo antes
    de considerar qualquer tema "fechado".
 3. Criar as próximas lições em falta mais visíveis: **Cidadania prática**,
-   **TIC/ficheiros/apresentações** e mais reforço visual de HGP.
+   mais reforço visual de HGP e aprofundamento de TIC em projetos longos.
 4. *(Opcional)* alargar as áreas transversais — mais países em **Países**, mais
    curiosidades em **O Mundo**, e a futura **vista de mapa** que lê as etiquetas
    `zona`/`pais`.

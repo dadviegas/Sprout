@@ -137,23 +137,23 @@ Falta reforçar:
 
 ### TIC / Competências digitais
 
-Já existe uma primeira progressão TIC dentro de Cidadania: ecrãs com cuidado,
-internet segura, computador/ficheiros, pesquisa digital, media e privacidade.
-Ainda falta decidir se TIC deve continuar integrada em Cidadania ou passar a
-ser uma área própria.
+TIC já está separada como área própria no currículo, com uma primeira progressão:
+ecrãs com cuidado, rato/teclado, internet segura, computador/ficheiros, escrever
+e formatar texto, pesquisa digital, apresentações, email/mensagens, media,
+privacidade e programação simples.
 
-Temas ainda a criar ou reforçar:
+Temas ainda a reforçar:
 
-- escrever e formatar um texto simples;
-- email/mensagens em linguagem adequada;
-- apresentações simples;
 - direitos de autor com mais exemplos práticos;
-- programação inicial / pensamento computacional, se fizer sentido.
+- folhas de cálculo muito simples;
+- organização de pastas em projetos longos;
+- mais exercícios de programação inicial / pensamento computacional.
 
-Lições sugeridas:
+Lições futuras sugeridas:
 
-- **Escrever e apresentar trabalhos**
-- **Primeiros passos de programação**
+- **Folha de cálculo simples**
+- **Organizar um projeto digital**
+- **Criar e testar pequenos algoritmos**
 
 ---
 
@@ -288,10 +288,11 @@ Criar:
 - **Escrever e apresentar trabalhos**;
 - **Segurança digital e palavras-passe**.
 
-Decidir onde vive:
+Onde vive:
 
-- como disciplina/área própria, se a app passar a ter TIC;
-- ou dentro de Cidadania/Estudo, se for uma primeira versão mais simples.
+- como disciplina/área própria (`tic`) no currículo;
+- pode reaproveitar temas de Cidadania quando forem sobre segurança,
+  responsabilidade e vida digital.
 
 UI/conteúdo:
 

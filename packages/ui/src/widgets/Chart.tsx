@@ -48,24 +48,31 @@ function formatTick(label: string, i: number, total: number): string {
   return label.length > 12 ? label.slice(0, 11) + "…" : label;
 }
 
+function chartStats(labels: string[], data: number[]) {
+  const total = data.reduce((sum, v) => sum + v, 0);
+  const max = Math.max(...data);
+  const maxIndex = data.indexOf(max);
+  return { total, max, maxLabel: labels[maxIndex] ?? "" };
+}
+
 function BarChart({ labels, data, colors }: { labels: string[]; data: number[]; colors: string[] }) {
-  const W = 400, H = 240;
-  const pad = { top: 16, right: 16, bottom: 48, left: 44 };
+  const W = 560, H = 320;
+  const pad = { top: 28, right: 24, bottom: 62, left: 58 };
   const cw = W - pad.left - pad.right;
   const ch = H - pad.top - pad.bottom;
   const max = niceMax(Math.max(...data, 1));
   const gap = cw / data.length;
-  const barW = Math.min(40, gap * 0.6);
+  const barW = Math.min(58, gap * 0.62);
   const grid = Array.from({ length: 6 }, (_, i) => (max / 5) * i);
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ maxWidth: W }}>
+    <svg className="chart-svg chart-svg--bar" viewBox={`0 0 ${W} ${H}`} role="presentation">
       {grid.map((v, i) => {
         const y = pad.top + ch - (v / max) * ch;
         return (
-          <g key={i}>
-            <line x1={pad.left} y1={y} x2={W - pad.right} y2={y} stroke="var(--border)" strokeWidth={0.5} strokeDasharray={i === 0 ? "none" : "3,3"} />
-            <text x={pad.left - 6} y={y + 4} fill="var(--ink-3)" fontSize={10} textAnchor="end">{Math.round(v)}</text>
+          <g key={i} className="chart-gridline">
+            <line x1={pad.left} y1={y} x2={W - pad.right} y2={y} />
+            <text x={pad.left - 10} y={y + 5} textAnchor="end">{Math.round(v)}</text>
           </g>
         );
       })}
@@ -73,11 +80,13 @@ function BarChart({ labels, data, colors }: { labels: string[]; data: number[]; 
         const x = pad.left + gap * i + gap / 2 - barW / 2;
         const barH = (v / max) * ch;
         const y = pad.top + ch - barH;
+        const color = colors[i % colors.length];
         return (
-          <g key={i}>
-            <rect x={x} y={y} width={barW} height={barH} rx={3} fill={colors[i % colors.length]} opacity={0.9} />
-            <text x={x + barW / 2} y={y - 4} fill="var(--ink)" fontSize={10} fontWeight={700} textAnchor="middle">{v}</text>
-            <text x={pad.left + gap * i + gap / 2} y={H - pad.bottom + 16} fill="var(--ink-2)" fontSize={10} textAnchor="middle">
+          <g key={i} className="chart-bar-group">
+            <rect className="chart-bar-track" x={x} y={pad.top} width={barW} height={ch} rx={barW / 2} />
+            <rect className="chart-bar" x={x} y={y} width={barW} height={barH} rx={barW / 2} fill={color} />
+            <text className="chart-value" x={x + barW / 2} y={Math.max(18, y - 10)} textAnchor="middle">{v}</text>
+            <text className="chart-label" x={pad.left + gap * i + gap / 2} y={H - pad.bottom + 28} textAnchor="middle">
               {formatTick(labels[i] ?? "", i, data.length)}
             </text>
           </g>
@@ -87,8 +96,8 @@ function BarChart({ labels, data, colors }: { labels: string[]; data: number[]; 
   );
 }
 
-function PieChart({ data, colors }: { labels: string[]; data: number[]; colors: string[] }) {
-  const size = 240, cx = size / 2, cy = size / 2, r = 90;
+function PieChart({ labels, data, colors }: { labels: string[]; data: number[]; colors: string[] }) {
+  const size = 280, cx = size / 2, cy = size / 2, r = 106;
   const total = data.reduce((s, v) => s + v, 0) || 1;
 
   let angle = -Math.PI / 2;
@@ -101,50 +110,80 @@ function PieChart({ data, colors }: { labels: string[]; data: number[]; colors: 
     const x2 = cx + r * Math.cos(a1), y2 = cy + r * Math.sin(a1);
     const largeArc = slice > Math.PI ? 1 : 0;
     const mid = a0 + slice / 2;
-    const lx = cx + r * 0.65 * Math.cos(mid), ly = cy + r * 0.65 * Math.sin(mid);
+    const lx = cx + r * 0.68 * Math.cos(mid), ly = cy + r * 0.68 * Math.sin(mid);
     const pct = Math.round((v / total) * 100);
     return (
-      <g key={i}>
-        <path d={`M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${largeArc} 1 ${x2} ${y2} Z`} fill={colors[i % colors.length]} stroke="var(--surface)" strokeWidth={2} opacity={0.9} />
-        {pct >= 5 && <text x={lx} y={ly + 4} fill="#fff" fontSize={11} fontWeight={700} textAnchor="middle">{pct}%</text>}
+      <g key={i} className="chart-slice">
+        <path d={`M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${largeArc} 1 ${x2} ${y2} Z`} fill={colors[i % colors.length]} />
+        {pct >= 5 && <text className="chart-pct" x={lx} y={ly + 5} textAnchor="middle">{pct}%</text>}
       </g>
     );
   });
 
   return (
-    <svg viewBox={`0 0 ${size} ${size}`} width="100%" style={{ maxWidth: size }}>{slices}</svg>
+    <svg className="chart-svg chart-svg--pie" viewBox={`0 0 ${size} ${size}`} role="presentation">
+      {slices}
+      <circle className="chart-pie-hole" cx={cx} cy={cy} r={44} />
+      <text className="chart-pie-total" x={cx} y={cy - 2} textAnchor="middle">{total}</text>
+      <text className="chart-pie-caption" x={cx} y={cy + 18} textAnchor="middle">{labels.length === 1 ? labels[0] : "total"}</text>
+    </svg>
+  );
+}
+
+function linePath(points: { x: number; y: number }[]): string {
+  return points.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ");
+}
+
+function areaPath(points: { x: number; y: number }[], baseY: number): string {
+  if (!points.length) return "";
+  const first = points[0];
+  const last = points[points.length - 1];
+  return `${linePath(points)} L ${last.x} ${baseY} L ${first.x} ${baseY} Z`;
+}
+
+function ChartSummary({ labels, data, unit }: { labels: string[]; data: number[]; unit?: string }) {
+  const { total, max, maxLabel } = chartStats(labels, data);
+  const u = unit ? ` ${unit}` : "";
+  return (
+    <div className="chart-summary" aria-hidden="true">
+      <span><strong>{total}{u}</strong><small>Total</small></span>
+      <span><strong>{max}{u}</strong><small>Maior{maxLabel ? `: ${maxLabel}` : ""}</small></span>
+    </div>
   );
 }
 
 function LineChart({ labels, data, colors }: { labels: string[]; data: number[]; colors: string[] }) {
-  const W = 400, H = 240;
-  const pad = { top: 16, right: 16, bottom: 48, left: 44 };
+  const W = 560, H = 320;
+  const pad = { top: 28, right: 24, bottom: 62, left: 58 };
   const cw = W - pad.left - pad.right;
   const ch = H - pad.top - pad.bottom;
   const max = niceMax(Math.max(...data, 1));
   const gap = data.length > 1 ? cw / (data.length - 1) : cw;
   const color = colors[0];
   const pts = data.map((v, i) => ({ x: pad.left + gap * i, y: pad.top + ch - (v / max) * ch }));
-  const path = pts.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ");
+  const path = linePath(pts);
+  const fillPath = areaPath(pts, pad.top + ch);
   const grid = Array.from({ length: 6 }, (_, i) => (max / 5) * i);
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ maxWidth: W }}>
+    <svg className="chart-svg chart-svg--line" viewBox={`0 0 ${W} ${H}`} role="presentation">
       {grid.map((v, i) => {
         const y = pad.top + ch - (v / max) * ch;
         return (
-          <g key={i}>
-            <line x1={pad.left} y1={y} x2={W - pad.right} y2={y} stroke="var(--border)" strokeWidth={0.5} strokeDasharray={i === 0 ? "none" : "3,3"} />
-            <text x={pad.left - 6} y={y + 4} fill="var(--ink-3)" fontSize={10} textAnchor="end">{Math.round(v)}</text>
+          <g key={i} className="chart-gridline">
+            <line x1={pad.left} y1={y} x2={W - pad.right} y2={y} />
+            <text x={pad.left - 10} y={y + 5} textAnchor="end">{Math.round(v)}</text>
           </g>
         );
       })}
-      <path d={path} fill="none" stroke={color} strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />
+      <path className="chart-line-area" d={fillPath} fill={color} />
+      <path className="chart-line" d={path} fill="none" stroke={color} />
       {pts.map((p, i) => (
-        <g key={i}>
-          <circle cx={p.x} cy={p.y} r={4} fill={color} stroke="var(--surface)" strokeWidth={2} />
-          <text x={p.x} y={p.y - 10} fill="var(--ink)" fontSize={10} fontWeight={700} textAnchor="middle">{data[i]}</text>
-          <text x={p.x} y={H - pad.bottom + 16} fill="var(--ink-2)" fontSize={10} textAnchor="middle">{formatTick(labels[i] ?? "", i, data.length)}</text>
+        <g key={i} className="chart-point-group">
+          <circle className="chart-point-halo" cx={p.x} cy={p.y} r={9} fill={color} />
+          <circle className="chart-point" cx={p.x} cy={p.y} r={5} fill={color} />
+          <text className="chart-value" x={p.x} y={p.y - 16} textAnchor="middle">{data[i]}</text>
+          <text className="chart-label" x={p.x} y={H - pad.bottom + 28} textAnchor="middle">{formatTick(labels[i] ?? "", i, data.length)}</text>
         </g>
       ))}
     </svg>
@@ -163,27 +202,15 @@ export function Chart({ spec }: { spec: ChartSpec }) {
     speakable([title, ...labels.map((l, i) => `${l}: ${data[i] ?? 0}${u}`)].filter(Boolean).join(". "));
 
   return (
-    <div
-      className="sprout-chart"
-      style={{
-        position: "relative",
-        background: "var(--surface)",
-        border: "2px solid var(--border)",
-        borderRadius: "var(--radius)",
-        padding: 18,
-        margin: "1.4em 0",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
+    <div className="widget chart-widget">
       <Speaker text={spoken} className="ig-speak ig-speak--corner" size={15} />
-      {title && (
-        <div style={{ fontWeight: 700, color: "var(--ink)", fontFamily: "var(--font-display)", marginBottom: 12, textAlign: "center", paddingRight: 28 }}>
-          {title}
-        </div>
-      )}
-      <div role="img" aria-label={spoken} style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+      <div className="w-head chart-head">
+        <span className="w-badge">Gráfico</span>
+        {title && <strong>{title}</strong>}
+        <span className="w-hint">Lê os valores e compara as diferenças</span>
+      </div>
+      <ChartSummary labels={labels} data={data} unit={unit} />
+      <div className="chart-stage" role="img" aria-label={spoken}>
         {type === "pie" ? (
           <PieChart labels={labels} data={data} colors={colors} />
         ) : type === "line" ? (
@@ -194,11 +221,12 @@ export function Chart({ spec }: { spec: ChartSpec }) {
       </div>
       {/* Legend only for categorical charts; a line's x-axis already labels its points. */}
       {type !== "line" && (
-        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "8px 16px", marginTop: 12, fontSize: ".85em", color: "var(--ink-2)" }}>
+        <div className="chart-legend">
           {labels.map((label, i) => (
-            <span key={i} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-              <span style={{ width: 10, height: 10, borderRadius: "50%", background: colors[i % colors.length], flexShrink: 0 }} />
-              {label}
+            <span key={i}>
+              <span style={{ background: colors[i % colors.length] }} />
+              <strong>{label}</strong>
+              <small>{data[i] ?? 0}{unit ? ` ${unit}` : ""}</small>
             </span>
           ))}
         </div>

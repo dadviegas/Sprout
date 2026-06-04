@@ -10,7 +10,7 @@ Documento honesto sobre o que **já existe** e o que **ainda falta**. Atualizado
 - **Config da página:** marca, mascote e a estrutura de "O Mundo" em `apps/web/src/site.config.yaml` (editar a página = editar YAML). ✅
 - **Ícones:** todo o *chrome* usa `@sprout/icons` (sem emoji solto). ✅
 - **Widgets interativos:** Relógio, Formas SVG, Reta numérica, Caixa do 10, Frações, Dinheiro, SoundCards. ✅ (componentes prontos)
-- **Lições:** **~334** com questionário final · **0** placeholders. **Disciplinas escolares** (Matemática, Português, Estudo do Meio, Inglês, Cidadania, Educação Física, Educação Artística — Visual/Musical/Tecnológica) + a área **O Mundo** + um **Dicionário**. Já há também conteúdo de **2.º ciclo** (Ciências Naturais, HGP) a começar. ✅🎉
+- **Lições:** **~339** com questionário final · **0** placeholders. **Disciplinas escolares** (Matemática, Português, Estudo do Meio, Inglês, Cidadania, Educação Física, Educação Artística — Visual/Musical/Tecnológica) + a área **O Mundo** + um **Dicionário**. Já há também conteúdo de **2.º ciclo** (Ciências Naturais, HGP) a começar. ✅🎉
 - **Design:** redesign "Atlas night" (cartões Atlantis, escuro+claro refeitos). ✅
 - **Procura:** centro de comandos **Ctrl/Cmd+K** (todas as lições, filtros ano/matéria, pré-visualização). ✅
 - **Dados:** **IndexedDB** atrás de interface trocável (`apps/web/src/storage/`), com espelho localStorage. ✅

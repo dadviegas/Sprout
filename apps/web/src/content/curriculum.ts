@@ -81,12 +81,14 @@ import matMultiplicacao from "./matematica/ano3/multiplicacao.md";
 import matDivisao from "./matematica/ano3/divisao.md";
 import matFracoes from "./matematica/ano3/fracoes.md";
 import matMedida from "./matematica/ano3/comprimento-massa.md";
+import matDadosTabelas from "./matematica/ano3/dados-tabelas.md";
 import matDecimais from "./matematica/ano4/decimais.md";
 import matArea from "./matematica/ano4/area-perimetro.md";
 import matDados from "./matematica/ano4/graficos-tabelas.md";
 import matProblemas from "./matematica/ano4/resolver-problemas.md";
 // AE coverage — Matemática (gaps: simetria, romanos, estimativa)
 import matSimetria from "./matematica/ano2/simetria.md";
+import matProbleminhas from "./matematica/ano2/resolver-probleminhas.md";
 import matRomanos from "./matematica/ano3/numeros-romanos.md";
 import matEstimar from "./matematica/ano4/estimar-arredondar.md";
 
@@ -108,6 +110,7 @@ import ptAcentos from "./portugues/ano4/acentos-ortografia.md";
 import ptMaiuscula from "./portugues/ano1/maiusculas.md";
 import ptLerFrases from "./portugues/ano1/ler-frases.md";
 import ptTiposFrase from "./portugues/ano2/tipos-de-frase.md";
+import ptLerExpressao from "./portugues/ano2/ler-com-expressao.md";
 import ptSilabaTonica from "./portugues/ano2/silaba-tonica.md";
 import ptTempos from "./portugues/ano3/tempos-verbais.md";
 import ptCompreensao from "./portugues/ano3/compreensao-leitura.md";
@@ -163,8 +166,10 @@ import edmSentidos from "./estudo-do-meio/ano1/os-cinco-sentidos.md";
 import edmSeguranca from "./estudo-do-meio/ano1/seguranca.md";
 import edmSeresVivos from "./estudo-do-meio/ano2/seres-vivos.md";
 import edmProfissoes from "./estudo-do-meio/ano2/profissoes.md";
+import edmLocalidade from "./estudo-do-meio/ano2/a-minha-localidade.md";
 import edmAlimentacao from "./estudo-do-meio/ano3/alimentacao-saudavel.md";
 import edmEletricidade from "./estudo-do-meio/ano3/eletricidade-e-imanes.md";
+import edmExperiencias from "./estudo-do-meio/ano3/experiencias.md";
 import edmAmbiente from "./estudo-do-meio/ano4/proteger-o-ambiente.md";
 import edmMapas from "./estudo-do-meio/ano4/mapas-e-pontos-cardeais.md";
 
@@ -516,6 +521,7 @@ export const schoolSubjects: Subject[] = [
         { id: "mat-2-solidos", title: "Sólidos geométricos", emoji: "🧊", body: matSolidos },
         { id: "mat-2-padroes", title: "Sequências e padrões", emoji: "🔁", body: matPadroes },
         { id: "mat-2-simetria", title: "Simetria e eixos", emoji: "🦋", body: matSimetria },
+        { id: "mat-2-problemas", title: "Resolver probleminhas", emoji: "🧩", body: matProbleminhas },
       ],
       3: [
         { id: "mat-3-numeros-1000", title: "Números até 1000", emoji: "💯", body: matNumeros1000 },
@@ -524,6 +530,7 @@ export const schoolSubjects: Subject[] = [
         { id: "mat-3-divisao", title: "A divisão", emoji: "➗", body: matDivisao },
         { id: "mat-3-fracoes", title: "Frações simples", emoji: "🍕", body: matFracoes },
         { id: "mat-3-medida", title: "Comprimento e massa", emoji: "📏", body: matMedida },
+        { id: "mat-3-dados", title: "Recolher e organizar dados", emoji: "📋", body: matDadosTabelas },
         { id: "mat-3-calendario", title: "O calendário e o tempo", emoji: "📅", body: matCalendario },
         { id: "mat-3-romanos", title: "Numerais romanos", emoji: "🏛️", body: matRomanos },
       ],
@@ -586,6 +593,7 @@ export const schoolSubjects: Subject[] = [
       2: [
         { id: "pt-2-pontuacao", title: "Sinais de pontuação", emoji: "❓", body: ptPontuacao },
         { id: "pt-2-tipos-frase", title: "Frases que perguntam e exclamam", emoji: "❗", body: ptTiposFrase },
+        { id: "pt-2-ler-expressao", title: "Ler com ritmo e expressão", emoji: "🎭", body: ptLerExpressao },
         { id: "pt-2-nome-verbo", title: "Nome e ação", emoji: "🏃", body: ptNomeAcao },
         { id: "pt-2-singular-plural", title: "Singular e plural", emoji: "👥", body: ptSingularPlural },
         { id: "pt-2-silaba-tonica", title: "A sílaba mais forte", emoji: "👏", body: ptSilabaTonica },
@@ -671,6 +679,7 @@ export const schoolSubjects: Subject[] = [
         { id: "edm-2-animais", title: "Os animais", emoji: "🐾", body: edmAnimais },
         { id: "edm-2-agua", title: "A água", emoji: "💧", body: edmAgua },
         { id: "edm-2-profissoes", title: "As profissões", emoji: "👷", body: edmProfissoes },
+        { id: "edm-2-localidade", title: "A minha localidade e as suas festas", emoji: "🏘️", body: edmLocalidade },
       ],
       3: [
         { id: "edm-3-plantas", title: "As plantas", emoji: "🌻", body: edmPlantas },
@@ -678,6 +687,7 @@ export const schoolSubjects: Subject[] = [
         { id: "edm-3-portugal", title: "Portugal: o meu país", emoji: "🇵🇹", body: edmPortugal },
         { id: "edm-3-solidos-liquidos", title: "Sólidos, líquidos e gases", emoji: "🧊", body: edmEstados },
         { id: "edm-3-eletricidade", title: "Eletricidade e ímanes", emoji: "🧲", body: edmEletricidade },
+        { id: "edm-3-experiencias", title: "Vamos fazer experiências!", emoji: "🔬", body: edmExperiencias },
       ],
       4: [
         { id: "edm-4-sistema-solar", title: "O sistema solar", emoji: "🪐", body: edmSistemaSolar },

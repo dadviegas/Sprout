@@ -11,7 +11,7 @@ Estado: `✅ tratado` (lição completa: exemplos + truque + treino + teste) ·
 
 > **A app já cobre os dois ciclos** — **1.º ciclo (1.º–4.º ano)** e
 > **2.º ciclo (5.º–6.º ano)**, cada um com o seu conjunto próprio de disciplinas
-> (Decreto-Lei 55/2018). São **378 lições**, todas com questionário final.
+> (Decreto-Lei 55/2018). São **383 lições**, todas com questionário final.
 > A *estrutura* segue as AE; cada tema é **uma lição** (não a totalidade dos
 > descritores). Continua a ser uma **seleção curada**, não cobertura exaustiva —
 > e falta **revisão pedagógica por docente** antes de fechar qualquer tema.
@@ -20,13 +20,13 @@ Estado: `✅ tratado` (lição completa: exemplos + truque + treino + teste) ·
 
 ## Visão geral por ciclo
 
-### 1.º ciclo (1.º–4.º ano) — 162 lições
+### 1.º ciclo (1.º–4.º ano) — 167 lições
 
 | Disciplina | Lições | Estado |
 | --- | --- | --- |
-| Matemática | 34 | ✅ domínios todos representados |
-| Português | 47 | ✅ os 5 domínios cobertos |
-| Estudo do Meio | 21 | 🟡 blocos cobertos, experiências por aprofundar |
+| Matemática | 36 | ✅ domínios todos representados |
+| Português | 48 | ✅ os 5 domínios cobertos |
+| Estudo do Meio | 23 | ✅ todos os blocos cobertos |
 | Inglês *(obrigatório só 3.º–4.º; 1.º–2.º é AEC/bónus)* | 24 | ✅ vocabulário + primeiras estruturas |
 | Cidadania e Desenvolvimento | 12 | ✅ seleção dos domínios |
 | Educação Artística | 12 | ✅ Visuais, Música, Teatro, Dança |
@@ -68,8 +68,8 @@ Tratamento de Dados**, e capacidades transversais (**resolução de problemas**,
 | --- | --- | --- |
 | Números e Operações | ✅ | até 10/20/100/1000/milhão, decimais e frações; comparar/ordenar, dobro/metade, par/ímpar, tabuadas, ×, ÷, múltiplos, romanos, estimar/arredondar; 2.º ciclo: m.d.c./m.m.c., racionais, potências, inteiros, percentagens |
 | Geometria e Medida | ✅ | formas, sólidos, simetria, padrões, ângulos/polígonos, área/perímetro, volume/capacidade, comprimento/massa, horas, calendário, dinheiro; 2.º ciclo: círculo, volumes |
-| Organização e Tratamento de Dados | 🟡 | gráficos e tabelas (`mat-4-dados`) + dados no 5.º/6.º — daria para introduzir pictogramas/frequência mais cedo |
-| Resolução de problemas | 🟡 | há lição dedicada (`mat-4-problemas`), mas é capacidade *transversal* — devia permear todas as lições |
+| Organização e Tratamento de Dados | ✅ | primeiro contacto no 3.º (`mat-3-dados`: recolha com risquinhos, tabela de frequência, pictograma, barras/circular) → aprofundado no 4.º (`mat-4-dados`: máximo/mínimo/moda/amplitude, linha) e no 5.º/6.º |
+| Resolução de problemas | ✅ | primeiro contacto no 2.º (`mat-2-problemas`: plano de 3 passos, +/−, palavras-pista, reta numérica) → método completo no 4.º (`mat-4-problemas`: 4 passos, as 4 operações, problemas de 2 passos, verificação inversa). Continua a ganhar-se permeando as outras lições |
 
 ## Português — domínios das AE
 
@@ -79,7 +79,7 @@ Domínios: **Oralidade**, **Leitura**, **Escrita**, **Educação Literária**,
 | Domínio | Estado | Notas / por aprofundar |
 | --- | --- | --- |
 | Oralidade | ✅ | ouvir/falar, recontar, falar para um público, debater; 5.º: apresentar |
-| Leitura | 🟡 | ler frases e compreensão de leitura (✅); fluência e inferências dariam mais profundidade |
+| Leitura | ✅ | ler frases, fluência e expressão (`pt-2-ler-expressao`: pausas da pontuação, ler por bocadinhos, dar voz), compreensão e inferências (`pt-3-leitura-compreensao`) |
 | Escrita | ✅ | escrever texto, tipos de texto, carta/convite, notícia; 5.º/6.º: narrativo, descritivo, entrevista |
 | Educação Literária | ✅ | contos, lengalengas/poemas, fábulas, autores do PNL; 5.º/6.º: poesia, teatro, clássicos |
 | Gramática | ✅ | sílaba/sílaba tónica, ditongos/dígrafos, classes, tempos verbais, pronomes, pontuação, sujeito/predicado, frase simples/complexa, sons do «s», hífen…; 5.º/6.º: funções sintáticas, conjugação |
@@ -92,9 +92,9 @@ ciclo, Estudo do Meio dá lugar a **Ciências Naturais** + **HGP** (ver abaixo).
 | Bloco | Estado | Notas / por aprofundar |
 | --- | --- | --- |
 | À descoberta de si mesmo | ✅ | corpo, cinco sentidos, higiene/saúde, segurança (identidade/emoções vivem em Cidadania) |
-| Os outros e as instituições | 🟡 | família, profissões, Portugal, história, símbolos nacionais (em O Mundo) — escola/comunidade/datas-festas por aprofundar |
+| Os outros e as instituições | ✅ | família, profissões, Portugal, história, símbolos nacionais (em O Mundo), e a localidade — instituições/serviços + costumes, tradições e festas (`edm-2-localidade`) |
 | Ambiente natural | ✅ | seres vivos, animais, plantas, água, estações, alimentação, sistema solar |
-| Materiais e objetos | 🟡 | estados da matéria (✅), eletricidade e ímanes (✅) — flutuação e mais experiências por acrescentar |
+| Materiais e objetos | ✅ | estados da matéria, eletricidade e ímanes, e o método científico + experiências (`edm-3-experiencias`: flutuação, dissolver, o ar ocupa espaço) |
 | À descoberta das inter-relações | ✅ | espaço — mapas, pontos cardeais e leitura de um mapa de Portugal (`edm-4-mapas`); tempo — gerações, História de Portugal |
 
 ## Inglês — domínios das AE (obrigatório 3.º–4.º; 2.º ciclo)
@@ -140,17 +140,19 @@ Domínios: **Compreensão oral**, **Interação/Produção oral**, **Leitura**,
 
 ## O que ainda falta (resumo honesto)
 
-Já **não há domínios ou disciplinas em falta**: a estrutura cobre os dois ciclos.
-O que falta é **profundidade e validação**, não andaime:
+Já **não há domínios ou disciplinas em falta**: a estrutura cobre os dois ciclos,
+e os domínios que ainda estavam rasos foram preenchidos — OTD desde o 3.º
+(`mat-3-dados`), resolução de problemas desde o 2.º (`mat-2-problemas`), Leitura
+com fluência (`pt-2-ler-expressao`), experiências/método científico
+(`edm-3-experiencias`) e a localidade/instituições/festas (`edm-2-localidade`).
+O que falta é sobretudo **validação** e **continuar a aprofundar**:
 
-1. **Aprofundar** os temas marcados 🟡 — sobretudo Matemática (dados desde cedo;
-   resolução de problemas como fio transversal), Português Leitura (fluência,
-   inferências) e Estudo do Meio (experiências, escola/comunidade/datas).
-2. **Tornar transversais** a resolução de problemas (Mat) e a oralidade/leitura
-   (Port), em vez de as concentrar numa lição.
-3. **Revisão pedagógica** de todo o conteúdo por docente do 1.º/2.º ciclo antes
+1. **Tornar a resolução de problemas verdadeiramente transversal** — além das
+   lições dedicadas (2.º e 4.º), semear pequenos problemas nas outras lições de
+   Matemática, em vez de a concentrar num tema.
+2. **Revisão pedagógica** de todo o conteúdo por docente do 1.º/2.º ciclo antes
    de considerar qualquer tema "fechado".
-4. *(Opcional)* alargar as áreas transversais — mais países em **Países**, mais
+3. *(Opcional)* alargar as áreas transversais — mais países em **Países**, mais
    curiosidades em **O Mundo**, e a futura **vista de mapa** que lê as etiquetas
    `zona`/`pais`.
 

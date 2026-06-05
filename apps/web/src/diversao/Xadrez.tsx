@@ -268,7 +268,7 @@ export function Xadrez({ onBack }: { onBack: () => void }) {
             </button>
           </div>
         )}
-        {!started && mode === "cpu" && (
+        {mode === "cpu" && (
           <div className="dv-segment dv-segment--inline" role="group" aria-label="Nível do computador">
             {(["facil", "medio", "dificil"] as Level[]).map((lv) => (
               <button key={lv} className={`dv-seg ${level === lv ? "is-active" : ""}`} onClick={() => setLevel(lv)} aria-pressed={level === lv}>

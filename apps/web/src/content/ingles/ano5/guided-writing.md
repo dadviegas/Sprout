@@ -1,6 +1,6 @@
 # Guided writing: short texts ✍️
 
-> [!NOTE] **What you will learn** 👀 You will learn how to write a short text in English with a plan: introduce yourself, add details and finish clearly.
+> [!NOTE] **O que vais aprender** 👀 Vais aprender a escrever um pequeno texto em inglês com um plano: apresentares-te, juntar pormenores e terminar com clareza.
 
 A short text is easier when you use a model. You can change the words to make it yours.
 
@@ -35,6 +35,12 @@ A short text is easier when you use a model. You can change the words to make it
 ]
 ```
 
+> [!TIP] **O hambúrguer do texto** 🍔 Pensa no teu texto como um hambúrguer: o "Hello! My name is..." é o pão de cima, os factos e gostos são o recheio no meio, e o "What about you?" é o pão de baixo que fecha tudo. Sem o pão, o recheio cai!
+
+## Para saberes mais 🌱
+
+Em inglês, o nome "essay" (texto/redação) vem do francês *essai*, que significa "tentativa". Foi um escritor francês, Montaigne, que há quase 500 anos começou a chamar assim aos seus textos curtos — porque cada texto era uma *tentativa* de pôr as suas ideias por ordem. 🪶
+
 ## 🎯 Questionário final
 
 ```quiz
@@ -57,7 +63,16 @@ A short text is easier when you use a model. You can change the words to make it
       "explain": "Clear sentences make the text understandable." },
     { "q": "What about you? is useful to…", "layout": "grid",
       "options": [ { "t": "ask the other person", "emoji": "❓", "correct": true }, { "t": "say goodbye forever" }, { "t": "count to ten" } ],
-      "explain": "It invites the other person to answer." }
+      "explain": "It invites the other person to answer." },
+    { "q": "Which sentence tells where you live?", "layout": "grid",
+      "options": [ { "t": "I live in Portugal.", "emoji": "🏠", "correct": true }, { "t": "I am ten years old." }, { "t": "I like football." } ],
+      "explain": "I live in… diz onde moras." },
+    { "q": "How do you say 'não gosto de'?", "layout": "grid",
+      "options": [ { "t": "I don't like", "emoji": "🙅", "correct": true }, { "t": "I am" }, { "t": "I live" } ],
+      "explain": "I don't like… mostra que não gostas." },
+    { "q": "What is a good order for a short text?", "layout": "grid",
+      "options": [ { "t": "start, facts, likes, finish", "emoji": "📝", "correct": true }, { "t": "finish, finish, finish" }, { "t": "only numbers" } ],
+      "explain": "Um plano simples deixa o texto claro." }
   ]
 }
 ```

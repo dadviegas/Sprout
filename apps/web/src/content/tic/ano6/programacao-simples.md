@@ -46,6 +46,8 @@ Um computador não adivinha. Ele segue instruções. Quando uma instrução est�
 ]
 ```
 
+> [!TIP] **A receita do robô** Imagina que estás a explicar uma receita a um robô que leva tudo à letra. Se disseres «põe açúcar» sem dizer quanto, ele despeja o pacote todo! Um bom algoritmo não deixa nada por adivinhar.
+
 ## Quando dá erro
 
 Os erros fazem parte da programação. O importante é testar, observar e corrigir.
@@ -58,6 +60,10 @@ Os erros fazem parte da programação. O importante é testar, observar e corrig
   { "title": "4. Testar outra vez", "body": "Confirma se a correção funcionou." }
 ]
 ```
+
+## Para saberes mais 🌱
+
+O primeiro «bug» informático foi mesmo um inseto! 🦋 Em 1947, a engenheira Grace Hopper encontrou uma traça presa dentro de um computador a estragar o funcionamento — colou-a no caderno e escreveu «primeiro bug encontrado». Por isso é que ainda hoje chamamos «bugs» aos erros e «depurar» (debugging) a caçá-los.
 
 ## 🎯 Questionário final
 
@@ -84,7 +90,13 @@ Os erros fazem parte da programação. O importante é testar, observar e corrig
       "explain": "Depurar é uma parte normal de programar." },
     { "q": "Quando um programa falha, uma boa atitude é…", "layout": "grid",
       "options": [ { "t": "testar, observar e corrigir", "emoji": "✅", "correct": true }, { "t": "desistir sem olhar" }, { "t": "culpar o teclado" } ],
-      "explain": "Programar melhora com testes e correções." }
+      "explain": "Programar melhora com testes e correções." },
+    { "q": "Quando dás instruções a um computador, ele…", "layout": "grid",
+      "options": [ { "t": "segue-as exatamente, sem adivinhar", "emoji": "🤖", "correct": true }, { "t": "adivinha o que querias dizer" }, { "t": "faz o que lhe apetece" } ],
+      "explain": "O computador faz só o que lhe dizes, por isso as instruções têm de ser claras." },
+    { "q": "Em «repete 10 vezes: desenha uma estrela», o que se repete?", "layout": "grid",
+      "options": [ { "t": "desenhar uma estrela", "emoji": "⭐", "correct": true }, { "t": "desligar o ecrã" }, { "t": "fechar a escola" } ],
+      "explain": "A repetição faz o mesmo passo várias vezes sem o escrever tudo de novo." }
   ]
 }
 ```

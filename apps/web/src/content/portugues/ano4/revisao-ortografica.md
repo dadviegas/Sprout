@@ -23,6 +23,12 @@ Rever é olhar outra vez com olhos de detetive. Mesmo bons textos melhoram depoi
 ]
 ```
 
+> [!TIP] **Uma caça de cada vez** 🔎 Em vez de procurar tudo ao mesmo tempo, lê o texto uma vez só à caça de acentos, depois outra só à caça de pontos e vírgulas, depois outra só às maiúsculas. Caçar uma coisa de cada vez deixa-te apanhar os erros que escapariam se olhasses para tudo de uma vez.
+
+## Para saberes mais 🌱
+
+Os escritores a sério também não acertam à primeira: chamam **rascunho** ao primeiro texto e podem reescrevê-lo muitas vezes antes de ficar pronto. E nos jornais e livros há uma pessoa cujo trabalho é só rever — o **revisor** — que lê tudo à procura do mais pequeno erro antes de o texto ser impresso.
+
 ## 🎯 Questionário final
 
 ```quiz
@@ -45,7 +51,16 @@ Rever é olhar outra vez com olhos de detetive. Mesmo bons textos melhoram depoi
       "explain": "Os sinais mostram pausas e intenção." },
     { "q": "Uma boa revisão deve ser…", "layout": "grid",
       "options": [ { "t": "calma e por etapas", "emoji": "🧭", "correct": true }, { "t": "feita sem ler" }, { "t": "sempre à pressa" } ],
-      "explain": "Rever por etapas evita deixar erros passar." }
+      "explain": "Rever por etapas evita deixar erros passar." },
+    { "q": "Os nomes próprios escrevem-se com…", "layout": "grid",
+      "options": [ { "t": "maiúscula", "emoji": "🔠", "correct": true }, { "t": "minúscula sempre" }, { "t": "número" } ],
+      "explain": "Nomes de pessoas e lugares levam maiúscula." },
+    { "q": "Verificar se o nome e o verbo combinam é ver a…", "layout": "grid",
+      "options": [ { "t": "concordância", "emoji": "🔗", "correct": true }, { "t": "margem" }, { "t": "cor da letra" } ],
+      "explain": "Na concordância, as palavras da frase combinam entre si." },
+    { "q": "Ao corrigir, é melhor…", "layout": "grid",
+      "options": [ { "t": "mudar uma coisa de cada vez", "emoji": "🐢", "correct": true }, { "t": "trocar tudo de uma vez" }, { "t": "não reler nada" } ],
+      "explain": "Devagar evita criar novos erros." }
   ]
 }
 ```

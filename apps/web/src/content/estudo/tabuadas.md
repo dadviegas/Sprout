@@ -1,5 +1,7 @@
 # Tabuadas ✖️
 
+> [!NOTE] **O que vais aprender** 👀 As tabuadas do 1 ao 10 todas juntas, com truques para as decorares mais depressa e treinos para te testares.
+
 Aqui tens **todas as tabuadas** num só sítio! Toca numa linha para a ouvir, ou
 em **Ouvir tudo** para ouvires a tabuada inteira, de cima a baixo. 🎧
 
@@ -26,6 +28,10 @@ E em **cartões**: olha para a conta, pensa na resposta… e só depois toca em
 ```drill
 { "mode": "flip", "title": "Cartões da tabuada do 7", "generate": { "kind": "tabuada", "of": 7 } }
 ```
+
+## Para saberes mais 🌱
+
+Há mais de 4000 anos, os antigos babilónios já faziam tabuadas — mas em **base 60** (com 60 algarismos em vez de 10)! É por isso que ainda hoje a hora tem **60 minutos** e o minuto tem **60 segundos**. 🕰️
 
 ## Onde treinar com jogos
 

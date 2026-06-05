@@ -24,6 +24,8 @@ Um problema de vários passos é como uma receita: se saltas uma parte, o result
 ]
 ```
 
+> [!TIP] **Conta o degrau** Antes de calcular, pergunta «quantas contas até à resposta?». Se forem duas, sobe um degrau de cada vez — nunca saltes do chão para o cimo da escada de um pulo.
+
 ## Cuidado com estes erros
 
 ```compare
@@ -40,6 +42,10 @@ Um problema de vários passos é como uma receita: se saltas uma parte, o result
   ] }
 ]
 ```
+
+## Para saberes mais 🌱
+
+Quando os matemáticos resolvem problemas gigantes, usam um truque chamado «dividir para conquistar»: partem o problema num punhado de problemas mais pequenos, resolvem cada um e juntam tudo no fim. É exatamente o que fazes ao subir um degrau de cada vez — só que os computadores fazem isso milhões de vezes por segundo! 🤯
 
 ## 🎯 Questionário final
 
@@ -63,7 +69,16 @@ Um problema de vários passos é como uma receita: se saltas uma parte, o result
       "explain": "Verificar ajuda a encontrar enganos." },
     { "q": "A resposta final deve ter…", "layout": "grid",
       "options": [ { "t": "número e unidade", "emoji": "📏", "correct": true }, { "t": "só um desenho" }, { "t": "números sem contexto" } ],
-      "explain": "A unidade mostra o que o número significa." }
+      "explain": "A unidade mostra o que o número significa." },
+    { "q": "«Tenho 3 pacotes com 6 cromos cada. Dou 4 cromos a um amigo. Com quantos fico?»", "layout": "grid",
+      "options": [ { "t": "14 cromos", "emoji": "🃏", "correct": true }, { "t": "18 cromos" }, { "t": "13 cromos" } ],
+      "explain": "Primeiro 3 x 6 = 18; depois 18 - 4 = 14." },
+    { "q": "Num problema de dois passos, qual é a melhor estratégia?", "layout": "grid",
+      "options": [ { "t": "planear a ordem das contas", "emoji": "🧩", "correct": true }, { "t": "fazer a primeira conta que aparecer" }, { "t": "somar todos os números juntos" } ],
+      "explain": "Planear a ordem evita enganos e ajuda a chegar à resposta certa." },
+    { "q": "Se calculas que sobraram «-5 euros», isso quer dizer que…", "layout": "grid",
+      "options": [ { "t": "deves verificar, a resposta parece impossível", "emoji": "✅", "correct": true }, { "t": "está tudo certo" }, { "t": "deves apagar o problema" } ],
+      "explain": "Verificar serve para isto: uma resposta impossível mostra um engano nas contas." }
   ]
 }
 ```

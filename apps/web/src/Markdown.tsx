@@ -26,7 +26,9 @@ import {
   DayNight, type DayNightSpec,
   SoundCards, type SoundCardsSpec,
   Dictionary, type DictionarySpec,
+  Verbs, type VerbsSpec,
   Tabuada, type TabuadaSpec,
+  ContaArmada, type ContaArmadaSpec,
   Drill, type DrillSpec,
   Figure, type FigureSpec,
   MathBlock, type MathSpec,
@@ -177,7 +179,15 @@ const widgetRenderers: Record<string, (json: unknown) => ReactNode> = {
     const entries = [...spec.entries].sort((a, b) => dictCollator.compare(a.word, b.word));
     return <Dictionary spec={{ ...spec, entries }} />;
   },
+  verbs: (d) => {
+    // Sort the verbs alphabetically too (pt collation), so authors don't have
+    // to hand-order the entries in the .md block.
+    const spec = d as VerbsSpec;
+    const verbs = [...spec.verbs].sort((a, b) => dictCollator.compare(a.verb, b.verb));
+    return <Verbs spec={{ ...spec, verbs }} />;
+  },
   tabuada: (d) => <Tabuada spec={d as TabuadaSpec} />,
+  contaarmada: (d) => <ContaArmada spec={d as ContaArmadaSpec} />,
   drill: (d) => <Drill spec={d as DrillSpec} />,
   figure: (d) => <Figure spec={d as FigureSpec} />,
   math: (d) => <MathBlock spec={d as MathSpec} />,

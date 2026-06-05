@@ -1,5 +1,7 @@
 # O alfabeto 🔤
 
+> [!NOTE] **O que vais aprender** 👀 As 26 letras do alfabeto português, a ouvir o nome de cada uma e a distinguir vogais de consoantes.
+
 O alfabeto português tem **26 letras**. Toca em cada uma para ouvires o nome
 dela! 🎧
 
@@ -71,3 +73,7 @@ E que letra vem **a seguir** no alfabeto? Pensa… e depois vira o cartão! 🃏
   { "front": "Depois do Y vem…", "back": "Z" }
 ] }
 ```
+
+## Para saberes mais 🌱
+
+As letras **K, W e Y** quase não aparecem em palavras portuguesas — entraram no alfabeto há pouco tempo, sobretudo para escrevermos nomes e palavras vindas de outras línguas, como "kiwi", "wi-fi" ou "yoga". 🥝

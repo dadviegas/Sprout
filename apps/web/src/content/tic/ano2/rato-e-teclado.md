@@ -30,6 +30,8 @@ O computador obedece melhor quando damos instruções claras. O rato ajuda a apo
 ]
 ```
 
+> [!TIP] **A seta é o teu dedo** Pensa na seta do rato como um dedo mágico no ecrã: primeiro apontas com calma, só depois é que "tocas" com um clique. Se moves a mão devagar, o dedo nunca clica no sítio errado.
+
 ## Como trabalhar com cuidado
 
 ```steps
@@ -60,6 +62,10 @@ O computador obedece melhor quando damos instruções claras. O rato ajuda a apo
 }
 ```
 
+## Para saberes mais 🌱
+
+Sabias que as letras do teclado não estão por ordem (A, B, C…)? Estão numa ordem chamada **QWERTY**, com o nome das primeiras seis letras da fila de cima. Foi pensada há mais de 100 anos para as máquinas de escrever — as teclas mais usadas ficaram afastadas para os martelinhos não ficarem presos uns nos outros. ⌨️
+
 ## 🎯 Questionário final
 
 ```quiz
@@ -79,7 +85,19 @@ O computador obedece melhor quando damos instruções claras. O rato ajuda a apo
       "explain": "Backspace ajuda a corrigir enganos." },
     { "q": "Uma boa atitude é…", "layout": "grid",
       "options": [ { "t": "clicar com calma e ler antes", "emoji": "✅", "correct": true }, { "t": "bater nas teclas" }, { "t": "clicar sem olhar" } ],
-      "explain": "Usar com calma protege o trabalho e o equipamento." }
+      "explain": "Usar com calma protege o trabalho e o equipamento." },
+    { "q": "Acabaste a frase e queres começar outra mais abaixo. Que tecla usas?", "layout": "grid",
+      "options": [ { "t": "Enter", "emoji": "↵", "correct": true }, { "t": "Espaço" }, { "t": "Backspace" } ],
+      "explain": "O Enter muda de linha (ou confirma uma escolha)." },
+    { "q": "Queres começar o teu nome com letra grande, como «Ana». Que tecla ajuda?", "layout": "grid",
+      "options": [ { "t": "Shift", "emoji": "⬆️", "correct": true }, { "t": "Espaço" }, { "t": "Enter" } ],
+      "explain": "Carregar em Shift ao mesmo tempo escreve a maiúscula." },
+    { "q": "Escreveste «caza» mas era «casa». O que fazes?", "layout": "grid",
+      "options": [ { "t": "apago com Backspace e escrevo o «s»", "emoji": "⌫", "correct": true }, { "t": "desligo o computador" }, { "t": "deixo ficar errado" } ],
+      "explain": "Reler e corrigir com Backspace faz parte de escrever bem." },
+    { "q": "Cada programa abre numa…", "layout": "grid",
+      "options": [ { "t": "janela", "emoji": "🪟", "correct": true }, { "t": "gaveta do rato" }, { "t": "tecla Espaço" } ],
+      "explain": "A janela é a área aberta no ecrã onde o programa aparece." }
   ]
 }
 ```

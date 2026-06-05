@@ -118,7 +118,13 @@ Imagina que estás numa festa com bandeiras de muitos países. Como encontras a 
       "explain": "Chama-se «O Canada»." },
     { "q": "Para distinguir as bandeiras: Portugal tem bola, o Canadá tem...", "layout": "grid",
       "options": [ { "t": "folha", "emoji": "🍁", "correct": true }, { "t": "outra bola" } ],
-      "explain": "Bola = Portugal; folha = Canadá." }
+      "explain": "Bola = Portugal; folha = Canadá." },
+    { "q": "Numa festa com muitas bandeiras, como reconheces a do Canadá?", "layout": "grid",
+      "options": [ { "t": "vermelho–branco–vermelho com folha no meio", "emoji": "🔍", "correct": true }, { "t": "três faixas verdes" }, { "t": "muitas estrelas" } ],
+      "explain": "Procura as faixas vermelhas dos lados e a folha de bordo no quadrado branco do meio." },
+    { "q": "Os polícias famosos do Canadá, a «Polícia Montada», andam...", "layout": "grid",
+      "options": [ { "t": "a cavalo, de casaco vermelho", "emoji": "🐎", "correct": true }, { "t": "de barco" }, { "t": "de fato de banho" } ],
+      "explain": "Os «Mounties» são conhecidos pelos casacos vermelhos e pelos cavalos." }
   ]
 }
 ```

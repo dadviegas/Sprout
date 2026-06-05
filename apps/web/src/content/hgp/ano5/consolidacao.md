@@ -65,6 +65,21 @@ De todos os reis desta época, há um que se destaca: **D. Dinis** (reinou de 12
 
 > [!NOTE] Conta a história que D. Dinis era casado com a **Rainha Santa Isabel**, famosa pela sua bondade com os pobres. Diz a lenda que, quando levava pão escondido para os pobres e o rei perguntou o que levava, abriu o regaço e o pão tinha-se transformado em **rosas** — o **Milagre das Rosas**! 🌹
 
+## A linha do tempo da consolidação 🪜
+
+Os passos que tornaram o reino forte, povoado e organizado:
+
+```timeline
+{ "title": "Consolidar o reino", "events": [
+  { "year": 1143, "emoji": "🇵🇹", "label": "Portugal é reino", "body": "o reino acaba de nascer e precisa de se organizar", "say": "Mil cento e quarenta e três: Portugal acaba de nascer como reino e precisa de se organizar." },
+  { "year": 1147, "emoji": "🏰", "label": "Conquista de Lisboa", "body": "Afonso Henriques toma Lisboa aos Mouros", "say": "Mil cento e quarenta e sete: Afonso Henriques conquista Lisboa aos Mouros." },
+  { "year": 1249, "emoji": "🌊", "label": "Algarve conquistado", "body": "D. Afonso III termina a Reconquista em Portugal", "say": "Mil duzentos e quarenta e nove: D. Afonso terceiro conquista o Algarve e termina a Reconquista em Portugal." },
+  { "year": 1279, "emoji": "🌳", "label": "D. Dinis sobe ao trono", "body": "começa o reinado do «Rei Lavrador»", "say": "Mil duzentos e setenta e nove: D. Dinis sobe ao trono; é o Rei Lavrador." },
+  { "year": 1290, "emoji": "🎓", "label": "Primeira universidade", "body": "fundada por D. Dinis, acaba por ficar em Coimbra", "say": "Mil duzentos e noventa: D. Dinis funda a primeira universidade portuguesa, que acaba por ficar em Coimbra." },
+  { "year": 1297, "emoji": "📜", "label": "Tratado de Alcanises", "body": "fixa as fronteiras de Portugal, quase as de hoje", "say": "Mil duzentos e noventa e sete: o Tratado de Alcanises fixa as fronteiras de Portugal, quase as de hoje." }
+] }
+```
+
 ## Um exemplo passo a passo 🔍
 
 *«D. Dinis reinou de 1279 a 1325. Durante quantos anos foi rei de Portugal?»* Vamos calcular. 🧮

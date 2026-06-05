@@ -160,7 +160,10 @@ Ao fim de cerca de 9 meses, o bebé está pronto e nasce. A partir daí, já res
       "explain": "Fazer perguntas é de gente inteligente — ninguém deve ter vergonha." },
     { "q": "Porque é que os gémeos verdadeiros são tão parecidos?", "layout": "list",
       "options": [ { "t": "Vêm da mesma célula e têm o mesmo ADN", "emoji": "🧬", "correct": true }, { "t": "Comem a mesma comida" }, { "t": "Por acaso" } ],
-      "explain": "A mesma célula dividiu-se em duas, com instruções idênticas." }
+      "explain": "A mesma célula dividiu-se em duas, com instruções idênticas." },
+    { "q": "A célula redonda que vem da mãe e se junta ao espermatozoide é o…", "layout": "grid",
+      "options": [ { "t": "óvulo", "emoji": "🥚", "correct": true }, { "t": "espermatozoide" }, { "t": "rim" } ],
+      "explain": "O óvulo, da mãe, encontra o espermatozoide, do pai, na fecundação." }
   ]
 }
 ```

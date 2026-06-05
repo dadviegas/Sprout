@@ -2,9 +2,11 @@
 
 > [!NOTE] **O que vais aprender** 👀
 > A medir o mundo à tua volta! 🌍 Quanto **comprido** é algo (km, m, cm, mm),
-> quanto **pesado** é (kg, g), quanto **cabe** num copo ou numa garrafa (L, mL)
-> e quanto **tempo** passa (h, min, s). E o melhor: como **trocar de unidade**
-> sem te enganares. Toca nos altifalantes para ouvires tudo! 🎧
+> quanto **pesado** é (kg, g) e quanto **cabe** num copo ou numa garrafa
+> (L, mL). E o melhor: como **trocar de unidade** sem te enganares. Toca nos
+> altifalantes para ouvires tudo! 🎧
+>
+> *O **tempo** e o **relógio** ⏰ têm uma lição só para eles: "O relógio e as horas".*
 
 ## Comprimento 📐 — do mini ao gigante
 
@@ -107,39 +109,8 @@ e em **mililitro (mL)**, para as quantidades pequeninas.
 > 1 L = **1000** mL. O **"quilo"** quer mesmo dizer **mil**! É por isso que um
 > **quilo**grama são **mil** gramas. 🤓
 
-## Tempo ⏰ — horas, minutos e segundos
-
-O tempo mede-se em **segundos (s)**, **minutos (min)**, **horas (h)** e **dias**.
-Vê o relógio e toca para ouvir as horas! 🕒
-
-```clock
-{ "hour": 3, "minute": 0, "title": "Que horas são?" }
-```
-
-Aqui o tempo é diferente do resto: **não** vai de mil em mil, nem de cem em cem!
-
-```keyvalue
-[
-  { "k": "1 minuto", "v": "= 60 segundos ⏱️", "icon": "⏱️" },
-  { "k": "1 hora", "v": "= 60 minutos 🕐", "icon": "🕐" },
-  { "k": "1 dia", "v": "= 24 horas 🌗", "icon": "🌗" }
-]
-```
-
-```math
-{ "expr": "1 h = 60 min", "say": "uma hora é igual a sessenta minutos" }
-```
-
-```math
-{ "expr": "1 min = 60 s", "say": "um minuto é igual a sessenta segundos" }
-```
-
-```math
-{ "expr": "1 dia = 24 h", "say": "um dia é igual a vinte e quatro horas" }
-```
-
-Compara as **três grandezas** que vão de mil em mil — e o tempo, que é o
-esquisito! 🧐
+Compara as grandezas lado a lado — repara como o **1000** (e o **100**, e o
+**10**) aparece sempre! 🧐
 
 ```compare
 [
@@ -151,11 +122,6 @@ esquisito! 🧐
   { "title": "Massa e capacidade ⚖️", "rows": [
     { "label": "1 kg", "value": "1000 g" },
     { "label": "1 L", "value": "1000 mL" }
-  ] },
-  { "title": "Tempo ⏰", "highlight": true, "rows": [
-    { "label": "1 h", "value": "60 min" },
-    { "label": "1 min", "value": "60 s" },
-    { "label": "1 dia", "value": "24 h" }
   ] }
 ]
 ```
@@ -178,10 +144,7 @@ Escolhe a equivalência certa. Toca para ouvir se acertaste! ✅
   { "front": "1 km = ? m", "back": "1000 m", "options": ["100 m", "10 m"] },
   { "front": "1 cm = ? mm", "back": "10 mm", "options": ["100 mm", "1 mm"] },
   { "front": "1 kg = ? g", "back": "1000 g", "options": ["100 g", "10 g"] },
-  { "front": "1 L = ? mL", "back": "1000 mL", "options": ["100 mL", "10 mL"] },
-  { "front": "1 h = ? min", "back": "60 min", "options": ["100 min", "30 min"] },
-  { "front": "1 min = ? s", "back": "60 s", "options": ["100 s", "10 s"] },
-  { "front": "1 dia = ? h", "back": "24 h", "options": ["12 h", "60 h"] }
+  { "front": "1 L = ? mL", "back": "1000 mL", "options": ["100 mL", "10 mL"] }
 ] }
 ```
 
@@ -191,25 +154,9 @@ E agora ao contrário: **que unidade** usarias? Escolhe a mais acertada! 🤓
 { "mode": "choose", "title": "Que unidade usarias?", "choices": 3, "items": [
   { "front": "A altura de uma porta", "back": "metros", "options": ["quilómetros", "milímetros"] },
   { "front": "A distância entre duas cidades", "back": "quilómetros", "options": ["centímetros", "milímetros"] },
-  { "front": "O peso de uma maçã", "back": "gramas", "options": ["litros", "horas"] },
+  { "front": "O peso de uma maçã", "back": "gramas", "options": ["litros", "toneladas"] },
   { "front": "A água numa garrafa grande", "back": "litros", "options": ["gramas", "metros"] },
-  { "front": "Quanto tempo dura o recreio", "back": "minutos", "options": ["litros", "centímetros"] },
   { "front": "A grossura da ponta do lápis", "back": "milímetros", "options": ["quilómetros", "litros"] }
-] }
-```
-
-Vira o cartão e diz a equivalência em voz alta antes de confirmares! 🃏
-
-```drill
-{ "mode": "flip", "title": "Sabes de cor?", "items": [
-  { "front": "1 m = ? cm", "back": "100 cm", "say": "um metro é igual a cem centímetros" },
-  { "front": "1 km = ? m", "back": "1000 m", "say": "um quilómetro é igual a mil metros" },
-  { "front": "1 cm = ? mm", "back": "10 mm", "say": "um centímetro é igual a dez milímetros" },
-  { "front": "1 kg = ? g", "back": "1000 g", "say": "um quilograma é igual a mil gramas" },
-  { "front": "1 L = ? mL", "back": "1000 mL", "say": "um litro é igual a mil mililitros" },
-  { "front": "1 h = ? min", "back": "60 min", "say": "uma hora é igual a sessenta minutos" },
-  { "front": "1 min = ? s", "back": "60 s", "say": "um minuto é igual a sessenta segundos" },
-  { "front": "1 dia = ? h", "back": "24 h", "say": "um dia é igual a vinte e quatro horas" }
 ] }
 ```
 

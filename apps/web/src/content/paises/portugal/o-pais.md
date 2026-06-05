@@ -121,7 +121,10 @@ Imagina que um amigo te pergunta: «Como explico onde fica Portugal?» Vamos res
       "explain": "Falamos português!" },
     { "q": "Portugal é um país...", "layout": "grid",
       "options": [ { "t": "pequeno, mas com de tudo", "emoji": "📏", "correct": true }, { "t": "o maior do mundo" } ],
-      "explain": "É pequeno, mas tem praia, serra, rios e cidades." }
+      "explain": "É pequeno, mas tem praia, serra, rios e cidades." },
+    { "q": "Tal como o Canadá só tem um vizinho por terra (os EUA), Portugal só tem...", "layout": "grid",
+      "options": [ { "t": "a Espanha", "emoji": "🤝", "correct": true }, { "t": "a França" }, { "t": "nenhum vizinho" } ],
+      "explain": "Por terra, Portugal faz fronteira apenas com a Espanha." }
   ]
 }
 ```

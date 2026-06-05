@@ -1,5 +1,7 @@
 # Vamos às compras! 🛒
 
+> [!NOTE] **O que vais aprender** 👀 A escolher produtos, somar os preços, pagar com notas e moedas e descobrir o troco quando pagas a mais.
+
 Bem-vindo à **Loja do Sprout**! Aqui podes encher um **carrinho** com brinquedos
 e comidas, ir à **caixa** e **pagar** com notas e moedas — tal como numa loja a
 sério. E se pagares **a mais**, a caixa diz-te quanto é o **troco**! 🎧

@@ -25,7 +25,7 @@ const FINAL_MARKER = "## 🎯 Questionário final";
 // `widgetRenderers` / `infographicRenderers` maps + the `quiz` branch there.
 const JSON_BLOCKS = new Set([
   "quiz",
-  "shape", "angle", "areagrid", "symmetry", "compass", "watercycle", "clock", "numberline", "tenframe", "fraction", "fractionstrips", "fractionof", "money", "shop", "solarsystem", "daynight", "soundcards", "dictionary", "tabuada", "drill", "figure", "math", "chart",
+  "shape", "angle", "areagrid", "symmetry", "compass", "watercycle", "clock", "numberline", "tenframe", "fraction", "fractionstrips", "fractionof", "money", "shop", "solarsystem", "daynight", "soundcards", "dictionary", "verbs", "tabuada", "drill", "figure", "math", "chart", "timeline", "bodysystem", "mapapt",
   "summary", "stats", "steps", "meters", "keyvalue", "compare", "quote",
 ]);
 
@@ -126,6 +126,33 @@ function validateInfographic(lang, data, where, errors) {
   });
 }
 
+/* The `verbs` block (the Biblioteca's conjugation cards): every entry needs a
+ * `verb` and a `meaning`; an irregular verb's `forms` table, if present, must
+ * carry the five tenses with the right number of forms (6/6/6/6/3). Regular
+ * verbs are conjugated on the fly, so they only need verb + meaning. */
+function validateVerbs(data, where, errors) {
+  if (typeof data !== "object" || data === null || !Array.isArray(data.verbs)) {
+    errors.push(`${where}: bloco 'verbs' precisa de um objeto com 'verbs: [ … ]'`);
+    return;
+  }
+  const FORM_LEN = { presente: 6, perfeito: 6, imperfeito: 6, futuro: 6, imperativo: 3 };
+  data.verbs.forEach((v, i) => {
+    const at = `${where} · verbo ${i + 1}`;
+    if (typeof v !== "object" || v === null) { errors.push(`${at}: deve ser um objeto`); return; }
+    if (typeof v.verb !== "string" || !v.verb.trim()) errors.push(`${at}: falta 'verb'`);
+    if (typeof v.meaning !== "string" || !v.meaning.trim()) errors.push(`${at}: falta 'meaning'`);
+    if (v.forms !== undefined) {
+      for (const [tense, len] of Object.entries(FORM_LEN)) {
+        const arr = v.forms[tense];
+        // The imperativo may be [] (verbs like poder/querer have none); every
+        // other tense needs its full set of forms.
+        const ok = Array.isArray(arr) && (arr.length === len || (tense === "imperativo" && arr.length === 0));
+        if (!ok) errors.push(`${at} (${v.verb ?? "?"}): 'forms.${tense}' tem de ter ${len} formas${tense === "imperativo" ? " (ou 0)" : ""}`);
+      }
+    }
+  });
+}
+
 function validateFile(absPath, errors, warnings) {
   const rel = relative(ROOT, absPath);
   const md = readFileSync(absPath, "utf8");
@@ -145,6 +172,7 @@ function validateFile(absPath, errors, warnings) {
       continue;
     }
     validateInfographic(b.lang, data, `${rel}:${b.line}`, errors);
+    if (b.lang === "verbs") validateVerbs(data, `${rel}:${b.line}`, errors);
     if (b.lang !== "quiz") continue;
 
     validateQuiz(data, `${rel}:${b.line}`, errors);
@@ -163,7 +191,7 @@ function validateFile(absPath, errors, warnings) {
   // just hold things to know (tabuadas, alfabeto, word meanings by letter, …)
   // with read-aloud, no questionnaire.
   const parts = rel.split(/[\\/]/);
-  const isReference = parts.includes("estudo") || parts.includes("dicionario");
+  const isReference = parts.includes("estudo") || parts.includes("dicionario") || parts.includes("verbos");
   if (isReference) return;
 
   if (markerAt < 0) errors.push(`${rel}: falta o marcador do teste final "${FINAL_MARKER}"`);
@@ -174,6 +202,19 @@ function validateFile(absPath, errors, warnings) {
 const files = findMarkdown(CONTENT_DIR).sort();
 const errors = [];
 const warnings = [];
+
+// Every lesson .md must be imported by curriculum.ts — otherwise it validates
+// fine here (it's read straight off disk) but never appears in the app's nav.
+// This is the "orphan" check: a wired lesson is reachable, a stray file is not.
+const curriculumSrc = readFileSync(join(CONTENT_DIR, "curriculum.ts"), "utf8");
+for (const f of files) {
+  const rel = relative(CONTENT_DIR, f).split(/[\\/]/).join("/");
+  if (/(^|\/)(README|_[^/]*)\.md$/i.test(rel)) continue; // notes/partials, not lessons
+  if (!curriculumSrc.includes(`"./${rel}"`)) {
+    errors.push(`${relative(ROOT, f)}: não está importado em curriculum.ts (lição inacessível na app)`);
+  }
+}
+
 for (const f of files) validateFile(f, errors, warnings);
 
 if (warnings.length) {

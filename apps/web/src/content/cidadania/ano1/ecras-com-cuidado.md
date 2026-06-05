@@ -19,6 +19,8 @@ Os ecrãs podem ajudar a aprender, ver histórias e falar com a família. Mas pr
 ]
 ```
 
+> [!TIP] **A regra do braço esticado** Estica o braço à frente do ecrã: se a tua mão lhe toca, o ecrã está perto demais — afasta-o até a mão ficar no ar.
+
 ## O que é privado? 🔒
 
 Há coisas que não se dizem a desconhecidos nem se escrevem em jogos ou páginas.
@@ -56,6 +58,10 @@ Há coisas que não se dizem a desconhecidos nem se escrevem em jogos ou página
 }
 ```
 
+## Para saberes mais 🌱
+
+A luz dos ecrãs tem uma cor azul que engana o cérebro: faz de conta que ainda é de dia, por isso, ao usá-los à noite, custa mais adormecer. É por isso que os ecrãs ficam guardados antes de dormir. 😴
+
 ## 🎯 Questionário final
 
 ```quiz
@@ -81,7 +87,13 @@ Há coisas que não se dizem a desconhecidos nem se escrevem em jogos ou página
       "explain": "Um adulto ajuda-te a resolver em segurança." },
     { "q": "Um ecrã é melhor quando…", "layout": "grid",
       "options": [ { "t": "é usado com regras", "emoji": "✅", "correct": true }, { "t": "manda em nós" }, { "t": "nunca se desliga" } ],
-      "explain": "Regras ajudam o ecrã a ser uma ferramenta boa." }
+      "explain": "Regras ajudam o ecrã a ser uma ferramenta boa." },
+    { "q": "Estás a ler no tablet há muito tempo e os olhos cansam. O que fazes?", "layout": "grid",
+      "options": [ { "t": "paro e estico o corpo um bocadinho", "emoji": "🤸", "correct": true }, { "t": "chego os olhos ao ecrã" }, { "t": "continuo sem parar" } ],
+      "explain": "Quando o corpo avisa que está cansado, é hora de pausa." },
+    { "q": "Num jogo, pedem-te o nome da tua escola. O que fazes?", "layout": "grid",
+      "options": [ { "t": "não digo e pergunto a um adulto", "emoji": "🏫", "correct": true }, { "t": "escrevo logo a escola" }, { "t": "escrevo a morada também" } ],
+      "explain": "A escola ajuda a saber onde estás — é informação privada." }
   ]
 }
 ```

@@ -23,6 +23,18 @@ Em Educação Tecnológica, desenhar ajuda a pensar. Um projeto claro evita desp
 ]
 ```
 
+Antes de construir, desenhamos o objeto em **vistas** — de frente, de lado e de cima — para perceber a sua forma real:
+
+```figure
+{ "emoji": "📐", "caption": "O mesmo objeto em três vistas: de frente, de lado e de cima. Ver por vários lados ajuda a planear as medidas antes de construir." }
+```
+
+> [!TIP] **Mede duas vezes, corta uma** 📏 Antes de cortar ou colar fosse o que fosse, confere as medidas duas vezes. Um corte mal feito não volta atrás, mas uma medida repetida só te custa dez segundos!
+
+## Para saberes mais 🌱
+
+Os engenheiros já não fazem só esboços em papel: usam o **CAD** (desenho assistido por computador) para girar o objeto em 3D no ecrã e até "construí-lo" virtualmente antes de gastar um único material. E muitos protótipos hoje saem diretamente de uma **impressora 3D**, que deposita plástico camada sobre camada até a peça ganhar forma! 🖨️
+
 ## 🎯 Questionário final
 
 ```quiz
@@ -45,7 +57,16 @@ Em Educação Tecnológica, desenhar ajuda a pensar. Um projeto claro evita desp
       "explain": "Testar permite melhorar." },
     { "q": "No fim, devemos avaliar se…", "layout": "grid",
       "options": [ { "t": "o objeto cumpre a função", "emoji": "✅", "correct": true }, { "t": "o plano desapareceu" }, { "t": "as medidas eram secretas" } ],
-      "explain": "A avaliação fecha o ciclo do projeto." }
+      "explain": "A avaliação fecha o ciclo do projeto." },
+    { "q": "Ao escolher materiais, devemos preferir os que são…", "layout": "grid",
+      "options": [ { "t": "adequados e seguros", "emoji": "🪵", "correct": true }, { "t": "sempre os mais caros" }, { "t": "impossíveis de encontrar" } ],
+      "explain": "Os materiais devem servir a função, ser seguros e estar disponíveis." },
+    { "q": "Uma vista mostra o objeto…", "layout": "grid",
+      "options": [ { "t": "de frente, de lado ou de cima", "emoji": "📐", "correct": true }, { "t": "só com sons" }, { "t": "sem nenhuma forma" } ],
+      "explain": "As vistas ajudam a observar o objeto por vários lados." },
+    { "q": "Um bom projeto técnico ajuda a evitar…", "layout": "grid",
+      "options": [ { "t": "desperdício e erros", "emoji": "♻️", "correct": true }, { "t": "ter boas ideias" }, { "t": "medir bem" } ],
+      "explain": "Planear com cuidado poupa material e evita enganos na construção." }
   ]
 }
 ```

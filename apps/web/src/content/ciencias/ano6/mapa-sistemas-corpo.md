@@ -29,6 +29,12 @@ O corpo não funciona por peças isoladas. Quando comes, respiras, corres ou dor
 ]
 ```
 
+> [!TIP] **A equipa do corpo** 🤝 Pensa no teu corpo como uma equipa de futebol: ninguém joga sozinho. O digestivo e o respiratório trazem a "bola" (nutrientes e oxigénio), o circulatório passa-a a toda a gente, o nervoso é o treinador que dá ordens e o excretor limpa o campo no fim.
+
+## Para saberes mais 🌱
+
+Se ligasses todos os teus vasos sanguíneos uns aos outros, daria para dar quase **duas voltas e meia à Terra** — cerca de 100 000 km! É por essa rede enorme que o sangue consegue levar oxigénio e nutrientes a cada cantinho do teu corpo, todos os dias. 🌍
+
 ## 🎯 Questionário final
 
 ```quiz
@@ -51,7 +57,16 @@ O corpo não funciona por peças isoladas. Quando comes, respiras, corres ou dor
       "explain": "O corpo mantém-se vivo pela cooperação entre sistemas." },
     { "q": "Eliminar resíduos é função importante do sistema…", "layout": "grid",
       "options": [ { "t": "excretor", "emoji": "💦", "correct": true }, { "t": "visual" }, { "t": "musical" } ],
-      "explain": "O sistema excretor ajuda a retirar substâncias que o corpo não precisa." }
+      "explain": "O sistema excretor ajuda a retirar substâncias que o corpo não precisa." },
+    { "q": "O sistema nervoso serve para…", "layout": "grid",
+      "options": [ { "t": "coordenar respostas e receber informação", "emoji": "🧠", "correct": true }, { "t": "guardar alimentos" }, { "t": "limpar a roupa" } ],
+      "explain": "O sistema nervoso recebe sinais e comanda o corpo." },
+    { "q": "Quando corres, o sangue leva mais depressa…", "layout": "grid",
+      "options": [ { "t": "oxigénio aos músculos", "emoji": "🏃", "correct": true }, { "t": "letras ao caderno" }, { "t": "luz às janelas" } ],
+      "explain": "O circulatório e o respiratório trabalham juntos para dar oxigénio aos músculos." },
+    { "q": "O oxigénio que respiras chega ao corpo todo graças ao…", "layout": "grid",
+      "options": [ { "t": "sangue", "emoji": "🩸", "correct": true }, { "t": "estômago" }, { "t": "ouvido" } ],
+      "explain": "O respiratório capta o oxigénio e o sangue distribui-o por todo o corpo." }
   ]
 }
 ```

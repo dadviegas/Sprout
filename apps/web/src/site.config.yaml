@@ -13,6 +13,48 @@ mascot:
   name: Feijãozinho
   emoji: "🌱"
 
+# Home areas — the top-level "por onde entro?" cards. The home is a short grid
+# of these instead of one long list of every section; each card opens an area
+# page that gathers what used to be loose sections (see
+# docs/HOME_AREAS_COMMAND_CENTER.md). Academia stays the hero above the grid.
+# `accent`: a colour token name (resolved to var(<accent>) / var(<accent>-soft)),
+# matching the colour of the content the area holds. `id` "diversao" opens the
+# Diversão hub (its own view); the other four open `view.kind === "area"`.
+areas:
+  sectionTitle: Áreas
+  sectionSub: "Escolhe por onde queres ir — está tudo arrumado por áreas. 🧭"
+  items:
+    - id: escola
+      label: Escola
+      blurb: "As matérias por ano, do 1.º ao 6.º."
+      icon: reading
+      accent: "--subj-mat"
+    - id: treinar
+      label: Treinar
+      blurb: "Saber de cor: tabuadas, alfabeto, mapas e muito mais."
+      icon: target
+      accent: "--accent"
+    - id: explorar
+      label: Explorar
+      blurb: "O Mundo e os países, dos Açores ao planeta inteiro."
+      icon: compass
+      accent: "--subj-mundo"
+    - id: biblioteca
+      label: Biblioteca
+      blurb: "O dicionário e os verbos, de A a Z — palavras e conjugações."
+      icon: letters
+      accent: "--subj-pt"
+    - id: teia
+      label: A Teia do Saber
+      blurb: "Vê numa teia como tudo se liga — temas e matérias entrelaçados."
+      icon: atom
+      accent: "--subj-emus"
+    - id: diversao
+      label: Diversão
+      blurb: "Jardim, jogos e caixa de brincar — o teu cantinho divertido."
+      icon: sparkle
+      accent: "--joy"
+
 # "Saber de cor" — a cross-cutting study / reference area (not a school subject,
 # not tied to a grade): things every child should know by heart — tabuadas, o
 # alfabeto, os números, os dias e os meses — all read-aloud. The topic pages
@@ -20,6 +62,37 @@ mascot:
 estudo:
   sectionTitle: Saber de cor
   sectionSub: "Coisas para saber de cor — toca para ouvir e treinar! 🧠"
+  # The "Treinar" page groups the topics above by type instead of one big grid.
+  # Each category lists topic ids from estudoSubject (content/curriculum.ts) —
+  # the order here is the order shown. Every topic must appear in exactly one.
+  categories:
+    - label: Matemática rápida
+      icon: math
+      topics: [estudo-tabuadas, estudo-contas, estudo-numeros, estudo-dinheiro, estudo-loja, estudo-medidas, estudo-formulas, estudo-romanos]
+    - label: Português rápido
+      icon: reading
+      topics: [estudo-alfabeto, estudo-pontuacao, estudo-classes, estudo-verbos]
+    - label: Tempo e calendário
+      icon: calendar
+      topics: [estudo-dias-meses, estudo-datas]
+    - label: Mundo e mapas
+      icon: compass
+      topics: [estudo-planetas, estudo-continentes, estudo-pontos-cardeais, estudo-distritos]
+    - label: Formas e espaço
+      icon: shapes
+      topics: [estudo-formas]
+
+# "Academia dos Elementos" — a 2D meta-game (not a school subject, not tied to a
+# grade): the child creates an elemental hero, then real lessons and tests earn
+# XP, coins, energy and complete missions. The game logic + element data live in
+# code (apps/web/src/world/); this owns the section copy. See
+# docs/SPROUT_WORLD_ACADEMIA_DOS_ELEMENTOS.md.
+academia:
+  sectionTitle: Academia dos Elementos
+  sectionSub: "Cria o teu herói e usa o que aprendes para o tornar mais forte! ⚡"
+  cardTitle: A tua Academia
+  cardBlurb: "Escolhe um elemento, ganha pontos e completa missões."
+  cta: Continuar a aprender
 
 # "Diversão" — the playful area (not a school subject, not tied to a grade):
 # a magical garden that grows with every lesson done, a little arcade of games,
@@ -55,6 +128,14 @@ diversao:
 dicionario:
   sectionTitle: O Dicionário
   sectionSub: "O que significam as palavras? Escolhe uma letra e toca para ouvir! 📖"
+
+# "Os Verbos" — the conjugation half of the Biblioteca (not a school subject, not
+# tied to a grade): verbs organised by letter, each opening to its five tenses,
+# saying whether it is regular or irregular. The letters live in
+# content/curriculum.ts (verbosSubject); this owns the section copy.
+verbos:
+  sectionTitle: Os Verbos
+  sectionSub: "Como mudam os verbos? Escolhe uma letra e toca para conjugar e ouvir! 🏃"
 
 # "Países" — get-to-know-a-country area (not a school subject, not tied to a
 # grade). One card per country on the home screen; each opens its own section

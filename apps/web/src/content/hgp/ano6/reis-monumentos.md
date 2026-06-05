@@ -42,6 +42,12 @@ Monumentos são como pistas de pedra: ajudam-nos a lembrar quem governava, que i
 ]
 ```
 
+> [!TIP] **Cada pedra guarda uma época** Quando ouvires um monumento, pergunta "de que tempo é esta pedra?". O Castelo de Guimarães cheira a início (1143), os Jerónimos a barcos e mar (Descobrimentos): a imagem prende logo a data.
+
+## Para saberes mais 🌱
+
+O Mosteiro dos Jerónimos foi pago, em grande parte, com um imposto sobre as especiarias e o ouro que chegavam da Índia e da África — por isso dizemos que aquela pedra rendilhada foi mesmo construída com a riqueza dos Descobrimentos! 🌶️⛵
+
 ## 🎯 Questionário final
 
 ```quiz
@@ -67,7 +73,13 @@ Monumentos são como pistas de pedra: ajudam-nos a lembrar quem governava, que i
       "explain": "Imagens mentais tornam a memória mais organizada." },
     { "q": "1910 marca…", "layout": "grid",
       "options": [ { "t": "o fim da monarquia e a República", "emoji": "🇵🇹", "correct": true }, { "t": "a formação do reino" }, { "t": "a Batalha de Aljubarrota" } ],
-      "explain": "A República foi implantada em 5 de outubro de 1910." }
+      "explain": "A República foi implantada em 5 de outubro de 1910." },
+    { "q": "O primeiro rei ligado à formação de Portugal foi…", "layout": "grid",
+      "options": [ { "t": "D. Afonso Henriques", "emoji": "👑", "correct": true }, { "t": "D. Manuel I" }, { "t": "D. João IV" } ],
+      "explain": "D. Afonso Henriques está ligado às origens do reino, por volta de 1143." },
+    { "q": "O tempo dos Descobrimentos liga-se ao reinado de…", "layout": "grid",
+      "options": [ { "t": "D. Manuel I", "emoji": "⛵", "correct": true }, { "t": "D. Afonso Henriques" }, { "t": "D. João I" } ],
+      "explain": "Os Jerónimos, em estilo manuelino, recordam as viagens oceânicas de D. Manuel I." }
   ]
 }
 ```

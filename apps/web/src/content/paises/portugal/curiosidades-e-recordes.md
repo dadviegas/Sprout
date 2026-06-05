@@ -120,7 +120,13 @@ Queres impressionar um amigo com um recorde de Portugal. Como contas a história
       "explain": "Um vale submarino fundíssimo." },
     { "q": "Portugal é pequeno, mas tem...", "layout": "grid",
       "options": [ { "t": "recordes de gigante", "emoji": "🏆", "correct": true }, { "t": "nada de especial" } ],
-      "explain": "Tem muitos recordes mundiais!" }
+      "explain": "Tem muitos recordes mundiais!" },
+    { "q": "Recorde de água: o Canadá tem a maior maré; Portugal tem a maior...", "layout": "grid",
+      "options": [ { "t": "onda (na Nazaré)", "emoji": "🌊", "correct": true }, { "t": "montanha do mundo" }, { "t": "ponte do mundo" } ],
+      "explain": "A maior onda surfada do mundo foi na Nazaré." },
+    { "q": "Para ver a livraria mais bonita, muita gente visita o Porto. Chama-se...", "layout": "grid",
+      "options": [ { "t": "Livraria Lello", "emoji": "📚", "correct": true }, { "t": "Universidade de Coimbra" }, { "t": "Torre de Belém" } ],
+      "explain": "A Livraria Lello, no Porto, é famosa pela sua beleza." }
   ]
 }
 ```

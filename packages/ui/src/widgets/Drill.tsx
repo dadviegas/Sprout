@@ -216,12 +216,18 @@ export function Drill({ spec }: { spec: DrillSpec }) {
         <span className="drill-chip drill-chip--streak" title="Sequência" data-on={streak > 1 || undefined}>🔥 {streak}</span>
       </div>
 
-      <div className={`drill-card ${revealed ? "is-flipped" : ""}`}>
+      <div className="drill-card" data-revealed={(mode === "flip" && revealed) || undefined}>
         <div className="drill-front">
           {item.emoji && <span className="drill-emoji" aria-hidden="true">{item.emoji}</span>}
           <span className="drill-q">{item.front}</span>
           <Speaker text={item.sayFront ?? item.front} label="Ouvir a pergunta" className="drill-speak" />
         </div>
+        {mode === "flip" && revealed && (
+          <div className="drill-answer">
+            <span className="drill-a">{item.back}</span>
+            <Speaker text={item.say ?? `${item.front} é ${item.back}`} label="Ouvir a resposta" className="drill-speak" />
+          </div>
+        )}
       </div>
 
       {mode === "flip" ? (
@@ -233,10 +239,6 @@ export function Drill({ spec }: { spec: DrillSpec }) {
           </div>
         ) : (
           <>
-            <div className="drill-answer">
-              <span className="drill-a">{item.back}</span>
-              <Speaker text={item.say ?? `${item.front} é ${item.back}`} label="Ouvir a resposta" className="drill-speak" />
-            </div>
             <p className="drill-prompt">Conseguiste? Sê honesto! 🙂</p>
             <div className="drill-actions">
               <button type="button" className="drill-btn drill-btn--no" onClick={() => grade(false)}>

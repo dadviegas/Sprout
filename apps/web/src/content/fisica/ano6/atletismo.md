@@ -164,6 +164,10 @@ Este ano dás um passo em frente: além de lançar para longe, aprendes a **medi
   { "q": "A regra de ouro da segurança nos lançamentos é…", "layout": "grid", "options": [
     { "t": "nunca lançar com pessoas à frente, nem ir buscar antes da ordem", "emoji": "🚫", "correct": true },
     { "t": "lançar e correr logo a buscar", "emoji": "🏃" }
-  ], "explain": "Espera sempre que todos lancem e a zona esteja livre." }
+  ], "explain": "Espera sempre que todos lancem e a zona esteja livre." },
+  { "q": "Para o peso ou o dardo ir o mais longe possível, o ângulo de saída deve ser perto de…", "layout": "grid", "options": [
+    { "t": "45 graus, a subir na diagonal", "emoji": "📐", "correct": true },
+    { "t": "0 graus, rasteiro ao chão" }
+  ], "explain": "A cerca de 45° o objeto percorre a maior distância." }
 ] }
 ```

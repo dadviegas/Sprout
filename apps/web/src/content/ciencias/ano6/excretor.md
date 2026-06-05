@@ -161,7 +161,10 @@ Os rins precisam de **água** para fazer a urina e arrastar o lixo. Se bebes pou
       "explain": "Urina escura é sinal de que precisas de beber mais água." },
     { "q": "O que é a diálise?", "layout": "list",
       "options": [ { "t": "Uma máquina que filtra o sangue quando os rins falham", "emoji": "🩺", "correct": true }, { "t": "Um tipo de comida" }, { "t": "Um exercício físico" } ],
-      "explain": "A diálise faz por fora o trabalho de limpeza dos rins." }
+      "explain": "A diálise faz por fora o trabalho de limpeza dos rins." },
+    { "q": "Foste ao WC e a urina estava bem escura. O que deves fazer?", "layout": "list",
+      "options": [ { "t": "beber mais água ao longo do dia", "emoji": "💧", "correct": true }, { "t": "beber menos água ainda" }, { "t": "não fazer nada — é igual a sempre" } ],
+      "explain": "Urina escura avisa que o corpo tem pouca água; beber ajuda os rins a limpar o sangue." }
   ]
 }
 ```

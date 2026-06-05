@@ -1,5 +1,7 @@
 # Os números 🔢
 
+> [!NOTE] **O que vais aprender** 👀 A contar e a dizer os números de 0 a 20, e a descobrir quais são pares e quais são ímpares.
+
 Conta de **0 a 20**. Toca em cada número para o ouvires! 🎧
 
 ```soundcards
@@ -122,3 +124,7 @@ Agora ao contrário: qual é **par**? Escolhe! 👟
   { "front": "15 é…", "back": "ímpar", "options": ["par"] }
 ] }
 ```
+
+## Para saberes mais 🌱
+
+O **zero** é o número mais novo de todos! Os romanos, há muito tempo, nem sequer tinham um símbolo para ele — foram sábios da Índia que inventaram o 0 para mostrar "nenhuma quantidade". Sem o zero não teríamos o 10, o 20 nem o 100. 😮

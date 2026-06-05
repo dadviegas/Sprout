@@ -19,6 +19,8 @@ Uma mensagem digital também é comunicação. O tom, as palavras e a clareza co
 ]
 ```
 
+> [!TIP] **A receita SOS** Pensa numa boa mensagem como um sanduíche: **S**audação no pão de cima, a **mensagem** no recheio e a despe**d**ida no pão de baixo — e nunca esqueças o **S** do assunto a etiquetar tudo lá fora. 🥪
+
 ## Antes de enviar
 
 ```keyvalue
@@ -45,6 +47,10 @@ Uma mensagem digital também é comunicação. O tom, as palavras e a clareza co
 ]
 ```
 
+## Para saberes mais 🌱
+
+Sabias que o primeiro email da história foi enviado em 1971 por um engenheiro chamado Ray Tomlinson — e foi ele que escolheu o símbolo **@** para separar o nome da pessoa do nome do computador? Ele nem se lembrava do que escreveu na mensagem: disse que foi algo «esquecível», talvez só as letras seguidas do teclado! 📨
+
 ## 🎯 Questionário final
 
 ```quiz
@@ -67,7 +73,16 @@ Uma mensagem digital também é comunicação. O tom, as palavras e a clareza co
       "explain": "Trabalhos e imagens podem ir em anexo." },
     { "q": "Partilhar dados pessoais numa mensagem…", "layout": "grid",
       "options": [ { "t": "deve ser evitado sem necessidade", "emoji": "🔒", "correct": true }, { "t": "é sempre obrigatório" }, { "t": "não importa" } ],
-      "explain": "Dados pessoais devem ser protegidos." }
+      "explain": "Dados pessoais devem ser protegidos." },
+    { "q": "Como começas uma mensagem para a professora?", "layout": "grid",
+      "options": [ { "t": "com uma saudação, como «Bom dia»", "emoji": "👋", "correct": true }, { "t": "a escrever logo o pedido seco" }, { "t": "só com um ponto" } ],
+      "explain": "Uma saudação simpática abre bem a mensagem." },
+    { "q": "Para terminar a mensagem com respeito, escreves…", "layout": "grid",
+      "options": [ { "t": "uma despedida, como «Obrigado»", "emoji": "🙏", "correct": true }, { "t": "nada, fechas logo" }, { "t": "a tua palavra-passe" } ],
+      "explain": "Despedir-se com educação fecha bem a mensagem." },
+    { "q": "Recebeste um email de alguém que não conheces com um anexo estranho. Deves…", "layout": "grid",
+      "options": [ { "t": "não abrir e contar a um adulto", "emoji": "🛑", "correct": true }, { "t": "abrir logo para ver" }, { "t": "reenviar a todos os amigos" } ],
+      "explain": "Anexos de desconhecidos podem ser perigosos." }
   ]
 }
 ```

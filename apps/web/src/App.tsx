@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, Suspense, lazy, type ReactNode } from "react";
 import { ProgressProvider, useProgress, LessonContext, type ProgressMap } from "./progress";
-import { loadTheme, loadView, NAV_KEY, THEME_KEY, type View, type DiversaoRoom } from "./nav";
+import { loadTheme, loadView, viewToHash, viewFromHash, NAV_KEY, THEME_KEY, type View, type AreaId } from "./nav";
 import { store } from "./storage";
 import {
   mundoSubject,
@@ -14,6 +14,8 @@ import {
   isEstudo,
   dicionarioSubject,
   isDicionario,
+  verbosSubject,
+  isVerbos,
   paisesSubject,
   paisesCountries,
   isPaises,
@@ -40,7 +42,7 @@ import { CommandCenter } from "./CommandCenter";
 import { AchievementsPanel } from "./Achievements";
 import { SimuladoLauncher } from "./Simulado";
 import { splitLesson } from "./lesson-content";
-import { Stars, ProgressBar, yearStats, yearAllStats, pctOf } from "./ui";
+import { Stars, ProgressBar, yearStats, yearAllStats, subjectStats, sumStats, schoolStats, pctOf } from "./ui";
 
 // The markdown renderer pulls in react-markdown + remark/rehype plugins + every
 // interactive widget — heavy, and only needed on lesson/test screens. Lazy-load
@@ -50,6 +52,11 @@ const Markdown = lazy(() => import("./Markdown").then((m) => ({ default: m.Markd
 // "Diversão" pulls in <canvas> games + animation loops — heavy and only needed
 // when the child opens the fun area, so lazy-load it to keep first paint lean.
 const Diversao = lazy(() => import("./diversao/Diversao").then((m) => ({ default: m.Diversao })));
+
+// "Academia dos Elementos" — the 2D meta-game (hero + missions). Lazy-loaded; it
+// only matters once the child opens it, so it stays out of the first paint.
+const Academia = lazy(() => import("./world/Academia").then((m) => ({ default: m.Academia })));
+const Teia = lazy(() => import("./Teia").then((m) => ({ default: m.Teia })));
 
 function LessonBody({ children, className = "" }: { children: string; className?: string }) {
   return (
@@ -69,6 +76,7 @@ const SUBJECT_ICON: Record<string, IconName> = {
   mundo: "compass",
   estudo: "star",
   dicionario: "letters",
+  verbos: "reading",
   paises: "map",
   cidadania: "heart",
   tic: "device",
@@ -162,6 +170,10 @@ const LESSON_ICON: Record<string, IconName> = {
 const lessonIconById = (subjectId: string, lessonId: string): IconName => LESSON_ICON[lessonId] ?? SUBJECT_ICON[subjectId];
 const lessonIcon = (subjectId: string, l: Lesson): IconName => lessonIconById(subjectId, l.id);
 
+// "Saber de cor" topics by id — the "Treinar" page groups them into categories
+// (site.estudo.categories), each listing topic ids it should show.
+const estudoById = new Map(estudoTopics.map((t) => [t.id, t] as const));
+
 export function App() {
   return (
     <ProgressProvider>
@@ -172,7 +184,9 @@ export function App() {
 
 function Root() {
   const [theme, setTheme] = useState<"light" | "dark">(loadTheme);
-  const [view, setView] = useState<View>(loadView);
+  // A URL hash (e.g. `#/ano/3/mat/folha-calculo`) wins over stored state, so a
+  // shared/bookmarked link opens straight to that page.
+  const [view, setView] = useState<View>(() => viewFromHash(window.location.hash) ?? loadView());
   const [drawer, setDrawer] = useState(false);
   const [palette, setPalette] = useState(false);
   const [achievements, setAchievements] = useState(false);
@@ -238,34 +252,47 @@ function Root() {
     setAchievements(false);
   };
 
-  // Forward navigation pushes a browser-history entry, so the device/mouse
-  // Back button (and Forward) walk the in-app screens instead of leaving Sprout.
+  // Forward navigation writes the URL hash, which pushes a browser-history entry
+  // and fires `hashchange` — the single place the view state updates. So the
+  // device/mouse Back/Forward walk the in-app screens, and the address bar
+  // always matches the current page (shareable/bookmarkable).
   const go = (v: View) => {
     closeOverlays();
-    window.history.pushState({ sproutView: v }, "");
-    setView(v);
+    const hash = viewToHash(v);
+    // Re-selecting the current page won't fire `hashchange`; update directly.
+    if (hash === window.location.hash) setView(v);
+    else window.location.hash = hash;
   };
-  // The in-app back arrow now uses the same history stack as the browser/mouse
-  // Back, so they agree: go to the previous screen (popstate restores it).
+  // The in-app back arrow uses the same history stack as the browser/mouse Back,
+  // so they agree: go to the previous screen (hashchange restores it).
   const back = () => window.history.back();
 
-  // Seed history (so a deep view restored from storage still has "home" beneath
-  // it, and Back never leaves the app on the first hop) and follow Back/Forward.
+  // Open a lesson by id alone (used by "recently seen" and the "Treinar" cards),
+  // resolving its year/subject from the lesson registry.
+  const openLesson = (lessonId: string) => {
+    const m = lessonMeta.get(lessonId);
+    if (m) go({ kind: "lesson", year: m.year, subjectId: m.subjectId, lessonId });
+  };
+
+  // Seed history (so a deep view opened from a shared link still has "home"
+  // beneath it, and Back never leaves the app on the first hop), then follow the
+  // hash — in-app nav, Back/Forward, and manually edited URLs all flow through
+  // `hashchange`, keeping the address bar and the screen in sync.
   const seeded = useRef(false);
   useEffect(() => {
     if (!seeded.current) {
       seeded.current = true;
-      const initial = loadView();
-      window.history.replaceState({ sproutView: { kind: "home" } as View }, "");
-      if (initial.kind !== "home") window.history.pushState({ sproutView: initial }, "");
+      if (view.kind !== "home") {
+        window.history.replaceState(null, "", "#/");
+        window.history.pushState(null, "", viewToHash(view));
+      }
     }
-    const onPop = (e: PopStateEvent) => {
+    const onHash = () => {
       closeOverlays();
-      const v = (e.state as { sproutView?: View } | null)?.sproutView;
-      setView(v ?? { kind: "home" });
+      setView(viewFromHash(window.location.hash) ?? { kind: "home" });
     };
-    window.addEventListener("popstate", onPop);
-    return () => window.removeEventListener("popstate", onPop);
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
   }, []);
 
   // In-lesson links (`[texto](lesson:<id>)` in markdown) navigate within the app
@@ -292,16 +319,28 @@ function Root() {
 
         {view.kind === "home" && (
           <Home
-            onPick={(year) => go({ kind: "year", year })}
+            onOpenArea={(area) => go({ kind: "area", area })}
+            onOpenDiversao={() => go({ kind: "diversao" })}
+            onOpenAcademia={() => go({ kind: "academia" })}
+            onOpenTeia={() => go({ kind: "teia" })}
+            onOpenLesson={openLesson}
+          />
+        )}
+        {view.kind === "area" && view.area === "escola" && (
+          <EscolaView onPick={(year) => go({ kind: "year", year })} />
+        )}
+        {view.kind === "area" && view.area === "treinar" && <TreinarView onOpenLesson={openLesson} />}
+        {view.kind === "area" && view.area === "explorar" && (
+          <ExplorarView
             onPickRing={(ring) => go({ kind: "subject", year: ring, subjectId: mundoSubject.id })}
             onOpenMundo={() => go({ kind: "mundo" })}
-            onOpenDicionario={() => go({ kind: "subject", year: 1, subjectId: dicionarioSubject.id })}
-            onOpenDiversao={(room) => go({ kind: "diversao", room })}
             onPickCountry={(tier) => go({ kind: "subject", year: tier, subjectId: paisesSubject.id })}
-            onOpenLesson={(lessonId) => {
-              const m = lessonMeta.get(lessonId);
-              if (m) go({ kind: "lesson", year: m.year, subjectId: m.subjectId, lessonId });
-            }}
+          />
+        )}
+        {view.kind === "area" && view.area === "biblioteca" && (
+          <BibliotecaView
+            onOpenDicionario={() => go({ kind: "subject", year: 1, subjectId: dicionarioSubject.id })}
+            onOpenVerbos={() => go({ kind: "subject", year: 1, subjectId: verbosSubject.id })}
           />
         )}
         {view.kind === "mundo" && (
@@ -334,6 +373,16 @@ function Root() {
         {view.kind === "diversao" && (
           <Suspense fallback={<div className="lesson-loading">A preparar a diversão…</div>}>
             <Diversao room={view.room} onOpenRoom={(room) => go({ kind: "diversao", room })} />
+          </Suspense>
+        )}
+        {view.kind === "academia" && (
+          <Suspense fallback={<div className="lesson-loading">A preparar a Academia…</div>}>
+            <Academia onGo={go} />
+          </Suspense>
+        )}
+        {view.kind === "teia" && (
+          <Suspense fallback={<div className="lesson-loading">A preparar a teia…</div>}>
+            <Teia onGo={go} />
           </Suspense>
         )}
       </div>
@@ -402,7 +451,17 @@ function TopBar({
               <Icon name="home" size={18} />
             </button>
             <span className="sep">›</span>
-            {view.kind === "diversao" ? (
+            {view.kind === "area" ? (
+              // A top-level home area (Escola / Treinar / Explorar / Biblioteca).
+              (() => {
+                const a = site.areas.items.find((i) => i.id === view.area);
+                return a ? (
+                  <span style={{ color: `var(${a.accent})`, display: "inline-flex", alignItems: "center", gap: 4 }}>
+                    <Icon name={a.icon as IconName} size={18} /> {a.label}
+                  </span>
+                ) : null;
+              })()
+            ) : view.kind === "diversao" ? (
               // "Diversão" hub, plus the room name when inside one (a link back).
               <>
                 {view.room ? (
@@ -421,6 +480,16 @@ function TopBar({
                   </>
                 )}
               </>
+            ) : view.kind === "academia" ? (
+              // The "Academia dos Elementos" meta-game.
+              <span style={{ color: "var(--subj-en)", display: "inline-flex", alignItems: "center", gap: 4 }}>
+                <Icon name="bolt" size={18} /> {site.academia.sectionTitle}
+              </span>
+            ) : view.kind === "teia" ? (
+              // "A Teia do Saber" — the knowledge web.
+              <span style={{ color: "var(--subj-emus)", display: "inline-flex", alignItems: "center", gap: 4 }}>
+                <Icon name="atom" size={18} /> A Teia do Saber
+              </span>
             ) : view.kind === "mundo" ? (
               // The "Pelo mundo fora" overview itself.
               <span style={{ color: mundoSubject.color, display: "inline-flex", alignItems: "center", gap: 4 }}>
@@ -464,10 +533,10 @@ function TopBar({
                   {tierLabel(subject.id, view.year)}
                 </span>
               )
-            ) : subject && (isEstudo(subject.id) || isDicionario(subject.id)) ? (
-              // "Saber de cor" / "O Dicionário" — grade-less areas, never
-              // "X.º ano". Just the area name (a link back to its overview when
-              // on a topic/letter).
+            ) : subject && (isEstudo(subject.id) || isDicionario(subject.id) || isVerbos(subject.id)) ? (
+              // "Saber de cor" / "O Dicionário" / "Os Verbos" — grade-less areas,
+              // never "X.º ano". Just the area name (a link back to its overview
+              // when on a topic/letter).
               deeperThanSubject ? (
                 <button className="crumb-link" style={{ color: subject.color }} onClick={() => onGo({ kind: "subject", year: view.year, subjectId: subject.id })}>
                   <Icon name={SUBJECT_ICON[subject.id]} size={18} /> {subject.label}
@@ -687,37 +756,107 @@ function RecentlySeen({
   );
 }
 
-/* ---------------- home: pick a year ---------------- */
+/* ---------------- home: pick an area ---------------- */
 
+// The home is a short grid of top-level AREAS (not one long list of every
+// section). Academia stays the hero above. Each area card opens its own page
+// (the *View components below). Progress rolls up where the area holds graded
+// lessons (Escola, Explorar); Treinar/Biblioteca/Diversão just show a blurb.
 function Home({
-  onPick,
-  onPickRing,
-  onOpenMundo,
-  onOpenDicionario,
+  onOpenArea,
   onOpenDiversao,
-  onPickCountry,
+  onOpenAcademia,
+  onOpenTeia,
   onOpenLesson,
 }: {
-  onPick: (year: YearN) => void;
-  onPickRing: (ring: YearN) => void;
-  onOpenMundo: () => void;
-  onOpenDicionario: () => void;
-  onOpenDiversao: (room: DiversaoRoom) => void;
-  onPickCountry: (tier: YearN) => void;
+  onOpenArea: (area: AreaId) => void;
+  onOpenDiversao: () => void;
+  onOpenAcademia: () => void;
+  onOpenTeia: () => void;
   onOpenLesson: (lessonId: string) => void;
 }) {
   const { progress, history, totalStars, removeSeen, clearHistory } = useProgress();
   const greeting =
     totalStars === 0
-      ? `Olá! Eu sou o ${site.mascot.name}. Em que ano andas? Toca no teu ano!`
-      : `Boa! Já tens ${totalStars} estrela${totalStars === 1 ? "" : "s"}! Escolhe o teu ano para continuar.`;
+      ? `Olá! Eu sou o ${site.mascot.name}. Por onde queres começar?`
+      : `Boa! Já tens ${totalStars} estrela${totalStars === 1 ? "" : "s"}! Escolhe uma área para continuar.`;
 
   return (
     <div>
       <Mascot message={greeting} mood={totalStars > 0 ? "cheer" : "happy"} />
 
       <RecentlySeen history={history} progress={progress} onOpen={onOpenLesson} onRemove={removeSeen} onClear={clearHistory} />
-      <h2 className="section-title"><Icon name="calendar" size={26} /> Escolhe o teu ano</h2>
+
+      {/* "Academia dos Elementos" — the 2D meta-game (the hook): create an
+          elemental hero, then real lessons/tests earn XP, coins and missions.
+          Stays the hero at the top — it's the reason to come back and study. */}
+      <h2 className="section-title">
+        <span style={{ color: "var(--subj-en)", display: "inline-flex" }}>
+          <Icon name="bolt" size={26} />
+        </span>
+        {site.academia.sectionTitle}
+      </h2>
+      <p className="section-sub">{site.academia.sectionSub}</p>
+      <div className="card-grid">
+        <BigCard
+          iconName="bolt"
+          kicker="Aventura"
+          title={site.academia.cardTitle}
+          color="var(--subj-en)"
+          colorSoft="var(--subj-en-soft)"
+          sub={<span className="sub">{site.academia.cardBlurb}</span>}
+          say={`${site.academia.cardTitle}. ${site.academia.cardBlurb}`}
+          onClick={onOpenAcademia}
+        />
+      </div>
+
+      {/* The areas: Escola, Treinar, Explorar, Biblioteca, Diversão. Copy/icons
+          /colours come from site.areas; each opens its page (or the Diversão
+          hub). This is the whole point of the refactor — one tidy entry grid. */}
+      <h2 className="section-title" style={{ marginTop: 36 }}>
+        <Icon name="grid" size={26} /> {site.areas.sectionTitle}
+      </h2>
+      <p className="section-sub">{site.areas.sectionSub}</p>
+      <div className="card-grid cols-3">
+        {site.areas.items.map((a) => {
+          // Roll up progress where the area holds graded lessons.
+          const st =
+            a.id === "escola"
+              ? schoolStats(progress)
+              : a.id === "explorar"
+                ? sumStats([subjectStats(progress, mundoSubject), subjectStats(progress, paisesSubject)])
+                : null;
+          return (
+            <BigCard
+              key={a.id}
+              iconName={a.icon as IconName}
+              kicker="Área"
+              title={a.label}
+              color={`var(${a.accent})`}
+              colorSoft={`var(${a.accent}-soft)`}
+              sub={<span className="sub">{a.blurb}</span>}
+              say={`${a.label}. ${a.blurb}`}
+              onClick={() => (a.id === "diversao" ? onOpenDiversao() : a.id === "teia" ? onOpenTeia() : onOpenArea(a.id as AreaId))}
+            >
+              {st && st.real > 0 && (
+                <CardProgress pct={pctOf(st)} done={st.done} real={st.real} stars={st.stars} color={`var(${a.accent})`} />
+              )}
+            </BigCard>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ---------------- area: Escola (years 1.º–6.º) ---------------- */
+
+function EscolaView({ onPick }: { onPick: (year: YearN) => void }) {
+  const { progress } = useProgress();
+  return (
+    <div>
+      <Mascot message="Escola! Em que ano andas? Toca no teu ano para veres as matérias." mood="happy" />
+      <h2 className="section-title"><Icon name="reading" size={26} /> Escolhe o teu ano</h2>
       {([1, 2] as Cycle[]).map((cycle) => (
         <div key={cycle} className="cycle-block">
           <p className="cycle-label">{CYCLE_LABEL[cycle]}</p>
@@ -745,38 +884,69 @@ function Home({
           </div>
         </div>
       ))}
+    </div>
+  );
+}
 
-      {/* "Diversão" — a playful area (not a school subject, not a grade): a
-          garden that grows with every lesson done, a little arcade of games,
-          and a toy box to poke at. Pure fun, all read-aloud, works on touch
-          and desktop. Sits high up — it's the reward for learning. */}
-      <h2 className="section-title" style={{ marginTop: 36 }}>
-        <span style={{ color: "var(--joy)", display: "inline-flex" }}>
-          <Icon name="sparkle" size={26} />
-        </span>
-        {site.diversao.sectionTitle}
-      </h2>
-      <p className="section-sub">{site.diversao.sectionSub}</p>
-      <div className="card-grid cols-3">
-        {site.diversao.rooms.map((r) => (
-          <BigCard
-            key={r.id}
-            iconName={r.icon as IconName}
-            kicker="Diversão"
-            title={r.label}
-            color={`var(${r.accent})`}
-            colorSoft={`var(${r.accent}-soft)`}
-            sub={<span className="sub">{r.blurb}</span>}
-            say={`${r.label}. ${r.blurb}`}
-            onClick={() => onOpenDiversao(r.id)}
-          />
-        ))}
-      </div>
+/* ---------------- area: Treinar ("Saber de cor", grouped) ---------------- */
 
-      {/* "O Mundo" is its own area — common sense and general culture, NOT a
-          school subject and NOT a grade. The Açores and Portugal (the child's
-          own identity) sit right here; the wider world is one tap in. */}
-      <h2 className="section-title" style={{ marginTop: 36 }}>
+// The "Saber de cor" topics, grouped by the categories in site.estudo. One big
+// flat grid became hard to scan, so each category is its own labelled block.
+function TreinarView({ onOpenLesson }: { onOpenLesson: (lessonId: string) => void }) {
+  return (
+    <div>
+      <Mascot message={`${site.estudo.sectionTitle}. Escolhe um tema para ouvires e treinares!`} mood="happy" />
+      {site.estudo.categories.map((cat, i) => (
+        <div key={cat.label}>
+          <h2 className="section-title" style={i > 0 ? { marginTop: 32 } : undefined}>
+            <span style={{ color: estudoSubject.color, display: "inline-flex" }}>
+              <Icon name={cat.icon as IconName} size={26} />
+            </span>
+            {cat.label}
+          </h2>
+          <div className="card-grid cols-4">
+            {cat.topics.map((id) => {
+              const t = estudoById.get(id);
+              if (!t) return null;
+              return (
+                <BigCard
+                  key={id}
+                  iconName={lessonIcon(estudoSubject.id, t)}
+                  kicker="Saber de cor"
+                  title={t.title}
+                  color={estudoSubject.color}
+                  colorSoft={estudoSubject.colorSoft}
+                  sub={<span className="sub">Toca para ouvir e treinar</span>}
+                  say={t.title}
+                  onClick={() => onOpenLesson(id)}
+                />
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ---------------- area: Explorar (O Mundo + Países) ---------------- */
+
+function ExplorarView({
+  onPickRing,
+  onOpenMundo,
+  onPickCountry,
+}: {
+  onPickRing: (ring: YearN) => void;
+  onOpenMundo: () => void;
+  onPickCountry: (tier: YearN) => void;
+}) {
+  const { progress } = useProgress();
+  return (
+    <div>
+      <Mascot message="Vamos explorar! Dos Açores ao mundo inteiro — e conhecer países de cima a baixo." mood="happy" />
+
+      {/* "O Mundo" — Açores and Portugal up front; the wider world one tap in. */}
+      <h2 className="section-title">
         <span style={{ color: mundoSubject.color, display: "inline-flex" }}>
           <Icon name={SUBJECT_ICON[mundoSubject.id]} size={26} />
         </span>
@@ -826,59 +996,7 @@ function Home({
         </BigCard>
       </div>
 
-      {/* "Saber de cor" — a cross-cutting study/reference area (not a school
-          subject, not a grade): tabuadas, alfabeto, números, dias e meses, all
-          read-aloud. Its own home section, like "O Mundo". */}
-      <h2 className="section-title" style={{ marginTop: 36 }}>
-        <span style={{ color: estudoSubject.color, display: "inline-flex" }}>
-          <Icon name={SUBJECT_ICON[estudoSubject.id]} size={26} />
-        </span>
-        {site.estudo.sectionTitle}
-      </h2>
-      <p className="section-sub">{site.estudo.sectionSub}</p>
-      <div className="card-grid cols-4">
-        {estudoTopics.map((t) => (
-          <BigCard
-            key={t.id}
-            iconName={lessonIcon(estudoSubject.id, t)}
-            kicker="Saber de cor"
-            title={t.title}
-            color={estudoSubject.color}
-            colorSoft={estudoSubject.colorSoft}
-            sub={<span className="sub">Toca para ouvir e treinar</span>}
-            say={t.title}
-            onClick={() => onOpenLesson(t.id)}
-          />
-        ))}
-      </div>
-
-      {/* "O Dicionário" — a cross-cutting reference area (not a school subject,
-          not a grade): word meanings for early readers, by letter. Its own home
-          section; one card opens the A–Z letters grid (the SubjectView). */}
-      <h2 className="section-title" style={{ marginTop: 36 }}>
-        <span style={{ color: dicionarioSubject.color, display: "inline-flex" }}>
-          <Icon name={SUBJECT_ICON[dicionarioSubject.id]} size={26} />
-        </span>
-        {site.dicionario.sectionTitle}
-      </h2>
-      <p className="section-sub">{site.dicionario.sectionSub}</p>
-      <div className="card-grid">
-        <BigCard
-          iconName={SUBJECT_ICON[dicionarioSubject.id]}
-          kicker="Dicionário"
-          title="As palavras de A a Z"
-          color={dicionarioSubject.color}
-          colorSoft={dicionarioSubject.colorSoft}
-          sub={<span className="sub">Escolhe uma letra para veres o que as palavras significam</span>}
-          say="O Dicionário. Escolhe uma letra para veres o que as palavras significam."
-          onClick={onOpenDicionario}
-        />
-      </div>
-
-      {/* "Países" — a get-to-know-a-country area (not a school subject, not a
-          grade). One card per country; each opens its own section of parallel
-          lessons (o país, a bandeira, o hino, a comida, a natureza, as
-          curiosidades) so the child can compare the two side by side. */}
+      {/* "Países" — one card per country; each opens its parallel lessons. */}
       <h2 className="section-title" style={{ marginTop: 36 }}>
         <span style={{ color: paisesSubject.color, display: "inline-flex" }}>
           <Icon name={SUBJECT_ICON[paisesSubject.id]} size={26} />
@@ -905,6 +1023,46 @@ function Home({
             </BigCard>
           );
         })}
+      </div>
+    </div>
+  );
+}
+
+/* ---------------- area: Biblioteca (O Dicionário) ---------------- */
+
+function BibliotecaView({ onOpenDicionario, onOpenVerbos }: { onOpenDicionario: () => void; onOpenVerbos: () => void }) {
+  const area = site.areas.items.find((i) => i.id === "biblioteca");
+  return (
+    <div>
+      <Mascot message="A Biblioteca! O dicionário diz o que as palavras significam, os verbos mostram como mudam. Escolhe!" mood="happy" />
+      <h2 className="section-title">
+        <span style={{ color: dicionarioSubject.color, display: "inline-flex" }}>
+          <Icon name={(area?.icon as IconName) ?? "letters"} size={26} />
+        </span>
+        Biblioteca
+      </h2>
+      <p className="section-sub">{area?.blurb}</p>
+      <div className="card-grid">
+        <BigCard
+          iconName={SUBJECT_ICON[dicionarioSubject.id]}
+          kicker="Dicionário"
+          title="As palavras de A a Z"
+          color={dicionarioSubject.color}
+          colorSoft={dicionarioSubject.colorSoft}
+          sub={<span className="sub">Escolhe uma letra para veres o que as palavras significam</span>}
+          say="O Dicionário. Escolhe uma letra para veres o que as palavras significam."
+          onClick={onOpenDicionario}
+        />
+        <BigCard
+          iconName={SUBJECT_ICON[verbosSubject.id]}
+          kicker="Verbos"
+          title="Os verbos de A a Z"
+          color={verbosSubject.color}
+          colorSoft={verbosSubject.colorSoft}
+          sub={<span className="sub">Escolhe uma letra e toca num verbo para o conjugares</span>}
+          say="Os Verbos. Escolhe uma letra e toca num verbo para o conjugares e ouvires."
+          onClick={onOpenVerbos}
+        />
       </div>
     </div>
   );
@@ -986,10 +1144,18 @@ function SubjectView({ subject, year, onPick }: { subject: Subject; year: YearN;
   const { progress } = useProgress();
   const lessons = subject.years[year];
   const tier = tierLabel(subject.id, year); // "" for the grade-less study area
-  const dict = isDicionario(subject.id);
+  const verbs = isVerbos(subject.id);
+  // Both halves of the Biblioteca (dictionary + verbs) show one big-letter card
+  // per letter instead of the usual topic icons.
+  const dict = isDicionario(subject.id) || verbs;
+  const mascotMsg = verbs
+    ? `${subject.label}. Escolhe uma letra e toca num verbo para o conjugares!`
+    : dict
+    ? `${subject.label}. Escolhe uma letra para veres o que as palavras significam!`
+    : `${subject.label}${tier ? ` • ${tier}` : ""}. Escolhe uma lição para começar!`;
   return (
     <div>
-      <Mascot message={dict ? `${subject.label}. Escolhe uma letra para veres o que as palavras significam!` : `${subject.label}${tier ? ` • ${tier}` : ""}. Escolhe uma lição para começar!`} mood="happy" />
+      <Mascot message={mascotMsg} mood="happy" />
       <h2 className="section-title">
         <span style={{ color: subject.color, display: "inline-flex" }}><Icon name={SUBJECT_ICON[subject.id]} size={26} /></span>
         {subject.label}
@@ -1015,7 +1181,7 @@ function SubjectView({ subject, year, onPick }: { subject: Subject; year: YearN;
               onClick={() => onPick(l.id)}
               sub={
                 dict ? (
-                  <span className="sub">Toca para ver as palavras ›</span>
+                  <span className="sub">{verbs ? "Toca para conjugar ›" : "Toca para ver as palavras ›"}</span>
                 ) : soon ? (
                   <span className="tag"><Icon name="lock" size={13} /> Em breve</span>
                 ) : p?.done ? (

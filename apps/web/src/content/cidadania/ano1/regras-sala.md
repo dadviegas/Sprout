@@ -21,6 +21,12 @@ As regras ajudam a turma a aprender melhor. Não servem para chatear: servem par
 ]
 ```
 
+> [!TIP] **O semáforo do respeito** 🚦 Antes de agir, imagina um semáforo: vermelho — paro; amarelo — penso "isto ajuda ou atrapalha?"; verde — sigo com a escolha simpática.
+
+## Para saberes mais 🌱
+
+Sabias que as abelhas também têm "regras" para viverem juntas? Numa colmeia, cada abelha tem uma tarefa e avisa as outras com uma pequena dança 🐝 — é assim que milhares de abelhas conseguem trabalhar em equipa sem se atrapalharem.
+
 ## 🎯 Questionário final
 
 ```quiz
@@ -40,7 +46,19 @@ As regras ajudam a turma a aprender melhor. Não servem para chatear: servem par
       "explain": "Esperar a vez ajuda a conversa." },
     { "q": "Cuidar dos materiais é…", "layout": "grid",
       "options": [ { "t": "uma responsabilidade", "emoji": "🎒", "correct": true }, { "t": "rasgar livros" }, { "t": "perder tudo de propósito" } ],
-      "explain": "Os materiais são para usar e preservar." }
+      "explain": "Os materiais são para usar e preservar." },
+    { "q": "Um colega caiu no recreio. O que fazes?", "layout": "grid",
+      "options": [ { "t": "ajudo a levantar", "emoji": "🤗", "correct": true }, { "t": "rio dele" }, { "t": "fujo a correr" } ],
+      "explain": "Ser gentil ajuda quem precisa." },
+    { "q": "Quando entras na sala, dizes…", "layout": "grid",
+      "options": [ { "t": "bom dia", "emoji": "😊", "correct": true }, { "t": "nada e empurro" }, { "t": "um grito" } ],
+      "explain": "Cumprimentar é simpático." },
+    { "q": "Acabaste de brincar com os jogos. Agora…", "layout": "grid",
+      "options": [ { "t": "arrumo no lugar", "emoji": "🧩", "correct": true }, { "t": "deixo no chão" }, { "t": "escondo tudo" } ],
+      "explain": "Arrumar deixa a sala bonita para todos." },
+    { "q": "Queres um lápis do teu colega. Tu…", "layout": "grid",
+      "options": [ { "t": "peço por favor", "emoji": "🙂", "correct": true }, { "t": "tiro à força" }, { "t": "escondo o lápis" } ],
+      "explain": "Pedir com jeitinho é respeitar o outro." }
   ]
 }
 ```

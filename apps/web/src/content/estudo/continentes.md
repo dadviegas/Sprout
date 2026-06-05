@@ -98,20 +98,20 @@ estás dos Polos, mais frio faz; quanto mais perto do Equador, mais calor! ☀�
 
 ## Treina agora! 🎯
 
-Vê a pista e tenta adivinhar. Depois vira o cartão para confirmar! 🃏
+Lê (ou ouve) a pergunta e escolhe a resposta certa! 🎧
 
 ```drill
-{ "mode": "flip", "title": "Continente ou oceano?", "items": [
-  { "front": "Onde fica Portugal?", "back": "no continente Europa 🌍" },
-  { "front": "Qual o oceano de Portugal?", "back": "o Atlântico 🌊" },
-  { "front": "O maior continente", "back": "a Ásia 🥇" },
-  { "front": "O maior oceano", "back": "o Pacífico 🌊" },
-  { "front": "O continente do gelo", "back": "a Antártida 🐧" },
-  { "front": "O continente mais pequeno", "back": "a Oceânia 🐨" }
+{ "mode": "choose", "title": "Já sabes responder?", "choices": 3, "items": [
+  { "front": "Onde fica Portugal?", "back": "na Europa", "options": ["na Ásia", "em África"] },
+  { "front": "Qual o oceano de Portugal?", "back": "o Atlântico", "options": ["o Pacífico", "o Índico"] },
+  { "front": "Qual é o maior continente?", "back": "a Ásia", "options": ["a Europa", "a Oceânia"] },
+  { "front": "Qual é o maior oceano?", "back": "o Pacífico", "options": ["o Atlântico", "o Índico"] },
+  { "front": "Qual é o continente do gelo?", "back": "a Antártida", "options": ["a América", "a Oceânia"] },
+  { "front": "Qual é o continente mais pequeno?", "back": "a Oceânia", "options": ["a Antártida", "a Ásia"] }
 ] }
 ```
 
-Agora escolhe a resposta certa! 👇
+Agora classifica cada um — continente ou oceano? 👇
 
 ```drill
 { "mode": "choose", "title": "Continente ou oceano?", "choices": 2, "items": [

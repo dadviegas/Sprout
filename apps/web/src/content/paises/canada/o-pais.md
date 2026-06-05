@@ -118,7 +118,13 @@ Um amigo pergunta-te: «Onde fica o Canadá?» Responde com calma, como aprendes
       "explain": "Inglês e francês." },
     { "q": "O Canadá tem muito espaço porque...", "layout": "grid",
       "options": [ { "t": "é enorme e vive lá pouca gente", "emoji": "🏞️", "correct": true }, { "t": "é minúsculo" } ],
-      "explain": "É gigante, com poucos habitantes." }
+      "explain": "É gigante, com poucos habitantes." },
+    { "q": "É de manhã em Vancouver, a oeste. A leste, no Québec, a essa hora...", "layout": "grid",
+      "options": [ { "t": "já é mais tarde — o Canadá tem 6 fusos horários", "emoji": "⏰", "correct": true }, { "t": "é exatamente a mesma hora" }, { "t": "é sempre de noite" } ],
+      "explain": "O Canadá é tão largo que tem 6 fusos horários; num lado é de manhã e no outro já vai mais adiantado." },
+    { "q": "Em quantas partes se divide o Canadá?", "layout": "grid",
+      "options": [ { "t": "13 (10 províncias + 3 territórios)", "emoji": "🗺️", "correct": true }, { "t": "só 1" }, { "t": "100" } ],
+      "explain": "São 13 partes: 10 províncias e 3 territórios." }
   ]
 }
 ```

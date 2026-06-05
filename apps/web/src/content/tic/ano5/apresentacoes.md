@@ -19,6 +19,8 @@ Uma apresentação não é um texto gigante no ecrã. É um apoio para quem fala
 ]
 ```
 
+> [!TIP] **A regra 6×6** Em cada diapositivo, no máximo 6 linhas e 6 palavras por linha. Se não cabe, é fala tua — não texto no ecrã. 🗣️
+
 ## Como preparar
 
 ```steps
@@ -47,6 +49,10 @@ Uma apresentação não é um texto gigante no ecrã. É um apoio para quem fala
 ]
 ```
 
+## Para saberes mais 🌱
+
+Os primeiros "diapositivos" eram mesmo de vidro: nas projeções *magic lantern* do século XIX, pintava-se a imagem em vidro e uma luz forte projetava-a numa parede. Por isso é que ainda hoje dizemos "slides" — eram pequenas placas que se deslizavam à frente da lâmpada! ✨
+
 ## 🎯 Questionário final
 
 ```quiz
@@ -69,7 +75,16 @@ Uma apresentação não é um texto gigante no ecrã. É um apoio para quem fala
       "explain": "Ensaiar ajuda a falar com mais confiança." },
     { "q": "Ler tudo de costas para a turma é…", "layout": "grid",
       "options": [ { "t": "pouco eficaz", "emoji": "⚠️", "correct": true }, { "t": "a melhor regra" }, { "t": "obrigatório" } ],
-      "explain": "É melhor explicar olhando para quem escuta." }
+      "explain": "É melhor explicar olhando para quem escuta." },
+    { "q": "A letra dos diapositivos deve ser…", "layout": "grid",
+      "options": [ { "t": "grande e fácil de ler de longe", "emoji": "🔠", "correct": true }, { "t": "muito pequenina" }, { "t": "de uma cor igual ao fundo" } ],
+      "explain": "Quem está ao fundo da sala também precisa de ler." },
+    { "q": "Um bom plano de apresentação tem…", "layout": "grid",
+      "options": [ { "t": "introdução, ideias importantes e conclusão", "emoji": "🗂️", "correct": true }, { "t": "só uma imagem solta" }, { "t": "tudo num só diapositivo cheio" } ],
+      "explain": "Um plano com começo, meio e fim ajuda quem ouve a seguir." },
+    { "q": "Se usaste uma imagem da internet, deves…", "layout": "grid",
+      "options": [ { "t": "indicar a fonte", "emoji": "🔎", "correct": true }, { "t": "fingir que a desenhaste" }, { "t": "esconder de onde veio" } ],
+      "explain": "Indicar a fonte das imagens respeita quem as criou." }
   ]
 }
 ```

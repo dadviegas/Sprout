@@ -1,6 +1,6 @@
 # Short dialogues and listening practice 🎧
 
-> [!NOTE] **What you will learn** 👀 You will practise short dialogues, useful questions and how to listen for key words in English.
+> [!NOTE] **O que vais aprender** 👀 Vais praticar pequenos diálogos, perguntas úteis e como ouvir as palavras-chave em inglês.
 
 Listening is not understanding every single word. It is catching the important words and the situation.
 
@@ -24,6 +24,8 @@ Listening is not understanding every single word. It is catching the important w
 ]
 ```
 
+> [!TIP] **Apanha a palavra-grande** Não precisas de perceber tudo! Ouve só a palavra "grande" da pergunta — *where* (onde), *what time* (que horas), *how* (como) — e ela diz-te logo que tipo de resposta dar.
+
 ## Mini-dialogue
 
 ```compare
@@ -38,6 +40,10 @@ Listening is not understanding every single word. It is catching the important w
   ] }
 ]
 ```
+
+## Para saberes mais 🌱
+
+Sabias que, ao ouvir inglês, o teu cérebro adivinha o fim da frase antes de a pessoa acabar de falar? Por isso, quando alguém diz "What time...", já estás à espera de um número — e em inglês há até uma palavra para essas pistas curtinhas como *yes* e *no*: chamam-se "minimal responses". 🧠
 
 ## 🎯 Questionário final
 
@@ -61,7 +67,16 @@ Listening is not understanding every single word. It is catching the important w
       "explain": "Yes, please is polite and useful." },
     { "q": "What is your favourite subject? You can answer…", "layout": "grid",
       "options": [ { "t": "My favourite subject is English.", "emoji": "📚", "correct": true }, { "t": "I am next to." }, { "t": "Half past pencil." } ],
-      "explain": "The answer names a school subject." }
+      "explain": "The answer names a school subject." },
+    { "q": "What time is it? It is…", "layout": "grid",
+      "options": [ { "t": "half past nine", "emoji": "🕤", "correct": true }, { "t": "next to the shop" }, { "t": "a red apple" } ],
+      "explain": "What time is it? pede as horas." },
+    { "q": "Someone says 'Hello!'. You answer…", "layout": "grid",
+      "options": [ { "t": "Hi! How are you?", "emoji": "👋", "correct": true }, { "t": "It is on Monday." }, { "t": "Three pencils." } ],
+      "explain": "Respondes a uma saudação com outra saudação." },
+    { "q": "First, a good listener finds the…", "layout": "grid",
+      "options": [ { "t": "situation", "emoji": "🔍", "correct": true }, { "t": "longest word" }, { "t": "last letter" } ],
+      "explain": "Saber onde estão (escola, loja, casa) ajuda a perceber." }
   ]
 }
 ```

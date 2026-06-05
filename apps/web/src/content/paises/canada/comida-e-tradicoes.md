@@ -106,7 +106,13 @@ Imagina que visitas o Canadá no inverno e queres viver um dia bem canadiano. Qu
       "explain": "Da árvore do bordo, na floresta." },
     { "q": "Que parte do xarope de ácer do mundo é feita no Canadá?", "layout": "grid",
       "options": [ { "t": "quase tudo (7 em cada 10 frascos)", "emoji": "🍁", "correct": true }, { "t": "quase nada" } ],
-      "explain": "O Canadá faz a maior parte do xarope de ácer do mundo." }
+      "explain": "O Canadá faz a maior parte do xarope de ácer do mundo." },
+    { "q": "No outono, a família junta-se para um jantar com peru. Que festa é?", "layout": "grid",
+      "options": [ { "t": "Ação de Graças", "emoji": "🦃", "correct": true }, { "t": "Dia do Canadá" }, { "t": "Carnaval de Inverno" } ],
+      "explain": "A Ação de Graças (Thanksgiving) é o jantar de família, no outono." },
+    { "q": "Visitas o Québec no inverno e vês esculturas de gelo e neve. Que festa é?", "layout": "grid",
+      "options": [ { "t": "o Carnaval de Inverno", "emoji": "⛄", "correct": true }, { "t": "o Dia do Canadá" }, { "t": "a Ação de Graças" } ],
+      "explain": "O Carnaval de Inverno do Québec é famoso pelas esculturas de gelo." }
   ]
 }
 ```

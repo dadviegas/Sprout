@@ -33,6 +33,12 @@ Uma folha é plana, mas o desenho pode criar a ilusão de espaço.
 ]
 ```
 
+> [!TIP] **Estica o polegar** Fecha um olho e tapa um objeto longe com o polegar: vês como o que está perto cobre o que está longe? É a sobreposição a funcionar — quem tapa está à frente. 👍
+
+## Para saberes mais 🌱
+
+Os pintores do Renascimento descobriram a **perspetiva com ponto de fuga**: todas as linhas que se afastam (rua, telhados, carris) parecem juntar-se num único ponto no horizonte. Esse truque é tão certinho que os arquitetos ainda hoje o usam, e é também assim que os videojogos em 3D fazem o mundo parecer fundo num ecrã plano! 🎮
+
 ## 🎯 Questionário final
 
 ```quiz
@@ -52,7 +58,19 @@ Uma folha é plana, mas o desenho pode criar a ilusão de espaço.
       "explain": "Sobrepor indica o que está à frente." },
     { "q": "Claro-escuro ajuda a mostrar…", "layout": "grid",
       "options": [ { "t": "volume", "emoji": "💡", "correct": true }, { "t": "ortografia" }, { "t": "temperatura exata" } ],
-      "explain": "Luz e sombra dão forma aos volumes." }
+      "explain": "Luz e sombra dão forma aos volumes." },
+    { "q": "As linhas de fuga servem para…", "layout": "grid",
+      "options": [ { "t": "conduzir o olhar para um ponto", "emoji": "🛤️", "correct": true }, { "t": "esconder o desenho" }, { "t": "mudar a cor do papel" } ],
+      "explain": "As linhas de fuga guiam o olhar e dão a ideia de distância." },
+    { "q": "Um objeto desenhado mais alto na folha pode parecer…", "layout": "grid",
+      "options": [ { "t": "mais longe", "emoji": "🗻", "correct": true }, { "t": "mais pesado" }, { "t": "mais barulhento" } ],
+      "explain": "A posição mais alta no desenho costuma sugerir maior distância." },
+    { "q": "Num desenho plano, os objetos costumam estar…", "layout": "grid",
+      "options": [ { "t": "todos do mesmo tamanho", "emoji": "📄", "correct": true }, { "t": "uns a tapar os outros" }, { "t": "com muitas sombras" } ],
+      "explain": "Sem truques de profundidade, tudo parece à mesma distância." },
+    { "q": "Para dar mais profundidade, o objeto da frente deve ficar…", "layout": "grid",
+      "options": [ { "t": "maior do que os de trás", "emoji": "🔍", "correct": true }, { "t": "igual a todos" }, { "t": "sempre invisível" } ],
+      "explain": "Objetos maiores parecem mais perto; menores parecem mais longe." }
   ]
 }
 ```

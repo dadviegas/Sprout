@@ -26,6 +26,12 @@ Quando alguém cria uma imagem, um texto ou uma música, esse trabalho merece re
 ]
 ```
 
+> [!TIP] **A regra do empréstimo** Trata o trabalho dos outros como um brinquedo emprestado: não dizes que é teu e dizes a quem pertence. Antes de usar uma imagem ou texto, pergunta «de quem é isto?» e escreve a fonte ao lado.
+
+## Para saberes mais 🌱
+
+Os autores não têm de escrever sozinhos as regras de cada obra: existem licenças prontas chamadas **Creative Commons** 🅭. Quem cria escolhe um cartãozinho de regras (por exemplo «podes usar, mas diz o meu nome») e qualquer pessoa no mundo percebe logo o que pode fazer — sem ter de pedir autorização por carta!
+
 ## 🎯 Questionário final
 
 ```quiz
@@ -48,7 +54,16 @@ Quando alguém cria uma imagem, um texto ou uma música, esse trabalho merece re
       "explain": "Imagens também são obras." },
     { "q": "Uma boa prática é…", "layout": "grid",
       "options": [ { "t": "indicar a origem do material usado", "emoji": "✅", "correct": true }, { "t": "apagar o nome do autor" }, { "t": "dizer que tudo fui eu que fiz" } ],
-      "explain": "Indicar a fonte respeita o trabalho dos outros." }
+      "explain": "Indicar a fonte respeita o trabalho dos outros." },
+    { "q": "Encontraste um texto giro na internet. O melhor é…", "layout": "grid",
+      "options": [ { "t": "ler, perceber e escrever por palavras tuas", "emoji": "✍️", "correct": true }, { "t": "colar tudo igual" }, { "t": "trocar só uma palavra" } ],
+      "explain": "Escrever por palavras próprias mostra que percebeste a matéria." },
+    { "q": "Querias usar uma música num vídeo da escola. Deves…", "layout": "grid",
+      "options": [ { "t": "ver se podes usá-la e indicar o autor", "emoji": "🎵", "correct": true }, { "t": "usar qualquer música sem pensar" }, { "t": "apagar o nome de quem a fez" } ],
+      "explain": "As músicas também têm autor e regras de uso." },
+    { "q": "«Uso livre» quer dizer que o material…", "layout": "grid",
+      "options": [ { "t": "pode ser usado seguindo certas regras", "emoji": "🆓", "correct": true }, { "t": "não tem autor nenhum" }, { "t": "pode ser dado como teu" } ],
+      "explain": "Mesmo o material de uso livre costuma pedir que indiques a origem." }
   ]
 }
 ```

@@ -120,7 +120,10 @@ Imagina que estás numa festa com bandeiras de muitos países. Como encontras a 
       "explain": "O Dia de Portugal é a 10 de junho." },
     { "q": "O Galo de Barcelos é símbolo de...", "layout": "grid",
       "options": [ { "t": "sorte e verdade", "emoji": "🐓", "correct": true }, { "t": "tristeza" } ],
-      "explain": "É o galo da sorte e da verdade." }
+      "explain": "É o galo da sorte e da verdade." },
+    { "q": "Para distinguir as bandeiras: o Canadá tem uma folha, e Portugal tem...", "layout": "grid",
+      "options": [ { "t": "a esfera armilar e o escudo", "emoji": "🟡", "correct": true }, { "t": "uma folha verde" }, { "t": "muitas estrelas" } ],
+      "explain": "Folha = Canadá; esfera dourada + escudo = Portugal." }
   ]
 }
 ```

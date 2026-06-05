@@ -124,7 +124,13 @@ Queres ver um animal selvagem em Portugal. Como te preparas para o encontro?
       "explain": "É ameno, e muda do norte para o sul." },
     { "q": "O lince-ibérico ensina-nos que, ao cuidar da natureza...", "layout": "grid",
       "options": [ { "t": "ela pode recuperar", "emoji": "💚", "correct": true }, { "t": "nada acontece" } ],
-      "explain": "Com proteção, o lince voltou a crescer." }
+      "explain": "Com proteção, o lince voltou a crescer." },
+    { "q": "Vês uma ave grande de bico comprido a fazer ninho no alto de uma torre. É a...", "layout": "grid",
+      "options": [ { "t": "cegonha", "emoji": "🐦", "correct": true }, { "t": "pinguim" }, { "t": "águia do Ártico" } ],
+      "explain": "A cegonha gosta de fazer ninhos altos, em torres e postes." },
+    { "q": "O Canadá tem o castor; o animal selvagem mais raro e protegido de Portugal é o...", "layout": "grid",
+      "options": [ { "t": "lince-ibérico", "emoji": "🐱", "correct": true }, { "t": "urso-polar" }, { "t": "canguru" } ],
+      "explain": "O lince-ibérico é o felino raro de Portugal, que voltou a crescer com proteção." }
   ]
 }
 ```

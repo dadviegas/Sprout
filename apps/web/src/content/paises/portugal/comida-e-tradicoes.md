@@ -106,7 +106,13 @@ Imagina que recebes um amigo de outro país e queres mostrar-lhe Portugal num s�
       "explain": "Na consoada come-se bacalhau." },
     { "q": "O pastel de nata sabe melhor...", "layout": "grid",
       "options": [ { "t": "morno e com canela", "emoji": "🥮", "correct": true }, { "t": "congelado" } ],
-      "explain": "Morno, com canela por cima." }
+      "explain": "Morno, com canela por cima." },
+    { "q": "Em junho, as ruas enchem-se de manjericos, sardinhas e bailes. Que festa é?", "layout": "grid",
+      "options": [ { "t": "os Santos Populares", "emoji": "💃", "correct": true }, { "t": "o Carnaval" }, { "t": "a Páscoa" } ],
+      "explain": "Os Santos Populares são em junho, com sardinha assada e arraiais." },
+    { "q": "Um amigo do estrangeiro pede-te um prato bem português. O que sugeres?", "layout": "grid",
+      "options": [ { "t": "bacalhau ou caldo verde", "emoji": "🐟", "correct": true }, { "t": "uma sandes de manteiga" }, { "t": "cereais com leite" } ],
+      "explain": "O bacalhau e o caldo verde são dos pratos mais típicos de Portugal." }
   ]
 }
 ```

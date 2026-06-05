@@ -133,7 +133,13 @@ Queres ver um animal selvagem no Canadá. Como te preparas para o encontro?
       "explain": "Invernos muito frios; verões curtos." },
     { "q": "As auroras boreais acontecem por causa de partículas do...", "layout": "grid",
       "options": [ { "t": "Sol", "emoji": "☀️", "correct": true }, { "t": "mar" } ],
-      "explain": "Partículas do Sol que fazem o céu brilhar." }
+      "explain": "Partículas do Sol que fazem o céu brilhar." },
+    { "q": "Queres ver um alce numa floresta canadiana. O que deves fazer?", "layout": "grid",
+      "options": [ { "t": "ficar quieto, em silêncio e à distância", "emoji": "🤫", "correct": true }, { "t": "correr e gritar para ele te ver" }, { "t": "tentar abraçá-lo" } ],
+      "explain": "Os animais selvagens fogem do barulho; vê-se de longe e em silêncio." },
+    { "q": "O lince é de Portugal. Então o animal-símbolo do Canadá é o...", "layout": "grid",
+      "options": [ { "t": "castor", "emoji": "🦫", "correct": true }, { "t": "golfinho" }, { "t": "camelo" } ],
+      "explain": "O castor é o animal nacional do Canadá — começa por C, como Canadá." }
   ]
 }
 ```

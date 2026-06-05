@@ -129,7 +129,13 @@ Estás a ver um jogo da Seleção na televisão e começa o hino. O que fazes?
       "explain": "Significa defender e amar o país." },
     { "q": "Quando ouvimos o hino, ficamos...", "layout": "grid",
       "options": [ { "t": "de pé e com respeito", "emoji": "🤫", "correct": true }, { "t": "a dormir" } ],
-      "explain": "De pé, em silêncio, com respeito." }
+      "explain": "De pé, em silêncio, com respeito." },
+    { "q": "Os «heróis do mar» do hino lembram...", "layout": "grid",
+      "options": [ { "t": "os marinheiros dos Descobrimentos", "emoji": "⛵", "correct": true }, { "t": "os jogadores de futebol" }, { "t": "os bombeiros" } ],
+      "explain": "Lembram os marinheiros corajosos que partiram a descobrir o mundo." },
+    { "q": "O Canadá canta «O Canada» em duas línguas; o nosso hino chama-se...", "layout": "grid",
+      "options": [ { "t": "«A Portuguesa»", "emoji": "🇵🇹", "correct": true }, { "t": "«A Brasileira»" }, { "t": "«A Lisboeta»" } ],
+      "explain": "O hino de Portugal é «A Portuguesa», com música de Alfredo Keil." }
   ]
 }
 ```

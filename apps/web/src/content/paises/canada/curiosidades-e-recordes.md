@@ -129,7 +129,13 @@ Queres impressionar um amigo com um recorde do Canadá. Como contas a história 
       "explain": "Onda (Nazaré) vs. maré (Baía de Fundy)." },
     { "q": "Quanta parte do xarope de ácer do mundo é feita no Canadá?", "layout": "grid",
       "options": [ { "t": "quase toda", "emoji": "🍁", "correct": true }, { "t": "nenhuma" } ],
-      "explain": "Cerca de 70% do mundo." }
+      "explain": "Cerca de 70% do mundo." },
+    { "q": "Na Baía de Fundy, de manhã os barcos estão no fundo seco e à tarde flutuam. Porquê?", "layout": "grid",
+      "options": [ { "t": "a maré sobe muito — a baía é um funil", "emoji": "🔺", "correct": true }, { "t": "alguém enche a baía com um balde" }, { "t": "porque chove" } ],
+      "explain": "A forma de funil aperta a água e a maré sobe mais de 16 metros." },
+    { "q": "O Canadá tem mais lagos do que...", "layout": "grid",
+      "options": [ { "t": "todos os outros países juntos", "emoji": "💧", "correct": true }, { "t": "uma só piscina" }, { "t": "Portugal apenas" } ],
+      "explain": "O Canadá tem mais lagos do que o resto do mundo todo junto." }
   ]
 }
 ```

@@ -129,7 +129,13 @@ Estás a ver um jogo de hóquei no gelo do Canadá e começa o hino. O que fazes
       "explain": "É hino oficial desde 1980." },
     { "q": "Tal como «A Portuguesa», o hino ouve-se...", "layout": "grid",
       "options": [ { "t": "de pé e com respeito", "emoji": "🤫", "correct": true }, { "t": "a dormir" } ],
-      "explain": "De pé, em silêncio, com respeito." }
+      "explain": "De pé, em silêncio, com respeito." },
+    { "q": "Estás num jogo de hóquei no Canadá e às vezes o hino começa em inglês e acaba em francês. Porquê?", "layout": "grid",
+      "options": [ { "t": "porque o Canadá tem duas línguas oficiais", "emoji": "🗣️", "correct": true }, { "t": "porque o cantor se enganou" }, { "t": "porque já é tarde" } ],
+      "explain": "O Canadá fala inglês e francês, e o hino pode juntar as duas línguas para incluir toda a gente." },
+    { "q": "O nome do hino, «O Canada», ajuda-te porque...", "layout": "grid",
+      "options": [ { "t": "diz logo de que país é", "emoji": "🍁", "correct": true }, { "t": "é o nome de um doce" }, { "t": "é o nome de um rio" } ],
+      "explain": "Tal como «A Portuguesa» lembra Portugal, «O Canada» diz logo o país." }
   ]
 }
 ```

@@ -25,7 +25,7 @@ const FINAL_MARKER = "## 🎯 Questionário final";
 // `widgetRenderers` / `infographicRenderers` maps + the `quiz` branch there.
 const JSON_BLOCKS = new Set([
   "quiz",
-  "shape", "angle", "areagrid", "symmetry", "compass", "watercycle", "clock", "numberline", "tenframe", "fraction", "fractionstrips", "fractionof", "money", "shop", "solarsystem", "daynight", "soundcards", "dictionary", "tabuada", "drill", "figure", "math", "chart",
+  "shape", "angle", "areagrid", "symmetry", "compass", "watercycle", "clock", "numberline", "tenframe", "fraction", "fractionstrips", "fractionof", "money", "shop", "solarsystem", "daynight", "soundcards", "dictionary", "tabuada", "drill", "figure", "math", "chart", "timeline", "bodysystem", "mapapt",
   "summary", "stats", "steps", "meters", "keyvalue", "compare", "quote",
 ]);
 
@@ -174,6 +174,19 @@ function validateFile(absPath, errors, warnings) {
 const files = findMarkdown(CONTENT_DIR).sort();
 const errors = [];
 const warnings = [];
+
+// Every lesson .md must be imported by curriculum.ts — otherwise it validates
+// fine here (it's read straight off disk) but never appears in the app's nav.
+// This is the "orphan" check: a wired lesson is reachable, a stray file is not.
+const curriculumSrc = readFileSync(join(CONTENT_DIR, "curriculum.ts"), "utf8");
+for (const f of files) {
+  const rel = relative(CONTENT_DIR, f).split(/[\\/]/).join("/");
+  if (/(^|\/)(README|_[^/]*)\.md$/i.test(rel)) continue; // notes/partials, not lessons
+  if (!curriculumSrc.includes(`"./${rel}"`)) {
+    errors.push(`${relative(ROOT, f)}: não está importado em curriculum.ts (lição inacessível na app)`);
+  }
+}
+
 for (const f of files) validateFile(f, errors, warnings);
 
 if (warnings.length) {

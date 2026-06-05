@@ -39,6 +39,11 @@ common sense, Açores → world). Single-page, no server; progress is local.
   - `src/nav.ts` — `View` union + persisted-state validation.
   - `src/content/curriculum.ts` — subjects, years, lessons (imports `.md` bodies).
   - `src/content/**/*.md` — lesson bodies (markdown + widget/quiz blocks).
+  - `src/Teia.tsx` + `src/content/teia-data.ts` — **"A Teia do Saber"**, the
+    interactive cross-subject knowledge web (`view.kind === "teia"`, `#/teia`).
+    `teia-data.ts` stores only the RELATIONSHIPS (which lessons share a theme,
+    which themes bridge); each node's title/emoji/colour is derived from
+    `curriculum.ts` at runtime (an unknown lessonId is silently dropped).
   - `src/site.config.yaml` + `src/site-config.ts` — **page settings** (branding,
     mascot, the "O Mundo" area copy/structure). Edit the YAML to change the page.
   - `src/storage/` — durable storage facade (IndexedDB + localStorage mirror)
@@ -174,3 +179,13 @@ an allowlist — keep approving those one-off, but never "for all projects".
 
 Adding/changing a lesson = one `.md` file + one line in `curriculum.ts`.
 Changing page copy/branding = edit `site.config.yaml`.
+
+**Keep "A Teia do Saber" in sync.** When you add, rename, remove or re-id a
+lesson/area, update `apps/web/src/content/teia-data.ts` so the knowledge web
+stays accurate: drop ids that no longer exist, and wire genuinely new
+cross-subject material into the relevant theme(s) (or add a theme/bridge). A
+lesson that belongs to two themes is a *bridge* — that cross-over is the whole
+point, so prefer adding new content to an existing theme over leaving it
+unconnected. Renames need no change there (titles/emoji/colour derive from
+`curriculum.ts`); only ids matter. A wrong id won't crash — it's silently
+dropped — so a stale entry just quietly shrinks the web.

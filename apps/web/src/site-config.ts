@@ -87,6 +87,11 @@ export interface SiteConfig {
     sectionTitle: string;
     sectionSub: string;
   };
+  /** "Os Verbos" — the conjugation half of the Biblioteca, organised by letter. */
+  verbos: {
+    sectionTitle: string;
+    sectionSub: string;
+  };
   /** "Países" — get-to-know-a-country area; one card per country (Portugal, Canadá). */
   paises: {
     sectionTitle: string;

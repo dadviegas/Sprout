@@ -18,6 +18,7 @@ export function VirtualControls({
   actionPrompt,
   actionIcon,
   actionColor = "var(--accent)",
+  onJump,
 }: {
   onMove: (axis: Axis) => void;
   onAction: () => void;
@@ -25,6 +26,8 @@ export function VirtualControls({
   actionPrompt: string | null;
   actionIcon: IconName;
   actionColor?: string;
+  /** optional jump button (shown left of the action button) — for the 3D world */
+  onJump?: () => void;
 }) {
   const baseRef = useRef<HTMLDivElement>(null);
   const [knob, setKnob] = useState<Axis>({ x: 0, y: 0 });
@@ -74,18 +77,33 @@ export function VirtualControls({
         <span className="wd-stick__knob" style={{ transform: `translate(${knob.x * 34}px, ${knob.y * 34}px)` }} />
       </div>
 
-      <button
-        className={`wd-action ${actionPrompt ? "live" : ""}`}
-        style={{ ["--el" as string]: actionColor }}
-        onPointerDown={(e) => {
-          e.preventDefault();
-          onAction();
-        }}
-        aria-label={actionPrompt ?? "Ação"}
-      >
-        <Icon name={actionIcon} size={30} />
-        {actionPrompt && <span className="wd-action__label">{actionPrompt}</span>}
-      </button>
+      <div className="wd-actions">
+        {onJump && (
+          <button
+            className="wd-jump"
+            onPointerDown={(e) => {
+              e.preventDefault();
+              onJump();
+            }}
+            aria-label="Saltar"
+          >
+            <Icon name="forward" size={26} style={{ transform: "rotate(-90deg)" }} />
+            <span className="wd-action__label">Saltar</span>
+          </button>
+        )}
+        <button
+          className={`wd-action ${actionPrompt ? "live" : ""}`}
+          style={{ ["--el" as string]: actionColor }}
+          onPointerDown={(e) => {
+            e.preventDefault();
+            onAction();
+          }}
+          aria-label={actionPrompt ?? "Ação"}
+        >
+          <Icon name={actionIcon} size={30} />
+          {actionPrompt && <span className="wd-action__label">{actionPrompt}</span>}
+        </button>
+      </div>
     </div>
   );
 }

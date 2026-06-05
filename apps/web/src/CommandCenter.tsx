@@ -1,15 +1,17 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { Icon, type IconName } from "@sprout/icons";
-import { dictWordId, type DictEntry, type DictionarySpec } from "@sprout/ui";
+import { dictWordId, verbCardId, type DictEntry, type DictionarySpec, type VerbSpec, type VerbsSpec } from "@sprout/ui";
 import {
   subjects,
   YEARS,
   tierLabel,
   DICIONARIO_ID,
+  VERBOS_ID,
   isEstudo,
   isMundo,
   isPaises,
   isDicionario,
+  isVerbos,
   type YearN,
 } from "./content/curriculum";
 import { site } from "./site-config";
@@ -42,7 +44,7 @@ const AREA_LABEL: Record<SearchArea, string> = {
 function areaOfSubject(subjectId: string): SearchArea {
   if (isEstudo(subjectId)) return "treinar";
   if (isMundo(subjectId) || isPaises(subjectId)) return "explorar";
-  if (isDicionario(subjectId)) return "biblioteca";
+  if (isDicionario(subjectId) || isVerbos(subjectId)) return "biblioteca";
   return "escola";
 }
 
@@ -150,32 +152,38 @@ function buildIndex(): Entry[] {
   return out;
 }
 
-/* ---- Dictionary words ------------------------------------------------ *
- * The letter pages embed their word cards in a ```dictionary block. We pull
- * those out so each word becomes its own searchable result that opens the
- * page it lives on (the dictionary is not grade-based — see tierLabel). */
+/* ---- Biblioteca words: dictionary + verbs ---------------------------- *
+ * The letter pages embed their cards in a ```dictionary or ```verbs block. We
+ * pull those out so each word/verb becomes its own searchable result that opens
+ * the page it lives on (the Biblioteca is not grade-based — see tierLabel). */
+
+type RefKind = "dict" | "verb";
 
 interface WordEntry {
   word: string;
   meaning: string;
   emoji?: string;
+  kind: RefKind;      // dictionary word or verb — picks the card-id + subject
+  subjectId: string;  // DICIONARIO_ID or VERBOS_ID — for the subject filter
   letter: string;     // the page's letter, e.g. "B" — shown on the result tag
-  lessonId: string;   // the letter page to open, e.g. "dic-b"
+  lessonId: string;   // the letter page to open, e.g. "dic-b" / "verb-b"
   subjectLabel: string;
   color: string;
-  fword: string;      // accent-folded word + meaning, for matching
-  fmeaning: string;
+  fword: string;      // accent-folded word, for matching
+  fmeaning: string;   // accent-folded meaning, for matching
 }
 
-/** Pull the entries out of a lesson body's ```dictionary block. Returns [] if
- *  there's no such block or its JSON is malformed (validated by `pnpm validate`). */
-function dictEntriesOf(body: string | undefined): DictEntry[] {
+/** Pull the entries out of a fenced block (```dictionary or ```verbs) in a
+ *  lesson body. Returns [] if there's no such block or its JSON is malformed
+ *  (validated by `pnpm validate`). */
+function blockEntriesOf(body: string | undefined, lang: string): unknown[] {
   if (!body) return [];
-  const m = body.match(/```dictionary\s*\r?\n([\s\S]*?)\r?\n```/);
+  const m = body.match(new RegExp("```" + lang + "\\s*\\r?\\n([\\s\\S]*?)\\r?\\n```"));
   if (!m) return [];
   try {
-    const spec = JSON.parse(m[1]) as DictionarySpec;
-    return Array.isArray(spec.entries) ? spec.entries : [];
+    const spec = JSON.parse(m[1]) as DictionarySpec & VerbsSpec;
+    const list = lang === "verbs" ? spec.verbs : spec.entries;
+    return Array.isArray(list) ? list : [];
   } catch {
     return [];
   }
@@ -183,21 +191,19 @@ function dictEntriesOf(body: string | undefined): DictEntry[] {
 
 function buildWordIndex(): WordEntry[] {
   const out: WordEntry[] = [];
+  const push = (word: string, meaning: string, emoji: string | undefined, kind: RefKind, subjectId: string, letter: string, lessonId: string, label: string, color: string) =>
+    out.push({ word, meaning, emoji, kind, subjectId, letter, lessonId, subjectLabel: label, color, fword: fold(word), fmeaning: fold(meaning) });
+
   const dic = subjects.find((s) => s.id === DICIONARIO_ID);
-  if (!dic) return out;
-  for (const l of dic.years[1]) {
-    for (const e of dictEntriesOf(l.body)) {
-      out.push({
-        word: e.word,
-        meaning: e.meaning,
-        emoji: e.emoji,
-        letter: l.title, // the page title is the letter, e.g. "B"
-        lessonId: l.id,
-        subjectLabel: dic.label,
-        color: dic.color,
-        fword: fold(e.word),
-        fmeaning: fold(e.meaning),
-      });
+  for (const l of dic?.years[1] ?? []) {
+    for (const e of blockEntriesOf(l.body, "dictionary") as DictEntry[]) {
+      push(e.word, e.meaning, e.emoji, "dict", DICIONARIO_ID, l.title, l.id, dic!.label, dic!.color);
+    }
+  }
+  const verb = subjects.find((s) => s.id === VERBOS_ID);
+  for (const l of verb?.years[1] ?? []) {
+    for (const e of blockEntriesOf(l.body, "verbs") as VerbSpec[]) {
+      push(e.verb, e.meaning, e.emoji, "verb", VERBOS_ID, l.title, l.id, verb!.label, verb!.color);
     }
   }
   return out;
@@ -206,20 +212,21 @@ function buildWordIndex(): WordEntry[] {
 interface Hit extends Entry {
   score: number;
   preview: { before: string; match: string; after: string } | null;
-  /** present on dictionary-word results: the letter page they live on */
-  word?: { letter: string };
+  /** present on dictionary-word / verb results: the letter page they live on,
+   *  plus which kind so the right card is focused after navigating. */
+  word?: { letter: string; kind: RefKind };
   /** true on the recently-opened lessons shown for an empty query */
   recent?: boolean;
 }
 
-/** Map a matched dictionary word onto the shared Hit shape so it renders and
- *  navigates like a lesson result (opening its letter page). */
+/** Map a matched dictionary word / verb onto the shared Hit shape so it renders
+ *  and navigates like a lesson result (opening its letter page). */
 function wordToHit(w: WordEntry, score: number, q: string): Hit {
   return {
     lessonId: w.lessonId,
     title: w.word,
     emoji: w.emoji,
-    subjectId: DICIONARIO_ID,
+    subjectId: w.subjectId,
     subjectLabel: w.subjectLabel,
     color: w.color,
     area: "biblioteca",
@@ -231,7 +238,7 @@ function wordToHit(w: WordEntry, score: number, q: string): Hit {
     words: [],
     score,
     preview: makePreview(w.meaning, w.fmeaning, q),
-    word: { letter: w.letter },
+    word: { letter: w.letter, kind: w.kind },
   };
 }
 
@@ -382,10 +389,11 @@ export function CommandCenter({
     const includeWords =
       qWords.length > 0 &&
       (area === "all" || area === "biblioteca") &&
-      (subjectId === "all" || subjectId === DICIONARIO_ID);
+      (subjectId === "all" || subjectId === DICIONARIO_ID || subjectId === VERBOS_ID);
     const wordHits = !includeWords
       ? []
       : wordIndex
+          .filter((w) => subjectId === "all" || w.subjectId === subjectId)
           .map((w): Hit | null => {
             let score = 0;
             if (w.fword.startsWith(fq)) score = 6;
@@ -429,9 +437,12 @@ export function CommandCenter({
   const choose = (row: Row) => {
     if (row.type === "nav") { onGo(row.nav.view); return; }
     const h = row.hit;
-    // Dictionary-word results open the letter page AND scroll to that exact word
-    // card; App listens for this and focuses it once the page has rendered.
-    if (h.word) window.dispatchEvent(new CustomEvent("sprout:focusword", { detail: { id: dictWordId(h.title) } }));
+    // Dictionary-word / verb results open the letter page AND scroll to that
+    // exact card; App listens for this and focuses it once the page has rendered.
+    if (h.word) {
+      const id = h.word.kind === "verb" ? verbCardId(h.title) : dictWordId(h.title);
+      window.dispatchEvent(new CustomEvent("sprout:focusword", { detail: { id } }));
+    }
     onGo(
       h.hasBody
         ? { kind: "lesson", year: h.year, subjectId: h.subjectId, lessonId: h.lessonId }
@@ -546,7 +557,7 @@ export function CommandCenter({
             const h = row.hit;
             const detail = h.word?.letter ?? tierLabel(h.subjectId, h.year);
             return (
-              <Fragment key={h.word ? `dw-${h.word.letter}-${h.title}` : `${h.subjectId}-${h.lessonId}`}>
+              <Fragment key={h.word ? `${h.word.kind}-${h.word.letter}-${h.title}` : `${h.subjectId}-${h.lessonId}`}>
                 {caption}
                 <button
                   data-i={i}

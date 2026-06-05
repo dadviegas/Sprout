@@ -1,0 +1,218 @@
+/* "A Teia do Saber" — the interactive knowledge web.
+   Plain CSS, design tokens, animations gated behind prefers-reduced-motion. */
+
+.teia-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: calc(100dvh - 150px);
+  min-height: 460px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 50% 0%, color-mix(in srgb, var(--subj-emus) 10%, transparent), transparent 60%),
+    radial-gradient(120% 120% at 50% 110%, color-mix(in srgb, var(--subj-mundo) 12%, transparent), transparent 60%),
+    var(--bg-2);
+  border: 1px solid var(--surface-3);
+  box-shadow: var(--shadow-md);
+}
+
+.teia-stage--full {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  height: 100dvh;
+  min-height: 0;
+  border-radius: 0;
+  border: 0;
+}
+
+/* ── header ─────────────────────────────────────────────────────────────── */
+.teia-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  flex-wrap: wrap;
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--surface-3);
+}
+.teia-title { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.teia-title-ic {
+  display: inline-flex;
+  color: var(--subj-emus);
+  background: color-mix(in srgb, var(--subj-emus) 16%, transparent);
+  padding: 8px;
+  border-radius: 14px;
+}
+.teia-title h2 { margin: 0; font-size: 1.15rem; line-height: 1.2; }
+.teia-title p { margin: 2px 0 0; font-size: .85rem; color: var(--ink-2); }
+.teia-help { flex: 0 0 auto; }
+.teia-tools { display: flex; gap: 8px; }
+
+/* ── canvas ─────────────────────────────────────────────────────────────── */
+.teia-svg {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  display: block;
+  touch-action: none; /* we own pan/zoom — never scroll the page */
+  cursor: grab;
+  user-select: none;
+}
+.teia-svg:active { cursor: grabbing; }
+
+/* links */
+.teia-link {
+  fill: none;
+  stroke-width: 2.4;
+  opacity: .38;
+  transition: opacity .25s ease, stroke-width .25s ease;
+}
+.teia-link--bridge {
+  stroke-width: 3.4;
+  opacity: .55;
+  stroke-dasharray: 2 12;
+  stroke-linecap: round;
+}
+.teia-svg--focused .teia-link.is-dim { opacity: .06; }
+.teia-svg--focused .teia-link.is-active { opacity: .95; stroke-width: 4.5; }
+
+/* nodes */
+.teia-node { cursor: pointer; }
+.teia-node text { paint-order: stroke; pointer-events: none; }
+
+.teia-lesson-bg {
+  fill: color-mix(in srgb, var(--c) 22%, var(--surface));
+  stroke: var(--c);
+  stroke-width: 2.5;
+  transition: transform .2s ease;
+}
+.teia-lesson.is-active .teia-lesson-bg,
+.teia-node:hover .teia-lesson-bg { stroke-width: 4; }
+.teia-lesson.is-bridge .teia-lesson-bg {
+  stroke-dasharray: 5 4;
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--c) 60%, transparent));
+}
+.teia-label {
+  fill: var(--ink);
+  font-size: 25px;
+  font-weight: 700;
+  stroke: var(--bg-2);
+  stroke-width: 6px;
+}
+.teia-emoji { stroke: none; }
+
+.teia-theme-halo {
+  fill: color-mix(in srgb, var(--c) 18%, transparent);
+  stroke: none;
+}
+.teia-theme-bg {
+  fill: var(--c);
+  stroke: var(--surface);
+  stroke-width: 4;
+  filter: drop-shadow(0 6px 16px color-mix(in srgb, var(--c) 55%, transparent));
+}
+.teia-ic-wrap {
+  width: 68px; height: 68px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+}
+.teia-theme-label {
+  fill: var(--ink);
+  font-size: 42px;
+  font-weight: 800;
+  stroke: var(--bg-2);
+  stroke-width: 8px;
+}
+
+.teia-svg--focused .teia-node.is-dim { opacity: .14; }
+.teia-node.is-active .teia-theme-halo { fill: color-mix(in srgb, var(--c) 34%, transparent); }
+
+/* ── legend ─────────────────────────────────────────────────────────────── */
+.teia-legend {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  max-width: 60%;
+  padding: 8px 12px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--surface-3);
+  font-size: .76rem;
+  color: var(--ink-2);
+  pointer-events: none;
+}
+.teia-legend-item { display: inline-flex; align-items: center; gap: 5px; }
+.teia-legend-item i { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+
+/* ── detail sheet ───────────────────────────────────────────────────────── */
+.teia-sheet {
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  width: min(560px, calc(100% - 24px));
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 2px solid color-mix(in srgb, var(--c) 45%, var(--surface-3));
+  box-shadow: var(--shadow-lg);
+  animation: teia-sheet-in .22s ease;
+}
+@keyframes teia-sheet-in {
+  from { opacity: 0; transform: translate(-50%, 12px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+.teia-sheet-ic {
+  flex: 0 0 auto;
+  display: inline-flex;
+  color: #fff;
+  background: var(--c);
+  padding: 8px;
+  border-radius: 12px;
+}
+.teia-sheet-emoji { flex: 0 0 auto; font-size: 28px; line-height: 1; }
+.teia-sheet-body { min-width: 0; flex: 1 1 auto; display: flex; flex-direction: column; }
+.teia-sheet-body strong { font-size: 1rem; line-height: 1.2; }
+.teia-sheet-sub { font-size: .82rem; color: var(--ink-2); margin-top: 2px; }
+.teia-sheet-close { flex: 0 0 auto; }
+
+.teia-open {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 14px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--c);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+.teia-open:hover { filter: brightness(1.05); }
+
+/* ── motion (off when the child prefers reduced motion) ─────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  .teia-theme-halo {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: teia-pulse 3.6s ease-in-out infinite;
+  }
+  @keyframes teia-pulse {
+    0%, 100% { transform: scale(1); opacity: .9; }
+    50% { transform: scale(1.12); opacity: .55; }
+  }
+  .teia-link--bridge { animation: teia-flow 1.1s linear infinite; }
+  @keyframes teia-flow { to { stroke-dashoffset: -14; } }
+}

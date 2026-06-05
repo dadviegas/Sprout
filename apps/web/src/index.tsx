@@ -5,6 +5,7 @@ import "@sprout/ui/styles/components.css";
 import "@sprout/ui/styles/kids.css";
 import "@sprout/ui/styles/diversao.css";
 import "@sprout/ui/styles/world.css";
+import "@sprout/ui/styles/teia.css";
 import { App } from "./App";
 import { ErrorBoundary } from "./ErrorBoundary";
 

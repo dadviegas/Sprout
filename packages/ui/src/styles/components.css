@@ -42,6 +42,12 @@
   width: 100%;
   --read-width: 76ch;
 }
+/* Phone keeps a tight reading measure; from tablet up let the text fill the
+   card (full width on iPad) while still capping the line length on wide desktop
+   so it never sprawls past comfortable reading. */
+@media (min-width: 700px) {
+  .prose { --read-width: min(100%, 1000px); }
+}
 .prose > :is(h1, h2, h3, h4, p, ul, ol, blockquote, details, .lesson-summary) {
   max-width: var(--read-width);
   margin-left: auto;

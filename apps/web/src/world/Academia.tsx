@@ -5,7 +5,7 @@
  *              overlay from inside the scene)
  *
  * See docs/SPROUT_WORLD_ACADEMIA_DOS_ELEMENTOS.md. */
-import { useState } from "react";
+import { Suspense, lazy, useState } from "react";
 import { Speaker, speak } from "@sprout/ui";
 import { Icon } from "@sprout/icons";
 import { Mascot } from "../Mascot";
@@ -15,9 +15,23 @@ import { useWorld, type World } from "./world-state";
 import { Emblem, Hero } from "./emblems";
 import { WorldScene } from "./WorldScene";
 
+// The 3D world pulls in Babylon — heavy, and only needed once a hero exists and
+// motion is allowed. Lazy-load it so the creator/2D path never ships Babylon.
+const Academia3D = lazy(() => import("../world3d/Academia3D").then((m) => ({ default: m.Academia3D })));
+
+const prefersReducedMotion = () =>
+  typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
 export function Academia({ onGo }: { onGo: (v: View) => void }) {
   const world = useWorld();
-  return world.hero ? <WorldScene world={world} onGo={onGo} /> : <Creator world={world} />;
+  if (!world.hero) return <Creator world={world} />;
+  // Reduced-motion (or no WebGL) falls back to the calm 2D courtyard.
+  if (prefersReducedMotion()) return <WorldScene world={world} onGo={onGo} />;
+  return (
+    <Suspense fallback={<div className="lesson-loading">A entrar no mundo…</div>}>
+      <Academia3D world={world} onGo={onGo} />
+    </Suspense>
+  );
 }
 
 /* ---- hero creation ----------------------------------------------------- */

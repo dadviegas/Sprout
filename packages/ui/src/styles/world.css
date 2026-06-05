@@ -475,6 +475,26 @@
   min-width: 0;
 }
 
+/* the 3D world (Babylon canvas) — same footprint as the 2D viewport, with the
+ * on-screen controls/dialog overlaid in the corners */
+.wd-scene3d {
+  position: relative;
+  height: 70vh;
+  min-height: 420px;
+  max-height: 720px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.wd-canvas3d {
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+  outline: none;
+}
+
 /* the camera window — fixed size on screen; the world scrolls behind it */
 .wd-scene__viewport {
   position: relative;
@@ -675,6 +695,32 @@
   background: var(--el);
   border: 3px solid rgba(255, 255, 255, 0.65);
   box-shadow: var(--shadow-md);
+}
+.wd-actions {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  pointer-events: none;
+}
+.wd-jump {
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--ok);
+  border: 3px solid rgba(255, 255, 255, 0.5);
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  transition: transform var(--dur-fast);
+}
+.wd-jump:active {
+  transform: scale(0.94);
 }
 .wd-action {
   pointer-events: auto;

@@ -41,9 +41,14 @@ areas:
       accent: "--subj-mundo"
     - id: biblioteca
       label: Biblioteca
-      blurb: "O dicionário de A a Z — o que as palavras querem dizer."
+      blurb: "O dicionário e os verbos, de A a Z — palavras e conjugações."
       icon: letters
       accent: "--subj-pt"
+    - id: teia
+      label: A Teia do Saber
+      blurb: "Vê numa teia como tudo se liga — temas e matérias entrelaçados."
+      icon: atom
+      accent: "--subj-emus"
     - id: diversao
       label: Diversão
       blurb: "Jardim, jogos e caixa de brincar — o teu cantinho divertido."
@@ -63,7 +68,7 @@ estudo:
   categories:
     - label: Matemática rápida
       icon: math
-      topics: [estudo-tabuadas, estudo-numeros, estudo-dinheiro, estudo-loja, estudo-medidas, estudo-formulas, estudo-romanos]
+      topics: [estudo-tabuadas, estudo-contas, estudo-numeros, estudo-dinheiro, estudo-loja, estudo-medidas, estudo-formulas, estudo-romanos]
     - label: Português rápido
       icon: reading
       topics: [estudo-alfabeto, estudo-pontuacao, estudo-classes, estudo-verbos]
@@ -123,6 +128,14 @@ diversao:
 dicionario:
   sectionTitle: O Dicionário
   sectionSub: "O que significam as palavras? Escolhe uma letra e toca para ouvir! 📖"
+
+# "Os Verbos" — the conjugation half of the Biblioteca (not a school subject, not
+# tied to a grade): verbs organised by letter, each opening to its five tenses,
+# saying whether it is regular or irregular. The letters live in
+# content/curriculum.ts (verbosSubject); this owns the section copy.
+verbos:
+  sectionTitle: Os Verbos
+  sectionSub: "Como mudam os verbos? Escolhe uma letra e toca para conjugar e ouvir! 🏃"
 
 # "Países" — get-to-know-a-country area (not a school subject, not tied to a
 # grade). One card per country on the home screen; each opens its own section

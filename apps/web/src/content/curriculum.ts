@@ -83,6 +83,7 @@ import matFracoes from "./matematica/ano3/fracoes.md";
 import matMedida from "./matematica/ano3/comprimento-massa.md";
 import matDadosTabelas from "./matematica/ano3/dados-tabelas.md";
 import matDecimais from "./matematica/ano4/decimais.md";
+import matContasArmadas from "./matematica/ano4/contas-armadas.md";
 import matArea from "./matematica/ano4/area-perimetro.md";
 import matDados from "./matematica/ano4/graficos-tabelas.md";
 import matProblemas from "./matematica/ano4/resolver-problemas.md";
@@ -291,6 +292,7 @@ import mundoBandeiras from "./mundo/ano4/bandeiras-do-mundo.md";
 
 /* ---- Saber de cor (study/reference area — not grade-based) ---- */
 import estudoTabuadas from "./estudo/tabuadas.md";
+import estudoContas from "./estudo/contas-armadas.md";
 import estudoAlfabeto from "./estudo/alfabeto.md";
 import estudoNumeros from "./estudo/numeros.md";
 import estudoDinheiro from "./estudo/dinheiro.md";
@@ -337,6 +339,30 @@ import dicW from "./dicionario/w.md";
 import dicX from "./dicionario/x.md";
 import dicY from "./dicionario/y.md";
 import dicZ from "./dicionario/z.md";
+
+/* ---- Os Verbos (reference area — by letter, not grade-based) ---- */
+import verbA from "./verbos/a.md";
+import verbB from "./verbos/b.md";
+import verbC from "./verbos/c.md";
+import verbD from "./verbos/d.md";
+import verbE from "./verbos/e.md";
+import verbF from "./verbos/f.md";
+import verbG from "./verbos/g.md";
+import verbH from "./verbos/h.md";
+import verbI from "./verbos/i.md";
+import verbJ from "./verbos/j.md";
+import verbL from "./verbos/l.md";
+import verbM from "./verbos/m.md";
+import verbN from "./verbos/n.md";
+import verbO from "./verbos/o.md";
+import verbP from "./verbos/p.md";
+import verbQ from "./verbos/q.md";
+import verbR from "./verbos/r.md";
+import verbS from "./verbos/s.md";
+import verbT from "./verbos/t.md";
+import verbU from "./verbos/u.md";
+import verbV from "./verbos/v.md";
+import verbZ from "./verbos/z.md";
 
 /* ---- Países (get-to-know-a-country area — not grade-based) ---- */
 import paisesPtPais from "./paises/portugal/o-pais.md";
@@ -577,6 +603,7 @@ export const schoolSubjects: Subject[] = [
         { id: "mat-4-numeros-milhao", title: "Números até ao milhão", emoji: "🔢", body: matMilhao },
         { id: "mat-4-estimar", title: "Estimar e arredondar", emoji: "🎯", body: matEstimar },
         { id: "mat-4-decimais", title: "Números decimais", emoji: "🔢", body: matDecimais },
+        { id: "mat-4-contas-armadas", title: "Contas armadas passo a passo", emoji: "🧮", body: matContasArmadas },
         { id: "mat-4-fracoes-decimais", title: "Frações e decimais", emoji: "🍕", body: matFracDec },
         { id: "mat-4-calculo-mental", title: "Cálculo mental", emoji: "🧠", body: matCalculoMental },
         { id: "mat-4-area", title: "Área e perímetro", emoji: "📐", body: matArea },
@@ -1194,6 +1221,7 @@ export const estudoSubject: Subject = {
   years: {
     1: [
       { id: "estudo-tabuadas", title: "Tabuadas", emoji: "✖️", body: estudoTabuadas },
+      { id: "estudo-contas", title: "Armar contas", emoji: "🧮", body: estudoContas },
       { id: "estudo-alfabeto", title: "O alfabeto", emoji: "🔤", body: estudoAlfabeto },
       { id: "estudo-numeros", title: "Os números", emoji: "🔢", body: estudoNumeros },
       { id: "estudo-dinheiro", title: "O dinheiro", emoji: "💶", body: estudoDinheiro },
@@ -1271,6 +1299,52 @@ export const dicionarioSubject: Subject = {
   },
 };
 
+/* "Os Verbos" — the second half of the Biblioteca (like "O Dicionário": NOT a
+ * school subject and NOT tied to a grade). Each letter is one page (its single
+ * tier-1 "lesson") holding a `verbs` widget: a verb opens to show its five
+ * tenses and says whether it is regular (follows the pattern) or irregular.
+ * Portuguese has no verbs in K/W/X/Y, so those letters are skipped. The area is
+ * never shown as "X.º ano" (see tierLabel + isVerbos). */
+export const verbosSubject: Subject = {
+  id: "verbos",
+  label: site.verbos.sectionTitle,
+  emoji: "🏃",
+  color: "var(--subj-pt)",
+  colorSoft: "var(--subj-pt-soft)",
+  blurb: site.verbos.sectionSub,
+  years: {
+    1: [
+      { id: "verb-a", title: "A", emoji: "🚪", body: verbA },
+      { id: "verb-b", title: "B", emoji: "🥁", body: verbB },
+      { id: "verb-c", title: "C", emoji: "🏃", body: verbC },
+      { id: "verb-d", title: "D", emoji: "🎁", body: verbD },
+      { id: "verb-e", title: "E", emoji: "✏️", body: verbE },
+      { id: "verb-f", title: "F", emoji: "🗣️", body: verbF },
+      { id: "verb-g", title: "G", emoji: "🔄", body: verbG },
+      { id: "verb-h", title: "H", emoji: "🏠", body: verbH },
+      { id: "verb-i", title: "I", emoji: "💡", body: verbI },
+      { id: "verb-j", title: "J", emoji: "🎮", body: verbJ },
+      { id: "verb-l", title: "L", emoji: "📖", body: verbL },
+      { id: "verb-m", title: "M", emoji: "👀", body: verbM },
+      { id: "verb-n", title: "N", emoji: "🏊", body: verbN },
+      { id: "verb-o", title: "O", emoji: "👂", body: verbO },
+      { id: "verb-p", title: "P", emoji: "🦘", body: verbP },
+      { id: "verb-q", title: "Q", emoji: "❤️", body: verbQ },
+      { id: "verb-r", title: "R", emoji: "😂", body: verbR },
+      { id: "verb-s", title: "S", emoji: "🦘", body: verbS },
+      { id: "verb-t", title: "T", emoji: "💼", body: verbT },
+      { id: "verb-u", title: "U", emoji: "🔗", body: verbU },
+      { id: "verb-v", title: "V", emoji: "✈️", body: verbV },
+      { id: "verb-z", title: "Z", emoji: "😠", body: verbZ },
+    ],
+    2: [],
+    3: [],
+    4: [],
+    5: [],
+    6: [],
+  },
+};
+
 /* "Países" — a get-to-know-a-country area (like "O Mundo" and "Saber de cor",
  * NOT a school subject and NOT tied to a grade). Each COUNTRY reuses a 1–4
  * "year" slot for storage/lookup only; it's named and shown as the country,
@@ -1312,7 +1386,7 @@ export const paisesSubject: Subject = {
  *  "O Dicionário" and "Países" areas — used for lookups, global search and
  *  achievements. The home screen lists the school subjects per year and these
  *  areas as their own sections. */
-export const subjects: Subject[] = [...schoolSubjects, mundoSubject, estudoSubject, dicionarioSubject, paisesSubject];
+export const subjects: Subject[] = [...schoolSubjects, mundoSubject, estudoSubject, dicionarioSubject, verbosSubject, paisesSubject];
 
 export const YEARS: YearN[] = [1, 2, 3, 4, 5, 6];
 /** Years grouped by cycle, for the home screen's two sections. */
@@ -1339,6 +1413,11 @@ export const DICIONARIO_ID = "dicionario";
 export const isDicionario = (subjectId: string): boolean => subjectId === DICIONARIO_ID;
 /** The dictionary's letters (its single, non-grade tier). */
 export const dicionarioLetters = dicionarioSubject.years[1];
+
+export const VERBOS_ID = "verbos";
+export const isVerbos = (subjectId: string): boolean => subjectId === VERBOS_ID;
+/** The verbs area's letters (its single, non-grade tier). */
+export const verbosLetters = verbosSubject.years[1];
 
 /* The countries of the "Países" area. Each country maps onto a 1–4 "year" slot,
  * but is named and shown as the country, never as a grade. Presentation (label,
@@ -1376,7 +1455,7 @@ const MUNDO_RING_LABEL = Object.fromEntries(mundoRings.map((r) => [r.ring, r.lab
 export function tierLabel(subjectId: string, tier: YearN): string {
   if (isMundo(subjectId)) return MUNDO_RING_LABEL[tier];
   if (isPaises(subjectId)) return PAIS_TIER_LABEL[tier]; // the country name, never a grade
-  if (isEstudo(subjectId) || isDicionario(subjectId)) return ""; // not grade-based, no tier label
+  if (isEstudo(subjectId) || isDicionario(subjectId) || isVerbos(subjectId)) return ""; // not grade-based, no tier label
   return yearLabel(tier);
 }
 

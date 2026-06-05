@@ -14,6 +14,8 @@ import {
   isEstudo,
   dicionarioSubject,
   isDicionario,
+  verbosSubject,
+  isVerbos,
   paisesSubject,
   paisesCountries,
   isPaises,
@@ -54,6 +56,7 @@ const Diversao = lazy(() => import("./diversao/Diversao").then((m) => ({ default
 // "Academia dos Elementos" — the 2D meta-game (hero + missions). Lazy-loaded; it
 // only matters once the child opens it, so it stays out of the first paint.
 const Academia = lazy(() => import("./world/Academia").then((m) => ({ default: m.Academia })));
+const Teia = lazy(() => import("./Teia").then((m) => ({ default: m.Teia })));
 
 function LessonBody({ children, className = "" }: { children: string; className?: string }) {
   return (
@@ -73,6 +76,7 @@ const SUBJECT_ICON: Record<string, IconName> = {
   mundo: "compass",
   estudo: "star",
   dicionario: "letters",
+  verbos: "reading",
   paises: "map",
   cidadania: "heart",
   tic: "device",
@@ -318,6 +322,7 @@ function Root() {
             onOpenArea={(area) => go({ kind: "area", area })}
             onOpenDiversao={() => go({ kind: "diversao" })}
             onOpenAcademia={() => go({ kind: "academia" })}
+            onOpenTeia={() => go({ kind: "teia" })}
             onOpenLesson={openLesson}
           />
         )}
@@ -333,7 +338,10 @@ function Root() {
           />
         )}
         {view.kind === "area" && view.area === "biblioteca" && (
-          <BibliotecaView onOpenDicionario={() => go({ kind: "subject", year: 1, subjectId: dicionarioSubject.id })} />
+          <BibliotecaView
+            onOpenDicionario={() => go({ kind: "subject", year: 1, subjectId: dicionarioSubject.id })}
+            onOpenVerbos={() => go({ kind: "subject", year: 1, subjectId: verbosSubject.id })}
+          />
         )}
         {view.kind === "mundo" && (
           <MundoView onPick={(ring) => go({ kind: "subject", year: ring, subjectId: mundoSubject.id })} />
@@ -370,6 +378,11 @@ function Root() {
         {view.kind === "academia" && (
           <Suspense fallback={<div className="lesson-loading">A preparar a Academia…</div>}>
             <Academia onGo={go} />
+          </Suspense>
+        )}
+        {view.kind === "teia" && (
+          <Suspense fallback={<div className="lesson-loading">A preparar a teia…</div>}>
+            <Teia onGo={go} />
           </Suspense>
         )}
       </div>
@@ -472,6 +485,11 @@ function TopBar({
               <span style={{ color: "var(--subj-en)", display: "inline-flex", alignItems: "center", gap: 4 }}>
                 <Icon name="bolt" size={18} /> {site.academia.sectionTitle}
               </span>
+            ) : view.kind === "teia" ? (
+              // "A Teia do Saber" — the knowledge web.
+              <span style={{ color: "var(--subj-emus)", display: "inline-flex", alignItems: "center", gap: 4 }}>
+                <Icon name="atom" size={18} /> A Teia do Saber
+              </span>
             ) : view.kind === "mundo" ? (
               // The "Pelo mundo fora" overview itself.
               <span style={{ color: mundoSubject.color, display: "inline-flex", alignItems: "center", gap: 4 }}>
@@ -515,10 +533,10 @@ function TopBar({
                   {tierLabel(subject.id, view.year)}
                 </span>
               )
-            ) : subject && (isEstudo(subject.id) || isDicionario(subject.id)) ? (
-              // "Saber de cor" / "O Dicionário" — grade-less areas, never
-              // "X.º ano". Just the area name (a link back to its overview when
-              // on a topic/letter).
+            ) : subject && (isEstudo(subject.id) || isDicionario(subject.id) || isVerbos(subject.id)) ? (
+              // "Saber de cor" / "O Dicionário" / "Os Verbos" — grade-less areas,
+              // never "X.º ano". Just the area name (a link back to its overview
+              // when on a topic/letter).
               deeperThanSubject ? (
                 <button className="crumb-link" style={{ color: subject.color }} onClick={() => onGo({ kind: "subject", year: view.year, subjectId: subject.id })}>
                   <Icon name={SUBJECT_ICON[subject.id]} size={18} /> {subject.label}
@@ -748,11 +766,13 @@ function Home({
   onOpenArea,
   onOpenDiversao,
   onOpenAcademia,
+  onOpenTeia,
   onOpenLesson,
 }: {
   onOpenArea: (area: AreaId) => void;
   onOpenDiversao: () => void;
   onOpenAcademia: () => void;
+  onOpenTeia: () => void;
   onOpenLesson: (lessonId: string) => void;
 }) {
   const { progress, history, totalStars, removeSeen, clearHistory } = useProgress();
@@ -816,7 +836,7 @@ function Home({
               colorSoft={`var(${a.accent}-soft)`}
               sub={<span className="sub">{a.blurb}</span>}
               say={`${a.label}. ${a.blurb}`}
-              onClick={() => (a.id === "diversao" ? onOpenDiversao() : onOpenArea(a.id as AreaId))}
+              onClick={() => (a.id === "diversao" ? onOpenDiversao() : a.id === "teia" ? onOpenTeia() : onOpenArea(a.id as AreaId))}
             >
               {st && st.real > 0 && (
                 <CardProgress pct={pctOf(st)} done={st.done} real={st.real} stars={st.stars} color={`var(${a.accent})`} />
@@ -1010,17 +1030,18 @@ function ExplorarView({
 
 /* ---------------- area: Biblioteca (O Dicionário) ---------------- */
 
-function BibliotecaView({ onOpenDicionario }: { onOpenDicionario: () => void }) {
+function BibliotecaView({ onOpenDicionario, onOpenVerbos }: { onOpenDicionario: () => void; onOpenVerbos: () => void }) {
+  const area = site.areas.items.find((i) => i.id === "biblioteca");
   return (
     <div>
-      <Mascot message={`${site.dicionario.sectionTitle}. Escolhe uma letra e toca para ouvir o que as palavras significam!`} mood="happy" />
+      <Mascot message="A Biblioteca! O dicionário diz o que as palavras significam, os verbos mostram como mudam. Escolhe!" mood="happy" />
       <h2 className="section-title">
         <span style={{ color: dicionarioSubject.color, display: "inline-flex" }}>
-          <Icon name={SUBJECT_ICON[dicionarioSubject.id]} size={26} />
+          <Icon name={(area?.icon as IconName) ?? "letters"} size={26} />
         </span>
-        {site.dicionario.sectionTitle}
+        Biblioteca
       </h2>
-      <p className="section-sub">{site.dicionario.sectionSub}</p>
+      <p className="section-sub">{area?.blurb}</p>
       <div className="card-grid">
         <BigCard
           iconName={SUBJECT_ICON[dicionarioSubject.id]}
@@ -1031,6 +1052,16 @@ function BibliotecaView({ onOpenDicionario }: { onOpenDicionario: () => void }) 
           sub={<span className="sub">Escolhe uma letra para veres o que as palavras significam</span>}
           say="O Dicionário. Escolhe uma letra para veres o que as palavras significam."
           onClick={onOpenDicionario}
+        />
+        <BigCard
+          iconName={SUBJECT_ICON[verbosSubject.id]}
+          kicker="Verbos"
+          title="Os verbos de A a Z"
+          color={verbosSubject.color}
+          colorSoft={verbosSubject.colorSoft}
+          sub={<span className="sub">Escolhe uma letra e toca num verbo para o conjugares</span>}
+          say="Os Verbos. Escolhe uma letra e toca num verbo para o conjugares e ouvires."
+          onClick={onOpenVerbos}
         />
       </div>
     </div>
@@ -1113,10 +1144,18 @@ function SubjectView({ subject, year, onPick }: { subject: Subject; year: YearN;
   const { progress } = useProgress();
   const lessons = subject.years[year];
   const tier = tierLabel(subject.id, year); // "" for the grade-less study area
-  const dict = isDicionario(subject.id);
+  const verbs = isVerbos(subject.id);
+  // Both halves of the Biblioteca (dictionary + verbs) show one big-letter card
+  // per letter instead of the usual topic icons.
+  const dict = isDicionario(subject.id) || verbs;
+  const mascotMsg = verbs
+    ? `${subject.label}. Escolhe uma letra e toca num verbo para o conjugares!`
+    : dict
+    ? `${subject.label}. Escolhe uma letra para veres o que as palavras significam!`
+    : `${subject.label}${tier ? ` • ${tier}` : ""}. Escolhe uma lição para começar!`;
   return (
     <div>
-      <Mascot message={dict ? `${subject.label}. Escolhe uma letra para veres o que as palavras significam!` : `${subject.label}${tier ? ` • ${tier}` : ""}. Escolhe uma lição para começar!`} mood="happy" />
+      <Mascot message={mascotMsg} mood="happy" />
       <h2 className="section-title">
         <span style={{ color: subject.color, display: "inline-flex" }}><Icon name={SUBJECT_ICON[subject.id]} size={26} /></span>
         {subject.label}
@@ -1142,7 +1181,7 @@ function SubjectView({ subject, year, onPick }: { subject: Subject; year: YearN;
               onClick={() => onPick(l.id)}
               sub={
                 dict ? (
-                  <span className="sub">Toca para ver as palavras ›</span>
+                  <span className="sub">{verbs ? "Toca para conjugar ›" : "Toca para ver as palavras ›"}</span>
                 ) : soon ? (
                   <span className="tag"><Icon name="lock" size={13} /> Em breve</span>
                 ) : p?.done ? (

@@ -1432,12 +1432,13 @@
 .drill-chip--streak[data-on] { background: color-mix(in srgb, var(--warn) 20%, transparent); border-color: var(--warn); color: var(--warn); }
 
 .drill-card {
-  display: grid; place-items: center; min-height: 128px;
+  display: grid; place-items: center; gap: 12px; min-height: 128px;
   border-radius: var(--radius-lg);
   background: radial-gradient(120% 140% at 50% 0%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 62%), var(--surface-2);
   border: 2px solid color-mix(in srgb, var(--accent) 30%, var(--border));
   padding: 18px; text-align: center;
 }
+.drill-card[data-revealed] { border-color: var(--accent); }
 .drill-front { display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .drill-emoji { font-size: 2em; line-height: 1; }
 .drill-q { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.8rem, 7vw, 2.6rem); color: var(--ink); line-height: 1.1; }
@@ -1449,7 +1450,11 @@
 }
 .drill-speak:hover, .drill-speak[data-playing] { background: var(--accent); color: #fff; }
 
-.drill-answer { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 14px 0 2px; }
+.drill-answer {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  align-self: stretch; padding-top: 12px;
+  border-top: 2px dashed color-mix(in srgb, var(--accent) 35%, var(--border));
+}
 .drill-a { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.6rem, 6vw, 2.2rem); color: var(--accent); }
 .drill-prompt { text-align: center; color: var(--ink-2); font-weight: 600; margin: 8px 0 0; }
 

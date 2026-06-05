@@ -1,8 +1,8 @@
 /* Academia dos Elementos 3D — the world: a big open courtyard that climbs north
  * through a path of floating platforms up to a peak where the Dragão do Caos
  * waits, ringed by snow-capped mountains, with Cristais de Saber to collect and
- * a glowing sky. The characters are SVG sprites (see sprites.ts); everything here
- * is real 3D so the child can run, jump and climb. */
+ * a glowing sky. The characters are blocky 3D models (see character.ts); the
+ * child can run, jump and climb the whole thing. */
 import {
   Scene,
   Vector3,
@@ -45,14 +45,15 @@ export interface Crystal {
 /** World bounds (the hero can't wander past these). */
 export const BOUNDS = { minX: -38, maxX: 38, minZ: -26, maxZ: 52 };
 
-/** The climbing path: each platform a jump up from the last, ending on the peak. */
+/** The climbing path: each platform a jump up from the last, ending on the peak.
+ *  Cheerful rainbow steps so the climb reads clearly and looks fun. */
 export const PLATFORMS: Platform[] = [
-  { x: 0, z: 16, top: 1.7, w: 5, d: 5, color: "#caa6e0" },
-  { x: 5, z: 21, top: 3.2, w: 4.5, d: 4.5, color: "#b58fd6" },
-  { x: -4, z: 26, top: 4.8, w: 4.5, d: 4.5, color: "#caa6e0" },
-  { x: 4, z: 31, top: 6.4, w: 4.5, d: 4.5, color: "#b58fd6" },
-  { x: -3, z: 36, top: 8.0, w: 4.5, d: 4.5, color: "#caa6e0" },
-  { x: 0, z: 42, top: 9.8, w: 8, d: 8, color: "#9d7bc9" }, // the peak — the dragon sits here
+  { x: 0, z: 16, top: 1.7, w: 5, d: 5, color: "#5ec96a" },
+  { x: 5, z: 21, top: 3.2, w: 4.5, d: 4.5, color: "#37bfc0" },
+  { x: -4, z: 26, top: 4.8, w: 4.5, d: 4.5, color: "#4a90e2" },
+  { x: 4, z: 31, top: 6.4, w: 4.5, d: 4.5, color: "#9b6ff0" },
+  { x: -3, z: 36, top: 8.0, w: 4.5, d: 4.5, color: "#ef6fb0" },
+  { x: 0, z: 42, top: 9.8, w: 8, d: 8, color: "#ffc24b" }, // the peak — the dragon sits here
 ];
 
 export const DRAGON_PEAK_Y = 9.8;
@@ -120,14 +121,36 @@ export function buildScenery(scene: Scene): void {
   buildSky(scene);
 
   const ground = MeshBuilder.CreateGround("ground", { width: 200, height: 200 }, scene);
-  ground.material = mat(scene, "#7cc35f");
+  ground.material = mat(scene, "#84cf6a");
   ground.position.y = -0.02;
 
-  // central plaza disc
+  // central plaza disc (warm sand stone)
   const plaza = MeshBuilder.CreateDisc("plaza", { radius: 17, tessellation: 56 }, scene);
-  plaza.material = mat(scene, "#e3d6b4");
+  plaza.material = mat(scene, "#e9d6a6");
   plaza.rotation.x = Math.PI / 2;
   plaza.position.y = 0;
+
+  // a little pond off to the side for life
+  const pond = MeshBuilder.CreateDisc("pond", { radius: 4, tessellation: 32 }, scene);
+  pond.material = mat(scene, "#4ec3e6", 0.15);
+  pond.rotation.x = Math.PI / 2;
+  pond.position = new Vector3(-15, 0.02, -14);
+
+  // flower dots ringing the plaza
+  const flowerColors = ["#ff6f91", "#ffd23f", "#ff8c42", "#c479f0", "#5ad6ff"];
+  for (let i = 0; i < 26; i++) {
+    const a = (i / 26) * Math.PI * 2;
+    const r = 14 + (i % 3) * 1.5;
+    const x = Math.cos(a) * r;
+    const z = Math.sin(a) * r + 6;
+    if (z > 12 && Math.abs(x) < 9) continue; // keep the climbing path clear
+    const stem = MeshBuilder.CreateCylinder(`stem${i}`, { height: 0.5, diameter: 0.08 }, scene);
+    stem.material = mat(scene, "#3f8f43");
+    stem.position = new Vector3(x, 0.25, z);
+    const bloom = MeshBuilder.CreateSphere(`bloom${i}`, { diameter: 0.34, segments: 8 }, scene);
+    bloom.material = mat(scene, flowerColors[i % flowerColors.length], 0.2);
+    bloom.position = new Vector3(x, 0.55, z);
+  }
 
   // sun
   const sun = MeshBuilder.CreateSphere("sun", { diameter: 7, segments: 12 }, scene);

@@ -304,6 +304,7 @@ import estudoClasses from "./estudo/classes-palavras.md";
 import estudoVerbos from "./estudo/verbos.md";
 import estudoFormas from "./estudo/formas.md";
 import estudoMedidas from "./estudo/medidas.md";
+import estudoRelogio from "./estudo/relogio.md";
 import estudoFormulas from "./estudo/formulas.md";
 import estudoRomanos from "./estudo/romanos.md";
 import estudoPlanetas from "./estudo/planetas.md";
@@ -1232,6 +1233,7 @@ export const estudoSubject: Subject = {
       { id: "estudo-verbos", title: "Conjugar os verbos", emoji: "⏳", body: estudoVerbos },
       { id: "estudo-formas", title: "As formas e os sólidos", emoji: "🔷", body: estudoFormas },
       { id: "estudo-medidas", title: "As unidades de medida", emoji: "📏", body: estudoMedidas },
+      { id: "estudo-relogio", title: "O relógio e as horas", emoji: "⏰", body: estudoRelogio },
       { id: "estudo-formulas", title: "Fórmulas de área e perímetro", emoji: "📐", body: estudoFormulas },
       { id: "estudo-romanos", title: "Os numerais romanos", emoji: "🏛️", body: estudoRomanos },
       { id: "estudo-planetas", title: "Os planetas", emoji: "🪐", body: estudoPlanetas },

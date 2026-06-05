@@ -71,7 +71,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-mat)",
     blurb:
       "Do sistema solar aos relógios e calendários — o espaço e o tempo ligam a Matemática, o Estudo do Meio e o Mundo.",
-    lessons: ["edm-4-sistema-solar", "estudo-planetas", "mat-1-tempo", "mat-2-horas", "estudo-dias-meses", "mat-3-calendario", "mundo-4-fusos"],
+    lessons: ["edm-4-sistema-solar", "estudo-planetas", "mat-1-tempo", "mat-2-horas", "estudo-relogio", "estudo-dias-meses", "mat-3-calendario", "mundo-4-fusos"],
   },
   {
     id: "animais",

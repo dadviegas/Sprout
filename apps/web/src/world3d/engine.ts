@@ -15,12 +15,12 @@ import {
   FreeCamera,
   HemisphericLight,
   DirectionalLight,
+  ShadowGenerator,
   GlowLayer,
   Mesh,
 } from "@babylonjs/core";
 import type { ElementId } from "../world/world-data";
-import { type Character } from "./character";
-import { createHeroSprite, createMasterSprite, createDragonSprite } from "./sprites";
+import { createHero, createMaster, createDragon, type Character } from "./character";
 import {
   OBJECTS,
   PLATFORMS,
@@ -48,8 +48,9 @@ export interface Academia3DConfig {
 const WALK_SPEED = 8;
 const GRAVITY = 26;
 const JUMP_V = 9.8;
-const CAM_DISTANCE = 12;
-const CAM_HEIGHT = 6.5;
+const TURN_LERP = 0.2;
+const CAM_DISTANCE = 10;
+const CAM_HEIGHT = 6;
 const CAM_LERP = 0.1;
 const INTERACT_RADIUS = 3;
 
@@ -76,7 +77,10 @@ export class Academia3DEngine {
   private pos = new Vector3(0, 0, 0);
   private velY = 0;
   private grounded = true;
+  private angle = 0; // hero facing
+  private camYaw = 0; // camera trails behind this yaw
   private move = { x: 0, y: 0 };
+  private shadow!: ShadowGenerator;
   private jumpQueued = false;
   private t = 0;
   private crystalCount = 0;
@@ -90,20 +94,26 @@ export class Academia3DEngine {
 
     this.scene = new Scene(this.engine);
     this.scene.clearColor = Color4.FromHexString("#bfe6ffff");
+    this.scene.ambientColor = new Color3(0.45, 0.47, 0.5);
     this.scene.fogMode = Scene.FOGMODE_EXP2;
     this.scene.fogColor = new Color3(0.78, 0.9, 1);
-    this.scene.fogDensity = 0.006;
+    this.scene.fogDensity = 0.005;
 
     this.camera = new FreeCamera("cam", new Vector3(0, CAM_HEIGHT, -CAM_DISTANCE), this.scene);
     this.camera.setTarget(new Vector3(0, 1.2, 0));
 
     const hemi = new HemisphericLight("hemi", new Vector3(0.3, 1, 0.2), this.scene);
-    hemi.intensity = 0.95;
-    hemi.groundColor = new Color3(0.55, 0.6, 0.5);
-    const sun = new DirectionalLight("sun", new Vector3(-0.4, -1, 0.5), this.scene);
-    sun.intensity = 0.5;
+    hemi.intensity = 0.8;
+    hemi.groundColor = new Color3(0.5, 0.55, 0.45);
+    // a positioned sun so it casts nice soft shadows (the xadrez3d look)
+    const sun = new DirectionalLight("sun", new Vector3(-0.5, -1.1, 0.4), this.scene);
+    sun.position = new Vector3(20, 40, -16);
+    sun.intensity = 1.05;
+    this.shadow = new ShadowGenerator(1024, sun);
+    this.shadow.useBlurExponentialShadowMap = true;
+    this.shadow.blurScale = 2;
     const glow = new GlowLayer("glow", this.scene);
-    glow.intensity = 0.55;
+    glow.intensity = 0.8;
 
     buildScenery(this.scene);
     buildPlatforms(this.scene);
@@ -115,12 +125,14 @@ export class Academia3DEngine {
       this.placed.push({ id: o.id, label: o.label, locked, pos });
       const faceCentre = Math.atan2(-o.x, -o.z);
       if (o.kind === "mestre") {
-        const m = createMasterSprite(this.scene);
+        const m = createMaster(this.scene);
         m.root.position = pos;
+        m.root.rotation.y = faceCentre;
         this.animated.push(m);
       } else if (o.kind === "dragon") {
-        const d = createDragonSprite(this.scene);
+        const d = createDragon(this.scene);
         d.root.position = pos;
+        d.root.rotation.y = faceCentre;
         this.animated.push(d);
       } else {
         const prop = buildProp(this.scene, o.kind, locked);
@@ -129,8 +141,10 @@ export class Academia3DEngine {
       }
     }
 
-    this.hero = createHeroSprite(this.scene, cfg.element);
+    this.hero = createHero(this.scene, cfg.element);
     this.animated.push(this.hero);
+
+    this.setupShadows();
 
     this.engine.runRenderLoop(() => {
       this.update(Math.min(0.05, this.engine.getDeltaTime() / 1000));
@@ -144,6 +158,20 @@ export class Academia3DEngine {
   }
   jump() {
     this.jumpQueued = true;
+  }
+
+  /** Everything casts a soft shadow; the ground and platform tops receive them. */
+  private setupShadows() {
+    const receivers = new Set(["ground", "plaza", "plat", "platcap"]);
+    for (const m of this.scene.meshes) {
+      const n = m.name;
+      if (n === "sky" || n === "sun") continue;
+      if (receivers.has(n) || n.startsWith("plazaRing")) {
+        m.receiveShadows = true;
+        continue;
+      }
+      this.shadow.addShadowCaster(m);
+    }
   }
 
   /** Highest platform surface the hero can stand on at (x,z), given current y. */
@@ -160,16 +188,24 @@ export class Academia3DEngine {
   private update(dt: number) {
     this.t += dt;
 
-    // horizontal movement (screen up = +Z, away from camera)
-    const wx = this.move.x;
-    const wz = -this.move.y;
-    const len = Math.min(1, Math.hypot(wx, wz));
+    // movement is CAMERA-RELATIVE: "up" on the stick walks the hero into the
+    // screen (away from the camera), so jumps toward platforms are easy to judge.
+    const ix = this.move.x; // right
+    const iz = -this.move.y; // forward (up on the stick)
+    const len = Math.min(1, Math.hypot(ix, iz));
     if (len > 0.05) {
-      const nx = wx / (len || 1);
-      const nz = wz / (len || 1);
-      this.pos.x = clamp(this.pos.x + nx * WALK_SPEED * dt * len, BOUNDS.minX, BOUNDS.maxX);
-      this.pos.z = clamp(this.pos.z + nz * WALK_SPEED * dt * len, BOUNDS.minZ, BOUNDS.maxZ);
+      const cy = this.camYaw;
+      let dx = Math.sin(cy) * iz + Math.cos(cy) * ix;
+      let dz = Math.cos(cy) * iz - Math.sin(cy) * ix;
+      const dl = Math.hypot(dx, dz) || 1;
+      dx /= dl;
+      dz /= dl;
+      this.pos.x = clamp(this.pos.x + dx * WALK_SPEED * dt * len, BOUNDS.minX, BOUNDS.maxX);
+      this.pos.z = clamp(this.pos.z + dz * WALK_SPEED * dt * len, BOUNDS.minZ, BOUNDS.maxZ);
+      this.angle = lerpAngle(this.angle, Math.atan2(dx, dz), TURN_LERP);
     }
+    // the camera eases around to sit behind whichever way the hero faces
+    this.camYaw = lerpAngle(this.camYaw, this.angle, 0.06);
 
     // jump + gravity + platform landing
     if (this.jumpQueued) {
@@ -188,11 +224,14 @@ export class Academia3DEngine {
     }
 
     this.hero.root.position.copyFrom(this.pos);
+    this.hero.root.rotation.y = this.angle;
 
-    // camera follows in 3 dimensions so the climb stays in frame
-    const desired = new Vector3(this.pos.x, this.pos.y + CAM_HEIGHT, this.pos.z - CAM_DISTANCE);
+    // third-person follow: camera sits behind the hero (camYaw) and a bit above
+    const camX = this.pos.x - Math.sin(this.camYaw) * CAM_DISTANCE;
+    const camZ = this.pos.z - Math.cos(this.camYaw) * CAM_DISTANCE;
+    const desired = new Vector3(camX, this.pos.y + CAM_HEIGHT, camZ);
     this.camera.position = Vector3.Lerp(this.camera.position, desired, CAM_LERP);
-    this.camera.setTarget(new Vector3(this.pos.x, this.pos.y + 1.6, this.pos.z + 2));
+    this.camera.setTarget(new Vector3(this.pos.x, this.pos.y + 1.3, this.pos.z));
 
     for (const c of this.animated) c.update(this.t, c === this.hero ? len : 0);
 
@@ -243,4 +282,10 @@ export class Academia3DEngine {
 
 function clamp(v: number, lo: number, hi: number): number {
   return v < lo ? lo : v > hi ? hi : v;
+}
+function lerpAngle(a: number, b: number, t: number): number {
+  let diff = b - a;
+  while (diff > Math.PI) diff -= Math.PI * 2;
+  while (diff < -Math.PI) diff += Math.PI * 2;
+  return a + diff * t;
 }

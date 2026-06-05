@@ -295,14 +295,25 @@ function Root() {
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
 
-  // In-lesson links (`[texto](lesson:<id>)` in markdown) navigate within the app
-  // instead of reloading the page. Markdown dispatches this event so it doesn't
-  // need the navigation function threaded down to it.
+  // In-lesson links navigate within the app instead of reloading the page:
+  // `[texto](lesson:<id>)` opens another lesson; `[texto](subject:<id>)` opens a
+  // subject/area overview (e.g. the "Os Verbos" conjugator grid). Markdown
+  // dispatches this event so it doesn't need the navigation function threaded down.
   useEffect(() => {
     const onNavigate = (e: Event) => {
-      const lessonId = (e as CustomEvent<{ lessonId?: string }>).detail?.lessonId;
-      const m = lessonId ? lessonMeta.get(lessonId) : undefined;
-      if (m && lessonId) go({ kind: "lesson", year: m.year, subjectId: m.subjectId, lessonId });
+      const { lessonId, subjectId } = (e as CustomEvent<{ lessonId?: string; subjectId?: string }>).detail ?? {};
+      if (lessonId) {
+        const m = lessonMeta.get(lessonId);
+        if (m) go({ kind: "lesson", year: m.year, subjectId: m.subjectId, lessonId });
+      } else if (subjectId) {
+        const subject = subjectById.get(subjectId);
+        if (subject) {
+          // Land on the first year that actually has lessons (year 1 for the
+          // grade-less areas like "Os Verbos").
+          const year = YEARS.find((y) => subject.years[y].length > 0) ?? 1;
+          go({ kind: "subject", year, subjectId });
+        }
+      }
     };
     window.addEventListener("sprout:navigate", onNavigate);
     return () => window.removeEventListener("sprout:navigate", onNavigate);

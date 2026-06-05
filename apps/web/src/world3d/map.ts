@@ -1,8 +1,7 @@
 /* Academia dos Elementos 3D — the world: a big open courtyard that climbs north
- * through a path of floating platforms up to a peak where the Dragão do Caos
- * waits, ringed by snow-capped mountains, with Cristais de Saber to collect and
- * a glowing sky. The characters are blocky 3D models (see character.ts); the
- * child can run, jump and climb the whole thing. */
+ * through broad mountain terraces up to a peak where the Dragão do Caos waits,
+ * ringed by snow-capped mountains, with Cristais de Saber to collect and a
+ * glowing sky. The climb is intentionally wide and readable on iPad. */
 import {
   Scene,
   Vector3,
@@ -45,23 +44,25 @@ export interface Crystal {
 /** World bounds (the hero can't wander past these). */
 export const BOUNDS = { minX: -38, maxX: 38, minZ: -26, maxZ: 52 };
 
-/** The climbing path: each platform a jump up from the last, ending on the peak.
- *  Cheerful rainbow steps so the climb reads clearly and looks fun. */
+/** Broad mountain terraces. They overlap slightly, so the climb feels like a
+ *  readable hillside path instead of a punishing precision-platformer. */
 export const PLATFORMS: Platform[] = [
-  { x: 0, z: 16, top: 1.7, w: 5, d: 5, color: "#5ec96a" },
-  { x: 5, z: 21, top: 3.2, w: 4.5, d: 4.5, color: "#37bfc0" },
-  { x: -4, z: 26, top: 4.8, w: 4.5, d: 4.5, color: "#4a90e2" },
-  { x: 4, z: 31, top: 6.4, w: 4.5, d: 4.5, color: "#9b6ff0" },
-  { x: -3, z: 36, top: 8.0, w: 4.5, d: 4.5, color: "#ef6fb0" },
-  { x: 0, z: 42, top: 9.8, w: 8, d: 8, color: "#ffc24b" }, // the peak — the dragon sits here
+  { x: 0, z: 13, top: 0.85, w: 10, d: 5.8, color: "#74c86b" },
+  { x: 0, z: 16.8, top: 1.7, w: 10.5, d: 5.8, color: "#62bf75" },
+  { x: 0, z: 20.6, top: 2.55, w: 11, d: 5.8, color: "#58b884" },
+  { x: 0, z: 24.4, top: 3.4, w: 11.5, d: 5.8, color: "#50ad91" },
+  { x: 0, z: 28.2, top: 4.25, w: 12, d: 5.8, color: "#58a6a2" },
+  { x: 0, z: 32, top: 5.1, w: 12.5, d: 5.8, color: "#75a06d" },
+  { x: 0, z: 36.5, top: 5.95, w: 15, d: 8.5, color: "#9b965f" }, // the peak — the dragon sits here
 ];
 
-export const DRAGON_PEAK_Y = 9.8;
+export const DRAGON_PEAK_Y = 5.95;
 
 export const CRYSTALS: Crystal[] = [
-  { x: -6, y: 1.4, z: 4 }, { x: 6, y: 1.4, z: 4 }, { x: 0, y: 1.4, z: 10 },
-  { x: 0, y: 3.0, z: 16 }, { x: 5, y: 4.5, z: 21 }, { x: -4, y: 6.1, z: 26 },
-  { x: 4, y: 7.7, z: 31 }, { x: -3, y: 9.3, z: 36 }, { x: 0, y: 11.2, z: 42 },
+  // one floating over each terrace, plus a few around the plaza
+  { x: 0, y: 1.85, z: 13 }, { x: 0, y: 2.7, z: 16.8 }, { x: 0, y: 3.55, z: 20.6 },
+  { x: 0, y: 4.4, z: 24.4 }, { x: 0, y: 5.25, z: 28.2 }, { x: 0, y: 6.1, z: 32 },
+  { x: -6, y: 1.4, z: 4 }, { x: 6, y: 1.4, z: 4 }, { x: 0, y: 1.4, z: 9 },
   { x: -10, y: 1.4, z: -4 }, { x: 10, y: 1.4, z: -4 },
 ];
 
@@ -71,7 +72,7 @@ export const OBJECTS: Object3D[] = [
   { id: "missions", kind: "missions", x: 13, y: 0, z: 2, label: "Ver missões" },
   { id: "pets", kind: "pets", x: -11, y: 0, z: -9, label: "Ver" },
   { id: "house", kind: "house", x: 11, y: 0, z: -9, label: "Entrar" },
-  { id: "dragon", kind: "dragon", x: 0, y: DRAGON_PEAK_Y, z: 42, label: "Lutar" },
+  { id: "dragon", kind: "dragon", x: 0, y: DRAGON_PEAK_Y, z: 37, label: "Lutar" },
 ];
 
 interface Mountain { x: number; z: number; r: number; h: number; }
@@ -202,17 +203,33 @@ export function buildScenery(scene: Scene): void {
   }
 }
 
-/** Build the floating platform meshes (data drives physics in the engine). */
+/** Build the climb as mountain terraces, not box columns. The physics still uses
+ *  the simple platform data, but the visuals read as earthy ledges. */
 export function buildPlatforms(scene: Scene): void {
-  for (const p of PLATFORMS) {
-    const colH = p.top + 2;
-    const col = outline(MeshBuilder.CreateBox("plat", { width: p.w, height: colH, depth: p.d }, scene));
-    col.material = mat(scene, p.color);
-    col.position = new Vector3(p.x, p.top - colH / 2, p.z);
-    const cap = MeshBuilder.CreateBox("platcap", { width: p.w, height: 0.3, depth: p.d }, scene);
-    cap.material = mat(scene, "#f2e7c8");
-    cap.position = new Vector3(p.x, p.top - 0.12, p.z);
-  }
+  const side = mat(scene, "#7a6b4f");
+  const grass = mat(scene, "#8bd56f");
+  PLATFORMS.forEach((p, i) => {
+    const mound = outline(MeshBuilder.CreateCylinder(`plat${i}`, {
+      height: Math.max(0.35, p.top + 0.35),
+      diameterBottom: Math.max(p.w, p.d) * 1.38,
+      diameterTop: Math.max(p.w, p.d) * 0.92,
+      tessellation: 10,
+    }, scene));
+    mound.material = i > 4 ? mat(scene, "#8b7b62") : side;
+    mound.scaling.x = p.w / Math.max(p.w, p.d);
+    mound.scaling.z = p.d / Math.max(p.w, p.d);
+    mound.position = new Vector3(p.x, (p.top - 0.35) / 2, p.z);
+
+    const cap = outline(MeshBuilder.CreateCylinder(`platcap${i}`, {
+      height: 0.22,
+      diameter: Math.max(p.w, p.d) * 0.94,
+      tessellation: 18,
+    }, scene));
+    cap.material = i === PLATFORMS.length - 1 ? mat(scene, "#c7b06a") : grass;
+    cap.scaling.x = p.w / Math.max(p.w, p.d);
+    cap.scaling.z = p.d / Math.max(p.w, p.d);
+    cap.position = new Vector3(p.x, p.top - 0.09, p.z);
+  });
 }
 
 /** A floating, spinning Cristal de Saber. Returns the mesh so the engine can spin

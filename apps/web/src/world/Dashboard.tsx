@@ -8,6 +8,7 @@ import type { View } from "../nav";
 import { LEVEL_XP, elementById } from "./world-data";
 import type { World, MissionView } from "./world-state";
 import { Hero } from "./emblems";
+import { MissionArt } from "./mission-art";
 
 export function Dashboard({ world, onGo, onClose }: { world: World; onGo: (v: View) => void; onClose: () => void }) {
   const hero = world.hero!;
@@ -101,7 +102,7 @@ function MissionCard({ mission, onClaim }: { mission: MissionView; onClaim: () =
   const say = `${mission.title}. ${mission.blurb} Recompensa: ${mission.reward.xp} pontos e ${mission.reward.coins} moedas.`;
   return (
     <div className={`wd-mission ${mission.claimed ? "done" : ""} ${mission.claimable ? "ready" : ""}`}>
-      <span className="wd-mission__icon"><Icon name={mission.icon} size={22} /></span>
+      <span className="wd-mission__icon"><MissionArt mission={mission} /></span>
       <div className="wd-mission__body">
         <div className="wd-mission__title">
           {mission.title}

@@ -1,7 +1,7 @@
 const path = require("node:path");
 const rspack = require("@rspack/core");
 
-const port = 4000;
+const port = Number(process.env.PORT) || 4000;
 
 // Workspace packages (@sprout/ui, @sprout/icons) are source-only TSX; force a
 // single React instance so hooks work across package boundaries.

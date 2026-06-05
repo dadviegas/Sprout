@@ -1135,6 +1135,31 @@
   color: var(--ink-2);
 }
 
+/* The robot's hand, shown face down: one tile-shaped back per peça it holds, so
+   you can see how many it has without seeing what they are. The backs reuse
+   .dom-tile (same shape, border and shadow as a real tile) — only the faces
+   differ: a woven back where the pips would be. A touch smaller than your hand,
+   like an opponent sitting across the table. */
+.dom-rival {
+  --dom-face: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  min-height: calc(var(--dom-face) + 14px);
+}
+/* Each half of a face-down tile: a cream panel with a fine diagonal weave. Fixed
+   colours (like the cream body and dark pips) so it reads the same in both themes. */
+.dom-back-face {
+  width: var(--dom-face, 30px);
+  height: var(--dom-face, 30px);
+  border-radius: 4px;
+  background-color: #efe9da;
+  background-image: repeating-linear-gradient(45deg, #c9bfa8 0 2.5px, transparent 2.5px 6px);
+}
+
 /* Scoreboard: record / today / day-before, read aloud on tap. */
 .dom-placar {
   display: flex;

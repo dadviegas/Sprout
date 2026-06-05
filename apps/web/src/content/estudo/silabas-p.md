@@ -72,10 +72,10 @@ outras têm três.
     { "label": "PU-MA", "say": "pu-ma, puma", "hint": "🐆 puma" },
     { "label": "PU-DIM", "say": "pu-dim, pudim", "hint": "🍮 pudim" },
     { "label": "PA-NE-LA", "say": "pa-ne-la, panela", "hint": "🍲 panela" },
-    { "label": "PA-PE-LA", "say": "pa-pe-la, papela", "hint": "📄 som de papel" },
+    { "label": "PI-JA-MA", "say": "pi-ja-ma, pijama", "hint": "🌙 pijama" },
     { "label": "PI-PO-CA", "say": "pi-po-ca, pipoca", "hint": "🍿 pipoca" },
-    { "label": "PA-PA-GAI", "say": "pa-pa-gai, papagai", "hint": "🦜 papagaio começa assim" },
-    { "label": "PA-TA-TA", "say": "pa-ta-ta, patata", "hint": "🥔 batata/patata" }
+    { "label": "PE-PI-NO", "say": "pe-pi-no, pepino", "hint": "🥒 pepino" },
+    { "label": "PA-LI-TO", "say": "pa-li-to, palito", "hint": "🥢 palito" }
   ]
 }
 ```

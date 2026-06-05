@@ -21,7 +21,7 @@ olha para a imagem.
 
 ```soundcards
 {
-  "title": "Junto e leio",
+  "title": "20 palavras com 2 sílabas",
   "items": [
     { "label": "PA + TO = PATO", "say": "pa mais to forma pato", "hint": "🦆" },
     { "label": "BO + LA = BOLA", "say": "bo mais la forma bola", "hint": "⚽" },
@@ -37,7 +37,12 @@ olha para a imagem.
     { "label": "RA + TO = RATO", "say": "ra mais to forma rato", "hint": "🐭" },
     { "label": "VA + CA = VACA", "say": "va mais ca forma vaca", "hint": "🐄" },
     { "label": "FI + TA = FITA", "say": "fi mais ta forma fita", "hint": "🎀" },
-    { "label": "NO + TA = NOTA", "say": "no mais ta forma nota", "hint": "🎵" }
+    { "label": "NO + TA = NOTA", "say": "no mais ta forma nota", "hint": "🎵" },
+    { "label": "MA + LA = MALA", "say": "ma mais la forma mala", "hint": "🧳" },
+    { "label": "MO + LA = MOLA", "say": "mo mais la forma mola", "hint": "🧷" },
+    { "label": "LU + A = LUA", "say": "lu mais a forma lua", "hint": "🌙" },
+    { "label": "DI + A = DIA", "say": "di mais a forma dia", "hint": "☀️" },
+    { "label": "PE + RA = PERA", "say": "pe mais ra forma pera", "hint": "🍐" }
   ]
 }
 ```
@@ -49,7 +54,7 @@ Lê **SA**, depois **PA**, depois **TO**. No fim junta: **SAPATO**.
 
 ```soundcards
 {
-  "title": "Três sílabas com imagem",
+  "title": "20 palavras com 3 sílabas",
   "items": [
     { "label": "SA + PA + TO = SAPATO", "say": "sa pa to forma sapato", "hint": "👟 sapato" },
     { "label": "BO + NE + CA = BONECA", "say": "bo ne ca forma boneca", "hint": "🪆 boneca" },
@@ -62,7 +67,15 @@ Lê **SA**, depois **PA**, depois **TO**. No fim junta: **SAPATO**.
     { "label": "ME + NI + NA = MENINA", "say": "me ni na forma menina", "hint": "👧 menina" },
     { "label": "CA + MI + SA = CAMISA", "say": "ca mi sa forma camisa", "hint": "👕 camisa" },
     { "label": "CA + DE + RA = CADEIRA", "say": "ca de ra forma cadeira", "hint": "🪑 cadeira" },
-    { "label": "MO + CHI + LA = MOCHILA", "say": "mo chi la forma mochila", "hint": "🎒 mochila" }
+    { "label": "MO + CHI + LA = MOCHILA", "say": "mo chi la forma mochila", "hint": "🎒 mochila" },
+    { "label": "TE + SOU + RA = TESOURA", "say": "te sou ra forma tesoura", "hint": "✂️ tesoura" },
+    { "label": "GA + LI + NHA = GALINHA", "say": "ga li nha forma galinha", "hint": "🐔 galinha" },
+    { "label": "PA + NE + LA = PANELA", "say": "pa ne la forma panela", "hint": "🍲 panela" },
+    { "label": "TA + PE + TE = TAPETE", "say": "ta pe te forma tapete", "hint": "🧶 tapete" },
+    { "label": "GE + LA + DO = GELADO", "say": "ge la do forma gelado", "hint": "🍦 gelado" },
+    { "label": "MA + CA + CO = MACACO", "say": "ma ca co forma macaco", "hint": "🐵 macaco" },
+    { "label": "CE + BO + LA = CEBOLA", "say": "ce bo la forma cebola", "hint": "🧅 cebola" },
+    { "label": "CO + RO + A = COROA", "say": "co ro a forma coroa", "hint": "👑 coroa" }
   ]
 }
 ```
@@ -119,7 +132,7 @@ Olha com atenção: quando uma sílaba muda, a palavra também muda.
 ## Treino: que palavra forma? 🎯
 
 ```drill
-{ "mode": "choose", "title": "Juntar silabas", "choices": 3, "items": [
+{ "mode": "choose", "title": "Juntar 20 palavras de 2 sílabas", "choices": 3, "items": [
   { "front": "PA + TO 🦆", "back": "PATO", "say": "PA mais TO forma PATO", "options": ["BOLA", "CASA"] },
   { "front": "BO + LA ⚽", "back": "BOLA", "say": "BO mais LA forma BOLA", "options": ["BOLO", "BOTA"] },
   { "front": "CA + SA 🏠", "back": "CASA", "say": "CA mais SA forma CASA", "options": ["CAMA", "SACO"] },
@@ -129,12 +142,20 @@ Olha com atenção: quando uma sílaba muda, a palavra também muda.
   { "front": "DA + DO 🎲", "back": "DADO", "say": "DA mais DO forma DADO", "options": ["DEDO", "DIA"] },
   { "front": "BO + LO 🎂", "back": "BOLO", "say": "BO mais LO forma BOLO", "options": ["BOLA", "BOTA"] },
   { "front": "GA + TO 🐱", "back": "GATO", "say": "GA mais TO forma GATO", "options": ["RATO", "PATO"] },
-  { "front": "VA + CA 🐄", "back": "VACA", "say": "VA mais CA forma VACA", "options": ["FITA", "CASA"] }
+  { "front": "RA + TO 🐭", "back": "RATO", "say": "RA mais TO forma RATO", "options": ["GATO", "PATO"] },
+  { "front": "VA + CA 🐄", "back": "VACA", "say": "VA mais CA forma VACA", "options": ["FITA", "CASA"] },
+  { "front": "FI + TA 🎀", "back": "FITA", "say": "FI mais TA forma FITA", "options": ["VACA", "NOTA"] },
+  { "front": "NO + TA 🎵", "back": "NOTA", "say": "NO mais TA forma NOTA", "options": ["FITA", "MALA"] },
+  { "front": "MA + LA 🧳", "back": "MALA", "say": "MA mais LA forma MALA", "options": ["MOLA", "MESA"] },
+  { "front": "MO + LA 🧷", "back": "MOLA", "say": "MO mais LA forma MOLA", "options": ["MALA", "BOLA"] },
+  { "front": "LU + A 🌙", "back": "LUA", "say": "LU mais A forma LUA", "options": ["DIA", "LATA"] },
+  { "front": "DI + A ☀️", "back": "DIA", "say": "DI mais A forma DIA", "options": ["LUA", "DADO"] },
+  { "front": "PE + RA 🍐", "back": "PERA", "say": "PE mais RA forma PERA", "options": ["PATO", "PIPA"] }
 ] }
 ```
 
 ```drill
-{ "mode": "choose", "title": "Juntar 3 sílabas", "choices": 3, "items": [
+{ "mode": "choose", "title": "Juntar 20 palavras de 3 sílabas", "choices": 3, "items": [
   { "front": "SA + PA + TO 👟", "back": "SAPATO", "say": "SA, PA, TO forma SAPATO", "options": ["SABÃO", "SAPO"] },
   { "front": "BO + NE + CA 🪆", "back": "BONECA", "say": "BO, NE, CA forma BONECA", "options": ["BOTA", "BOLO"] },
   { "front": "CA + VA + LO 🐴", "back": "CAVALO", "say": "CA, VA, LO forma CAVALO", "options": ["CASA", "CAMA"] },
@@ -142,7 +163,19 @@ Olha com atenção: quando uma sílaba muda, a palavra também muda.
   { "front": "JA + NE + LA 🪟", "back": "JANELA", "say": "JA, NE, LA forma JANELA", "options": ["JANELÃO", "GELA"] },
   { "front": "TO + MA + TE 🍅", "back": "TOMATE", "say": "TO, MA, TE forma TOMATE", "options": ["TAPETE", "TOMA"] },
   { "front": "PI + PO + CA 🍿", "back": "PIPOCA", "say": "PI, PO, CA forma PIPOCA", "options": ["PIPA", "POTE"] },
-  { "front": "CA + MI + SA 👕", "back": "CAMISA", "say": "CA, MI, SA forma CAMISA", "options": ["CASA", "CAMA"] }
+  { "front": "ME + NI + NO 🧒", "back": "MENINO", "say": "ME, NI, NO forma MENINO", "options": ["MENINA", "MESA"] },
+  { "front": "ME + NI + NA 👧", "back": "MENINA", "say": "ME, NI, NA forma MENINA", "options": ["MENINO", "MALA"] },
+  { "front": "CA + MI + SA 👕", "back": "CAMISA", "say": "CA, MI, SA forma CAMISA", "options": ["CASA", "CAMA"] },
+  { "front": "CA + DE + RA 🪑", "back": "CADEIRA", "say": "CA, DE, RA forma CADEIRA", "options": ["CAMISA", "CASA"] },
+  { "front": "MO + CHI + LA 🎒", "back": "MOCHILA", "say": "MO, CHI, LA forma MOCHILA", "options": ["MOLA", "MALA"] },
+  { "front": "TE + SOU + RA ✂️", "back": "TESOURA", "say": "TE, SOU, RA forma TESOURA", "options": ["TOMATE", "TOUCA"] },
+  { "front": "GA + LI + NHA 🐔", "back": "GALINHA", "say": "GA, LI, NHA forma GALINHA", "options": ["GATO", "GALO"] },
+  { "front": "PA + NE + LA 🍲", "back": "PANELA", "say": "PA, NE, LA forma PANELA", "options": ["PATO", "PANO"] },
+  { "front": "TA + PE + TE 🧶", "back": "TAPETE", "say": "TA, PE, TE forma TAPETE", "options": ["TOMATE", "TAPA"] },
+  { "front": "GE + LA + DO 🍦", "back": "GELADO", "say": "GE, LA, DO forma GELADO", "options": ["GATO", "DADO"] },
+  { "front": "MA + CA + CO 🐵", "back": "MACACO", "say": "MA, CA, CO forma MACACO", "options": ["MALA", "MACA"] },
+  { "front": "CE + BO + LA 🧅", "back": "CEBOLA", "say": "CE, BO, LA forma CEBOLA", "options": ["BOLA", "BONECA"] },
+  { "front": "CO + RO + A 👑", "back": "COROA", "say": "CO, RO, A forma COROA", "options": ["CORA", "CASA"] }
 ] }
 ```
 

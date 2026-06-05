@@ -56,7 +56,7 @@ Lê a palavra em sílabas. Depois diz a palavra inteira.
 
 ```soundcards
 {
-  "title": "20 palavras para ganhar velocidade",
+  "title": "20 palavras com 2 sílabas",
   "items": [
     { "label": "PA-TO", "say": "pa-to, pato", "hint": "🦆 pato" },
     { "label": "BO-LA", "say": "bo-la, bola", "hint": "⚽ bola" },
@@ -77,10 +77,7 @@ Lê a palavra em sílabas. Depois diz a palavra inteira.
     { "label": "MO-LA", "say": "mo-la, mola", "hint": "🧷 mola" },
     { "label": "LU-A", "say": "lu-a, lua", "hint": "🌙 lua" },
     { "label": "DI-A", "say": "di-a, dia", "hint": "☀️ dia" },
-    { "label": "PÉ", "say": "pé", "hint": "🦶 pé" },
-    { "label": "PÃO", "say": "pão", "hint": "🍞 pão" },
-    { "label": "SOL", "say": "sol", "hint": "☀️ sol" },
-    { "label": "MÃO", "say": "mão", "hint": "✋ mão" }
+    { "label": "PE-RA", "say": "pe-ra, pera", "hint": "🍐 pera" }
   ]
 }
 ```
@@ -92,7 +89,7 @@ Agora sobe um degrau: lê três pedacinhos. Se for difícil, bate três palmas:
 
 ```soundcards
 {
-  "title": "3 sílabas para treinar todos os dias",
+  "title": "20 palavras com 3 sílabas",
   "items": [
     { "label": "SA-PA-TO", "say": "sa-pa-to, sapato", "hint": "👟 sapato" },
     { "label": "BO-NE-CA", "say": "bo-ne-ca, boneca", "hint": "🪆 boneca" },
@@ -109,7 +106,11 @@ Agora sobe um degrau: lê três pedacinhos. Se for difícil, bate três palmas:
     { "label": "TE-SOU-RA", "say": "te-sou-ra, tesoura", "hint": "✂️ tesoura" },
     { "label": "GA-LI-NHA", "say": "ga-li-nha, galinha", "hint": "🐔 galinha" },
     { "label": "PA-NE-LA", "say": "pa-ne-la, panela", "hint": "🍲 panela" },
-    { "label": "TA-PE-TE", "say": "ta-pe-te, tapete", "hint": "🧶 tapete" }
+    { "label": "TA-PE-TE", "say": "ta-pe-te, tapete", "hint": "🧶 tapete" },
+    { "label": "GE-LA-DO", "say": "ge-la-do, gelado", "hint": "🍦 gelado" },
+    { "label": "MA-CA-CO", "say": "ma-ca-co, macaco", "hint": "🐵 macaco" },
+    { "label": "CE-BO-LA", "say": "ce-bo-la, cebola", "hint": "🧅 cebola" },
+    { "label": "CO-RO-A", "say": "co-ro-a, coroa", "hint": "👑 coroa" }
   ]
 }
 ```

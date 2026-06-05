@@ -47,12 +47,15 @@ export interface Academia3DConfig {
 
 const WALK_SPEED = 8;
 const GRAVITY = 26;
-const JUMP_V = 9.8;
+const JUMP_V = 10.5;
 const TURN_LERP = 0.2;
 const CAM_DISTANCE = 10;
-const CAM_HEIGHT = 6;
+const CAM_HEIGHT = 7;
 const CAM_LERP = 0.1;
 const INTERACT_RADIUS = 3;
+const LANDING_FUDGE = 0.65;
+const SIDE_BLOCK_FUDGE = 0.55;
+const CLIMB_CAMERA_YAW = 0;
 
 interface Placed {
   id: string;
@@ -162,11 +165,11 @@ export class Academia3DEngine {
 
   /** Everything casts a soft shadow; the ground and platform tops receive them. */
   private setupShadows() {
-    const receivers = new Set(["ground", "plaza", "plat", "platcap"]);
+    const receivers = new Set(["ground", "plaza"]);
     for (const m of this.scene.meshes) {
       const n = m.name;
       if (n === "sky" || n === "sun") continue;
-      if (receivers.has(n) || n.startsWith("plazaRing")) {
+      if (receivers.has(n) || n.startsWith("plazaRing") || n.startsWith("plat")) {
         m.receiveShadows = true;
         continue;
       }
@@ -178,11 +181,22 @@ export class Academia3DEngine {
   private groundAt(x: number, z: number, y: number): number {
     let g = 0;
     for (const p of PLATFORMS) {
-      if (Math.abs(x - p.x) <= p.w / 2 && Math.abs(z - p.z) <= p.d / 2 && p.top <= y + 0.4) {
+      if (Math.abs(x - p.x) <= p.w / 2 && Math.abs(z - p.z) <= p.d / 2 && p.top <= y + LANDING_FUDGE) {
         if (p.top > g) g = p.top;
       }
     }
     return g;
+  }
+
+  /** Prevent the child from walking through the side of a terrace while still on
+   *  the lower ground. They can enter only once the jump has lifted them near
+   *  the ledge height, which makes the mountain feel solid instead of hollow. */
+  private blockedByTerraceSide(x: number, z: number, y: number): boolean {
+    for (const p of PLATFORMS) {
+      const inside = Math.abs(x - p.x) <= p.w / 2 - 0.12 && Math.abs(z - p.z) <= p.d / 2 - 0.12;
+      if (inside && y < p.top - SIDE_BLOCK_FUDGE) return true;
+    }
+    return false;
   }
 
   private update(dt: number) {
@@ -200,12 +214,21 @@ export class Academia3DEngine {
       const dl = Math.hypot(dx, dz) || 1;
       dx /= dl;
       dz /= dl;
-      this.pos.x = clamp(this.pos.x + dx * WALK_SPEED * dt * len, BOUNDS.minX, BOUNDS.maxX);
-      this.pos.z = clamp(this.pos.z + dz * WALK_SPEED * dt * len, BOUNDS.minZ, BOUNDS.maxZ);
+      const nx = clamp(this.pos.x + dx * WALK_SPEED * dt * len, BOUNDS.minX, BOUNDS.maxX);
+      const nz = clamp(this.pos.z + dz * WALK_SPEED * dt * len, BOUNDS.minZ, BOUNDS.maxZ);
+      if (!this.blockedByTerraceSide(nx, nz, this.pos.y)) {
+        this.pos.x = nx;
+        this.pos.z = nz;
+      } else if (!this.blockedByTerraceSide(nx, this.pos.z, this.pos.y)) {
+        this.pos.x = nx;
+      } else if (!this.blockedByTerraceSide(this.pos.x, nz, this.pos.y)) {
+        this.pos.z = nz;
+      }
       this.angle = lerpAngle(this.angle, Math.atan2(dx, dz), TURN_LERP);
     }
-    // the camera eases around to sit behind whichever way the hero faces
-    this.camYaw = lerpAngle(this.camYaw, this.angle, 0.06);
+    // Keep the camera aligned with the mountain path. On touch screens, a stable
+    // forward direction matters more than cinematic rotation.
+    this.camYaw = lerpAngle(this.camYaw, CLIMB_CAMERA_YAW, 0.08);
 
     // jump + gravity + platform landing
     if (this.jumpQueued) {

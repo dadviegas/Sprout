@@ -105,8 +105,9 @@ const HERO_ART: Record<ElementId, JSX.Element> = {
 };
 
 export function Hero({ element, color, size = 120 }: { element: ElementId; color: string; size?: number }) {
+  const w = Math.round((size * 170) / 466);
   return (
-    <svg viewBox="40 96 170 466" width={size} height={size} className="wd-hero" style={{ color }} aria-hidden>
+    <svg viewBox="40 96 170 466" width={w} height={size} className="wd-hero" style={{ color }} aria-hidden>
       <circle cx="125" cy="320" r="104" fill="currentColor" opacity="0.1" />
       {HERO_BODY}
       {HERO_ART[element]}

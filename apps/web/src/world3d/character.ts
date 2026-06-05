@@ -8,6 +8,7 @@ import {
   Color3,
   MeshBuilder,
   StandardMaterial,
+  Texture,
   TransformNode,
   Mesh,
 } from "@babylonjs/core";
@@ -57,6 +58,97 @@ function box(scene: Scene, w: number, h: number, d: number, material: StandardMa
   m.position = new Vector3(x, y, z);
   return m;
 }
+function svgData(svg: string): string {
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+}
+function spriteMat(scene: Scene, name: string, svg: string, glow = 0.35): StandardMaterial {
+  const m = new StandardMaterial(name, scene);
+  const tex = new Texture(svgData(svg), scene, false, false, Texture.TRILINEAR_SAMPLINGMODE);
+  tex.hasAlpha = true;
+  m.diffuseTexture = tex;
+  m.opacityTexture = tex;
+  m.useAlphaFromDiffuseTexture = true;
+  m.emissiveColor = new Color3(glow, glow, glow);
+  m.specularColor = new Color3(0.02, 0.02, 0.02);
+  m.backFaceCulling = false;
+  return m;
+}
+function sprite(scene: Scene, parent: TransformNode, name: string, svg: string, w: number, h: number, y: number): Mesh {
+  const p = MeshBuilder.CreatePlane(name, { width: w, height: h }, scene);
+  p.material = spriteMat(scene, `${name}-mat`, svg);
+  p.parent = parent;
+  p.position = new Vector3(0, y, 0);
+  return p;
+}
+function heroSvg(v: HeroVisual, element: ElementId): string {
+  const accent = element === "light" ? "#fff3b0" : v.glow;
+  const crest =
+    element === "fire"
+      ? `<path d="M92 92c18-48 58-58 62-108 42 38 14 74 42 104-13-5-23-7-31-6 12 27-5 51-43 51-35 0-52-16-30-41z" fill="${accent}"/>`
+      : element === "water"
+        ? `<path d="M76 95c27-36 53-50 89-40 16 5 28 16 36 33-40-11-75-3-125 7z" fill="${accent}"/>`
+        : element === "earth"
+          ? `<path d="M78 94c16-40 49-58 96-40 5 35-25 55-62 50-14-2-24-5-34-10z" fill="${v.secondary}"/><path d="M106 61c18-18 47-14 67-1-23 14-45 18-67 1z" fill="${accent}"/>`
+          : element === "air"
+            ? `<path d="M70 97c32-35 101-35 134 0-46-13-90-13-134 0z" fill="${accent}"/><path d="M82 116h112" stroke="#fff" stroke-width="12" stroke-linecap="round" opacity=".82"/>`
+            : `<path d="M137 28l15 32 36 4-27 24 8 36-32-19-32 19 8-36-27-24 36-4z" fill="${accent}"/>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 274 430">
+    <defs>
+      <linearGradient id="robe" x1="62" x2="212" y1="156" y2="398" gradientUnits="userSpaceOnUse">
+        <stop stop-color="${v.primary}"/><stop offset="1" stop-color="${v.secondary}"/>
+      </linearGradient>
+      <filter id="sh" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#172033" flood-opacity=".38"/></filter>
+    </defs>
+    <ellipse cx="137" cy="404" rx="78" ry="17" fill="#172033" opacity=".28"/>
+    <g filter="url(#sh)">
+      ${crest}
+      <ellipse cx="137" cy="132" rx="58" ry="62" fill="${SKIN}"/>
+      <path d="M88 148c24-20 75-24 99-1v-37c-34-34-80-31-99 0z" fill="${v.secondary}" opacity=".28"/>
+      <circle cx="115" cy="135" r="7" fill="#20283a"/><circle cx="159" cy="135" r="7" fill="#20283a"/>
+      <path d="M117 158q20 16 40 0" stroke="#20283a" stroke-width="8" fill="none" stroke-linecap="round"/>
+      <path d="M72 238q65-91 130 0l-18 132H90z" fill="url(#robe)"/>
+      <path d="M74 236c-34 23-42 72-22 114" stroke="${v.primary}" stroke-width="34" stroke-linecap="round"/>
+      <path d="M200 236c34 23 42 72 22 114" stroke="${v.primary}" stroke-width="34" stroke-linecap="round"/>
+      <circle cx="48" cy="356" r="19" fill="${SKIN}"/><circle cx="226" cy="356" r="19" fill="${SKIN}"/>
+      <path d="M105 363h32v47h-32zM139 363h32v47h-32z" fill="#26303f"/>
+      <rect x="92" y="398" width="52" height="18" rx="9" fill="#172033"/><rect x="130" y="398" width="52" height="18" rx="9" fill="#172033"/>
+      <circle cx="137" cy="260" r="28" fill="#fff"/>
+      <path d="M137 238l8 16 18 2-13 12 4 18-17-9-17 9 4-18-13-12 18-2z" fill="${accent}"/>
+    </g>
+  </svg>`;
+}
+function masterSvg(): string {
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 440">
+    <defs><linearGradient id="r" x1="84" x2="238" y1="190" y2="408"><stop stop-color="#536575"/><stop offset="1" stop-color="#273747"/></linearGradient><filter id="s" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#172033" flood-opacity=".36"/></filter></defs>
+    <ellipse cx="160" cy="410" rx="82" ry="18" fill="#172033" opacity=".26"/>
+    <g filter="url(#s)">
+      <path d="M257 143c18 96 18 178 2 259" stroke="#8a5a2b" stroke-width="14" stroke-linecap="round"/><circle cx="257" cy="126" r="25" fill="#89d7ff"/><path d="M257 96l10 20 23 4-17 16 4 23-20-11-20 11 4-23-17-16 23-4z" fill="#fff"/>
+      <ellipse cx="154" cy="100" rx="126" ry="31" fill="#d6a24a"/><path d="M74 101c33-67 66-96 84-96s53 29 84 96c-52 17-116 17-168 0z" fill="#ebcf8e"/>
+      <circle cx="158" cy="146" r="50" fill="#ffd45e"/><circle cx="140" cy="143" r="6" fill="#243047"/><circle cx="176" cy="143" r="6" fill="#243047"/>
+      <path d="M128 158q30 58 60 0" fill="#eef2fb"/><path d="M125 137q30-22 33 6 7-28 36-6" stroke="#eef2fb" stroke-width="13" fill="none" stroke-linecap="round"/>
+      <path d="M158 205c54 0 88 48 92 160 1 26-18 40-48 40h-88c-30 0-49-14-48-40 4-112 38-160 92-160z" fill="url(#r)"/>
+      <path d="M110 244l96 120M206 244L110 364" stroke="#d8e0ea" stroke-width="9" opacity=".55"/>
+      <circle cx="158" cy="291" r="27" fill="#fff"/><path d="M158 269l9 18 20 3-15 14 4 20-18-10-18 10 4-20-15-14 20-3z" fill="#89d7ff"/>
+    </g>
+  </svg>`;
+}
+function dragonSvg(): string {
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 260">
+    <defs><filter id="s" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="14" stdDeviation="10" flood-color="#172033" flood-opacity=".36"/></filter></defs>
+    <ellipse cx="166" cy="232" rx="118" ry="20" fill="#172033" opacity=".26"/>
+    <g filter="url(#s)">
+      <path d="M90 171q-59 9-61 66 42-11 78-38z" fill="#5630a2"/><path d="M32 235l18-25 14 18z" fill="#ff7a3d"/>
+      <path d="M166 86q55-73 132-61-9 58-75 90z" fill="#7b4bd0"/><path d="M189 82q35-35 74-34m-66 54q34-22 65-18" stroke="#5630a2" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <ellipse cx="166" cy="166" rx="88" ry="61" fill="#6f4bd6"/><ellipse cx="159" cy="180" rx="58" ry="38" fill="#c3a9f2"/>
+      <path d="M107 104l17-34 19 34zM150 92l20-39 20 39zM196 104l17-34 19 34z" fill="#ff7a3d"/>
+      <ellipse cx="246" cy="118" rx="51" ry="43" fill="#6f4bd6"/><path d="M281 115q53 0 53 31-28 14-57 3z" fill="#7b4bd0"/>
+      <path d="M232 81l-14-45 31 31zM265 77l5-42 22 35z" fill="#e3d2ff"/>
+      <ellipse cx="253" cy="109" rx="16" ry="18" fill="#fff"/><circle cx="258" cy="112" r="8" fill="#1c1530"/>
+      <path d="M235 92q21-14 43-3" stroke="#34245c" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <circle cx="325" cy="141" r="4" fill="#1c1530"/><path d="M287 148l8 14 8-14zM305 148l8 13 8-13z" fill="#fff"/>
+    </g>
+  </svg>`;
+}
 
 /* ---- hero (blocky minifig) -------------------------------------------- */
 
@@ -65,98 +157,30 @@ export function createHero(scene: Scene, element: ElementId): Character {
   const root = new TransformNode(`hero-${element}`, scene);
   const bob = new TransformNode("bob", scene);
   bob.parent = root;
-
-  const skin = mat(scene, SKIN);
-  const primary = mat(scene, v.primary);
-  const secondary = mat(scene, v.secondary);
-  const glow = mat(scene, v.glow, 0.5);
+  const cutout = sprite(scene, bob, `hero-cutout-${element}`, heroSvg(v, element), 2.35, 3.7, 1.85);
+  cutout.rotation.y = Math.PI;
+  const glow = mat(scene, v.glow, 0.55);
   const dark = mat(scene, "#26303f");
 
-  // legs (each on a hip pivot so it can swing)
-  const legs: TransformNode[] = [];
-  for (const side of [-1, 1]) {
-    const hip = new TransformNode("hip", scene);
-    hip.parent = bob;
-    hip.position = new Vector3(0.22 * side, 0.8, 0);
-    box(scene, 0.4, 0.8, 0.42, secondary, hip, 0, -0.4, 0);
-    box(scene, 0.42, 0.16, 0.46, dark, hip, 0, -0.78, 0.02); // boot
-    legs.push(hip);
-  }
-
-  // torso + belt + short cape
-  box(scene, 0.92, 0.9, 0.52, primary, bob, 0, 1.3, 0);
-  box(scene, 0.94, 0.16, 0.54, dark, bob, 0, 0.9, 0);
-  const emblem = box(scene, 0.3, 0.3, 0.04, glow, bob, 0, 1.35, 0.28);
-  emblem.rotation.z = Math.PI / 4;
-  box(scene, 0.78, 0.95, 0.1, secondary, bob, 0, 1.35, -0.32); // cape
-
-  // arms on shoulder pivots
-  const arms: TransformNode[] = [];
-  for (const side of [-1, 1]) {
-    const sh = new TransformNode("shoulder", scene);
-    sh.parent = bob;
-    sh.position = new Vector3(0.62 * side, 1.68, 0);
-    box(scene, 0.3, 0.8, 0.34, primary, sh, 0, -0.38, 0);
-    box(scene, 0.32, 0.22, 0.36, skin, sh, 0, -0.82, 0); // hand
-    arms.push(sh);
-  }
-
-  // blocky head + face
-  box(scene, 0.76, 0.72, 0.72, skin, bob, 0, 2.1, 0);
-  box(scene, 0.12, 0.14, 0.04, dark, bob, -0.17, 2.18, 0.37);
-  box(scene, 0.12, 0.14, 0.04, dark, bob, 0.17, 2.18, 0.37);
-  box(scene, 0.34, 0.07, 0.04, dark, bob, 0, 2.0, 0.37); // smile
-
-  blockCrest(scene, bob, element, primary, secondary, glow);
-
-  // floating pet (a little glowing cube companion)
   const petPivot = new TransformNode("petPivot", scene);
   petPivot.parent = root;
-  const petBaseY = 1.5;
-  petPivot.position = new Vector3(0.95, petBaseY, 0.2);
-  const petBody = box(scene, 0.36, 0.34, 0.36, glow, petPivot, 0, 0, 0);
+  const petBaseY = 1.55;
+  petPivot.position = new Vector3(1.15, petBaseY, 0.18);
+  const petBody = box(scene, 0.42, 0.38, 0.42, glow, petPivot, 0, 0, 0);
   petBody.rotation.y = Math.PI / 4;
-  box(scene, 0.06, 0.06, 0.04, dark, petPivot, -0.08, 0.04, 0.22);
-  box(scene, 0.06, 0.06, 0.04, dark, petPivot, 0.08, 0.04, 0.22);
+  box(scene, 0.07, 0.07, 0.04, dark, petPivot, -0.09, 0.05, 0.25);
+  box(scene, 0.07, 0.07, 0.04, dark, petPivot, 0.09, 0.05, 0.25);
 
   return {
     root,
     update(t, sp) {
       bob.position.y = Math.abs(Math.sin(t * (5 + sp * 6))) * (0.02 + sp * 0.08);
-      const swing = Math.sin(t * (4 + sp * 9)) * (0.1 + sp * 0.7);
-      arms[0].rotation.x = swing;
-      arms[1].rotation.x = -swing;
-      legs[0].rotation.x = -swing;
-      legs[1].rotation.x = swing;
+      bob.rotation.z = Math.sin(t * (4 + sp * 9)) * sp * 0.035;
       petPivot.position.y = petBaseY + Math.sin(t * 2.4) * 0.14;
       petPivot.rotation.y = t * 0.8;
     },
   };
-}
 
-function blockCrest(scene: Scene, parent: TransformNode, element: ElementId, primary: StandardMaterial, secondary: StandardMaterial, glow: StandardMaterial) {
-  const y = 2.55;
-  if (element === "fire") {
-    for (const [dx, h] of [[-0.16, 0.3], [0, 0.42], [0.16, 0.3]] as const) {
-      const f = box(scene, 0.14, h, 0.14, glow, parent, dx, y + h / 2 - 0.1, 0);
-      f.rotation.z = dx * -0.6;
-    }
-  } else if (element === "water") {
-    const fin = box(scene, 0.5, 0.34, 0.16, primary, parent, 0, y, -0.05);
-    fin.rotation.z = 0.2;
-  } else if (element === "earth") {
-    box(scene, 0.2, 0.24, 0.2, secondary, parent, -0.14, y, 0);
-    box(scene, 0.24, 0.3, 0.24, secondary, parent, 0.06, y + 0.05, 0);
-  } else if (element === "air") {
-    const ring = box(scene, 0.6, 0.12, 0.6, primary, parent, 0, y - 0.1, 0);
-    ring.rotation.y = Math.PI / 4;
-  } else {
-    for (let i = 0; i < 4; i++) {
-      const p = box(scene, 0.12, 0.26, 0.12, glow, parent, 0, y, 0);
-      const a = (i / 4) * Math.PI * 2;
-      p.position = new Vector3(Math.cos(a) * 0.18, y, Math.sin(a) * 0.18);
-    }
-  }
 }
 
 /* ---- Mestre da Academia (chunky wizard) ------------------------------- */
@@ -165,36 +189,15 @@ export function createMaster(scene: Scene): Character {
   const root = new TransformNode("master", scene);
   const bob = new TransformNode("masterBob", scene);
   bob.parent = root;
-
-  const skin = mat(scene, "#ffd45e");
-  const robe = mat(scene, "#46557a");
-  const robe2 = mat(scene, "#34405c");
-  const hatMat = mat(scene, "#e6b94e");
-  const beardMat = mat(scene, "#eef2fb");
+  const cutout = sprite(scene, bob, "master-cutout", masterSvg(), 2.65, 3.85, 1.92);
+  cutout.rotation.y = Math.PI;
   const crystal = mat(scene, "#89d7ff", 0.7);
   const wood = mat(scene, "#8a5a2b");
-
-  box(scene, 0.5, 0.8, 0.5, robe2, bob, -0.16, 0.4, 0); // legs/robe base
-  box(scene, 0.5, 0.8, 0.5, robe2, bob, 0.16, 0.4, 0);
-  box(scene, 1.1, 1.2, 0.7, robe, bob, 0, 1.4, 0); // robe body
-  const head = box(scene, 0.8, 0.78, 0.78, skin, bob, 0, 2.35, 0);
-  box(scene, 0.6, 0.5, 0.4, beardMat, bob, 0, 2.0, 0.3); // beard
-  box(scene, 0.12, 0.14, 0.04, mat(scene, "#243047"), bob, -0.18, 2.42, 0.4);
-  box(scene, 0.12, 0.14, 0.04, mat(scene, "#243047"), bob, 0.18, 2.42, 0.4);
-  // wide wizard hat
-  box(scene, 1.5, 0.18, 1.5, hatMat, bob, 0, 2.78, 0);
-  const cone = outline(MeshBuilder.CreateCylinder("hatcone", { height: 1.0, diameterBottom: 0.8, diameterTop: 0.06, tessellation: 4 }, scene));
-  cone.material = hatMat;
-  cone.parent = bob;
-  cone.position = new Vector3(0, 3.4, 0);
-  cone.rotation.y = Math.PI / 4;
-  // staff + crystal
-  box(scene, 0.12, 2.4, 0.12, wood, bob, 0.75, 1.4, 0.1);
+  box(scene, 0.1, 2.35, 0.1, wood, bob, 0.86, 1.42, 0.12);
   const orb = MeshBuilder.CreateSphere("orb", { diameter: 0.34, segments: 10 }, scene);
   orb.material = crystal;
   orb.parent = bob;
-  orb.position = new Vector3(0.75, 2.7, 0.1);
-  void head;
+  orb.position = new Vector3(0.86, 2.72, 0.12);
 
   return {
     root,
@@ -211,48 +214,14 @@ export function createDragon(scene: Scene): Character {
   const root = new TransformNode("dragon", scene);
   const bob = new TransformNode("dragonBob", scene);
   bob.parent = root;
-
-  const body = mat(scene, "#6f4bd6");
-  const belly = mat(scene, "#c3a9f2");
-  const spike = mat(scene, "#ff7a3d", 0.2);
-  const horn = mat(scene, "#e3d2ff");
-  const eyeMat = mat(scene, "#1c1530");
-
-  box(scene, 1.8, 1.3, 1.5, body, bob, 0, 1.2, 0); // torso
-  box(scene, 1.2, 0.8, 0.4, belly, bob, 0, 1.05, 0.6);
-  box(scene, 1.0, 0.9, 0.9, body, bob, 0.9, 1.7, 0.1); // head
-  box(scene, 0.5, 0.45, 0.5, body, bob, 1.5, 1.55, 0.1); // snout
-  box(scene, 0.18, 0.18, 0.05, eyeMat, bob, 1.0, 1.95, 0.36);
-  box(scene, 0.18, 0.18, 0.05, eyeMat, bob, 1.0, 1.95, -0.16);
-  // horns
-  for (const dz of [-0.28, 0.28]) {
-    const h = outline(MeshBuilder.CreateCylinder("dhorn", { height: 0.45, diameterBottom: 0.16, diameterTop: 0, tessellation: 4 }, scene));
-    h.material = horn;
-    h.parent = bob;
-    h.position = new Vector3(0.7, 2.25, dz);
-  }
-  // back spikes
-  for (const dx of [-0.4, 0.0, 0.4]) box(scene, 0.18, 0.4, 0.18, spike, bob, dx, 2.0, 0).rotation.y = Math.PI / 4;
-  // tail
-  const tail = box(scene, 1.0, 0.4, 0.4, body, bob, -1.1, 0.9, 0);
-  tail.rotation.z = 0.3;
-  // wings (flapping)
-  const wings: TransformNode[] = [];
-  for (const side of [-1, 1]) {
-    const pivot = new TransformNode("wingPivot", scene);
-    pivot.parent = bob;
-    pivot.position = new Vector3(-0.2, 1.8, 0.6 * side);
-    box(scene, 1.2, 0.1, 0.8, mat(scene, "#7b4bd0"), pivot, -0.5, 0, 0.4 * side);
-    wings.push(pivot);
-  }
+  const cutout = sprite(scene, bob, "dragon-cutout", dragonSvg(), 4.5, 3.25, 1.65);
+  cutout.rotation.y = Math.PI;
 
   return {
     root,
     update(t) {
       bob.position.y = Math.sin(t * 1.4) * 0.12;
-      const flap = Math.sin(t * 4) * 0.5;
-      wings[0].rotation.x = -0.2 - flap;
-      wings[1].rotation.x = 0.2 + flap;
+      bob.rotation.z = Math.sin(t * 2.1) * 0.035;
     },
   };
 }

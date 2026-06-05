@@ -60,6 +60,19 @@ function DomTile({ t }: { t: Tile }) {
   );
 }
 
+// The back of a hidden tile — the robot's hand sits face down, like a real game:
+// you see how many peças it holds, but not which. It reuses .dom-tile so the
+// shape and size match a real tile exactly, with a woven back where pips would be.
+function DomBack() {
+  return (
+    <span className="dom-tile is-back" aria-hidden>
+      <span className="dom-back-face" />
+      <span className="dom-div" />
+      <span className="dom-back-face" />
+    </span>
+  );
+}
+
 /* ---------------- the game ---------------- */
 
 interface Flash {
@@ -396,6 +409,18 @@ export function Domino({ onBack }: { onBack: () => void }) {
           </span>
         ) : null}
         <Speaker text={placarSay} className="dv-tool dom-placar__speak" label="Ouvir a pontuação" size={18} />
+      </div>
+
+      {/* The robot's hand, face down — one tile per peça, so you can count them
+          without seeing what they are. Sits above the board, across the table. */}
+      <div
+        className="dom-rival"
+        role="group"
+        aria-label={`O robô tem ${g.cpu.length} ${g.cpu.length === 1 ? "peça" : "peças"} viradas para baixo`}
+      >
+        {g.cpu.map((_, i) => (
+          <DomBack key={i} />
+        ))}
       </div>
 
       <div className="dom-board" ref={boardRef}>

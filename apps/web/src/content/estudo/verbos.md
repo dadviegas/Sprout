@@ -195,3 +195,9 @@ Agora escolhe a forma certa do verbo! Lê a frase e toca na resposta. 👇
 > A maior parte dos verbos é **regular** e segue sempre o mesmo molde: *eu
 > falo, tu falas, ele fala*. Por isso, quando souberes estes quatro de cor, já
 > tens os mais difíceis na ponta da língua! 👅
+
+## Vê muitos mais verbos 🏃
+
+Aqui conjugámos só quatro verbos, mas há muitos mais! Na **Biblioteca**, vai a
+[Os Verbos de A a Z](subject:verbos): escolhes uma letra e tocas num verbo para
+o ouvires conjugado em todos os tempos. Experimenta! 🔊

@@ -293,12 +293,16 @@ const components: Components = {
     if (callout) return <Callout kind={callout.kind}>{callout.stripped}</Callout>;
     return <blockquote>{children}</blockquote>;
   },
-  // `[texto](lesson:<id>)` jumps to another lesson inside the app (no reload);
-  // it tells App to navigate via a window event. Other links open normally.
+  // `[texto](lesson:<id>)` jumps to another lesson and `[texto](subject:<id>)`
+  // to a subject/area overview (e.g. the "Os Verbos" conjugator) inside the app
+  // (no reload); it tells App to navigate via a window event. Other links open
+  // normally.
   a({ href, children }) {
-    if (href && href.startsWith("lesson:")) {
-      const lessonId = href.slice("lesson:".length);
-      const navigate = () => window.dispatchEvent(new CustomEvent("sprout:navigate", { detail: { lessonId } }));
+    const scheme = href?.startsWith("lesson:") ? "lesson" : href?.startsWith("subject:") ? "subject" : null;
+    if (href && scheme) {
+      const id = href.slice(scheme.length + 1);
+      const detail = scheme === "lesson" ? { lessonId: id } : { subjectId: id };
+      const navigate = () => window.dispatchEvent(new CustomEvent("sprout:navigate", { detail }));
       return (
         <a
           className="lesson-link"

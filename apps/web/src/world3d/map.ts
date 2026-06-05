@@ -45,23 +45,27 @@ export interface Crystal {
 /** World bounds (the hero can't wander past these). */
 export const BOUNDS = { minX: -38, maxX: 38, minZ: -26, maxZ: 52 };
 
-/** The climbing path: each platform a jump up from the last, ending on the peak.
- *  Cheerful rainbow steps so the climb reads clearly and looks fun. */
+/** A simple, straight staircase up the middle to the Dragão's peak — wide,
+ *  regular steps so it's obvious where to go and easy to jump up. */
 export const PLATFORMS: Platform[] = [
-  { x: 0, z: 16, top: 1.7, w: 5, d: 5, color: "#5ec96a" },
-  { x: 5, z: 21, top: 3.2, w: 4.5, d: 4.5, color: "#37bfc0" },
-  { x: -4, z: 26, top: 4.8, w: 4.5, d: 4.5, color: "#4a90e2" },
-  { x: 4, z: 31, top: 6.4, w: 4.5, d: 4.5, color: "#9b6ff0" },
-  { x: -3, z: 36, top: 8.0, w: 4.5, d: 4.5, color: "#ef6fb0" },
-  { x: 0, z: 42, top: 9.8, w: 8, d: 8, color: "#ffc24b" }, // the peak — the dragon sits here
+  { x: 0, z: 14, top: 1.2, w: 6, d: 3.4, color: "#5ec96a" },
+  { x: 0, z: 17, top: 2.4, w: 6, d: 3.4, color: "#37bfc0" },
+  { x: 0, z: 20, top: 3.6, w: 6, d: 3.4, color: "#4a90e2" },
+  { x: 0, z: 23, top: 4.8, w: 6, d: 3.4, color: "#9b6ff0" },
+  { x: 0, z: 26, top: 6.0, w: 6, d: 3.4, color: "#ef6fb0" },
+  { x: 0, z: 29, top: 7.2, w: 6, d: 3.4, color: "#ff9a3d" },
+  { x: 0, z: 32, top: 8.4, w: 6, d: 3.4, color: "#ffd23f" },
+  { x: 0, z: 37, top: 9.6, w: 9, d: 7, color: "#ffc24b" }, // the peak — the dragon sits here
 ];
 
-export const DRAGON_PEAK_Y = 9.8;
+export const DRAGON_PEAK_Y = 9.6;
 
 export const CRYSTALS: Crystal[] = [
-  { x: -6, y: 1.4, z: 4 }, { x: 6, y: 1.4, z: 4 }, { x: 0, y: 1.4, z: 10 },
-  { x: 0, y: 3.0, z: 16 }, { x: 5, y: 4.5, z: 21 }, { x: -4, y: 6.1, z: 26 },
-  { x: 4, y: 7.7, z: 31 }, { x: -3, y: 9.3, z: 36 }, { x: 0, y: 11.2, z: 42 },
+  // one floating over each step, plus a few around the plaza
+  { x: 0, y: 2.2, z: 14 }, { x: 0, y: 3.4, z: 17 }, { x: 0, y: 4.6, z: 20 },
+  { x: 0, y: 5.8, z: 23 }, { x: 0, y: 7.0, z: 26 }, { x: 0, y: 8.2, z: 29 },
+  { x: 0, y: 9.4, z: 32 },
+  { x: -6, y: 1.4, z: 4 }, { x: 6, y: 1.4, z: 4 }, { x: 0, y: 1.4, z: 9 },
   { x: -10, y: 1.4, z: -4 }, { x: 10, y: 1.4, z: -4 },
 ];
 
@@ -71,7 +75,7 @@ export const OBJECTS: Object3D[] = [
   { id: "missions", kind: "missions", x: 13, y: 0, z: 2, label: "Ver missões" },
   { id: "pets", kind: "pets", x: -11, y: 0, z: -9, label: "Ver" },
   { id: "house", kind: "house", x: 11, y: 0, z: -9, label: "Entrar" },
-  { id: "dragon", kind: "dragon", x: 0, y: DRAGON_PEAK_Y, z: 42, label: "Lutar" },
+  { id: "dragon", kind: "dragon", x: 0, y: DRAGON_PEAK_Y, z: 37, label: "Lutar" },
 ];
 
 interface Mountain { x: number; z: number; r: number; h: number; }

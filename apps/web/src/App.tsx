@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, Suspense, lazy, type ReactNode } from "react";
 import { ProgressProvider, useProgress, LessonContext, type ProgressMap } from "./progress";
-import { loadTheme, loadView, NAV_KEY, THEME_KEY, type View, type DiversaoRoom } from "./nav";
+import { loadTheme, loadView, viewToHash, viewFromHash, NAV_KEY, THEME_KEY, type View, type DiversaoRoom } from "./nav";
 import { store } from "./storage";
 import {
   mundoSubject,
@@ -172,7 +172,9 @@ export function App() {
 
 function Root() {
   const [theme, setTheme] = useState<"light" | "dark">(loadTheme);
-  const [view, setView] = useState<View>(loadView);
+  // A URL hash (e.g. `#/ano/3/mat/folha-calculo`) wins over stored state, so a
+  // shared/bookmarked link opens straight to that page.
+  const [view, setView] = useState<View>(() => viewFromHash(window.location.hash) ?? loadView());
   const [drawer, setDrawer] = useState(false);
   const [palette, setPalette] = useState(false);
   const [achievements, setAchievements] = useState(false);
@@ -238,34 +240,40 @@ function Root() {
     setAchievements(false);
   };
 
-  // Forward navigation pushes a browser-history entry, so the device/mouse
-  // Back button (and Forward) walk the in-app screens instead of leaving Sprout.
+  // Forward navigation writes the URL hash, which pushes a browser-history entry
+  // and fires `hashchange` — the single place the view state updates. So the
+  // device/mouse Back/Forward walk the in-app screens, and the address bar
+  // always matches the current page (shareable/bookmarkable).
   const go = (v: View) => {
     closeOverlays();
-    window.history.pushState({ sproutView: v }, "");
-    setView(v);
+    const hash = viewToHash(v);
+    // Re-selecting the current page won't fire `hashchange`; update directly.
+    if (hash === window.location.hash) setView(v);
+    else window.location.hash = hash;
   };
-  // The in-app back arrow now uses the same history stack as the browser/mouse
-  // Back, so they agree: go to the previous screen (popstate restores it).
+  // The in-app back arrow uses the same history stack as the browser/mouse Back,
+  // so they agree: go to the previous screen (hashchange restores it).
   const back = () => window.history.back();
 
-  // Seed history (so a deep view restored from storage still has "home" beneath
-  // it, and Back never leaves the app on the first hop) and follow Back/Forward.
+  // Seed history (so a deep view opened from a shared link still has "home"
+  // beneath it, and Back never leaves the app on the first hop), then follow the
+  // hash — in-app nav, Back/Forward, and manually edited URLs all flow through
+  // `hashchange`, keeping the address bar and the screen in sync.
   const seeded = useRef(false);
   useEffect(() => {
     if (!seeded.current) {
       seeded.current = true;
-      const initial = loadView();
-      window.history.replaceState({ sproutView: { kind: "home" } as View }, "");
-      if (initial.kind !== "home") window.history.pushState({ sproutView: initial }, "");
+      if (view.kind !== "home") {
+        window.history.replaceState(null, "", "#/");
+        window.history.pushState(null, "", viewToHash(view));
+      }
     }
-    const onPop = (e: PopStateEvent) => {
+    const onHash = () => {
       closeOverlays();
-      const v = (e.state as { sproutView?: View } | null)?.sproutView;
-      setView(v ?? { kind: "home" });
+      setView(viewFromHash(window.location.hash) ?? { kind: "home" });
     };
-    window.addEventListener("popstate", onPop);
-    return () => window.removeEventListener("popstate", onPop);
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
   }, []);
 
   // In-lesson links (`[texto](lesson:<id>)` in markdown) navigate within the app

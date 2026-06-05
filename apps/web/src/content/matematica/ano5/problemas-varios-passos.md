@@ -24,6 +24,8 @@ Um problema de vários passos é como uma receita: se saltas uma parte, o result
 ]
 ```
 
+> [!TIP] **Conta o degrau** Antes de calcular, pergunta «quantas contas até à resposta?». Se forem duas, sobe um degrau de cada vez — nunca saltes do chão para o cimo da escada de um pulo.
+
 ## Cuidado com estes erros
 
 ```compare
@@ -40,6 +42,10 @@ Um problema de vários passos é como uma receita: se saltas uma parte, o result
   ] }
 ]
 ```
+
+## Para saberes mais 🌱
+
+Quando os matemáticos resolvem problemas gigantes, usam um truque chamado «dividir para conquistar»: partem o problema num punhado de problemas mais pequenos, resolvem cada um e juntam tudo no fim. É exatamente o que fazes ao subir um degrau de cada vez — só que os computadores fazem isso milhões de vezes por segundo! 🤯
 
 ## 🎯 Questionário final
 

@@ -1,6 +1,6 @@
 # Short dialogues and listening practice 🎧
 
-> [!NOTE] **What you will learn** 👀 You will practise short dialogues, useful questions and how to listen for key words in English.
+> [!NOTE] **O que vais aprender** 👀 Vais praticar pequenos diálogos, perguntas úteis e como ouvir as palavras-chave em inglês.
 
 Listening is not understanding every single word. It is catching the important words and the situation.
 
@@ -24,6 +24,8 @@ Listening is not understanding every single word. It is catching the important w
 ]
 ```
 
+> [!TIP] **Apanha a palavra-grande** Não precisas de perceber tudo! Ouve só a palavra "grande" da pergunta — *where* (onde), *what time* (que horas), *how* (como) — e ela diz-te logo que tipo de resposta dar.
+
 ## Mini-dialogue
 
 ```compare
@@ -38,6 +40,10 @@ Listening is not understanding every single word. It is catching the important w
   ] }
 ]
 ```
+
+## Para saberes mais 🌱
+
+Sabias que, ao ouvir inglês, o teu cérebro adivinha o fim da frase antes de a pessoa acabar de falar? Por isso, quando alguém diz "What time...", já estás à espera de um número — e em inglês há até uma palavra para essas pistas curtinhas como *yes* e *no*: chamam-se "minimal responses". 🧠
 
 ## 🎯 Questionário final
 

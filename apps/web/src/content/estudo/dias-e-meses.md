@@ -1,5 +1,7 @@
 # Dias e meses 📅
 
+> [!NOTE] **O que vais aprender** 👀 Os 7 dias da semana e os 12 meses do ano, pela ordem certa, para saberes sempre em que dia e mês estás.
+
 Os dias da semana e os meses do ano — para saberes sempre em que dia estás!
 Toca para ouvir. 🎧
 
@@ -82,3 +84,10 @@ E os meses — sabes qual é cada um pela sua ordem? Escolhe a resposta certa! �
   { "front": "Mês 12", "back": "dezembro" }
 ] }
 ```
+
+## Para saberes mais 🌱
+
+Os meses ganharam os nomes há muito tempo, no tempo dos romanos! Setembro,
+outubro, novembro e dezembro querem dizer "sétimo, oitavo, nono e décimo" —
+porque, no calendário antigo, o ano começava em março. Por isso é que o
+"décimo" (dezembro) acabou por ficar a ser o mês 12! 🏛️

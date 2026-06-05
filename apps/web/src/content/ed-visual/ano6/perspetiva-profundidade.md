@@ -33,6 +33,12 @@ Uma folha é plana, mas o desenho pode criar a ilusão de espaço.
 ]
 ```
 
+> [!TIP] **Estica o polegar** Fecha um olho e tapa um objeto longe com o polegar: vês como o que está perto cobre o que está longe? É a sobreposição a funcionar — quem tapa está à frente. 👍
+
+## Para saberes mais 🌱
+
+Os pintores do Renascimento descobriram a **perspetiva com ponto de fuga**: todas as linhas que se afastam (rua, telhados, carris) parecem juntar-se num único ponto no horizonte. Esse truque é tão certinho que os arquitetos ainda hoje o usam, e é também assim que os videojogos em 3D fazem o mundo parecer fundo num ecrã plano! 🎮
+
 ## 🎯 Questionário final
 
 ```quiz

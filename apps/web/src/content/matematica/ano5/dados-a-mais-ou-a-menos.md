@@ -27,6 +27,12 @@ Nem todos os números de um enunciado são para usar. Às vezes há dados a mais
 ]
 ```
 
+> [!TIP] **A mala de viagem** 🧳 Imagina que vais resolver o problema numa viagem e só podes levar o que cabe na mala: leva só os dados que respondem à pergunta. A cor, o nome ou o peso da mochila ficam em casa — são bagagem a mais!
+
+## Para saberes mais 🌱
+
+Os cientistas e os computadores fazem exatamente isto a sério: chama-se *limpar os dados*. Antes de qualquer cálculo importante, há quem passe horas a deitar fora números que não servem (ou que estão errados) — porque uma máquina, tal como tu, só dá boas respostas se receber bons dados. 🤖
+
 ## 🎯 Questionário final
 
 ```quiz

@@ -36,6 +36,8 @@ Um texto digital deve ser fácil de ler. A formatação ajuda, mas não substitu
 ]
 ```
 
+> [!TIP] **Tempero a mais estraga a sopa** Negrito, cores e tamanhos grandes são como sal: uma pitada realça, demasiado estraga tudo. Se destacas tudo, já não destacas nada — escolhe só as palavras que importam mesmo.
+
 ## Lista de revisão
 
 ```keyvalue
@@ -46,6 +48,10 @@ Um texto digital deve ser fácil de ler. A formatação ajuda, mas não substitu
   { "k": "Fonte", "v": "se usei informação de outro sítio, indiquei de onde veio?" }
 ]
 ```
+
+## Para saberes mais 🌱
+
+Sabias que as letras dos computadores têm "famílias"? As fontes dividem-se em *serifadas* (têm uns pezinhos nas pontas das letras, como a Times) e *não serifadas* (lisas, como a Arial). Nos livros em papel usam-se muito as serifadas porque guiam o olho de letra em letra; nos ecrãs preferem-se as lisas, porque ficam mais nítidas. 👓
 
 ## 🎯 Questionário final
 

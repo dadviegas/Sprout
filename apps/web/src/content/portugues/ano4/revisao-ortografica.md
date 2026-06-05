@@ -23,6 +23,12 @@ Rever é olhar outra vez com olhos de detetive. Mesmo bons textos melhoram depoi
 ]
 ```
 
+> [!TIP] **Uma caça de cada vez** 🔎 Em vez de procurar tudo ao mesmo tempo, lê o texto uma vez só à caça de acentos, depois outra só à caça de pontos e vírgulas, depois outra só às maiúsculas. Caçar uma coisa de cada vez deixa-te apanhar os erros que escapariam se olhasses para tudo de uma vez.
+
+## Para saberes mais 🌱
+
+Os escritores a sério também não acertam à primeira: chamam **rascunho** ao primeiro texto e podem reescrevê-lo muitas vezes antes de ficar pronto. E nos jornais e livros há uma pessoa cujo trabalho é só rever — o **revisor** — que lê tudo à procura do mais pequeno erro antes de o texto ser impresso.
+
 ## 🎯 Questionário final
 
 ```quiz

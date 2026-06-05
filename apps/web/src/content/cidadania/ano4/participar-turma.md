@@ -28,6 +28,12 @@ Participar não é falar mais alto. É ajudar a turma a pensar e decidir melhor.
 ]
 ```
 
+> [!TIP] **Boca, ouvidos, mãos** 👂 Tens uma boca para falar, mas dois ouvidos: ouve o dobro do que falas. E depois de votar, dá um aperto de mão à decisão — mesmo que não fosse a tua ideia.
+
+## Para saberes mais 🌱
+
+O voto secreto, em que ninguém vê em quem votaste, foi inventado há muito tempo para que ninguém te pressione a escolher uma opção. Por isso, em eleições a sério, as pessoas votam sozinhas dentro de uma pequena cabine! 🗳️
+
 ## 🎯 Questionário final
 
 ```quiz

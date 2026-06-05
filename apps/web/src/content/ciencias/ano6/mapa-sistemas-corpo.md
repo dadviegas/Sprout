@@ -29,6 +29,12 @@ O corpo não funciona por peças isoladas. Quando comes, respiras, corres ou dor
 ]
 ```
 
+> [!TIP] **A equipa do corpo** 🤝 Pensa no teu corpo como uma equipa de futebol: ninguém joga sozinho. O digestivo e o respiratório trazem a "bola" (nutrientes e oxigénio), o circulatório passa-a a toda a gente, o nervoso é o treinador que dá ordens e o excretor limpa o campo no fim.
+
+## Para saberes mais 🌱
+
+Se ligasses todos os teus vasos sanguíneos uns aos outros, daria para dar quase **duas voltas e meia à Terra** — cerca de 100 000 km! É por essa rede enorme que o sangue consegue levar oxigénio e nutrientes a cada cantinho do teu corpo, todos os dias. 🌍
+
 ## 🎯 Questionário final
 
 ```quiz

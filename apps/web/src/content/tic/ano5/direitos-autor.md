@@ -26,6 +26,12 @@ Quando alguém cria uma imagem, um texto ou uma música, esse trabalho merece re
 ]
 ```
 
+> [!TIP] **A regra do empréstimo** Trata o trabalho dos outros como um brinquedo emprestado: não dizes que é teu e dizes a quem pertence. Antes de usar uma imagem ou texto, pergunta «de quem é isto?» e escreve a fonte ao lado.
+
+## Para saberes mais 🌱
+
+Os autores não têm de escrever sozinhos as regras de cada obra: existem licenças prontas chamadas **Creative Commons** 🅭. Quem cria escolhe um cartãozinho de regras (por exemplo «podes usar, mas diz o meu nome») e qualquer pessoa no mundo percebe logo o que pode fazer — sem ter de pedir autorização por carta!
+
 ## 🎯 Questionário final
 
 ```quiz

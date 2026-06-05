@@ -13,6 +13,8 @@ A tua vida acontece num lugar concreto: ruas, escola, jardins, transportes, bibl
 ]
 ```
 
+> [!TIP] **Bonecas russas 🪆** Imagina bonecas russas que entram umas nas outras: a tua localidade cabe dentro da freguesia, a freguesia cabe dentro do município, e o município cabe dentro do país. Do mais pequeno para o maior!
+
 ```steps
 [
   { "title": "1. Observar", "body": "Que espaços existem perto de ti: escola, jardim, estrada, biblioteca?" },
@@ -21,6 +23,10 @@ A tua vida acontece num lugar concreto: ruas, escola, jardins, transportes, bibl
   { "title": "4. Participar", "body": "Falar na turma, escrever uma proposta ou cuidar dos espaços." }
 ]
 ```
+
+## Para saberes mais 🌱
+
+Em Portugal há mais de 3000 freguesias e 308 municípios! E sabias que, na junta de freguesia e na câmara municipal, as pessoas que decidem são eleitas pelos habitantes — de quatro em quatro anos os adultos votam para escolher quem vai cuidar da sua terra. 🗳️
 
 ## 🎯 Questionário final
 

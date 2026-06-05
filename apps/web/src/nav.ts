@@ -60,6 +60,63 @@ export function loadView(): View {
   return HOME;
 }
 
+/* ── URL hash routing ──────────────────────────────────────────────────────
+ * The view is mirrored into `location.hash` so a page can be linked/bookmarked
+ * and opened directly (e.g. `#/ano/3/mat/folha-calculo`). The hash is the URL
+ * representation of a View; storage still keeps the last view as a fallback. */
+
+const ROOM_VALUES: DiversaoRoom[] = ["jardim", "jogos", "caixa"];
+
+/** Serialize a View to a shareable URL hash (always starts with `#/`). */
+export function viewToHash(view: View): string {
+  switch (view.kind) {
+    case "home":
+      return "#/";
+    case "mundo":
+      return "#/world";
+    case "diversao":
+      return view.room ? `#/fun/${view.room}` : "#/fun";
+    case "year":
+      return `#/year/${view.year}`;
+    case "subject":
+      return `#/year/${view.year}/${view.subjectId}`;
+    case "lesson":
+      return `#/year/${view.year}/${view.subjectId}/${view.lessonId}`;
+    case "test":
+      return `#/year/${view.year}/${view.subjectId}/${view.lessonId}/test`;
+  }
+}
+
+/** Parse + VALIDATE a URL hash back into a View. Returns null for an empty or
+ *  unrecognised/stale hash, so the caller can fall back to stored/home state. */
+export function viewFromHash(hash: string): View | null {
+  const path = hash.replace(/^#\/?/, "");
+  if (path === "") return null; // bare "#" / "#/" → no explicit target
+  const seg = path.split("/").map(decodeURIComponent);
+
+  if (seg[0] === "home") return HOME;
+  if (seg[0] === "world" && seg.length === 1) return { kind: "mundo" };
+  if (seg[0] === "fun") {
+    if (seg.length === 1) return { kind: "diversao" };
+    const room = ROOM_VALUES.find((r) => r === seg[1]);
+    if (room && seg.length === 2) return { kind: "diversao", room };
+    return null;
+  }
+  if (seg[0] === "year") {
+    const year = Number(seg[1]);
+    if (!isYear(year)) return null;
+    if (seg.length === 2) return { kind: "year", year };
+    const subjectId = seg[2];
+    if (!subjectById.has(subjectId)) return null;
+    if (seg.length === 3) return { kind: "subject", year, subjectId };
+    const lessonId = seg[3];
+    if (!findLesson(subjectId, year, lessonId)) return null;
+    if (seg.length === 4) return { kind: "lesson", year, subjectId, lessonId };
+    if (seg.length === 5 && seg[4] === "test") return { kind: "test", year, subjectId, lessonId };
+  }
+  return null;
+}
+
 export function loadTheme(): "light" | "dark" {
   if (typeof window === "undefined") return "light";
   const saved = store.getSync<"light" | "dark" | null>(THEME_KEY, null);

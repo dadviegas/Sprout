@@ -1,5 +1,7 @@
 # O dinheiro 💶
 
+> [!NOTE] **O que vais aprender** 👀 Vais conhecer as moedas e notas do euro, saber quanto vale cada uma e como juntá-las para pagar.
+
 Em Portugal usamos o **euro** (€). Há **moedas** (de metal) e **notas** (de
 papel). Aqui tens **todas**! Toca em cada uma para ouvir quanto vale. 🎧
 

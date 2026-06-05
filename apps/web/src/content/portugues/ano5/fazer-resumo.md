@@ -26,6 +26,12 @@ Resumir não é copiar frases soltas. É mostrar que percebeste o essencial.
 ]
 ```
 
+> [!TIP] **O teste da mala de viagem** 🧳 Imagina que só podes levar o essencial numa mala pequena. Cada ideia que cabe é mesmo importante? Se a tiras e a história continua a fazer-se entender, era pormenor — deixa-a em casa.
+
+## Para saberes mais 🌱
+
+Os jornais antigos resolviam tudo logo no início com a chamada "pirâmide invertida": contavam primeiro o mais importante — quem, o quê, quando, onde — e os pormenores ficavam para o fim. Assim, se faltasse espaço, cortavam o último parágrafo e a notícia continuava a fazer sentido. É um resumo já feito no princípio! 📰
+
 ## 🎯 Questionário final
 
 ```quiz

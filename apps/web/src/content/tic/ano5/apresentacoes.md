@@ -19,6 +19,8 @@ Uma apresentação não é um texto gigante no ecrã. É um apoio para quem fala
 ]
 ```
 
+> [!TIP] **A regra 6×6** Em cada diapositivo, no máximo 6 linhas e 6 palavras por linha. Se não cabe, é fala tua — não texto no ecrã. 🗣️
+
 ## Como preparar
 
 ```steps
@@ -46,6 +48,10 @@ Uma apresentação não é um texto gigante no ecrã. É um apoio para quem fala
   ] }
 ]
 ```
+
+## Para saberes mais 🌱
+
+Os primeiros "diapositivos" eram mesmo de vidro: nas projeções *magic lantern* do século XIX, pintava-se a imagem em vidro e uma luz forte projetava-a numa parede. Por isso é que ainda hoje dizemos "slides" — eram pequenas placas que se deslizavam à frente da lâmpada! ✨
 
 ## 🎯 Questionário final
 

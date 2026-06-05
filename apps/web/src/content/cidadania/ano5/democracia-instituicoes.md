@@ -29,6 +29,12 @@ Numa democracia, as pessoas têm direitos, deveres e formas de participar. As re
 ]
 ```
 
+> [!TIP] **As três caixas do poder** Imagina o país com três caixas que trabalham juntas: a Assembleia **faz** as regras (leis), o Governo **manda fazer** o que foi decidido, e os Tribunais **vigiam** se toda a gente cumpre. Faz · Manda · Vigia — três caixas, ninguém manda sozinho.
+
+## Para saberes mais 🌱
+
+A Constituição portuguesa que temos hoje nasceu em 1976, logo a seguir à Revolução dos Cravos de 25 de Abril de 1974 — quando o país deixou de ser uma ditadura e passou a poder votar livremente. Por isso o 25 de Abril é feriado: celebra o dia em que a liberdade e a democracia voltaram! 🌼
+
 ## 🎯 Questionário final
 
 ```quiz

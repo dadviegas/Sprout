@@ -28,6 +28,12 @@ O relevo é a forma da superfície da Terra. O clima é o conjunto de condiçõe
 ]
 ```
 
+> [!TIP] **Tempo é o humor, clima é a personalidade** O *tempo* é como te sentes hoje — pode estar sol ou chuva. O *clima* é como a região costuma ser ao longo de muitos anos: a sua "personalidade".
+
+## Para saberes mais 🌱
+
+O ponto mais alto de Portugal não fica no continente — é o **Pico**, na ilha do Pico, nos Açores, com **2351 metros**! É um vulcão tão alto que às vezes amanhece com neve no topo, mesmo no meio do oceano Atlântico. 🌋❄️
+
 ## 🎯 Questionário final
 
 ```quiz

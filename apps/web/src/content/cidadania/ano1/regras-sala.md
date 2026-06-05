@@ -21,6 +21,12 @@ As regras ajudam a turma a aprender melhor. Não servem para chatear: servem par
 ]
 ```
 
+> [!TIP] **O semáforo do respeito** 🚦 Antes de agir, imagina um semáforo: vermelho — paro; amarelo — penso "isto ajuda ou atrapalha?"; verde — sigo com a escolha simpática.
+
+## Para saberes mais 🌱
+
+Sabias que as abelhas também têm "regras" para viverem juntas? Numa colmeia, cada abelha tem uma tarefa e avisa as outras com uma pequena dança 🐝 — é assim que milhares de abelhas conseguem trabalhar em equipa sem se atrapalharem.
+
 ## 🎯 Questionário final
 
 ```quiz

@@ -30,6 +30,8 @@ O computador obedece melhor quando damos instruções claras. O rato ajuda a apo
 ]
 ```
 
+> [!TIP] **A seta é o teu dedo** Pensa na seta do rato como um dedo mágico no ecrã: primeiro apontas com calma, só depois é que "tocas" com um clique. Se moves a mão devagar, o dedo nunca clica no sítio errado.
+
 ## Como trabalhar com cuidado
 
 ```steps
@@ -59,6 +61,10 @@ O computador obedece melhor quando damos instruções claras. O rato ajuda a apo
   ]
 }
 ```
+
+## Para saberes mais 🌱
+
+Sabias que as letras do teclado não estão por ordem (A, B, C…)? Estão numa ordem chamada **QWERTY**, com o nome das primeiras seis letras da fila de cima. Foi pensada há mais de 100 anos para as máquinas de escrever — as teclas mais usadas ficaram afastadas para os martelinhos não ficarem presos uns nos outros. ⌨️
 
 ## 🎯 Questionário final
 

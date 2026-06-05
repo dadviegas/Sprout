@@ -22,6 +22,12 @@ A rua é de todos: peões, bicicletas, carros, autocarros e motas. Para ser segu
 ]
 ```
 
+> [!TIP] **Para, Olha, Atravessa** Faz como um semáforo dentro da cabeça: 🔴 PARA junto à passadeira, 🟡 OLHA para os dois lados e escuta, 🟢 só então ATRAVESSA. Vermelho-amarelo-verde, sempre por esta ordem!
+
+## Para saberes mais 🌱
+
+Sabias que um carro a viajar à velocidade de uma rua da cidade precisa de vários metros para parar, mesmo depois de o condutor travar? É como quando corres e queres parar de repente: continuas a deslizar um bocadinho. Por isso nunca atravessas atrás de um carro parado — o que vem a seguir pode não te ver a tempo.
+
 ## 🎯 Questionário final
 
 ```quiz

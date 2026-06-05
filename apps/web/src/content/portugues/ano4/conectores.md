@@ -25,6 +25,12 @@ Um texto sem conectores fica aos saltos. Os conectores são pequenas pontes entr
 ]
 ```
 
+> [!TIP] **Os conectores são pontes** 🌉 Imagina cada ideia como uma ilha: o conector é a ponte que ligas entre elas. Se a próxima ideia vai contra a anterior, escolhe a ponte "mas"; se vem por causa dela, escolhe "por isso".
+
+## Para saberes mais 🌱
+
+O conector "todavia" quer dizer o mesmo que "mas" ou "porém", mas vem de "toda via" (todo o caminho) do português antigo. Antigamente escrevia-se separado e, com os séculos, as duas palavras juntaram-se numa só — a língua também constrói as suas pontes! 🌉
+
 ## 🎯 Questionário final
 
 ```quiz

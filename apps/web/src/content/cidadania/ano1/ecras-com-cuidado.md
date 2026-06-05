@@ -19,6 +19,8 @@ Os ecrãs podem ajudar a aprender, ver histórias e falar com a família. Mas pr
 ]
 ```
 
+> [!TIP] **A regra do braço esticado** Estica o braço à frente do ecrã: se a tua mão lhe toca, o ecrã está perto demais — afasta-o até a mão ficar no ar.
+
 ## O que é privado? 🔒
 
 Há coisas que não se dizem a desconhecidos nem se escrevem em jogos ou páginas.
@@ -55,6 +57,10 @@ Há coisas que não se dizem a desconhecidos nem se escrevem em jogos ou página
   ]
 }
 ```
+
+## Para saberes mais 🌱
+
+A luz dos ecrãs tem uma cor azul que engana o cérebro: faz de conta que ainda é de dia, por isso, ao usá-los à noite, custa mais adormecer. É por isso que os ecrãs ficam guardados antes de dormir. 😴
 
 ## 🎯 Questionário final
 

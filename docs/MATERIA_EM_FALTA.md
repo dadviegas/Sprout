@@ -1,11 +1,15 @@
 # Matéria em falta ou pouco visível — Sprout
 
-Este documento é uma lista prática do que ainda falta criar ou reforçar,
+Este documento é a lista prática do que ainda falta criar ou reforçar,
 comparando a app com matéria que aparece em manuais, fichas e estudo real das
 crianças.
 
 Importante: uma disciplina pode existir na app e, mesmo assim, faltar matéria
-concreta dentro dela.
+concreta, mais prática ou mais visível dentro dela.
+
+Estado atual: a app já tem **422 lições válidas**, todas com questionário final.
+Já não há placeholders de matéria no currículo. O trabalho agora é sobretudo
+aprofundar, tornar visual e aproximar as páginas de situações reais de estudo.
 
 ---
 
@@ -13,76 +17,57 @@ concreta dentro dela.
 
 ### História e Geografia de Portugal
 
-**Falta como lição própria: Dinastias de Portugal.**
+**Já existe lição própria para as dinastias de Portugal.** Está em:
 
-Atualmente há referências espalhadas:
+- `apps/web/src/content/hgp/ano6/dinastias.md`
+- versão leve no 4.º ano: `apps/web/src/content/estudo-do-meio/ano4/reis-e-dinastias.md`
 
-- Dinastia de Borgonha / Afonsina aparece na formação de Portugal.
-- Dinastia de Avis aparece na crise de 1383-1385.
-- Dinastia Filipina aparece ligada à União Ibérica.
-- Dinastia de Bragança aparece na Restauração.
+O que ainda falta é reforço visual e recorrência:
 
-Mas falta uma lição clara chamada, por exemplo:
+- mapas simples ligados a períodos históricos;
+- mais linhas do tempo em lições de reis, regimes e monumentos;
+- ligações visíveis entre dinastias, Descobrimentos, União Ibérica,
+  Restauração, Liberalismo, República e democracia;
+- mais perguntas de aplicação, não só memorização de datas.
 
-**As dinastias de Portugal**
+Lições a melhorar primeiro:
 
-Deve cobrir:
-
-- o que é uma dinastia;
-- 1.ª Dinastia: Borgonha / Afonsina;
-- 2.ª Dinastia: Avis;
-- 3.ª Dinastia: Filipina;
-- 4.ª Dinastia: Bragança;
-- reis marcantes de cada uma;
-- datas-chave;
-- linha do tempo;
-- ligação à crise de 1383-1385, União Ibérica, Restauração e fim da monarquia.
-
-Formato recomendado:
-
-- `timeline` com 1143, 1385, 1580, 1640, 1910;
-- `compare` com as quatro dinastias;
-- quiz final com 8-10 perguntas.
-
-Também pode ser preparado no **4.º ano**, dentro de Estudo do Meio / História
-de Portugal, mas de forma mais leve:
-
-- o que é um rei;
-- o que é uma família real;
-- reis importantes: D. Afonso Henriques, D. João I, D. Manuel I, D. João IV;
-- datas muito simples: 1143, 1385, 1640, 1910;
-- ideia de que Portugal teve várias famílias de reis antes da República.
-
-No 4.º ano, o objetivo não deve ser decorar todas as dinastias em detalhe. Deve
-ser preparar a criança para HGP no 5.º/6.º ano.
+- `hgp/ano6/descobrimentos.md`
+- `hgp/ano6/imperio.md`
+- `hgp/ano6/restauracao.md`
+- `hgp/ano6/pombal.md`
+- `hgp/ano6/liberalismo.md`
+- `hgp/ano6/republica.md`
+- `hgp/ano6/estado-novo.md`
+- `hgp/ano6/reis-monumentos.md`
 
 ### Cidadania
 
-Cidadania existe, mas ainda falta matéria mais parecida com o que aparece em
-fichas escolares e trabalho de sala.
+Cidadania existe do 1.º ao 6.º ano, mas ainda pode ficar mais parecida com o
+que aparece em fichas escolares e em trabalho de sala.
 
-Temas a criar ou reforçar:
+Já existe base para:
 
-- regras de sala de aula e convivência;
-- respeito, empatia e escuta;
+- regras de sala e respeito;
 - bullying e pedir ajuda;
-- participação na turma e assembleia de turma;
-- responsabilidade: cumprir tarefas, materiais, pontualidade;
-- segurança rodoviária;
-- privacidade, dados pessoais e consentimento;
-- igualdade, inclusão e necessidades diferentes;
-- Constituição, símbolos democráticos e instituições, em versão simples;
-- autarquias, freguesia, município e participação local;
-- direitos da criança com situações práticas do dia a dia.
+- participar na turma;
+- democracia, Constituição e instituições;
+- igualdade, interculturalidade, saúde e ambiente;
+- privacidade e responsabilidade digital.
 
-Lições sugeridas:
+O que falta reforçar:
 
-- **1.º/2.º ano:** Regras da sala e respeito pelos outros. ✅ base criada no 1.º ano
-- **3.º ano:** Bullying: reconhecer, parar e pedir ajuda. ✅ criado no 3.º ano
-- **4.º ano:** Participar na turma: votar, ouvir e decidir. ✅ criado no 4.º ano
-- **5.º ano:** Cidadania democrática: Constituição, direitos e instituições. ✅ criado no 5.º ano
-- **4.º ano / Estudo do Meio:** Freguesia, município e participação local. ✅ criado no 4.º ano
-- **6.º ano:** Privacidade, consentimento e responsabilidade digital. ✅ criado no 6.º ano (tic-6-privacidade)
+- responsabilidade diária: tarefas, materiais, pontualidade e compromissos;
+- direitos da criança aplicados a situações concretas;
+- autarquias, freguesia, município e participação local com exemplos práticos;
+- consentimento, dados pessoais e privacidade com casos do dia a dia;
+- assembleia de turma com papéis, votação, ata simples e decisão coletiva.
+
+Formato recomendado:
+
+- `steps` para “o que fazer se...”;
+- `compare` para escolha responsável vs. escolha arriscada;
+- quizzes com pequenos casos práticos.
 
 ---
 
@@ -90,333 +75,152 @@ Lições sugeridas:
 
 ### Matemática
 
-Já há páginas próprias para:
+Já há páginas próprias para cálculo mental, estimativa, problemas de vários
+passos e problemas com dados a mais ou em falta.
 
-- cálculo mental;
-- estratégias de decomposição;
-- estimativas rápidas;
-- problemas de vários passos.
+O que ainda falta reforçar:
 
-Ainda falta reforçar:
-
-- problemas de vários passos dentro de outras lições;
-- problemas com dados a mais ou dados em falta; ✅ criado no 5.º ano (mat-5-dados-a-mais)
-- explicação escrita do raciocínio.
+- problemas curtos dentro de mais lições, não concentrados só nas páginas de
+  problemas;
+- explicação escrita do raciocínio;
+- perguntas que obriguem a escolher a estratégia antes da conta;
+- pequenos desafios com dados reais: horários, dinheiro, medidas, gráficos.
 
 ### Português
 
-Já há páginas próprias para:
+Já há páginas para planear, escrever, rever, resumir, descrever e usar
+conectores.
 
-- produção escrita guiada;
-- planificar, escrever, rever e melhorar;
-- resumos;
-- descrição de pessoas, lugares e objetos;
-- conectores.
+O que ainda falta reforçar:
 
-Ainda falta reforçar:
-
-- revisão ortográfica com checklist. ✅ criado no 4.º ano (pt-4-revisao-ortografica)
-
-Lições futuras sugeridas:
-
-- **Revisão ortográfica com checklist** ✅ criado no 4.º ano
+- mais exemplos “antes/depois” de frases melhoradas;
+- mais escrita guiada por género textual;
+- treino de parágrafos;
+- revisão ortográfica aplicada a textos pequenos;
+- perguntas que peçam escolher a melhor versão de uma frase.
 
 ### Estudo do Meio
 
-Já foi reforçado:
+Já foi reforçado com relevo e clima de Portugal, segurança rodoviária,
+freguesia/município, mapas da localidade e experiências.
 
-- relevo e clima de Portugal;
-- segurança rodoviária;
-- freguesia, município e participação local.
-
-Ainda falta ou está pouco separado:
+O que ainda falta ou pode ficar mais claro:
 
 - sistemas do corpo separados por função;
-- mapas práticos da localidade com exercícios de orientação. ✅ criado no 4.º ano (edm-4-mapa-localidade)
+- mais experiências simples com hipótese, observação e conclusão;
+- mapas práticos da localidade com orientação e símbolos;
+- ligação entre ambiente local, recursos e responsabilidade.
 
 ### Inglês
 
-Já foi reforçado:
+Já há vocabulário, estruturas principais, diálogos, listening e escrita guiada.
 
-- listening;
-- pequenos diálogos;
-- escrita guiada;
-- perguntas e respostas em contexto.
+O que ainda falta reforçar:
 
-Ainda falta reforçar:
-
-- mais exercícios áudio/simulados por tema;
-- pequenas respostas escritas por unidade.
+- mais diálogos curtos por tema;
+- mais perguntas/respostas em contexto;
+- pequenas respostas escritas por unidade;
+- exercícios simulados de “ouve e escolhe”, quando o suporte permitir.
 
 ### TIC / Competências digitais
 
-TIC já está separada como área própria no currículo, com uma primeira progressão:
-ecrãs com cuidado, rato/teclado, internet segura, computador/ficheiros, escrever
-e formatar texto, pesquisa digital, apresentações, email/mensagens, media,
-privacidade, direitos de autor, programação simples e folha de cálculo.
+TIC já tem progressão própria: ecrãs, rato/teclado, internet segura, ficheiros,
+texto digital, pesquisa, apresentações, email, direitos de autor, media,
+privacidade, programação, algoritmos e folha de cálculo.
 
-Temas ainda a reforçar:
+O que ainda falta reforçar:
 
-- organização de pastas em projetos longos; ✅ criado no 5.º ano (tic-5-organizar-projeto)
-- mais exercícios de programação inicial / pensamento computacional. ✅ criado no 6.º ano (tic-6-algoritmos)
-
-Lições futuras sugeridas:
-
-- **Organizar um projeto digital** ✅ criado no 5.º ano
-- **Criar e testar pequenos algoritmos** ✅ criado no 6.º ano
+- pensamento computacional ao longo de mais anos;
+- projetos digitais longos com etapas, pastas, versões e revisão;
+- casos práticos de pesquisa: fonte fiável vs. duvidosa;
+- folha de cálculo com fórmulas, referências de células e gráficos em contextos
+  variados.
 
 ---
 
 ## Prioridade visual
 
-Estas matérias existem, e algumas já foram reforçadas com blocos visuais
-(`figure`, `compare`, `steps`, `bodysystem`). Ainda podem ganhar mais mapas,
-linhas do tempo e diagramas para não ficarem condensadas:
+Estas matérias existem, mas podem ganhar mais mapas, diagramas e exemplos
+visuais para não ficarem condensadas:
 
-- HGP: dinastias, reis, períodos, mapas, monumentos.
-- Ciências Naturais: corpo humano e sistemas já têm mapa visual; falta reforçar
-  seres vivos, rochas, água e ar.
-- Educação Visual: perspetiva já ganhou página própria; falta reforçar cor,
-  luz/sombra e património.
-- Educação Tecnológica: projeto técnico já ganhou página própria; falta reforçar
-  circuitos, mecanismos, energia e materiais.
+- HGP: mapas, linhas do tempo, reis, dinastias, regimes, monumentos.
+- Ciências Naturais: seres vivos, rochas, água, ar, sistemas do corpo.
+- Educação Visual: cor, luz/sombra, perspetiva, padrão, património.
+- Educação Tecnológica: circuitos, mecanismos, energia, materiais, projeto.
+- Matemática: problemas visuais, dados, geometria e medidas.
+
+Usar preferencialmente:
+
+- `timeline` para História;
+- `compare` para conceitos próximos;
+- `steps` para processos;
+- `figure` com legenda pedagógica;
+- `chart` para dados;
+- `bodysystem`, `mapapt`, `math`, `numberline` e outros widgets quando fizerem
+  sentido.
 
 ---
 
 ## Prioridades transversais
 
-Além das lições em falta, há melhorias que devem atravessar várias disciplinas:
-
-1. **Cálculo mental em Matemática** — criar uma lição própria e espalhar
-   estratégias por outras lições.
-2. **Produção escrita em Português** — mais treino para planear, escrever,
-   rever, resumir e melhorar textos.
-3. **Reforço visual de HGP** — mais imagens, mapas, linhas do tempo, dinastias,
-   reis e símbolos.
-4. **Listening e diálogos em Inglês** — mais perguntas/respostas, diálogos
-   curtos e prática auditiva.
-5. **TIC / competências digitais** — computador, ficheiros, pesquisa,
-   segurança, trabalhos digitais e pensamento computacional.
-6. **Mais imagens e diagramas em Ciências, Educação Visual e Educação
-   Tecnológica** — corpo humano, circuitos, mecanismos, cor, luz/sombra,
-   materiais e experiências.
-7. **Rever e aumentar quizzes finais** — apontar para 8-10 perguntas, com
-   explicações melhores e perguntas de aplicação, não só memorização.
+1. **Reforçar aplicação prática** — mais casos e problemas dentro das lições.
+2. **Aumentar qualidade dos quizzes finais** — apontar para 8-10 perguntas nas
+   lições centrais, com explicações úteis.
+3. **Tornar HGP mais visual** — mapas, linhas do tempo, períodos e ligações.
+4. **Dar mais treino escrito em Português** — planear, escrever, rever,
+   resumir e melhorar.
+5. **Dar mais uso real ao Inglês** — diálogos, perguntas, respostas e escrita
+   curta.
+6. **Espalhar TIC e pensamento computacional** — algoritmos, organização,
+   pesquisa, segurança e projetos.
+7. **Rever pedagogicamente** — validação por docente antes de considerar
+   qualquer tema fechado.
 
 ---
 
-## Plano de introdução
-
-Este plano deve ser feito por fases pequenas. Cada fase deve deixar a app
-validada e utilizável antes de passar à seguinte.
-
-### Fase 0 — Auditoria rápida das páginas existentes
-
-Objetivo: perceber onde o conteúdo já existe mas está escondido, condensado ou
-pouco visual.
-
-Tarefas:
-
-- Rever HGP 5.º/6.º e marcar onde aparecem reis, dinastias, datas e regimes.
-- Rever Cidadania 1.º-6.º e marcar temas que estão repetidos, rasos ou em falta.
-- Rever uma amostra de Português, Matemática, Inglês, Ciências, Visual e
-  Tecnológica para ver se as páginas têm texto demais seguido.
-- Marcar quizzes finais com menos de 8 perguntas ou com explicações fracas.
-
-Resultado esperado:
-
-- Lista curta de lições a criar.
-- Lista curta de lições existentes a melhorar.
-- Prioridade definida por impacto para estudo real.
-
-### Fase 1 — HGP: dinastias e reforço visual
-
-Objetivo: tapar a lacuna mais visível em História.
-
-Criar:
-
-- `apps/web/src/content/hgp/ano6/dinastias.md` ou, se fizer mais sentido pelo
-  currículo, `apps/web/src/content/hgp/ano5/dinastias.md`.
-- depois, uma versão leve no 4.º ano, ligada a Estudo do Meio / História de
-  Portugal, sem exigir decorar todas as dinastias.
-
-Conteúdo obrigatório:
-
-- o que é uma dinastia;
-- Dinastia de Borgonha/Afonsina;
-- Dinastia de Avis;
-- Dinastia Filipina;
-- Dinastia de Bragança;
-- reis marcantes;
-- datas 1143, 1385, 1580, 1640, 1910;
-- ligação a lições já existentes.
-
-UI/conteúdo:
-
-- usar `timeline`;
-- usar `compare`;
-- usar `stats` para datas;
-- adicionar pelo menos uma `figure`;
-- final com 8-10 perguntas.
-
-Depois:
-
-- ligar em `curriculum.ts`;
-- atualizar `CATALOGO.md`;
-- correr `pnpm validate`.
-
-### Fase 2 — Cidadania prática
-
-Objetivo: aproximar Cidadania das fichas e situações reais da escola.
-
-Criar ou reforçar:
-
-- **Regras da sala e respeito pelos outros**;
-- **Bullying: reconhecer, parar e pedir ajuda**;
-- **Participar na turma: votar, ouvir e decidir**;
-- **Cidadania democrática: Constituição, direitos e instituições**;
-- **Privacidade, consentimento e responsabilidade digital**.
-
-UI/conteúdo:
-
-- usar situações do dia a dia;
-- usar `steps` para “o que fazer se…”;
-- usar `compare` para certo/errado ou boa/má escolha;
-- evitar moralizar demais: dar ações concretas;
-- quizzes com casos práticos, não só definições.
-
-Depois:
-
-- distribuir por anos sem sobrecarregar um só ano;
-- atualizar `CATALOGO.md` e `COVERAGE.md`;
-- validar.
-
-### Fase 3 — TIC / competências digitais
-
-Objetivo: criar matéria digital prática, ligada ao estudo e à segurança.
-
-Criar:
-
-- **O computador e os ficheiros**;
-- **Pesquisar na internet com cabeça**;
-- **Escrever e apresentar trabalhos**;
-- **Segurança digital e palavras-passe**.
-
-Onde vive:
-
-- como disciplina/área própria (`tic`) no currículo;
-- pode reaproveitar temas de Cidadania quando forem sobre segurança,
-  responsabilidade e vida digital.
-
-UI/conteúdo:
-
-- usar `steps` para ações no computador;
-- usar `compare` para informação fiável vs. duvidosa;
-- usar `keyvalue` para vocabulário digital;
-- quizzes com casos práticos.
-
-### Fase 4 — Matemática: cálculo mental
-
-Objetivo: criar uma lição própria e reforçar estratégias noutras lições.
-
-Criar:
-
-- **Cálculo mental: truques para pensar depressa**.
-
-Deve incluir:
-
-- decompor números;
-- fazer 10, 100, 1000;
-- compensar;
-- dobro/metade;
-- estimar antes de calcular;
-- problemas rápidos do dia a dia.
-
-UI/conteúdo:
-
-- usar `math`;
-- usar `numberline` quando fizer sentido;
-- usar `drill` para treino rápido;
-- quizzes com perguntas geráveis ou variação de números, se possível.
-
-### Fase 5 — Português: produção escrita guiada
-
-Objetivo: ensinar a escrever, não só reconhecer gramática.
-
-Criar/reforçar:
-
-- **Como planear um texto**;
-- **Como rever e melhorar um texto**;
-- **Fazer um resumo**;
-- descrição de pessoa/lugar/objeto;
-- conectores e parágrafos.
-
-UI/conteúdo:
-
-- usar checklists;
-- usar antes/depois de uma frase melhorada;
-- usar `steps` para planear → escrever → rever;
-- quizzes com escolha da melhor frase e ordenação de partes do texto.
-
-### Fase 6 — Inglês: listening e diálogos
-
-Objetivo: deixar Inglês menos lista de vocabulário e mais uso real.
-
-Melhorar:
-
-- greetings;
-- routines;
-- food;
-- school;
-- town/directions;
-- shopping;
-- health.
-
-UI/conteúdo:
-
-- pequenos diálogos com `Speaker`;
-- perguntas “ouve e escolhe” quando possível;
-- frases-modelo;
-- prática de pergunta/resposta;
-- escrita guiada curta.
-
-### Fase 7 — Ciências, Visual e Tecnológica: imagens e diagramas
-
-Objetivo: reduzir páginas condensadas e tornar matérias visuais mais claras.
-
-Prioridades:
-
-- Ciências: corpo humano, sistemas, rochas, ciclo da água, plantas,
-  micro-organismos.
-- Educação Visual: cor, luz/sombra, perspetiva, padrão, património.
-- Educação Tecnológica: circuitos, energia, mecanismos, materiais.
-
-UI/conteúdo:
-
-- usar widgets existentes quando possível;
-- criar `figure` com legenda quando não houver widget;
-- dividir páginas longas com mais `steps`, `compare`, `keyvalue` e `chart`;
-- evitar imagem decorativa sem função pedagógica.
-
-### Fase 8 — Revisão global dos quizzes finais
-
-Objetivo: tornar avaliação mais útil e mais agradável.
-
-Regras:
-
-- final com 8-10 perguntas;
-- prática com 5-7 perguntas;
-- cada pergunta com `explain`;
-- incluir aplicação, não só memória;
-- rever respostas longas para caberem bem em telemóvel;
-- manter IDs estáveis quando o quiz continua a medir o mesmo tema.
-
-UI:
-
-- confirmar que o progresso visual está bom;
-- confirmar que só existe uma moldura principal;
-- rever resultado e revisão de respostas;
-- testar em desktop e viewport móvel.
+## Checklist futura para verificar
+
+Esta é a lista curta a guardar para uma próxima ronda de trabalho. Cada ponto
+deve ser tratado com alterações pequenas, validado no fim e, quando fizer
+sentido, acompanhado por imagens, mapas ou diagramas úteis para estudar.
+
+- [ ] **HGP:** reforçar visualmente reis, mapas, dinastias, períodos e
+  monumentos. A lição `hgp/ano6/dinastias.md` já existe; o foco agora é
+  recorrência, linhas do tempo, mapas, ligações entre períodos e monumentos.
+- [ ] **Matemática:** espalhar mais problemas pequenos por várias lições,
+  sobretudo raciocínio escrito, escolha de estratégia e problemas de vários
+  passos.
+- [ ] **Português:** acrescentar mais treino prático de escrita guiada,
+  descrição, conectores, revisão de texto, revisão ortográfica e resumos.
+- [ ] **Inglês:** acrescentar mais listening, diálogos simulados, perguntas e
+  respostas em contexto, e pequenas respostas escritas por unidade.
+- [ ] **Ciências / Educação Visual / Educação Tecnológica:** acrescentar mais
+  diagramas, mapas visuais, experiências, circuitos, mecanismos, cor,
+  luz/sombra e materiais.
+- [ ] **Cidadania / TIC:** acrescentar mais casos práticos sobre
+  responsabilidade diária, autarquias e instituições locais, dados pessoais,
+  consentimento, privacidade e pensamento computacional ao longo dos anos.
+- [ ] **Transversal:** rever quizzes finais das matérias mais importantes para
+  terem mais perguntas de aplicação, idealmente 8-10 perguntas, com explicações
+  claras.
+- [ ] **Pedagógico:** pedir revisão por docente do 1.º/2.º ciclo antes de
+  considerar os conteúdos fechados.
+- [ ] **Imagens e verificação visual:** quando uma página ganhar imagens,
+  diagramas, mapas ou `figure`, verificar se ajudam mesmo a estudar, se têm
+  legenda clara e se ficam bem em telemóvel, tablet e desktop.
+
+---
+
+## Plano de trabalho seguro
+
+Como há várias pessoas/agentes a trabalhar nas matérias, seguir este fluxo:
+
+1. Ver `git status --short` antes de mexer.
+2. Não editar ficheiros de matéria já modificados por outra pessoa.
+3. Preferir uma lição de cada vez.
+4. Depois de cada alteração, correr `pnpm --filter @sprout/web validate`.
+5. Atualizar este ficheiro e `docs/COVERAGE.md` quando uma lacuna deixar de
+   existir.
 
 ---
 
@@ -431,21 +235,19 @@ Antes de considerar uma página “boa”, verificar:
 - Há um truque ou síntese para memorizar.
 - Há treino antes do questionário final.
 - O questionário final tem perguntas suficientes.
+- As respostas cabem bem em telemóvel.
 - A página funciona bem em telemóvel, iPad e desktop.
-- O conteúdo passa em `pnpm validate`.
+- O conteúdo passa em `pnpm --filter @sprout/web validate`.
 
 ---
 
 ## Veredicto honesto
 
-A app já tem a estrutura do 1.º ao 6.º ano, mas ainda falta aproximar-se mais do
-estudo real de uma criança.
+A app já cobre a estrutura do 1.º ao 6.º ano. O que falta não é “meter a matéria
+toda do zero”; é transformar uma boa cobertura em estudo mais forte:
 
-O próximo bloco de conteúdo deve começar por:
-
-1. Dinastias de Portugal.
-2. Cidadania prática: regras, convivência, bullying e participação.
-3. TIC / competências digitais.
-4. Cálculo mental.
-5. Produção escrita guiada.
-6. Mais imagens/linhas do tempo/mapas em HGP.
+1. Mais prática dentro das lições.
+2. Mais visualizações úteis.
+3. Mais perguntas de aplicação.
+4. Mais escrita, raciocínio e casos reais.
+5. Revisão pedagógica final.

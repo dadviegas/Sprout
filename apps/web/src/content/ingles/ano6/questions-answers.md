@@ -1,6 +1,6 @@
 # Questions and answers in context ❓
 
-> [!NOTE] **What you will learn** 👀 You will practise question words and short answers in real situations: school, town, shopping and health.
+> [!NOTE] **O que vais aprender** 👀 Vais praticar palavras interrogativas (question words) e respostas curtas em situações reais: escola, cidade, compras e saúde.
 
 Question words are clues. They tell you what kind of answer you need.
 
@@ -22,6 +22,12 @@ Question words are clues. They tell you what kind of answer you need.
   { "title": "4. Check grammar", "body": "Make sure the verb matches the question." }
 ]
 ```
+
+> [!TIP] **The "Wh-" key fits the "Wh-" door** Each question word opens its own kind of answer: **Wh**o → a person, **Wh**ere → a place, **Wh**en → a time, **Wh**y → "Because…". Match the word to the door and you can't get lost! 🔑
+
+## Para saberes mais 🌱
+
+Quase todas as palavras de pergunta em inglês começam por **wh-** (who, what, where, when, why) — menos **how**! Há centenas de anos escreviam-se ao contrário, como *hwæt* e *hwa*, e ainda hoje dizemos o **h** primeiro: "who" soa como *hoo* e "what" como *hwot*. 😮
 
 ## 🎯 Questionário final
 

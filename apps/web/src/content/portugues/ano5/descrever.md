@@ -24,6 +24,12 @@ Descrever é pintar com palavras. O leitor deve conseguir imaginar o que estás 
 ]
 ```
 
+> [!TIP] **A máquina fotográfica** Imagina que tens uma câmara nos olhos: tira primeiro a foto de longe (o todo) e só depois aproxima o zoom nos pormenores. Descreve pela mesma ordem e o leitor vê tudo nítido.
+
+## Para saberes mais 🌱
+
+Sabias que muitos escritores usam um truque chamado «mostrar, não contar»? Em vez de escreverem «ele estava nervoso», descrevem o que se vê: «as mãos tremiam-lhe e batia com o pé no chão». Assim, és tu, leitor, que adivinhas o nervosismo — e a história fica muito mais viva! ✨
+
 ## 🎯 Questionário final
 
 ```quiz

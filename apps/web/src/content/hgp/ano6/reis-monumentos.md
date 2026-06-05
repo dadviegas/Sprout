@@ -42,6 +42,12 @@ Monumentos são como pistas de pedra: ajudam-nos a lembrar quem governava, que i
 ]
 ```
 
+> [!TIP] **Cada pedra guarda uma época** Quando ouvires um monumento, pergunta "de que tempo é esta pedra?". O Castelo de Guimarães cheira a início (1143), os Jerónimos a barcos e mar (Descobrimentos): a imagem prende logo a data.
+
+## Para saberes mais 🌱
+
+O Mosteiro dos Jerónimos foi pago, em grande parte, com um imposto sobre as especiarias e o ouro que chegavam da Índia e da África — por isso dizemos que aquela pedra rendilhada foi mesmo construída com a riqueza dos Descobrimentos! 🌶️⛵
+
 ## 🎯 Questionário final
 
 ```quiz

@@ -22,6 +22,12 @@ Orientar-se é perceber onde estamos, para onde queremos ir e que caminho faz se
 ]
 ```
 
+> [!TIP] **Vira o mapa como o teu corpo** Roda o mapa até o norte do mapa apontar para o norte à tua frente: assim, virar à direita no papel é virar à direita na vida real — o mapa e tu olham para o mesmo lado.
+
+## Para saberes mais 🌱
+
+Os mapas têm uma escala: dizem quantos passos da realidade cabem em cada centímetro do papel. Numa escala 1:1000, **1 cm no mapa são 1000 cm na rua** (ou seja, 10 metros!) — é por isso que uma cidade inteira cabe numa folha. 🗺️
+
 ## 🎯 Questionário final
 
 ```quiz

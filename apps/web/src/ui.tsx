@@ -35,6 +35,16 @@ export function yearAllStats(progress: ProgressMap, year: YearN): Stats {
   return schoolSubjects.map((s) => yearStats(progress, s, year)).reduce(add, ZERO);
 }
 
+/** Sum a list of stats — used to roll several subjects/years into one area card. */
+export function sumStats(list: Stats[]): Stats {
+  return list.reduce(add, ZERO);
+}
+
+/** Aggregate of the whole "Escola" area — every school subject across every year. */
+export function schoolStats(progress: ProgressMap): Stats {
+  return sumStats(YEARS.map((y) => yearAllStats(progress, y)));
+}
+
 export function pctOf(s: Stats): number {
   return s.real ? s.done / s.real : 0;
 }

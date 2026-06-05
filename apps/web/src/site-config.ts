@@ -26,9 +26,36 @@ export interface PaisConfig {
   icon: string;
 }
 
+/** A top-level home area card (Escola / Treinar / Explorar / Biblioteca /
+ *  Diversão). `accent` is a colour token name → var(<accent>)/-soft. */
+export interface AreaConfig {
+  id: string;
+  label: string;
+  blurb: string;
+  /** name of an @sprout/icons icon */
+  icon: string;
+  /** colour token name, e.g. "--subj-mat" */
+  accent: string;
+}
+
+/** A "Treinar" category — a labelled group of "Saber de cor" topic ids. */
+export interface EstudoCategory {
+  label: string;
+  /** name of an @sprout/icons icon */
+  icon: string;
+  /** topic ids from estudoSubject, in display order */
+  topics: string[];
+}
+
 export interface SiteConfig {
   brand: { name: string; tagline: string };
   mascot: { name: string; emoji: string };
+  /** Home areas — the top-level "where do I go?" grid. */
+  areas: {
+    sectionTitle: string;
+    sectionSub: string;
+    items: AreaConfig[];
+  };
   mundo: {
     sectionTitle: string;
     sectionSub: string;
@@ -39,6 +66,15 @@ export interface SiteConfig {
   estudo: {
     sectionTitle: string;
     sectionSub: string;
+    categories: EstudoCategory[];
+  };
+  /** "Academia dos Elementos" — a 2D meta-game over the school content (not a subject). */
+  academia: {
+    sectionTitle: string;
+    sectionSub: string;
+    cardTitle: string;
+    cardBlurb: string;
+    cta: string;
   };
   /** "Diversão" — playful area: a garden, an arcade, and a toy box (not a subject). */
   diversao: {

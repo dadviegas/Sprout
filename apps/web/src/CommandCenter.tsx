@@ -1,23 +1,54 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { Icon } from "@sprout/icons";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
+import { Icon, type IconName } from "@sprout/icons";
 import { dictWordId, type DictEntry, type DictionarySpec } from "@sprout/ui";
 import {
   subjects,
   YEARS,
   tierLabel,
   DICIONARIO_ID,
+  isEstudo,
+  isMundo,
+  isPaises,
+  isDicionario,
   type YearN,
 } from "./content/curriculum";
+import { site } from "./site-config";
 import type { View } from "./nav";
 import { useProgress } from "./progress";
 
 /* ------------------------------------------------------------------ *
  * Command Center — a Cmd/Ctrl+K palette to search every lesson across
  * all subjects and years. Matches lesson titles AND body text, can be
- * filtered by year and subject, and shows a short preview of the match.
- * It also searches the dictionary word-by-word: every word card across
- * the letter pages is its own result that opens the page it lives on.
+ * filtered by AREA, year and subject, and shows a short preview of the
+ * match. It also searches the dictionary word-by-word, and offers
+ * navigation shortcuts to each home area (Academia, Escola, …).
  * ------------------------------------------------------------------ */
+
+/* ---- Areas ----------------------------------------------------------- *
+ * Every result belongs to a top-level home area, so results can be filtered
+ * by area and so each row says where it lives ("Treinar · Saber de cor"). */
+type SearchArea = "academia" | "escola" | "treinar" | "explorar" | "biblioteca" | "diversao";
+
+const AREA_LABEL: Record<SearchArea, string> = {
+  academia: "Academia",
+  escola: "Escola",
+  treinar: "Treinar",
+  explorar: "Explorar",
+  biblioteca: "Biblioteca",
+  diversao: "Diversão",
+};
+
+/** Which area a subject's lessons live in (school subjects → Escola). */
+function areaOfSubject(subjectId: string): SearchArea {
+  if (isEstudo(subjectId)) return "treinar";
+  if (isMundo(subjectId) || isPaises(subjectId)) return "explorar";
+  if (isDicionario(subjectId)) return "biblioteca";
+  return "escola";
+}
+
+/** The areas offered as filter chips, in display order (Academia + Diversão
+ *  hold no indexed lessons, but the navigation shortcuts make them reachable). */
+const AREA_FILTERS: SearchArea[] = ["escola", "treinar", "explorar", "biblioteca", "academia", "diversao"];
 
 interface Entry {
   lessonId: string;
@@ -26,6 +57,7 @@ interface Entry {
   subjectId: string;
   subjectLabel: string;
   color: string;
+  area: SearchArea;
   year: YearN;
   hasBody: boolean;
   /** plain-text body for searching + preview (markdown stripped) */
@@ -104,6 +136,7 @@ function buildIndex(): Entry[] {
           subjectId: s.id,
           subjectLabel: s.label,
           color: s.color,
+          area: areaOfSubject(s.id),
           year: y,
           hasBody: !!l.body,
           text,
@@ -189,6 +222,7 @@ function wordToHit(w: WordEntry, score: number, q: string): Hit {
     subjectId: DICIONARIO_ID,
     subjectLabel: w.subjectLabel,
     color: w.color,
+    area: "biblioteca",
     year: 1,
     hasBody: true,
     text: w.meaning,
@@ -216,6 +250,49 @@ function makePreview(text: string, ftext: string, q: string): Hit["preview"] {
   };
 }
 
+/* ---- Area navigation shortcuts -------------------------------------- *
+ * Beyond lessons and words, the palette can jump straight to a home area
+ * (Academia, Escola, …) or a Diversão room. Built from the YAML page config
+ * so the labels/icons/colours match the home cards. */
+interface AreaHit {
+  area: SearchArea;
+  title: string;
+  blurb: string;
+  icon: IconName;
+  color: string;
+  view: View;
+  /** accent-folded title + blurb, for matching */
+  fkey: string;
+}
+
+function buildAreaIndex(): AreaHit[] {
+  const out: AreaHit[] = [];
+  const push = (area: SearchArea, title: string, blurb: string, icon: string, accent: string, view: View) =>
+    out.push({ area, title, blurb, icon: icon as IconName, color: accent.startsWith("--") ? `var(${accent})` : accent, view, fkey: fold(`${title} ${blurb}`) });
+
+  // Academia (its own view) — copy from the academia section.
+  push("academia", site.academia.sectionTitle, site.academia.cardBlurb, "bolt", "--subj-en", { kind: "academia" });
+  // The home areas (Escola / Treinar / Explorar / Biblioteca / Diversão).
+  for (const a of site.areas.items) {
+    const view: View = a.id === "diversao" ? { kind: "diversao" } : { kind: "area", area: a.id as "escola" | "treinar" | "explorar" | "biblioteca" };
+    push(a.id as SearchArea, a.label, a.blurb, a.icon, a.accent, view);
+  }
+  // The Diversão rooms (jardim / jogos / caixa).
+  for (const r of site.diversao.rooms) {
+    push("diversao", r.label, r.blurb, r.icon, r.accent, { kind: "diversao", room: r.id });
+  }
+  return out;
+}
+
+/** A rendered result row: either a lesson/word hit or an area shortcut. */
+type Row = { type: "lesson"; hit: Hit } | { type: "nav"; nav: AreaHit; score: number };
+
+/** Which captioned group a row belongs to (used to draw the section dividers). */
+function rowGroup(row: Row): "areas" | "recent" | "results" {
+  if (row.type === "nav") return "areas";
+  return row.hit.recent ? "recent" : "results";
+}
+
 export function CommandCenter({
   onClose,
   onGo,
@@ -225,12 +302,24 @@ export function CommandCenter({
 }) {
   const index = useMemo(buildIndex, []);
   const wordIndex = useMemo(buildWordIndex, []);
+  const areaIndex = useMemo(buildAreaIndex, []);
   const byId = useMemo(() => new Map(index.map((e) => [e.lessonId, e] as const)), [index]);
   const { history } = useProgress();
   const [q, setQ] = useState("");
+  const [area, setArea] = useState<SearchArea | "all">("all");
   const [year, setYear] = useState<YearN | "all">("all");
   const [subjectId, setSubjectId] = useState<string | "all">("all");
   const [active, setActive] = useState(0);
+
+  // Area / subject filters are kept consistent so they never contradict: picking
+  // an area clears the subject+year scope; picking a subject snaps the area to
+  // where that subject lives. Year only makes sense alongside Escola/Tudo.
+  const pickArea = (a: SearchArea | "all") => { setArea(a); setSubjectId("all"); setYear("all"); };
+  const pickSubject = (id: string | "all") => {
+    setSubjectId(id);
+    setArea(id === "all" ? "all" : areaOfSubject(id));
+    if (id !== "all" && areaOfSubject(id) !== "escola") setYear("all");
+  };
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
@@ -243,7 +332,10 @@ export function CommandCenter({
     const fq = fold(q.trim());
     const qWords = fq.split(/[^a-z0-9]+/).filter(Boolean);
     const scoped = index.filter(
-      (e) => (year === "all" || e.year === year) && (subjectId === "all" || e.subjectId === subjectId),
+      (e) =>
+        (area === "all" || e.area === area) &&
+        (year === "all" || e.year === year) &&
+        (subjectId === "all" || e.subjectId === subjectId),
     );
 
     // Empty query → the recently-opened lessons (newest first), scoped by the
@@ -287,7 +379,10 @@ export function CommandCenter({
     // The dictionary isn't grade-based, so word results follow only the
     // subject filter (shown when "all" or the dictionary is selected), never
     // the year filter. Skipped on an empty query so we don't list every word.
-    const includeWords = qWords.length > 0 && (subjectId === "all" || subjectId === DICIONARIO_ID);
+    const includeWords =
+      qWords.length > 0 &&
+      (area === "all" || area === "biblioteca") &&
+      (subjectId === "all" || subjectId === DICIONARIO_ID);
     const wordHits = !includeWords
       ? []
       : wordIndex
@@ -305,13 +400,35 @@ export function CommandCenter({
     return [...ranked, ...wordHits]
       .sort((a, b) => b.score - a.score || Number(b.hasBody) - Number(a.hasBody))
       .slice(0, 50);
-  }, [index, wordIndex, byId, history, q, year, subjectId]);
-
-  useEffect(() => setActive(0), [q, year, subjectId]);
+  }, [index, wordIndex, byId, history, q, area, year, subjectId]);
 
   const recentMode = q.trim() === ""; // showing the recently-opened list, not search results
 
-  const choose = (h: Hit) => {
+  // Area shortcuts: on an empty query, all areas in the active filter; with a
+  // query, only those whose name/blurb matches. Scoped by the area filter too.
+  const navHits = useMemo<AreaHit[]>(() => {
+    const fq = fold(q.trim());
+    const qWords = fq.split(/[^a-z0-9]+/).filter(Boolean);
+    return areaIndex.filter(
+      (a) =>
+        (area === "all" || a.area === area) &&
+        (qWords.length === 0 || qWords.every((w) => a.fkey.includes(w))),
+    );
+  }, [areaIndex, q, area]);
+
+  // One ordered list of rows: on an empty query, recents first then the areas;
+  // with a query, matching areas first (few, high-value) then lessons/words.
+  const rows = useMemo<Row[]>(() => {
+    const lessonRows: Row[] = hits.map((hit) => ({ type: "lesson", hit }));
+    const navRows: Row[] = navHits.map((nav) => ({ type: "nav", nav, score: 0 }));
+    return recentMode ? [...lessonRows, ...navRows] : [...navRows, ...lessonRows];
+  }, [hits, navHits, recentMode]);
+
+  useEffect(() => setActive(0), [q, area, year, subjectId]);
+
+  const choose = (row: Row) => {
+    if (row.type === "nav") { onGo(row.nav.view); return; }
+    const h = row.hit;
     // Dictionary-word results open the letter page AND scroll to that exact word
     // card; App listens for this and focuses it once the page has rendered.
     if (h.word) window.dispatchEvent(new CustomEvent("sprout:focusword", { detail: { id: dictWordId(h.title) } }));
@@ -324,9 +441,9 @@ export function CommandCenter({
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Escape") { onClose(); return; }
-    if (e.key === "ArrowDown") { e.preventDefault(); setActive((i) => Math.min(i + 1, hits.length - 1)); }
+    if (e.key === "ArrowDown") { e.preventDefault(); setActive((i) => Math.min(i + 1, rows.length - 1)); }
     else if (e.key === "ArrowUp") { e.preventDefault(); setActive((i) => Math.max(i - 1, 0)); }
-    else if (e.key === "Enter" && hits[active]) { e.preventDefault(); choose(hits[active]); }
+    else if (e.key === "Enter" && rows[active]) { e.preventDefault(); choose(rows[active]); }
   };
 
   useEffect(() => {
@@ -350,20 +467,30 @@ export function CommandCenter({
         </div>
 
         <div className="cmdk-filters">
-          <div className="cmdk-chips" role="group" aria-label="Ano">
-            <button className={`cmdk-chip ${year === "all" ? "on" : ""}`} onClick={() => setYear("all")}>Todos os anos</button>
-            {YEARS.map((y) => (
-              <button key={y} className={`cmdk-chip ${year === y ? "on" : ""}`} onClick={() => setYear(y)}>{y}.º</button>
+          <div className="cmdk-chips" role="group" aria-label="Área">
+            <button className={`cmdk-chip ${area === "all" ? "on" : ""}`} onClick={() => pickArea("all")}>Todas as áreas</button>
+            {AREA_FILTERS.map((a) => (
+              <button key={a} className={`cmdk-chip ${area === a ? "on" : ""}`} onClick={() => pickArea(a)}>{AREA_LABEL[a]}</button>
             ))}
           </div>
+          {/* Year only makes sense for school content; hide it for the grade-less
+              areas (Treinar / Explorar / Biblioteca …) to keep the filters honest. */}
+          {(area === "all" || area === "escola") && (
+            <div className="cmdk-chips" role="group" aria-label="Ano">
+              <button className={`cmdk-chip ${year === "all" ? "on" : ""}`} onClick={() => setYear("all")}>Todos os anos</button>
+              {YEARS.map((y) => (
+                <button key={y} className={`cmdk-chip ${year === y ? "on" : ""}`} onClick={() => setYear(y)}>{y}.º</button>
+              ))}
+            </div>
+          )}
           <div className="cmdk-chips" role="group" aria-label="Matéria">
-            <button className={`cmdk-chip ${subjectId === "all" ? "on" : ""}`} onClick={() => setSubjectId("all")}>Tudo</button>
+            <button className={`cmdk-chip ${subjectId === "all" ? "on" : ""}`} onClick={() => pickSubject("all")}>Tudo</button>
             {subjects.map((s) => (
               <button
                 key={s.id}
                 className={`cmdk-chip ${subjectId === s.id ? "on" : ""}`}
                 style={{ ["--c" as string]: s.color }}
-                onClick={() => setSubjectId(s.id)}
+                onClick={() => pickSubject(s.id)}
               >
                 <span className="cmdk-chip-dot" /> {s.label}
               </button>
@@ -372,50 +499,91 @@ export function CommandCenter({
         </div>
 
         <div className="cmdk-results" ref={listRef}>
-          {hits.length === 0 && (
+          {rows.length === 0 && (
             <div className="cmdk-empty">
               <Icon name={recentMode ? "clock" : "search"} size={28} />
-              <p>{recentMode ? "Ainda não abriste nenhuma lição. Escreve para procurar." : "Nada encontrado. Tenta outra palavra."}</p>
+              <p>{recentMode ? "Escreve para procurar — ou escolhe uma área." : "Nada encontrado. Tenta outra palavra."}</p>
             </div>
           )}
-          {recentMode && hits.length > 0 && <div className="cmdk-caption"><Icon name="clock" size={14} /> Visto recentemente</div>}
-          {hits.map((h, i) => (
-            <button
-              key={h.word ? `dw-${h.word.letter}-${h.title}` : `${h.subjectId}-${h.lessonId}`}
-              data-i={i}
-              className={`cmdk-row ${i === active ? "active" : ""}`}
-              style={{ ["--c" as string]: h.color }}
-              onMouseMove={() => setActive(i)}
-              onClick={() => choose(h)}
-            >
-              <span className="cmdk-row-emoji" aria-hidden>{h.emoji ?? "•"}</span>
-              <span className="cmdk-row-main">
-                <span className="cmdk-row-top">
-                  <span className="cmdk-row-title">{h.title}</span>
-                  <span className="cmdk-row-tag">
-                    <span className="cmdk-chip-dot" /> {h.subjectLabel}
-                    {(h.word?.letter ?? tierLabel(h.subjectId, h.year)) &&
-                      ` · ${h.word?.letter ?? tierLabel(h.subjectId, h.year)}`}
+          {rows.map((row, i) => {
+            // A caption is emitted whenever the group changes (areas / recent /
+            // results), so the three kinds of rows stay visually separated.
+            const group = rowGroup(row);
+            const prevGroup = i > 0 ? rowGroup(rows[i - 1]) : null;
+            const caption =
+              group === prevGroup ? null : group === "areas" ? (
+                <div className="cmdk-caption"><Icon name="grid" size={14} /> Áreas</div>
+              ) : group === "recent" ? (
+                <div className="cmdk-caption"><Icon name="clock" size={14} /> Visto recentemente</div>
+              ) : null;
+
+            if (row.type === "nav") {
+              const n = row.nav;
+              return (
+                <Fragment key={`nav-${n.area}-${n.title}`}>
+                  {caption}
+                  <button
+                    data-i={i}
+                    className={`cmdk-row ${i === active ? "active" : ""}`}
+                    style={{ ["--c" as string]: n.color }}
+                    onMouseMove={() => setActive(i)}
+                    onClick={() => choose(row)}
+                  >
+                    <span className="cmdk-row-emoji" style={{ color: n.color, display: "inline-flex" }}><Icon name={n.icon} size={20} /></span>
+                    <span className="cmdk-row-main">
+                      <span className="cmdk-row-top">
+                        <span className="cmdk-row-title">{n.title}</span>
+                        <span className="cmdk-row-tag"><span className="cmdk-chip-dot" /> {AREA_LABEL[n.area]}</span>
+                      </span>
+                      <span className="cmdk-row-prev">{n.blurb}</span>
+                    </span>
+                    <Icon name="forward" size={16} />
+                  </button>
+                </Fragment>
+              );
+            }
+
+            const h = row.hit;
+            const detail = h.word?.letter ?? tierLabel(h.subjectId, h.year);
+            return (
+              <Fragment key={h.word ? `dw-${h.word.letter}-${h.title}` : `${h.subjectId}-${h.lessonId}`}>
+                {caption}
+                <button
+                  data-i={i}
+                  className={`cmdk-row ${i === active ? "active" : ""}`}
+                  style={{ ["--c" as string]: h.color }}
+                  onMouseMove={() => setActive(i)}
+                  onClick={() => choose(row)}
+                >
+                  <span className="cmdk-row-emoji" aria-hidden>{h.emoji ?? "•"}</span>
+                  <span className="cmdk-row-main">
+                    <span className="cmdk-row-top">
+                      <span className="cmdk-row-title">{h.title}</span>
+                      <span className="cmdk-row-tag">
+                        <span className="cmdk-chip-dot" /> {AREA_LABEL[h.area]} · {h.subjectLabel}
+                        {detail && ` · ${detail}`}
+                      </span>
+                      {!h.hasBody && <span className="cmdk-soon">Em breve</span>}
+                    </span>
+                    {h.preview && (h.preview.before || h.preview.match || h.preview.after) && (
+                      <span className="cmdk-row-prev">
+                        {h.preview.before}
+                        {h.preview.match && <mark>{h.preview.match}</mark>}
+                        {h.preview.after}
+                      </span>
+                    )}
                   </span>
-                  {!h.hasBody && <span className="cmdk-soon">Em breve</span>}
-                </span>
-                {h.preview && (h.preview.before || h.preview.match || h.preview.after) && (
-                  <span className="cmdk-row-prev">
-                    {h.preview.before}
-                    {h.preview.match && <mark>{h.preview.match}</mark>}
-                    {h.preview.after}
-                  </span>
-                )}
-              </span>
-              <Icon name="forward" size={16} />
-            </button>
-          ))}
+                  <Icon name="forward" size={16} />
+                </button>
+              </Fragment>
+            );
+          })}
         </div>
 
         <div className="cmdk-foot">
           <span><kbd>↑</kbd><kbd>↓</kbd> navegar</span>
           <span><kbd>↵</kbd> abrir</span>
-          <span>{hits.length} resultado{hits.length === 1 ? "" : "s"}</span>
+          <span>{rows.length} resultado{rows.length === 1 ? "" : "s"}</span>
         </div>
       </div>
     </div>

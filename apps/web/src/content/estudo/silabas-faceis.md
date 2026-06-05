@@ -75,6 +75,28 @@ Cada consoante pode dar a mão às vogais. Quando muda a vogal, muda o som:
 }
 ```
 
+## Mais palavras para repetir 🔁
+
+```soundcards
+{
+  "title": "Mais exemplos com duas e três sílabas",
+  "items": [
+    { "label": "GA-TO", "say": "ga-to, gato", "hint": "🐱 gato" },
+    { "label": "RA-TO", "say": "ra-to, rato", "hint": "🐭 rato" },
+    { "label": "VA-CA", "say": "va-ca, vaca", "hint": "🐄 vaca" },
+    { "label": "FI-TA", "say": "fi-ta, fita", "hint": "🎀 fita" },
+    { "label": "NO-TA", "say": "no-ta, nota", "hint": "🎵 nota" },
+    { "label": "MO-LA", "say": "mo-la, mola", "hint": "🧷 mola" },
+    { "label": "SA-PA-TO", "say": "sa-pa-to, sapato", "hint": "👟 sapato" },
+    { "label": "BO-NE-CA", "say": "bo-ne-ca, boneca", "hint": "🪆 boneca" },
+    { "label": "BA-NA-NA", "say": "ba-na-na, banana", "hint": "🍌 banana" },
+    { "label": "JA-NE-LA", "say": "ja-ne-la, janela", "hint": "🪟 janela" },
+    { "label": "PI-PO-CA", "say": "pi-po-ca, pipoca", "hint": "🍿 pipoca" },
+    { "label": "CA-MI-SA", "say": "ca-mi-sa, camisa", "hint": "👕 camisa" }
+  ]
+}
+```
+
 ```compare
 [
   { "title": "Começam igual", "rows": [

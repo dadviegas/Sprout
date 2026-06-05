@@ -44,7 +44,16 @@ Orientar-se é perceber onde estamos, para onde queremos ir e que caminho faz se
       "explain": "Estas palavras orientam quem ouve." },
     { "q": "Antes de escolher o caminho, devo encontrar…", "layout": "grid",
       "options": [ { "t": "partida e destino", "emoji": "✅", "correct": true }, { "t": "apenas o título" }, { "t": "um desenho qualquer" } ],
-      "explain": "Sem partida e destino, não há percurso claro." }
+      "explain": "Sem partida e destino, não há percurso claro." },
+    { "q": "O norte serve para…", "layout": "grid",
+      "options": [ { "t": "ajudar a orientar o mapa", "emoji": "🧭", "correct": true }, { "t": "pintar o céu" }, { "t": "contar até dez" } ],
+      "explain": "Saber onde fica o norte ajuda a virar o mapa na direção certa." },
+    { "q": "Qual destes é um bom ponto de referência?", "layout": "grid",
+      "options": [ { "t": "a igreja da terra", "emoji": "⛪", "correct": true }, { "t": "uma nuvem que passa" }, { "t": "um som" } ],
+      "explain": "Referências boas são lugares fixos e fáceis de reconhecer." },
+    { "q": "Para chegar ao jardim, dizes a um amigo…", "layout": "grid",
+      "options": [ { "t": "«segue em frente e vira à direita»", "emoji": "➡️", "correct": true }, { "t": "«é bonito»" }, { "t": "«fica longe»" } ],
+      "explain": "Direções claras com esquerda, direita e em frente guiam o percurso." }
   ]
 }
 ```

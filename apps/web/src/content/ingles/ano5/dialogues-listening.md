@@ -61,7 +61,16 @@ Listening is not understanding every single word. It is catching the important w
       "explain": "Yes, please is polite and useful." },
     { "q": "What is your favourite subject? You can answer…", "layout": "grid",
       "options": [ { "t": "My favourite subject is English.", "emoji": "📚", "correct": true }, { "t": "I am next to." }, { "t": "Half past pencil." } ],
-      "explain": "The answer names a school subject." }
+      "explain": "The answer names a school subject." },
+    { "q": "What time is it? It is…", "layout": "grid",
+      "options": [ { "t": "half past nine", "emoji": "🕤", "correct": true }, { "t": "next to the shop" }, { "t": "a red apple" } ],
+      "explain": "What time is it? pede as horas." },
+    { "q": "Someone says 'Hello!'. You answer…", "layout": "grid",
+      "options": [ { "t": "Hi! How are you?", "emoji": "👋", "correct": true }, { "t": "It is on Monday." }, { "t": "Three pencils." } ],
+      "explain": "Respondes a uma saudação com outra saudação." },
+    { "q": "First, a good listener finds the…", "layout": "grid",
+      "options": [ { "t": "situation", "emoji": "🔍", "correct": true }, { "t": "longest word" }, { "t": "last letter" } ],
+      "explain": "Saber onde estão (escola, loja, casa) ajuda a perceber." }
   ]
 }
 ```

@@ -57,7 +57,16 @@ A short text is easier when you use a model. You can change the words to make it
       "explain": "Clear sentences make the text understandable." },
     { "q": "What about you? is useful to…", "layout": "grid",
       "options": [ { "t": "ask the other person", "emoji": "❓", "correct": true }, { "t": "say goodbye forever" }, { "t": "count to ten" } ],
-      "explain": "It invites the other person to answer." }
+      "explain": "It invites the other person to answer." },
+    { "q": "Which sentence tells where you live?", "layout": "grid",
+      "options": [ { "t": "I live in Portugal.", "emoji": "🏠", "correct": true }, { "t": "I am ten years old." }, { "t": "I like football." } ],
+      "explain": "I live in… diz onde moras." },
+    { "q": "How do you say 'não gosto de'?", "layout": "grid",
+      "options": [ { "t": "I don't like", "emoji": "🙅", "correct": true }, { "t": "I am" }, { "t": "I live" } ],
+      "explain": "I don't like… mostra que não gostas." },
+    { "q": "What is a good order for a short text?", "layout": "grid",
+      "options": [ { "t": "start, facts, likes, finish", "emoji": "📝", "correct": true }, { "t": "finish, finish, finish" }, { "t": "only numbers" } ],
+      "explain": "Um plano simples deixa o texto claro." }
   ]
 }
 ```

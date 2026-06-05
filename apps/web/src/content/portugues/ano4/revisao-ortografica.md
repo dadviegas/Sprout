@@ -45,7 +45,16 @@ Rever é olhar outra vez com olhos de detetive. Mesmo bons textos melhoram depoi
       "explain": "Os sinais mostram pausas e intenção." },
     { "q": "Uma boa revisão deve ser…", "layout": "grid",
       "options": [ { "t": "calma e por etapas", "emoji": "🧭", "correct": true }, { "t": "feita sem ler" }, { "t": "sempre à pressa" } ],
-      "explain": "Rever por etapas evita deixar erros passar." }
+      "explain": "Rever por etapas evita deixar erros passar." },
+    { "q": "Os nomes próprios escrevem-se com…", "layout": "grid",
+      "options": [ { "t": "maiúscula", "emoji": "🔠", "correct": true }, { "t": "minúscula sempre" }, { "t": "número" } ],
+      "explain": "Nomes de pessoas e lugares levam maiúscula." },
+    { "q": "Verificar se o nome e o verbo combinam é ver a…", "layout": "grid",
+      "options": [ { "t": "concordância", "emoji": "🔗", "correct": true }, { "t": "margem" }, { "t": "cor da letra" } ],
+      "explain": "Na concordância, as palavras da frase combinam entre si." },
+    { "q": "Ao corrigir, é melhor…", "layout": "grid",
+      "options": [ { "t": "mudar uma coisa de cada vez", "emoji": "🐢", "correct": true }, { "t": "trocar tudo de uma vez" }, { "t": "não reler nada" } ],
+      "explain": "Devagar evita criar novos erros." }
   ]
 }
 ```

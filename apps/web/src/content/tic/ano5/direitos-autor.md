@@ -48,7 +48,16 @@ Quando alguém cria uma imagem, um texto ou uma música, esse trabalho merece re
       "explain": "Imagens também são obras." },
     { "q": "Uma boa prática é…", "layout": "grid",
       "options": [ { "t": "indicar a origem do material usado", "emoji": "✅", "correct": true }, { "t": "apagar o nome do autor" }, { "t": "dizer que tudo fui eu que fiz" } ],
-      "explain": "Indicar a fonte respeita o trabalho dos outros." }
+      "explain": "Indicar a fonte respeita o trabalho dos outros." },
+    { "q": "Encontraste um texto giro na internet. O melhor é…", "layout": "grid",
+      "options": [ { "t": "ler, perceber e escrever por palavras tuas", "emoji": "✍️", "correct": true }, { "t": "colar tudo igual" }, { "t": "trocar só uma palavra" } ],
+      "explain": "Escrever por palavras próprias mostra que percebeste a matéria." },
+    { "q": "Querias usar uma música num vídeo da escola. Deves…", "layout": "grid",
+      "options": [ { "t": "ver se podes usá-la e indicar o autor", "emoji": "🎵", "correct": true }, { "t": "usar qualquer música sem pensar" }, { "t": "apagar o nome de quem a fez" } ],
+      "explain": "As músicas também têm autor e regras de uso." },
+    { "q": "«Uso livre» quer dizer que o material…", "layout": "grid",
+      "options": [ { "t": "pode ser usado seguindo certas regras", "emoji": "🆓", "correct": true }, { "t": "não tem autor nenhum" }, { "t": "pode ser dado como teu" } ],
+      "explain": "Mesmo o material de uso livre costuma pedir que indiques a origem." }
   ]
 }
 ```

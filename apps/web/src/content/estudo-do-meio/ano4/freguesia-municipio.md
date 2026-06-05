@@ -44,7 +44,16 @@ A tua vida acontece num lugar concreto: ruas, escola, jardins, transportes, bibl
       "explain": "Participação também é responsabilidade diária." },
     { "q": "Uma localidade pode ser…", "layout": "grid",
       "options": [ { "t": "aldeia, vila ou cidade", "emoji": "📍", "correct": true }, { "t": "só uma estrela" }, { "t": "uma tabuada" } ],
-      "explain": "Localidade é o lugar onde as pessoas vivem." }
+      "explain": "Localidade é o lugar onde as pessoas vivem." },
+    { "q": "A junta de freguesia trata de assuntos da…", "layout": "grid",
+      "options": [ { "t": "freguesia", "emoji": "🏘️", "correct": true }, { "t": "Lua" }, { "t": "selva" } ],
+      "explain": "A junta de freguesia cuida da divisão local mais pequena." },
+    { "q": "Qual é a divisão mais pequena?", "layout": "grid",
+      "options": [ { "t": "a freguesia", "emoji": "🔎", "correct": true }, { "t": "o município" }, { "t": "o país" } ],
+      "explain": "Várias freguesias juntas formam um município." },
+    { "q": "Se vês um jardim sujo perto de casa, participar é…", "layout": "grid",
+      "options": [ { "t": "escrever uma proposta para o cuidar", "emoji": "✍️", "correct": true }, { "t": "deitar mais lixo" }, { "t": "fingir que não viste" } ],
+      "explain": "Dar ideias e cuidar dos espaços é participar na vida local." }
   ]
 }
 ```

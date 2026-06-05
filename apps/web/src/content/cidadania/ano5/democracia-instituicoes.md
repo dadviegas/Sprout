@@ -51,7 +51,16 @@ Numa democracia, as pessoas têm direitos, deveres e formas de participar. As re
       "explain": "Tribunais ajudam a resolver conflitos segundo a lei." },
     { "q": "Direitos e deveres…", "layout": "grid",
       "options": [ { "t": "andam juntos", "emoji": "🤝", "correct": true }, { "t": "são inimigos" }, { "t": "não existem" } ],
-      "explain": "Viver em sociedade exige proteção e responsabilidade." }
+      "explain": "Viver em sociedade exige proteção e responsabilidade." },
+    { "q": "Numa democracia, os cidadãos escolhem os representantes…", "layout": "grid",
+      "options": [ { "t": "através do voto", "emoji": "🗳️", "correct": true }, { "t": "por sorteio secreto" }, { "t": "pela idade" } ],
+      "explain": "Votar é a forma de escolher quem nos representa." },
+    { "q": "Quem conduz a política do país e executa as medidas é…", "layout": "grid",
+      "options": [ { "t": "o Governo", "emoji": "🏢", "correct": true }, { "t": "os tribunais" }, { "t": "uma escola" } ],
+      "explain": "O Governo executa as medidas; a Assembleia faz as leis." },
+    { "q": "A educação e a saúde são exemplos de…", "layout": "grid",
+      "options": [ { "t": "direitos", "emoji": "📚", "correct": true }, { "t": "castigos" }, { "t": "proibições" } ],
+      "explain": "São direitos que protegem as pessoas." }
   ]
 }
 ```

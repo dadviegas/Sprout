@@ -51,7 +51,16 @@ O corpo não funciona por peças isoladas. Quando comes, respiras, corres ou dor
       "explain": "O corpo mantém-se vivo pela cooperação entre sistemas." },
     { "q": "Eliminar resíduos é função importante do sistema…", "layout": "grid",
       "options": [ { "t": "excretor", "emoji": "💦", "correct": true }, { "t": "visual" }, { "t": "musical" } ],
-      "explain": "O sistema excretor ajuda a retirar substâncias que o corpo não precisa." }
+      "explain": "O sistema excretor ajuda a retirar substâncias que o corpo não precisa." },
+    { "q": "O sistema nervoso serve para…", "layout": "grid",
+      "options": [ { "t": "coordenar respostas e receber informação", "emoji": "🧠", "correct": true }, { "t": "guardar alimentos" }, { "t": "limpar a roupa" } ],
+      "explain": "O sistema nervoso recebe sinais e comanda o corpo." },
+    { "q": "Quando corres, o sangue leva mais depressa…", "layout": "grid",
+      "options": [ { "t": "oxigénio aos músculos", "emoji": "🏃", "correct": true }, { "t": "letras ao caderno" }, { "t": "luz às janelas" } ],
+      "explain": "O circulatório e o respiratório trabalham juntos para dar oxigénio aos músculos." },
+    { "q": "O oxigénio que respiras chega ao corpo todo graças ao…", "layout": "grid",
+      "options": [ { "t": "sangue", "emoji": "🩸", "correct": true }, { "t": "estômago" }, { "t": "ouvido" } ],
+      "explain": "O respiratório capta o oxigénio e o sangue distribui-o por todo o corpo." }
   ]
 }
 ```

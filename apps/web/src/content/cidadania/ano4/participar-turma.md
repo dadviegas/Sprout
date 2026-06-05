@@ -47,7 +47,19 @@ Participar não é falar mais alto. É ajudar a turma a pensar e decidir melhor.
       "explain": "Viver em grupo exige respeito." },
     { "q": "Antes de votar, é bom…", "layout": "grid",
       "options": [ { "t": "comparar opções", "emoji": "⚖️", "correct": true }, { "t": "não saber o tema" }, { "t": "não ouvir ninguém" } ],
-      "explain": "Decisões melhores vêm de informação." }
+      "explain": "Decisões melhores vêm de informação." },
+    { "q": "Um colega tem uma ideia diferente da tua. O que fazes?", "layout": "grid",
+      "options": [ { "t": "ouço e penso na proposta", "emoji": "👂", "correct": true }, { "t": "gozo com a ideia" }, { "t": "falo por cima dele" } ],
+      "explain": "Ideias diferentes ajudam a turma a decidir melhor." },
+    { "q": "Para apresentar a tua proposta à turma, deves…", "layout": "grid",
+      "options": [ { "t": "explicar com calma e respeito", "emoji": "💡", "correct": true }, { "t": "gritar mais alto que todos" }, { "t": "obrigar os outros a concordar" } ],
+      "explain": "Participar bem é falar com respeito, não mais alto." },
+    { "q": "Numa votação justa, ganha…", "layout": "grid",
+      "options": [ { "t": "a opção com mais votos", "emoji": "📊", "correct": true }, { "t": "quem fizer mais barulho" }, { "t": "quem se zangar mais" } ],
+      "explain": "A maioria decide de forma organizada." },
+    { "q": "A tua ideia não foi escolhida. O melhor é…", "layout": "grid",
+      "options": [ { "t": "aceitar e ajudar na atividade", "emoji": "🙌", "correct": true }, { "t": "ficar de braços cruzados" }, { "t": "estragar o trabalho do grupo" } ],
+      "explain": "Aceitar decisões justas faz a turma funcionar." }
   ]
 }
 ```

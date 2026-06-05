@@ -74,6 +74,19 @@ Ser rei era uma coisa — mas Afonso Henriques queria que **toda a gente** o res
 ]
 ```
 
+## A linha do tempo do nascimento 🪜
+
+Vê de relance como tudo aconteceu, do primeiro passo ao reconhecimento final:
+
+```timeline
+{ "title": "Como nasceu Portugal", "events": [
+  { "year": 1128, "emoji": "⚔️", "label": "Batalha de São Mamede", "body": "Afonso Henriques toma o poder, perto de Guimarães", "say": "Mil cento e vinte e oito: na batalha de São Mamede, Afonso Henriques toma o poder, perto de Guimarães." },
+  { "year": 1139, "emoji": "👑", "label": "Batalha de Ourique", "body": "vence os Mouros e passa a usar o título de rei", "say": "Mil cento e trinta e nove: na batalha de Ourique, Afonso Henriques vence os Mouros e passa a usar o título de rei." },
+  { "year": 1143, "emoji": "📜", "label": "Tratado de Zamora", "body": "o reino de Leão reconhece Portugal como reino", "say": "Mil cento e quarenta e três: no Tratado de Zamora, o reino de Leão reconhece Portugal como reino." },
+  { "year": 1179, "emoji": "✝️", "label": "Reconhecimento do Papa", "body": "a Igreja, em Roma, reconhece Portugal para sempre", "say": "Mil cento e setenta e nove: a Igreja, em Roma, reconhece Portugal como reino para sempre." }
+] }
+```
+
 ## Um exemplo passo a passo 🔍
 
 *«Quantos anos passaram entre a batalha de São Mamede (1128) e o Tratado de Zamora (1143)?»* Vamos fazer a conta como verdadeiros historiadores. 🧮

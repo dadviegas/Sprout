@@ -69,7 +69,16 @@ Um texto digital deve ser fácil de ler. A formatação ajuda, mas não substitu
       "explain": "Maiúsculas em excesso dificultam a leitura." },
     { "q": "Antes de entregar, deves…", "layout": "grid",
       "options": [ { "t": "rever o texto", "emoji": "✅", "correct": true }, { "t": "não ler" }, { "t": "apagar o título" } ],
-      "explain": "A revisão melhora o trabalho." }
+      "explain": "A revisão melhora o trabalho." },
+    { "q": "Para destacar uma palavra importante, usas…", "layout": "grid",
+      "options": [ { "t": "negrito só nessa palavra", "emoji": "🅱️", "correct": true }, { "t": "negrito no texto todo" }, { "t": "uma cor diferente em cada letra" } ],
+      "explain": "Destacar só o que é importante faz esse pormenor saltar à vista." },
+    { "q": "Se usaste informação de outro sítio, deves…", "layout": "grid",
+      "options": [ { "t": "indicar de onde veio", "emoji": "🔎", "correct": true }, { "t": "esconder a origem" }, { "t": "dizer que inventaste tudo" } ],
+      "explain": "Indicar a fonte mostra respeito e deixa o texto mais sério." },
+    { "q": "Para o teu texto ser fácil de ler, a letra deve ser…", "layout": "grid",
+      "options": [ { "t": "simples e bem visível", "emoji": "👓", "correct": true }, { "t": "muito enfeitada e difícil" }, { "t": "minúscula para caber mais" } ],
+      "explain": "Uma fonte simples poupa esforço a quem lê." }
   ]
 }
 ```

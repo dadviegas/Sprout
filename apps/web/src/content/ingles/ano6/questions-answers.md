@@ -45,7 +45,16 @@ Question words are clues. They tell you what kind of answer you need.
       "explain": "When asks for time." },
     { "q": "Why are you tired? A good answer starts with…", "layout": "grid",
       "options": [ { "t": "Because…", "emoji": "➡️", "correct": true }, { "t": "Under…" }, { "t": "Blue…" } ],
-      "explain": "Why asks for a reason." }
+      "explain": "Why asks for a reason." },
+    { "q": "When asks for…", "layout": "grid",
+      "options": [ { "t": "a time", "emoji": "🕐", "correct": true }, { "t": "a place" }, { "t": "a price" } ],
+      "explain": "When pergunta o tempo ou o dia." },
+    { "q": "Where is the bank? A good answer is…", "layout": "grid",
+      "options": [ { "t": "Near the park.", "emoji": "🏦", "correct": true }, { "t": "On Monday." }, { "t": "Because I ran." } ],
+      "explain": "Where precisa de um lugar." },
+    { "q": "Who is she? A good answer is…", "layout": "grid",
+      "options": [ { "t": "She is my sister.", "emoji": "👧", "correct": true }, { "t": "It is five euros." }, { "t": "It is near the park." } ],
+      "explain": "Who precisa de uma pessoa." }
   ]
 }
 ```

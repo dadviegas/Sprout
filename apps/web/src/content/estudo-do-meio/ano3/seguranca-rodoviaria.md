@@ -41,7 +41,19 @@ A rua é de todos: peões, bicicletas, carros, autocarros e motas. Para ser segu
       "explain": "O cinto reduz o risco em travagens e acidentes." },
     { "q": "Se andas de bicicleta, é importante usar…", "layout": "grid",
       "options": [ { "t": "capacete", "emoji": "⛑️", "correct": true }, { "t": "auscultadores altos" }, { "t": "olhos fechados" } ],
-      "explain": "O capacete protege a cabeça." }
+      "explain": "O capacete protege a cabeça." },
+    { "q": "Quando andas a pé, o lugar mais seguro é…", "layout": "grid",
+      "options": [ { "t": "o passeio", "emoji": "🚶", "correct": true }, { "t": "o meio da estrada" }, { "t": "atrás dos carros" } ],
+      "explain": "O passeio é o lugar dos peões, longe dos carros." },
+    { "q": "No semáforo de peões, atravessas quando está…", "layout": "grid",
+      "options": [ { "t": "verde", "emoji": "🟢", "correct": true }, { "t": "vermelho" }, { "t": "apagado" } ],
+      "explain": "O verde é a tua vez; mesmo assim, confirma que os carros pararam." },
+    { "q": "A passadeira tem o vermelho para peões. O que fazes?", "layout": "grid",
+      "options": [ { "t": "esperas no passeio", "emoji": "✋", "correct": true }, { "t": "corres a atravessar" }, { "t": "passas devagar" } ],
+      "explain": "Com vermelho, esperas em segurança até ficar verde." },
+    { "q": "Ao atravessar, deves fazê-lo…", "layout": "grid",
+      "options": [ { "t": "em linha reta e sem correr", "emoji": "🚸", "correct": true }, { "t": "aos ziguezagues" }, { "t": "de costas" } ],
+      "explain": "Atravessar a direito e calmo é mais seguro." }
   ]
 }
 ```

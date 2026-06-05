@@ -49,7 +49,16 @@ Nem todos os números de um enunciado são para usar. Às vezes há dados a mais
       "explain": "Custo total costuma usar preço por unidade e quantidade." },
     { "q": "Usar todos os números sem pensar pode…", "layout": "grid",
       "options": [ { "t": "dar uma resposta errada", "emoji": "⚠️", "correct": true }, { "t": "garantir sempre sucesso" }, { "t": "substituir a leitura" } ],
-      "explain": "É preciso escolher dados com intenção." }
+      "explain": "É preciso escolher dados com intenção." },
+    { "q": "«A Rita comprou 4 lápis a 2 euros e a mochila pesa 3 kg.» Para saber quanto gastou nos lápis, que dado NÃO ajuda?", "layout": "grid",
+      "options": [ { "t": "o peso da mochila", "emoji": "🎒", "correct": true }, { "t": "o preço de cada lápis" }, { "t": "o número de lápis" } ],
+      "explain": "O peso da mochila é um dado a mais: o custo dos lápis é 4 x 2 = 8 euros." },
+    { "q": "«O João leu um livro. Quantas páginas leu por dia?» O que falta para responder?", "layout": "grid",
+      "options": [ { "t": "o número de páginas e de dias", "emoji": "🔎", "correct": true }, { "t": "o nome do livro" }, { "t": "a cor da capa" } ],
+      "explain": "Sem o total de páginas e de dias não dá para calcular: falta informação." },
+    { "q": "Antes de fazer as contas, é boa ideia…", "layout": "grid",
+      "options": [ { "t": "marcar só os dados que ajudam", "emoji": "✏️", "correct": true }, { "t": "somar logo todos os números" }, { "t": "escolher o número maior" } ],
+      "explain": "Marcar os dados úteis é o segundo filtro: evita usar distrações." }
   ]
 }
 ```

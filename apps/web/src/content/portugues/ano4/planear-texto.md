@@ -45,7 +45,16 @@ Planear não é perder tempo. É poupar confusão quando começas a escrever.
       "explain": "Palavras-chave ajudam a lembrar ideias." },
     { "q": "A conclusão deve…", "layout": "grid",
       "options": [ { "t": "fechar o texto", "emoji": "✅", "correct": true }, { "t": "começar outro assunto" }, { "t": "repetir tudo sem ordem" } ],
-      "explain": "A conclusão dá acabamento ao texto." }
+      "explain": "A conclusão dá acabamento ao texto." },
+    { "q": "Qual é o primeiro passo do plano?", "layout": "grid",
+      "options": [ { "t": "escolher o tema", "emoji": "🎯", "correct": true }, { "t": "escrever a conclusão" }, { "t": "contar as palavras" } ],
+      "explain": "Primeiro decides sobre o que vais escrever." },
+    { "q": "O desenvolvimento serve para…", "layout": "grid",
+      "options": [ { "t": "explicar as ideias com exemplos", "emoji": "🧩", "correct": true }, { "t": "apresentar o tema" }, { "t": "só pôr o título" } ],
+      "explain": "É a parte onde explicas o que tens a dizer." },
+    { "q": "Planear antes de escrever ajuda a evitar…", "layout": "grid",
+      "options": [ { "t": "confusão", "emoji": "🧠", "correct": true }, { "t": "ter ideias" }, { "t": "ter um tema" } ],
+      "explain": "Com um plano, escreves com mais calma e ordem." }
   ]
 }
 ```

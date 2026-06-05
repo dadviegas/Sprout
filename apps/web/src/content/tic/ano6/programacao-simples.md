@@ -84,7 +84,13 @@ Os erros fazem parte da programação. O importante é testar, observar e corrig
       "explain": "Depurar é uma parte normal de programar." },
     { "q": "Quando um programa falha, uma boa atitude é…", "layout": "grid",
       "options": [ { "t": "testar, observar e corrigir", "emoji": "✅", "correct": true }, { "t": "desistir sem olhar" }, { "t": "culpar o teclado" } ],
-      "explain": "Programar melhora com testes e correções." }
+      "explain": "Programar melhora com testes e correções." },
+    { "q": "Quando dás instruções a um computador, ele…", "layout": "grid",
+      "options": [ { "t": "segue-as exatamente, sem adivinhar", "emoji": "🤖", "correct": true }, { "t": "adivinha o que querias dizer" }, { "t": "faz o que lhe apetece" } ],
+      "explain": "O computador faz só o que lhe dizes, por isso as instruções têm de ser claras." },
+    { "q": "Em «repete 10 vezes: desenha uma estrela», o que se repete?", "layout": "grid",
+      "options": [ { "t": "desenhar uma estrela", "emoji": "⭐", "correct": true }, { "t": "desligar o ecrã" }, { "t": "fechar a escola" } ],
+      "explain": "A repetição faz o mesmo passo várias vezes sem o escrever tudo de novo." }
   ]
 }
 ```

@@ -46,7 +46,16 @@ Descrever é pintar com palavras. O leitor deve conseguir imaginar o que estás 
       "explain": "Adjetivos dizem como são pessoas, lugares ou objetos." },
     { "q": "Numa descrição de lugar, podes organizar…", "layout": "grid",
       "options": [ { "t": "de longe para perto", "emoji": "🔍", "correct": true }, { "t": "sem qualquer ordem" }, { "t": "só por rimas" } ],
-      "explain": "A ordem espacial ajuda o leitor a imaginar o lugar." }
+      "explain": "A ordem espacial ajuda o leitor a imaginar o lugar." },
+    { "q": "Ao descrever, começa pelo…", "layout": "grid",
+      "options": [ { "t": "aspeto geral", "emoji": "👀", "correct": true }, { "t": "pormenor mais pequeno" }, { "t": "fim da história" } ],
+      "explain": "Primeiro mostras o geral, depois os detalhes." },
+    { "q": "Qual detalhe podes usar numa descrição?", "layout": "grid",
+      "options": [ { "t": "a cor", "emoji": "🎨", "correct": true }, { "t": "o resultado de uma conta" }, { "t": "o dia da semana" } ],
+      "explain": "Cor, forma, tamanho e som ajudam a imaginar." },
+    { "q": "Trocar «bonita» por «branca com janelas verdes» torna a descrição…", "layout": "grid",
+      "options": [ { "t": "mais clara", "emoji": "🌟", "correct": true }, { "t": "mais vaga" }, { "t": "igual" } ],
+      "explain": "Palavras precisas dão uma imagem melhor que palavras vagas." }
   ]
 }
 ```

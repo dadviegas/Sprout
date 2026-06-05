@@ -48,7 +48,16 @@ Resumir não é copiar frases soltas. É mostrar que percebeste o essencial.
       "explain": "Resumo não é lista de todos os detalhes." },
     { "q": "A ordem das ideias…", "layout": "grid",
       "options": [ { "t": "deve fazer sentido", "emoji": "🔗", "correct": true }, { "t": "não importa nunca" }, { "t": "deve ser ao acaso" } ],
-      "explain": "A ordem ajuda o leitor a acompanhar." }
+      "explain": "A ordem ajuda o leitor a acompanhar." },
+    { "q": "Copiar frases inteiras do texto é…", "layout": "grid",
+      "options": [ { "t": "cópia, não resumo", "emoji": "🚫", "correct": true }, { "t": "um bom resumo" }, { "t": "obrigatório" } ],
+      "explain": "A cópia não mostra que percebeste o texto." },
+    { "q": "Antes de escrever o resumo, é útil…", "layout": "grid",
+      "options": [ { "t": "sublinhar as ideias principais", "emoji": "🖊️", "correct": true }, { "t": "sublinhar tudo" }, { "t": "não marcar nada" } ],
+      "explain": "Sublinhar ajuda a separar o essencial dos detalhes." },
+    { "q": "Um resumo é mais curto do que o texto original?", "layout": "grid",
+      "options": [ { "t": "sim", "emoji": "✂️", "correct": true }, { "t": "não, é maior" }, { "t": "tem o mesmo tamanho" } ],
+      "explain": "Resumir é reduzir, mantendo só o essencial." }
   ]
 }
 ```

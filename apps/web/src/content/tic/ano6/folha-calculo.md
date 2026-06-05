@@ -49,7 +49,16 @@ Uma folha de cálculo ajuda a organizar números e transformar dados em informa�
       "explain": "As barras tornam comparações mais visuais." },
     { "q": "Folhas de cálculo são úteis para…", "layout": "grid",
       "options": [ { "t": "organizar dados", "emoji": "✅", "correct": true }, { "t": "só escrever poemas" }, { "t": "substituir o recreio" } ],
-      "explain": "São ferramentas de organização e cálculo." }
+      "explain": "São ferramentas de organização e cálculo." },
+    { "q": "Uma linha está organizada na…", "layout": "grid",
+      "options": [ { "t": "horizontal", "emoji": "↔️", "correct": true }, { "t": "diagonal" }, { "t": "vertical" } ],
+      "explain": "As linhas vão da esquerda para a direita." },
+    { "q": "Antes de preencher os dados, é boa ideia…", "layout": "grid",
+      "options": [ { "t": "escrever os títulos das colunas", "emoji": "🏷️", "correct": true }, { "t": "apagar a folha toda" }, { "t": "desligar o computador" } ],
+      "explain": "Os títulos dizem o que cada coluna guarda, como «mês» e «livros lidos»." },
+    { "q": "Para mostrar as partes de um todo, é melhor um gráfico…", "layout": "grid",
+      "options": [ { "t": "circular", "emoji": "🥧", "correct": true }, { "t": "sem dados nenhuns" }, { "t": "feito só de texto" } ],
+      "explain": "O gráfico circular mostra as fatias de um todo." }
   ]
 }
 ```

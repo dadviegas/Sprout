@@ -68,7 +68,7 @@ estudo:
   categories:
     - label: Aprender a ler
       icon: reading
-      topics: [estudo-silabas-p, estudo-silabas-faceis, estudo-juntar-palavras, estudo-leitura-rapida]
+      topics: [estudo-silabas-p, estudo-silabas-faceis, estudo-juntar-palavras, estudo-leitura-rapida, estudo-testes-leitura]
     - label: Matemática rápida
       icon: math
       topics: [estudo-tabuadas, estudo-contas, estudo-numeros, estudo-dinheiro, estudo-loja, estudo-medidas, estudo-formulas, estudo-romanos]

@@ -97,6 +97,33 @@ Cada consoante pode dar a mão às vogais. Quando muda a vogal, muda o som:
 }
 ```
 
+## Famílias novas para variar 🧭
+
+Agora aparecem outras letras: **F**, **G**, **R**, **V**, **N**, **J**. Quanto
+mais variedade, menos ele decora pela imagem e mais aprende a ler.
+
+```soundcards
+{
+  "title": "F, G, R, V, N e J",
+  "items": [
+    { "label": "FA", "say": "fa", "hint": "🧚 fada" },
+    { "label": "FE", "say": "fe", "hint": "🔒 fecho" },
+    { "label": "FI", "say": "fi", "hint": "🎀 fita" },
+    { "label": "FO", "say": "fo", "hint": "🔥 fogo" },
+    { "label": "FU", "say": "fu", "hint": "🕳️ furo" },
+    { "label": "GA", "say": "ga", "hint": "🐱 gato" },
+    { "label": "GO", "say": "go", "hint": "🧢 gorro" },
+    { "label": "RA", "say": "ra", "hint": "🐭 rato" },
+    { "label": "RO", "say": "ro", "hint": "🌹 rosa" },
+    { "label": "VA", "say": "va", "hint": "🐄 vaca" },
+    { "label": "VI", "say": "vi", "hint": "🎻 viola" },
+    { "label": "NO", "say": "no", "hint": "🎵 nota" },
+    { "label": "JA", "say": "ja", "hint": "🪟 janela" },
+    { "label": "JU", "say": "ju", "hint": "🎲 jogo" }
+  ]
+}
+```
+
 ```compare
 [
   { "title": "Começam igual", "rows": [

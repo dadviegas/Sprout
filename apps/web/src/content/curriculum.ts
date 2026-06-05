@@ -298,6 +298,7 @@ import estudoSilabasP from "./estudo/silabas-p.md";
 import estudoSilabasFaceis from "./estudo/silabas-faceis.md";
 import estudoJuntarPalavras from "./estudo/juntar-palavras.md";
 import estudoLeituraRapida from "./estudo/leitura-rapida.md";
+import estudoTestesLeitura from "./estudo/testes-leitura.md";
 import estudoNumeros from "./estudo/numeros.md";
 import estudoDinheiro from "./estudo/dinheiro.md";
 import estudoLoja from "./estudo/loja.md";
@@ -1232,6 +1233,7 @@ export const estudoSubject: Subject = {
       { id: "estudo-silabas-faceis", title: "BA BE BI e outras", emoji: "🎈", body: estudoSilabasFaceis },
       { id: "estudo-juntar-palavras", title: "Juntar sílabas em palavras", emoji: "🧩", body: estudoJuntarPalavras },
       { id: "estudo-leitura-rapida", title: "Treino rápido de leitura", emoji: "🚀", body: estudoLeituraRapida },
+      { id: "estudo-testes-leitura", title: "Testes de leitura 50 + 50", emoji: "🏁", body: estudoTestesLeitura },
       { id: "estudo-numeros", title: "Os números", emoji: "🔢", body: estudoNumeros },
       { id: "estudo-dinheiro", title: "O dinheiro", emoji: "💶", body: estudoDinheiro },
       { id: "estudo-loja", title: "Vamos às compras!", emoji: "🛒", body: estudoLoja },

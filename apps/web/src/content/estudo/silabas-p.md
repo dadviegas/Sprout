@@ -47,6 +47,39 @@ nasce.
 { "emoji": "🦆", "caption": "PA + TO forma PATO. Primeiro lemos PA-TO, depois PATO.", "say": "Pa mais to forma pato. Primeiro pa-to, depois pato." }
 ```
 
+## Mais exemplos diferentes com P 🔁
+
+Treina palavras novas para não decorar só uma lista. Algumas têm duas sílabas,
+outras têm três.
+
+```soundcards
+{
+  "title": "Mais palavras com P",
+  "items": [
+    { "label": "PA-TA", "say": "pa-ta, pata", "hint": "🐾 pata" },
+    { "label": "PA-RE", "say": "pa-re, pare", "hint": "🛑 pare" },
+    { "label": "PA-TO", "say": "pa-to, pato", "hint": "🦆 pato" },
+    { "label": "PE-LE", "say": "pe-le, pele", "hint": "✋ pele" },
+    { "label": "PE-NA", "say": "pe-na, pena", "hint": "🪶 pena" },
+    { "label": "PE-RA", "say": "pe-ra, pera", "hint": "🍐 pera" },
+    { "label": "PI-PA", "say": "pi-pa, pipa", "hint": "🪁 pipa" },
+    { "label": "PI-CO", "say": "pi-co, pico", "hint": "⛰️ pico" },
+    { "label": "PI-LHA", "say": "pi-lha, pilha", "hint": "🔋 pilha" },
+    { "label": "PO-TE", "say": "po-te, pote", "hint": "🏺 pote" },
+    { "label": "PO-LO", "say": "po-lo, polo", "hint": "👕 polo" },
+    { "label": "PO-VO", "say": "po-vo, povo", "hint": "👨‍👩‍👧 povo" },
+    { "label": "PU-LO", "say": "pu-lo, pulo", "hint": "⬆️ pulo" },
+    { "label": "PU-MA", "say": "pu-ma, puma", "hint": "🐆 puma" },
+    { "label": "PU-DIM", "say": "pu-dim, pudim", "hint": "🍮 pudim" },
+    { "label": "PA-NE-LA", "say": "pa-ne-la, panela", "hint": "🍲 panela" },
+    { "label": "PA-PE-LA", "say": "pa-pe-la, papela", "hint": "📄 som de papel" },
+    { "label": "PI-PO-CA", "say": "pi-po-ca, pipoca", "hint": "🍿 pipoca" },
+    { "label": "PA-PA-GAI", "say": "pa-pa-gai, papagai", "hint": "🦜 papagaio começa assim" },
+    { "label": "PA-TA-TA", "say": "pa-ta-ta, patata", "hint": "🥔 batata/patata" }
+  ]
+}
+```
+
 ## O truque da boca 👄
 
 Com **P**, os lábios fecham e abrem de repente: **pa, pe, pi, po, pu**.

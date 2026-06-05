@@ -40,6 +40,8 @@ export interface Achievement {
   pct: number;
   /** epoch ms — kept as a number so it serialises cleanly */
   at: number;
+  /** how long the test took, in seconds (absent on older entries) */
+  secs?: number;
 }
 
 const STORAGE_KEY = "sprout.progress.v1";
@@ -146,7 +148,7 @@ interface ProgressContextValue {
   removeSeen: (lessonId: string) => void;
   /** Empty the recently-seen list. */
   clearHistory: () => void;
-  recordQuiz: (lessonId: string, quizId: string, score: QuizScore, isFinal: boolean) => void;
+  recordQuiz: (lessonId: string, quizId: string, score: QuizScore, isFinal: boolean, durationSecs?: number) => void;
   totalStars: number;
   resetAll: () => void;
 }
@@ -214,7 +216,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   const clearHistory = useCallback(() => setHistory([]), []);
 
   const recordQuiz = useCallback(
-    (lessonId: string, quizId: string, score: QuizScore, isFinal: boolean) => {
+    (lessonId: string, quizId: string, score: QuizScore, isFinal: boolean, durationSecs?: number) => {
       setProgress((prev) => {
         const cur = prev[lessonId] ?? emptyLesson();
         const prevScore = cur.quizzes[quizId];
@@ -255,6 +257,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
                 stars: starsForPct(ratio),
                 pct: ratio,
                 at: now,
+                ...(durationSecs && durationSecs > 0 ? { secs: durationSecs } : {}),
               },
               ...prev,
             ];

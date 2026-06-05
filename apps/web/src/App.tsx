@@ -40,6 +40,7 @@ import { site } from "./site-config";
 import { Mascot } from "./Mascot";
 import { CommandCenter } from "./CommandCenter";
 import { AchievementsPanel } from "./Achievements";
+import { ParentArea, WipeModal, tabletMinutesToday } from "./ParentArea";
 import { SimuladoLauncher } from "./Simulado";
 import { splitLesson } from "./lesson-content";
 import { Stars, ProgressBar, yearStats, yearAllStats, subjectStats, sumStats, schoolStats, pctOf } from "./ui";
@@ -190,6 +191,11 @@ function Root() {
   const [drawer, setDrawer] = useState(false);
   const [palette, setPalette] = useState(false);
   const [achievements, setAchievements] = useState(false);
+  // The cog opens a small settings menu; from it the parent area (gated) and
+  // the math-gated "Limpar tudo" each open as their own session.
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [parent, setParent] = useState(false);
+  const [wipe, setWipe] = useState(false);
 
   useEffect(() => store.set(THEME_KEY, theme), [theme]);
   useEffect(() => store.set(NAV_KEY, view), [view]);
@@ -250,6 +256,9 @@ function Root() {
     setDrawer(false);
     setPalette(false);
     setAchievements(false);
+    setSettingsOpen(false);
+    setParent(false);
+    setWipe(false);
   };
 
   // Forward navigation writes the URL hash, which pushes a browser-history entry
@@ -326,7 +335,7 @@ function Root() {
         <span className="blob b1" /><span className="blob b2" /><span className="blob b3" />
       </div>
       <div className="shell">
-        <TopBar view={view} theme={theme} onBack={back} onHome={() => go({ kind: "home" })} onMundo={() => go({ kind: "mundo" })} onGo={go} onToggleTheme={() => setTheme((t) => (t === "light" ? "dark" : "light"))} onIndex={() => setDrawer(true)} onSearch={() => setPalette(true)} onAchievements={() => setAchievements(true)} />
+        <TopBar view={view} theme={theme} onBack={back} onHome={() => go({ kind: "home" })} onMundo={() => go({ kind: "mundo" })} onGo={go} onToggleTheme={() => setTheme((t) => (t === "light" ? "dark" : "light"))} onIndex={() => setDrawer(true)} onSearch={() => setPalette(true)} onAchievements={() => setAchievements(true)} onSettings={() => setSettingsOpen(true)} />
 
         {view.kind === "home" && (
           <Home
@@ -401,6 +410,15 @@ function Root() {
       {drawer && <IndexDrawer onClose={() => setDrawer(false)} onGo={go} />}
       {palette && <CommandCenter onClose={() => setPalette(false)} onGo={go} />}
       {achievements && <AchievementsPanel onClose={() => setAchievements(false)} />}
+      {settingsOpen && (
+        <SettingsMenu
+          onClose={() => setSettingsOpen(false)}
+          onOpenParent={() => { setSettingsOpen(false); setParent(true); }}
+          onOpenWipe={() => { setSettingsOpen(false); setWipe(true); }}
+        />
+      )}
+      {parent && <ParentArea onClose={() => setParent(false)} />}
+      {wipe && <WipeModal onClose={() => setWipe(false)} />}
     </div>
   );
 }
@@ -418,6 +436,7 @@ function TopBar({
   onIndex,
   onSearch,
   onAchievements,
+  onSettings,
 }: {
   view: View;
   theme: "light" | "dark";
@@ -429,6 +448,7 @@ function TopBar({
   onIndex: () => void;
   onSearch: () => void;
   onAchievements: () => void;
+  onSettings: () => void;
 }) {
   const { totalStars } = useProgress();
   const subject =
@@ -615,7 +635,45 @@ function TopBar({
       <button className="iconbtn" onClick={onToggleTheme} aria-label={theme === "light" ? "Modo escuro" : "Modo claro"}>
         <Icon name={theme === "light" ? "moon" : "sun"} size={22} />
       </button>
+      <button className="iconbtn" onClick={onSettings} aria-label="Definições" title="Definições">
+        <Icon name="gear" size={22} />
+      </button>
     </div>
+  );
+}
+
+/* ---- settings menu (the cog) ---- *
+ * A small top-right menu. Each entry opens its own session: the parents' area
+ * (gated to enter) and the math-gated "Limpar tudo". */
+function SettingsMenu({
+  onClose,
+  onOpenParent,
+  onOpenWipe,
+}: {
+  onClose: () => void;
+  onOpenParent: () => void;
+  onOpenWipe: () => void;
+}) {
+  return (
+    <>
+      <div className="drawer-backdrop" onClick={onClose} />
+      <div className="settings-menu" role="menu" aria-label="Definições">
+        <button className="settings-item" role="menuitem" onClick={onOpenParent}>
+          <span className="settings-item__ic"><Icon name="calendar" size={20} /></span>
+          <span className="settings-item__tx">
+            <strong>Área dos pais</strong>
+            <span>Atividade e tempo de tablet</span>
+          </span>
+        </button>
+        <button className="settings-item settings-item--danger" role="menuitem" onClick={onOpenWipe}>
+          <span className="settings-item__ic"><Icon name="trash" size={20} /></span>
+          <span className="settings-item__tx">
+            <strong>Limpar tudo</strong>
+            <span>Apagar todo o progresso</span>
+          </span>
+        </button>
+      </div>
+    </>
   );
 }
 
@@ -786,15 +844,26 @@ function Home({
   onOpenTeia: () => void;
   onOpenLesson: (lessonId: string) => void;
 }) {
-  const { progress, history, totalStars, removeSeen, clearHistory } = useProgress();
+  const { progress, achievements, history, totalStars, removeSeen, clearHistory } = useProgress();
   const greeting =
     totalStars === 0
       ? `Olá! Eu sou o ${site.mascot.name}. Por onde queres começar?`
       : `Boa! Já tens ${totalStars} estrela${totalStars === 1 ? "" : "s"}! Escolhe uma área para continuar.`;
+  // When today's study goal is met, the child has earned tablet time — surface
+  // it right under the greeting (same rule as the parents' area).
+  const tabletToday = tabletMinutesToday(achievements, Date.now());
 
   return (
     <div>
       <Mascot message={greeting} mood={totalStars > 0 ? "cheer" : "happy"} />
+
+      {tabletToday > 0 && (
+        <div className="home-reward">
+          <span className="home-reward__ic"><Icon name="device" size={18} /></span>
+          <span>Hoje já ganhaste <strong>{tabletToday} min</strong> de tablet!</span>
+          <Speaker text={`Boa! Hoje já ganhaste ${tabletToday} minutos de tablet!`} className="home-reward__say" label="Ouvir" size={16} />
+        </div>
+      )}
 
       <RecentlySeen history={history} progress={progress} onOpen={onOpenLesson} onRemove={removeSeen} onClear={clearHistory} />
 

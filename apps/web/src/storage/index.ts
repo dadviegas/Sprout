@@ -98,6 +98,33 @@ class PersistentStore {
     this.emit(key);
   }
 
+  /** Wipe EVERYTHING this app owns — the in-memory cache, every `sprout.*`
+   *  localStorage key, and the whole durable backend. Used by the parents'
+   *  area "Limpar tudo".
+   *
+   *  The CALLER MUST reload the page right after. We deliberately do NOT notify
+   *  subscribers: an emit would re-run the React state's merge-on-hydrate logic,
+   *  which keeps the in-session values and would write them straight back
+   *  (write-through to IndexedDB too) — resurrecting the data the reload was
+   *  meant to clear. With no emit, in-memory state is untouched until the reload
+   *  replaces it with the now-empty storage. */
+  async clearAll(): Promise<void> {
+    this.cache.clear();
+    try {
+      for (let i = localStorage.length - 1; i >= 0; i--) {
+        const k = localStorage.key(i);
+        if (k && k.startsWith(KEY_PREFIX)) localStorage.removeItem(k);
+      }
+    } catch {
+      /* private mode / blocked storage */
+    }
+    try {
+      await this.backend.clear();
+    } catch {
+      /* durable backend unwritable — cache + localStorage already cleared */
+    }
+  }
+
   /** Subscribe to changes for one key. Returns an unsubscribe fn. */
   subscribe(key: string, fn: Listener): () => void {
     let set = this.listeners.get(key);

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Icon, type IconName } from "@sprout/icons";
 import { Speaker, Confetti, FractionFigure, stop as stopSpeech, type FractionFigureSpec } from "@sprout/ui";
 import { starsForPct, useLessonId, useProgress } from "./progress";
@@ -104,6 +104,9 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
   const [answers, setAnswers] = useState<(number | null)[]>(() => spec.questions.map(() => null));
   const [phase, setPhase] = useState<"asking" | "result">("asking");
   const [nonce, setNonce] = useState(0); // forces confetti remount on retry
+  // When this attempt started — so we can record how long the test took. Reset
+  // on every retry (below) so a re-take measures only the new attempt.
+  const startedAt = useRef(Date.now());
 
   const total = spec.questions.length;
   // Resolve `gen` questions into concrete ones; the seed (quizId + index +
@@ -123,7 +126,8 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
 
   useEffect(() => {
     if (phase === "result") {
-      recordQuiz(lessonId, quizId, { correct: correctCount, total }, isFinal);
+      const secs = Math.round((Date.now() - startedAt.current) / 1000);
+      recordQuiz(lessonId, quizId, { correct: correctCount, total }, isFinal, secs);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, nonce]);
@@ -156,6 +160,7 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
     setAnswers(spec.questions.map(() => null));
     setPhase("asking");
     setNonce((n) => n + 1);
+    startedAt.current = Date.now(); // time the new attempt from scratch
   };
 
   if (phase === "result") {

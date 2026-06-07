@@ -66,7 +66,7 @@ common sense, Açores → world). Single-page, no server; progress is local.
 
 `quiz`, `soundcards`, `clock`, `shape`, `angle`, `areagrid`, `symmetry`,
 `compass`, `watercycle`, `bodysystem`, `timeline`, `mapapt`, `numberline`, `tenframe`, `fraction`, `money`, `shop`,
-`solarsystem`, `daynight`, `tabuada`, `math`, `chart`, `dictionary`;
+`solarsystem`, `daynight`, `tabuada`, `contaarmada`, `dinheirojogo`, `math`, `chart`, `dictionary`;
 infographics `stats`/`steps`/`compare`/`meters`/`keyvalue`/`quote`;
 callouts `> [!NOTE]/[!TIP]/…`. The `icon` field in `steps`/`keyvalue` accepts an
 `@sprout/icons` name or an emoji.
@@ -116,6 +116,14 @@ only on a button/tap — see the speech rule below). New ones:
 - `money` has two modes: **collect** (`items` + `target` — tap coins to fill a
   mealheiro) and **pay** (`price` — tap a notes+coins palette to build exactly
   the amount to pay). Passing `price` selects pay mode.
+- `dinheirojogo` is **"O Jogo do Dinheiro"** — a levelled money game built on the
+  conta-armada engine (`buildSheet` + `ContaSheet`) and the `money` tokens. Each
+  round tells a money story (read aloud), arms the matching conta to solve, then
+  asks the child to **pay/form the amount with coins**; both right earns a ⭐, 3
+  ⭐ level up. The four levels are the four operations (somar → troco → comprar
+  muitos → repartir), each drawing from three themes (loja/mealheiro/feira).
+  Problems are generated in `dinheiro-jogo-data.ts` (whole-cents, so money stays
+  exact). Fields: `title`, `startLevel` (1–4, default 1), `color` (default `mat`).
 - `solarsystem` is an animated orbit diagram (Sun + planets + nested moons); each
   body has `orbit`/`size`/`period`/`color`/`fact`, tap-to-hear, play/pause,
   honours `prefers-reduced-motion`. Pass `"layout": "lineup"` for the static

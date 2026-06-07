@@ -2356,6 +2356,82 @@ button.hm-cell:hover { transform: scale(1.18); }
 }
 .ca-modal__close:hover { background: color-mix(in srgb, var(--danger) 14%, var(--surface)); color: var(--danger); }
 
+/* ---- O Jogo do Dinheiro — a levelled money game on the conta-armada engine ---- */
+.dinheirojogo-widget { border-color: color-mix(in srgb, var(--subj-mat) 55%, var(--border)); }
+.dinheirojogo-widget .w-head .w-badge { color: #fff; }
+.dj-wallet {
+  margin-left: auto; display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-display); font-weight: 800; color: var(--ink);
+  background: var(--surface-2); border-radius: 999px; padding: 5px 14px;
+}
+.dj-wallet svg { color: var(--warn); }
+
+/* level picker */
+.dj-levels { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.dj-level {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-display); font-weight: 700; font-size: .9em;
+  padding: 7px 14px 7px 8px; border-radius: 999px; cursor: pointer;
+  background: var(--surface-2); border: 2px solid var(--border); color: var(--ink-2);
+  transition: transform var(--dur-fast), border-color var(--dur-fast), color var(--dur-fast);
+}
+.dj-level:hover { transform: translateY(-1px); border-color: var(--subj-mat); color: var(--subj-mat); }
+.dj-level[data-active] { color: #fff; }
+.dj-level__n {
+  display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 999px;
+  background: color-mix(in srgb, var(--ink) 8%, transparent); font-weight: 800; font-size: .92em;
+}
+.dj-level[data-active] .dj-level__n { background: rgba(255,255,255,.28); }
+
+/* per-level star meter */
+.dj-meter { display: flex; align-items: center; gap: 6px; margin-bottom: 14px; }
+.dj-meter__lbl { font-family: var(--font-display); font-weight: 800; font-size: .92em; margin-right: 4px; }
+.dj-meter__star { color: var(--ink-3); opacity: .45; transition: opacity .2s, transform .2s; }
+.dj-meter__star[data-on] { opacity: 1; transform: scale(1.12); }
+
+/* the scene card — emoji, story, big read-aloud */
+.dj-scene {
+  display: flex; align-items: center; gap: 14px; padding: 14px 16px; margin-bottom: 12px;
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--subj-mat) 9%, var(--surface));
+  border: 2px solid color-mix(in srgb, var(--subj-mat) 26%, var(--border));
+}
+.dj-scene__emoji { font-size: 2.5rem; line-height: 1; flex-shrink: 0; }
+.dj-scene__story { flex: 1; margin: 0; font-size: 1.06em; line-height: 1.45; font-weight: 600; color: var(--ink); }
+.dj-scene__speak { width: 44px; height: 44px; align-self: flex-start; } /* the main read-aloud — big & inviting for a non-reader */
+.dj-hint { color: var(--ink-2); font-size: .9em; margin: 0 0 8px; }
+.dj-answer { margin-top: 14px; }
+
+/* pay step */
+.dj-pay { margin-top: 16px; }
+.dj-pay__head { margin-bottom: 10px; }
+.dj-pay__head .w-badge { color: #fff; }
+.dj-pay__target {
+  display: inline-flex; align-items: center; gap: 6px; margin-bottom: 10px;
+  font-family: var(--font-display); font-weight: 700; color: var(--ink-2);
+}
+.dj-pay__target strong { font-family: var(--font-mono); font-size: 1.15em; color: var(--ink); }
+.dj-coinpay__palette { gap: 12px; }
+.dj-coinpay__foot { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
+
+/* the win + next-problem panel */
+.dj-done { margin-top: 16px; display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+.dj-done .ca-verdict { width: 100%; }
+
+/* base-ten blocks — "o que se passa por baixo da conta" */
+.blocos-widget { border-color: color-mix(in srgb, var(--subj-mat) 55%, var(--border)); }
+.blocos-widget .w-head .w-badge { color: #fff; }
+.blocos-stage {
+  display: flex; flex-direction: column; gap: 12px; align-items: center;
+  padding: 10px 8px; margin-bottom: 12px; overflow-x: auto;
+}
+.blocos-row { display: flex; align-items: center; gap: 12px; }
+.blocos-row__tag {
+  flex-shrink: 0; min-width: 46px; text-align: right;
+  font-family: var(--font-mono); font-weight: 800; font-size: 1.15em; color: var(--ink-2);
+}
+.blocos-row__svg { display: flex; }
+
 @media (prefers-reduced-motion: reduce) {
   .ca-nav, .ca-progress__dot, .ca-explain__speak, .ca-op, .ca-test__see { transition: none; }
 }

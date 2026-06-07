@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, Suspense, lazy, type ReactNode } from "react";
 import { Icon } from "@sprout/icons";
-import { Speaker, Confetti, speak } from "@sprout/ui";
+import { Speaker, Confetti, speak, DinheiroJogo } from "@sprout/ui";
 import { fitCanvas, pointerPos, prefersReducedMotion } from "./canvas";
 import { MEM_ART, MEM_BACK, type MemArt } from "./mem-art";
 import { Xadrez } from "./Xadrez";
@@ -24,7 +24,7 @@ const Xadrez3D = lazy(() => import("./xadrez3d/Xadrez3D").then((m) => ({ default
  * Emoji are used INSIDE the games (game content, not chrome) — allowed by the
  * project conventions; the chrome (buttons, back arrow) uses @sprout/icons. */
 
-type GameId = "xadrez" | "xadrez3d" | "damas" | "domino" | "salta" | "foguetao" | "oeste" | "oeste3d" | "memoria" | "sequencia" | "apanha" | "toupeira" | "conta" | "soma";
+type GameId = "xadrez" | "xadrez3d" | "damas" | "domino" | "salta" | "foguetao" | "oeste" | "oeste3d" | "memoria" | "sequencia" | "apanha" | "toupeira" | "conta" | "soma" | "dinheiro";
 
 /* Each tile gets a little illustrated scene (same playful, multi-colour spirit
  * as the memory-card art) on a 0 0 48 48 grid, tinted with the tile's accent via
@@ -123,6 +123,21 @@ const ART_SOMA = (
       <rect x="22" y="20" width="20" height="20" rx="5.5" fill="#ffce3a" />
       <text x="32" y="30.5" fontSize="16" fill="#1c2530">−</text>
     </g>
+  </g>
+);
+
+// Jogo do Dinheiro — a gold € coin in front of a green note (the money game).
+const ART_DINHEIRO = (
+  <g>
+    <g transform="rotate(-10 19 24)">
+      <rect x="5" y="16" width="27" height="17" rx="2.6" fill="#5bbf6f" />
+      <rect x="7.6" y="18.6" width="21.8" height="11.8" rx="1.6" fill="none" stroke="#ffffff" strokeWidth="1" opacity="0.6" />
+      <circle cx="12.5" cy="24.5" r="3.6" fill="#ffffff" opacity="0.85" />
+    </g>
+    <circle cx="31" cy="28" r="13" fill="#ffce3a" stroke="#e0a92e" strokeWidth="2" />
+    <circle cx="31" cy="28" r="9.6" fill="none" stroke="#e0a92e" strokeWidth="1.3" opacity="0.7" />
+    <text x="31" y="29" textAnchor="middle" dominantBaseline="central" fontSize="15" style={{ fill: "#7a531a", fontFamily: "var(--font-display)", fontWeight: 800 }}>€</text>
+    {sparkle(12, 9, 0.26, "var(--c)")}
   </g>
 );
 
@@ -274,6 +289,7 @@ const GAMES: { id: GameId; art: ReactNode; accent: string; accentSoft: string; l
   { id: "toupeira", art: ART_TOUPEIRA, accent: "var(--subj-cid)", accentSoft: "var(--subj-cid-soft)", label: "Apanha a toupeira", blurb: "Toca nas toupeiras que aparecem.", rules: "Apanha a toupeira! As toupeiras aparecem nos buracos. Toca nelas depressa antes que desapareçam. Tens trinta segundos!" },
   { id: "conta", art: ART_CONTA, accent: "var(--subj-mat)", accentSoft: "var(--subj-mat-soft)", label: "Conta comigo", blurb: "Conta e toca no número certo.", rules: "Conta comigo. Conta quantas coisas há e toca no número certo." },
   { id: "soma", art: ART_SOMA, accent: "var(--subj-edm)", accentSoft: "var(--subj-edm-soft)", label: "Soma rápida", blurb: "Resolve as contas de somar e tirar.", rules: "Soma rápida. Vê a conta e toca no resultado certo. Treina o mais e o menos!" },
+  { id: "dinheiro", art: ART_DINHEIRO, accent: "var(--subj-mat)", accentSoft: "var(--subj-mat-soft)", label: "Jogo do Dinheiro", blurb: "Resolve a conta e paga com moedas.", rules: "O Jogo do Dinheiro! Em cada problema, ouve a história — uma compra, um troco ou uma partilha. Resolve a conta e escreve o resultado em euros; se precisares, carrega em Próximo para veres a conta passo a passo. Depois forma essa quantia com as moedas e notas certas. Acertas nas duas e ganhas uma estrela; junta três estrelas e sobes de nível. Há quatro níveis: juntar tudo, dar o troco, comprar muitos e repartir por igual. Boa sorte!" },
 ];
 
 export function Jogos() {
@@ -328,6 +344,11 @@ export function Jogos() {
       {game === "toupeira" && <Toupeira />}
       {game === "conta" && <Conta />}
       {game === "soma" && <Soma />}
+      {game === "dinheiro" && (
+        <div className="dv-widgetgame">
+          <DinheiroJogo spec={{ startLevel: 1 }} />
+        </div>
+      )}
     </GameFrame>
   );
 }

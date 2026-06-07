@@ -24,7 +24,7 @@ export interface MoneySpec {
 
 // Every euro coin and note value. Notes go up to 500€ (the biggest there is).
 const EURO_VALUES = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500];
-const PAY_PALETTE = [50, 20, 10, 5, 2, 1, 0.5, 0.2, 0.1, 0.05, 0.02, 0.01]; // big → small; 2c+1c so odd cents are payable
+export const PAY_PALETTE = [50, 20, 10, 5, 2, 1, 0.5, 0.2, 0.1, 0.05, 0.02, 0.01]; // big → small; 2c+1c so odd cents are payable
 
 function label(v: number): string {
   return v < 1 ? `${Math.round(v * 100)}c` : `${v % 1 === 0 ? v : v.toFixed(2).replace(".", ",")}€`;

@@ -112,6 +112,20 @@ Imagina: *«Compras um pão por 80c e pagas com uma moeda de 1€. Quanto é o t
 
 > [!TIP] **Para saberes mais** 🌱 O euro não é só de Portugal! É usado em **20 países** da Europa (como Espanha, França e Itália) — chama-se a **Zona Euro**. As notas são iguais em todos, mas cada país desenha o **verso** das suas moedas. A nossa moeda portuguesa tem os antigos **selos reais**! 🇵🇹💶
 
+## O Jogo do Dinheiro 🎮💰
+
+Agora é a brincar! Em cada problema, **resolve a conta** e depois **paga com as
+moedas e notas certas**. Acerta nos dois e ganhas uma ⭐ — junta 3 estrelas e
+**sobes de nível**! Começa por **«Juntar tudo»** e, quando quiseres, experimenta
+os níveis mais difíceis. 🚀
+
+```dinheirojogo
+{
+  "title": "Resolve e paga!",
+  "startLevel": 1
+}
+```
+
 ## Vamos praticar 🎈
 
 ```quiz

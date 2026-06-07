@@ -88,7 +88,7 @@ const PLATFORMS: Platform[] = [
   { minX: 12, maxX: 17, minZ: -3, maxZ: 3, top: 0, color: "#cda36a" },
   { minX: 20, maxX: 24, minZ: -2.5, maxZ: 2.5, top: 1.6, color: "#c79a5e" },
   { minX: 27, maxX: 35, minZ: -3.5, maxZ: 3.5, top: 0, color: "#cda36a" },
-  { minX: 38, maxX: 42, minZ: -2.5, maxZ: 2.5, top: 2.4, color: "#c79a5e" },
+  { minX: 38, maxX: 42, minZ: -2.5, maxZ: 2.5, top: 1.6, color: "#c79a5e" },
   { minX: 45, maxX: 60, minZ: -4, maxZ: 4, top: 0, color: "#cda36a" },
 ];
 const COINS: CoinDef[] = [
@@ -100,7 +100,7 @@ const COINS: CoinDef[] = [
   { x: 25.5, y: 2.6, z: 0 },
   { x: 30, y: 1.4, z: -1.5 },
   { x: 31.5, y: 1.4, z: 1.5 },
-  { x: 40, y: 3.8, z: 0 },
+  { x: 40, y: 3.0, z: 0 },
   { x: 47, y: 1.4, z: 0 },
   { x: 50, y: 1.4, z: -2 },
   { x: 50, y: 1.4, z: 2 },

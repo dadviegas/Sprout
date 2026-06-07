@@ -83,7 +83,7 @@ function toneColor(t: SCell["tone"], tint: string): string {
   }
 }
 
-function ContaSheet({ sheet, tint, op }: { sheet: Sheet; tint: string; op: Op }) {
+export function ContaSheet({ sheet, tint, op }: { sheet: Sheet; tint: string; op: Op }) {
   // shown = how far we've revealed. 0 shows just the setup; the last index shows
   // the whole worked sum. steps[shown] is the line we narrate right now.
   const [shown, setShown] = useState(0);
@@ -352,11 +352,12 @@ const GUIDES: Record<Op, string[]> = {
     "Vai para a coluna seguinte e repete até acabares.",
   ],
   mul: [
-    "Arruma os números alinhados à direita.",
-    "Olha para o algarismo de baixo que está nas unidades. Multiplica o número de cima por esse algarismo e escreve a primeira linha.",
-    "Agora olha para o algarismo das dezenas. Como vale 10 vezes mais, começa a segunda linha uma casa mais à esquerda.",
-    "Faz uma linha para cada algarismo do número de baixo.",
-    "No fim, soma as linhas. Se havia vírgulas, põe a vírgula contando as casas decimais.",
+    "Arruma os números alinhados à direita, o de baixo por baixo.",
+    "Começa pela direita: multiplica o algarismo das unidades de cima pelo algarismo de baixo.",
+    "Se der menos de 10, escreve o resultado. Se der 10 ou mais, escreve só o algarismo das unidades e transporta a dezena para a coluna seguinte (o «vai»).",
+    "Multiplica o algarismo de cima seguinte e junta o que transportaste. Repete até ao fim; o último transporte escreve-se no início.",
+    "Se o número de baixo tiver mais do que um algarismo, faz uma linha nova para cada um, a começar uma casa mais à esquerda, e no fim soma as linhas.",
+    "Se havia vírgulas, conta as casas decimais dos dois números e põe a vírgula no resultado.",
   ],
   div: [
     "Escreve o número que vais dividir à esquerda. Escreve o número pelo qual divides à direita da barra.",

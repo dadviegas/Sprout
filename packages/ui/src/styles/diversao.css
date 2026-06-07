@@ -466,6 +466,11 @@
   gap: 14px;
   align-items: center;
 }
+
+/* a lesson widget reused as an arcade game (e.g. o Jogo do Dinheiro): give it a
+   readable column width, left-aligned text, and drop the prose margins. */
+.dv-widgetgame { width: 100%; max-width: 660px; margin: 0 auto; text-align: left; }
+.dv-widgetgame .widget { margin: 0; }
 /* Fullscreen (the chess board's "ecrã inteiro" button): the room fills the screen,
    centers vertically, and the board drops its 700px cap to use the whole height. */
 .dv-play.is-fullscreen {

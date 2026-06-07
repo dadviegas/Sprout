@@ -76,6 +76,11 @@ function genFraction(gen: QuizGen, rnd: () => number): QuizQuestion {
 
 function resolveQuestion(raw: QuizQuestion, seed: number): QuizQuestion {
   if (raw.gen?.kind === "fraction") return { ...raw, ...genFraction(raw.gen, mulberry32(seed)) };
+  // Shuffle the options so the correct answer isn't always in the same spot —
+  // authors tend to write it first, which lets a child "win" by always tapping
+  // the top one. Seeded by the same per-question seed, so the order stays stable
+  // while the question is on screen and re-rolls on every retry.
+  if (raw.options && raw.options.length > 1) return { ...raw, options: shuffle(raw.options, mulberry32(seed)) };
   return raw;
 }
 export interface QuizSpec {

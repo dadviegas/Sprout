@@ -50,6 +50,20 @@ depois fazes a coluna da direita, depois a próxima. Se ficares preso, ouve no �
 }
 ```
 
+### O que se passa por baixo 🔎
+
+O **«vai 1»** é mesmo **10 unidades a virarem 1 dezena**; o **empréstimo** é uma
+**dezena a partir-se em 10 unidades**. Vê com blocos — cubos são unidades, barras
+são dezenas — e segue a **seta** a mostrar o bloco a mudar de coluna.
+
+```blocos
+{ "op": "add", "a": 27, "b": 15 }
+```
+
+```blocos
+{ "op": "sub", "a": 32, "b": 15 }
+```
+
 ## Multiplicar e dividir ✖️➗
 
 ```contaarmada

@@ -64,6 +64,18 @@ Repara como a soma da direita «transporta» 1 para a coluna seguinte, e como na
 }
 ```
 
+### O que se passa por baixo 🔎
+
+A conta esconde uma coisa importante: o **«vai 1»** é mesmo **10 unidades a virarem 1 dezena**, e o **empréstimo** é uma **dezena a partir-se em 10 unidades**. Aqui vês isso a acontecer com blocos — cubos são unidades, barras são dezenas. Segue a **seta** para veres o bloco a viajar de coluna.
+
+```blocos
+{ "op": "add", "a": 27, "b": 15 }
+```
+
+```blocos
+{ "op": "sub", "a": 32, "b": 15 }
+```
+
 ## Multiplicar e dividir ✖️➗
 
 Na **multiplicação** fazemos uma linha por cada algarismo de baixo e depois
@@ -140,6 +152,22 @@ ficha nova! 🎲
   "test": true,
   "examples": [],
   "practice": false
+}
+```
+
+## O Jogo do Dinheiro 🎮💰
+
+E para que serve tudo isto? Para o **dia a dia** — sobretudo com **dinheiro**! 💶
+Neste jogo, cada problema conta-te uma história (uma compra, um troco, uma
+partilha): **resolve a conta armada** e depois **paga com as moedas e notas
+certas**. Acerta nos dois e ganhas uma ⭐; junta 3 e **sobes de nível**. Os
+quatro níveis são as quatro operações — somar, o troco, comprar muitos e
+repartir por igual. Boa sorte! 🍀
+
+```dinheirojogo
+{
+  "title": "Da conta para a carteira",
+  "startLevel": 1
 }
 ```
 

@@ -327,14 +327,45 @@ function buildMul(a: string, b: string): Sheet {
   const productBig = aBig * BigInt(bd);
   const productDigits = productBig.toString();
   const single = used.length <= 1;
+  const sd = single && used.length ? used[0] : null; // the lone non-zero multiplier digit (+ its place)
 
   // Width: the widest of the product / operands, right aligned, +1 left margin.
   const width = Math.max(productDigits.length, ad.length, bd.length) + 1;
   const right = width - 1;
 
-  // Multiplication has no carry row, so it starts at the top.
-  const M_A = 0;
-  const M_B = 1;
+  // A single-digit multiplier (e.g. 54 × 9) is worked the schoolbook way: each
+  // top digit × the multiplier, right to left, carrying the tens — NOT collapsed
+  // to one "54 × 9 = 486" line. Pre-compute the columns so we know up front
+  // whether any carry happens (and only then reserve a carry row on top).
+  let mulCols: { aDigit: number; raw: number; carryIn: number; sum: number; digit: number; next: number }[] | null = null;
+  let finalCarry = 0;
+  if (sd) {
+    mulCols = [];
+    let carry = 0;
+    for (let k = 0; k < ad.length; k++) {
+      const aDigit = Number(ad[ad.length - 1 - k]);
+      const raw = sd.d * aDigit;
+      const sum = raw + carry;
+      const digit = sum % 10;
+      const next = (sum - digit) / 10;
+      mulCols.push({ aDigit, raw, carryIn: carry, sum, digit, next });
+      carry = next;
+    }
+    finalCarry = carry;
+  }
+  // A carry is only *drawn* (small, above the next top digit) when there IS a next
+  // top digit; the last column's leftover becomes a result digit instead. So we
+  // reserve the top row only when such a drawn carry exists.
+  const hasCarry = !!mulCols && mulCols.some((m, k) => m.next > 0 && k < mulCols!.length - 1);
+
+  // Long multiplication has no carry row; the single-digit form puts its carries
+  // small above `a` (like addition), so it needs a top carry row — but only when
+  // a carry actually happens.
+  const M_CARRY = 0;
+  const M_A = hasCarry ? 1 : 0;
+  const M_B = M_A + 1;
+  const barRow = M_B + 1;
+
   const cells: SCell[] = [];
   const aDisp = comma(a);
   const bDisp = comma(b);
@@ -343,27 +374,69 @@ function buildMul(a: string, b: string): Sheet {
   pushGlyphs(cells, bDisp, M_B, right, 0);
   cells.push({ c: 0, r: M_B, ch: OP_SYMBOL.mul, step: 0, tone: "accent" });
 
+  // Grid column of `a`'s digit j (0 = units), skipping the comma column if any.
+  const aDigitCol = (j: number) => (pa.frac.length === 0 ? right - j : j < pa.frac.length ? right - j : right - j - 1);
+
   const steps: SStep[] = [
     {
       say: fracTotal
         ? `Vamos multiplicar ${aDisp} por ${bDisp}. Faço de conta que não há vírgulas e multiplico ${ad} por ${bd}. A vírgula só entra no fim.`
-        : `Vamos multiplicar ${aDisp} por ${bDisp}. Multiplico por um algarismo de baixo de cada vez, da direita para a esquerda.`,
+        : single
+          ? `Vamos multiplicar ${aDisp} por ${bDisp}. Multiplico cada algarismo de cima por ${bd}, da direita para a esquerda, e transporto quando passo de uma dezena.`
+          : `Vamos multiplicar ${aDisp} por ${bDisp}. Multiplico por um algarismo de baixo de cada vez, da direita para a esquerda.`,
       caption: "Arrumar a conta",
     },
   ];
-  const hlines: SHLine[] = [{ r: M_B + 1, c0: 0, c1: width - 1, step: 0 }];
+  const hlines: SHLine[] = [{ r: barRow, c0: 0, c1: width - 1, step: 0 }];
 
   let step = 1;
-  let row = M_B + 1;
+  let resultRow: number;
 
   if (single) {
-    // One row only — the product itself, shown as the integer product digits.
-    pushDigits(cells, productDigits, row, right, step, "result");
-    steps.push({ say: `${ad} vezes ${bd} é ${productBig.toString()}.`, caption: `${ad} × ${bd}` });
-    step++;
+    resultRow = barRow;
+    if (!sd) {
+      // b is zero → the whole product is zero, one tidy step.
+      cells.push({ c: right, r: resultRow, ch: "0", step, tone: "result" });
+      steps.push({ say: `Tudo vezes zero é zero, por isso ${aDisp} vezes ${bDisp} é 0.`, caption: `${ad} × 0` });
+      step++;
+    } else {
+      const { d, shift } = sd;
+      // A ×10/×100… multiplier: park the trailing zeros first, then multiply by d.
+      if (shift) {
+        for (let z = 0; z < shift; z++) cells.push({ c: right - z, r: resultRow, ch: "0", step, tone: "result" });
+        steps.push({
+          say: `Como multiplico por ${bd}, que acaba em ${shift} zero${shift > 1 ? "s" : ""}, ponho ${shift} zero${shift > 1 ? "s" : ""} à direita e depois multiplico por ${d}.`,
+          caption: `× ${bd}`,
+        });
+        step++;
+      }
+      // One step per top digit: multiply, write the units, carry the tens.
+      for (let k = 0; k < mulCols!.length; k++) {
+        const m = mulCols![k];
+        const col = right - shift - k;
+        cells.push({ c: col, r: resultRow, ch: String(m.digit), step, tone: "result" });
+        const carryWord = m.carryIn ? `, mais ${m.carryIn} que transportei, é ${m.sum}` : "";
+        const lead = k === 0 ? "Começo pela direita: " : "";
+        const keep = m.next ? ` Escrevo o ${m.digit} e transporto ${m.next}.` : ` Escrevo o ${m.digit}.`;
+        steps.push({ say: `${lead}${d} vezes ${m.aDigit} é ${m.raw}${carryWord}.${keep}`, caption: `${d} × ${m.aDigit}`, col });
+        // The transported digit sits small above the next top digit.
+        if (m.next && k < mulCols!.length - 1) {
+          cells.push({ c: aDigitCol(k + 1), r: M_CARRY, ch: String(m.next), step, tone: "carry", small: true });
+        }
+        step++;
+      }
+      if (finalCarry) {
+        const col = right - shift - mulCols!.length;
+        cells.push({ c: col, r: resultRow, ch: String(finalCarry), step, tone: "result" });
+        steps.push({ say: `Já não há mais algarismos em cima, por isso escrevo o ${finalCarry} que transportei.`, caption: "Último transporte", col });
+        step++;
+      }
+    }
   } else {
-    // Walk EVERY bottom digit (right→left). A 0 would make a line of only zeros,
-    // so we skip the line but say why — the "missing" line is no mystery.
+    // Long multiplication: one partial line per bottom digit, right→left. A 0
+    // would make a line of only zeros, so we skip the line but say why — the
+    // "missing" line is no mystery.
+    let row = barRow;
     for (const { d, shift } of bDigits) {
       if (d === 0) {
         steps.push({ say: `O próximo algarismo de baixo é 0, e tudo vezes 0 é 0. Essa linha seria só zeros, por isso salto-a.`, caption: `${ad} × 0` });
@@ -388,11 +461,11 @@ function buildMul(a: string, b: string): Sheet {
       caption: "Somar as linhas",
     });
     step++;
+    resultRow = row;
   }
 
   // Place the comma in the result by counting the decimal places.
   let answer = productDigits;
-  const resultRow = single ? M_B + 1 : row;
   if (fracTotal) {
     const padded = productDigits.padStart(fracTotal + 1, "0");
     answer = tidy(comma(`${padded.slice(0, -fracTotal)}.${padded.slice(-fracTotal)}`));

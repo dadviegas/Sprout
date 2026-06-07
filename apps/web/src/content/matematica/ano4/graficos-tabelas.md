@@ -145,6 +145,17 @@ Quando olhas para os dados, há três palavras muito úteis para os descrever:
 
 ## 🎯 Questionário final
 
+### A tabela das frutas 🍎
+
+Olha para esta tabela sempre que precisares — é a mesma votação da turma!
+
+| Fruta preferida | Votos |
+| --- | --- |
+| 🍎 Maçã | 5 |
+| 🍌 Banana | 3 |
+| 🍓 Morango | 8 |
+| 🍇 Uva | 4 |
+
 ```quiz
 {
   "id": "mat4-dados-final",
@@ -154,9 +165,9 @@ Quando olhas para os dados, há três palavras muito úteis para os descrever:
     { "q": "Uma tabela organiza dados em…", "layout": "grid",
       "options": [ { "t": "linhas e colunas", "emoji": "🗂️", "correct": true }, { "t": "círculos" } ],
       "explain": "Tabelas têm linhas e colunas." },
-    { "q": "Quantos votos teve a maçã? 🍎", "layout": "grid",
+    { "q": "A maçã foi votada assim: 🍎🍎🍎🍎🍎. Quantos votos teve?", "layout": "grid",
       "options": [ { "t": "5", "correct": true }, { "t": "8" }, { "t": "3" } ],
-      "explain": "A maçã teve 5 votos." },
+      "explain": "Contas os desenhos: 🍎🍎🍎🍎🍎 são 5 votos." },
     { "q": "Para que serve um gráfico?", "layout": "grid",
       "options": [ { "t": "comparar de relance", "emoji": "📊", "correct": true }, { "t": "para nada" } ],
       "explain": "Ajuda a comparar informação rapidamente." },
@@ -169,9 +180,9 @@ Quando olhas para os dados, há três palavras muito úteis para os descrever:
     { "q": "Se cada 🍦 = 2 e vês 🍦🍦🍦🍦🍦, são quantos gelados?", "layout": "grid",
       "options": [ { "t": "10", "emoji": "🍦", "correct": true }, { "t": "5" }, { "t": "7" } ],
       "explain": "5 desenhos × 2 = 10 gelados." },
-    { "q": "A amplitude (máximo − mínimo) das frutas é…", "layout": "grid",
+    { "q": "A amplitude é o máximo menos o mínimo. Se o máximo é 8 e o mínimo é 3, quanto é?", "layout": "grid",
       "options": [ { "t": "5", "emoji": "📏", "correct": true }, { "t": "8" }, { "t": "3" } ],
-      "explain": "8 − 3 = 5." },
+      "explain": "Amplitude = máximo − mínimo = 8 − 3 = 5." },
     { "q": "No eixo do lado de um gráfico de barras está…", "layout": "grid",
       "options": [ { "t": "a escala de números (quantos)", "emoji": "🔢", "correct": true }, { "t": "o nome da escola" } ],
       "explain": "O eixo do lado mostra a escala — quantos de cada coisa." },

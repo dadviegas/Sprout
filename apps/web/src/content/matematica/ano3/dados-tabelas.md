@@ -131,6 +131,17 @@ Num **gráfico de barras**, cada animal tem uma barra: quanto **mais alta**, mai
 
 ## 🎯 Questionário final
 
+### A tabela dos animais 🐾
+
+Olha para esta tabela sempre que precisares — é a mesma votação da turma!
+
+| Animal preferido | Frequência |
+| --- | --- |
+| 🐶 Cão | 8 |
+| 🐱 Gato | 5 |
+| 🐠 Peixe | 4 |
+| 🐰 Coelho | 3 |
+
 ```quiz
 {
   "id": "mat3-dados-final",

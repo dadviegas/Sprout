@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Icon, type IconName } from "@sprout/icons";
+import { Icon, lessonIconName, type IconName } from "@sprout/icons";
 import { Speaker } from "@sprout/ui";
 import { resolveTeia, type TeiaTheme } from "./content/teia-data";
 import type { View } from "./nav";
@@ -21,6 +21,7 @@ const CX = W / 2;
 const CY = H / 2;
 const RX = 1080; // theme ring radii (ellipse)
 const RY = 660;
+const FOCUS_K = 1.28;
 
 interface ThemeNode extends TeiaTheme {
   x: number;
@@ -78,6 +79,52 @@ function bridgeCurve(x1: number, y1: number, x2: number, y2: number): string {
   return `M${x1.toFixed(1)} ${y1.toFixed(1)} Q${cx.toFixed(1)} ${cy.toFixed(1)} ${x2.toFixed(1)} ${y2.toFixed(1)}`;
 }
 
+function relaxLessonPositions(
+  lessonPos: Map<string, { x: number; y: number }>,
+  themePos: Map<string, { x: number; y: number }>,
+  homeOf: Map<string, string>,
+) {
+  const ids = [...lessonPos.keys()];
+  const MIN_DIST = 132;
+  const PULL = 0.035;
+  const CLAMP = 34;
+
+  for (let pass = 0; pass < 34; pass++) {
+    const delta = new Map(ids.map((id) => [id, { x: 0, y: 0 }]));
+
+    for (let i = 0; i < ids.length; i++) {
+      const a = lessonPos.get(ids[i])!;
+      for (let j = i + 1; j < ids.length; j++) {
+        const b = lessonPos.get(ids[j])!;
+        const dx = b.x - a.x;
+        const dy = b.y - a.y;
+        const dist = Math.hypot(dx, dy) || 1;
+        if (dist >= MIN_DIST) continue;
+        const push = (MIN_DIST - dist) * 0.5;
+        const ux = dx / dist;
+        const uy = dy / dist;
+        delta.get(ids[i])!.x -= ux * push;
+        delta.get(ids[i])!.y -= uy * push;
+        delta.get(ids[j])!.x += ux * push;
+        delta.get(ids[j])!.y += uy * push;
+      }
+    }
+
+    for (const id of ids) {
+      const p = lessonPos.get(id)!;
+      const home = themePos.get(homeOf.get(id)!)!;
+      const outward = Math.atan2(home.y - CY, home.x - CX);
+      const homeDist = Math.hypot(p.x - home.x, p.y - home.y);
+      const target = { x: home.x + Math.cos(outward) * homeDist, y: home.y + Math.sin(outward) * homeDist };
+      const d = delta.get(id)!;
+      d.x += (target.x - p.x) * PULL;
+      d.y += (target.y - p.y) * PULL;
+      p.x += Math.max(-CLAMP, Math.min(CLAMP, d.x));
+      p.y += Math.max(-CLAMP, Math.min(CLAMP, d.y));
+    }
+  }
+}
+
 function buildGraph() {
   const { themes, lessons, bridges, byId } = resolveTeia();
   const n = themes.length;
@@ -103,10 +150,10 @@ function buildGraph() {
   // rings. Each ring sits further out and holds more nodes (its capacity grows
   // with its radius), so nodes keep a real gap and never pile up — inner rings
   // stay sparse, outer rings spread wide.
-  const CONE = 1.3; // angular width of a theme's outward fan (radians)
-  const CHORD = 125; // min spacing between two nodes on the same ring (world px)
-  const BASE_R = 235; // first ring's distance from the hub
-  const RING_GAP = 150;
+  const CONE = 1.48; // angular width of a theme's outward fan (radians)
+  const CHORD = 158; // min spacing between two nodes on the same ring (world px)
+  const BASE_R = 270; // first ring's distance from the hub
+  const RING_GAP = 178;
   const lessonPos = new Map<string, { x: number; y: number }>();
   for (const t of themes) {
     const tp = themePos.get(t.id)!;
@@ -127,6 +174,7 @@ function buildGraph() {
       ring++;
     }
   }
+  relaxLessonPositions(lessonPos, themePos, homeOf);
 
   const lessonNodes: LessonNode[] = lessons.map((l) => {
     const p = lessonPos.get(l.id)!;
@@ -287,9 +335,37 @@ export function Teia({ onGo }: { onGo: (v: View) => void }) {
     const on = active.has(ln.a) && active.has(ln.b);
     return `teia-link${ln.bridge ? " teia-link--bridge" : ""}${on ? " is-active" : " is-dim"}`;
   };
+  const linkRenderItems = useMemo(() => {
+    if (!active) return links;
+    return [...links].sort((a, b) => Number(active.has(a.a) && active.has(a.b)) - Number(active.has(b.a) && active.has(b.b)));
+  }, [active, links]);
 
   const selectedTheme = selected?.kind === "theme" ? themeNodes.find((n) => n.id === selected.id) : undefined;
   const selectedLesson = selected?.kind === "lesson" ? byId.get(selected.id) : undefined;
+  const selectedThemeNode = selectedTheme;
+  const selectedLessonNode = selected?.kind === "lesson" ? lessonNodes.find((n) => n.id === selected.id) : undefined;
+
+  useEffect(() => {
+    const node = selectedThemeNode ?? selectedLessonNode;
+    if (!node || dragged.current) return;
+    setT((prev) => {
+      const k = Math.min(MAX_K, Math.max(prev.k, FOCUS_K));
+      return {
+        x: CX - node.x * k,
+        y: CY - node.y * k,
+        k,
+      };
+    });
+  }, [selectedThemeNode, selectedLessonNode]);
+
+  const lessonRenderNodes = useMemo(() => {
+    if (!active) return lessonNodes;
+    return [...lessonNodes].sort((a, b) => Number(active.has(a.id)) - Number(active.has(b.id)));
+  }, [active, lessonNodes]);
+  const themeRenderNodes = useMemo(() => {
+    if (!active) return themeNodes;
+    return [...themeNodes].sort((a, b) => Number(active.has(a.id)) - Number(active.has(b.id)));
+  }, [active, themeNodes]);
 
   return (
     <div className={`teia-stage${full ? " teia-stage--full" : ""}`}>
@@ -329,14 +405,14 @@ export function Teia({ onGo }: { onGo: (v: View) => void }) {
         <g transform={`translate(${t.x} ${t.y}) scale(${t.k})`}>
           {/* links first, under the nodes */}
           <g className="teia-links">
-            {links.map((ln) => (
+            {linkRenderItems.map((ln) => (
               <path key={ln.key} className={linkClass(ln)} d={ln.d} style={{ stroke: ln.color }} />
             ))}
           </g>
 
           {/* lesson nodes — labels only when zoomed in or active, to stay legible */}
           <g className="teia-lessons">
-            {lessonNodes.map((l) => {
+            {lessonRenderNodes.map((l) => {
               const bridge = l.themes.length > 1;
               const showLabel = t.k >= 1.05 || active?.has(l.id);
               return (
@@ -349,8 +425,10 @@ export function Teia({ onGo }: { onGo: (v: View) => void }) {
                   style={{ ["--c" as string]: l.meta.color }}
                 >
                   <circle className="teia-lesson-bg" r={48} />
-                  <text className="teia-emoji" y={2} textAnchor="middle" dominantBaseline="central" fontSize={42}>{l.meta.emoji}</text>
-                  {showLabel && <text className="teia-label" y={78} textAnchor="middle">{truncate(l.meta.title)}</text>}
+                  <foreignObject x={-22} y={-22} width={44} height={44} className="teia-lesson-ic">
+                    <div className="teia-ic-wrap"><Icon name={lessonIconName(l.meta.subjectId, l.id)} size={34} /></div>
+                  </foreignObject>
+                  {showLabel && <text className="teia-label" y={active?.has(l.id) ? 86 : 78} textAnchor="middle">{truncate(l.meta.title, active?.has(l.id) ? 24 : 18)}</text>}
                 </g>
               );
             })}
@@ -358,7 +436,7 @@ export function Teia({ onGo }: { onGo: (v: View) => void }) {
 
           {/* theme hubs on top */}
           <g className="teia-themes">
-            {themeNodes.map((th) => (
+            {themeRenderNodes.map((th) => (
               <g
                 key={th.id}
                 className={`teia-node teia-theme${dim(th.id)}${active?.has(th.id) ? " is-active" : ""}`}
@@ -401,7 +479,7 @@ export function Teia({ onGo }: { onGo: (v: View) => void }) {
       )}
       {selectedLesson && (
         <div className="teia-sheet" style={{ ["--c" as string]: selectedLesson.meta.color }}>
-          <span className="teia-sheet-emoji">{selectedLesson.meta.emoji}</span>
+          <span className="teia-sheet-ic"><Icon name={lessonIconName(selectedLesson.meta.subjectId, selectedLesson.id)} size={26} /></span>
           <div className="teia-sheet-body">
             <strong>{selectedLesson.meta.title}</strong>
             <span className="teia-sheet-sub">

@@ -16,7 +16,7 @@ mascot:
 # Home areas — the top-level "por onde entro?" cards. The home is a short grid
 # of these instead of one long list of every section; each card opens an area
 # page that gathers what used to be loose sections (see
-# docs/HOME_AREAS_COMMAND_CENTER.md). Academia stays the hero above the grid.
+# docs/HOME_AREAS_COMMAND_CENTER.md).
 # `accent`: a colour token name (resolved to var(<accent>) / var(<accent>-soft)),
 # matching the colour of the content the area holds. `id` "diversao" opens the
 # Diversão hub (its own view); the other four open `view.kind === "area"`.
@@ -84,18 +84,6 @@ estudo:
     - label: Formas e espaço
       icon: shapes
       topics: [estudo-formas]
-
-# "Academia dos Elementos" — a 2D meta-game (not a school subject, not tied to a
-# grade): the child creates an elemental hero, then real lessons and tests earn
-# XP, coins, energy and complete missions. The game logic + element data live in
-# code (apps/web/src/world/); this owns the section copy. See
-# docs/SPROUT_WORLD_ACADEMIA_DOS_ELEMENTOS.md.
-academia:
-  sectionTitle: Academia dos Elementos
-  sectionSub: "Cria o teu herói e usa o que aprendes para o tornar mais forte! ⚡"
-  cardTitle: A tua Academia
-  cardBlurb: "Escolhe um elemento, ganha pontos e completa missões."
-  cta: Continuar a aprender
 
 # "Diversão" — the playful area (not a school subject, not tied to a grade):
 # a magical garden that grows with every lesson done, a little arcade of games,

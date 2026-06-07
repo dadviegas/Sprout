@@ -38,6 +38,14 @@ export interface SVBar {
   r1: number; // inclusive row span
 }
 
+/** A diagonal slash through a cell — the schoolbook "cross it out" mark when a
+ *  digit changes during a borrow (the 5 that becomes 4, the 0 that becomes 10). */
+export interface SStrike {
+  c: number;
+  r: number;
+  step: number; // reveal at this step
+}
+
 export interface SStep {
   say: string; // full read-aloud sentence
   caption: string; // short label shown next to the controls
@@ -50,6 +58,7 @@ export interface Sheet {
   cells: SCell[];
   hlines: SHLine[];
   vbars: SVBar[];
+  strikes?: SStrike[]; // cross-out marks (used by subtraction borrows)
   steps: SStep[]; // steps[0] describes the setup; the rest fill the grid
   answer: string; // canonical result (comma form) for checking the child's input
   ok: boolean; // false if the inputs can't be armed (e.g. a − b with a < b)
@@ -129,6 +138,23 @@ function digitColumns(L: Layout): number[] {
   return order;
 }
 
+const INT_PLACES = ["unidades", "dezenas", "centenas", "milhares"];
+const FRAC_PLACES = ["décimas", "centésimas", "milésimas"];
+
+/** Name of the place value at a column (unidades, dezenas, décimas…), for the
+ *  read-aloud. Returns "" past the names we use (keeps it simple). */
+function placeName(col: number, L: Layout): string {
+  if (L.hasFrac && col > L.pointCol) return FRAC_PLACES[col - L.pointCol - 1] ?? "";
+  return INT_PLACES[L.intEnd - col] ?? "";
+}
+
+/** "Nas unidades" / "Nos milhares" / "Nesta coluna" — place lead-in for a step. */
+function placeLead(col: number, L: Layout): string {
+  const p = placeName(col, L);
+  if (!p) return "Nesta coluna";
+  return `N${p === "milhares" ? "os" : "as"} ${p}`;
+}
+
 const ROW_CARRY = 0;
 const ROW_A = 1;
 const ROW_B = 2;
@@ -147,7 +173,7 @@ function buildAdd(a: string, b: string): Sheet {
 
   const order = digitColumns(L);
   const steps: SStep[] = [
-    { say: `Vamos somar ${comma(a)} mais ${comma(b)}. Alinho os algarismos pela direita e somo coluna a coluna.`, caption: "Arma a conta" },
+    { say: `Vamos somar ${comma(a)} mais ${comma(b)}. Ponho unidades debaixo de unidades${L.hasFrac ? " e a vírgula debaixo da vírgula" : ""} e começo pela coluna da direita.`, caption: "Arrumar a conta" },
   ];
 
   let carry = 0;
@@ -162,8 +188,10 @@ function buildAdd(a: string, b: string): Sheet {
     cells.push({ c: col, r: ROW_RESULT, ch: String(digit), step, tone: "result" });
 
     const carryWord = carry ? ` mais ${carry} que transportei` : "";
-    const keepWord = nextCarry ? ` Escrevo o ${digit} e transporto ${nextCarry}.` : ` Escrevo o ${digit}.`;
-    steps.push({ say: `${da} mais ${db}${carryWord} é ${sum}.${keepWord}`, caption: `Coluna: ${da} + ${db}${carry ? " + " + carry : ""}`, col });
+    const keepWord = nextCarry
+      ? ` Como ${sum} tem dois algarismos, escrevo só o ${digit} aqui e levo ${nextCarry} para a coluna seguinte (o «vai ${nextCarry}»).`
+      : ` Escrevo o ${digit} por baixo.`;
+    steps.push({ say: `${placeLead(col, L)}: ${da} mais ${db}${carryWord} é ${sum}.${keepWord}`, caption: `Esta coluna: ${da} + ${db}${carry ? " + " + carry : ""}`, col });
 
     if (nextCarry) {
       const left = order[k + 1] ?? col - 1;
@@ -177,11 +205,11 @@ function buildAdd(a: string, b: string): Sheet {
   if (carry) {
     const col = (order[order.length - 1] ?? L.leftPad) - 1;
     cells.push({ c: col, r: ROW_RESULT, ch: String(carry), step, tone: "result" });
-    steps.push({ say: `Sobrou ${carry} para transportar, escrevo-o à frente.`, caption: "Transporte final", col });
+    steps.push({ say: `Ainda sobrou ${carry} para levar. Escrevo-o no início do resultado.`, caption: "Último vai 1", col });
   }
 
   const answer = addSub(a, b, +1);
-  steps.push({ say: `Está feito! ${comma(a)} mais ${comma(b)} é igual a ${answer}.`, caption: `Resultado: ${answer}` });
+  steps.push({ say: `Está feito! ${comma(a)} mais ${comma(b)} é ${answer}.`, caption: `Resultado: ${answer}` });
   return { cols: L.cols, rows: ROW_RESULT + 1, cells, hlines: [{ r: ROW_RESULT, c0: 0, c1: L.cols - 1, step: 0 }], vbars: [], steps, answer, ok: true };
 }
 
@@ -218,32 +246,48 @@ function buildSub(a: string, b: string): Sheet {
   cells.push({ c: 0, r: ROW_B, ch: OP_SYMBOL.sub, step: 0, tone: "accent" });
 
   const steps: SStep[] = [
-    { say: `Vamos subtrair ${comma(b)} a ${comma(a)}. Alinho pela direita e tiro coluna a coluna, da direita para a esquerda.`, caption: "Arma a conta" },
+    { say: `Vamos fazer ${comma(a)} menos ${comma(b)}. Alinho pela direita${L.hasFrac ? ", com a vírgula debaixo da vírgula," : ""} e começo pela coluna das unidades.`, caption: "Arrumar a conta" },
   ];
 
+  const strikes: SStrike[] = [];
   let step = 1;
   for (const w of work) {
-    // Show the working top digit above the column whenever it changed.
-    if (w.adj !== w.orig) cells.push({ c: w.col, r: ROW_CARRY, ch: String(w.adj), step, tone: "accent", small: true });
+    // When the top digit changes (a borrow), cross it out and write the new
+    // working value above — exactly the marks a child makes on paper.
+    if (w.adj !== w.orig) {
+      strikes.push({ c: w.col, r: ROW_A, step });
+      cells.push({ c: w.col, r: ROW_CARRY, ch: String(w.adj), step, tone: "accent", small: true });
+    }
     cells.push({ c: w.col, r: ROW_RESULT, ch: String(w.digit), step, tone: "result" });
 
+    // One consistent borrow story across every case: whoever ASKS says "peço 10 à
+    // casa da esquerda"; whoever GIVES says "a casa da direita levou 1 emprestado
+    // daqui". That way the working digit (e.g. 9, not 10) always has a reason.
+    const lead = placeLead(w.col, L);
     let say: string;
-    if (w.borrowed) {
-      say = `O ${w.orig} não chega para tirar ${w.db}. Peço 10 emprestado à casa ao lado e fico com ${w.adj}. ${w.adj} menos ${w.db} é ${w.digit}.`;
+    if (w.borrowed && w.lent) {
+      // The tricky one: this column gave 1 to the right AND had to borrow 10 from
+      // the left — the "borrow across a 0" case the algorithm hides.
+      say =
+        w.orig === 0
+          ? `${lead}: a casa da direita levou 1 emprestado daqui, mas aqui estava 0 e não havia nada para dar. Então peço 10 à casa da esquerda: fico com 10, dou 1 e sobra ${w.adj}. ${w.adj} menos ${w.db} é ${w.digit}.`
+          : `${lead}: a casa da direita levou 1 emprestado daqui, por isso o ${w.orig} ficou ${w.orig - 1}. Como ${w.orig - 1} ainda não chega para tirar ${w.db}, peço 10 à casa da esquerda e fico com ${w.adj}. ${w.adj} menos ${w.db} é ${w.digit}.`;
+    } else if (w.borrowed) {
+      say = `${lead}: ${w.orig} não chega para tirar ${w.db}. Peço 10 à casa da esquerda e fico com ${w.adj}. ${w.adj} menos ${w.db} é ${w.digit}.`;
     } else if (w.lent) {
-      say = `Como emprestei 1 à casa da direita, o ${w.orig} fica ${w.adj}. ${w.adj} menos ${w.db} é ${w.digit}.`;
+      say = `${lead}: a casa da direita levou 1 emprestado daqui. Por isso o ${w.orig} fica ${w.adj} (${w.orig} menos 1). ${w.adj} menos ${w.db} é ${w.digit}.`;
     } else {
-      say = `${w.adj} menos ${w.db} é ${w.digit}.`;
+      say = `${lead}: ${w.adj} menos ${w.db} é ${w.digit}.`;
     }
-    steps.push({ say, caption: `Coluna: ${w.adj} − ${w.db}`, col: w.col });
+    steps.push({ say, caption: `Esta coluna: ${w.adj} − ${w.db}`, col: w.col });
 
     if (L.hasFrac && w.col === L.pointCol + 1) cells.push({ c: L.pointCol, r: ROW_RESULT, ch: ",", step, tone: "result" });
     step++;
   }
 
   const answer = addSub(a, b, -1);
-  steps.push({ say: `Pronto! ${comma(a)} menos ${comma(b)} é igual a ${answer}.`, caption: `Resultado: ${answer}` });
-  return { cols: L.cols, rows: ROW_RESULT + 1, cells, hlines: [{ r: ROW_RESULT, c0: 0, c1: L.cols - 1, step: 0 }], vbars: [], steps, answer, ok: true };
+  steps.push({ say: `Pronto! ${comma(a)} menos ${comma(b)} é ${answer}.`, caption: `Resultado: ${answer}` });
+  return { cols: L.cols, rows: ROW_RESULT + 1, cells, hlines: [{ r: ROW_RESULT, c0: 0, c1: L.cols - 1, step: 0 }], vbars: [], strikes, steps, answer, ok: true };
 }
 
 /* String add / subtract on decimals via BigInt at a common scale. */
@@ -302,9 +346,9 @@ function buildMul(a: string, b: string): Sheet {
   const steps: SStep[] = [
     {
       say: fracTotal
-        ? `Vamos multiplicar ${aDisp} por ${bDisp}. Primeiro multiplico como se não houvesse vírgulas, e no fim conto as casas decimais.`
-        : `Vamos multiplicar ${aDisp} por ${bDisp}. Multiplico ${ad} por cada algarismo de ${bd}.`,
-      caption: "Arma a conta",
+        ? `Vamos multiplicar ${aDisp} por ${bDisp}. Faço de conta que não há vírgulas e multiplico ${ad} por ${bd}. A vírgula só entra no fim.`
+        : `Vamos multiplicar ${aDisp} por ${bDisp}. Multiplico por um algarismo de baixo de cada vez, da direita para a esquerda.`,
+      caption: "Arrumar a conta",
     },
   ];
   const hlines: SHLine[] = [{ r: M_B + 1, c0: 0, c1: width - 1, step: 0 }];
@@ -318,17 +362,31 @@ function buildMul(a: string, b: string): Sheet {
     steps.push({ say: `${ad} vezes ${bd} é ${productBig.toString()}.`, caption: `${ad} × ${bd}` });
     step++;
   } else {
-    for (const { d, shift } of used) {
+    // Walk EVERY bottom digit (right→left). A 0 would make a line of only zeros,
+    // so we skip the line but say why — the "missing" line is no mystery.
+    for (const { d, shift } of bDigits) {
+      if (d === 0) {
+        steps.push({ say: `O próximo algarismo de baixo é 0, e tudo vezes 0 é 0. Essa linha seria só zeros, por isso salto-a.`, caption: `${ad} × 0` });
+        step++;
+        continue;
+      }
       const partial = aBig * BigInt(d) * BigInt(10) ** BigInt(shift);
       pushDigits(cells, partial.toString(), row, right, step, "ink");
-      const placeWord = shift === 0 ? "" : ` (este algarismo vale ${10 ** shift} vezes mais, por isso desloco ${shift} casa${shift > 1 ? "s" : ""} para a esquerda)`;
-      steps.push({ say: `Multiplico ${ad} por ${d}${placeWord}: dá ${partial.toString()}.`, caption: `${ad} × ${d}` });
+      const placeM = INT_PLACES[shift];
+      const head = placeM ? `Agora multiplico ${ad} pelas ${placeM} de baixo, que são ${d}` : `Agora multiplico ${ad} por ${d}`;
+      const placeWord = shift === 0 ? "" : ` Como são ${placeM ? `as ${placeM}` : "casas mais à esquerda"}, esta linha começa ${shift} casa${shift > 1 ? "s" : ""} mais à esquerda (ponho ${shift} zero${shift > 1 ? "s" : ""} à direita).`;
+      steps.push({ say: `${head}.${placeWord} Dá ${partial.toString()}.`, caption: `${ad} × ${d}` });
       row++;
       step++;
     }
     hlines.push({ r: row, c0: 0, c1: width - 1, step: 0 });
     pushDigits(cells, productDigits, row, right, step, "result");
-    steps.push({ say: `Somo as parcelas: o produto inteiro é ${productDigits}.`, caption: "Soma das parcelas" });
+    steps.push({
+      say: fracTotal
+        ? `Agora somo todas as linhas. Sem a vírgula, dá ${productDigits}.`
+        : `Agora somo todas as linhas: dá ${productDigits}.`,
+      caption: "Somar as linhas",
+    });
     step++;
   }
 
@@ -341,14 +399,16 @@ function buildMul(a: string, b: string): Sheet {
     // Re-stamp the result row WITH the comma so the final reveal shows it.
     stripRow(cells, resultRow);
     pushGlyphs(cells, answer, resultRow, right, step, "result");
+    const decA = `${aDisp} tem ${pa.frac.length} casa${pa.frac.length === 1 ? "" : "s"} depois da vírgula`;
+    const decB = pb.frac.length ? `${bDisp} tem ${pb.frac.length}` : `${bDisp} não tem nenhuma`;
     steps.push({
-      say: `${aDisp} tem ${pa.frac.length} casa${pa.frac.length === 1 ? "" : "s"} e ${bDisp} tem ${pb.frac.length}: ao todo ${fracTotal}. Conto ${fracTotal} casa${fracTotal === 1 ? "" : "s"} da direita e ponho a vírgula: ${answer}.`,
-      caption: "Coloco a vírgula",
+      say: `Agora a vírgula. ${decA} e ${decB}: ao todo são ${fracTotal} casa${fracTotal === 1 ? "" : "s"}. No número ${productDigits}, conto ${fracTotal} algarismo${fracTotal === 1 ? "" : "s"} a contar da direita e ponho aí a vírgula. Fica ${answer}.`,
+      caption: "Pôr a vírgula",
     });
   } else {
     answer = tidy(productBig.toString());
   }
-  steps.push({ say: `Está! ${aDisp} vezes ${bDisp} é igual a ${answer}.`, caption: `Resultado: ${answer}` });
+  steps.push({ say: `Está! ${aDisp} vezes ${bDisp} é ${answer}.`, caption: `Resultado: ${answer}` });
 
   return { cols: width, rows: resultRow + 1, cells, hlines, vbars: [], steps, answer, ok: true };
 }
@@ -473,7 +533,7 @@ function buildDiv(a: string, b: string): Sheet {
   const quoCol = (d: number) => barCol + 1 + (commaPos >= 0 && d >= commaPos ? d + 1 : d);
 
   const steps: SStep[] = [
-    { say: `Vamos dividir ${comma(a)} por ${comma(b)}.${shiftNote} Escrevo o dividendo à esquerda e o divisor à direita da barra.`, caption: "Arma a conta" },
+    { say: `Vamos dividir ${comma(a)} por ${comma(b)}.${shiftNote} Escrevo o número que vou dividir à esquerda e o número pelo qual divido à direita da barra.`, caption: "Arrumar a conta" },
   ];
 
   let row = 0; // row holding the current minuend (the dividend sits on row 0)
@@ -488,8 +548,17 @@ function buildDiv(a: string, b: string): Sheet {
     cells.push({ c: quoCol(bIdx), r: QUO_ROW, ch: String(blk.q), step, tone: "result" });
 
     if (blk.q === 0) {
-      cells.push({ c: colOf(next!.endIndex), r: row, ch: String(stream(next!.endIndex)), step, tone: "carry" });
-      steps.push({ say: `${blk.minuend} ainda não dá para dividir por ${divisorStr}: ponho 0 no quociente e baixo o próximo algarismo.`, caption: "Quociente 0", col: colOf(blk.endIndex) });
+      // Bring the next digit down beside the current one — unless this 0 is the
+      // last quotient digit (a quotient that ends in 0, e.g. 6000 : 200 = 30, or
+      // 41 : 4 = 10 resto 1), where there is nothing left to bring down.
+      if (next) cells.push({ c: colOf(next.endIndex), r: row, ch: String(stream(next.endIndex)), step, tone: "carry" });
+      steps.push({
+        say: next
+          ? `${blk.minuend} ainda não chega para dividir por ${divisorStr}, por isso escrevo 0 na resposta. Baixo o ${stream(next.endIndex)} e fico com ${next.minuend}.`
+          : `${blk.minuend} a dividir por ${divisorStr} dá 0. Escrevo 0 na resposta para terminar.`,
+        caption: "Quociente 0",
+        col: colOf(blk.endIndex),
+      });
       step++;
       continue;
     }
@@ -505,7 +574,7 @@ function buildDiv(a: string, b: string): Sheet {
     // Bring the next digit down beside the remainder.
     if (next) cells.push({ c: colOf(next.endIndex), r: remRow, ch: String(stream(next.endIndex)), step, tone: "carry" });
     steps.push({
-      say: `${blk.minuend} a dividir por ${divisorStr} dá ${blk.q}. ${blk.q} vezes ${divisorStr} é ${blk.prod}; ${blk.minuend} menos ${blk.prod} é ${blk.rem}.${next ? " Baixo o próximo algarismo." : ""}`,
+      say: `Vejo quantas vezes ${divisorStr} cabe em ${blk.minuend}: cabe ${blk.q} vez${blk.q === 1 ? "" : "es"}, por isso escrevo ${blk.q} na resposta. Agora ${blk.q} vezes ${divisorStr} é ${blk.prod}: escrevo ${blk.prod} por baixo do ${blk.minuend} e subtraio — ${blk.minuend} menos ${blk.prod} é ${blk.rem}.${next ? ` Baixo o ${stream(next.endIndex)} para junto do ${blk.rem} e fico com ${next.minuend}.` : ""}`,
       caption: `${blk.minuend} : ${divisorStr} = ${blk.q}`,
       col: endC,
     });
@@ -516,8 +585,8 @@ function buildDiv(a: string, b: string): Sheet {
   const answer = decimalMode || exact ? quoStr : `${quoStr} resto ${remainder}`;
   steps.push({
     say: decimalMode || exact
-      ? `Está dividido! ${comma(a)} a dividir por ${comma(b)} é igual a ${quoStr}.`
-      : `O quociente é ${quoStr} e sobra um resto de ${remainder}.`,
+      ? `Está dividido! ${comma(a)} a dividir por ${comma(b)} é ${quoStr}.`
+      : `A resposta é ${quoStr} e sobra resto ${remainder}.`,
     caption: `Resultado: ${comma(answer)}`,
   });
 

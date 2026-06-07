@@ -20,8 +20,6 @@ export type View =
   | { kind: "mundo" }
   // "Diversão" — the playful area (garden / arcade / toy box); room undefined = hub.
   | { kind: "diversao"; room?: DiversaoRoom }
-  // "Academia dos Elementos" — the 2D meta-game over the school content.
-  | { kind: "academia" }
   // "A Teia do Saber" — the interactive web of how all the material connects.
   | { kind: "teia" }
   | { kind: "subject"; year: YearN; subjectId: string }
@@ -49,7 +47,6 @@ export function loadView(): View {
     if (v.kind === "home") return HOME;
     if (v.kind === "area" && AREA_VALUES.includes(v.area as AreaId)) return { kind: "area", area: v.area as AreaId };
     if (v.kind === "mundo") return { kind: "mundo" };
-    if (v.kind === "academia") return { kind: "academia" };
     if (v.kind === "teia") return { kind: "teia" };
     if (v.kind === "diversao") {
       const room = v.room === "jardim" || v.room === "jogos" || v.room === "caixa" ? v.room : undefined;
@@ -92,8 +89,6 @@ export function viewToHash(view: View): string {
       return "#/world";
     case "diversao":
       return view.room ? `#/fun/${view.room}` : "#/fun";
-    case "academia":
-      return "#/academia";
     case "teia":
       return "#/teia";
     case "year":
@@ -117,7 +112,6 @@ export function viewFromHash(hash: string): View | null {
   if (seg[0] === "home") return HOME;
   if (seg.length === 1 && AREA_VALUES.includes(seg[0] as AreaId)) return { kind: "area", area: seg[0] as AreaId };
   if (seg[0] === "world" && seg.length === 1) return { kind: "mundo" };
-  if (seg[0] === "academia" && seg.length === 1) return { kind: "academia" };
   if (seg[0] === "teia" && seg.length === 1) return { kind: "teia" };
   if (seg[0] === "fun") {
     if (seg.length === 1) return { kind: "diversao" };

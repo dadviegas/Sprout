@@ -148,6 +148,17 @@
 .dv-tool--wide {
   padding: 0 16px;
 }
+/* The garden's "Regar" call-to-action — a happy, filled button so the main
+   action reads first. */
+.dv-tool--primary {
+  background: linear-gradient(180deg, var(--joy), var(--joy-strong));
+  border-color: var(--joy);
+  color: #fff;
+}
+.dv-tool--primary:hover {
+  border-color: var(--joy);
+  filter: brightness(1.05);
+}
 
 /* ---- canvases ---- */
 .dv-canvas {
@@ -309,8 +320,102 @@
 }
 
 /* ---- garden ---- */
+.dv-garden__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.dv-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--ink-2);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+.dv-stat--star {
+  color: var(--warn);
+  border-color: var(--warn);
+  background: var(--warn-soft);
+}
 .dv-garden {
   position: relative;
+}
+.dv-canvas--garden {
+  border-color: var(--subj-edm);
+  box-shadow: inset 0 -18px 40px -20px rgba(31, 157, 107, 0.45), var(--shadow-md);
+}
+
+/* ---- garden legend: what you've planted, listed below the scene ---- */
+.dv-legend {
+  width: 100%; /* span the room: title on the left, actions pinned to the right */
+  border-collapse: collapse;
+}
+.dv-legend__caption {
+  text-align: left;
+  font-family: var(--font-display);
+  font-weight: 800;
+  color: var(--ink);
+  padding-bottom: 8px;
+}
+.dv-legend th {
+  text-align: left;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-2);
+  font-weight: 700;
+  padding: 0 10px 6px;
+  border-bottom: 1px solid var(--border);
+}
+.dv-legend th.dv-legend__act {
+  text-align: right; /* header sits above its buttons */
+}
+.dv-legend td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.dv-legend tr:last-child td {
+  border-bottom: none;
+}
+.dv-legend__plant {
+  width: 60px;
+  white-space: nowrap;
+}
+.dv-legend__flower {
+  display: inline-flex; /* colour comes from the inline subject token */
+}
+.dv-legend__title {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--ink);
+}
+.dv-legend__meta {
+  display: block;
+  color: var(--ink-2);
+  font-size: 0.85rem;
+}
+.dv-legend__act {
+  width: 116px;
+  white-space: nowrap;
+  text-align: right;
+}
+.dv-legend__act > * + * {
+  margin-left: 6px;
+}
+.dv-tool--mini {
+  min-width: 38px;
+  min-height: 38px;
+  padding: 0 8px;
+  vertical-align: middle;
+  text-decoration: none; /* the "open" action is an <a> styled as a tool */
 }
 .dv-garden__empty {
   position: absolute;

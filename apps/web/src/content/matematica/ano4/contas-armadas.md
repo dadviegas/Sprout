@@ -1,15 +1,18 @@
 # Contas armadas — passo a passo ➕➖✖️➗
 
-> [!NOTE] **O que vais aprender** 👀 Vais aprender a **armar uma conta** (pôr os algarismos uns por baixo dos outros) e a resolvê-la **passo a passo**: somar, subtrair, multiplicar e dividir — e até com **números decimais**! No fim, há uma zona para **treinares com as tuas próprias contas**. 🚀
+> [!NOTE] **O que vais aprender** 👀 Vais aprender a **armar uma conta**: pôr os números em colunas certinhas e resolver **uma coluna de cada vez**. Vamos treinar somar, subtrair, multiplicar, dividir e usar números com vírgula. 🚀
 
-Já sabes fazer contas de cabeça, mas quando os números são grandes a melhor amiga é a **conta armada**: arrumamos os algarismos em colunas certinhas e resolvemos um bocadinho de cada vez. Carrega no **+** dentro de cada conta para a veres montar-se sozinha, e no 🔊 para a ouvires explicada. Vem daí! ✨
+Já sabes fazer contas de cabeça. Quando os números crescem, a **conta armada**
+ajuda porque arruma tudo: unidades com unidades, dezenas com dezenas, centenas
+com centenas. Carrega no **+** dentro de cada conta para veres o próximo passo,
+e no 🔊 para ouvires a explicação. Vem daí! ✨
 
 ```summary
 {
   "learn": [
-    "Armar a conta: alinhar os algarismos pela direita (e as vírgulas, nos decimais)",
-    "Somar e subtrair coluna a coluna, com transporte e empréstimo",
-    "Multiplicar por parcelas e dividir com o algoritmo da divisão",
+    "Armar a conta: alinhar os algarismos pela direita (e alinhar as vírgulas)",
+    "Somar e subtrair coluna a coluna, com «vai 1» e empréstimos",
+    "Multiplicar por partes e dividir passo a passo",
     "Resolver cada conta passo a passo e conferir o resultado"
   ],
   "examples": ["248 + 176", "503 − 247", "34 × 26", "156 : 4", "12,5 + 3,75"],
@@ -19,15 +22,32 @@ Já sabes fazer contas de cabeça, mas quando os números são grandes a melhor 
 
 ## A regra de ouro: alinhar pela direita 📐
 
-Numa conta armada, cada algarismo tem o seu lugar: as **unidades** debaixo das unidades, as **dezenas** debaixo das dezenas… Por isso **encostamos tudo à direita**. Nos números com vírgula, alinhamos é a **vírgula** — fica tudo no sítio certo.
+Numa conta armada, cada algarismo tem uma **casa**. As **unidades** ficam
+debaixo das unidades, as **dezenas** debaixo das dezenas e as **centenas**
+debaixo das centenas. Por isso **encostamos tudo à direita**. Nos números com
+vírgula, alinhamos a **vírgula**.
 
 ```keyvalue
 [
   { "k": "Armar a conta", "v": "pôr os números uns debaixo dos outros, alinhados à direita 📐", "icon": "grid" },
-  { "k": "Transporte (o «vai 1»)", "v": "quando uma coluna passa de 9, levamos 1 para a coluna seguinte ➡️", "icon": "plus" },
-  { "k": "Empréstimo", "v": "quando não dá para tirar, pedimos 10 emprestado à casa ao lado 🤝", "icon": "minus" },
+  { "k": "Transporte (o «vai 1»)", "v": "se a coluna dá 10 ou mais, escreves a unidade e levas a dezena ➡️", "icon": "plus" },
+  { "k": "Empréstimo", "v": "se não dá para tirar, pedes 10 à casa da esquerda 🤝", "icon": "minus" },
   { "k": "Da direita para a esquerda", "v": "começamos sempre na coluna das unidades 👉", "icon": "back" }
 ]
+```
+
+## Como se faz, passo a passo 📋
+
+Antes de veres as contas a montar-se, aqui fica a **receita** de cada operação.
+Escolhe a operação e lê — ou ouve no 🔊 — o que se faz em cada passo. Assim podes
+aprender **sozinho** a armar e a resolver qualquer conta.
+
+```contaarmada
+{
+  "guide": true,
+  "examples": [],
+  "practice": false
+}
 ```
 
 ## Somar e subtrair ➕➖
@@ -46,7 +66,9 @@ Repara como a soma da direita «transporta» 1 para a coluna seguinte, e como na
 
 ## Multiplicar e dividir ✖️➗
 
-Na **multiplicação** fazemos uma parcela por cada algarismo e depois somamos tudo. Na **divisão** usamos o algoritmo da divisão (o divisor fica à direita da barra e o quociente por baixo).
+Na **multiplicação** fazemos uma linha por cada algarismo de baixo e depois
+somamos as linhas. Na **divisão**, perguntamos sempre: “quantas vezes cabe?”,
+depois multiplicamos, tiramos e baixamos o algarismo seguinte.
 
 ```contaarmada
 {
@@ -94,11 +116,30 @@ Vê esta a montar-se: **365 + 248**. Vai dizendo em voz alta o que acontece em c
 
 ## Agora treinas tu! ✏️
 
-Esta é a tua zona de treino. **Escolhe a operação**, escreve os **teus números** e carrega em **«Armar a conta»**. Tenta descobrir o resultado, escreve-o e clica em **«Verificar»** — se errares, segue os passos para perceberes porquê. Bom trabalho! 💪
+Esta é a tua zona de treino. Primeiro, **resolve estas contas** e clica em
+**«Verificar»** — se ficares com dúvidas, carrega na **grelha** para veres uma
+coluna de cada vez. Depois, **inventa as tuas próprias**: escolhe a operação,
+escreve os números e carrega em **«Armar a conta»**. Bom trabalho! 💪
 
 ```contaarmada
 {
-  "title": "A tua zona de treino"
+  "title": "A tua zona de treino",
+  "examplesLayout": "rows"
+}
+```
+
+## Põe-te à prova 🎯
+
+Pronto para o desafio? Esta ficha gera **5 contas de cada operação** com
+**números sempre diferentes**. Resolve todas e carrega em **«Verificar»** para
+veres como te saíste. Queres mais treino? Pede **«Números novos»** e tens uma
+ficha nova! 🎲
+
+```contaarmada
+{
+  "test": true,
+  "examples": [],
+  "practice": false
 }
 ```
 
@@ -132,8 +173,8 @@ Esta é a tua zona de treino. **Escolhe a operação**, escreve os **teus númer
       "options": [ { "t": "884", "emoji": "✖️", "correct": true }, { "t": "204" }, { "t": "680" } ],
       "explain": "204 (34×6) + 680 (34×20) = 884." },
     { "q": "Em 156 : 4, o divisor escreve-se…", "layout": "grid",
-      "options": [ { "t": "à direita da barra", "emoji": "➗", "correct": true }, { "t": "por baixo do dividendo" }, { "t": "à esquerda" } ],
-      "explain": "No algoritmo da divisão, o divisor fica à direita e o quociente por baixo." },
+      "options": [ { "t": "à direita da barra", "emoji": "➗", "correct": true }, { "t": "por baixo do número que divides" }, { "t": "à esquerda" } ],
+      "explain": "O número pelo qual divides fica à direita da barra. A resposta vai aparecendo por baixo dele." },
     { "q": "Quanto é 156 : 4?", "layout": "grid",
       "options": [ { "t": "39", "emoji": "🏆", "correct": true }, { "t": "44" }, { "t": "36" } ],
       "explain": "15 dividido por 4 dá 3 (sobra 3); 36 dividido por 4 dá 9 → 39." }

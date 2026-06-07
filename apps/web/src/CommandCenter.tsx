@@ -23,16 +23,15 @@ import { useProgress } from "./progress";
  * all subjects and years. Matches lesson titles AND body text, can be
  * filtered by AREA, year and subject, and shows a short preview of the
  * match. It also searches the dictionary word-by-word, and offers
- * navigation shortcuts to each home area (Academia, Escola, …).
+ * navigation shortcuts to each home area (Escola, Treinar, …).
  * ------------------------------------------------------------------ */
 
 /* ---- Areas ----------------------------------------------------------- *
  * Every result belongs to a top-level home area, so results can be filtered
  * by area and so each row says where it lives ("Treinar · Saber de cor"). */
-type SearchArea = "academia" | "escola" | "treinar" | "explorar" | "biblioteca" | "diversao";
+type SearchArea = "escola" | "treinar" | "explorar" | "biblioteca" | "diversao";
 
 const AREA_LABEL: Record<SearchArea, string> = {
-  academia: "Academia",
   escola: "Escola",
   treinar: "Treinar",
   explorar: "Explorar",
@@ -48,9 +47,9 @@ function areaOfSubject(subjectId: string): SearchArea {
   return "escola";
 }
 
-/** The areas offered as filter chips, in display order (Academia + Diversão
- *  hold no indexed lessons, but the navigation shortcuts make them reachable). */
-const AREA_FILTERS: SearchArea[] = ["escola", "treinar", "explorar", "biblioteca", "academia", "diversao"];
+/** The areas offered as filter chips, in display order (Diversão holds no
+ *  indexed lessons, but the navigation shortcut makes it reachable). */
+const AREA_FILTERS: SearchArea[] = ["escola", "treinar", "explorar", "biblioteca", "diversao"];
 
 interface Entry {
   lessonId: string;
@@ -259,7 +258,7 @@ function makePreview(text: string, ftext: string, q: string): Hit["preview"] {
 
 /* ---- Area navigation shortcuts -------------------------------------- *
  * Beyond lessons and words, the palette can jump straight to a home area
- * (Academia, Escola, …) or a Diversão room. Built from the YAML page config
+ * (Escola, Treinar, …) or a Diversão room. Built from the YAML page config
  * so the labels/icons/colours match the home cards. */
 interface AreaHit {
   area: SearchArea;
@@ -277,8 +276,6 @@ function buildAreaIndex(): AreaHit[] {
   const push = (area: SearchArea, title: string, blurb: string, icon: string, accent: string, view: View) =>
     out.push({ area, title, blurb, icon: icon as IconName, color: accent.startsWith("--") ? `var(${accent})` : accent, view, fkey: fold(`${title} ${blurb}`) });
 
-  // Academia (its own view) — copy from the academia section.
-  push("academia", site.academia.sectionTitle, site.academia.cardBlurb, "bolt", "--subj-en", { kind: "academia" });
   // The home areas (Escola / Treinar / Explorar / Biblioteca / Diversão).
   for (const a of site.areas.items) {
     const view: View = a.id === "diversao" ? { kind: "diversao" } : { kind: "area", area: a.id as "escola" | "treinar" | "explorar" | "biblioteca" };

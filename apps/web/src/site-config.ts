@@ -68,14 +68,6 @@ export interface SiteConfig {
     sectionSub: string;
     categories: EstudoCategory[];
   };
-  /** "Academia dos Elementos" — a 2D meta-game over the school content (not a subject). */
-  academia: {
-    sectionTitle: string;
-    sectionSub: string;
-    cardTitle: string;
-    cardBlurb: string;
-    cta: string;
-  };
   /** "Diversão" — playful area: a garden, an arcade, and a toy box (not a subject). */
   diversao: {
     sectionTitle: string;

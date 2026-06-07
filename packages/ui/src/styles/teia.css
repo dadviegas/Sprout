@@ -69,7 +69,7 @@
   fill: none;
   stroke-width: 2.4;
   opacity: .38;
-  transition: opacity .25s ease, stroke-width .25s ease;
+  transition: opacity .25s ease, stroke-width .25s ease, filter .25s ease;
 }
 .teia-link--bridge {
   stroke-width: 3.4;
@@ -77,33 +77,59 @@
   stroke-dasharray: 2 12;
   stroke-linecap: round;
 }
-.teia-svg--focused .teia-link.is-dim { opacity: .06; }
-.teia-svg--focused .teia-link.is-active { opacity: .95; stroke-width: 4.5; }
+.teia-svg--focused .teia-link.is-dim { opacity: .035; }
+.teia-svg--focused .teia-link.is-active {
+  opacity: .98;
+  stroke-width: 6;
+  filter: drop-shadow(0 0 7px color-mix(in srgb, currentColor 52%, transparent));
+}
 
 /* nodes */
-.teia-node { cursor: pointer; }
+.teia-node {
+  cursor: pointer;
+  transition: opacity .22s ease, filter .22s ease;
+}
 .teia-node text { paint-order: stroke; pointer-events: none; }
 
 .teia-lesson-bg {
   fill: color-mix(in srgb, var(--c) 22%, var(--surface));
   stroke: var(--c);
   stroke-width: 2.5;
-  transition: transform .2s ease;
+  transition: transform .22s ease, fill .22s ease, stroke-width .22s ease, filter .22s ease;
 }
 .teia-lesson.is-active .teia-lesson-bg,
 .teia-node:hover .teia-lesson-bg { stroke-width: 4; }
+.teia-lesson.is-active .teia-lesson-bg {
+  fill: color-mix(in srgb, var(--c) 54%, var(--surface));
+  filter: drop-shadow(0 0 16px color-mix(in srgb, var(--c) 78%, transparent));
+  transform: scale(1.22);
+}
 .teia-lesson.is-bridge .teia-lesson-bg {
   stroke-dasharray: 5 4;
   filter: drop-shadow(0 0 8px color-mix(in srgb, var(--c) 60%, transparent));
 }
 .teia-label {
   fill: var(--ink);
-  font-size: 25px;
+  font-size: 23px;
   font-weight: 700;
   stroke: var(--bg-2);
-  stroke-width: 6px;
+  stroke-width: 7px;
 }
-.teia-emoji { stroke: none; }
+.teia-lesson.is-active .teia-label {
+  font-size: 28px;
+  font-weight: 850;
+  stroke-width: 8px;
+}
+.teia-lesson-ic {
+  overflow: visible;
+  pointer-events: none;
+}
+.teia-lesson-ic .teia-ic-wrap {
+  width: 44px;
+  height: 44px;
+  color: #fff;
+  filter: drop-shadow(0 1px 2px color-mix(in srgb, #000 35%, transparent));
+}
 
 .teia-theme-halo {
   fill: color-mix(in srgb, var(--c) 18%, transparent);
@@ -113,6 +139,7 @@
   fill: var(--c);
   stroke: var(--surface);
   stroke-width: 4;
+  transition: transform .22s ease, filter .22s ease, stroke-width .22s ease;
   filter: drop-shadow(0 6px 16px color-mix(in srgb, var(--c) 55%, transparent));
 }
 .teia-ic-wrap {
@@ -128,8 +155,17 @@
   stroke-width: 8px;
 }
 
-.teia-svg--focused .teia-node.is-dim { opacity: .14; }
+.teia-svg--focused .teia-node.is-dim { opacity: .08; }
 .teia-node.is-active .teia-theme-halo { fill: color-mix(in srgb, var(--c) 34%, transparent); }
+.teia-theme.is-active .teia-theme-bg {
+  stroke-width: 7;
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 24px color-mix(in srgb, var(--c) 80%, transparent));
+}
+.teia-theme.is-active .teia-theme-label {
+  font-size: 48px;
+  stroke-width: 10px;
+}
 
 /* ── legend ─────────────────────────────────────────────────────────────── */
 .teia-legend {
@@ -181,7 +217,6 @@
   padding: 8px;
   border-radius: 12px;
 }
-.teia-sheet-emoji { flex: 0 0 auto; font-size: 28px; line-height: 1; }
 .teia-sheet-body { min-width: 0; flex: 1 1 auto; display: flex; flex-direction: column; }
 .teia-sheet-body strong { font-size: 1rem; line-height: 1.2; }
 .teia-sheet-sub { font-size: .82rem; color: var(--ink-2); margin-top: 2px; }

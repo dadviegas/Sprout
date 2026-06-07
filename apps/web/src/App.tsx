@@ -34,7 +34,7 @@ import {
   type Cycle,
   type Lesson,
 } from "./content/curriculum";
-import { Icon, type IconName } from "@sprout/icons";
+import { Icon, SUBJECT_ICONS, lessonIconName, type IconName } from "@sprout/icons";
 import { Speaker, stop as stopSpeech } from "@sprout/ui";
 import { site } from "./site-config";
 import { Mascot } from "./Mascot";
@@ -54,9 +54,6 @@ const Markdown = lazy(() => import("./Markdown").then((m) => ({ default: m.Markd
 // when the child opens the fun area, so lazy-load it to keep first paint lean.
 const Diversao = lazy(() => import("./diversao/Diversao").then((m) => ({ default: m.Diversao })));
 
-// "Academia dos Elementos" — the 2D meta-game (hero + missions). Lazy-loaded; it
-// only matters once the child opens it, so it stays out of the first paint.
-const Academia = lazy(() => import("./world/Academia").then((m) => ({ default: m.Academia })));
 const Teia = lazy(() => import("./Teia").then((m) => ({ default: m.Teia })));
 
 function LessonBody({ children, className = "" }: { children: string; className?: string }) {
@@ -69,27 +66,7 @@ function LessonBody({ children, className = "" }: { children: string; className?
   );
 }
 
-const SUBJECT_ICON: Record<string, IconName> = {
-  matematica: "math",
-  portugues: "reading",
-  "estudo-do-meio": "world",
-  ingles: "language",
-  mundo: "compass",
-  estudo: "star",
-  dicionario: "letters",
-  verbos: "reading",
-  paises: "map",
-  cidadania: "heart",
-  tic: "device",
-  artistica: "palette",
-  fisica: "body",
-  // 2.º ciclo (5.º–6.º) subjects
-  ciencias: "microscope",
-  hgp: "scroll",
-  "ed-visual": "brush",
-  "ed-tecnologica": "gear",
-  "ed-musical": "music",
-};
+const SUBJECT_ICON = SUBJECT_ICONS;
 
 const YEAR_STYLE: Record<YearN, { color: string; soft: string }> = {
   1: { color: "var(--subj-edm)", soft: "var(--subj-edm-soft)" },
@@ -100,75 +77,7 @@ const YEAR_STYLE: Record<YearN, { color: string; soft: string }> = {
   6: { color: "var(--subj-hgp)", soft: "var(--subj-hgp-soft)" },
 };
 
-// Per-lesson topic icons (all from @sprout/icons). Fallback: the subject icon.
-const LESSON_ICON: Record<string, IconName> = {
-  "mat-1-numeros-10": "abacus", "mat-1-numeros-20": "abacus", "mat-1-somar": "plusminus",
-  "mat-1-formas": "shapes", "mat-1-tempo": "clock",
-  "mat-1-comparar": "plusminus", "mat-1-ordinais": "trophy", "mat-1-dobro-metade": "fraction",
-  "mat-2-tabuada": "times", "mat-2-numeros-100": "abacus", "mat-2-dinheiro": "coin", "mat-2-horas": "clock",
-  "mat-2-tabuada-3-4-10": "times", "mat-2-par-impar": "abacus", "mat-2-solidos": "shapes", "mat-2-padroes": "shapes",
-  "estudo-tabuadas": "times", "estudo-alfabeto": "letters", "estudo-numeros": "abacus", "estudo-dias-meses": "calendar",
-  "estudo-dinheiro": "coin", "estudo-loja": "cart",
-  "estudo-pontuacao": "quote", "estudo-classes": "tag", "estudo-verbos": "clock", "estudo-formas": "shapes",
-  "estudo-medidas": "ruler", "estudo-formulas": "math", "estudo-romanos": "scroll", "estudo-planetas": "planet",
-  "estudo-continentes": "world", "estudo-pontos-cardeais": "compass", "estudo-datas": "castle", "estudo-distritos": "map",
-  "pt-1-ditongos": "speaker", "pt-2-ordem-alfabetica": "letters", "pt-3-discurso-direto": "quote",
-  "pt-3-aumentativo-diminutivo": "letters", "pt-4-adverbios": "tag", "pt-4-sujeito-predicado": "tag",
-  "mat-3-multiplicacao": "times", "mat-3-divisao": "divide", "mat-3-fracoes": "fraction", "mat-3-medida": "ruler",
-  "mat-3-numeros-1000": "abacus", "mat-3-multiplos": "times", "mat-3-calendario": "calendar",
-  "mat-4-decimais": "abacus", "mat-4-area": "ruler", "mat-4-dados": "chart", "mat-4-problemas": "tip",
-  "mat-4-numeros-milhao": "abacus", "mat-4-fracoes-decimais": "fraction", "mat-4-angulos": "ruler", "mat-4-volume": "flask",
-  "pt-1-vogais": "letters", "pt-1-silabas": "letters", "pt-1-primeiras-palavras": "letters", "pt-1-rimas": "quote",
-  "pt-1-maiusculas": "letters", "pt-1-ler-frases": "reading",
-  "pt-2-pontuacao": "quote", "pt-2-nome-verbo": "tag", "pt-2-singular-plural": "people",
-  "pt-2-tipos-frase": "quote", "pt-2-silaba-tonica": "letters",
-  "pt-3-sinonimos": "quote", "pt-3-familia-palavras": "tag", "pt-3-texto": "pencil",
-  "pt-3-tempos-verbais": "clock", "pt-3-leitura-compreensao": "reading",
-  "pt-4-classes": "tag", "pt-4-tipos-texto": "pencil", "pt-4-acentos": "pencil",
-  "pt-4-graus-adjetivo": "tag", "pt-4-carta": "pencil",
-  "pt-1-ouvir-falar": "people", "pt-1-contos": "reading",
-  "pt-2-recontar": "quote", "pt-2-poemas": "quote",
-  "pt-3-fabulas": "paw", "pt-3-falar-publico": "speaker",
-  "pt-4-autores": "reading", "pt-4-debater": "people",
-  "edm-1-corpo": "body", "edm-1-dias": "calendar", "edm-1-familia": "people", "edm-1-higiene": "drop",
-  "edm-1-sentidos": "body", "edm-1-seguranca": "warn",
-  "edm-2-estacoes": "cloud", "edm-2-animais": "paw", "edm-2-agua": "drop",
-  "edm-2-seres-vivos": "plant", "edm-2-profissoes": "people",
-  "edm-3-plantas": "plant", "edm-3-portugal": "flag", "edm-3-solidos-liquidos": "flask",
-  "edm-3-alimentacao": "apple", "edm-3-eletricidade": "tip",
-  "edm-4-sistema-solar": "planet", "edm-4-corpo-sistemas": "heart", "edm-4-historia": "castle",
-  "edm-4-ambiente": "plant", "edm-4-mapas": "compass",
-  "en-1-hello": "wave", "en-1-colours": "palette", "en-1-numbers": "abacus", "en-1-numbers-20": "abacus",
-  "en-2-animals": "paw", "en-2-body": "body", "en-2-family": "people", "en-2-food": "apple",
-  "en-3-food": "apple", "en-3-toys": "teddy", "en-3-clothes": "shirt", "en-3-house": "home",
-  "en-4-days": "calendar", "en-4-weather": "cloud", "en-4-time": "clock", "en-4-jobs": "people",
-  "mundo-1-acores": "island", "mundo-1-vulcoes": "planet", "mundo-1-mar": "wave2", "mundo-1-ilha": "island",
-  "mundo-1-lendas": "quote", "mundo-1-simbolos": "flag",
-  "mundo-2-portugal": "flag", "mundo-2-regioes": "map", "mundo-2-comidas": "apple",
-  "mundo-2-simbolos": "flag", "mundo-2-rios": "wave2",
-  "mundo-3-europa": "flag", "mundo-3-atlantico": "wave2", "mundo-3-descobrimentos": "compass",
-  "mundo-3-vizinhos": "people", "mundo-3-animais-oceano": "wave2",
-  "mundo-4-continentes": "world", "mundo-4-fusos": "clock", "mundo-4-maravilhas": "castle",
-  "mundo-4-animais": "paw", "mundo-4-bandeiras": "flag",
-  "paises-pt-pais": "map", "paises-pt-bandeira": "flag", "paises-pt-hino": "quote",
-  "paises-pt-comida": "apple", "paises-pt-natureza": "paw", "paises-pt-curiosidades": "sparkle",
-  "paises-ca-pais": "map", "paises-ca-bandeira": "flag", "paises-ca-hino": "quote",
-  "paises-ca-comida": "apple", "paises-ca-natureza": "paw", "paises-ca-curiosidades": "sparkle",
-  "cid-1-direitos": "tag", "cid-1-reciclar": "plant", "cid-1-diferentes": "people",
-  "cid-2-emocoes": "heart", "cid-2-poupar": "coin", "cid-2-ajudar": "people",
-  "cid-3-internet": "lock", "cid-3-igualdade": "people", "cid-3-consumir": "tip",
-  "cid-4-sustentavel": "plant", "cid-4-democracia": "people", "cid-4-saude": "heart",
-  "art-1-cores": "palette", "art-1-linhas": "pencil", "art-1-sons": "speaker",
-  "art-2-misturar": "palette", "art-2-instrumentos": "speaker", "art-2-faz-de-conta": "teddy",
-  "art-3-tecnicas": "pencil", "art-3-ritmo": "clock", "art-3-danca": "sparkle",
-  "art-4-pintores": "palette", "art-4-compositores": "speaker", "art-4-dancas-mundo": "world",
-  "ef-1-mexer": "body", "ef-1-aquecer": "heart", "ef-1-jogos": "people",
-  "ef-2-equilibrio": "sparkle", "ef-2-tradicionais": "teddy", "ef-2-desportivismo": "people",
-  "ef-3-desportos": "trophy", "ef-3-corpo": "heart", "ef-3-ginastica": "sparkle",
-  "ef-4-olimpicos": "trophy", "ef-4-vida-ativa": "heart", "ef-4-seguranca": "warn",
-};
-
-const lessonIconById = (subjectId: string, lessonId: string): IconName => LESSON_ICON[lessonId] ?? SUBJECT_ICON[subjectId];
+const lessonIconById = (subjectId: string, lessonId: string): IconName => lessonIconName(subjectId, lessonId);
 const lessonIcon = (subjectId: string, l: Lesson): IconName => lessonIconById(subjectId, l.id);
 
 // "Saber de cor" topics by id — the "Treinar" page groups them into categories
@@ -341,7 +250,6 @@ function Root() {
           <Home
             onOpenArea={(area) => go({ kind: "area", area })}
             onOpenDiversao={() => go({ kind: "diversao" })}
-            onOpenAcademia={() => go({ kind: "academia" })}
             onOpenTeia={() => go({ kind: "teia" })}
             onOpenLesson={openLesson}
           />
@@ -393,11 +301,6 @@ function Root() {
         {view.kind === "diversao" && (
           <Suspense fallback={<div className="lesson-loading">A preparar a diversão…</div>}>
             <Diversao room={view.room} onOpenRoom={(room) => go({ kind: "diversao", room })} />
-          </Suspense>
-        )}
-        {view.kind === "academia" && (
-          <Suspense fallback={<div className="lesson-loading">A preparar a Academia…</div>}>
-            <Academia onGo={go} />
           </Suspense>
         )}
         {view.kind === "teia" && (
@@ -511,11 +414,6 @@ function TopBar({
                   </>
                 )}
               </>
-            ) : view.kind === "academia" ? (
-              // The "Academia dos Elementos" meta-game.
-              <span style={{ color: "var(--subj-en)", display: "inline-flex", alignItems: "center", gap: 4 }}>
-                <Icon name="bolt" size={18} /> {site.academia.sectionTitle}
-              </span>
             ) : view.kind === "teia" ? (
               // "A Teia do Saber" — the knowledge web.
               <span style={{ color: "var(--subj-emus)", display: "inline-flex", alignItems: "center", gap: 4 }}>
@@ -828,19 +726,17 @@ function RecentlySeen({
 /* ---------------- home: pick an area ---------------- */
 
 // The home is a short grid of top-level AREAS (not one long list of every
-// section). Academia stays the hero above. Each area card opens its own page
-// (the *View components below). Progress rolls up where the area holds graded
-// lessons (Escola, Explorar); Treinar/Biblioteca/Diversão just show a blurb.
+// section). Each area card opens its own page (the *View components below).
+// Progress rolls up where the area holds graded lessons (Escola, Explorar);
+// Treinar/Biblioteca/Diversão just show a blurb.
 function Home({
   onOpenArea,
   onOpenDiversao,
-  onOpenAcademia,
   onOpenTeia,
   onOpenLesson,
 }: {
   onOpenArea: (area: AreaId) => void;
   onOpenDiversao: () => void;
-  onOpenAcademia: () => void;
   onOpenTeia: () => void;
   onOpenLesson: (lessonId: string) => void;
 }) {
@@ -866,29 +762,6 @@ function Home({
       )}
 
       <RecentlySeen history={history} progress={progress} onOpen={onOpenLesson} onRemove={removeSeen} onClear={clearHistory} />
-
-      {/* "Academia dos Elementos" — the 2D meta-game (the hook): create an
-          elemental hero, then real lessons/tests earn XP, coins and missions.
-          Stays the hero at the top — it's the reason to come back and study. */}
-      <h2 className="section-title">
-        <span style={{ color: "var(--subj-en)", display: "inline-flex" }}>
-          <Icon name="bolt" size={26} />
-        </span>
-        {site.academia.sectionTitle}
-      </h2>
-      <p className="section-sub">{site.academia.sectionSub}</p>
-      <div className="card-grid">
-        <BigCard
-          iconName="bolt"
-          kicker="Aventura"
-          title={site.academia.cardTitle}
-          color="var(--subj-en)"
-          colorSoft="var(--subj-en-soft)"
-          sub={<span className="sub">{site.academia.cardBlurb}</span>}
-          say={`${site.academia.cardTitle}. ${site.academia.cardBlurb}`}
-          onClick={onOpenAcademia}
-        />
-      </div>
 
       {/* The areas: Escola, Treinar, Explorar, Biblioteca, Diversão. Copy/icons
           /colours come from site.areas; each opens its page (or the Diversão

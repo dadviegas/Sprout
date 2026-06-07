@@ -1196,17 +1196,23 @@ function SubjectView({ subject, year, onPick }: { subject: Subject; year: YearN;
               color={subject.color}
               colorSoft={subject.colorSoft}
               soon={soon}
-              say={dict ? `Letra ${l.title}.` : `${l.title}.${soon ? " Em breve." : ""}`}
+              say={dict ? `Letra ${l.title}.` : `${l.title}.${l.tag ? ` ${l.tag.replace(/[–-]/g, " a ")}.` : ""}${soon ? " Em breve." : ""}`}
               onClick={() => onPick(l.id)}
               sub={
                 dict ? (
                   <span className="sub">{verbs ? "Toca para conjugar ›" : "Toca para ver as palavras ›"}</span>
-                ) : soon ? (
-                  <span className="tag"><Icon name="lock" size={13} /> Em breve</span>
-                ) : p?.done ? (
-                  <Stars n={p.bestStars} />
                 ) : (
-                  <span className="sub">Toca para começar ›</span>
+                  <>
+                    {/* a short factual label (e.g. a person's lifespan "1879–1955") */}
+                    {l.tag && <span className="sub" style={{ display: "block", fontWeight: 700 }}>{l.tag}</span>}
+                    {soon ? (
+                      <span className="tag"><Icon name="lock" size={13} /> Em breve</span>
+                    ) : p?.done ? (
+                      <Stars n={p.bestStars} />
+                    ) : (
+                      <span className="sub">Toca para começar ›</span>
+                    )}
+                  </>
                 )
               }
             />

@@ -1170,6 +1170,17 @@ export const ICONS = {
       <path d="M11 12h2M12 11v2" />
     </>
   ),
+
+  // A little car — the dictionary's "Transportes" theme.
+  car: (
+    <>
+      <path d="M5 11l1.6-4A2 2 0 0 1 8.5 5.7h7a2 2 0 0 1 1.9 1.3L19 11" />
+      <rect x="3" y="11" width="18" height="6" rx="1.5" />
+      <path d="M3 14h18" />
+      <circle cx="7.5" cy="17" r="1.8" />
+      <circle cx="16.5" cy="17" r="1.8" />
+    </>
+  ),
 } as const;
 
 export type IconName = keyof typeof ICONS;

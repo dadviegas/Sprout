@@ -10,6 +10,13 @@ export type WordClass =
   | "nome" | "verbo" | "adjetivo" | "adverbio" | "numeral"
   | "pronome" | "interjeicao" | "artigo" | "preposicao" | "conjuncao";
 
+/** A real-world theme a word belongs to (animais, comida, …). Optional — many
+ *  abstract words have none. Like WordClass: ASCII keys double as JSON values +
+ *  icon-map keys; the shown label is separate. Drives the second filter row. */
+export type Theme =
+  | "animais" | "comida" | "corpo" | "casa" | "escola" | "natureza"
+  | "transportes" | "roupa" | "cores" | "tempo" | "pessoas" | "portugal";
+
 export interface DictEntry {
   /** the word, shown big on the card */
   word: string;
@@ -19,6 +26,8 @@ export interface DictEntry {
   emoji?: string;
   /** part of speech — drives the class icon (with tooltip) and the filter chip */
   class?: WordClass;
+  /** real-world theme (animais, comida, …) — drives the theme icon + 2nd filter */
+  tema?: Theme;
   /** the verb's conjugation data, present on verbs mirrored from verbos/*.md.
    *  When set, the card offers "conjugar", which opens the full conjugation
    *  inline (same panel as the Verbos section). Derived at runtime, never
@@ -54,6 +63,28 @@ const CLASS_ICON: Record<WordClass, IconName> = {
   nome: "wcNome", verbo: "wcVerbo", adjetivo: "wcAdjetivo", adverbio: "wcAdverbio",
   numeral: "wcNumeral", pronome: "wcPronome", interjeicao: "wcInterjeicao",
   artigo: "wcArtigo", preposicao: "wcPreposicao", conjuncao: "wcConjuncao",
+};
+
+/** The twelve themes, in the order their filter chips appear. */
+const THEME_ORDER: Theme[] = [
+  "animais", "comida", "corpo", "casa", "escola", "natureza",
+  "transportes", "roupa", "cores", "tempo", "pessoas", "portugal",
+];
+
+/** Human label (pt-PT) for each theme — chip text + tooltip. */
+const THEME_LABEL: Record<Theme, string> = {
+  animais: "Animais", comida: "Comida", corpo: "Corpo", casa: "Casa",
+  escola: "Escola", natureza: "Natureza", transportes: "Transportes",
+  roupa: "Roupa", cores: "Cores", tempo: "Tempo e datas",
+  pessoas: "Pessoas e família", portugal: "Açores e Portugal",
+};
+
+/** Icon for each theme — reuses existing glyphs (only `car` was new). Typed
+ *  against IconName so a missing icon is a compile error. */
+const THEME_ICON: Record<Theme, IconName> = {
+  animais: "paw", comida: "apple", corpo: "body", casa: "home",
+  escola: "backpack", natureza: "leaf", transportes: "car", roupa: "shirt",
+  cores: "palette", tempo: "calendar", pessoas: "family", portugal: "flag",
 };
 
 const entrySay = (e: DictEntry) => e.say ?? `${e.word}. ${e.meaning}`;
@@ -134,6 +165,11 @@ function DictCard({ entry }: { entry: DictEntry }) {
               <Icon name={CLASS_ICON[entry.class]} size={14} />
             </span>
           )}
+          {entry.tema && (
+            <span className="dict-tema" title={THEME_LABEL[entry.tema]} aria-hidden>
+              <Icon name={THEME_ICON[entry.tema]} size={14} />
+            </span>
+          )}
           <span className="dict-word">{entry.word}</span>
         </span>
         <span className="dict-meaning">{entry.meaning}</span>
@@ -156,13 +192,18 @@ function DictCard({ entry }: { entry: DictEntry }) {
 
 /* Dictionary — a grid of word cards for early readers: each card pictures the
    word with an emoji, shows the word and a simple meaning, and reads both aloud
-   when tapped. A class badge (with tooltip) marks the part of speech, and when a
-   page carries more than one class a filter bar narrows the grid to one of them.
-   "Ouvir tudo" reads every entry currently shown, in order. */
+   when tapped. Two badges (with tooltips) mark the part of speech and the theme,
+   and two filter rows — by class, and by theme — narrow the grid (each only
+   shown when the page has more than one of that kind). "Ouvir tudo" reads every
+   entry currently shown, in order. */
 export function Dictionary({ spec }: { spec: DictionarySpec }) {
-  const [filter, setFilter] = useState<WordClass | "all">("all");
-  const present = CLASS_ORDER.filter((c) => spec.entries.some((e) => e.class === c));
-  const shown = filter === "all" ? spec.entries : spec.entries.filter((e) => e.class === filter);
+  const [cls, setCls] = useState<WordClass | "all">("all");
+  const [tema, setTema] = useState<Theme | "all">("all");
+  const classes = CLASS_ORDER.filter((c) => spec.entries.some((e) => e.class === c));
+  const temas = THEME_ORDER.filter((t) => spec.entries.some((e) => e.tema === t));
+  const shown = spec.entries.filter(
+    (e) => (cls === "all" || e.class === cls) && (tema === "all" || e.tema === tema),
+  );
   return (
     <div className="widget dictionary-widget">
       <div className="w-head">
@@ -175,24 +216,38 @@ export function Dictionary({ spec }: { spec: DictionarySpec }) {
           Ouvir tudo
         </Speaker>
       </div>
-      {present.length > 1 && (
+      {classes.length > 1 && (
         <div className="dict-filter" role="group" aria-label="Filtrar por classe de palavra">
-          <button
-            type="button"
-            className={`dict-chip${filter === "all" ? " on" : ""}`}
-            onClick={() => setFilter("all")}
-          >
+          <button type="button" className={`dict-chip${cls === "all" ? " on" : ""}`} onClick={() => setCls("all")}>
             <Icon name="grid" size={14} /> Todas
           </button>
-          {present.map((c) => (
+          {classes.map((c) => (
             <button
               key={c}
               type="button"
-              className={`dict-chip${filter === c ? " on" : ""}`}
+              className={`dict-chip${cls === c ? " on" : ""}`}
               title={CLASS_LABEL[c]}
-              onClick={() => setFilter(c)}
+              onClick={() => setCls(c)}
             >
               <Icon name={CLASS_ICON[c]} size={14} /> {CLASS_LABEL[c]}
+            </button>
+          ))}
+        </div>
+      )}
+      {temas.length > 1 && (
+        <div className="dict-filter dict-filter--tema" role="group" aria-label="Filtrar por tema">
+          <button type="button" className={`dict-chip${tema === "all" ? " on" : ""}`} onClick={() => setTema("all")}>
+            <Icon name="grid" size={14} /> Todos
+          </button>
+          {temas.map((t) => (
+            <button
+              key={t}
+              type="button"
+              className={`dict-chip${tema === t ? " on" : ""}`}
+              title={THEME_LABEL[t]}
+              onClick={() => setTema(t)}
+            >
+              <Icon name={THEME_ICON[t]} size={14} /> {THEME_LABEL[t]}
             </button>
           ))}
         </div>

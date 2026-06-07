@@ -44,7 +44,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-mundo)",
     blurb:
       "A água liga muitas matérias: aparece no Estudo do Meio, nas Ciências, no oceano Atlântico e até nos animais do mar.",
-    lessons: ["edm-2-agua", "edm-3-solidos-liquidos", "cn-5-agua", "mundo-3-atlantico", "mundo-3-animais-oceano", "enc-terra-agua"],
+    lessons: ["edm-2-agua", "edm-3-solidos-liquidos", "cn-5-agua", "mundo-3-atlantico", "mundo-3-animais-oceano", "enc-terra-agua", "enc-ciencia-barcos"],
   },
   {
     id: "corpo",
@@ -71,7 +71,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-mat)",
     blurb:
       "Do sistema solar aos relógios e calendários — o espaço e o tempo ligam a Matemática, o Estudo do Meio e o Mundo.",
-    lessons: ["edm-4-sistema-solar", "estudo-planetas", "mat-1-tempo", "mat-2-horas", "estudo-relogio", "estudo-dias-meses", "mat-3-calendario", "mundo-4-fusos", "enc-espaco-planetas", "enc-terra-dia-noite"],
+    lessons: ["edm-4-sistema-solar", "estudo-planetas", "mat-1-tempo", "mat-2-horas", "estudo-relogio", "estudo-dias-meses", "mat-3-calendario", "mundo-4-fusos", "enc-espaco-planetas", "enc-terra-dia-noite", "enc-espaco-sol", "enc-espaco-lua"],
   },
   {
     id: "animais",
@@ -80,7 +80,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-edm)",
     blurb:
       "Os seres vivos aparecem no Estudo do Meio, nas Ciências, no Mundo, em Inglês e nos países.",
-    lessons: ["edm-2-animais", "edm-2-seres-vivos", "cn-5-animais-diversidade", "edm-3-plantas", "cn-5-plantas", "mundo-4-animais", "mundo-3-animais-oceano", "en-2-animals", "paises-pt-natureza", "enc-animais-polvo"],
+    lessons: ["edm-2-animais", "edm-2-seres-vivos", "cn-5-animais-diversidade", "edm-3-plantas", "cn-5-plantas", "mundo-4-animais", "mundo-3-animais-oceano", "en-2-animals", "paises-pt-natureza", "enc-animais-polvo", "enc-animais-baleia", "enc-dinos-trex", "enc-plantas-fotossintese"],
   },
   {
     id: "portugal",
@@ -163,6 +163,19 @@ export const THEMES: TeiaTheme[] = [
       "Criar junta as cores, os sons, o ritmo e até as rimas das poesias.",
     lessons: ["art-1-sons", "art-1-cores", "art-2-instrumentos", "em-5-som-silencio", "em-5-ritmo", "art-3-ritmo", "ev-5-cor", "pt-1-rimas", "enc-ciencia-ceu-azul"],
   },
+  {
+    id: "figuras",
+    label: "Pessoas que mudaram o mundo",
+    icon: "people",
+    accent: "var(--subj-pt)",
+    blurb:
+      "Mulheres e homens que deixaram marca — ligam a ciência, a história, a arte e o desporto.",
+    lessons: [
+      "enc-pessoas-curie", "enc-pessoas-einstein", "enc-pessoas-ada", "enc-pessoas-henrique",
+      "enc-pessoas-amalia", "enc-pessoas-eusebio", "enc-pessoas-newton", "enc-pessoas-camoes",
+      "pt-4-autores", "mundo-3-descobrimentos", "tic-6-programacao",
+    ],
+  },
 ];
 
 /* Extra conceptual bridges between themes that don't share a lesson but are
@@ -176,6 +189,8 @@ export const BRIDGES: TeiaBridge[] = [
   { a: "numeros", b: "dinheiro" },
   { a: "palavras", b: "som-arte" },
   { a: "mapas", b: "historia" },
+  { a: "figuras", b: "historia" },
+  { a: "figuras", b: "numeros" },
 ];
 
 /* ── Resolved graph (relationships + curriculum-derived node data) ─────────── */

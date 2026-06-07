@@ -30,6 +30,7 @@ import {
   Colors, type ColorsSpec,
   ColorMix, type ColorMixSpec,
   Atlas, type AtlasSpec,
+  SizeCompare, type SizeCompareSpec,
   Tabuada, type TabuadaSpec,
   ContaArmada, type ContaArmadaSpec,
   DinheiroJogo, type DinheiroJogoSpec,
@@ -217,6 +218,7 @@ const widgetRenderers: Record<string, (json: unknown) => ReactNode> = {
   colors: (d) => <Colors spec={d as ColorsSpec} />,
   colormix: (d) => <ColorMix spec={d as ColorMixSpec} />,
   atlas: (d) => <Atlas spec={d as AtlasSpec} />,
+  sizecompare: (d) => <SizeCompare spec={d as SizeCompareSpec} />,
 };
 
 function jsonError(lang: string, e: unknown): ReactNode {

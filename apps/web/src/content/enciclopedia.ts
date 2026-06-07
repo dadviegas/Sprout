@@ -25,6 +25,18 @@ import cienciaCores from "./enciclopedia/ciencia/como-nascem-as-cores.md";
 import corpoCoracao from "./enciclopedia/corpo/o-coracao.md";
 import terraDiaNoite from "./enciclopedia/terra/porque-ha-dia-e-noite.md";
 import terraVulcoes from "./enciclopedia/terra/como-funcionam-os-vulcoes.md";
+import pessoasCurie from "./enciclopedia/pessoas/marie-curie.md";
+import pessoasEinstein from "./enciclopedia/pessoas/albert-einstein.md";
+import pessoasHenrique from "./enciclopedia/pessoas/infante-dom-henrique.md";
+import pessoasAmalia from "./enciclopedia/pessoas/amalia-rodrigues.md";
+import pessoasAda from "./enciclopedia/pessoas/ada-lovelace.md";
+import pessoasEusebio from "./enciclopedia/pessoas/eusebio.md";
+import dinosTrex from "./enciclopedia/dinos/tiranossauro-rex.md";
+import animaisBaleia from "./enciclopedia/animais/a-baleia-azul.md";
+import espacoSol from "./enciclopedia/espaco/o-sol.md";
+import espacoLua from "./enciclopedia/espaco/a-lua.md";
+import plantasFoto from "./enciclopedia/plantas/a-fotossintese.md";
+import cienciaBarcos from "./enciclopedia/ciencia/porque-flutuam-os-barcos.md";
 
 /** One discovery theme: a card in the Biblioteca that opens to its articles.
  *  `color` is a colour-token reference (the soft variant is derived). */
@@ -49,8 +61,8 @@ export const ENC_THEMES: EncTheme[] = [
     blurb: "Planetas, estrelas, a Lua e as viagens ao espaço.",
     articles: [
       { id: "enc-espaco-planetas", title: "Planetas: gigantes e pequeninos", emoji: "🪐", body: espacoPlanetas },
-      { id: "enc-espaco-sol", title: "O Sol: a nossa estrela", emoji: "☀️" },
-      { id: "enc-espaco-lua", title: "A Lua e as suas fases", emoji: "🌙" },
+      { id: "enc-espaco-sol", title: "O Sol: a nossa estrela", emoji: "☀️", body: espacoSol },
+      { id: "enc-espaco-lua", title: "A Lua e as suas fases", emoji: "🌙", body: espacoLua },
       { id: "enc-espaco-buracos-negros", title: "Os buracos negros", emoji: "🕳️" },
       { id: "enc-espaco-apollo", title: "A primeira viagem à Lua", emoji: "🚀" },
     ],
@@ -60,7 +72,7 @@ export const ENC_THEMES: EncTheme[] = [
     color: "var(--subj-hgp)",
     blurb: "Os gigantes que viveram há milhões de anos.",
     articles: [
-      { id: "enc-dinos-trex", title: "O Tiranossauro Rex", emoji: "🦖" },
+      { id: "enc-dinos-trex", title: "O Tiranossauro Rex", emoji: "🦖", body: dinosTrex },
       { id: "enc-dinos-triceratops", title: "O Triceratops", emoji: "🦕" },
       { id: "enc-dinos-fosseis", title: "Como sabemos que existiram?", emoji: "🦴" },
       { id: "enc-dinos-extincao", title: "Porque desapareceram?", emoji: "☄️" },
@@ -72,7 +84,7 @@ export const ENC_THEMES: EncTheme[] = [
     blurb: "Bichos de todos os tamanhos e os seus segredos.",
     articles: [
       { id: "enc-animais-polvo", title: "O polvo: o génio do mar", emoji: "🐙", body: animaisPolvo },
-      { id: "enc-animais-baleia", title: "A baleia-azul: o maior de todos", emoji: "🐋" },
+      { id: "enc-animais-baleia", title: "A baleia-azul: o maior de todos", emoji: "🐋", body: animaisBaleia },
       { id: "enc-animais-gatos", title: "Porque ronronam os gatos?", emoji: "🐱" },
       { id: "enc-animais-formigas", title: "As formigas trabalhadoras", emoji: "🐜" },
     ],
@@ -82,7 +94,7 @@ export const ENC_THEMES: EncTheme[] = [
     color: "var(--subj-edm)",
     blurb: "Como as plantas comem luz e enchem o mundo de verde.",
     articles: [
-      { id: "enc-plantas-fotossintese", title: "A fotossíntese: comer luz", emoji: "🌞" },
+      { id: "enc-plantas-fotossintese", title: "A fotossíntese: comer luz", emoji: "🌞", body: plantasFoto },
       { id: "enc-plantas-semente", title: "Da semente à árvore", emoji: "🌱" },
       { id: "enc-plantas-flores", title: "As flores e as abelhas", emoji: "🌸" },
     ],
@@ -104,7 +116,7 @@ export const ENC_THEMES: EncTheme[] = [
     blurb: "Os porquês do dia a dia e invenções que mudaram tudo.",
     articles: [
       { id: "enc-ciencia-ceu-azul", title: "Porque é que o céu é azul?", emoji: "🌈", body: cienciaCeu },
-      { id: "enc-ciencia-barcos", title: "Porque flutuam os barcos?", emoji: "⛵" },
+      { id: "enc-ciencia-barcos", title: "Porque flutuam os barcos?", emoji: "⛵", body: cienciaBarcos },
       { id: "enc-ciencia-cores", title: "Como nascem as cores?", emoji: "🎨", body: cienciaCores },
       { id: "enc-ciencia-eletricidade", title: "A eletricidade", emoji: "⚡" },
     ],
@@ -123,11 +135,20 @@ export const ENC_THEMES: EncTheme[] = [
   {
     id: "enc-pessoas", label: "Pessoas", emoji: "🏛️", icon: "people",
     color: "var(--subj-pt)",
-    blurb: "Cientistas, inventores e heróis que mudaram o mundo.",
+    blurb: "Mulheres e homens que mudaram o mundo — com os seus anos de vida.",
+    // `tag` is the lifespan, shown on each card (and read aloud). Balanced list
+    // of women and men, Portuguese and from the wider world.
     articles: [
-      { id: "enc-pessoas-einstein", title: "Albert Einstein", emoji: "🧪" },
-      { id: "enc-pessoas-curie", title: "Marie Curie", emoji: "⚗️" },
-      { id: "enc-pessoas-henrique", title: "Infante D. Henrique", emoji: "⛵" },
+      { id: "enc-pessoas-curie", title: "Marie Curie", emoji: "👩‍🔬", tag: "1867–1934", body: pessoasCurie },
+      { id: "enc-pessoas-einstein", title: "Albert Einstein", emoji: "🧪", tag: "1879–1955", body: pessoasEinstein },
+      { id: "enc-pessoas-ada", title: "Ada Lovelace", emoji: "💻", tag: "1815–1852", body: pessoasAda },
+      { id: "enc-pessoas-henrique", title: "Infante D. Henrique", emoji: "⛵", tag: "1394–1460", body: pessoasHenrique },
+      { id: "enc-pessoas-amalia", title: "Amália Rodrigues", emoji: "🎶", tag: "1920–1999", body: pessoasAmalia },
+      { id: "enc-pessoas-eusebio", title: "Eusébio", emoji: "⚽", tag: "1942–2014", body: pessoasEusebio },
+      { id: "enc-pessoas-frida", title: "Frida Kahlo", emoji: "🎨", tag: "1907–1954" },
+      { id: "enc-pessoas-newton", title: "Isaac Newton", emoji: "🍎", tag: "1643–1727" },
+      { id: "enc-pessoas-nightingale", title: "Florence Nightingale", emoji: "🩺", tag: "1820–1910" },
+      { id: "enc-pessoas-camoes", title: "Luís de Camões", emoji: "📜", tag: "c. 1524–1580" },
     ],
   },
 ];

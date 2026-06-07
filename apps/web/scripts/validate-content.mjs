@@ -25,7 +25,7 @@ const FINAL_MARKER = "## 🎯 Questionário final";
 // `widgetRenderers` / `infographicRenderers` maps + the `quiz` branch there.
 const JSON_BLOCKS = new Set([
   "quiz",
-  "shape", "angle", "areagrid", "symmetry", "compass", "watercycle", "clock", "numberline", "tenframe", "fraction", "fractionstrips", "fractionof", "money", "shop", "solarsystem", "daynight", "soundcards", "dictionary", "verbs", "colors", "colormix", "atlas", "tabuada", "drill", "figure", "math", "chart", "timeline", "bodysystem", "mapapt",
+  "shape", "angle", "areagrid", "symmetry", "compass", "watercycle", "clock", "numberline", "tenframe", "fraction", "fractionstrips", "fractionof", "money", "shop", "solarsystem", "daynight", "soundcards", "dictionary", "verbs", "colors", "colormix", "atlas", "sizecompare", "tabuada", "drill", "figure", "math", "chart", "timeline", "bodysystem", "mapapt",
   "summary", "stats", "steps", "meters", "keyvalue", "compare", "quote",
 ]);
 
@@ -155,10 +155,15 @@ function validateVerbs(data, where, errors) {
 
 /* The `dictionary` block (the Biblioteca's word cards): every entry needs a
  * `word` and a `meaning`; the optional `class` (part of speech) must be one of
- * the ten word classes — verbs are derived from verbos/*.md, not listed here. */
+ * the ten word classes and the optional `tema` one of the twelve themes — verbs
+ * are derived from verbos/*.md, not listed here. */
 const WORD_CLASSES = new Set([
   "nome", "verbo", "adjetivo", "adverbio", "numeral",
   "pronome", "interjeicao", "artigo", "preposicao", "conjuncao",
+]);
+const WORD_THEMES = new Set([
+  "animais", "comida", "corpo", "casa", "escola", "natureza",
+  "transportes", "roupa", "cores", "tempo", "pessoas", "portugal",
 ]);
 function validateDictionary(data, where, errors) {
   if (typeof data !== "object" || data === null || !Array.isArray(data.entries)) {
@@ -172,6 +177,8 @@ function validateDictionary(data, where, errors) {
     if (typeof e.meaning !== "string" || !e.meaning.trim()) errors.push(`${at}: falta 'meaning'`);
     if (e.class !== undefined && !WORD_CLASSES.has(e.class))
       errors.push(`${at} (${e.word ?? "?"}): 'class' inválida '${e.class}' — usa uma de: ${[...WORD_CLASSES].join(", ")}`);
+    if (e.tema !== undefined && !WORD_THEMES.has(e.tema))
+      errors.push(`${at} (${e.word ?? "?"}): 'tema' inválido '${e.tema}' — usa um de: ${[...WORD_THEMES].join(", ")}`);
   });
 }
 

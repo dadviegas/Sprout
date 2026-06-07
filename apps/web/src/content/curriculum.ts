@@ -37,6 +37,9 @@ export interface Lesson {
    *  map view group lessons by region/country without changing navigation. */
   zona?: string;
   pais?: string;
+  /** A short factual label shown on the lesson card (e.g. a person's lifespan
+   *  "1879–1955", or a date). Used by the Enciclopédia's "Pessoas" theme. */
+  tag?: string;
 }
 
 export interface Subject {

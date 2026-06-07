@@ -1367,6 +1367,8 @@
 /* filter chips — narrow the grid to one word class (icon + label, tooltip on
    hover). Only shown when a page carries more than one class. */
 .dict-filter { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+/* the theme row tucks just under the class row (less of a gap between them) */
+.dict-filter--tema { margin-top: -6px; }
 .dict-chip {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 5px 12px; border-radius: 999px;
@@ -1410,6 +1412,13 @@
   flex-shrink: 0; width: 22px; height: 22px;
   display: inline-flex; align-items: center; justify-content: center;
   border-radius: 50%; background: var(--accent-soft); color: var(--accent);
+}
+/* theme badge: a neutral chip beside the class badge, so the two don't blur */
+.dict-card .dict-tema {
+  flex-shrink: 0; width: 22px; height: 22px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%; background: var(--bg); color: var(--ink-2);
+  border: 1.5px solid var(--border);
 }
 .dict-card .dict-word {
   font-family: var(--font-display); font-weight: 800; font-size: 1.3em;
@@ -2650,3 +2659,30 @@ button.hm-cell:hover { transform: scale(1.18); }
   text-decoration: none; transition: background .12s, color .12s;
 }
 .atlas-card__photos:hover { background: var(--subj-cn); color: #fff; }
+
+/* SizeCompare — proportional bars to compare how big things are */
+.sizecompare-widget .w-badge { background: var(--subj-hgp); }
+.sizecompare-hear {
+  margin-left: auto; flex-shrink: 0;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 999px; border: none;
+  background: var(--subj-hgp); color: #fff;
+  font-family: var(--font-display); font-weight: 700; font-size: .85em;
+  cursor: pointer; transition: transform .12s, filter .12s;
+}
+.sizecompare-hear:hover { transform: translateY(-1px); filter: brightness(1.08); }
+.sizecompare-rows { display: flex; flex-direction: column; gap: 12px; }
+.sizecompare-row { display: flex; align-items: center; gap: 12px; }
+.sizecompare-label { width: 110px; flex: none; text-align: right; }
+.sizecompare-name { display: block; font-family: var(--font-display); font-weight: 700; font-size: .9em; line-height: 1.1; }
+.sizecompare-note { display: block; font-size: .72em; color: var(--ink-3); }
+.sizecompare-track { flex: 1; display: flex; align-items: center; gap: 8px; min-width: 0; }
+.sizecompare-bar {
+  height: 26px; border-radius: 8px; min-width: 26px;
+  display: flex; align-items: center; justify-content: flex-end;
+  transition: width .5s cubic-bezier(.34, 1.56, .64, 1);
+}
+.sizecompare-emoji { font-size: 1.2em; margin-right: 4px; }
+.sizecompare-size { font-weight: 700; font-size: .85em; color: var(--ink-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
+@media (prefers-reduced-motion: reduce) { .sizecompare-bar { transition: none; } }
+@media (max-width: 520px) { .sizecompare-label { width: 84px; } }

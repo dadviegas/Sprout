@@ -67,7 +67,7 @@ common sense, Açores → world). Single-page, no server; progress is local.
 `quiz`, `soundcards`, `clock`, `shape`, `angle`, `areagrid`, `symmetry`,
 `compass`, `watercycle`, `bodysystem`, `timeline`, `mapapt`, `numberline`, `tenframe`, `fraction`, `money`, `shop`,
 `solarsystem`, `daynight`, `tabuada`, `contaarmada`, `dinheirojogo`, `math`, `chart`, `dictionary`,
-`colors`, `colormix`, `atlas`;
+`colors`, `colormix`, `atlas`, `sizecompare`;
 infographics `stats`/`steps`/`compare`/`meters`/`keyvalue`/`quote`;
 callouts `> [!NOTE]/[!TIP]/…`. The `icon` field in `steps`/`keyvalue` accepts an
 `@sprout/icons` name or an emoji.

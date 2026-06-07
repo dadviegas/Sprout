@@ -66,7 +66,8 @@ common sense, Açores → world). Single-page, no server; progress is local.
 
 `quiz`, `soundcards`, `clock`, `shape`, `angle`, `areagrid`, `symmetry`,
 `compass`, `watercycle`, `bodysystem`, `timeline`, `mapapt`, `numberline`, `tenframe`, `fraction`, `money`, `shop`,
-`solarsystem`, `daynight`, `tabuada`, `contaarmada`, `dinheirojogo`, `math`, `chart`, `dictionary`;
+`solarsystem`, `daynight`, `tabuada`, `contaarmada`, `dinheirojogo`, `math`, `chart`, `dictionary`,
+`colors`, `colormix`, `atlas`;
 infographics `stats`/`steps`/`compare`/`meters`/`keyvalue`/`quote`;
 callouts `> [!NOTE]/[!TIP]/…`. The `icon` field in `steps`/`keyvalue` accepts an
 `@sprout/icons` name or an emoji.
@@ -121,9 +122,14 @@ only on a button/tap — see the speech rule below). New ones:
   round tells a money story (read aloud), arms the matching conta to solve, then
   asks the child to **pay/form the amount with coins**; both right earns a ⭐, 3
   ⭐ level up. The four levels are the four operations (somar → troco → comprar
-  muitos → repartir), each drawing from three themes (loja/mealheiro/feira).
-  Problems are generated in `dinheiro-jogo-data.ts` (whole-cents, so money stays
-  exact). Fields: `title`, `startLevel` (1–4, default 1), `color` (default `mat`).
+  muitos → repartir), each drawing from kid themes (loja/mealheiro/feira/limpeza
+  da casa). Within a level the **difficulty ramps with the stars earned** (0 =
+  whole euros, 1 = cents with carrying/borrowing, 2 = two-digit amounts), so the
+  conta grows from `3 + 1` to `12,40 + 8,75` before levelling up. Problems are
+  generated in `dinheiro-jogo-data.ts` (whole-cents in multiples of 5c, so money
+  stays exact and the pay step stays short; division parts are kept ≥ 0,10 € so
+  the quotient reads as money). Fields: `title`, `startLevel` (1–4, default 1),
+  `color` (default `mat`).
 - `solarsystem` is an animated orbit diagram (Sun + planets + nested moons); each
   body has `orbit`/`size`/`period`/`color`/`fact`, tap-to-hear, play/pause,
   honours `prefers-reduced-motion`. Pass `"layout": "lineup"` for the static

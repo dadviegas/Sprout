@@ -25,7 +25,7 @@ const FINAL_MARKER = "## 🎯 Questionário final";
 // `widgetRenderers` / `infographicRenderers` maps + the `quiz` branch there.
 const JSON_BLOCKS = new Set([
   "quiz",
-  "shape", "angle", "areagrid", "symmetry", "compass", "watercycle", "clock", "numberline", "tenframe", "fraction", "fractionstrips", "fractionof", "money", "shop", "solarsystem", "daynight", "soundcards", "dictionary", "verbs", "tabuada", "drill", "figure", "math", "chart", "timeline", "bodysystem", "mapapt",
+  "shape", "angle", "areagrid", "symmetry", "compass", "watercycle", "clock", "numberline", "tenframe", "fraction", "fractionstrips", "fractionof", "money", "shop", "solarsystem", "daynight", "soundcards", "dictionary", "verbs", "colors", "colormix", "atlas", "tabuada", "drill", "figure", "math", "chart", "timeline", "bodysystem", "mapapt",
   "summary", "stats", "steps", "meters", "keyvalue", "compare", "quote",
 ]);
 
@@ -153,6 +153,58 @@ function validateVerbs(data, where, errors) {
   });
 }
 
+/* The `dictionary` block (the Biblioteca's word cards): every entry needs a
+ * `word` and a `meaning`; the optional `class` (part of speech) must be one of
+ * the ten word classes — verbs are derived from verbos/*.md, not listed here. */
+const WORD_CLASSES = new Set([
+  "nome", "verbo", "adjetivo", "adverbio", "numeral",
+  "pronome", "interjeicao", "artigo", "preposicao", "conjuncao",
+]);
+function validateDictionary(data, where, errors) {
+  if (typeof data !== "object" || data === null || !Array.isArray(data.entries)) {
+    errors.push(`${where}: bloco 'dictionary' precisa de um objeto com 'entries: [ … ]'`);
+    return;
+  }
+  data.entries.forEach((e, i) => {
+    const at = `${where} · palavra ${i + 1}`;
+    if (typeof e !== "object" || e === null) { errors.push(`${at}: deve ser um objeto`); return; }
+    if (typeof e.word !== "string" || !e.word.trim()) errors.push(`${at}: falta 'word'`);
+    if (typeof e.meaning !== "string" || !e.meaning.trim()) errors.push(`${at}: falta 'meaning'`);
+    if (e.class !== undefined && !WORD_CLASSES.has(e.class))
+      errors.push(`${at} (${e.word ?? "?"}): 'class' inválida '${e.class}' — usa uma de: ${[...WORD_CLASSES].join(", ")}`);
+  });
+}
+
+/* The `colors` block ("As Cores"): every entry needs a `name` and a 6-digit
+ * `hex` (the RGB is derived from it at render time). */
+function validateColors(data, where, errors) {
+  if (typeof data !== "object" || data === null || !Array.isArray(data.colors)) {
+    errors.push(`${where}: bloco 'colors' precisa de um objeto com 'colors: [ … ]'`);
+    return;
+  }
+  data.colors.forEach((c, i) => {
+    const at = `${where} · cor ${i + 1}`;
+    if (typeof c !== "object" || c === null) { errors.push(`${at}: deve ser um objeto`); return; }
+    if (typeof c.name !== "string" || !c.name.trim()) errors.push(`${at}: falta 'name'`);
+    if (typeof c.hex !== "string" || !/^#?[0-9a-fA-F]{6}$/.test(c.hex)) errors.push(`${at} (${c.name ?? "?"}): 'hex' tem de ser 6 dígitos, ex. "#E23B3B"`);
+  });
+}
+
+/* The `atlas` block ("Atlas da Vida"): every animal/plant needs a `name` and
+ * where it is `native`; `seen`/`photos` are optional. */
+function validateAtlas(data, where, errors) {
+  if (typeof data !== "object" || data === null || !Array.isArray(data.items)) {
+    errors.push(`${where}: bloco 'atlas' precisa de um objeto com 'items: [ … ]'`);
+    return;
+  }
+  data.items.forEach((e, i) => {
+    const at = `${where} · ser vivo ${i + 1}`;
+    if (typeof e !== "object" || e === null) { errors.push(`${at}: deve ser um objeto`); return; }
+    if (typeof e.name !== "string" || !e.name.trim()) errors.push(`${at}: falta 'name'`);
+    if (typeof e.native !== "string" || !e.native.trim()) errors.push(`${at} (${e.name ?? "?"}): falta 'native' (de onde é natural)`);
+  });
+}
+
 function validateFile(absPath, errors, warnings) {
   const rel = relative(ROOT, absPath);
   const md = readFileSync(absPath, "utf8");
@@ -173,6 +225,9 @@ function validateFile(absPath, errors, warnings) {
     }
     validateInfographic(b.lang, data, `${rel}:${b.line}`, errors);
     if (b.lang === "verbs") validateVerbs(data, `${rel}:${b.line}`, errors);
+    if (b.lang === "dictionary") validateDictionary(data, `${rel}:${b.line}`, errors);
+    if (b.lang === "colors") validateColors(data, `${rel}:${b.line}`, errors);
+    if (b.lang === "atlas") validateAtlas(data, `${rel}:${b.line}`, errors);
     if (b.lang !== "quiz") continue;
 
     validateQuiz(data, `${rel}:${b.line}`, errors);
@@ -191,7 +246,9 @@ function validateFile(absPath, errors, warnings) {
   // just hold things to know (tabuadas, alfabeto, word meanings by letter, …)
   // with read-aloud, no questionnaire.
   const parts = rel.split(/[\\/]/);
-  const isReference = parts.includes("estudo") || parts.includes("dicionario") || parts.includes("verbos");
+  const isReference =
+    parts.includes("estudo") || parts.includes("dicionario") || parts.includes("verbos") ||
+    parts.includes("cores") || parts.includes("atlas");
   if (isReference) return;
 
   if (markerAt < 0) errors.push(`${rel}: falta o marcador do teste final "${FINAL_MARKER}"`);
@@ -203,15 +260,20 @@ const files = findMarkdown(CONTENT_DIR).sort();
 const errors = [];
 const warnings = [];
 
-// Every lesson .md must be imported by curriculum.ts — otherwise it validates
-// fine here (it's read straight off disk) but never appears in the app's nav.
-// This is the "orphan" check: a wired lesson is reachable, a stray file is not.
-const curriculumSrc = readFileSync(join(CONTENT_DIR, "curriculum.ts"), "utf8");
+// Every lesson .md must be imported by the content graph — otherwise it
+// validates fine here (it's read straight off disk) but never appears in the
+// app's nav. This is the "orphan" check: a wired lesson is reachable, a stray
+// file is not. Imports live in curriculum.ts AND its sibling content modules
+// (e.g. enciclopedia.ts), so we scan every .ts directly under src/content.
+const contentTs = readdirSync(CONTENT_DIR, { withFileTypes: true })
+  .filter((d) => d.isFile() && d.name.endsWith(".ts"))
+  .map((d) => readFileSync(join(CONTENT_DIR, d.name), "utf8"))
+  .join("\n");
 for (const f of files) {
   const rel = relative(CONTENT_DIR, f).split(/[\\/]/).join("/");
   if (/(^|\/)(README|_[^/]*)\.md$/i.test(rel)) continue; // notes/partials, not lessons
-  if (!curriculumSrc.includes(`"./${rel}"`)) {
-    errors.push(`${relative(ROOT, f)}: não está importado em curriculum.ts (lição inacessível na app)`);
+  if (!contentTs.includes(`"./${rel}"`)) {
+    errors.push(`${relative(ROOT, f)}: não está importado no conteúdo (curriculum.ts / enciclopedia.ts) — lição inacessível na app`);
   }
 }
 

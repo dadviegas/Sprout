@@ -8,8 +8,11 @@ Toca num verbo para o **conjugares**: veres e ouvires como ele muda no presente,
 {
   "letter": "B",
   "verbs": [
+    { "verb": "bailar", "emoji": "💃", "meaning": "Dançar ao ritmo da música, movendo o corpo com graça." },
     { "verb": "baixar", "meaning": "Pôr mais para baixo ou tornar mais fraco, como o som." },
+    { "verb": "balbuciar", "meaning": "Falar de forma pouco clara, como os bebés fazem quando estão a aprender." },
     { "verb": "balançar", "meaning": "Mover de um lado para o outro, como um baloiço." },
+    { "verb": "baloiçar", "meaning": "Mover-se de um lado para o outro suavemente, como num baloiço." },
     { "verb": "banhar", "emoji": "🛁", "meaning": "Lavar o corpo com água." },
     { "verb": "baralhar", "emoji": "🃏", "meaning": "Misturar as cartas ou misturar as ideias." },
     { "verb": "bater", "meaning": "Dar pancadas, como bater à porta ou bater palmas." },

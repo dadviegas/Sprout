@@ -16,6 +16,7 @@ Toca num verbo para o **conjugares** e ouvires. 👂
     { "verb": "operar", "meaning": "Fazer funcionar, ou fazer uma cirurgia." },
     { "verb": "ordenar", "meaning": "Pôr por ordem, ou dar uma ordem." },
     { "verb": "organizar", "meaning": "Arrumar tudo com uma ordem certa." },
+    { "verb": "orar", "meaning": "Falar com Deus em silêncio ou em voz alta, a agradecer ou a pedir ajuda." },
     { "verb": "ousar", "meaning": "Ter coragem para fazer algo difícil." },
     { "verb": "ouvir", "emoji": "👂", "meaning": "Captar os sons com os ouvidos.",
       "forms": {

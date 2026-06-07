@@ -46,7 +46,8 @@ Toca num verbo para o **conjugares** e ouvires. 👂
     { "verb": "mover", "meaning": "Mudar de lugar, fazer mexer." },
     { "verb": "mudar", "emoji": "🔄", "meaning": "Tornar diferente, ou trocar de lugar." },
     { "verb": "multiplicar", "emoji": "✖️", "meaning": "Repetir um número muitas vezes para crescer depressa." },
-    { "verb": "murmurar", "meaning": "Falar muito baixinho." }
+    { "verb": "murmurar", "meaning": "Falar muito baixinho." },
+    { "verb": "maravilhar", "meaning": "Ficar de boca aberta de tanto espanto e admiração." }
   ]
 }
 ```

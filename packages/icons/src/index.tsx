@@ -1089,6 +1089,87 @@ export const ICONS = {
       <path d="M16 6h4M18 4v4" />
     </>
   ),
+
+  // ---- word classes (classes de palavras) — one per dictionary class ----
+  // A name-tag: names label the things around us.
+  wcNome: (
+    <>
+      <path d="M4 12l8-8h6a2 2 0 0 1 2 2v6l-8 8a2 2 0 0 1-2.83 0l-5.17-5.17a2 2 0 0 1 0-2.83z" />
+      <circle cx="15.5" cy="8.5" r="1.5" />
+    </>
+  ),
+  // A running figure with speed lines: verbs are the doing words.
+  wcVerbo: (
+    <>
+      <circle cx="14" cy="5.5" r="2" />
+      <path d="M14 8l-1.5 4 3.5 2.5 1 4.5" />
+      <path d="M12.5 12l-3.5 1.5M16 13l3-1.5" />
+      <path d="M3 8h3M2.5 12h3" />
+    </>
+  ),
+  // A box with a sparkle: adjectives describe and "decorate" a noun.
+  wcAdjetivo: (
+    <>
+      <rect x="4" y="9" width="11" height="11" rx="2" />
+      <path d="M18 4l1.2 2.8L22 8l-2.8 1.2L18 12l-1.2-2.8L14 8l2.8-1.2z" />
+    </>
+  ),
+  // A gauge + sparkle: adverbs say *how/when* the action happens.
+  wcAdverbio: (
+    <>
+      <path d="M4 16a8 8 0 0 1 16 0" />
+      <path d="M12 16l4-3" />
+      <circle cx="12" cy="16" r="1" />
+      <path d="M19 5.5l.8 1.9 1.9.8-1.9.8-.8 1.9-.8-1.9-1.9-.8 1.9-.8z" />
+    </>
+  ),
+  // "1 2 3": numerals are the counting words.
+  wcNumeral: (
+    <>
+      <path d="M5 8.5L6.5 7.5V16.5" />
+      <path d="M9.8 9a2 2 0 1 1 3.2 1.6L9.8 16.5h4" />
+      <path d="M16.4 8.5h3l-2 3a2.2 2.2 0 1 1-1.4 3.6" />
+    </>
+  ),
+  // A person + swap arrows: pronouns stand in for a name.
+  wcPronome: (
+    <>
+      <circle cx="9" cy="7" r="2.5" />
+      <path d="M4.5 18a4.5 4.5 0 0 1 9 0" />
+      <path d="M15.5 7.5h4.5M15.5 7.5l2-2M15.5 7.5l2 2" />
+      <path d="M20 12.5h-4.5M20 12.5l-2-2M20 12.5l-2 2" />
+    </>
+  ),
+  // "!" in a speech bubble: interjections burst out ("Ah! Ui!").
+  wcInterjeicao: (
+    <>
+      <path d="M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-7l-4 3v-3H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z" />
+      <path d="M12 8v3.4M12 13.8v.01" />
+    </>
+  ),
+  // A brace pointing at a noun (the dot): articles are little words that point.
+  wcArtigo: (
+    <>
+      <path d="M10 5H7a2 2 0 0 0-2 2v3a2 2 0 0 1-1.5 1.9A2 2 0 0 1 5 14v3a2 2 0 0 0 2 2h3" />
+      <circle cx="16.5" cy="12" r="3" />
+    </>
+  ),
+  // An arrow going into a box: prepositions show relation (in/on/under).
+  wcPreposicao: (
+    <>
+      <rect x="5" y="12" width="14" height="8" rx="2" />
+      <path d="M12 3v6" />
+      <path d="M9 6l3 3 3-3" />
+    </>
+  ),
+  // Two words (dots) joined by a "+": conjunctions join words together.
+  wcConjuncao: (
+    <>
+      <circle cx="6.5" cy="12" r="3" />
+      <circle cx="17.5" cy="12" r="3" />
+      <path d="M11 12h2M12 11v2" />
+    </>
+  ),
 } as const;
 
 export type IconName = keyof typeof ICONS;
@@ -1113,6 +1194,18 @@ export const SUBJECT_ICONS: Record<string, IconName> = {
   "ed-visual": "brush",
   "ed-tecnologica": "gear",
   "ed-musical": "music",
+  // A Enciclopédia — the Biblioteca's discovery themes (see content/enciclopedia.ts).
+  "enc-espaco": "planet",
+  "enc-dinos": "paw",
+  "enc-animais": "dove",
+  "enc-plantas": "leaf",
+  "enc-corpo": "brain",
+  "enc-ciencia": "flask",
+  "enc-terra": "mountain",
+  "enc-pessoas": "people",
+  // Biblioteca catalogue collections (see content/cores.ts, content/atlas.ts).
+  cores: "palette",
+  atlas: "paw",
 };
 
 export const LESSON_ICONS: Record<string, IconName> = {

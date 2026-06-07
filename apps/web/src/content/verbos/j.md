@@ -13,7 +13,8 @@ Toca num verbo para o **conjugares** e ouvires. 👂
     { "verb": "jorrar", "emoji": "💦", "meaning": "Sair com força, como a água de uma fonte." },
     { "verb": "julgar", "emoji": "⚖️", "meaning": "Formar uma opinião sobre o que é certo ou errado." },
     { "verb": "juntar", "meaning": "Pôr coisas todas no mesmo sítio." },
-    { "verb": "jurar", "emoji": "🤚", "meaning": "Prometer com toda a seriedade." }
+    { "verb": "jurar", "emoji": "🤚", "meaning": "Prometer com toda a seriedade." },
+    { "verb": "justificar", "meaning": "Dar uma boa razão para explicar porque fizeste algo ou porque algo é correto." }
   ]
 }
 ```

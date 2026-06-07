@@ -51,6 +51,16 @@ export interface Subject {
 
 /* Page settings (names, copy, icons, ordering) live in the YAML config. */
 import { site, type MundoRingConfig, type PaisConfig } from "../site-config";
+/* "A Enciclopédia" — the discovery themes of the Biblioteca, each its own
+ * reference Subject (see content/enciclopedia.ts + docs/BIBLIOTECA.md). */
+import { enciclopediaSubjects, ENC_THEME_IDS } from "./enciclopedia";
+export { enciclopediaSubjects } from "./enciclopedia";
+/* "As Cores" + "Atlas da Vida" — the catalogue collections of the Biblioteca
+ * (see content/cores.ts, content/atlas.ts + docs/BIBLIOTECA.md). */
+import { coresSubject } from "./cores";
+import { atlasSubject } from "./atlas";
+export { coresSubject } from "./cores";
+export { atlasSubject } from "./atlas";
 
 /* ---- Matemática ---- */
 import matNumeros10 from "./matematica/ano1/numeros-ate-10.md";
@@ -1398,7 +1408,7 @@ export const paisesSubject: Subject = {
  *  "O Dicionário" and "Países" areas — used for lookups, global search and
  *  achievements. The home screen lists the school subjects per year and these
  *  areas as their own sections. */
-export const subjects: Subject[] = [...schoolSubjects, mundoSubject, estudoSubject, dicionarioSubject, verbosSubject, paisesSubject];
+export const subjects: Subject[] = [...schoolSubjects, mundoSubject, estudoSubject, dicionarioSubject, verbosSubject, paisesSubject, ...enciclopediaSubjects, coresSubject, atlasSubject];
 
 export const YEARS: YearN[] = [1, 2, 3, 4, 5, 6];
 /** Years grouped by cycle, for the home screen's two sections. */
@@ -1430,6 +1440,16 @@ export const VERBOS_ID = "verbos";
 export const isVerbos = (subjectId: string): boolean => subjectId === VERBOS_ID;
 /** The verbs area's letters (its single, non-grade tier). */
 export const verbosLetters = verbosSubject.years[1];
+
+/** True for a Enciclopédia theme (Espaço, Dinossauros, …) — a discovery
+ *  reference area of the Biblioteca, not grade-based (see content/enciclopedia.ts). */
+export const isEnciclopedia = (subjectId: string): boolean => ENC_THEME_IDS.has(subjectId);
+
+export const CORES_ID = "cores";
+export const isCores = (subjectId: string): boolean => subjectId === CORES_ID;
+
+export const ATLAS_ID = "atlas";
+export const isAtlas = (subjectId: string): boolean => subjectId === ATLAS_ID;
 
 /* The countries of the "Países" area. Each country maps onto a 1–4 "year" slot,
  * but is named and shown as the country, never as a grade. Presentation (label,
@@ -1467,7 +1487,7 @@ const MUNDO_RING_LABEL = Object.fromEntries(mundoRings.map((r) => [r.ring, r.lab
 export function tierLabel(subjectId: string, tier: YearN): string {
   if (isMundo(subjectId)) return MUNDO_RING_LABEL[tier];
   if (isPaises(subjectId)) return PAIS_TIER_LABEL[tier]; // the country name, never a grade
-  if (isEstudo(subjectId) || isDicionario(subjectId) || isVerbos(subjectId)) return ""; // not grade-based, no tier label
+  if (isEstudo(subjectId) || isDicionario(subjectId) || isVerbos(subjectId) || isEnciclopedia(subjectId) || isCores(subjectId) || isAtlas(subjectId)) return ""; // not grade-based, no tier label
   return yearLabel(tier);
 }
 

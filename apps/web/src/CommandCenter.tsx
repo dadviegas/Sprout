@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { Icon, type IconName } from "@sprout/icons";
-import { dictWordId, verbCardId, type DictEntry, type DictionarySpec, type VerbSpec, type VerbsSpec } from "@sprout/ui";
+import { dictWordId, verbCardId, type DictEntry, type VerbSpec } from "@sprout/ui";
+import { blockEntriesOf } from "./content/blocks";
 import {
   subjects,
   YEARS,
@@ -12,6 +13,9 @@ import {
   isPaises,
   isDicionario,
   isVerbos,
+  isEnciclopedia,
+  isCores,
+  isAtlas,
   type YearN,
 } from "./content/curriculum";
 import { site } from "./site-config";
@@ -43,7 +47,7 @@ const AREA_LABEL: Record<SearchArea, string> = {
 function areaOfSubject(subjectId: string): SearchArea {
   if (isEstudo(subjectId)) return "treinar";
   if (isMundo(subjectId) || isPaises(subjectId)) return "explorar";
-  if (isDicionario(subjectId) || isVerbos(subjectId)) return "biblioteca";
+  if (isDicionario(subjectId) || isVerbos(subjectId) || isEnciclopedia(subjectId) || isCores(subjectId) || isAtlas(subjectId)) return "biblioteca";
   return "escola";
 }
 
@@ -172,37 +176,31 @@ interface WordEntry {
   fmeaning: string;   // accent-folded meaning, for matching
 }
 
-/** Pull the entries out of a fenced block (```dictionary or ```verbs) in a
- *  lesson body. Returns [] if there's no such block or its JSON is malformed
- *  (validated by `pnpm validate`). */
-function blockEntriesOf(body: string | undefined, lang: string): unknown[] {
-  if (!body) return [];
-  const m = body.match(new RegExp("```" + lang + "\\s*\\r?\\n([\\s\\S]*?)\\r?\\n```"));
-  if (!m) return [];
-  try {
-    const spec = JSON.parse(m[1]) as DictionarySpec & VerbsSpec;
-    const list = lang === "verbs" ? spec.verbs : spec.entries;
-    return Array.isArray(list) ? list : [];
-  } catch {
-    return [];
-  }
-}
-
 function buildWordIndex(): WordEntry[] {
   const out: WordEntry[] = [];
-  const push = (word: string, meaning: string, emoji: string | undefined, kind: RefKind, subjectId: string, letter: string, lessonId: string, label: string, color: string) =>
+  const seen = new Set<string>(); // lessonId:word — verbs and real entries can overlap during migration
+  const push = (word: string, meaning: string, emoji: string | undefined, kind: RefKind, subjectId: string, letter: string, lessonId: string, label: string, color: string) => {
+    const key = `${lessonId}:${fold(word).toLowerCase()}`;
+    if (seen.has(key)) return;
+    seen.add(key);
     out.push({ word, meaning, emoji, kind, subjectId, letter, lessonId, subjectLabel: label, color, fword: fold(word), fmeaning: fold(meaning) });
+  };
 
   const dic = subjects.find((s) => s.id === DICIONARIO_ID);
-  for (const l of dic?.years[1] ?? []) {
+  if (!dic) return out;
+  for (const l of dic.years[1] ?? []) {
     for (const e of blockEntriesOf(l.body, "dictionary") as DictEntry[]) {
-      push(e.word, e.meaning, e.emoji, "dict", DICIONARIO_ID, l.title, l.id, dic!.label, dic!.color);
+      push(e.word, e.meaning, e.emoji, "dict", DICIONARIO_ID, l.title, l.id, dic.label, dic.color);
     }
   }
+  // Verbs now live inside the dictionary (derived per letter — see dictMerge), so
+  // index them as dictionary words: a hit opens the dictionary's letter page and
+  // focuses the verb's card there, where it can be conjugated inline.
   const verb = subjects.find((s) => s.id === VERBOS_ID);
   for (const l of verb?.years[1] ?? []) {
+    const dicLessonId = `dic-${l.title.toLowerCase()}`;
     for (const e of blockEntriesOf(l.body, "verbs") as VerbSpec[]) {
-      push(e.verb, e.meaning, e.emoji, "verb", VERBOS_ID, l.title, l.id, verb!.label, verb!.color);
+      push(e.verb, e.meaning, e.emoji, "dict", DICIONARIO_ID, l.title, dicLessonId, dic.label, dic.color);
     }
   }
   return out;

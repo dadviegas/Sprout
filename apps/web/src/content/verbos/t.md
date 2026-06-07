@@ -8,6 +8,7 @@ Toca num verbo para o **conjugares** e ouvires. 👂
 {
   "letter": "T",
   "verbs": [
+    { "verb": "tamborilar", "meaning": "Bater os dedos numa superfície de forma rápida e repetida, como quem toca tambor." },
     { "verb": "tapar", "meaning": "Cobrir uma coisa para não se ver." },
     { "verb": "telefonar", "emoji": "📞", "meaning": "Falar com alguém pelo telefone." },
     { "verb": "temer", "meaning": "Ter medo de alguma coisa." },
@@ -21,12 +22,16 @@ Toca num verbo para o **conjugares** e ouvires. 👂
         "futuro": ["terei", "terás", "terá", "teremos", "tereis", "terão"],
         "imperativo": ["tem", "tenhamos", "tende"]
       } },
+    { "verb": "tilintar", "meaning": "Fazer um som suave e repetido como o de sinos ou chaves a bater umas nas outras." },
     { "verb": "tirar", "meaning": "Retirar uma coisa de onde estava." },
+    { "verb": "tiritar", "meaning": "Tremer de frio, quando os dentes batem uns nos outros e o corpo não para quieto." },
     { "verb": "tocar", "emoji": "🎵", "meaning": "Pôr a mão em algo, ou fazer música." },
     { "verb": "tomar", "meaning": "Pegar para ti, ou beber/comer algo." },
     { "verb": "torcer", "meaning": "Dar voltas a algo, ou apoiar a tua equipa." },
+    { "verb": "tornear", "meaning": "Moldar madeira ou metal numa máquina especial, fazendo formas redondas e simétricas." },
     { "verb": "trabalhar", "emoji": "💼", "meaning": "Fazer uma tarefa, muitas vezes para ganhar a vida." },
     { "verb": "trancar", "meaning": "Fechar à chave." },
+    { "verb": "transbordar", "meaning": "Ficar tão cheio que o líquido começa a cair pelo bordo do recipiente." },
     { "verb": "transformar", "meaning": "Mudar uma coisa noutra diferente." },
     { "verb": "transportar", "emoji": "🚚", "meaning": "Levar coisas de um lugar para outro." },
     { "verb": "tratar", "meaning": "Cuidar de algo ou de alguém." },
@@ -41,9 +46,11 @@ Toca num verbo para o **conjugares** e ouvires. 👂
     { "verb": "treinar", "emoji": "🏋️", "meaning": "Praticar muitas vezes para ficar melhor." },
     { "verb": "tremer", "emoji": "🥶", "meaning": "Abanar o corpo de frio ou de medo." },
     { "verb": "trepar", "emoji": "🧗", "meaning": "Subir agarrando-te com as mãos e os pés." },
+    { "verb": "triplicar", "meaning": "Fazer uma coisa ficar três vezes maior do que era." },
     { "verb": "triturar", "meaning": "Desfazer em pedacinhos muito pequenos." },
     { "verb": "trocar", "meaning": "Dar uma coisa e receber outra no lugar." },
-    { "verb": "tropeçar", "meaning": "Bater com o pé em algo e quase cair." }
+    { "verb": "tropeçar", "meaning": "Bater com o pé em algo e quase cair." },
+    { "verb": "truncar", "meaning": "Cortar ou encurtar alguma coisa, deixando-a incompleta." }
   ]
 }
 ```

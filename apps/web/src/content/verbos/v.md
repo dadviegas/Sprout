@@ -48,6 +48,7 @@ Toca num verbo para o **conjugares** e ouvires. 👂
     { "verb": "voar", "emoji": "🦅", "meaning": "Andar pelo ar, como os pássaros." },
     { "verb": "voltar", "emoji": "🔙", "meaning": "Regressar ao sítio de onde vieste." },
     { "verb": "votar", "emoji": "🗳️", "meaning": "Escolher pondo o teu voto." },
+    { "verb": "vislumbrar", "meaning": "Ver algo de longe ou de forma pouco clara, como quando se vislumbra o mar ao fundo da estrada." },
     { "verb": "vomitar", "meaning": "Deitar pela boca o que estava no estômago." }
   ]
 }

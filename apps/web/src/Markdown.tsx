@@ -27,6 +27,9 @@ import {
   SoundCards, type SoundCardsSpec,
   Dictionary, type DictionarySpec,
   Verbs, type VerbsSpec,
+  Colors, type ColorsSpec,
+  ColorMix, type ColorMixSpec,
+  Atlas, type AtlasSpec,
   Tabuada, type TabuadaSpec,
   ContaArmada, type ContaArmadaSpec,
   DinheiroJogo, type DinheiroJogoSpec,
@@ -38,6 +41,7 @@ import {
   Speaker,
 } from "@sprout/ui";
 import { Quiz, type QuizSpec } from "./Quiz";
+import { verbEntriesForLetter } from "./content/dictMerge";
 import { Icon, iconNames, type IconName } from "@sprout/icons";
 
 /* ---- read-aloud helpers (the child may not read yet) ---- */
@@ -175,10 +179,24 @@ const widgetRenderers: Record<string, (json: unknown) => ReactNode> = {
   daynight: (d) => <DayNight spec={d as DayNightSpec} />,
   soundcards: (d) => <SoundCards spec={d as SoundCardsSpec} />,
   dictionary: (d) => {
-    // Show the word cards alphabetically (pt collation: á sorts with a),
-    // so authors don't have to hand-sort the entries in the .md block.
+    // Bring this letter's verbs into the dictionary (single source stays
+    // verbos/*.md — see dictMerge). A word that already exists *and* is a verb
+    // (homographs like "jantar") keeps its meaning/class and just gains the
+    // conjugation; the remaining verbs are added as their own cards. Then show
+    // every card alphabetically (pt collation: á sorts with a), so authors don't
+    // have to hand-sort the entries in the .md block.
     const spec = d as DictionarySpec;
-    const entries = [...spec.entries].sort((a, b) => dictCollator.compare(a.word, b.word));
+    const derived = verbEntriesForLetter(spec.letter);
+    const verbByWord = new Map(derived.map((v) => [v.word.toLowerCase(), v.verb!]));
+    const have = new Set(spec.entries.map((e) => e.word.toLowerCase()));
+    const merged = [
+      ...spec.entries.map((e) => {
+        const v = verbByWord.get(e.word.toLowerCase());
+        return v ? { ...e, verb: v } : e;
+      }),
+      ...derived.filter((v) => !have.has(v.word.toLowerCase())),
+    ];
+    const entries = merged.sort((a, b) => dictCollator.compare(a.word, b.word));
     return <Dictionary spec={{ ...spec, entries }} />;
   },
   verbs: (d) => {
@@ -196,6 +214,9 @@ const widgetRenderers: Record<string, (json: unknown) => ReactNode> = {
   figure: (d) => <Figure spec={d as FigureSpec} />,
   math: (d) => <MathBlock spec={d as MathSpec} />,
   chart: (d) => <Chart spec={d as ChartSpec} />,
+  colors: (d) => <Colors spec={d as ColorsSpec} />,
+  colormix: (d) => <ColorMix spec={d as ColorMixSpec} />,
+  atlas: (d) => <Atlas spec={d as AtlasSpec} />,
 };
 
 function jsonError(lang: string, e: unknown): ReactNode {

@@ -14,8 +14,10 @@ import {
   isEstudo,
   dicionarioSubject,
   isDicionario,
-  verbosSubject,
   isVerbos,
+  enciclopediaSubjects,
+  coresSubject,
+  atlasSubject,
   paisesSubject,
   paisesCountries,
   isPaises,
@@ -37,6 +39,7 @@ import {
 import { Icon, SUBJECT_ICONS, lessonIconName, type IconName } from "@sprout/icons";
 import { Speaker, stop as stopSpeech } from "@sprout/ui";
 import { site } from "./site-config";
+import { curiosidadeOfDay } from "./content/curiosidades";
 import { Mascot } from "./Mascot";
 import { CommandCenter } from "./CommandCenter";
 import { AchievementsPanel } from "./Achievements";
@@ -266,10 +269,7 @@ function Root() {
           />
         )}
         {view.kind === "area" && view.area === "biblioteca" && (
-          <BibliotecaView
-            onOpenDicionario={() => go({ kind: "subject", year: 1, subjectId: dicionarioSubject.id })}
-            onOpenVerbos={() => go({ kind: "subject", year: 1, subjectId: verbosSubject.id })}
-          />
+          <BibliotecaView onOpenSubject={(subjectId) => go({ kind: "subject", year: 1, subjectId })} />
         )}
         {view.kind === "mundo" && (
           <MundoView onPick={(ring) => go({ kind: "subject", year: ring, subjectId: mundoSubject.id })} />
@@ -981,40 +981,106 @@ function ExplorarView({
   );
 }
 
-/* ---------------- area: Biblioteca (O Dicionário) ---------------- */
+/* ---------------- area: Biblioteca (descobrir + dicionário) ---------------- */
 
-function BibliotecaView({ onOpenDicionario, onOpenVerbos }: { onOpenDicionario: () => void; onOpenVerbos: () => void }) {
-  const area = site.areas.items.find((i) => i.id === "biblioteca");
+// "Curiosidade do Dia" — one fun fact at the top of the Biblioteca, the same all
+// day, changing at midnight (deterministic; see content/curiosidades.ts). Speaks
+// only on the speaker tap; "saber mais" opens the related article via the global
+// navigate event the markdown links already use.
+function CuriosidadeDoDia() {
+  const c = curiosidadeOfDay(new Date());
+  const say = `Curiosidade do dia. ${c.say ?? c.text}`;
+  return (
+    <div className="biblio-curio">
+      <span className="biblio-curio__emoji" aria-hidden>{c.emoji}</span>
+      <div className="biblio-curio__body">
+        <span className="biblio-curio__label"><Icon name="tip" size={14} /> Curiosidade do dia</span>
+        <p className="biblio-curio__text">{c.text}</p>
+        {c.lessonId && (
+          <button
+            className="biblio-curio__more"
+            onClick={() => window.dispatchEvent(new CustomEvent("sprout:navigate", { detail: { lessonId: c.lessonId } }))}
+          >
+            Saber mais <Icon name="forward" size={14} />
+          </button>
+        )}
+      </div>
+      <Speaker text={say} className="biblio-curio__speak" label="Ouvir a curiosidade" />
+    </div>
+  );
+}
+
+function BibliotecaView({ onOpenSubject }: { onOpenSubject: (subjectId: string) => void }) {
+  const { progress } = useProgress();
   return (
     <div>
-      <Mascot message="A Biblioteca! O dicionário diz o que as palavras significam, os verbos mostram como mudam. Escolhe!" mood="happy" />
+      <Mascot message="Bem-vindo à Biblioteca! Descobre coisas do outro mundo, ou escolhe uma letra no dicionário." mood="happy" />
+
+      <CuriosidadeDoDia />
+
+      {/* Descobrir — the Enciclopédia themes (Espaço, Dinossauros, …). */}
       <h2 className="section-title">
-        <span style={{ color: dicionarioSubject.color, display: "inline-flex" }}>
-          <Icon name={(area?.icon as IconName) ?? "letters"} size={26} />
-        </span>
-        Biblioteca
+        <span style={{ color: "var(--subj-mundo)", display: "inline-flex" }}><Icon name="sparkle" size={26} /></span>
+        Descobrir
       </h2>
-      <p className="section-sub">{area?.blurb}</p>
-      <div className="card-grid">
+      <p className="section-sub">Toca num tema e parte à descoberta — cada artigo tem som, imagens e um quiz! 🚀</p>
+      <div className="card-grid cols-3">
+        {enciclopediaSubjects.map((s) => {
+          const st = yearStats(progress, s, 1);
+          return (
+            <BigCard
+              key={s.id}
+              iconName={SUBJECT_ICON[s.id]}
+              kicker="Descobrir"
+              title={s.label}
+              color={s.color}
+              colorSoft={s.colorSoft}
+              sub={<span className="sub">{s.blurb}</span>}
+              say={`${s.label}. ${s.blurb}`}
+              onClick={() => onOpenSubject(s.id)}
+            >
+              {st.real > 0 && <CardProgress pct={pctOf(st)} done={st.done} real={st.real} stars={st.stars} color={s.color} />}
+            </BigCard>
+          );
+        })}
+      </div>
+
+      {/* Coleções — catálogos para folhear: Cores, Atlas da Vida, Dicionário. */}
+      <h2 className="section-title" style={{ marginTop: 36 }}>
+        <span style={{ color: "var(--subj-pt)", display: "inline-flex" }}><Icon name="grid" size={26} /></span>
+        Coleções
+      </h2>
+      <p className="section-sub">Catálogos para folhear, ouvir e descobrir — cores, seres vivos e palavras. 📚</p>
+      <div className="card-grid cols-3">
         <BigCard
-          iconName={SUBJECT_ICON[dicionarioSubject.id]}
-          kicker="Dicionário"
-          title="As palavras de A a Z"
-          color={dicionarioSubject.color}
-          colorSoft={dicionarioSubject.colorSoft}
-          sub={<span className="sub">Escolhe uma letra para veres o que as palavras significam</span>}
-          say="O Dicionário. Escolhe uma letra para veres o que as palavras significam."
-          onClick={onOpenDicionario}
+          iconName={SUBJECT_ICON[coresSubject.id]}
+          kicker="Coleção"
+          title={coresSubject.label}
+          color={coresSubject.color}
+          colorSoft={coresSubject.colorSoft}
+          sub={<span className="sub">{coresSubject.blurb}</span>}
+          say={`As Cores. ${coresSubject.blurb}`}
+          onClick={() => onOpenSubject(coresSubject.id)}
         />
         <BigCard
-          iconName={SUBJECT_ICON[verbosSubject.id]}
-          kicker="Verbos"
-          title="Os verbos de A a Z"
-          color={verbosSubject.color}
-          colorSoft={verbosSubject.colorSoft}
-          sub={<span className="sub">Escolhe uma letra e toca num verbo para o conjugares</span>}
-          say="Os Verbos. Escolhe uma letra e toca num verbo para o conjugares e ouvires."
-          onClick={onOpenVerbos}
+          iconName={SUBJECT_ICON[atlasSubject.id]}
+          kicker="Coleção"
+          title={atlasSubject.label}
+          color={atlasSubject.color}
+          colorSoft={atlasSubject.colorSoft}
+          sub={<span className="sub">{atlasSubject.blurb}</span>}
+          say={`Atlas da Vida. ${atlasSubject.blurb}`}
+          onClick={() => onOpenSubject(atlasSubject.id)}
+        />
+        <BigCard
+          iconName={SUBJECT_ICON[dicionarioSubject.id]}
+          kicker="Coleção"
+          title="O Dicionário"
+          color={dicionarioSubject.color}
+          colorSoft={dicionarioSubject.colorSoft}
+          sub={<span className="sub">As palavras e os verbos de A a Z</span>}
+          say="O Dicionário. Escolhe uma letra para veres o que as palavras significam e para conjugares os verbos."
+          onClick={() => onOpenSubject(dicionarioSubject.id)}
         />
       </div>
     </div>

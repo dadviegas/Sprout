@@ -14,6 +14,8 @@ Toca num verbo para o **conjugares** e ouvires. 👂
     { "verb": "parecer", "meaning": "Dar a impressão de ser de certa maneira." },
     { "verb": "partir", "meaning": "Quebrar em pedaços, ou ir-se embora." },
     { "verb": "passar", "meaning": "Ir de um lado ao outro, ou o tempo a correr." },
+    { "verb": "passear", "meaning": "Andar devagar por um sítio para apreciar e divertir." },
+    { "verb": "pautar", "meaning": "Colocar linhas num papel para escrever direito, ou organizar algo com regras." },
     { "verb": "pedalar", "emoji": "🚲", "meaning": "Mexer os pedais da bicicleta." },
     { "verb": "pedir", "emoji": "🙏", "meaning": "Dizer a alguém que te dê ou faça algo.",
       "forms": {
@@ -24,6 +26,7 @@ Toca num verbo para o **conjugares** e ouvires. 👂
         "imperativo": ["pede", "peçamos", "pedi"]
       } },
     { "verb": "pegar", "meaning": "Agarrar uma coisa, ou colar-se." },
+    { "verb": "pendurar", "meaning": "Prender algo num gancho ou num fio para que fique suspenso no ar." },
     { "verb": "pensar", "emoji": "💭", "meaning": "Usar a cabeça para ter ideias." },
     { "verb": "perceber", "meaning": "Entender o que algo quer dizer." },
     { "verb": "perder", "meaning": "Deixar de ter uma coisa, ou não ganhar.",
@@ -43,6 +46,8 @@ Toca num verbo para o **conjugares** e ouvires. 👂
     { "verb": "picar", "meaning": "Espetar com uma ponta, ou cortar muito miúdo." },
     { "verb": "pintar", "emoji": "🎨", "meaning": "Dar cor com tintas ou lápis." },
     { "verb": "piscar", "emoji": "😉", "meaning": "Fechar e abrir um olho depressa." },
+    { "verb": "pisar", "meaning": "Pôr o pé em cima de algo, como a relva, a areia ou um charco." },
+    { "verb": "planear", "meaning": "Pensar e organizar antes de fazer algo, para que corra bem." },
     { "verb": "plantar", "emoji": "🌱", "meaning": "Pôr uma semente ou planta na terra." },
     { "verb": "poder", "meaning": "Ser capaz de fazer algo, ou ter permissão.",
       "forms": {
@@ -77,10 +82,13 @@ Toca num verbo para o **conjugares** e ouvires. 👂
     { "verb": "preocupar", "meaning": "Ficar com a cabeça cheia de cuidados." },
     { "verb": "preparar", "meaning": "Deixar tudo pronto para depois." },
     { "verb": "procurar", "emoji": "🔎", "meaning": "Andar à procura de alguma coisa." },
+    { "verb": "programar", "emoji": "💻", "meaning": "Dar instruções a um computador numa linguagem especial para que ele faça algo." },
     { "verb": "prometer", "emoji": "🤞", "meaning": "Dar a tua palavra de que vais fazer algo." },
+    { "verb": "protestar", "meaning": "Dizer em voz alta que não concordas com algo, de forma respeitosa." },
     { "verb": "provar", "meaning": "Experimentar o sabor, ou mostrar que é verdade." },
     { "verb": "publicar", "meaning": "Tornar público, dar a conhecer a todos." },
     { "verb": "pular", "emoji": "🦘", "meaning": "Dar saltos com os dois pés." },
+    { "verb": "pulsar", "meaning": "Bater ritmicamente, como o coração dentro do peito." },
     { "verb": "puxar", "meaning": "Fazer força para trazer algo para ti." }
   ]
 }

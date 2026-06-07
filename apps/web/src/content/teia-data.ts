@@ -44,7 +44,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-mundo)",
     blurb:
       "A água liga muitas matérias: aparece no Estudo do Meio, nas Ciências, no oceano Atlântico e até nos animais do mar.",
-    lessons: ["edm-2-agua", "edm-3-solidos-liquidos", "cn-5-agua", "mundo-3-atlantico", "mundo-3-animais-oceano"],
+    lessons: ["edm-2-agua", "edm-3-solidos-liquidos", "cn-5-agua", "mundo-3-atlantico", "mundo-3-animais-oceano", "enc-terra-agua"],
   },
   {
     id: "corpo",
@@ -53,7 +53,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-fis)",
     blurb:
       "O teu corpo aparece no Estudo do Meio, nas Ciências, na Educação Física e até em Inglês.",
-    lessons: ["edm-1-corpo", "edm-1-sentidos", "edm-4-corpo-sistemas", "cn-6-digestivo", "cn-6-circulatorio", "en-2-body", "ef-3-corpo"],
+    lessons: ["edm-1-corpo", "edm-1-sentidos", "edm-4-corpo-sistemas", "cn-6-digestivo", "cn-6-circulatorio", "en-2-body", "ef-3-corpo", "enc-corpo-cerebro", "enc-corpo-coracao"],
   },
   {
     id: "saude",
@@ -71,7 +71,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-mat)",
     blurb:
       "Do sistema solar aos relógios e calendários — o espaço e o tempo ligam a Matemática, o Estudo do Meio e o Mundo.",
-    lessons: ["edm-4-sistema-solar", "estudo-planetas", "mat-1-tempo", "mat-2-horas", "estudo-relogio", "estudo-dias-meses", "mat-3-calendario", "mundo-4-fusos"],
+    lessons: ["edm-4-sistema-solar", "estudo-planetas", "mat-1-tempo", "mat-2-horas", "estudo-relogio", "estudo-dias-meses", "mat-3-calendario", "mundo-4-fusos", "enc-espaco-planetas", "enc-terra-dia-noite"],
   },
   {
     id: "animais",
@@ -80,7 +80,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-edm)",
     blurb:
       "Os seres vivos aparecem no Estudo do Meio, nas Ciências, no Mundo, em Inglês e nos países.",
-    lessons: ["edm-2-animais", "edm-2-seres-vivos", "cn-5-animais-diversidade", "edm-3-plantas", "cn-5-plantas", "mundo-4-animais", "mundo-3-animais-oceano", "en-2-animals", "paises-pt-natureza"],
+    lessons: ["edm-2-animais", "edm-2-seres-vivos", "cn-5-animais-diversidade", "edm-3-plantas", "cn-5-plantas", "mundo-4-animais", "mundo-3-animais-oceano", "en-2-animals", "paises-pt-natureza", "enc-animais-polvo"],
   },
   {
     id: "portugal",
@@ -152,7 +152,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-edm)",
     blurb:
       "Proteger a Terra junta a Cidadania, o Estudo do Meio, as Ciências e a Tecnologia.",
-    lessons: ["cid-1-reciclar", "cid-4-sustentavel", "edm-4-ambiente", "cn-5-ecossistemas", "et-6-reciclar"],
+    lessons: ["cid-1-reciclar", "cid-4-sustentavel", "edm-4-ambiente", "cn-5-ecossistemas", "et-6-reciclar", "enc-terra-vulcoes"],
   },
   {
     id: "som-arte",
@@ -161,7 +161,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-emus)",
     blurb:
       "Criar junta as cores, os sons, o ritmo e até as rimas das poesias.",
-    lessons: ["art-1-sons", "art-1-cores", "art-2-instrumentos", "em-5-som-silencio", "em-5-ritmo", "art-3-ritmo", "ev-5-cor", "pt-1-rimas"],
+    lessons: ["art-1-sons", "art-1-cores", "art-2-instrumentos", "em-5-som-silencio", "em-5-ritmo", "art-3-ritmo", "ev-5-cor", "pt-1-rimas", "enc-ciencia-ceu-azul"],
   },
 ];
 

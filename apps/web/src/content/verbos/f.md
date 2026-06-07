@@ -22,6 +22,7 @@ Toca num verbo para o **conjugares** e ouvires. 👂
         "imperativo": ["faz", "façamos", "fazei"]
       } },
     { "verb": "fechar", "emoji": "🔒", "meaning": "Tapar uma abertura, o contrário de abrir." },
+    { "verb": "fiar", "meaning": "Torcer fibras de lã ou algodão para fazer fio de coser." },
     { "verb": "ferver", "emoji": "🌡️", "meaning": "Aquecer a água até fazer bolhas." },
     { "verb": "festejar", "emoji": "🎉", "meaning": "Comemorar algo bom com alegria." },
     { "verb": "ficar", "meaning": "Continuar num sítio, ou passar a estar de certa maneira." },
@@ -33,6 +34,7 @@ Toca num verbo para o **conjugares** e ouvires. 👂
     { "verb": "fritar", "emoji": "🍳", "meaning": "Cozinhar em óleo quente." },
     { "verb": "fumar", "meaning": "Deitar fumo, como uma chaminé." },
     { "verb": "funcionar", "emoji": "⚙️", "meaning": "Trabalhar bem, como deve ser." },
+    { "verb": "framejar", "meaning": "Brilhar em pequenos clarões, como uma luz que acende e apaga." },
     { "verb": "furar", "meaning": "Fazer um buraco em alguma coisa." }
   ]
 }

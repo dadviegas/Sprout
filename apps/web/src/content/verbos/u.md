@@ -13,7 +13,8 @@ Toca num verbo para o **conjugares** e ouvires. 👂
     { "verb": "unir", "emoji": "🔗", "meaning": "Juntar coisas para ficarem ligadas." },
     { "verb": "untar", "meaning": "Passar manteiga ou óleo numa forma ou no pão." },
     { "verb": "usar", "meaning": "Servir-te de uma coisa para alguma tarefa." },
-    { "verb": "utilizar", "meaning": "Pôr uma coisa a trabalhar para ti." }
+    { "verb": "utilizar", "meaning": "Pôr uma coisa a trabalhar para ti." },
+    { "verb": "urinar", "meaning": "Deixar sair o xixi do corpo — algo que toda a gente faz todos os dias." }
   ]
 }
 ```

@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Icon } from "@sprout/icons";
 import { Speaker, useSpeaker } from "../Speaker";
+import { dictWordId } from "./Dictionary";
 import { conjugate, tenseSay, type IrregularForms, type Conjugated } from "./conjugate";
 
 /* Verbs — the conjugation half of the Biblioteca. Each card is one verb: tap to
@@ -76,6 +77,72 @@ function allParts(c: Conjugated): string[] {
   return [headerSay(c), ...c.tenses.map(tenseSay)];
 }
 
+/** Open this verb's dictionary card: focus it first (stashed by App until the
+ *  page mounts), then navigate to its letter page. Mirrors openConjugation in
+ *  Dictionary.tsx — uses the same global events, so no app import is needed. */
+function openInDictionary(verb: string) {
+  window.dispatchEvent(new CustomEvent("sprout:focusword", { detail: { id: dictWordId(verb) } }));
+  const l = verb[0]?.normalize("NFD").match(/[a-z]/i)?.[0]?.toLowerCase();
+  if (l) window.dispatchEvent(new CustomEvent("sprout:navigate", { detail: { lessonId: `dic-${l}` } }));
+}
+
+/** The open panel of a verb: the explanation of its conjugation, an optional
+ *  example/note, the five tense tables and "ouvir tudo". Shared by the Verbos
+ *  section's VerbCard and the dictionary's verb entries — so a verb conjugates
+ *  the same way in both places (DRY). An optional `action` is slotted next to
+ *  "ouvir tudo" (the Verbos card uses it for the "no dicionário" link). */
+export function VerbConjugation({ entry, action }: { entry: VerbSpec; action?: ReactNode }) {
+  const c = conjugate(entry.verb, entry.forms);
+  return (
+    <div className="verb-body">
+      <p className="verb-explain">
+        {typeExplain(c)}
+        <Speaker text={typeExplain(c)} className="verb-explain-speak" size={15} label="Ouvir a explicação" />
+      </p>
+      {entry.example && (
+        <p className="verb-example">
+          <span className="verb-example-label">Exemplo</span>
+          <span className="verb-example-text">«{entry.example}»</span>
+          <Speaker text={entry.example} className="verb-explain-speak" size={15} label="Ouvir o exemplo" />
+        </p>
+      )}
+      {entry.note && (
+        <p className="verb-note">
+          <Icon name="tip" size={15} /> {entry.note}
+          <Speaker text={entry.note} className="verb-explain-speak" size={15} label="Ouvir a nota" />
+        </p>
+      )}
+      <div className="verb-tenses">
+        {c.tenses.map((t) => (
+          <div className="verb-tense" key={t.key}>
+            <div className="verb-tense-head">
+              <span className="verb-tense-titles">
+                <strong>{t.label}</strong>
+                <span className="verb-tense-hint">{t.hint}</span>
+              </span>
+              <Speaker text={tenseSay(t)} className="verb-tense-speak" size={15} label={`Ouvir o ${t.label}`} />
+            </div>
+            <ul className="verb-rows">
+              {t.rows.map((r) => (
+                <li className="verb-row" key={r.person}>
+                  <span className="verb-pron">{r.person}</span>
+                  <span className="verb-form">{r.form}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <div className="verb-actions">
+        <Speaker parts={allParts(c)} className="verb-hear-all-inline" label="Ouvir o verbo todo">
+          Ouvir tudo
+        </Speaker>
+        {action}
+      </div>
+    </div>
+  );
+}
+
 function VerbCard({ entry }: { entry: VerbSpec }) {
   const [open, setOpen] = useState(false);
   const { playing, toggle } = useSpeaker();
@@ -114,49 +181,20 @@ function VerbCard({ entry }: { entry: VerbSpec }) {
       </button>
 
       {open && (
-        <div className="verb-body">
-          <p className="verb-explain">
-            {typeExplain(c)}
-            <Speaker text={typeExplain(c)} className="verb-explain-speak" size={15} label="Ouvir a explicação" />
-          </p>
-          {entry.example && (
-            <p className="verb-example">
-              <span className="verb-example-label">Exemplo</span>
-              <span className="verb-example-text">«{entry.example}»</span>
-              <Speaker text={entry.example} className="verb-explain-speak" size={15} label="Ouvir o exemplo" />
-            </p>
-          )}
-          {entry.note && (
-            <p className="verb-note">
-              <Icon name="tip" size={15} /> {entry.note}
-              <Speaker text={entry.note} className="verb-explain-speak" size={15} label="Ouvir a nota" />
-            </p>
-          )}
-          <div className="verb-tenses">
-            {c.tenses.map((t) => (
-              <div className="verb-tense" key={t.key}>
-                <div className="verb-tense-head">
-                  <span className="verb-tense-titles">
-                    <strong>{t.label}</strong>
-                    <span className="verb-tense-hint">{t.hint}</span>
-                  </span>
-                  <Speaker text={tenseSay(t)} className="verb-tense-speak" size={15} label={`Ouvir o ${t.label}`} />
-                </div>
-                <ul className="verb-rows">
-                  {t.rows.map((r) => (
-                    <li className="verb-row" key={r.person}>
-                      <span className="verb-pron">{r.person}</span>
-                      <span className="verb-form">{r.form}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-          <Speaker parts={allParts(c)} className="verb-hear-all-inline" label="Ouvir o verbo todo">
-            Ouvir tudo
-          </Speaker>
-        </div>
+        <VerbConjugation
+          entry={entry}
+          action={
+            <button
+              type="button"
+              className="verb-dictlink"
+              title="Ver no dicionário"
+              aria-label={`Ver ${entry.verb} no dicionário`}
+              onClick={() => openInDictionary(entry.verb)}
+            >
+              <Icon name="reading" size={14} /> no dicionário
+            </button>
+          }
+        />
       )}
     </div>
   );

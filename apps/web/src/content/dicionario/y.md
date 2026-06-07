@@ -6,8 +6,8 @@ A letra **Y** quase não existe em português! Aparece em nomes e em palavras de
 {
   "letter": "Y",
   "entries": [
-    { "word": "yorkshire", "emoji": "🐶", "meaning": "Raça de cão muito pequenino e fofo, com pelo comprido e sedoso. Vem de Yorkshire, em Inglaterra." },
-    { "word": "yeti", "emoji": "❄️", "meaning": "Criatura misteriosa e gigante que, segundo as lendas do Nepal, vive nas montanhas nevadas do Himalaia." }
+    { "word": "yorkshire", "emoji": "🐶", "class": "nome", "meaning": "Raça de cão muito pequenino e fofo, com pelo comprido e sedoso. Vem de Yorkshire, em Inglaterra." },
+    { "word": "yeti", "emoji": "❄️", "class": "nome", "meaning": "Criatura misteriosa e gigante que, segundo as lendas do Nepal, vive nas montanhas nevadas do Himalaia." }
   ]
 }
 ```

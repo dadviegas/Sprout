@@ -35,6 +35,9 @@ export interface DinheiroJogoSpec {
 
 const OP_ICON: Record<Op, IconName> = { add: "plus", sub: "minus", mul: "times", div: "divide" };
 const GOAL = 3; // stars to clear a level
+/** Difficulty (0–2) ramps with the stars earned in the level: the conta starts
+ *  in whole euros and grows into cents + two-digit amounts before levelling up. */
+const tier = (levelStars: number) => Math.min(2, levelStars);
 
 /* ---------- pay step: tap notes + coins to form an exact amount ---------- */
 
@@ -111,8 +114,8 @@ export function DinheiroJogo({ spec }: { spec: DinheiroJogoSpec }) {
   const sheet = useMemo(() => buildSheet(problem.op, problem.a, problem.b), [problem]);
   const target = Number(sheet.answer.replace(",", ".")); // the money amount to form
 
-  const loadProblem = (lv: number) => {
-    setProblem(makeMoneyProblem(lv));
+  const loadProblem = (lv: number, difficulty: number) => {
+    setProblem(makeMoneyProblem(lv, difficulty));
     setRound((r) => r + 1);
     setGuess("");
     setWrong(false);
@@ -124,7 +127,7 @@ export function DinheiroJogo({ spec }: { spec: DinheiroJogoSpec }) {
     if (lv === level) return;
     setLevel(lv);
     setLevelStars(0);
-    loadProblem(lv);
+    loadProblem(lv, 0); // a fresh level always starts easy
   };
 
   const check = () => {
@@ -256,7 +259,7 @@ export function DinheiroJogo({ spec }: { spec: DinheiroJogoSpec }) {
               label="Ouvir"
             />
           </div>
-          <button type="button" className="pill ca-solve" onClick={() => loadProblem(level)} style={{ background: tint, borderColor: tint }}>
+          <button type="button" className="pill ca-solve" onClick={() => loadProblem(level, tier(levelStars))} style={{ background: tint, borderColor: tint }}>
             <Icon name="forward" size={16} /> {level4Maxed ? "Mais um!" : "Próximo problema"}
           </button>
           <Confetti pieces={leveledUp ? 72 : 40} />

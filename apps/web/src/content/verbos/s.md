@@ -90,7 +90,20 @@ Toca num verbo para o **conjugares** e ouvires. 👂
     { "verb": "suportar", "meaning": "Aguentar um peso ou uma coisa difícil." },
     { "verb": "surpreender", "emoji": "😲", "meaning": "Apanhar alguém de surpresa." },
     { "verb": "suspirar", "meaning": "Soltar um sopro grande de alívio ou de cansaço." },
-    { "verb": "sussurrar", "meaning": "Falar muito baixinho ao ouvido." }
+    { "verb": "sussurrar", "meaning": "Falar muito baixinho ao ouvido." },
+    { "verb": "sacar", "meaning": "Tirar ou puxar algo de um lugar onde estava guardado." },
+    { "verb": "sacudir", "meaning": "Agitar com força para tirar o pó ou limpar." },
+    { "verb": "sangrar", "meaning": "Perder sangue por um corte ou ferida." },
+    { "verb": "selecionar", "meaning": "Escolher um ou mais itens de um conjunto." },
+    { "verb": "serrar", "meaning": "Cortar madeira ou outro material com uma serra." },
+    { "verb": "silvar", "emoji": "🐍", "meaning": "Fazer o som «sss», como o vento ou uma serpente." },
+    { "verb": "sinalizar", "meaning": "Pôr sinais num sítio para avisar as pessoas de algo." },
+    { "verb": "sobreviver", "meaning": "Continuar vivo depois de algo muito difícil ou perigoso." },
+    { "verb": "socializar", "meaning": "Conversar e brincar com outras pessoas, fazer amigos." },
+    { "verb": "socorrer", "meaning": "Ir ajudar alguém que está em perigo." },
+    { "verb": "sofrer", "meaning": "Sentir dor ou tristeza por dentro." },
+    { "verb": "soletrar", "meaning": "Dizer as letras de uma palavra uma a uma, devagar." },
+    { "verb": "superar", "meaning": "Conseguir vencer um obstáculo ou um medo difícil." }
   ]
 }
 ```

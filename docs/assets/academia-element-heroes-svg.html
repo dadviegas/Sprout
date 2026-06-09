@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8" />
+<title>Heróis dos Elementos — SVG animado (estilo Sprout)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg1:#fff6ec; --bg2:#eef6f3; --ink:#33384a; --muted:#7c8497;
+    --card:#ffffff; --ring:#eef0f5;
+    font-synthesis: none;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; color:var(--ink);
+    font-family:"Nunito",system-ui,sans-serif;
+    background:
+      radial-gradient(1100px 520px at 18% -10%, #fff7 d, transparent 60%),
+      radial-gradient(900px 500px at 100% 0%, #e9f3ff, transparent 55%),
+      linear-gradient(160deg,var(--bg1),var(--bg2));
+    background-attachment:fixed;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before{ /* faint dot texture for atmosphere */
+    content:""; position:fixed; inset:0; pointer-events:none; opacity:.5;
+    background-image:radial-gradient(#0000000a 1px, transparent 1.4px);
+    background-size:22px 22px;
+  }
+  header{ text-align:center; padding:34px 16px 6px; position:relative; }
+  header h1{
+    font-family:"Baloo 2",cursive; font-weight:800; margin:0;
+    font-size:clamp(24px,4vw,34px); letter-spacing:.2px;
+    background:linear-gradient(90deg,#ff7a3c,#36b6e0 38%,#4caf50 62%,#f2b705);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  header p{ margin:6px 0 0; color:var(--muted); font-size:14px; }
+
+  /* control bar */
+  .controls{
+    position:sticky; top:0; z-index:5; display:flex; gap:8px; flex-wrap:wrap;
+    justify-content:center; padding:14px 12px; margin-top:6px;
+    backdrop-filter:blur(8px);
+    background:linear-gradient(#ffffffcc,#ffffff88);
+    border-bottom:1px solid var(--ring);
+  }
+  .controls button{
+    font-family:"Baloo 2",cursive; font-weight:700; font-size:14px;
+    border:2px solid var(--ring); background:#fff; color:var(--ink);
+    padding:9px 16px; border-radius:999px; cursor:pointer;
+    display:inline-flex; align-items:center; gap:7px; transition:transform .12s, box-shadow .2s, border-color .2s;
+  }
+  .controls button .ic{ width:16px; height:16px; }
+  .controls button:hover{ transform:translateY(-1px); border-color:#d7dbe6; }
+  .controls button[aria-pressed="true"]{
+    color:#fff; border-color:transparent;
+    background:linear-gradient(135deg,#ff8a3c,#ff5d73);
+    box-shadow:0 8px 18px -8px #ff5d7388;
+  }
+
+  .row{
+    display:flex; flex-wrap:wrap; gap:16px; justify-content:center;
+    align-items:stretch; padding:26px 16px 60px; max-width:1180px; margin:0 auto;
+  }
+  .card{
+    width:206px; background:var(--card); border:1px solid var(--ring);
+    border-radius:22px; padding:10px 10px 14px; text-align:center;
+    box-shadow:0 18px 40px -28px #2b3a6740, 0 2px 0 #ffffff inset;
+    transition:transform .2s, box-shadow .2s;
+  }
+  .card:hover{ transform:translateY(-3px); box-shadow:0 26px 50px -28px #2b3a6755; }
+  .stage{
+    position:relative; border-radius:16px; overflow:hidden;
+    background:
+      radial-gradient(120% 80% at 50% 18%, var(--tint), transparent 70%),
+      linear-gradient(#fbfcfe,#f2f5fa);
+  }
+  .stage svg{ width:100%; height:auto; display:block; }
+  .name{ font-family:"Baloo 2",cursive; font-weight:800; font-size:17px; margin-top:8px; }
+  .chip{
+    display:inline-block; margin-top:2px; font-size:11.5px; font-weight:700;
+    color:#fff; padding:2px 10px; border-radius:999px; background:var(--accent);
+  }
+
+  /* ===== character rig animation ===== */
+  .legL,.legR,.armL,.armR,.head,.browL,.browR{ transform-box:view-box; }
+  .figure{ transform-box:view-box; transform-origin:50px 140px; }
+  .eyes{ transform-box:view-box; transform-origin:50px 45px; animation:blink 5s infinite; }
+  .mouthOpen,.mouthFrown,.tear,.spark{ opacity:0; }
+  .legL{ transform-origin:46px 98px; } .legR{ transform-origin:54px 98px; }
+  .armL{ transform-origin:30px 68px; } .armR{ transform-origin:70px 68px; }
+  .head{ transform-origin:50px 64px; }
+  .browL{ transform-origin:42px 37px; } .browR{ transform-origin:58px 37px; }
+  .shadow{ transform-box:view-box; transform-origin:50px 143px; }
+
+  @keyframes blink{ 0%,93%,100%{transform:scaleY(1)} 96%{transform:scaleY(.12)} }
+
+  /* idle */
+  @keyframes idleBob{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-2px)} }
+  .is-idle .figure{ animation:idleBob 2.6s ease-in-out infinite; }
+  .is-idle .armL{ animation:idleArm 2.6s ease-in-out infinite; }
+  .is-idle .armR{ animation:idleArm 2.6s ease-in-out infinite; animation-delay:-1.3s; }
+  @keyframes idleArm{ 0%,100%{transform:rotate(0)} 50%{transform:rotate(4deg)} }
+
+  /* walk */
+  @keyframes walkLeg{ 0%{transform:rotate(17deg)} 50%{transform:rotate(-17deg)} 100%{transform:rotate(17deg)} }
+  @keyframes walkArm{ 0%{transform:rotate(-13deg)} 50%{transform:rotate(13deg)} 100%{transform:rotate(-13deg)} }
+  @keyframes walkBob{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-2.5px)} }
+  .is-walk .legL{ animation:walkLeg .64s ease-in-out infinite; }
+  .is-walk .legR{ animation:walkLeg .64s ease-in-out infinite; animation-delay:-.32s; }
+  .is-walk .armL{ animation:walkArm .64s ease-in-out infinite; }
+  .is-walk .armR{ animation:walkArm .64s ease-in-out infinite; animation-delay:-.32s; }
+  .is-walk .figure{ animation:walkBob .32s ease-in-out infinite; }
+
+  /* run */
+  @keyframes runLeg{ 0%{transform:rotate(36deg)} 50%{transform:rotate(-32deg)} 100%{transform:rotate(36deg)} }
+  @keyframes runArm{ 0%{transform:rotate(-40deg)} 50%{transform:rotate(44deg)} 100%{transform:rotate(-40deg)} }
+  @keyframes runBob{ 0%,100%{transform:rotate(-9deg) translateY(0)} 50%{transform:rotate(-9deg) translateY(-4px)} }
+  .is-run .legL{ animation:runLeg .36s ease-in-out infinite; }
+  .is-run .legR{ animation:runLeg .36s ease-in-out infinite; animation-delay:-.18s; }
+  .is-run .armL{ animation:runArm .36s ease-in-out infinite; }
+  .is-run .armR{ animation:runArm .36s ease-in-out infinite; animation-delay:-.18s; }
+  .is-run .figure{ animation:runBob .36s ease-in-out infinite; }
+  .speed{ opacity:0; }
+  .is-run .speed{ opacity:1; animation:speed .36s linear infinite; }
+  @keyframes speed{ 0%{transform:translateX(6px);opacity:0} 30%{opacity:.7} 100%{transform:translateX(-16px);opacity:0} }
+
+  /* jump (loop) */
+  @keyframes jump{
+    0%{transform:translateY(0) scaleY(1)}
+    12%{transform:translateY(3px) scaleY(.9)}
+    32%{transform:translateY(-32px) scaleY(1.06)}
+    50%{transform:translateY(-37px) scaleY(1)}
+    70%{transform:translateY(-8px) scaleY(1)}
+    86%{transform:translateY(3px) scaleY(.9)}
+    100%{transform:translateY(0) scaleY(1)}
+  }
+  @keyframes jumpArmL{ 0%,100%{transform:rotate(0)} 40%{transform:rotate(-46deg)} }
+  @keyframes jumpArmR{ 0%,100%{transform:rotate(0)} 40%{transform:rotate(46deg)} }
+  @keyframes jumpLegL{ 0%,100%{transform:rotate(0)} 40%{transform:rotate(-16deg)} }
+  @keyframes jumpLegR{ 0%,100%{transform:rotate(0)} 40%{transform:rotate(16deg)} }
+  @keyframes jumpShadow{ 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(.55);opacity:.45} }
+  .is-jump .figure{ animation:jump 1.15s ease-in-out infinite; }
+  .is-jump .armL{ animation:jumpArmL 1.15s ease-in-out infinite; }
+  .is-jump .armR{ animation:jumpArmR 1.15s ease-in-out infinite; }
+  .is-jump .legL{ animation:jumpLegL 1.15s ease-in-out infinite; }
+  .is-jump .legR{ animation:jumpLegR 1.15s ease-in-out infinite; }
+  .is-jump .shadow{ animation:jumpShadow 1.15s ease-in-out infinite; }
+
+  /* happy */
+  @keyframes happyBounce{ 0%,100%{transform:translateY(0)} 28%{transform:translateY(-13px) scaleY(1.05)} 56%{transform:translateY(0) scaleY(.95)} }
+  @keyframes happyArmL{ 0%,100%{transform:rotate(-40deg)} 50%{transform:rotate(-54deg)} }
+  @keyframes happyArmR{ 0%,100%{transform:rotate(40deg)} 50%{transform:rotate(54deg)} }
+  @keyframes sparkle{ 0%,100%{transform:scale(.4);opacity:0} 50%{transform:scale(1);opacity:1} }
+  .is-happy .figure{ animation:happyBounce .72s ease-in-out infinite; }
+  .is-happy .armL{ animation:happyArmL .72s ease-in-out infinite; }
+  .is-happy .armR{ animation:happyArmR .72s ease-in-out infinite; }
+  .is-happy .shadow{ animation:jumpShadow .72s ease-in-out infinite; }
+  .is-happy .mouthSmile{ opacity:0; } .is-happy .mouthOpen{ opacity:1; }
+  .is-happy .browL{ transform:translateY(-2px) rotate(-7deg); } .is-happy .browR{ transform:translateY(-2px) rotate(7deg); }
+  .is-happy .spark{ opacity:1; transform-box:view-box; transform-origin:center; animation:sparkle 1s ease-in-out infinite; }
+
+  /* sad */
+  @keyframes sadSway{ 0%,100%{transform:translateY(3px) rotate(-2deg)} 50%{transform:translateY(3px) rotate(2deg)} }
+  @keyframes tear{ 0%{transform:translateY(0);opacity:0} 14%{opacity:.9} 100%{transform:translateY(12px);opacity:0} }
+  .is-sad .figure{ animation:sadSway 3.4s ease-in-out infinite; }
+  .is-sad .head{ transform:rotate(9deg) translateY(2px); }
+  .is-sad .armL{ transform:rotate(7deg); } .is-sad .armR{ transform:rotate(-7deg); }
+  .is-sad .mouthSmile{ opacity:0; } .is-sad .mouthFrown{ opacity:1; }
+  .is-sad .browL{ transform:translateY(-1px) rotate(15deg); } .is-sad .browR{ transform:translateY(-1px) rotate(-15deg); }
+  .is-sad .tear{ opacity:1; animation:tear 2.4s ease-in infinite; }
+  .is-sad .eyes{ animation:none; }
+
+  /* aura + element particles */
+  .aura{ transform-box:fill-box; transform-origin:center; animation:pulse 3s ease-in-out infinite; }
+  @keyframes pulse{ 0%,100%{opacity:.16;transform:scale(.94)} 50%{opacity:.3;transform:scale(1.05)} }
+  .particle{ transform-box:fill-box; transform-origin:center; animation:floatUp 3.4s ease-in-out infinite; }
+  @keyframes floatUp{ 0%{transform:translateY(8px) scale(.6);opacity:0} 25%{opacity:.9} 100%{transform:translateY(-30px) scale(1);opacity:0} }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; }
+  }
+  footer{ text-align:center; color:var(--muted); font-size:12.5px; padding:0 16px 40px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Academia dos Elementos</h1>
+  <p>Os 5 heróis em SVG — estilo Sprout, sem ficheiros de imagem. Escolhe uma ação para os ver mexer.</p>
+</header>
+
+<nav class="controls" id="controls" aria-label="Ações"></nav>
+<div class="row" id="row"></div>
+<footer>Pré-visualização. As animações respeitam <code>prefers-reduced-motion</code>.</footer>
+
+<script>
+const SKIN="#f7cfa2", SKIN_SH="#ecbb86", BOOT="#5c4a39", LINE="#c97b4a";
+
+// ---- shared, rigged chibi body (named, animatable parts) ----
+function face(){
+  return `
+   <g class="brows">
+     <path class="browL" d="M38 37.5 Q42 35.4 46 37.2" fill="none" stroke="#7a5230" stroke-width="2.1" stroke-linecap="round"/>
+     <path class="browR" d="M54 37.2 Q58 35.4 62 37.5" fill="none" stroke="#7a5230" stroke-width="2.1" stroke-linecap="round"/>
+   </g>
+   <g class="eyes">
+     <circle cx="43" cy="45" r="4.7" fill="#3a3550"/>
+     <circle cx="57" cy="45" r="4.7" fill="#3a3550"/>
+     <circle cx="44.7" cy="43.2" r="1.6" fill="#fff"/>
+     <circle cx="58.7" cy="43.2" r="1.6" fill="#fff"/>
+     <circle cx="41.6" cy="46.8" r="0.9" fill="#fff" opacity=".7"/>
+     <circle cx="55.6" cy="46.8" r="0.9" fill="#fff" opacity=".7"/>
+   </g>
+   <circle cx="37.5" cy="51.5" r="3.1" fill="#ff9bb0" opacity=".55"/>
+   <circle cx="62.5" cy="51.5" r="3.1" fill="#ff9bb0" opacity=".55"/>
+   <!-- mouths (one shown per mood) -->
+   <path class="mouthSmile" d="M45 53 Q50 58 55 53" fill="none" stroke="${LINE}" stroke-width="2.2" stroke-linecap="round"/>
+   <g class="mouthOpen">
+     <path d="M44 52.5 Q50 62 56 52.5 Q50 56 44 52.5 Z" fill="#c4503a"/>
+     <path d="M47 57 Q50 60 53 57 Q50 59 47 57 Z" fill="#ff7e8e"/>
+   </g>
+   <path class="mouthFrown" d="M45 57.5 Q50 53 55 57.5" fill="none" stroke="${LINE}" stroke-width="2.2" stroke-linecap="round"/>
+   <path class="tear" d="M59 50 q2.4 3 2.4 4.6 a2.4 2.4 0 0 1 -4.8 0 Q56.6 53 59 50 Z" fill="#7fd2f4"/>`;
+}
+
+function rig(h){
+  // particles built with staggered delays
+  let parts="";
+  for(let i=0;i<5;i++){
+    const x = 14 + i*18, y = 92 - (i%2)*8, d=(i*0.62).toFixed(2);
+    parts += `<g class="particle" style="animation-delay:${d}s">${h.particle(x,y)}</g>`;
+  }
+  return `
+  <ellipse class="aura" cx="50" cy="74" rx="42" ry="48" fill="${h.aura}"/>
+  ${parts}
+  <!-- speed lines (run) -->
+  <g class="speed" stroke="${h.aura}" stroke-width="2.4" stroke-linecap="round" opacity=".7">
+    <path d="M10 60 h12"/><path d="M6 78 h16"/><path d="M12 96 h10"/>
+  </g>
+  <ellipse class="shadow" cx="50" cy="143" rx="25" ry="5" fill="#000" opacity=".09"/>
+  <g class="figure">
+    <!-- legs -->
+    <g class="legL"><rect x="42" y="97" width="8" height="27" rx="3.6" fill="${h.pants}"/><rect x="40.5" y="119" width="10.5" height="8" rx="3.2" fill="${BOOT}"/></g>
+    <g class="legR"><rect x="50" y="97" width="8" height="27" rx="3.6" fill="${h.pants}"/><rect x="49" y="119" width="10.5" height="8" rx="3.2" fill="${BOOT}"/></g>
+    <!-- arms (behind torso) -->
+    <g class="armL"><rect x="25.5" y="66.5" width="9" height="30" rx="4.5" fill="${h.tunic}"/><circle cx="30" cy="97" r="5" fill="${SKIN}"/></g>
+    <g class="armR"><rect x="65.5" y="66.5" width="9" height="30" rx="4.5" fill="${h.tunic}"/><circle cx="70" cy="97" r="5" fill="${SKIN}"/>${h.held||""}</g>
+    <!-- neck + torso -->
+    <rect x="45" y="60" width="10" height="7" rx="3" fill="${SKIN_SH}"/>
+    <path d="M34 71 Q34 65.5 39.5 65.5 L60.5 65.5 Q66 65.5 66 71 L62 98 Q62 100.4 59.5 100.4 L40.5 100.4 Q38 100.4 38 98 Z" fill="${h.tunic}"/>
+    <path d="M34 71 Q34 65.5 39.5 65.5 L60.5 65.5 Q66 65.5 66 71 L64 84 Q50 90 36 84 Z" fill="#ffffff" opacity=".10"/>
+    <path d="M40 99 Q50 103 60 99 L59.5 100.4 Q50 103.4 40.5 100.4 Z" fill="${h.tunicDark}" opacity=".55"/>
+    <rect x="38.5" y="91.5" width="23" height="5.6" rx="2.6" fill="${h.tunicDark}"/>
+    <rect x="46.5" y="92.4" width="7" height="3.8" rx="1.4" fill="#ffe9a8"/>
+    <!-- head -->
+    <g class="head">
+      ${h.hairBack||""}
+      <circle cx="50" cy="44" r="23" fill="${SKIN}"/>
+      <path d="M33 33 a23 23 0 0 1 22 -11 a23 23 0 0 0 -22 11 Z" fill="#fff" opacity=".18"/>
+      <path d="M28 49 a22 22 0 0 0 44 0 a23 23 0 0 1 -44 0 Z" fill="${SKIN_SH}" opacity=".5"/>
+      ${face()}
+      ${h.hair}
+      <g class="sparkles">
+        <path class="spark" d="M16 30 l1.4 3 3 1.4 -3 1.4 -1.4 3 -1.4 -3 -3 -1.4 3 -1.4 Z" fill="#ffd54a" style="transform:translate(0,0)"/>
+        <path class="spark" d="M82 26 l1.1 2.4 2.4 1.1 -2.4 1.1 -1.1 2.4 -1.1 -2.4 -2.4 -1.1 2.4 -1.1 Z" fill="#ffd54a" style="animation-delay:.4s"/>
+      </g>
+    </g>
+    ${h.companion||""}
+  </g>`;
+}
+
+const HEROES=[
+ { id:"fogo", name:"Faísca", el:"Fogo", accent:"#f2682c", tint:"#ffe2cf",
+   tunic:"#ec6a2e", tunicDark:"#a3441b", pants:"#7a3b1f", aura:"#ff7a3c",
+   hair:`<g>
+     <path d="M27 48 Q24 27 34 17 Q36 30 41 15 Q44 3 50 15 Q56 3 59 17 Q64 30 66 17 Q76 29 73 48 Q62 38 50 40 Q38 38 27 48 Z" fill="#ff7a2e"/>
+     <path d="M33 45 Q33 28 40 21 Q42 32 47 21 Q50 13 53 23 Q57 15 59 25 Q64 31 64 45 Q57 38 50 39 Q42 38 33 45 Z" fill="#ffc23a"/>
+   </g>`,
+   held:`<g>
+     <circle cx="74" cy="92" r="9.5" fill="#ff7a2e" opacity=".35"/>
+     <circle cx="74" cy="92" r="6.4" fill="#ff8a33"/>
+     <path d="M74 84 Q78 88 76.4 92 Q80 90 79 94 Q82 96 78 99 Q75 101 72 99 Q68 96 70.4 92 Q70 88 74 84 Z" fill="#ffce3a"/>
+   </g>`,
+   particle:(x,y)=>`<circle cx="${x}" cy="${y}" r="2.2" fill="#ff8a33"/>` },
+
+ { id:"agua", name:"Maré", el:"Água", accent:"#1f9bd0", tint:"#d4eefb",
+   tunic:"#2aa9e0", tunicDark:"#1c7bad", pants:"#1c6f9c", aura:"#4fc4ee",
+   hair:`<g>
+     <path d="M27 46 Q24 24 38 18 Q50 12 62 18 Q76 24 73 46 Q62 36 50 38 Q38 36 27 46 Z" fill="#2aa9e0"/>
+     <path d="M70 40 Q85 53 79 80 Q75 94 66 97 Q75 80 72 64 Q70 52 66 46 Z" fill="#2aa9e0"/>
+     <path d="M71 46 Q81 58 77 78 Q74 88 69 91 Q74 78 72 66 Q71 56 68 50 Z" fill="#62c7ef"/>
+     <path d="M33 42 Q33 28 42 23 Q40 34 50 33 Q60 34 58 23 Q67 28 67 42 Q58 36 50 37 Q42 36 33 42 Z" fill="#62c7ef"/>
+   </g>`,
+   companion:`<g class="particle" style="animation-delay:.2s">
+     <path d="M22 84 Q28 90 28 95 a6.2 6.2 0 0 1 -12.4 0 Q15.6 90 22 84 Z" fill="#6fd0f2"/>
+     <path d="M22 86 Q25 89 25 92 a3 3 0 0 1 -6 0 Q19 89 22 86 Z" fill="#bdeafb" opacity=".7"/>
+     <circle cx="19.6" cy="94" r="1.1" fill="#1c5e85"/><circle cx="24.4" cy="94" r="1.1" fill="#1c5e85"/>
+     <path d="M20 97 Q22 99 24 97" fill="none" stroke="#1c5e85" stroke-width="1" stroke-linecap="round"/>
+   </g>`,
+   particle:(x,y)=>`<circle cx="${x}" cy="${y}" r="2" fill="#7fd2f4"/>` },
+
+ { id:"terra", name:"Raiz", el:"Terra", accent:"#3f8f37", tint:"#dcefd6",
+   tunic:"#4f9e44", tunicDark:"#3c7a34", pants:"#6b4a26", aura:"#7ec46f",
+   hair:`<g>
+     <path d="M27 47 Q25 27 38 20 Q50 14 62 20 Q75 27 73 47 Q62 37 50 39 Q38 37 27 47 Z" fill="#6b4a2a"/>
+     <path d="M30 44 Q31 32 39 27 Q41 35 48 33 Q44 27 49 24 Q53 30 56 27 Q59 33 64 30 Q70 35 70 44 Q58 37 50 38 Q40 37 30 44 Z" fill="#7d5832"/>
+     <g transform="rotate(-16 53 15)"><path d="M53 5 Q63 9 59 21 Q49 19 53 5 Z" fill="#5bbf52"/><path d="M54 8 Q57 13 57 18" fill="none" stroke="#3c8f37" stroke-width="1"/></g>
+   </g>`,
+   companion:`<g class="rock">
+     <ellipse cx="80" cy="130" rx="10" ry="2.6" fill="#000" opacity=".08"/>
+     <path d="M72 128 Q72 118 80 117 Q89 118 88 128 Z" fill="#9aa3a8"/>
+     <path d="M72 128 Q72 118 80 117 Q84 117 86 121 Q78 121 74 128 Z" fill="#b6bec2"/>
+     <circle cx="77" cy="123.5" r="1.3" fill="#3a4145"/><circle cx="83" cy="123.5" r="1.3" fill="#3a4145"/>
+     <path d="M77.5 126.4 Q80 128 82.5 126.4" fill="none" stroke="#3a4145" stroke-width="1" stroke-linecap="round"/>
+   </g>`,
+   particle:(x,y)=>`<path d="M${x} ${y} q3 -2 4 1 q-2 3 -4 -1 Z" fill="#5bbf52"/>` },
+
+ { id:"ar", name:"Brisa", el:"Ar", accent:"#7aa7bd", tint:"#e7f2f8",
+   tunic:"#d3e8f1", tunicDark:"#a7c8d8", pants:"#9bbccb", aura:"#cfe6f0",
+   hair:`<g>
+     <path d="M28 46 Q25 26 39 19 Q50 14 61 19 Q75 26 72 46 Q61 37 50 39 Q39 37 28 46 Z" fill="#e0eef6"/>
+     <path d="M34 30 Q40 20 54 22 Q46 24 44 30 Q52 28 56 24 Q52 33 42 33 Q36 33 34 30 Z" fill="#bcdcea"/>
+     <path d="M62 22 Q74 24 72 38 Q70 30 64 28 Q68 34 66 40 Q60 32 60 24 Z" fill="#bcdcea"/>
+   </g>`,
+   held:`<g fill="none" stroke="#9cc6db" stroke-width="2.6" stroke-linecap="round">
+     <path d="M71 90 Q85 88 85 82 Q85 77 80 78 Q76 79 78 83"/>
+     <path d="M69 96 Q89 95 89 100 Q89 105 83 104"/>
+   </g>`,
+   particle:(x,y)=>`<path d="M${x-3} ${y} q3 -2.5 6 0" fill="none" stroke="#a9cfe0" stroke-width="1.8" stroke-linecap="round"/>` },
+
+ { id:"luz", name:"Luzia", el:"Luz", accent:"#e0a51c", tint:"#fff0c9",
+   tunic:"#f2c230", tunicDark:"#cf9d18", pants:"#c79412", aura:"#ffe07a",
+   hair:`<g>
+     <path d="M27 47 Q25 26 39 19 Q50 13 61 19 Q75 26 73 47 Q61 37 50 39 Q39 37 27 47 Z" fill="#ffd54a"/>
+     <path d="M31 44 Q32 30 41 25 Q43 34 50 33 Q57 34 59 25 Q68 30 69 44 Q58 37 50 38 Q42 37 31 44 Z" fill="#ffe79a"/>
+   </g>`,
+   held:`<g>
+     <circle cx="76" cy="86" r="11" fill="#ffe07a" opacity=".45"/>
+     <path d="M76 76 l3.2 6.6 7.2 1 -5.2 5.1 1.2 7.2 -6.4 -3.4 -6.4 3.4 1.2 -7.2 -5.2 -5.1 7.2 -1 Z" fill="#ffd027"/>
+     <path d="M76 80 l1.8 3.8 4.1 .6 -3 2.9 .7 4.1 -3.6 -1.9 -3.6 1.9 .7 -4.1 -3 -2.9 4.1 -.6 Z" fill="#fff2bf"/>
+   </g>`,
+   particle:(x,y)=>`<path d="M${x} ${y-3} l1 2.2 2.2 1 -2.2 1 -1 2.2 -1 -2.2 -2.2 -1 2.2 -1 Z" fill="#ffd54a"/>` },
+];
+
+const STATES=[
+  {k:"idle", label:"Parado"},
+  {k:"walk", label:"Andar"},
+  {k:"run",  label:"Correr"},
+  {k:"jump", label:"Saltar"},
+  {k:"happy",label:"Feliz"},
+  {k:"sad",  label:"Triste"},
+];
+
+// build cards
+document.getElementById("row").innerHTML = HEROES.map(h=>`
+  <div class="card" data-id="${h.id}" style="--accent:${h.accent};--tint:${h.tint}">
+    <div class="stage">
+      <svg class="hero is-idle" viewBox="0 0 100 150" role="img" aria-label="${h.name}, herói do elemento ${h.el}">
+        ${rig(h)}
+      </svg>
+    </div>
+    <div class="name">${h.name}</div>
+    <div class="chip">${h.el}</div>
+  </div>`).join("");
+
+// build controls
+const ctr=document.getElementById("controls");
+ctr.innerHTML = STATES.map((s,i)=>`<button data-k="${s.k}" aria-pressed="${i===0}">${s.label}</button>`).join("");
+function setState(k){
+  document.querySelectorAll(".hero").forEach(svg=>{
+    svg.className.baseVal = "hero is-"+k;
+  });
+  ctr.querySelectorAll("button").forEach(b=> b.setAttribute("aria-pressed", b.dataset.k===k));
+}
+ctr.addEventListener("click",e=>{ const b=e.target.closest("button"); if(b) setState(b.dataset.k); });
+</script>
+</body>
+</html>

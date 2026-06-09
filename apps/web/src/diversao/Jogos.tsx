@@ -10,6 +10,10 @@ import { Foguetao } from "./Foguetao";
 import { VelhoOeste } from "./VelhoOeste";
 import { Domino } from "./Domino";
 import { Stop } from "./Stop";
+import { PalavraSecreta } from "./PalavraSecreta";
+import { CacaPalavras } from "./CacaPalavras";
+import { BatalhaPalavras } from "./BatalhaPalavras";
+import { CorreContas } from "./CorreContas";
 
 // Velho Oeste 3D and Xadrez 3D pull in Babylon.js (a big engine), so they're
 // lazy-loaded into their own chunks — they only download when a child actually
@@ -25,7 +29,7 @@ const Xadrez3D = lazy(() => import("./xadrez3d/Xadrez3D").then((m) => ({ default
  * Emoji are used INSIDE the games (game content, not chrome) — allowed by the
  * project conventions; the chrome (buttons, back arrow) uses @sprout/icons. */
 
-type GameId = "xadrez" | "xadrez3d" | "damas" | "domino" | "stop" | "salta" | "foguetao" | "oeste" | "oeste3d" | "memoria" | "sequencia" | "apanha" | "toupeira" | "conta" | "soma" | "dinheiro";
+type GameId = "xadrez" | "xadrez3d" | "damas" | "domino" | "stop" | "palavra" | "caca" | "batalha" | "correcontas" | "salta" | "foguetao" | "oeste" | "oeste3d" | "memoria" | "sequencia" | "apanha" | "toupeira" | "conta" | "soma" | "dinheiro";
 
 /* Each tile gets a little illustrated scene (same playful, multi-colour spirit
  * as the memory-card art) on a 0 0 48 48 grid, tinted with the tile's accent via
@@ -233,6 +237,63 @@ const ART_STOP = (
   </g>
 );
 
+// Palavra Secreta — blank tiles slowly filling with found letters.
+const ART_PALAVRA = (
+  <g style={{ fontFamily: "var(--font-display)", fontWeight: 900 }} textAnchor="middle" dominantBaseline="central">
+    <path d="M6 16c0-5 4-9 9-9h18c5 0 9 4 9 9v16c0 5-4 9-9 9H15c-5 0-9-4-9-9z" fill="#fffef9" stroke="#cdbfa6" strokeWidth="1.5" />
+    <g>
+      <rect x="11" y="18" width="7" height="9" rx="2" style={{ fill: "var(--c)" }} />
+      <rect x="20.5" y="18" width="7" height="9" rx="2" fill="#ffce3a" />
+      <rect x="30" y="18" width="7" height="9" rx="2" fill="#36c5f0" />
+      <text x="14.5" y="22.8" fontSize="6.5" fill="#fff">A</text>
+      <text x="24" y="22.8" fontSize="6.5" fill="#1c2530">?</text>
+      <text x="33.5" y="22.8" fontSize="6.5" fill="#fff">O</text>
+    </g>
+    <path d="M14 34h20" stroke="#cdbfa6" strokeWidth="2" strokeLinecap="round" />
+    {sparkle(37, 10, 0.2, "#ffce3a")}
+  </g>
+);
+
+// Caça-Palavras — a tiny letter grid with one found word highlighted.
+const ART_CACA = (
+  <g style={{ fontFamily: "var(--font-display)", fontWeight: 900 }} textAnchor="middle" dominantBaseline="central">
+    <rect x="7" y="7" width="34" height="34" rx="5" fill="#fffef9" stroke="#cdbfa6" strokeWidth="1.5" />
+    {["S", "O", "L", "R", "I", "O", "M", "A", "P"].map((letter, i) => {
+      const x = 14 + (i % 3) * 10;
+      const y = 14 + Math.floor(i / 3) * 10;
+      return (
+        <g key={`${letter}-${i}`}>
+          <rect x={x - 4} y={y - 4} width="8" height="8" rx="2" fill={i < 3 ? "var(--c)" : "#eef3fa"} />
+          <text x={x} y={y + 0.3} fontSize="5.8" fill={i < 3 ? "#fff" : "#1c2530"}>{letter}</text>
+        </g>
+      );
+    })}
+    <path d="M10 14h28" stroke="#ffce3a" strokeWidth="3" strokeLinecap="round" opacity="0.72" />
+  </g>
+);
+
+// Batalha das Palavras — a word meteor falling toward answer shields.
+const ART_BATALHA = (
+  <g style={{ fontFamily: "var(--font-display)", fontWeight: 900 }} textAnchor="middle" dominantBaseline="central">
+    {sparkle(39, 9, 0.22, "#ffce3a")}
+    <path d="M24 6c7 5 10 12 8 18-2 7-14 7-16 0-2-6 1-13 8-18z" style={{ fill: "var(--c)" }} />
+    <text x="24" y="20" fontSize="8" fill="#fff">SOL</text>
+    <rect x="7" y="32" width="14" height="9" rx="3" fill="#36c5f0" />
+    <rect x="27" y="32" width="14" height="9" rx="3" fill="#ffce3a" />
+  </g>
+);
+
+// Corre-Contas — a runner heading for a maths gate.
+const ART_CORRECONTAS = (
+  <g style={{ fontFamily: "var(--font-display)", fontWeight: 900 }} textAnchor="middle" dominantBaseline="central">
+    <path d="M5 39h38" stroke="#7bbf57" strokeWidth="5" strokeLinecap="round" />
+    <rect x="29" y="9" width="12" height="24" rx="4" style={{ fill: "var(--c)" }} />
+    <text x="35" y="21" fontSize="7" fill="#fff">8</text>
+    <circle cx="15" cy="20" r="5" fill="#ffce3a" />
+    <path d="M15 25l-4 8m4-8 6 5m-5-2 7-5m-8 5-5-4" stroke="#1c2530" strokeWidth="2.2" strokeLinecap="round" />
+  </g>
+);
+
 // Salta! — the green hero mid-hop along a hill, a dashed jump arc and a star.
 const ART_SALTA = (
   <g>
@@ -296,7 +357,11 @@ const GAMES: { id: GameId; art: ReactNode; accent: string; accentSoft: string; l
   { id: "xadrez3d", art: ART_XADREZ3D, accent: "var(--subj-mat)", accentSoft: "var(--subj-mat-soft)", label: "Xadrez 3D", blurb: "Xadrez com peças a sério em 3D.", rules: "Xadrez 3D! As mesmas regras do xadrez, mas com peças a sério em três dimensões. Toca numa peça branca e depois no quadrado para onde queres ir; as jogadas possíveis acendem-se no tabuleiro. Arrasta com o dedo para rodares o tabuleiro e veres de todos os lados. Joga contra o computador ou contra um amigo na mesma máquina." },
   { id: "damas", art: ART_DAMAS, accent: "var(--subj-fis)", accentSoft: "var(--subj-fis-soft)", label: "Damas", blurb: "Salta por cima e come as peças.", rules: "Damas. Toca numa peça branca e depois no quadrado em diagonal para onde queres ir. Salta por cima de uma peça do adversário para a comeres — e se puderes comer, tens de comer! Chega ao outro lado para a tua peça virar dama e poder andar para todos os lados. Joga contra o computador ou contra um amigo." },
   { id: "domino", art: ART_DOMINO, accent: "var(--subj-pt)", accentSoft: "var(--subj-pt-soft)", label: "Dominó", blurb: "Faz pares, marca pontos e bate o teu recorde.", rules: "Dominó! Cada um fica com sete peças. Na tua vez, arrasta uma peça para uma das pontas da fila — ou toca para a encaixares sozinha. A peça tem de ter o mesmo número da ponta. Sempre que as pontas somam 5, 10 ou 15, ganhas logo esses pontos! Se não tiveres jeito, tira uma peça do monte; se o monte acabar, passas a vez. Ganhas a ronda quando ficares sem peças e levas os pontos das peças que sobram ao computador. Escolhe o nível: quanto mais difícil, mais pontos valem! O melhor de cada dia fica guardado para tentares bater o recorde." },
-  { id: "stop", art: ART_STOP, accent: "var(--subj-en)", accentSoft: "var(--subj-en-soft)", label: "Stop!", blurb: "Escreve palavras com a letra sorteada.", rules: "Stop! Escolhe treino sem tempo ou relógio. O jogo sorteia uma letra. Escreve uma palavra para cada categoria: nome, animal, comida, lugar, objeto, profissão e palavra difícil. Carrega em Stop quando terminares. Cada resposta que começa pela letra certa vale dez pontos, e se completares tudo no modo relógio ganhas bónus pelo tempo que sobrou." },
+  { id: "stop", art: ART_STOP, accent: "var(--subj-en)", accentSoft: "var(--subj-en-soft)", label: "Stop!", blurb: "Roda a letra e joga no papel.", rules: "Stop! Este ecrã ajuda a jogar no papel. Carrega em Sortear letra para a roda girar e parar na seta. Escolhe relógio ou treino sem tempo. As categorias aparecem em cartões; toca num cartão se precisares de ver um exemplo escondido." },
+  { id: "palavra", art: ART_PALAVRA, accent: "var(--subj-pt)", accentSoft: "var(--subj-pt-soft)", label: "Palavra Secreta", blurb: "Adivinha a palavra letra a letra.", rules: "Palavra Secreta. A palavra está escondida em quadradinhos. Toca nas letras. Se a letra existir, aparece no sítio certo. Se falhares, perdes uma vida. Podes revelar uma dica quando precisares." },
+  { id: "caca", art: ART_CACA, accent: "var(--subj-edm)", accentSoft: "var(--subj-edm-soft)", label: "Caça-Palavras", blurb: "Encontra palavras escondidas na grelha.", rules: "Caça-Palavras. Escolhe um tema e procura as palavras na grelha. Toca nas letras por ordem para formar uma palavra. Quando encontrares uma, ela fica marcada. Encontra todas para ganhar." },
+  { id: "batalha", art: ART_BATALHA, accent: "var(--joy)", accentSoft: "var(--joy-soft)", label: "Batalha das Palavras", blurb: "Responde antes da palavra cair.", rules: "Batalha das Palavras. Uma palavra aparece na arena com uma pergunta. Escolhe a resposta certa antes do tempo acabar. Acertos dão pontos e aumentam o combo; erros ou tempo esgotado tiram vidas." },
+  { id: "correcontas", art: ART_CORRECONTAS, accent: "var(--subj-mat)", accentSoft: "var(--subj-mat-soft)", label: "Corre-Contas", blurb: "Resolve contas para abrir portas.", rules: "Corre-Contas. O corredor avança quando acertas. Vê a conta na porta e escolhe o resultado certo. Acertos fazem combo e dão pontos; erros tiram vidas. Chega à meta!" },
   { id: "salta", art: ART_SALTA, accent: "var(--subj-cn)", accentSoft: "var(--subj-cn-soft)", label: "Salta!", blurb: "Salta e apanha as estrelas.", rules: "Salta! O Saltão corre pela relva. Toca no ecrã para ele saltar — toca outra vez no ar para dar um salto duplo. Passa por cima das pedras e dos troncos e apanha as estrelas a brilhar. Quanto mais tempo aguentares, mais depressa fica!" },
   { id: "foguetao", art: ART_FOGUETAO, accent: "var(--subj-paises)", accentSoft: "var(--subj-paises-soft)", label: "Foguetão", blurb: "Voa e desvia-te dos meteoros.", rules: "Foguetão! Arrasta o dedo pelo ecrã para guiar o foguetão pelo espaço. Desvia-te dos meteoros, apanha as gemas a brilhar e agarra o escudo azul para ficares protegido uns segundos. Vê até onde consegues chegar!" },
   { id: "oeste", art: ART_OESTE, accent: "var(--subj-hgp)", accentSoft: "var(--subj-hgp-soft)", label: "Velho Oeste", blurb: "Salta pelo Oeste e chega ao saloon.", rules: "Velho Oeste! Usa o manípulo redondo em baixo à esquerda para andar para a frente e para trás, e o botão verde à direita para saltar — toca outra vez no ar para um salto duplo. Apanha as moedas de ouro, a estrela dourada transforma-te em Xerife, a malagueta dá-te turbo e o coração verde dá-te uma vida. Salta em cima dos bandidos ou apanha a pistola de água para os pôr a fugir. Procura os segredos escondidos e chega ao saloon no fim de cada nível!" },
@@ -358,6 +423,10 @@ export function Jogos() {
       )}
       {game === "memoria" && <Memoria />}
       {game === "stop" && <Stop />}
+      {game === "palavra" && <PalavraSecreta />}
+      {game === "caca" && <CacaPalavras />}
+      {game === "batalha" && <BatalhaPalavras />}
+      {game === "correcontas" && <CorreContas />}
       {game === "sequencia" && <Sequencia />}
       {game === "apanha" && <Apanha />}
       {game === "toupeira" && <Toupeira />}

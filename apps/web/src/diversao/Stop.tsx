@@ -18,13 +18,13 @@ const CATEGORIES = [
 type CategoryId = (typeof CATEGORIES)[number]["id"];
 
 const EXAMPLES: Record<CategoryId, string[]> = {
-  nome: ["Ana", "Bruno", "Carla", "Diogo", "Eva", "Francisco", "Gonçalo", "Helena", "Inês", "Joana", "Leonor", "Marta", "Nuno", "Olívia", "Pedro", "Rita", "Sofia", "Tiago", "Vera"],
-  animal: ["Anta", "Borboleta", "Cavalo", "Doninha", "Elefante", "Foca", "Gato", "Hamster", "Iguana", "Jaguar", "Lagarto", "Melro", "Ovelha", "Pato", "Rato", "Sapo", "Tubarão", "Vaca", "Zebra"],
-  comida: ["Arroz", "Banana", "Cenoura", "Dourada", "Ervilha", "Feijão", "Gelado", "Hambúrguer", "Iogurte", "Jardineira", "Laranja", "Massa", "Nabo", "Omelete", "Pão", "Queijo", "Sopa", "Tomate", "Uva"],
-  lugar: ["Aveiro", "Braga", "Coimbra", "Douro", "Évora", "Faro", "Guarda", "Horta", "Ílhavo", "Lisboa", "Madrid", "Nazaré", "Odivelas", "Porto", "Quarteira", "Roma", "Setúbal", "Tavira", "Viseu"],
-  objeto: ["Anel", "Bola", "Caderno", "Dado", "Estojo", "Flauta", "Garrafa", "Helicóptero", "Íman", "Janela", "Livro", "Mochila", "Novelo", "Óculos", "Pincel", "Quadro", "Régua", "Tesoura", "Vassoura"],
-  profissao: ["Arquiteto", "Bombeiro", "Cozinheira", "Dentista", "Engenheira", "Florista", "Guarda", "Historiador", "Ilustradora", "Jardineiro", "Médica", "Nutricionista", "Oleiro", "Professor", "Químico", "Rececionista", "Sapateiro", "Treinadora", "Veterinário"],
-  dificil: ["Asteroide", "Biodiversidade", "Constituição", "Democracia", "Ecossistema", "Fotossíntese", "Geometria", "Hipérbole", "Invertebrado", "Justaposição", "Longitude", "Metamorfose", "Nutriente", "Orquestra", "Paralelogramo", "Quociente", "Rotação", "Simetria", "Translação"],
+  nome: ["Ana", "Bruno", "Carla", "Diogo", "Eva", "Francisco", "Gonçalo", "Helena", "Inês", "Joana", "Leonor", "Marta", "Nuno", "Olívia", "Pedro", "Quim", "Rita", "Sofia", "Tiago", "Úrsula", "Vera", "Xavier", "Zé"],
+  animal: ["Anta", "Borboleta", "Cavalo", "Doninha", "Elefante", "Foca", "Gato", "Hamster", "Iguana", "Jaguar", "Lagarto", "Melro", "Naja", "Ovelha", "Pato", "Quati", "Rato", "Sapo", "Tubarão", "Urso", "Vaca", "Xaréu", "Zebra"],
+  comida: ["Arroz", "Banana", "Cenoura", "Dourada", "Ervilha", "Feijão", "Gelado", "Hambúrguer", "Iogurte", "Jardineira", "Laranja", "Massa", "Nabo", "Omelete", "Pão", "Queijo", "Rissóis", "Sopa", "Tomate", "Uva", "Vitela", "Xarope", "Zarzuela"],
+  lugar: ["Aveiro", "Braga", "Coimbra", "Douro", "Évora", "Faro", "Guarda", "Horta", "Ílhavo", "Japão", "Lisboa", "Madrid", "Nazaré", "Odivelas", "Porto", "Quarteira", "Roma", "Setúbal", "Tavira", "Uruguai", "Viseu", "Xangai", "Zambujeira"],
+  objeto: ["Anel", "Bola", "Caderno", "Dado", "Estojo", "Flauta", "Garrafa", "Helicóptero", "Íman", "Janela", "Livro", "Mochila", "Novelo", "Óculos", "Pincel", "Quadro", "Régua", "Saco", "Tesoura", "Urna", "Vassoura", "Xilofone", "Zarabatana"],
+  profissao: ["Arquiteto", "Bombeiro", "Cozinheira", "Dentista", "Engenheira", "Florista", "Guarda", "Historiador", "Ilustradora", "Jardineiro", "Lojista", "Médica", "Nutricionista", "Oleiro", "Professor", "Químico", "Rececionista", "Sapateiro", "Treinadora", "Urbanista", "Veterinário", "Xilógrafo", "Zelador"],
+  dificil: ["Asteroide", "Biodiversidade", "Constituição", "Democracia", "Ecossistema", "Fotossíntese", "Geometria", "Hipérbole", "Invertebrado", "Justaposição", "Longitude", "Metamorfose", "Nutriente", "Orquestra", "Paralelogramo", "Quociente", "Rotação", "Simetria", "Translação", "Universo", "Velocidade", "Xenofobia", "Zigurate"],
 };
 
 const emptyReveal = () => CATEGORIES.reduce((acc, cat) => ({ ...acc, [cat.id]: false }), {} as Record<CategoryId, boolean>);

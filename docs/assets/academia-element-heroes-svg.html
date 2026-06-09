@@ -95,6 +95,13 @@
   .browL{ transform-origin:42px 37px; } .browR{ transform-origin:58px 37px; }
   .shadow{ transform-box:view-box; transform-origin:50px 143px; }
 
+  /* front = character-select / idle / happy / sad ; side = walk / run / jump */
+  .poseSide{ display:none; }
+  .is-walk .poseFront,.is-run .poseFront,.is-jump .poseFront{ display:none; }
+  .is-walk .poseSide,.is-run .poseSide,.is-jump .poseSide{ display:block; }
+  .poseSide .legL,.poseSide .legR{ transform-origin:51px 97px; }
+  .poseSide .armL,.poseSide .armR{ transform-origin:52px 68px; }
+
   @keyframes blink{ 0%,93%,100%{transform:scaleY(1)} 96%{transform:scaleY(.12)} }
 
   /* idle */
@@ -115,14 +122,14 @@
   .is-walk .figure{ animation:walkBob .32s ease-in-out infinite; }
 
   /* run */
-  @keyframes runLeg{ 0%{transform:rotate(36deg)} 50%{transform:rotate(-32deg)} 100%{transform:rotate(36deg)} }
-  @keyframes runArm{ 0%{transform:rotate(-40deg)} 50%{transform:rotate(44deg)} 100%{transform:rotate(-40deg)} }
-  @keyframes runBob{ 0%,100%{transform:rotate(-9deg) translateY(0)} 50%{transform:rotate(-9deg) translateY(-4px)} }
-  .is-run .legL{ animation:runLeg .36s ease-in-out infinite; }
-  .is-run .legR{ animation:runLeg .36s ease-in-out infinite; animation-delay:-.18s; }
-  .is-run .armL{ animation:runArm .36s ease-in-out infinite; }
-  .is-run .armR{ animation:runArm .36s ease-in-out infinite; animation-delay:-.18s; }
-  .is-run .figure{ animation:runBob .36s ease-in-out infinite; }
+  @keyframes runLeg{ 0%{transform:rotate(44deg)} 50%{transform:rotate(-38deg)} 100%{transform:rotate(44deg)} }
+  @keyframes runArm{ 0%{transform:rotate(-48deg)} 50%{transform:rotate(50deg)} 100%{transform:rotate(-48deg)} }
+  @keyframes runBob{ 0%,100%{transform:rotate(-12deg) translateY(0)} 50%{transform:rotate(-12deg) translateY(-5px)} }
+  .is-run .legL{ animation:runLeg .42s cubic-bezier(.4,0,.6,1) infinite; }
+  .is-run .legR{ animation:runLeg .42s cubic-bezier(.4,0,.6,1) infinite; animation-delay:-.21s; }
+  .is-run .armL{ animation:runArm .42s ease-in-out infinite; }
+  .is-run .armR{ animation:runArm .42s ease-in-out infinite; animation-delay:-.21s; }
+  .is-run .figure{ animation:runBob .21s ease-in-out infinite; } /* double bob per stride = running float */
   .speed{ opacity:0; }
   .is-run .speed{ opacity:1; animation:speed .36s linear infinite; }
   @keyframes speed{ 0%{transform:translateX(6px);opacity:0} 30%{opacity:.7} 100%{transform:translateX(-16px);opacity:0} }
@@ -130,24 +137,25 @@
   /* jump (loop) */
   @keyframes jump{
     0%{transform:translateY(0) scaleY(1)}
-    12%{transform:translateY(3px) scaleY(.9)}
-    32%{transform:translateY(-32px) scaleY(1.06)}
-    50%{transform:translateY(-37px) scaleY(1)}
-    70%{transform:translateY(-8px) scaleY(1)}
-    86%{transform:translateY(3px) scaleY(.9)}
+    10%{transform:translateY(5px) scaleY(.86)}     /* anticipation crouch */
+    28%{transform:translateY(-28px) scaleY(1.08)}  /* explosive launch, stretch */
+    48%{transform:translateY(-42px) scaleY(1)}     /* apex */
+    68%{transform:translateY(-16px) scaleY(1)}
+    84%{transform:translateY(5px) scaleY(.85)}     /* landing squash */
     100%{transform:translateY(0) scaleY(1)}
   }
-  @keyframes jumpArmL{ 0%,100%{transform:rotate(0)} 40%{transform:rotate(-46deg)} }
-  @keyframes jumpArmR{ 0%,100%{transform:rotate(0)} 40%{transform:rotate(46deg)} }
-  @keyframes jumpLegL{ 0%,100%{transform:rotate(0)} 40%{transform:rotate(-16deg)} }
-  @keyframes jumpLegR{ 0%,100%{transform:rotate(0)} 40%{transform:rotate(16deg)} }
-  @keyframes jumpShadow{ 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(.55);opacity:.45} }
-  .is-jump .figure{ animation:jump 1.15s ease-in-out infinite; }
-  .is-jump .armL{ animation:jumpArmL 1.15s ease-in-out infinite; }
-  .is-jump .armR{ animation:jumpArmR 1.15s ease-in-out infinite; }
-  .is-jump .legL{ animation:jumpLegL 1.15s ease-in-out infinite; }
-  .is-jump .legR{ animation:jumpLegR 1.15s ease-in-out infinite; }
-  .is-jump .shadow{ animation:jumpShadow 1.15s ease-in-out infinite; }
+  /* legR = front leg, legL = back leg : scissor into a leap, tuck on launch */
+  @keyframes jumpLegFront{ 0%,100%{transform:rotate(0)} 10%{transform:rotate(10deg)} 30%{transform:rotate(-30deg)} 48%{transform:rotate(-24deg)} 84%{transform:rotate(12deg)} }
+  @keyframes jumpLegBack{ 0%,100%{transform:rotate(0)} 10%{transform:rotate(-10deg)} 30%{transform:rotate(28deg)} 48%{transform:rotate(24deg)} 84%{transform:rotate(-12deg)} }
+  @keyframes jumpArmFront{ 0%,100%{transform:rotate(0)} 10%{transform:rotate(22deg)} 32%{transform:rotate(-42deg)} 84%{transform:rotate(18deg)} }
+  @keyframes jumpArmBack{ 0%,100%{transform:rotate(0)} 10%{transform:rotate(-22deg)} 32%{transform:rotate(42deg)} 84%{transform:rotate(-18deg)} }
+  @keyframes jumpShadow{ 0%,100%{transform:scale(1);opacity:1} 48%{transform:scale(.5);opacity:.4} }
+  .is-jump .figure{ animation:jump 1.2s ease-in-out infinite; }
+  .is-jump .armR{ animation:jumpArmFront 1.2s ease-in-out infinite; }
+  .is-jump .armL{ animation:jumpArmBack 1.2s ease-in-out infinite; }
+  .is-jump .legR{ animation:jumpLegFront 1.2s ease-in-out infinite; }
+  .is-jump .legL{ animation:jumpLegBack 1.2s ease-in-out infinite; }
+  .is-jump .shadow{ animation:jumpShadow 1.2s ease-in-out infinite; }
 
   /* happy */
   @keyframes happyBounce{ 0%,100%{transform:translateY(0)} 28%{transform:translateY(-13px) scaleY(1.05)} 56%{transform:translateY(0) scaleY(.95)} }
@@ -225,20 +233,19 @@ function face(){
    <path class="tear" d="M59 50 q2.4 3 2.4 4.6 a2.4 2.4 0 0 1 -4.8 0 Q56.6 53 59 50 Z" fill="#7fd2f4"/>`;
 }
 
-function rig(h){
-  // particles built with staggered delays
+function auraParts(h){
   let parts="";
   for(let i=0;i<5;i++){
     const x = 14 + i*18, y = 92 - (i%2)*8, d=(i*0.62).toFixed(2);
     parts += `<g class="particle" style="animation-delay:${d}s">${h.particle(x,y)}</g>`;
   }
+  return `<ellipse class="aura" cx="50" cy="74" rx="42" ry="48" fill="${h.aura}"/>${parts}`;
+}
+
+// ---- FRONT pose: portrait for the character-select screen ----
+function rig(h){
   return `
-  <ellipse class="aura" cx="50" cy="74" rx="42" ry="48" fill="${h.aura}"/>
-  ${parts}
-  <!-- speed lines (run) -->
-  <g class="speed" stroke="${h.aura}" stroke-width="2.4" stroke-linecap="round" opacity=".7">
-    <path d="M10 60 h12"/><path d="M6 78 h16"/><path d="M12 96 h10"/>
-  </g>
+  <g class="poseFront">
   <ellipse class="shadow" cx="50" cy="143" rx="25" ry="5" fill="#000" opacity=".09"/>
   <g class="figure">
     <!-- legs -->
@@ -268,6 +275,105 @@ function rig(h){
       </g>
     </g>
     ${h.companion||""}
+  </g>
+  </g>`;
+}
+
+// ---- SIDE pose: profile for walk / run / jump (like a platformer sprite) ----
+// Only the hair needs to differ per element; the body is shared. Facing right.
+const SIDE_HAIR = {
+  fogo:{
+    back:`<g>
+      <path d="M30 46 Q18 24 28 8 Q31 24 37 10 Q40 28 48 14 Q50 26 50 34 Q40 30 30 46 Z" fill="#ff7a2e"/>
+      <path d="M46 16 Q53 5 60 16 Q55 22 53 31 Q49 24 46 16 Z" fill="#ff7a2e"/></g>`,
+    front:`<g>
+      <path d="M50 30 Q57 15 67 22 Q73 27 71 39 L67 31 L63 40 L59 31 L55 38 Q52 33 50 34 Z" fill="#ff7a2e"/>
+      <path d="M52 31 Q58 20 65 24 Q60 30 60 37 Q56 31 52 32 Z" fill="#ffc23a"/></g>`,
+  },
+  agua:{
+    back:`<g>
+      <path d="M31 44 Q20 26 32 14 Q44 8 52 17 Q42 27 34 42 Q32 34 31 44 Z" fill="#2aa9e0"/>
+      <path d="M31 40 Q15 56 22 86 Q26 98 35 97 Q26 80 30 60 Q31 50 35 42 Z" fill="#2aa9e0"/>
+      <path d="M30 46 Q19 60 25 82 Q21 60 28 46 Z" fill="#62c7ef"/></g>`,
+    front:`<g>
+      <path d="M50 28 Q58 15 68 22 Q73 27 71 39 Q66 31 60 33 L64 25 Q54 30 50 34 Z" fill="#2aa9e0"/>
+      <path d="M52 30 Q58 21 65 25 Q59 30 58 36 Q54 31 52 31 Z" fill="#62c7ef"/></g>`,
+  },
+  terra:{
+    back:`<g>
+      <path d="M30 46 Q20 26 30 11 Q33 26 39 13 Q42 30 50 18 Q40 30 30 46 Z" fill="#6b4a2a"/>
+      <path d="M30 44 Q22 28 28 17 Q30 30 30 44 Z" fill="#5a3f23"/></g>`,
+    front:`<g>
+      <path d="M50 26 Q58 13 68 22 Q73 27 71 41 L67 33 L63 41 L59 33 L55 39 Q52 31 50 32 Z" fill="#6b4a2a"/>
+      <path d="M52 32 Q58 22 66 26 Q60 31 60 38 Q56 32 52 33 Z" fill="#7d5832"/>
+      <g transform="rotate(10 60 13)"><path d="M60 4 Q70 7 66 19 Q56 17 60 4 Z" fill="#5bbf52"/></g></g>`,
+  },
+  ar:{
+    back:`<g>
+      <path d="M31 44 Q15 30 18 15 Q24 26 28 15 Q28 30 35 21 Q33 33 31 44 Z" fill="#cfe2ee"/>
+      <path d="M35 20 Q24 13 17 18 Q26 16 33 22 Z" fill="#bcdcea"/></g>`,
+    front:`<g>
+      <path d="M50 26 Q58 15 71 17 Q62 22 60 30 Q69 25 75 27 Q66 34 71 41 Q66 33 58 34 Q53 30 50 32 Z" fill="#e0eef6"/>
+      <path d="M54 28 Q60 22 69 21 Q62 27 60 33 Q56 29 54 30 Z" fill="#cfe2ee"/></g>`,
+  },
+  luz:{
+    back:`<g>
+      <path d="M30 46 Q20 26 32 14 Q45 7 53 18 Q40 28 30 46 Z" fill="#ffd54a"/>
+      <path d="M30 44 Q24 53 31 59 Q34 61 36 57 Q30 55 31 46 Z" fill="#ffd54a"/></g>`,
+    front:`<g>
+      <path d="M50 28 Q58 15 68 22 Q73 27 71 39 Q66 33 61 38 Q56 32 51 36 Z" fill="#ffd54a"/>
+      <path d="M52 31 Q58 22 65 26 Q59 31 59 37 Q55 32 52 32 Z" fill="#ffe79a"/></g>`,
+  },
+};
+
+const HAIR_TONE = { fogo:"#ff7a2e", agua:"#2aa9e0", terra:"#6b4a2a", ar:"#e0eef6", luz:"#ffd54a" };
+
+function rigSide(h){
+  const sh = SIDE_HAIR[h.id];
+  // crown cap (front of skull) so no skin shows on top; fringe stays above the brow
+  const cap = `<path d="M30 40 Q28 22 43 16 Q53 12 63 17 Q72 22 71 37 L68 30 L64 35 L60 30 L56 34 Q52 30 49 30 Q40 31 34 39 Q31 41 30 40 Z" fill="${HAIR_TONE[h.id]}"/>`;
+  const held = h.id==="fogo"
+    ? `<circle cx="60" cy="98" r="6" fill="#ff7a2e" opacity=".4"/><circle cx="60" cy="98" r="4.6" fill="#ff8a33"/><path d="M60 92 Q63 95 61.6 98 Q64 97 63 100 Q60 102.6 57.4 100 Q56.4 97 58.6 98 Q58.4 95 60 92 Z" fill="#ffce3a"/>`
+    : h.id==="luz"
+    ? `<path d="M60 91 l2.4 5 5.4 .8 -3.9 3.8 .9 5.4 -4.8 -2.6 -4.8 2.6 .9 -5.4 -3.9 -3.8 5.4 -.8 Z" fill="#ffd027"/>`
+    : "";
+  return `
+  <g class="poseSide">
+   <ellipse class="shadow" cx="52" cy="143" rx="22" ry="4.8" fill="#000" opacity=".09"/>
+   <g class="figure">
+     <!-- back leg + back arm (shaded for depth) -->
+     <g class="legL"><rect x="44" y="97" width="8" height="26" rx="3.6" fill="${h.pants}"/><rect x="44" y="97" width="8" height="26" rx="3.6" fill="#000" opacity=".14"/><path d="M44 119 h12 a3 3 0 0 1 3 3 v2 a3 3 0 0 1 -3 3 H44 Z" fill="#4b3c2e"/></g>
+     <g class="armL"><rect x="46.5" y="66.5" width="7.6" height="28" rx="3.8" fill="${h.tunicDark}"/><circle cx="50.3" cy="95" r="4.5" fill="${SKIN_SH}"/></g>
+     <!-- torso (profile) -->
+     <path d="M40 70 Q40 65 45 65 L56 65 Q61 65 62 71 Q64 85 60.5 98 Q60.5 100.4 58 100.4 L43 100.4 Q40.5 100.4 40.5 98 Q38 85 40 70 Z" fill="${h.tunic}"/>
+     <path d="M40 70 Q40 65 45 65 L56 65 Q61 65 62 71 L60 84 Q49 88 40.5 84 Z" fill="#fff" opacity=".10"/>
+     <rect x="41" y="92" width="20" height="5.4" rx="2.5" fill="${h.tunicDark}"/>
+     <rect x="48" y="92.8" width="6" height="3.6" rx="1.3" fill="#ffe9a8"/>
+     <!-- front leg -->
+     <g class="legR"><rect x="51" y="97" width="8" height="26" rx="3.6" fill="${h.pants}"/><path d="M51 119 h12 a3 3 0 0 1 3 3 v2 a3 3 0 0 1 -3 3 H51 Z" fill="${BOOT}"/></g>
+     <!-- head -->
+     <g class="head">
+       ${sh.back}
+       <circle cx="50" cy="42" r="22" fill="${SKIN}"/>
+       <path d="M70.5 40 q4.2 1.6 3.6 3.9 q-.6 2.2 -4.4 1.9 Z" fill="${SKIN}"/>
+       <path d="M28 47 a22 22 0 0 0 30 14 a22 22 0 0 1 -30 -14 Z" fill="${SKIN_SH}" opacity=".4"/>
+       ${cap}
+       <path class="browR" d="M55 37 Q59 35 63 37" fill="none" stroke="#7a5230" stroke-width="2.1" stroke-linecap="round" style="transform-box:view-box;transform-origin:59px 36px"/>
+       <g class="eyes" style="transform-box:view-box;transform-origin:60px 45px">
+         <circle cx="60" cy="45" r="4.6" fill="#3a3550"/>
+         <circle cx="61.7" cy="43.4" r="1.5" fill="#fff"/>
+       </g>
+       <circle cx="62" cy="51" r="3" fill="#ff9bb0" opacity=".5"/>
+       <path class="mouthSmile" d="M59.5 53 Q63 56.5 66.5 52.5" fill="none" stroke="${LINE}" stroke-width="2.1" stroke-linecap="round"/>
+       <path class="mouthFrown" d="M59.5 56 Q63 52.5 66.5 56" fill="none" stroke="${LINE}" stroke-width="2.1" stroke-linecap="round"/>
+       ${sh.front}
+     </g>
+     <!-- front arm (over torso) -->
+     <g class="armR"><rect x="50" y="66.5" width="7.8" height="28" rx="3.9" fill="${h.tunic}"/><circle cx="53.8" cy="95" r="4.7" fill="${SKIN}"/>${held}</g>
+   </g>
+   <g class="speed" stroke="${h.aura}" stroke-width="2.4" stroke-linecap="round" opacity=".7">
+     <path d="M14 64 h12"/><path d="M8 80 h16"/><path d="M16 96 h10"/>
+   </g>
   </g>`;
 }
 
@@ -358,7 +464,9 @@ document.getElementById("row").innerHTML = HEROES.map(h=>`
   <div class="card" data-id="${h.id}" style="--accent:${h.accent};--tint:${h.tint}">
     <div class="stage">
       <svg class="hero is-idle" viewBox="0 0 100 150" role="img" aria-label="${h.name}, herói do elemento ${h.el}">
+        ${auraParts(h)}
         ${rig(h)}
+        ${rigSide(h)}
       </svg>
     </div>
     <div class="name">${h.name}</div>

@@ -7,6 +7,7 @@ import { Xadrez } from "./Xadrez";
 import { Damas } from "./Damas";
 import { Salta } from "./Salta";
 import { Foguetao } from "./Foguetao";
+import { Corrida } from "./Corrida";
 import { VelhoOeste } from "./VelhoOeste";
 import { Domino } from "./Domino";
 import { Stop } from "./Stop";
@@ -29,7 +30,7 @@ const Xadrez3D = lazy(() => import("./xadrez3d/Xadrez3D").then((m) => ({ default
  * Emoji are used INSIDE the games (game content, not chrome) — allowed by the
  * project conventions; the chrome (buttons, back arrow) uses @sprout/icons. */
 
-type GameId = "xadrez" | "xadrez3d" | "damas" | "domino" | "stop" | "palavra" | "caca" | "batalha" | "correcontas" | "salta" | "foguetao" | "oeste" | "oeste3d" | "memoria" | "sequencia" | "apanha" | "toupeira" | "conta" | "soma" | "dinheiro";
+type GameId = "xadrez" | "xadrez3d" | "damas" | "domino" | "stop" | "palavra" | "caca" | "batalha" | "correcontas" | "corrida" | "salta" | "foguetao" | "oeste" | "oeste3d" | "memoria" | "sequencia" | "apanha" | "toupeira" | "conta" | "soma" | "dinheiro";
 
 /* Each tile gets a little illustrated scene (same playful, multi-colour spirit
  * as the memory-card art) on a 0 0 48 48 grid, tinted with the tile's accent via
@@ -294,6 +295,27 @@ const ART_CORRECONTAS = (
   </g>
 );
 
+// Corrida dos Elementos — an element hero mid-run (side) with speed lines, a
+// flame tuft and a glowing orb ahead.
+const ART_CORRIDA = (
+  <g>
+    <g style={{ stroke: "var(--c)" }} strokeWidth="2" strokeLinecap="round" opacity="0.55">
+      <path d="M3 17 h7" />
+      <path d="M2 25 h9" />
+      <path d="M4 33 h6" />
+    </g>
+    <path d="M21 31 l-4 7" stroke="#7a3b1f" strokeWidth="4" strokeLinecap="round" fill="none" />
+    <path d="M24 31 l5 6" stroke="#7a3b1f" strokeWidth="4" strokeLinecap="round" fill="none" />
+    <rect x="19" y="19" width="11" height="14" rx="4" style={{ fill: "var(--c)" }} />
+    <path d="M28 22 l5 3" stroke="#f6cda0" strokeWidth="3.4" strokeLinecap="round" fill="none" />
+    <circle cx="25" cy="14" r="6.6" fill="#f6cda0" />
+    <path d="M19 13 q-1-8 5-10 q-1 4 2 2 q1 5 -2 8 q-3-2-5 0z" style={{ fill: "var(--c)" }} />
+    <circle cx="28" cy="14" r="1.5" fill="#2c2b3a" />
+    <circle cx="40" cy="20" r="4.2" fill="#ffce3a" />
+    {sparkle(42, 31, 0.16, "#ffffff")}
+  </g>
+);
+
 // Salta! — the green hero mid-hop along a hill, a dashed jump arc and a star.
 const ART_SALTA = (
   <g>
@@ -362,6 +384,7 @@ const GAMES: { id: GameId; art: ReactNode; accent: string; accentSoft: string; l
   { id: "caca", art: ART_CACA, accent: "var(--subj-edm)", accentSoft: "var(--subj-edm-soft)", label: "Caça-Palavras", blurb: "Encontra palavras escondidas na grelha.", rules: "Caça-Palavras. Escolhe um tema e procura as palavras na grelha. Toca nas letras por ordem para formar uma palavra. Quando encontrares uma, ela fica marcada. Encontra todas para ganhar." },
   { id: "batalha", art: ART_BATALHA, accent: "var(--joy)", accentSoft: "var(--joy-soft)", label: "Batalha das Palavras", blurb: "Responde antes da palavra cair.", rules: "Batalha das Palavras. Uma palavra aparece na arena com uma pergunta. Escolhe a resposta certa antes do tempo acabar. Acertos dão pontos e aumentam o combo; erros ou tempo esgotado tiram vidas." },
   { id: "correcontas", art: ART_CORRECONTAS, accent: "var(--subj-mat)", accentSoft: "var(--subj-mat-soft)", label: "Corre-Contas", blurb: "Resolve contas para abrir portas.", rules: "Corre-Contas. O corredor avança quando acertas. Vê a conta na porta e escolhe o resultado certo. Acertos fazem combo e dão pontos; erros tiram vidas. Chega à meta!" },
+  { id: "corrida", art: ART_CORRIDA, accent: "var(--joy)", accentSoft: "var(--joy-soft)", label: "Corrida dos Elementos", blurb: "Corre pelos cinco mundos e salta tudo.", rules: "Corrida dos Elementos! O herói corre sozinho pelo seu mundo. Toca no ecrã para ele saltar — toca outra vez no ar para um salto duplo. Salta por cima dos obstáculos e apanha os orbes a brilhar. Quando chegas ao fim de um mundo, entras no seguinte: Vulcão, Oceano, Floresta, Céu e Cosmos. Quanto mais longe fores, mais depressa fica!" },
   { id: "salta", art: ART_SALTA, accent: "var(--subj-cn)", accentSoft: "var(--subj-cn-soft)", label: "Salta!", blurb: "Salta e apanha as estrelas.", rules: "Salta! O Saltão corre pela relva. Toca no ecrã para ele saltar — toca outra vez no ar para dar um salto duplo. Passa por cima das pedras e dos troncos e apanha as estrelas a brilhar. Quanto mais tempo aguentares, mais depressa fica!" },
   { id: "foguetao", art: ART_FOGUETAO, accent: "var(--subj-paises)", accentSoft: "var(--subj-paises-soft)", label: "Foguetão", blurb: "Voa e desvia-te dos meteoros.", rules: "Foguetão! Arrasta o dedo pelo ecrã para guiar o foguetão pelo espaço. Desvia-te dos meteoros, apanha as gemas a brilhar e agarra o escudo azul para ficares protegido uns segundos. Vê até onde consegues chegar!" },
   { id: "oeste", art: ART_OESTE, accent: "var(--subj-hgp)", accentSoft: "var(--subj-hgp-soft)", label: "Velho Oeste", blurb: "Salta pelo Oeste e chega ao saloon.", rules: "Velho Oeste! Usa o manípulo redondo em baixo à esquerda para andar para a frente e para trás, e o botão verde à direita para saltar — toca outra vez no ar para um salto duplo. Apanha as moedas de ouro, a estrela dourada transforma-te em Xerife, a malagueta dá-te turbo e o coração verde dá-te uma vida. Salta em cima dos bandidos ou apanha a pistola de água para os pôr a fugir. Procura os segredos escondidos e chega ao saloon no fim de cada nível!" },
@@ -413,6 +436,7 @@ export function Jogos() {
   if (game === "domino") return <Domino onBack={() => setGame("hub")} />;
   return (
     <GameFrame onBack={() => setGame("hub")} say={meta.rules}>
+      {game === "corrida" && <Corrida />}
       {game === "salta" && <Salta />}
       {game === "foguetao" && <Foguetao />}
       {game === "oeste" && <VelhoOeste />}

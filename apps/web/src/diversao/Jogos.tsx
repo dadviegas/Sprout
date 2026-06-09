@@ -9,6 +9,7 @@ import { Salta } from "./Salta";
 import { Foguetao } from "./Foguetao";
 import { VelhoOeste } from "./VelhoOeste";
 import { Domino } from "./Domino";
+import { Stop } from "./Stop";
 
 // Velho Oeste 3D and Xadrez 3D pull in Babylon.js (a big engine), so they're
 // lazy-loaded into their own chunks — they only download when a child actually
@@ -24,7 +25,7 @@ const Xadrez3D = lazy(() => import("./xadrez3d/Xadrez3D").then((m) => ({ default
  * Emoji are used INSIDE the games (game content, not chrome) — allowed by the
  * project conventions; the chrome (buttons, back arrow) uses @sprout/icons. */
 
-type GameId = "xadrez" | "xadrez3d" | "damas" | "domino" | "salta" | "foguetao" | "oeste" | "oeste3d" | "memoria" | "sequencia" | "apanha" | "toupeira" | "conta" | "soma" | "dinheiro";
+type GameId = "xadrez" | "xadrez3d" | "damas" | "domino" | "stop" | "salta" | "foguetao" | "oeste" | "oeste3d" | "memoria" | "sequencia" | "apanha" | "toupeira" | "conta" | "soma" | "dinheiro";
 
 /* Each tile gets a little illustrated scene (same playful, multi-colour spirit
  * as the memory-card art) on a 0 0 48 48 grid, tinted with the tile's accent via
@@ -216,6 +217,22 @@ const ART_DOMINO = (
   </g>
 );
 
+// Stop — a score sheet with a big letter token and answer lines.
+const ART_STOP = (
+  <g>
+    <rect x="8" y="7" width="32" height="34" rx="5" fill="#fffef9" stroke="#cdbfa6" strokeWidth="1.6" />
+    <rect x="12" y="12" width="11" height="11" rx="3" style={{ fill: "var(--c)" }} />
+    <text x="17.5" y="18.2" textAnchor="middle" dominantBaseline="central" fontSize="9" style={{ fill: "#ffffff", fontFamily: "var(--font-display)", fontWeight: 900 }}>S</text>
+    <g stroke="#cdbfa6" strokeWidth="1.5" strokeLinecap="round">
+      <line x1="27" y1="14" x2="35" y2="14" />
+      <line x1="27" y1="19" x2="35" y2="19" />
+      <line x1="13" y1="28" x2="35" y2="28" />
+      <line x1="13" y1="34" x2="31" y2="34" />
+    </g>
+    <path d="M35 5l2 4.2 4.6.4-3.4 3.1.9 4.5-4.1-2.3-4.1 2.3.9-4.5-3.4-3.1 4.6-.4z" fill="#ffce3a" stroke="#c9870f" strokeWidth="0.9" strokeLinejoin="round" />
+  </g>
+);
+
 // Salta! — the green hero mid-hop along a hill, a dashed jump arc and a star.
 const ART_SALTA = (
   <g>
@@ -279,6 +296,7 @@ const GAMES: { id: GameId; art: ReactNode; accent: string; accentSoft: string; l
   { id: "xadrez3d", art: ART_XADREZ3D, accent: "var(--subj-mat)", accentSoft: "var(--subj-mat-soft)", label: "Xadrez 3D", blurb: "Xadrez com peças a sério em 3D.", rules: "Xadrez 3D! As mesmas regras do xadrez, mas com peças a sério em três dimensões. Toca numa peça branca e depois no quadrado para onde queres ir; as jogadas possíveis acendem-se no tabuleiro. Arrasta com o dedo para rodares o tabuleiro e veres de todos os lados. Joga contra o computador ou contra um amigo na mesma máquina." },
   { id: "damas", art: ART_DAMAS, accent: "var(--subj-fis)", accentSoft: "var(--subj-fis-soft)", label: "Damas", blurb: "Salta por cima e come as peças.", rules: "Damas. Toca numa peça branca e depois no quadrado em diagonal para onde queres ir. Salta por cima de uma peça do adversário para a comeres — e se puderes comer, tens de comer! Chega ao outro lado para a tua peça virar dama e poder andar para todos os lados. Joga contra o computador ou contra um amigo." },
   { id: "domino", art: ART_DOMINO, accent: "var(--subj-pt)", accentSoft: "var(--subj-pt-soft)", label: "Dominó", blurb: "Faz pares, marca pontos e bate o teu recorde.", rules: "Dominó! Cada um fica com sete peças. Na tua vez, arrasta uma peça para uma das pontas da fila — ou toca para a encaixares sozinha. A peça tem de ter o mesmo número da ponta. Sempre que as pontas somam 5, 10 ou 15, ganhas logo esses pontos! Se não tiveres jeito, tira uma peça do monte; se o monte acabar, passas a vez. Ganhas a ronda quando ficares sem peças e levas os pontos das peças que sobram ao computador. Escolhe o nível: quanto mais difícil, mais pontos valem! O melhor de cada dia fica guardado para tentares bater o recorde." },
+  { id: "stop", art: ART_STOP, accent: "var(--subj-en)", accentSoft: "var(--subj-en-soft)", label: "Stop!", blurb: "Escreve palavras com a letra sorteada.", rules: "Stop! Escolhe treino sem tempo ou relógio. O jogo sorteia uma letra. Escreve uma palavra para cada categoria: nome, animal, comida, lugar, objeto, profissão e palavra difícil. Carrega em Stop quando terminares. Cada resposta que começa pela letra certa vale dez pontos, e se completares tudo no modo relógio ganhas bónus pelo tempo que sobrou." },
   { id: "salta", art: ART_SALTA, accent: "var(--subj-cn)", accentSoft: "var(--subj-cn-soft)", label: "Salta!", blurb: "Salta e apanha as estrelas.", rules: "Salta! O Saltão corre pela relva. Toca no ecrã para ele saltar — toca outra vez no ar para dar um salto duplo. Passa por cima das pedras e dos troncos e apanha as estrelas a brilhar. Quanto mais tempo aguentares, mais depressa fica!" },
   { id: "foguetao", art: ART_FOGUETAO, accent: "var(--subj-paises)", accentSoft: "var(--subj-paises-soft)", label: "Foguetão", blurb: "Voa e desvia-te dos meteoros.", rules: "Foguetão! Arrasta o dedo pelo ecrã para guiar o foguetão pelo espaço. Desvia-te dos meteoros, apanha as gemas a brilhar e agarra o escudo azul para ficares protegido uns segundos. Vê até onde consegues chegar!" },
   { id: "oeste", art: ART_OESTE, accent: "var(--subj-hgp)", accentSoft: "var(--subj-hgp-soft)", label: "Velho Oeste", blurb: "Salta pelo Oeste e chega ao saloon.", rules: "Velho Oeste! Usa o manípulo redondo em baixo à esquerda para andar para a frente e para trás, e o botão verde à direita para saltar — toca outra vez no ar para um salto duplo. Apanha as moedas de ouro, a estrela dourada transforma-te em Xerife, a malagueta dá-te turbo e o coração verde dá-te uma vida. Salta em cima dos bandidos ou apanha a pistola de água para os pôr a fugir. Procura os segredos escondidos e chega ao saloon no fim de cada nível!" },
@@ -339,6 +357,7 @@ export function Jogos() {
         </Suspense>
       )}
       {game === "memoria" && <Memoria />}
+      {game === "stop" && <Stop />}
       {game === "sequencia" && <Sequencia />}
       {game === "apanha" && <Apanha />}
       {game === "toupeira" && <Toupeira />}

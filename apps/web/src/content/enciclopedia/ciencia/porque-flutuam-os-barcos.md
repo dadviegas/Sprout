@@ -19,6 +19,13 @@ o lado, a água empurra-o **muito** para cima — e ele flutua. 💪💧
 ]
 ```
 
+Carrega o barco com caixas e vê o que acontece — enquanto a **impulsão** for igual
+ao **peso**, ele flutua. Carga a mais... e vai ao fundo! 📦
+
+```buoyancy
+{ "title": "Carrega o barco" }
+```
+
 ## Experimenta em casa 🧪
 
 ```keyvalue

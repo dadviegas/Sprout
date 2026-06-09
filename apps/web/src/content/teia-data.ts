@@ -44,7 +44,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-mundo)",
     blurb:
       "A água liga muitas matérias: aparece no Estudo do Meio, nas Ciências, no oceano Atlântico e até nos animais do mar.",
-    lessons: ["edm-2-agua", "edm-3-solidos-liquidos", "cn-5-agua", "mundo-3-atlantico", "mundo-3-animais-oceano", "enc-terra-agua", "enc-ciencia-barcos"],
+    lessons: ["edm-2-agua", "edm-3-solidos-liquidos", "cn-5-agua", "mundo-3-atlantico", "mundo-3-animais-oceano", "enc-terra-agua", "enc-ciencia-barcos", "enc-terra-alqueva", "enc-lab-ovo", "enc-lab-leite"],
   },
   {
     id: "corpo",
@@ -53,7 +53,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-fis)",
     blurb:
       "O teu corpo aparece no Estudo do Meio, nas Ciências, na Educação Física e até em Inglês.",
-    lessons: ["edm-1-corpo", "edm-1-sentidos", "edm-4-corpo-sistemas", "cn-6-digestivo", "cn-6-circulatorio", "en-2-body", "ef-3-corpo", "enc-corpo-cerebro", "enc-corpo-coracao"],
+    lessons: ["edm-1-corpo", "edm-1-sentidos", "edm-4-corpo-sistemas", "cn-6-digestivo", "cn-6-circulatorio", "en-2-body", "ef-3-corpo", "enc-corpo-cerebro", "enc-corpo-coracao", "enc-corpo-espirro", "enc-corpo-sentidos", "enc-ciencia-caca-mitos", "enc-corpo-vitaminas"],
   },
   {
     id: "saude",
@@ -62,7 +62,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-cid)",
     blurb:
       "Cuidar de ti junta a higiene, a alimentação, o desporto e a cidadania.",
-    lessons: ["edm-1-higiene", "edm-3-alimentacao", "cid-4-saude", "ef-4-vida-ativa", "cn-6-saude"],
+    lessons: ["edm-1-higiene", "edm-3-alimentacao", "cid-4-saude", "ef-4-vida-ativa", "cn-6-saude", "enc-corpo-vitaminas"],
   },
   {
     id: "espaco-tempo",
@@ -71,7 +71,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-mat)",
     blurb:
       "Do sistema solar aos relógios e calendários — o espaço e o tempo ligam a Matemática, o Estudo do Meio e o Mundo.",
-    lessons: ["edm-4-sistema-solar", "estudo-planetas", "mat-1-tempo", "mat-2-horas", "estudo-relogio", "estudo-dias-meses", "mat-3-calendario", "mundo-4-fusos", "enc-espaco-planetas", "enc-terra-dia-noite", "enc-espaco-sol", "enc-espaco-lua"],
+    lessons: ["edm-4-sistema-solar", "estudo-planetas", "mat-1-tempo", "mat-2-horas", "estudo-relogio", "estudo-dias-meses", "mat-3-calendario", "mundo-4-fusos", "enc-espaco-planetas", "enc-terra-dia-noite", "enc-espaco-sol", "enc-espaco-lua", "enc-espaco-buracos-negros", "enc-espaco-apollo", "enc-terra-estacoes", "enc-espaco-exoplanetas"],
   },
   {
     id: "animais",
@@ -80,7 +80,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-edm)",
     blurb:
       "Os seres vivos aparecem no Estudo do Meio, nas Ciências, no Mundo, em Inglês e nos países.",
-    lessons: ["edm-2-animais", "edm-2-seres-vivos", "cn-5-animais-diversidade", "edm-3-plantas", "cn-5-plantas", "mundo-4-animais", "mundo-3-animais-oceano", "en-2-animals", "paises-pt-natureza", "enc-animais-polvo", "enc-animais-baleia", "enc-dinos-trex", "enc-plantas-fotossintese"],
+    lessons: ["edm-2-animais", "edm-2-seres-vivos", "cn-5-animais-diversidade", "edm-3-plantas", "cn-5-plantas", "mundo-4-animais", "mundo-3-animais-oceano", "en-2-animals", "paises-pt-natureza", "enc-animais-polvo", "enc-animais-baleia", "enc-dinos-trex", "enc-dinos-triceratops", "enc-animais-gatos", "enc-animais-formigas", "enc-plantas-fotossintese", "enc-plantas-semente", "enc-plantas-flores", "enc-plantas-chocolate", "enc-ciencia-caca-mitos"],
   },
   {
     id: "portugal",
@@ -89,7 +89,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-paises)",
     blurb:
       "Conhecer Portugal liga o Estudo do Meio, o Mundo, os países e o Saber de cor.",
-    lessons: ["edm-3-portugal", "mundo-2-portugal", "paises-pt-pais", "estudo-distritos", "edm-4-relevo-clima", "mundo-2-simbolos", "paises-pt-bandeira", "mundo-2-rios"],
+    lessons: ["edm-3-portugal", "mundo-2-portugal", "paises-pt-pais", "estudo-distritos", "edm-4-relevo-clima", "mundo-2-simbolos", "paises-pt-bandeira", "mundo-2-rios", "enc-terra-alqueva", "enc-hist-galo", "enc-hist-martinho"],
   },
   {
     id: "historia",
@@ -125,7 +125,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-mat)",
     blurb:
       "As formas e as medidas ligam a Matemática, o Saber de cor e a Educação Visual.",
-    lessons: ["mat-1-formas", "mat-2-solidos", "estudo-formas", "mat-4-area", "estudo-formulas", "mat-4-angulos", "ev-5-formas", "mat-2-simetria", "ev-5-geometria"],
+    lessons: ["mat-1-formas", "mat-2-solidos", "estudo-formas", "mat-4-area", "estudo-formulas", "mat-4-angulos", "ev-5-formas", "mat-2-simetria", "ev-5-geometria", "enc-lab-cristais"],
   },
   {
     id: "dinheiro",
@@ -143,7 +143,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-pt)",
     blurb:
       "Aprender a ler e a escrever liga o Português, o Saber de cor, o Dicionário e os Verbos.",
-    lessons: ["pt-1-vogais", "pt-1-silabas", "pt-1-primeiras-palavras", "pt-3-texto", "pt-4-classes", "estudo-alfabeto", "estudo-classes", "estudo-verbos", "pt-1-rimas", "dic-a", "verb-a"],
+    lessons: ["pt-1-vogais", "pt-1-silabas", "pt-1-primeiras-palavras", "pt-3-texto", "pt-4-classes", "estudo-alfabeto", "estudo-classes", "estudo-verbos", "pt-1-rimas", "dic-a", "verb-a", "enc-hist-cigarra", "enc-hist-lebre", "enc-hist-pomba", "enc-hist-galo", "enc-hist-martinho"],
   },
   {
     id: "planeta",
@@ -152,7 +152,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-edm)",
     blurb:
       "Proteger a Terra junta a Cidadania, o Estudo do Meio, as Ciências e a Tecnologia.",
-    lessons: ["cid-1-reciclar", "cid-4-sustentavel", "edm-4-ambiente", "cn-5-ecossistemas", "et-6-reciclar", "enc-terra-vulcoes"],
+    lessons: ["cid-1-reciclar", "cid-4-sustentavel", "edm-4-ambiente", "cn-5-ecossistemas", "et-6-reciclar", "enc-terra-vulcoes", "enc-lab-vulcao"],
   },
   {
     id: "som-arte",
@@ -161,7 +161,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-emus)",
     blurb:
       "Criar junta as cores, os sons, o ritmo e até as rimas das poesias.",
-    lessons: ["art-1-sons", "art-1-cores", "art-2-instrumentos", "em-5-som-silencio", "em-5-ritmo", "art-3-ritmo", "ev-5-cor", "pt-1-rimas", "enc-ciencia-ceu-azul"],
+    lessons: ["art-1-sons", "art-1-cores", "art-2-instrumentos", "em-5-som-silencio", "em-5-ritmo", "art-3-ritmo", "ev-5-cor", "pt-1-rimas", "enc-ciencia-ceu-azul", "enc-ciencia-arco-iris", "enc-lab-arcoiris", "enc-ciencia-cores"],
   },
   {
     id: "figuras",
@@ -173,7 +173,24 @@ export const THEMES: TeiaTheme[] = [
     lessons: [
       "enc-pessoas-curie", "enc-pessoas-einstein", "enc-pessoas-ada", "enc-pessoas-henrique",
       "enc-pessoas-amalia", "enc-pessoas-eusebio", "enc-pessoas-newton", "enc-pessoas-camoes",
+      "enc-pessoas-frida", "enc-pessoas-nightingale",
+      "enc-pessoas-turing", "enc-pessoas-hopper", "enc-pessoas-berners-lee",
+      "enc-pessoas-aristides", "enc-pessoas-mandela",
       "pt-4-autores", "mundo-3-descobrimentos", "tic-6-programacao",
+    ],
+  },
+  {
+    id: "tecnologia",
+    label: "Tecnologia e Mundo Digital",
+    icon: "device",
+    accent: "var(--subj-tic)",
+    blurb:
+      "Os computadores, a internet e a inteligência artificial ligam a Tecnologia, as Ciências e as pessoas que os inventaram.",
+    lessons: [
+      "enc-tec-computador", "enc-tec-smartphone", "enc-tec-tablet", "enc-tec-internet",
+      "enc-tec-seguranca", "enc-tec-ia",
+      "enc-pessoas-turing", "enc-pessoas-hopper", "enc-pessoas-berners-lee", "enc-pessoas-ada",
+      "tic-6-programacao",
     ],
   },
 ];
@@ -191,6 +208,8 @@ export const BRIDGES: TeiaBridge[] = [
   { a: "mapas", b: "historia" },
   { a: "figuras", b: "historia" },
   { a: "figuras", b: "numeros" },
+  { a: "tecnologia", b: "figuras" },
+  { a: "tecnologia", b: "planeta" },
 ];
 
 /* ── Resolved graph (relationships + curriculum-derived node data) ─────────── */

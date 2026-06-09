@@ -8,9 +8,17 @@ jogo**, muito **visual** (SVG e animações), com **leitura em voz alta** em tud
 Pensada para crianças dos **6 aos 12 anos** (1.º ao 6.º ano) e para **crescer
 quase sem limite** (rumo a milhares de artigos curtos).
 
-> Estado hoje: a Biblioteca (`view.area === "biblioteca"`) já existe com **O
-> Dicionário** e **Os Verbos** (`BibliotecaView` em `apps/web/src/App.tsx`).
-> Este documento mantém-nos e constrói tudo o resto à volta deles.
+> Complemento editorial: ver também
+> [`BIBLIOTECA-TOPICOS-ADULTOS-TECNOLOGIA.md`](./BIBLIOTECA-TOPICOS-ADULTOS-TECNOLOGIA.md)
+> para tópicos destinados a adultos/famílias, literacia digital, computadores,
+> tablets, smartphones, IA e pessoas que fizeram diferença na história.
+
+> Estado hoje (Fases 0–5 feitas; ver §11): a Biblioteca (`view.area ===
+> "biblioteca"`) já tem a **Enciclopédia** (11 temas por-Subject, todos com corpo
+> real), as coleções **Cores** e **Atlas**, o **Dicionário/Verbos**, e a camada de
+> jogo — **Curiosidade do Dia**, **Continuar a aprender**, **Recomendado para ti**,
+> **Missões** (cromos) e **Medalhas**. Falta sobretudo a **Fase 6** (lazy-loading
+> por tema + escalar para milhares de artigos).
 
 ---
 
@@ -86,7 +94,7 @@ Biblioteca (view.area === "biblioteca")
 ├── 🧭 Descobrir — cartões de tema (cada um = Subject de referência):
 │   🚀 Espaço · 🦖 Dinossauros · 🐾 Animais · 🌿 Plantas · 🧠 Corpo Humano ·
 │   🔬 Ciência & Invenções · 🌍 Planeta Terra · 🏛️ Pessoas que mudaram o mundo ·
-│   🧪 Laboratório · 📖 Histórias & Lendas
+│   🧪 Laboratório · 📖 Histórias & Lendas · 💻 Tecnologia & Mundo Digital
 │
 ├── 🗺️ Atlas da Vida             (catálogo de animais e plantas + onde vivem + fotos)
 ├── 🎨 As Cores                  (cores com nome, HEX e RGB + misturador RGB)
@@ -160,6 +168,32 @@ Mapeia 1:1 a blocos que já existem:
 | Quiz (5 perguntas) | bloco `quiz` |
 | Sabias que… | callout `> [!TIP] **Para saberes mais** 🌱` |
 | Ligações (temas relacionados) | links `[texto](lesson:<id>)` + Teia do Saber |
+
+### 4.5 Artigo de dois níveis — resumo de criança + «Ler mais»
+
+A Biblioteca serve **as crianças e os adultos**: a informação deve poder ser
+**completa**, mas com um **resumo para crianças** sempre por cima. Um artigo
+divide-se em dois com uma linha-sentinela `<!--ler-mais-->`:
+
+```md
+# Título 🍫
+> [!NOTE] **O que vais aprender** … (resumo, fala em voz alta)
+prosa simples + ≥1 widget + "Vamos praticar" + "Para saberes mais 🌱"
+
+<!--ler-mais-->
+
+## (secções da versão completa — mais longa, rigorosa, para adultos)
+…
+## 🎯 Questionário final   ← continua a fechar o artigo (teste à parte)
+```
+
+O `Markdown` (ver `apps/web/src/Markdown.tsx`) mostra o resumo sempre, e revela a
+versão completa **em linha** com um botão **«Ler mais»** + uma nota a explicá-lo.
+Decisões: **botão, não acordeão** (evita caixa-dentro-de-caixa, já que a prosa
+revelada traz os seus próprios widgets/callouts); o resumo é o que **fala** todo,
+as secções completas falam por título. O teste final é só sobre o que está no
+**resumo** (a parte completa pode estar fechada). Não copiar livros/fontes — usar
+como mapa de temas e escrever original; citar fontes numa secção **Fontes**.
 
 ---
 
@@ -313,11 +347,27 @@ Fase 6. Confirmar em §10.
   de cor); coleção `coresSubject` (10 famílias); artigo "Como nascem as cores?".
 - [x] **Fase 3 — Atlas da Vida.** Widget `atlas` (onde é natural + onde se vê +
   «ver fotos» com SafeSearch); coleção `atlasSubject` (7 grupos, ~60 seres vivos).
-- [ ] **Fase 4 — Novos widgets visuais** (`sizecompare`, `layers`, `lifecycle`,
-  `volcano`, `buoyancy`, `skyblue`, `foodchain`) + Laboratório + Leitura.
-- [ ] **Fase 5 — Jogo** (Medalhas, Coleções, Missões, Recomendados).
-- [ ] **Fase 6 — Escala** (autoria por IA rumo a milhares de artigos; lazy por
-  tema; encher os artigos placeholder dos 8 temas).
+- [x] **Fase 4 — Novos widgets visuais + Laboratório + Leitura.** Os 6 widgets
+  novos (`volcano`, `skyblue`, `buoyancy`, `lifecycle`, `foodchain`, `layers`;
+  `sizecompare` já tinha entrado na Fase 1) — SVG inline, fala só ao toque,
+  `prefers-reduced-motion`. Usados em artigos reais (vulcões+camadas da Terra, céu
+  azul, barcos, da-semente-à-árvore, cadeia da baleia-azul). Dois temas novos:
+  **🧪 Laboratório** (5 experiências seguras) e **📖 Histórias & Lendas** (fábulas
+  de Esopo + lendas portuguesas com quiz de compreensão).
+- [x] **Fase 5 — Jogo.** Coleção de Medalhas (13 medalhas derivadas) + "Recomendado
+  para ti" (via Teia) + **Missões** (`content/missoes.ts` — 6 percursos de artigos
+  que dão um **cromo** no fim, derivados do progresso, em `biblioteca.ts`) +
+  **Continuar a aprender** (últimos artigos vistos), tudo na `BibliotecaView`.
+  + Área dos pais: "O que andam a explorar".
+- [x] **Tecnologia & Mundo Digital** (do `BIBLIOTECA-TOPICOS-ADULTOS-TECNOLOGIA.md`).
+  Tema **💻 Tecnologia** com 6 artigos de dois níveis (criança + «Ler mais» para
+  adultos: computador, smartphone, tablets, internet, segurança, IA) e **+5
+  Pessoas** (Turing, Hopper, Berners-Lee, Aristides de Sousa Mendes, Mandela).
+  Ligados na Teia (tema novo "Tecnologia e Mundo Digital" + bridges) e em duas
+  Missões ("Família Digital", "Pioneiros dos Computadores").
+- [ ] **Fase 6 — Escala** (autoria por IA rumo a milhares de artigos; **lazy por
+  tema** — ainda por fazer: os temas são importados eagerly em `enciclopedia.ts`).
+  Nota: já **não há artigos placeholder** — os 11 temas têm corpo real.
 
 > **Decisões confirmadas:** IA só como **autoria offline** (sem runtime); fotos
 > do Atlas via **Google Imagens com SafeSearch**; um `Subject` por tema.

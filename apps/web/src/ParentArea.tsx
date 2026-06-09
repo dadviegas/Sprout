@@ -1,8 +1,30 @@
 import { useEffect, useMemo, useState } from "react";
-import { Icon } from "@sprout/icons";
+import { Icon, type IconName } from "@sprout/icons";
 import { useProgress, type Achievement } from "./progress";
-import { tierLabel } from "./content/curriculum";
+import {
+  tierLabel,
+  lessonMeta,
+  isEstudo, isMundo, isPaises,
+  isDicionario, isVerbos, isEnciclopedia, isCores, isAtlas,
+} from "./content/curriculum";
+import { bibliotecaMedals } from "./biblioteca";
 import { store } from "./storage";
+
+/** Which top-level area a subject's work belongs to — so the parent dashboard
+ *  can show where the child spends time (mirrors the Command Center's mapping). */
+type HomeArea = "escola" | "biblioteca" | "explorar" | "treinar";
+function areaOf(subjectId: string): HomeArea {
+  if (isEstudo(subjectId)) return "treinar";
+  if (isMundo(subjectId) || isPaises(subjectId)) return "explorar";
+  if (isDicionario(subjectId) || isVerbos(subjectId) || isEnciclopedia(subjectId) || isCores(subjectId) || isAtlas(subjectId)) return "biblioteca";
+  return "escola";
+}
+const AREA_META: Record<HomeArea, { label: string; icon: IconName }> = {
+  escola: { label: "Escola", icon: "reading" },
+  biblioteca: { label: "Biblioteca", icon: "letters" },
+  explorar: { label: "Explorar", icon: "compass" },
+  treinar: { label: "Treinar", icon: "target" },
+};
 
 /* ------------------------------------------------------------------ *
  * Área dos pais — a PARENT dashboard, opened from the cog in the top
@@ -227,6 +249,10 @@ function Dashboard() {
         )}
       </div>
 
+      <AreasBreakdown />
+
+      <RecentActivity />
+
       <UsageChart achievements={achievements} now={now} earliestDay={earliestDay} />
 
       <Heatmap byDay={byDay} today={today} selected={selected} onSelect={setSelected} earliestDay={earliestDay} />
@@ -239,6 +265,86 @@ function Dashboard() {
       />
 
       <RewardSettings settings={settings} onChange={setSettings} />
+    </div>
+  );
+}
+
+/** "O que andam a explorar" — how many lessons the child has OPENED per area
+ *  (so reading/exploring the Biblioteca shows up, not just tests), how many they
+ *  finished, plus the Biblioteca medals earned. All derived from the stored
+ *  progress, so nothing new is persisted. */
+function AreasBreakdown() {
+  const { progress } = useProgress();
+
+  const opened: Record<HomeArea, number> = { escola: 0, biblioteca: 0, explorar: 0, treinar: 0 };
+  const done: Record<HomeArea, number> = { escola: 0, biblioteca: 0, explorar: 0, treinar: 0 };
+  for (const [id, p] of Object.entries(progress)) {
+    if (!p?.visited) continue;
+    const meta = lessonMeta.get(id);
+    if (!meta) continue;
+    const area = areaOf(meta.subjectId);
+    opened[area] += 1;
+    if (p.done) done[area] += 1;
+  }
+
+  const medals = bibliotecaMedals(progress);
+  const medalsEarned = medals.filter((m) => m.earned).length;
+  const areas: HomeArea[] = ["escola", "biblioteca", "explorar", "treinar"];
+
+  return (
+    <div className="parent-areas">
+      <div className="parent-areas__title"><Icon name="grid" size={16} /> O que andam a explorar</div>
+      <div className="parent-areas__grid">
+        {areas.map((id) => (
+          <div key={id} className={`parent-area ${opened[id] > 0 ? "is-on" : ""}`}>
+            <span className="parent-area__ic"><Icon name={AREA_META[id].icon} size={18} /></span>
+            <span className="parent-area__n">{opened[id]}</span>
+            <span className="parent-area__l">{AREA_META[id].label}</span>
+            {done[id] > 0 && <span className="parent-area__sub">{done[id]} feito{done[id] === 1 ? "" : "s"}</span>}
+          </div>
+        ))}
+      </div>
+      <div className="parent-areas__biblio">
+        <Icon name="trophy" size={14} /> Biblioteca: <strong>{medalsEarned}</strong> de {medals.length} medalhas conquistadas
+      </div>
+    </div>
+  );
+}
+
+/** "Visto recentemente" — the last lessons the child opened, newest first, with
+ *  the area where it lives and whether the final test is done. Surfaces reading
+ *  and browsing (e.g. the Biblioteca) that the test-only views never show. */
+function RecentActivity() {
+  const { history, progress } = useProgress();
+  const items = history
+    .map((id) => { const meta = lessonMeta.get(id); return meta ? { id, meta } : null; })
+    .filter((x): x is { id: string; meta: NonNullable<ReturnType<typeof lessonMeta.get>> } => x !== null)
+    .slice(0, 8);
+  if (items.length === 0) return null;
+  return (
+    <div className="parent-detail">
+      <div className="parent-detail__head">
+        <span className="parent-detail__date"><Icon name="clock" size={15} /> Visto recentemente</span>
+      </div>
+      {items.map(({ id, meta }) => {
+        const area = areaOf(meta.subjectId);
+        const tier = tierLabel(meta.subjectId, meta.year);
+        const finished = progress[id]?.done;
+        return (
+          <div key={id} className="parent-row" style={{ ["--c" as string]: meta.color }}>
+            <span className="parent-row__emoji" aria-hidden>{meta.emoji}</span>
+            <div className="parent-row__main">
+              <div className="parent-row__title">{meta.title}</div>
+              <div className="parent-row__meta">
+                <span className="parent-row__area"><span className="parent-row__dot" /> {AREA_META[area].label} · {meta.subjectLabel}{tier ? ` · ${tier}` : ""}</span>
+              </div>
+            </div>
+            <span className={`parent-badge ${finished ? "ok" : "seen"}`}>
+              <Icon name={finished ? "check" : "eye"} size={13} /> {finished ? "Feito" : "Viu"}
+            </span>
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -458,7 +564,7 @@ function DayDetail({ day, today, agg, minutes }: { day: number; today: number; a
               <div className="parent-row__main">
                 <div className="parent-row__title">{a.lessonTitle}</div>
                 <div className="parent-row__meta">
-                  <span className="parent-row__area"><span className="parent-row__dot" /> {a.subjectLabel} · {tierLabel(a.subjectId, a.year)}</span>
+                  <span className="parent-row__area"><span className="parent-row__dot" /> {a.subjectLabel}{tierLabel(a.subjectId, a.year) ? ` · ${tierLabel(a.subjectId, a.year)}` : ""}</span>
                   <span className="parent-row__time">
                     {a.secs != null && (
                       <span className="parent-row__dur"><Icon name="clock" size={12} /> {durationLabel(a.secs)}</span>

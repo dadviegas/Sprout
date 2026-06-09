@@ -46,6 +46,21 @@ superfície para respirar. 🌊
 ]
 ```
 
+## Quem come quem no mar? 🍤
+
+O maior animal do mundo come uns dos mais pequeninos! Toca em cada um para ouvires.
+A seta quer dizer "é comido por".
+
+```foodchain
+{ "title": "A cadeia da baleia-azul",
+  "chain": [
+    { "emoji": "☀️", "name": "Sol", "role": "Energia", "say": "Tudo começa no Sol, que dá luz e energia ao mar." },
+    { "emoji": "🦠", "name": "Fitoplâncton", "role": "Produtor", "say": "O fitoplâncton: plantinhas minúsculas que apanham a luz do Sol na água." },
+    { "emoji": "🦐", "name": "Krill", "role": "Consumidor", "say": "O krill: uns camarõezinhos minúsculos que comem o fitoplâncton aos milhões." },
+    { "emoji": "🐋", "name": "Baleia-azul", "role": "Consumidor", "say": "A baleia-azul: engole milhões de krill de uma só vez, com as suas barbas." }
+  ] }
+```
+
 > **Para te admirares:** o **coração** de uma baleia-azul é tão grande como um
 > carro pequeno, e bate devagarinho — às vezes só **uma vez** a cada poucos
 > segundos. 💙

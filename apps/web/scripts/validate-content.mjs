@@ -26,6 +26,7 @@ const FINAL_MARKER = "## 🎯 Questionário final";
 const JSON_BLOCKS = new Set([
   "quiz",
   "shape", "angle", "areagrid", "symmetry", "compass", "watercycle", "clock", "numberline", "tenframe", "fraction", "fractionstrips", "fractionof", "money", "shop", "solarsystem", "daynight", "soundcards", "dictionary", "verbs", "colors", "colormix", "atlas", "sizecompare", "tabuada", "drill", "figure", "math", "chart", "timeline", "bodysystem", "mapapt",
+  "volcano", "skyblue", "buoyancy", "lifecycle", "foodchain", "layers",
   "summary", "stats", "steps", "meters", "keyvalue", "compare", "quote",
 ]);
 

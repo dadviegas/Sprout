@@ -1,7 +1,7 @@
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
-import { Children, Component, isValidElement, type ReactNode } from "react";
+import { Children, Component, isValidElement, useState, type ReactNode } from "react";
 import {
   Callout, type CalloutKind,
   StatGrid, Steps, Compare, Quote, Meters, KeyValueGrid,
@@ -31,6 +31,12 @@ import {
   ColorMix, type ColorMixSpec,
   Atlas, type AtlasSpec,
   SizeCompare, type SizeCompareSpec,
+  Volcano, type VolcanoSpec,
+  SkyBlue, type SkyBlueSpec,
+  Buoyancy, type BuoyancySpec,
+  Lifecycle, type LifecycleSpec,
+  FoodChain, type FoodChainSpec,
+  Layers, type LayersSpec,
   Tabuada, type TabuadaSpec,
   ContaArmada, type ContaArmadaSpec,
   DinheiroJogo, type DinheiroJogoSpec,
@@ -219,6 +225,12 @@ const widgetRenderers: Record<string, (json: unknown) => ReactNode> = {
   colormix: (d) => <ColorMix spec={d as ColorMixSpec} />,
   atlas: (d) => <Atlas spec={d as AtlasSpec} />,
   sizecompare: (d) => <SizeCompare spec={d as SizeCompareSpec} />,
+  volcano: (d) => <Volcano spec={d as VolcanoSpec} />,
+  skyblue: (d) => <SkyBlue spec={d as SkyBlueSpec} />,
+  buoyancy: (d) => <Buoyancy spec={d as BuoyancySpec} />,
+  lifecycle: (d) => <Lifecycle spec={d as LifecycleSpec} />,
+  foodchain: (d) => <FoodChain spec={d as FoodChainSpec} />,
+  layers: (d) => <Layers spec={d as LayersSpec} />,
 };
 
 function jsonError(lang: string, e: unknown): ReactNode {
@@ -358,10 +370,9 @@ const components: Components = {
   },
 };
 
-export function Markdown({ children }: { children: string }) {
-  const source = children;
-  // Add a read-aloud speaker to every section heading so a non-reader can hear
-  // each part. Built per-render so the heading renderers close over `source`.
+/** Render one markdown string. Section headings get a read-aloud speaker; the
+ *  renderers close over `source` so each heading hears exactly its own prose. */
+function MarkdownBody({ source }: { source: string }) {
   const withSpeakers: Components = {
     ...components,
     h2: ({ node, children: c }) => (
@@ -378,17 +389,57 @@ export function Markdown({ children }: { children: string }) {
     ),
   };
   return (
+    <ReactMarkdown
+      remarkPlugins={[remarkGfm]}
+      rehypePlugins={[rehypeRaw]}
+      components={withSpeakers}
+      // Lesson bodies are trusted (authored in-repo), so keep URLs as-is —
+      // the default sanitizer strips our internal `lesson:<id>` link scheme.
+      urlTransform={(url) => url}
+    >
+      {source}
+    </ReactMarkdown>
+  );
+}
+
+/* "Ler mais": an article may carry a child-level summary up top and a complete,
+ * grown-up version below, split by a `<!--ler-mais-->` line. The summary always
+ * shows; the rest is revealed in place by a button — flowing as normal prose, so
+ * we don't wrap a box around content that already holds boxes (widgets/callouts).
+ * See docs/BIBLIOTECA.md (dual-level articles). */
+const MORE_MARKER = "<!--ler-mais-->";
+
+function ReadMore({ summary, full }: { summary: string; full: string }) {
+  const [open, setOpen] = useState(false);
+  return (
     <div className="prose">
-      <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeRaw]}
-        components={withSpeakers}
-        // Lesson bodies are trusted (authored in-repo), so keep URLs as-is —
-        // the default sanitizer strips our internal `lesson:<id>` link scheme.
-        urlTransform={(url) => url}
-      >
-        {children}
-      </ReactMarkdown>
+      <MarkdownBody source={summary} />
+      <div className="read-more">
+        <p className="read-more__note">
+          <Icon name="reading" size={18} />
+          <span>
+            Há mais para descobrir. A <strong>versão completa</strong> é mais
+            longa e detalhada — para adultos e para quem quiser saber tudo.
+          </span>
+          <Speaker
+            text="Há mais para descobrir. A versão completa é mais longa e detalhada, para adultos e para quem quiser saber tudo. Carrega no botão Ler mais."
+            label="Ouvir a nota"
+          />
+        </p>
+        <button className="read-more__btn" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
+          <Icon name={open ? "minus" : "plus"} size={18} />
+          {open ? "Ler menos" : "Ler mais"}
+        </button>
+      </div>
+      {open && <MarkdownBody source={full} />}
     </div>
   );
+}
+
+export function Markdown({ children }: { children: string }) {
+  const i = children.indexOf(MORE_MARKER);
+  if (i < 0) return <div className="prose"><MarkdownBody source={children} /></div>;
+  const summary = children.slice(0, i).trimEnd();
+  const full = children.slice(i + MORE_MARKER.length).replace(/^\s+/, "");
+  return <ReadMore summary={summary} full={full} />;
 }

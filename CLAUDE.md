@@ -62,12 +62,46 @@ common sense, Açores → world). Single-page, no server; progress is local.
   (`view.kind === "mundo"`). Tier labels come from `tierLabel(subjectId, tier)`
   — never show "X.º ano" for O Mundo.
 
+## Biblioteca: o dicionário (com os verbos lá dentro)
+
+The **Biblioteca** is one merged area — a single **dictionary** (A–Z letter
+pages, `dicionarioSubject`) that *also* holds the **verbs**. There is no separate
+"Verbos" entry on screen: each letter's verbs are **derived into its dictionary
+page at render time** (`content/dictMerge.ts` → the `dictionary` renderer in
+`Markdown.tsx`), so `content/verbos/[a-z].md` stays the **single source of truth**
+— never copy a verb into a `dicionario/*.md`. Tapping **conjugar** on a verb card
+opens its full conjugation in a modal (`VerbConjugation`; regular verbs
+auto-conjugate via `conjugate.ts`, irregulars carry an explicit `forms` table).
+A word that's also a verb (homograph like *jantar*) keeps its meaning/class and
+gains "conjugar" too (the renderer attaches the verb data).
+
+A `dictionary` entry is `{ word, meaning, emoji?, class?, tema?, say? }`:
+
+- **`class`** — part of speech, one of `nome`, `verbo`, `adjetivo`, `adverbio`,
+  `numeral`, `pronome`, `interjeicao`, `artigo`, `preposicao`, `conjuncao`
+  (ASCII keys). Shows a class icon + tooltip and drives the first filter row.
+- **`tema`** — real-world theme, one of `animais`, `comida`, `corpo`, `casa`,
+  `escola`, `natureza`, `transportes`, `roupa`, `cores`, `tempo`, `pessoas`,
+  `portugal`. **Optional** — abstract words have none; *never force a theme*.
+  Shows a theme icon + drives the second filter row.
+
+Both are optional and validated by `pnpm validate`. Their icons live in
+`CLASS_ICON` / `THEME_ICON` in `packages/ui/src/widgets/Dictionary.tsx` (classes
+use the `wc*` glyphs; themes reuse existing glyphs, e.g. `paw`/`apple`/`car`).
+
+**Verb convention:** a single-word, *regular* infinitive belongs in `verbos/*.md`
+(migrated out of the dictionary). A truly **irregular** verb we can't conjugate
+safely stays in the dictionary as `class: "verbo"` with no `forms` — so the child
+never sees wrong tenses. Verb *phrases* (e.g. *andar de bicicleta*) stay in the
+dictionary tagged `class: "verbo"`.
+
 ## Markdown/widget blocks (for lesson authors)
 
 `quiz`, `soundcards`, `clock`, `shape`, `angle`, `areagrid`, `symmetry`,
 `compass`, `watercycle`, `bodysystem`, `timeline`, `mapapt`, `numberline`, `tenframe`, `fraction`, `money`, `shop`,
-`solarsystem`, `daynight`, `tabuada`, `contaarmada`, `dinheirojogo`, `math`, `chart`, `dictionary`,
-`colors`, `colormix`, `atlas`, `sizecompare`;
+`solarsystem`, `daynight`, `tabuada`, `contaarmada`, `dinheirojogo`, `math`, `chart`, `dictionary`, `verbs`,
+`colors`, `colormix`, `atlas`, `sizecompare`,
+`volcano`, `skyblue`, `buoyancy`, `lifecycle`, `foodchain`, `layers`;
 infographics `stats`/`steps`/`compare`/`meters`/`keyvalue`/`quote`;
 callouts `> [!NOTE]/[!TIP]/…`. The `icon` field in `steps`/`keyvalue` accepts an
 `@sprout/icons` name or an emoji.
@@ -138,6 +172,21 @@ only on a button/tap — see the speech rule below). New ones:
   ignored). Add optional `dwarfs` (same `SpaceBody` shape) to show Plutão & co.
   small after the eight planets. `daynight` is a spinning Earth showing which
   places are in day vs. night (the idea behind time zones).
+- `volcano` is a cut-through volcano (câmara magmática → chaminé → cratera →
+  lava); tap each part to hear it, and an "Entrar em erupção" button animates the
+  lava/ash (reduced-motion safe). Field: `title`. Used in Laboratório / Planeta
+  Terra. `skyblue` explains why the sky is blue (and red at sunset) — a tappable
+  day↔sunset toggle showing blue light scattering. Field: `title`. `buoyancy`
+  shows why boats float: load cargo with −/+ and watch the **impulsão** (up) vs
+  **peso** (down) until it sinks. Field: `title`.
+- `lifecycle` is a configurable life-cycle ring (egg → … → adult → egg); tap a
+  stage or "Próxima fase" to walk it. Use a built-in `cycle`
+  (`borboleta`|`ra`|`planta`|`galinha`) or pass your own `stages`
+  (`{emoji,label,say?}[]`). Field: `title`. `foodchain` draws a "quem come quem"
+  chain — `chain` is `{emoji,name,role?,say?}[]`, the arrow means "is eaten by";
+  field `title`. `layers` shows stacked or concentric layers (Earth's interior,
+  the atmosphere) — `shape` is `"stack"` (default) or `"concentric"`, `layers` is
+  `{label,color?,note?,say?}[]` (outer first for concentric); field `title`.
 
 ### Math & graphics (for "math e gráficos" in lessons)
 

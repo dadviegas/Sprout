@@ -20,6 +20,28 @@ sobe e sai por uma montanha especial: o **vulcão**! 🔥
 ]
 ```
 
+Toca em cada parte do vulcão para a ouvires — e carrega no botão para o veres
+entrar em erupção! 🌋
+
+```volcano
+{ "title": "O vulcão por dentro" }
+```
+
+## A Terra por dentro 🌍
+
+O magma vem lá de muito fundo. A Terra é como uma cebola: tem **camadas**. Toca em
+cada uma para a conheceres — quanto mais fundo, mais quente!
+
+```layers
+{ "title": "As camadas da Terra", "shape": "concentric",
+  "layers": [
+    { "label": "Crosta", "color": "#7a9b5e", "note": "a casca onde vivemos", "say": "A crosta: a camada de fora, fininha, onde estão os continentes e os oceanos." },
+    { "label": "Manto", "color": "#e0803c", "note": "rocha quase derretida", "say": "O manto: rocha tão quente que é quase líquida. É daqui que vem o magma dos vulcões." },
+    { "label": "Núcleo externo", "color": "#e2516a", "note": "metal líquido", "say": "O núcleo externo: metal derretido, ferro e níquel, a rodopiar lá dentro." },
+    { "label": "Núcleo interno", "color": "#f2c14e", "note": "o coração quentíssimo", "say": "O núcleo interno: uma bola de metal sólido, tão quente como a superfície do Sol!" }
+  ] }
+```
+
 ## Magma ou lava? 🤔
 
 ```keyvalue

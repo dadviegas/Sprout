@@ -15,6 +15,9 @@ import {
   dicionarioSubject,
   isDicionario,
   isVerbos,
+  isEnciclopedia,
+  isCores,
+  isAtlas,
   enciclopediaSubjects,
   coresSubject,
   atlasSubject,
@@ -40,6 +43,7 @@ import { Icon, SUBJECT_ICONS, lessonIconName, type IconName } from "@sprout/icon
 import { Speaker, stop as stopSpeech } from "@sprout/ui";
 import { site } from "./site-config";
 import { curiosidadeOfDay } from "./content/curiosidades";
+import { bibliotecaMedals, recommendedArticles, missoesState } from "./biblioteca";
 import { Mascot } from "./Mascot";
 import { CommandCenter } from "./CommandCenter";
 import { AchievementsPanel } from "./Achievements";
@@ -247,7 +251,7 @@ function Root() {
         <span className="blob b1" /><span className="blob b2" /><span className="blob b3" />
       </div>
       <div className="shell">
-        <TopBar view={view} theme={theme} onBack={back} onHome={() => go({ kind: "home" })} onMundo={() => go({ kind: "mundo" })} onGo={go} onToggleTheme={() => setTheme((t) => (t === "light" ? "dark" : "light"))} onIndex={() => setDrawer(true)} onSearch={() => setPalette(true)} onAchievements={() => setAchievements(true)} onSettings={() => setSettingsOpen(true)} />
+        <TopBar view={view} onBack={back} onHome={() => go({ kind: "home" })} onMundo={() => go({ kind: "mundo" })} onGo={go} onIndex={() => setDrawer(true)} onSearch={() => setPalette(true)} onAchievements={() => setAchievements(true)} onSettings={() => setSettingsOpen(true)} />
 
         {view.kind === "home" && (
           <Home
@@ -316,6 +320,8 @@ function Root() {
       {settingsOpen && (
         <SettingsMenu
           onClose={() => setSettingsOpen(false)}
+          theme={theme}
+          onToggleTheme={() => setTheme((t) => (t === "light" ? "dark" : "light"))}
           onOpenParent={() => { setSettingsOpen(false); setParent(true); }}
           onOpenWipe={() => { setSettingsOpen(false); setWipe(true); }}
         />
@@ -330,24 +336,20 @@ function Root() {
 
 function TopBar({
   view,
-  theme,
   onBack,
   onHome,
   onMundo,
   onGo,
-  onToggleTheme,
   onIndex,
   onSearch,
   onAchievements,
   onSettings,
 }: {
   view: View;
-  theme: "light" | "dark";
   onBack: () => void;
   onHome: () => void;
   onMundo: () => void;
   onGo: (v: View) => void;
-  onToggleTheme: () => void;
   onIndex: () => void;
   onSearch: () => void;
   onAchievements: () => void;
@@ -391,7 +393,7 @@ function TopBar({
                 const a = site.areas.items.find((i) => i.id === view.area);
                 return a ? (
                   <span style={{ color: `var(${a.accent})`, display: "inline-flex", alignItems: "center", gap: 4 }}>
-                    <Icon name={a.icon as IconName} size={18} /> {a.label}
+                    <Icon name={a.icon as IconName} size={18} /> <span className="crumb-tx">{a.label}</span>
                   </span>
                 ) : null;
               })()
@@ -400,11 +402,11 @@ function TopBar({
               <>
                 {view.room ? (
                   <button className="crumb-link" style={{ color: "var(--joy)" }} onClick={() => onGo({ kind: "diversao" })}>
-                    <Icon name="sparkle" size={18} /> {site.diversao.sectionTitle}
+                    <Icon name="sparkle" size={18} /> <span className="crumb-tx">{site.diversao.sectionTitle}</span>
                   </button>
                 ) : (
                   <span style={{ color: "var(--joy)", display: "inline-flex", alignItems: "center", gap: 4 }}>
-                    <Icon name="sparkle" size={18} /> {site.diversao.sectionTitle}
+                    <Icon name="sparkle" size={18} /> <span className="crumb-tx">{site.diversao.sectionTitle}</span>
                   </span>
                 )}
                 {view.room && (
@@ -417,12 +419,12 @@ function TopBar({
             ) : view.kind === "teia" ? (
               // "A Teia do Saber" — the knowledge web.
               <span style={{ color: "var(--subj-emus)", display: "inline-flex", alignItems: "center", gap: 4 }}>
-                <Icon name="atom" size={18} /> A Teia do Saber
+                <Icon name="atom" size={18} /> <span className="crumb-tx">A Teia do Saber</span>
               </span>
             ) : view.kind === "mundo" ? (
               // The "Pelo mundo fora" overview itself.
               <span style={{ color: mundoSubject.color, display: "inline-flex", alignItems: "center", gap: 4 }}>
-                <Icon name={MUNDO_BEYOND.icon as IconName} size={18} /> {MUNDO_BEYOND.label}
+                <Icon name={MUNDO_BEYOND.icon as IconName} size={18} /> <span className="crumb-tx">{MUNDO_BEYOND.label}</span>
               </span>
             ) : subject && isMundo(subject.id) ? (
               // "O Mundo" lessons: ring name (never "X.º ano"). Wider-world rings
@@ -431,7 +433,7 @@ function TopBar({
                 {!isMundoHomeRing(view.year) && (
                   <>
                     <button className="crumb-home" onClick={onMundo} style={{ color: mundoSubject.color, display: "inline-flex", alignItems: "center", gap: 4 }}>
-                      <Icon name={MUNDO_BEYOND.icon as IconName} size={16} /> {MUNDO_BEYOND.label}
+                      <Icon name={MUNDO_BEYOND.icon as IconName} size={16} /> <span className="crumb-tx">{MUNDO_BEYOND.label}</span>
                     </button>
                     <span className="sep">›</span>
                   </>
@@ -439,12 +441,12 @@ function TopBar({
                 {deeperThanSubject ? (
                   <button className="crumb-link" style={{ color: subject.color }} onClick={() => onGo({ kind: "subject", year: view.year, subjectId: subject.id })}>
                     <Icon name={(mundoRings.find((r) => r.ring === view.year)?.icon ?? SUBJECT_ICON[subject.id]) as IconName} size={18} />
-                    {tierLabel(subject.id, view.year)}
+                    <span className="crumb-tx">{tierLabel(subject.id, view.year)}</span>
                   </button>
                 ) : (
                   <span style={{ color: subject.color, display: "inline-flex", alignItems: "center", gap: 4 }}>
                     <Icon name={(mundoRings.find((r) => r.ring === view.year)?.icon ?? SUBJECT_ICON[subject.id]) as IconName} size={18} />
-                    {tierLabel(subject.id, view.year)}
+                    <span className="crumb-tx">{tierLabel(subject.id, view.year)}</span>
                   </span>
                 )}
               </>
@@ -454,37 +456,39 @@ function TopBar({
               deeperThanSubject ? (
                 <button className="crumb-link" style={{ color: subject.color }} onClick={() => onGo({ kind: "subject", year: view.year, subjectId: subject.id })}>
                   <Icon name={(paisesCountries.find((c) => c.tier === view.year)?.icon ?? SUBJECT_ICON[subject.id]) as IconName} size={18} />
-                  {tierLabel(subject.id, view.year)}
+                  <span className="crumb-tx">{tierLabel(subject.id, view.year)}</span>
                 </button>
               ) : (
                 <span style={{ color: subject.color, display: "inline-flex", alignItems: "center", gap: 4 }}>
                   <Icon name={(paisesCountries.find((c) => c.tier === view.year)?.icon ?? SUBJECT_ICON[subject.id]) as IconName} size={18} />
-                  {tierLabel(subject.id, view.year)}
+                  <span className="crumb-tx">{tierLabel(subject.id, view.year)}</span>
                 </span>
               )
-            ) : subject && (isEstudo(subject.id) || isDicionario(subject.id) || isVerbos(subject.id)) ? (
-              // "Saber de cor" / "O Dicionário" / "Os Verbos" — grade-less areas,
-              // never "X.º ano". Just the area name (a link back to its overview
-              // when on a topic/letter).
+            ) : subject && (isEstudo(subject.id) || isDicionario(subject.id) || isVerbos(subject.id) || isEnciclopedia(subject.id) || isCores(subject.id) || isAtlas(subject.id)) ? (
+              // "Saber de cor" / "O Dicionário" / "Os Verbos" / Enciclopédia /
+              // "As Cores" / "Atlas da Vida" — grade-less areas, never "X.º ano".
+              // Just the area name (a link back to its overview when deeper in).
               deeperThanSubject ? (
                 <button className="crumb-link" style={{ color: subject.color }} onClick={() => onGo({ kind: "subject", year: view.year, subjectId: subject.id })}>
-                  <Icon name={SUBJECT_ICON[subject.id]} size={18} /> {subject.label}
+                  <Icon name={SUBJECT_ICON[subject.id]} size={18} /> <span className="crumb-tx">{subject.label}</span>
                 </button>
               ) : (
                 <span style={{ color: subject.color, display: "inline-flex", alignItems: "center", gap: 4 }}>
-                  <Icon name={SUBJECT_ICON[subject.id]} size={18} /> {subject.label}
+                  <Icon name={SUBJECT_ICON[subject.id]} size={18} /> <span className="crumb-tx">{subject.label}</span>
                 </span>
               )
             ) : (
               <>
                 {deeperThanYear ? (
-                  <button className="crumb-link" onClick={() => onGo({ kind: "year", year: view.year })}>{yearLabel(view.year)}</button>
+                  // The year is a redundant ancestor on phones (the grade shows
+                  // in the page header) — hidden there with its trailing sep.
+                  <button className="crumb-link crumb-year-link" onClick={() => onGo({ kind: "year", year: view.year })}>{yearLabel(view.year)}</button>
                 ) : (
                   <span>{yearLabel(view.year)}</span>
                 )}
                 {subject && (
                   <>
-                    <span className="sep">›</span>
+                    <span className="sep crumb-year-sep">›</span>
                     {deeperThanSubject ? (
                       <button className="crumb-link" style={{ color: subject.color }} aria-label={subject.label} onClick={() => onGo({ kind: "subject", year: view.year, subjectId: subject.id })}>
                         <Icon name={SUBJECT_ICON[subject.id]} size={20} />
@@ -512,7 +516,7 @@ function TopBar({
               <>
                 <span className="sep">›</span>
                 <span style={{ display: "inline-flex", alignItems: "center", gap: 4, color: "var(--warn)" }}>
-                  <Icon name="trophy" size={16} /> Teste
+                  <Icon name="trophy" size={16} /> <span className="crumb-tx">Teste</span>
                 </span>
               </>
             )}
@@ -520,35 +524,38 @@ function TopBar({
         )}
       </div>
 
-      <div style={{ flex: 1 }} />
-      <button className="iconbtn" onClick={onSearch} aria-label="Procurar (Ctrl+K)" title="Procurar — Ctrl+K">
-        <Icon name="search" size={22} />
-      </button>
-      <button className="stat-chip stat-chip--btn" onClick={onAchievements} title="As minhas conquistas" aria-label="Ver as minhas conquistas">
-        <Icon name="star" size={18} fill="currentColor" style={{ color: "var(--warn)" }} /> {totalStars}
-      </button>
-      <button className="iconbtn" onClick={onIndex} aria-label="Índice / mapa das lições">
-        <Icon name="map" size={22} />
-      </button>
-      <button className="iconbtn" onClick={onToggleTheme} aria-label={theme === "light" ? "Modo escuro" : "Modo claro"}>
-        <Icon name={theme === "light" ? "moon" : "sun"} size={22} />
-      </button>
-      <button className="iconbtn" onClick={onSettings} aria-label="Definições" title="Definições">
-        <Icon name="gear" size={22} />
-      </button>
+      <div className="topbar-actions">
+        <button className="iconbtn" onClick={onSearch} aria-label="Procurar (Ctrl+K)" title="Procurar — Ctrl+K">
+          <Icon name="search" size={22} />
+        </button>
+        <button className="stat-chip stat-chip--btn" onClick={onAchievements} title="As minhas conquistas" aria-label="Ver as minhas conquistas">
+          <Icon name="star" size={18} fill="currentColor" style={{ color: "var(--warn)" }} /> {totalStars}
+        </button>
+        <button className="iconbtn" onClick={onIndex} aria-label="Índice / mapa das lições">
+          <Icon name="map" size={22} />
+        </button>
+        <button className="iconbtn" onClick={onSettings} aria-label="Definições" title="Definições">
+          <Icon name="gear" size={22} />
+        </button>
+      </div>
     </div>
   );
 }
 
 /* ---- settings menu (the cog) ---- *
- * A small top-right menu. Each entry opens its own session: the parents' area
- * (gated to enter) and the math-gated "Limpar tudo". */
+ * A small top-right menu. The light/dark toggle lives here (it left the top bar
+ * to make room on narrow screens), plus the parents' area and the math-gated
+ * "Limpar tudo". Toggling the theme keeps the menu open so the change is seen. */
 function SettingsMenu({
   onClose,
+  theme,
+  onToggleTheme,
   onOpenParent,
   onOpenWipe,
 }: {
   onClose: () => void;
+  theme: "light" | "dark";
+  onToggleTheme: () => void;
   onOpenParent: () => void;
   onOpenWipe: () => void;
 }) {
@@ -556,6 +563,13 @@ function SettingsMenu({
     <>
       <div className="drawer-backdrop" onClick={onClose} />
       <div className="settings-menu" role="menu" aria-label="Definições">
+        <button className="settings-item" role="menuitem" onClick={onToggleTheme}>
+          <span className="settings-item__ic"><Icon name={theme === "light" ? "moon" : "sun"} size={20} /></span>
+          <span className="settings-item__tx">
+            <strong>{theme === "light" ? "Modo escuro" : "Modo claro"}</strong>
+            <span>Mudar o aspeto da app</span>
+          </span>
+        </button>
         <button className="settings-item" role="menuitem" onClick={onOpenParent}>
           <span className="settings-item__ic"><Icon name="calendar" size={20} /></span>
           <span className="settings-item__tx">
@@ -1010,13 +1024,233 @@ function CuriosidadeDoDia() {
   );
 }
 
+function BibliotecaScene() {
+  return (
+    <div className="biblio-scene" aria-hidden="true">
+      <svg className="biblio-scene__svg" viewBox="0 0 760 260" role="img">
+        <defs>
+          <linearGradient id="biblio-sky" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0" stopColor="#fff7d7" />
+            <stop offset=".44" stopColor="#d9f7ee" />
+            <stop offset="1" stopColor="#e8ecff" />
+          </linearGradient>
+          <linearGradient id="biblio-globe" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0" stopColor="#4cc9f0" />
+            <stop offset="1" stopColor="#54c45f" />
+          </linearGradient>
+          <filter id="biblio-soft-shadow" x="-20%" y="-30%" width="140%" height="160%">
+            <feDropShadow dx="0" dy="12" stdDeviation="10" floodColor="#244045" floodOpacity=".18" />
+          </filter>
+        </defs>
+        <rect width="760" height="260" rx="28" fill="url(#biblio-sky)" />
+        <path className="biblio-scene__path" d="M95 190 C190 128 265 230 362 156 S560 96 678 158" fill="none" stroke="#2e7d73" strokeWidth="5" strokeLinecap="round" strokeDasharray="10 14" opacity=".38" />
+        <g className="biblio-scene__shelf" filter="url(#biblio-soft-shadow)">
+          <rect x="90" y="89" width="224" height="142" rx="18" fill="#8f5a3b" />
+          <rect x="107" y="111" width="190" height="16" rx="8" fill="#6d402b" opacity=".6" />
+          <rect x="107" y="178" width="190" height="16" rx="8" fill="#6d402b" opacity=".55" />
+          <rect x="126" y="66" width="35" height="95" rx="8" fill="#ffbc42" />
+          <rect x="166" y="75" width="30" height="86" rx="8" fill="#ef476f" />
+          <rect x="202" y="60" width="38" height="101" rx="8" fill="#06d6a0" />
+          <rect x="247" y="82" width="34" height="79" rx="8" fill="#4d7cff" />
+          <rect x="122" y="137" width="168" height="14" rx="7" fill="#f9f2df" opacity=".34" />
+          <circle cx="278" cy="215" r="10" fill="#5d3424" opacity=".52" />
+        </g>
+        <g className="biblio-scene__globe" filter="url(#biblio-soft-shadow)">
+          <circle cx="404" cy="126" r="55" fill="url(#biblio-globe)" />
+          <path d="M366 111 C386 98 396 108 413 100 C428 93 445 98 455 114 C432 122 432 142 407 139 C388 137 383 124 366 111Z" fill="#f7f7de" opacity=".9" />
+          <path d="M376 151 C395 146 407 157 424 150 C435 146 448 149 456 160 C437 175 406 183 382 166Z" fill="#f7f7de" opacity=".85" />
+          <ellipse cx="404" cy="126" rx="72" ry="18" fill="none" stroke="#3b4b72" strokeWidth="5" opacity=".28" transform="rotate(-16 404 126)" />
+          <path d="M404 181 L404 213" stroke="#3b4b72" strokeWidth="8" strokeLinecap="round" />
+          <path d="M363 219 H445" stroke="#3b4b72" strokeWidth="10" strokeLinecap="round" />
+        </g>
+        <g className="biblio-scene__rocket" filter="url(#biblio-soft-shadow)">
+          <path d="M575 88 C597 49 636 45 659 52 C662 76 648 111 609 128 L575 88Z" fill="#f7f7ff" />
+          <path d="M643 57 C646 67 643 78 636 87 C626 77 616 68 603 61 C615 54 629 52 643 57Z" fill="#ef476f" />
+          <circle cx="614" cy="88" r="14" fill="#77d7ff" stroke="#32415f" strokeWidth="5" />
+          <path d="M580 96 L549 95 L566 122Z" fill="#4d7cff" />
+          <path d="M602 123 L596 153 L626 133Z" fill="#4d7cff" />
+          <path className="biblio-scene__flame" d="M559 124 C535 136 519 153 511 174 C533 166 553 153 572 132Z" fill="#ffbc42" />
+        </g>
+        <g className="biblio-scene__sparkles" fill="#ef476f">
+          <path d="M501 55 l6 15 15 6 -15 6 -6 15 -6 -15 -15 -6 15 -6Z" />
+          <path d="M690 110 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4Z" fill="#ffbc42" />
+          <path d="M347 52 l4 9 9 4 -9 4 -4 9 -4 -9 -9 -4 9 -4Z" fill="#4d7cff" />
+        </g>
+      </svg>
+    </div>
+  );
+}
+
+// "Recomendado para ti" — Enciclopédia articles linked (via the Teia) to what the
+// child has been doing. Self-hides when there's nothing fresh to suggest.
+function Recomendados() {
+  const { progress, history } = useProgress();
+  const recs = recommendedArticles(progress, history, 4);
+  if (recs.length === 0) return null;
+  return (
+    <>
+      <h2 className="section-title" style={{ marginTop: 8 }}>
+        <span style={{ color: "var(--warn)", display: "inline-flex" }}><Icon name="star" size={24} /></span>
+        Recomendado para ti
+      </h2>
+      <div className="biblio-recs biblio-recs--animated">
+        {recs.map((r) => (
+          <button
+            key={r.id}
+            className="rec-card"
+            style={{ ["--c" as string]: r.meta.color }}
+            onClick={() => window.dispatchEvent(new CustomEvent("sprout:navigate", { detail: { lessonId: r.id } }))}
+          >
+            <span className="rec-card__icon" style={{ color: r.meta.color }}><Icon name={lessonIconById(r.meta.subjectId, r.id)} size={22} /></span>
+            <span className="rec-card__main">
+              <span className="rec-card__title">{r.meta.title}</span>
+              <span className="rec-card__reason">{r.reason}</span>
+            </span>
+            <Icon name="forward" size={16} />
+          </button>
+        ))}
+      </div>
+    </>
+  );
+}
+
+// "Coleção de Medalhas" — derived badges (one per theme + catalogue + global
+// tiers). Lit when earned; otherwise shows progress toward the goal.
+function Medalhas() {
+  const { progress } = useProgress();
+  const medals = bibliotecaMedals(progress);
+  const earned = medals.filter((m) => m.earned).length;
+  return (
+    <>
+      <h2 className="section-title" style={{ marginTop: 36 }}>
+        <span style={{ color: "var(--warn)", display: "inline-flex" }}><Icon name="trophy" size={26} /></span>
+        Coleção de Medalhas
+        <span style={{ color: "var(--ink-3)", fontWeight: 500, fontSize: ".7em" }}> · {earned}/{medals.length}</span>
+      </h2>
+      <p className="section-sub">Ganha medalhas ao explorares a Biblioteca! 🏆</p>
+      <div className="medal-grid">
+        {medals.map((m) => (
+          <div key={m.id} className={`medal-card ${m.earned ? "earned" : ""}`}>
+            <span className="medal-card__badge"><Icon name={m.icon} size={26} /></span>
+            <span className="medal-card__title">{m.title}</span>
+            <span className="medal-card__desc">{m.desc}</span>
+            <div className="medal-card__bar"><span style={{ width: `${Math.min(100, Math.round((m.have / m.need) * 100))}%` }} /></div>
+            <span className="medal-card__count">
+              {m.earned ? (<><Icon name="check" size={12} /> Conquistada!</>) : `${m.have}/${m.need}`}
+            </span>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
+// "Continuar a aprender" — the Biblioteca articles the child saw most recently,
+// so they can pick up where they left off. Derived from history + progress; self-
+// hides until there's something to continue.
+function ContinuarAprender() {
+  const { progress, history } = useProgress();
+  const isBiblio = (id: string) => id.startsWith("enc-") || id.startsWith("cores-") || id.startsWith("atlas-");
+  const seen: string[] = [];
+  for (const id of history) {
+    if (seen.length >= 4) break;
+    if (!isBiblio(id) || seen.includes(id) || !lessonMeta.has(id)) continue;
+    seen.push(id);
+  }
+  if (seen.length === 0) return null;
+  return (
+    <>
+      <h2 className="section-title" style={{ marginTop: 8 }}>
+        <span style={{ color: "var(--primary)", display: "inline-flex" }}><Icon name="forward" size={24} /></span>
+        Continuar a aprender
+      </h2>
+      <div className="biblio-recs">
+        {seen.map((id) => {
+          const meta = lessonMeta.get(id)!;
+          const done = progress[id]?.done;
+          return (
+            <button
+              key={id}
+              className="rec-card"
+              style={{ ["--c" as string]: meta.color }}
+              onClick={() => window.dispatchEvent(new CustomEvent("sprout:navigate", { detail: { lessonId: id } }))}
+            >
+              <span className="rec-card__icon" style={{ color: meta.color }}><Icon name={lessonIconById(meta.subjectId, id)} size={22} /></span>
+              <span className="rec-card__main">
+                <span className="rec-card__title">{meta.title}</span>
+                <span className="rec-card__reason">{done ? "Já completaste — toca para rever" : "Continua de onde ficaste"}</span>
+              </span>
+              <Icon name="forward" size={16} />
+            </button>
+          );
+        })}
+      </div>
+    </>
+  );
+}
+
+// "Missões" — guided journeys (percursos) through the Biblioteca; finishing one
+// earns its cromo (sticker). Derived from progress (see biblioteca.ts). Tapping a
+// card opens the next unread article in that mission.
+function Missoes() {
+  const { progress } = useProgress();
+  const missoes = missoesState(progress);
+  const doneCount = missoes.filter((m) => m.done).length;
+  return (
+    <>
+      <h2 className="section-title" style={{ marginTop: 36 }}>
+        <span style={{ color: "var(--subj-mundo)", display: "inline-flex" }}><Icon name="target" size={26} /></span>
+        Missões
+        <span style={{ color: "var(--ink-3)", fontWeight: 500, fontSize: ".7em" }}> · {doneCount}/{missoes.length}</span>
+      </h2>
+      <p className="section-sub">Segue um percurso de artigos até ao fim e ganha um cromo! 🎯</p>
+      <div className="missao-grid">
+        {missoes.map((m) => (
+          <div key={m.id} className={`missao-card ${m.done ? "done" : ""}`}>
+            <div className="missao-card__top">
+              <span className="missao-card__cromo" aria-hidden>
+                {m.done ? <span className="missao-card__sticker">{m.emoji}</span> : <Icon name={m.icon} size={26} />}
+              </span>
+              <div className="missao-card__head">
+                <span className="missao-card__title">{m.title}</span>
+                <span className="missao-card__blurb">{m.blurb}</span>
+              </div>
+            </div>
+            <div className="missao-card__steps" aria-label={`${m.have} de ${m.need} feitos`}>
+              {m.stepsState.map((s) => (
+                <span key={s.id} className={`missao-dot ${s.done ? "on" : ""}`} title={s.title} />
+              ))}
+            </div>
+            <button
+              className={`pill ${m.done ? "ghost" : ""} missao-card__go`}
+              onClick={() => window.dispatchEvent(new CustomEvent("sprout:navigate", { detail: { lessonId: m.nextId } }))}
+            >
+              {m.done
+                ? (<><Icon name="check" size={16} /> Concluída</>)
+                : m.have === 0
+                ? (<><Icon name="forward" size={16} /> Começar</>)
+                : (<><Icon name="forward" size={16} /> Continuar · {m.have}/{m.need}</>)}
+            </button>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
 function BibliotecaView({ onOpenSubject }: { onOpenSubject: (subjectId: string) => void }) {
   const { progress } = useProgress();
   return (
-    <div>
+    <div className="biblioteca-view">
       <Mascot message="Bem-vindo à Biblioteca! Descobre coisas do outro mundo, ou escolhe uma letra no dicionário." mood="happy" />
 
+      <BibliotecaScene />
+
       <CuriosidadeDoDia />
+
+      <ContinuarAprender />
+
+      <Recomendados />
 
       {/* Descobrir — the Enciclopédia themes (Espaço, Dinossauros, …). */}
       <h2 className="section-title">
@@ -1024,7 +1258,7 @@ function BibliotecaView({ onOpenSubject }: { onOpenSubject: (subjectId: string) 
         Descobrir
       </h2>
       <p className="section-sub">Toca num tema e parte à descoberta — cada artigo tem som, imagens e um quiz! 🚀</p>
-      <div className="card-grid cols-3">
+      <div className="card-grid cols-3 biblio-discover-grid">
         {enciclopediaSubjects.map((s) => {
           const st = yearStats(progress, s, 1);
           return (
@@ -1051,7 +1285,7 @@ function BibliotecaView({ onOpenSubject }: { onOpenSubject: (subjectId: string) 
         Coleções
       </h2>
       <p className="section-sub">Catálogos para folhear, ouvir e descobrir — cores, seres vivos e palavras. 📚</p>
-      <div className="card-grid cols-3">
+      <div className="card-grid cols-3 biblio-collections-grid">
         <BigCard
           iconName={SUBJECT_ICON[coresSubject.id]}
           kicker="Coleção"
@@ -1083,6 +1317,10 @@ function BibliotecaView({ onOpenSubject }: { onOpenSubject: (subjectId: string) 
           onClick={() => onOpenSubject(dicionarioSubject.id)}
         />
       </div>
+
+      <Missoes />
+
+      <Medalhas />
     </div>
   );
 }

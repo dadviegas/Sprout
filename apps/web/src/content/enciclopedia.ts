@@ -37,6 +37,56 @@ import espacoSol from "./enciclopedia/espaco/o-sol.md";
 import espacoLua from "./enciclopedia/espaco/a-lua.md";
 import plantasFoto from "./enciclopedia/plantas/a-fotossintese.md";
 import cienciaBarcos from "./enciclopedia/ciencia/porque-flutuam-os-barcos.md";
+import espacoBuracos from "./enciclopedia/espaco/buracos-negros.md";
+import espacoApollo from "./enciclopedia/espaco/primeira-viagem-a-lua.md";
+import dinosTriceratops from "./enciclopedia/dinos/triceratops.md";
+import dinosFosseis from "./enciclopedia/dinos/como-sabemos-que-existiram.md";
+import dinosExtincao from "./enciclopedia/dinos/porque-desapareceram.md";
+import animaisGatos from "./enciclopedia/animais/porque-ronronam-os-gatos.md";
+import animaisFormigas from "./enciclopedia/animais/as-formigas.md";
+import plantasSemente from "./enciclopedia/plantas/da-semente-a-arvore.md";
+import plantasFlores from "./enciclopedia/plantas/as-flores-e-as-abelhas.md";
+import corpoEspirro from "./enciclopedia/corpo/porque-espirras.md";
+import corpoSentidos from "./enciclopedia/corpo/os-cinco-sentidos.md";
+import cienciaEletricidade from "./enciclopedia/ciencia/a-eletricidade.md";
+import cienciaMitos from "./enciclopedia/ciencia/sera-verdade-caca-mitos.md";
+import cienciaArcoIris from "./enciclopedia/ciencia/de-onde-vem-o-arco-iris.md";
+import plantasChocolate from "./enciclopedia/plantas/de-onde-vem-o-chocolate.md";
+import espacoExoplanetas from "./enciclopedia/espaco/exoplanetas.md";
+import corpoVitaminas from "./enciclopedia/corpo/as-vitaminas.md";
+import terraAlqueva from "./enciclopedia/terra/alqueva-o-maior-lago.md";
+import terraEstacoes from "./enciclopedia/terra/as-estacoes-do-ano.md";
+import pessoasFrida from "./enciclopedia/pessoas/frida-kahlo.md";
+import pessoasNewton from "./enciclopedia/pessoas/isaac-newton.md";
+import pessoasFlorence from "./enciclopedia/pessoas/florence-nightingale.md";
+import pessoasCamoes from "./enciclopedia/pessoas/luis-de-camoes.md";
+import pessoasTuring from "./enciclopedia/pessoas/alan-turing.md";
+import pessoasHopper from "./enciclopedia/pessoas/grace-hopper.md";
+import pessoasBerners from "./enciclopedia/pessoas/tim-berners-lee.md";
+import pessoasAristides from "./enciclopedia/pessoas/aristides-de-sousa-mendes.md";
+import pessoasMandela from "./enciclopedia/pessoas/nelson-mandela.md";
+
+/* ---- Laboratório — safe home experiments ---- */
+import labVulcao from "./enciclopedia/laboratorio/o-vulcao-de-bicarbonato.md";
+import labArcoiris from "./enciclopedia/laboratorio/o-arco-iris-num-copo.md";
+import labLeite from "./enciclopedia/laboratorio/o-leite-magico.md";
+import labOvo from "./enciclopedia/laboratorio/o-ovo-que-flutua.md";
+import labCristais from "./enciclopedia/laboratorio/os-cristais-de-sal.md";
+
+/* ---- Histórias & Lendas — fables and Portuguese legends ---- */
+import histCigarra from "./enciclopedia/historias/a-cigarra-e-a-formiga.md";
+import histLebre from "./enciclopedia/historias/a-lebre-e-a-tartaruga.md";
+import histPomba from "./enciclopedia/historias/a-formiga-e-a-pomba.md";
+import histGalo from "./enciclopedia/historias/lenda-do-galo-de-barcelos.md";
+import histMartinho from "./enciclopedia/historias/lenda-de-sao-martinho.md";
+
+/* ---- Tecnologia & Mundo Digital (see BIBLIOTECA-TOPICOS-ADULTOS-TECNOLOGIA.md) ---- */
+import tecComputador from "./enciclopedia/tecnologia/como-funciona-um-computador.md";
+import tecSmartphone from "./enciclopedia/tecnologia/o-que-e-um-smartphone.md";
+import tecTablet from "./enciclopedia/tecnologia/tablets-e-aprendizagem.md";
+import tecInternet from "./enciclopedia/tecnologia/a-internet.md";
+import tecSeguranca from "./enciclopedia/tecnologia/seguranca-digital.md";
+import tecIA from "./enciclopedia/tecnologia/inteligencia-artificial.md";
 
 /** One discovery theme: a card in the Biblioteca that opens to its articles.
  *  `color` is a colour-token reference (the soft variant is derived). */
@@ -63,8 +113,9 @@ export const ENC_THEMES: EncTheme[] = [
       { id: "enc-espaco-planetas", title: "Planetas: gigantes e pequeninos", emoji: "🪐", body: espacoPlanetas },
       { id: "enc-espaco-sol", title: "O Sol: a nossa estrela", emoji: "☀️", body: espacoSol },
       { id: "enc-espaco-lua", title: "A Lua e as suas fases", emoji: "🌙", body: espacoLua },
-      { id: "enc-espaco-buracos-negros", title: "Os buracos negros", emoji: "🕳️" },
-      { id: "enc-espaco-apollo", title: "A primeira viagem à Lua", emoji: "🚀" },
+      { id: "enc-espaco-buracos-negros", title: "Os buracos negros", emoji: "🕳️", body: espacoBuracos },
+      { id: "enc-espaco-apollo", title: "A primeira viagem à Lua", emoji: "🚀", body: espacoApollo },
+      { id: "enc-espaco-exoplanetas", title: "Outros mundos: os exoplanetas", emoji: "🪐", body: espacoExoplanetas },
     ],
   },
   {
@@ -73,9 +124,9 @@ export const ENC_THEMES: EncTheme[] = [
     blurb: "Os gigantes que viveram há milhões de anos.",
     articles: [
       { id: "enc-dinos-trex", title: "O Tiranossauro Rex", emoji: "🦖", body: dinosTrex },
-      { id: "enc-dinos-triceratops", title: "O Triceratops", emoji: "🦕" },
-      { id: "enc-dinos-fosseis", title: "Como sabemos que existiram?", emoji: "🦴" },
-      { id: "enc-dinos-extincao", title: "Porque desapareceram?", emoji: "☄️" },
+      { id: "enc-dinos-triceratops", title: "O Triceratops", emoji: "🦕", body: dinosTriceratops },
+      { id: "enc-dinos-fosseis", title: "Como sabemos que existiram?", emoji: "🦴", body: dinosFosseis },
+      { id: "enc-dinos-extincao", title: "Porque desapareceram?", emoji: "☄️", body: dinosExtincao },
     ],
   },
   {
@@ -85,8 +136,8 @@ export const ENC_THEMES: EncTheme[] = [
     articles: [
       { id: "enc-animais-polvo", title: "O polvo: o génio do mar", emoji: "🐙", body: animaisPolvo },
       { id: "enc-animais-baleia", title: "A baleia-azul: o maior de todos", emoji: "🐋", body: animaisBaleia },
-      { id: "enc-animais-gatos", title: "Porque ronronam os gatos?", emoji: "🐱" },
-      { id: "enc-animais-formigas", title: "As formigas trabalhadoras", emoji: "🐜" },
+      { id: "enc-animais-gatos", title: "Porque ronronam os gatos?", emoji: "🐱", body: animaisGatos },
+      { id: "enc-animais-formigas", title: "As formigas trabalhadoras", emoji: "🐜", body: animaisFormigas },
     ],
   },
   {
@@ -95,8 +146,9 @@ export const ENC_THEMES: EncTheme[] = [
     blurb: "Como as plantas comem luz e enchem o mundo de verde.",
     articles: [
       { id: "enc-plantas-fotossintese", title: "A fotossíntese: comer luz", emoji: "🌞", body: plantasFoto },
-      { id: "enc-plantas-semente", title: "Da semente à árvore", emoji: "🌱" },
-      { id: "enc-plantas-flores", title: "As flores e as abelhas", emoji: "🌸" },
+      { id: "enc-plantas-semente", title: "Da semente à árvore", emoji: "🌱", body: plantasSemente },
+      { id: "enc-plantas-flores", title: "As flores e as abelhas", emoji: "🌸", body: plantasFlores },
+      { id: "enc-plantas-chocolate", title: "De onde vem o chocolate?", emoji: "🍫", body: plantasChocolate },
     ],
   },
   {
@@ -106,8 +158,9 @@ export const ENC_THEMES: EncTheme[] = [
     articles: [
       { id: "enc-corpo-cerebro", title: "O cérebro: o chefe do corpo", emoji: "🧠", body: corpoCerebro },
       { id: "enc-corpo-coracao", title: "O coração e o sangue", emoji: "❤️", body: corpoCoracao },
-      { id: "enc-corpo-espirro", title: "Porque é que espirras?", emoji: "🤧" },
-      { id: "enc-corpo-sentidos", title: "Os cinco sentidos", emoji: "👀" },
+      { id: "enc-corpo-espirro", title: "Porque é que espirras?", emoji: "🤧", body: corpoEspirro },
+      { id: "enc-corpo-sentidos", title: "Os cinco sentidos", emoji: "👀", body: corpoSentidos },
+      { id: "enc-corpo-vitaminas", title: "As vitaminas e a tua energia", emoji: "🍊", body: corpoVitaminas },
     ],
   },
   {
@@ -118,7 +171,9 @@ export const ENC_THEMES: EncTheme[] = [
       { id: "enc-ciencia-ceu-azul", title: "Porque é que o céu é azul?", emoji: "🌈", body: cienciaCeu },
       { id: "enc-ciencia-barcos", title: "Porque flutuam os barcos?", emoji: "⛵", body: cienciaBarcos },
       { id: "enc-ciencia-cores", title: "Como nascem as cores?", emoji: "🎨", body: cienciaCores },
-      { id: "enc-ciencia-eletricidade", title: "A eletricidade", emoji: "⚡" },
+      { id: "enc-ciencia-eletricidade", title: "A eletricidade", emoji: "⚡", body: cienciaEletricidade },
+      { id: "enc-ciencia-caca-mitos", title: "Será verdade? Caça-mitos", emoji: "🕵️", body: cienciaMitos },
+      { id: "enc-ciencia-arco-iris", title: "De onde vem o arco-íris?", emoji: "🌈", body: cienciaArcoIris },
     ],
   },
   {
@@ -129,7 +184,8 @@ export const ENC_THEMES: EncTheme[] = [
       { id: "enc-terra-agua", title: "A viagem da água", emoji: "💧", body: terraAgua },
       { id: "enc-terra-vulcoes", title: "Como funcionam os vulcões?", emoji: "🌋", body: terraVulcoes },
       { id: "enc-terra-dia-noite", title: "Porque há dia e noite?", emoji: "🌗", body: terraDiaNoite },
-      { id: "enc-terra-estacoes", title: "As estações do ano", emoji: "🍂" },
+      { id: "enc-terra-estacoes", title: "As estações do ano", emoji: "🍂", body: terraEstacoes },
+      { id: "enc-terra-alqueva", title: "Alqueva: o maior lago de Portugal", emoji: "💧", body: terraAlqueva },
     ],
   },
   {
@@ -145,10 +201,52 @@ export const ENC_THEMES: EncTheme[] = [
       { id: "enc-pessoas-henrique", title: "Infante D. Henrique", emoji: "⛵", tag: "1394–1460", body: pessoasHenrique },
       { id: "enc-pessoas-amalia", title: "Amália Rodrigues", emoji: "🎶", tag: "1920–1999", body: pessoasAmalia },
       { id: "enc-pessoas-eusebio", title: "Eusébio", emoji: "⚽", tag: "1942–2014", body: pessoasEusebio },
-      { id: "enc-pessoas-frida", title: "Frida Kahlo", emoji: "🎨", tag: "1907–1954" },
-      { id: "enc-pessoas-newton", title: "Isaac Newton", emoji: "🍎", tag: "1643–1727" },
-      { id: "enc-pessoas-nightingale", title: "Florence Nightingale", emoji: "🩺", tag: "1820–1910" },
-      { id: "enc-pessoas-camoes", title: "Luís de Camões", emoji: "📜", tag: "c. 1524–1580" },
+      { id: "enc-pessoas-frida", title: "Frida Kahlo", emoji: "🎨", tag: "1907–1954", body: pessoasFrida },
+      { id: "enc-pessoas-newton", title: "Isaac Newton", emoji: "🍎", tag: "1643–1727", body: pessoasNewton },
+      { id: "enc-pessoas-nightingale", title: "Florence Nightingale", emoji: "🩺", tag: "1820–1910", body: pessoasFlorence },
+      { id: "enc-pessoas-camoes", title: "Luís de Camões", emoji: "📜", tag: "c. 1524–1580", body: pessoasCamoes },
+      { id: "enc-pessoas-turing", title: "Alan Turing", emoji: "💻", tag: "1912–1954", body: pessoasTuring },
+      { id: "enc-pessoas-hopper", title: "Grace Hopper", emoji: "⚓", tag: "1906–1992", body: pessoasHopper },
+      { id: "enc-pessoas-berners-lee", title: "Tim Berners-Lee", emoji: "🌐", tag: "n. 1955", body: pessoasBerners },
+      { id: "enc-pessoas-aristides", title: "Aristides de Sousa Mendes", emoji: "🕊️", tag: "1885–1954", body: pessoasAristides },
+      { id: "enc-pessoas-mandela", title: "Nelson Mandela", emoji: "✊", tag: "1918–2013", body: pessoasMandela },
+    ],
+  },
+  {
+    id: "enc-laboratorio", label: "Laboratório", emoji: "🧪", icon: "atom",
+    color: "var(--subj-cid)",
+    blurb: "Experiências seguras e divertidas para fazeres em casa.",
+    articles: [
+      { id: "enc-lab-vulcao", title: "O vulcão de bicarbonato", emoji: "🌋", body: labVulcao },
+      { id: "enc-lab-arcoiris", title: "O arco-íris num copo", emoji: "🌈", body: labArcoiris },
+      { id: "enc-lab-leite", title: "O leite mágico", emoji: "🥛", body: labLeite },
+      { id: "enc-lab-ovo", title: "O ovo que flutua", emoji: "🥚", body: labOvo },
+      { id: "enc-lab-cristais", title: "Cristais de sal", emoji: "🧂", body: labCristais },
+    ],
+  },
+  {
+    id: "enc-historias", label: "Histórias & Lendas", emoji: "📖", icon: "story",
+    color: "var(--subj-ev)",
+    blurb: "Contos, fábulas e lendas — e o que elas nos ensinam.",
+    articles: [
+      { id: "enc-hist-cigarra", title: "A Cigarra e a Formiga", emoji: "🐜", body: histCigarra },
+      { id: "enc-hist-lebre", title: "A Lebre e a Tartaruga", emoji: "🐢", body: histLebre },
+      { id: "enc-hist-pomba", title: "A Formiga e a Pomba", emoji: "🕊️", body: histPomba },
+      { id: "enc-hist-galo", title: "A Lenda do Galo de Barcelos", emoji: "🐓", body: histGalo },
+      { id: "enc-hist-martinho", title: "A Lenda de São Martinho", emoji: "🐴", body: histMartinho },
+    ],
+  },
+  {
+    id: "enc-tecnologia", label: "Tecnologia", emoji: "💻", icon: "robot",
+    color: "var(--subj-en)",
+    blurb: "Computadores, internet e o mundo digital — com curiosidade e cuidado.",
+    articles: [
+      { id: "enc-tec-computador", title: "Como funciona um computador?", emoji: "💻", body: tecComputador },
+      { id: "enc-tec-smartphone", title: "O que é um smartphone?", emoji: "📱", body: tecSmartphone },
+      { id: "enc-tec-tablet", title: "Tablets: estudar e criar", emoji: "📲", body: tecTablet },
+      { id: "enc-tec-internet", title: "A internet: pesquisar melhor", emoji: "🌐", body: tecInternet },
+      { id: "enc-tec-seguranca", title: "Segurança digital", emoji: "🔒", body: tecSeguranca },
+      { id: "enc-tec-ia", title: "A inteligência artificial", emoji: "🤖", body: tecIA },
     ],
   },
 ];

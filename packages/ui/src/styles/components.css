@@ -226,6 +226,36 @@
 .prose details > summary::before { content: '👉'; transition: transform .15s; }
 .prose details[open] > summary::before { content: '👇'; }
 
+/* "Ler mais" — reveal the grown-up version in place. A thin divider + caption +
+   button, deliberately NOT a bordered box: the revealed prose carries its own
+   widget/callout boxes, so a wrapper would read as box-in-box. See Markdown.tsx. */
+.read-more {
+  display: flex; flex-direction: column; align-items: center; gap: .7em;
+  margin: 1.8em 0 1.2em;
+  padding-top: 1.3em;
+  border-top: 2px dashed var(--border);
+  text-align: center;
+}
+.read-more__note {
+  display: inline-flex; align-items: center; gap: .5em; flex-wrap: wrap;
+  justify-content: center;
+  max-width: 48ch; margin: 0;
+  color: var(--ink-3); font-size: .92em;
+}
+.read-more__btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 22px; min-height: 44px;
+  border-radius: 12px;
+  font-family: var(--font-display); font-weight: 700; font-size: 1em;
+  background: var(--accent-soft); color: var(--ink);
+  border: 2px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-out), filter var(--dur-fast);
+}
+.read-more__btn:hover { transform: translateY(-2px); filter: brightness(1.04); }
+.read-more__btn:active { transform: translateY(0) scale(.98); }
+.read-more__btn:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 55%, transparent); outline-offset: 2px; }
+
 /* scrollbars */
 .sprout-scroll { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
 .sprout-scroll::-webkit-scrollbar { width: 10px; height: 10px; }

@@ -44,6 +44,24 @@
 }
 .topbar .crumb .sep { color: var(--ink-3); }
 .topbar .crumb .ell { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* The app's action buttons sit at the far right; margin-auto replaces a spacer
+   so the crumb keeps its width instead of being starved by a greedy flex spacer
+   (breadcrumb on the left, app icons on the right). */
+.topbar-actions { display: inline-flex; align-items: center; gap: 8px; margin-left: auto; flex-shrink: 0; }
+
+/* Phones: a single row can't fit the breadcrumb + app icons without clipping the
+   page name to a stub, so the app icons wrap to their own row beneath — keeping
+   the breadcrumb on the left, the app icons on the right, just stacked. The
+   breadcrumb drops its ancestor text labels and shows just icons (the current
+   page's title stays); tap targets stay finger-sized. */
+@media (max-width: 560px) {
+  .topbar { flex-wrap: wrap; row-gap: 10px; }
+  .topbar .crumb { flex: 1 1 auto; }
+  .topbar-actions { flex-basis: 100%; margin-left: 0; justify-content: flex-end; }
+  .topbar .crumb .crumb-tx,
+  .topbar .crumb .crumb-year-link,
+  .topbar .crumb .crumb-year-sep { display: none; }
+}
 
 /* round icon button */
 .iconbtn {
@@ -1924,6 +1942,20 @@
 .parent-stat__big { font-family: var(--font-display); font-size: 1.05rem; color: var(--ink); }
 .parent-stat--fail .parent-stat__big { color: var(--danger); }
 
+/* "O que andam a explorar" — passed tests per area + Biblioteca medals */
+.parent-areas { margin: 6px 0 16px; padding: 12px 14px; border-radius: var(--radius); background: var(--surface-2); border: 1px solid var(--border); }
+.parent-areas__title { display: flex; align-items: center; gap: 7px; font-family: var(--font-display); font-weight: 800; font-size: .9rem; margin-bottom: 10px; }
+.parent-areas__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.parent-area { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 6px; border-radius: var(--radius-sm); background: var(--surface); border: 1px solid var(--border); opacity: .65; }
+.parent-area.is-on { opacity: 1; border-color: color-mix(in srgb, var(--primary) 40%, var(--border)); }
+.parent-area__ic { display: inline-flex; color: var(--ink-3); }
+.parent-area.is-on .parent-area__ic { color: var(--primary); }
+.parent-area__n { font-family: var(--font-display); font-weight: 800; font-size: 1.2rem; color: var(--ink); }
+.parent-area__l { font-size: .72rem; font-weight: 700; color: var(--ink-3); }
+.parent-area__sub { font-size: .64rem; font-weight: 700; color: var(--primary); }
+.parent-areas__biblio { display: flex; align-items: center; gap: 6px; margin-top: 10px; font-size: .82rem; color: var(--ink-2); }
+.parent-areas__biblio svg { color: var(--warn); }
+
 /* the GitHub-style heatmap (one trimestre at a time) */
 .hm { --cell: 18px; --gap: 4px; --gutter: 30px; margin: 4px 0; }
 .hm-nav { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 4px 0 10px; }
@@ -2044,6 +2076,7 @@ button.hm-cell:hover { transform: scale(1.18); }
 .parent-badge { flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px; padding: 4px 9px; border-radius: 999px; font-size: .74rem; font-weight: 800; font-variant-numeric: tabular-nums; }
 .parent-badge.ok { color: var(--primary); background: color-mix(in srgb, var(--primary) 14%, var(--surface)); }
 .parent-badge.fail { color: var(--danger); background: color-mix(in srgb, var(--danger) 12%, var(--surface)); }
+.parent-badge.seen { color: var(--ink-3); background: var(--surface-2); }
 
 /* reward settings + danger zone */
 .parent-settings { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 14px 0; padding: 12px 14px; border-radius: var(--radius); background: var(--surface-2); border: 1px solid var(--border); }
@@ -2686,3 +2719,415 @@ button.hm-cell:hover { transform: scale(1.18); }
 .sizecompare-size { font-weight: 700; font-size: .85em; color: var(--ink-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
 @media (prefers-reduced-motion: reduce) { .sizecompare-bar { transition: none; } }
 @media (max-width: 520px) { .sizecompare-label { width: 84px; } }
+
+/* Biblioteca — "Recomendado para ti" cards */
+.biblioteca-view {
+  position: relative;
+}
+.biblio-scene {
+  margin: 6px 0 18px;
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--subj-mundo) 20%, var(--border));
+  box-shadow: var(--shadow-sm);
+  background: var(--surface);
+}
+.biblio-scene__svg {
+  display: block;
+  width: 100%;
+  height: clamp(164px, 25vw, 260px);
+}
+.biblio-scene__path {
+  animation: biblioPath 8s linear infinite;
+}
+.biblio-scene__shelf {
+  transform-origin: 202px 150px;
+  animation: biblioFloat 5.8s ease-in-out infinite;
+}
+.biblio-scene__globe {
+  transform-origin: 404px 126px;
+  animation: biblioGlobe 7s ease-in-out infinite;
+}
+.biblio-scene__rocket {
+  transform-origin: 610px 108px;
+  animation: biblioRocket 4.8s ease-in-out infinite;
+}
+.biblio-scene__flame {
+  transform-origin: 560px 132px;
+  animation: biblioFlame .72s ease-in-out infinite alternate;
+}
+.biblio-scene__sparkles > * {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: biblioTwinkle 2.6s ease-in-out infinite;
+}
+.biblio-scene__sparkles > :nth-child(2) { animation-delay: .45s; }
+.biblio-scene__sparkles > :nth-child(3) { animation-delay: .9s; }
+
+.biblio-curio {
+  position: relative;
+  overflow: hidden;
+  animation: sproutPopIn .45s var(--ease-out) both;
+}
+.biblio-curio::before {
+  content: "";
+  position: absolute;
+  inset: -40% auto auto -18%;
+  width: 280px;
+  height: 280px;
+  background:
+    repeating-linear-gradient(90deg,
+      color-mix(in srgb, var(--warn) 26%, transparent) 0 7px,
+      transparent 7px 17px);
+  opacity: .14;
+  transform: rotate(-18deg);
+  pointer-events: none;
+}
+.biblio-curio__emoji {
+  transform-origin: center;
+  animation: biblioBounce 3.8s ease-in-out infinite;
+}
+
+.biblio-discover-grid .card-slot,
+.biblio-collections-grid .card-slot {
+  perspective: 900px;
+}
+.biblio-discover-grid .big-card {
+  isolation: isolate;
+}
+.biblio-discover-grid .big-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    linear-gradient(120deg, transparent 0 36%, color-mix(in srgb, var(--c) 18%, transparent) 46%, transparent 58%),
+    radial-gradient(circle at 18% 20%, color-mix(in srgb, var(--c) 18%, transparent), transparent 34%);
+  opacity: 0;
+  transform: translateX(-18%);
+  transition: opacity var(--dur-mid) var(--ease-out), transform var(--dur-slow) var(--ease-out);
+  pointer-events: none;
+}
+.biblio-discover-grid .big-card:hover::before {
+  opacity: 1;
+  transform: translateX(0);
+}
+.biblio-discover-grid .bc-media {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--c) 24%, var(--surface)) 0 22%, transparent 22% 100%),
+    radial-gradient(125% 140% at 50% -15%, color-mix(in srgb, var(--c) 32%, var(--bg-elev)), var(--bg-elev) 72%);
+}
+.biblio-discover-grid .bc-art {
+  border-radius: 24px 12px 24px 12px;
+}
+.biblio-discover-grid .big-card:hover .bc-motif {
+  animation: biblioRings 1.7s ease-in-out infinite;
+}
+.biblio-collections-grid .big-card {
+  border-style: dashed;
+}
+.biblio-collections-grid .bc-media {
+  height: 108px;
+}
+.biblio-collections-grid .big-card:hover .bc-art {
+  transform: translateY(-4px) rotate(-2deg) scale(1.06);
+}
+
+.biblio-recs {
+  display: grid; gap: 12px; margin-bottom: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+.rec-card {
+  --c: var(--primary);
+  display: flex; align-items: center; gap: 12px; text-align: left; cursor: pointer;
+  padding: 12px 14px; border-radius: var(--radius);
+  background: var(--surface-2); border: 2px solid var(--border); color: var(--ink);
+  font: inherit; transition: transform .14s, border-color .14s;
+}
+.biblio-recs--animated .rec-card {
+  animation: sproutPopIn .42s var(--ease-out) both;
+}
+.biblio-recs--animated .rec-card:nth-child(2) { animation-delay: .05s; }
+.biblio-recs--animated .rec-card:nth-child(3) { animation-delay: .10s; }
+.biblio-recs--animated .rec-card:nth-child(4) { animation-delay: .15s; }
+.rec-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--c);
+  box-shadow: 0 14px 28px -24px var(--c);
+}
+.rec-card:active { transform: scale(.98); }
+.rec-card__icon {
+  flex: none; width: 40px; height: 40px; border-radius: 12px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: color-mix(in srgb, var(--c) 14%, var(--surface));
+}
+.rec-card__main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.rec-card__title { font-family: var(--font-display); font-weight: 700; line-height: 1.15; }
+.rec-card__reason { font-size: .78em; color: var(--ink-3); }
+.rec-card:hover .rec-card__icon {
+  animation: biblioIconNudge .55s var(--ease-spring);
+}
+
+/* Biblioteca — "Coleção de Medalhas" */
+.medal-grid {
+  display: grid; gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+}
+.medal-card {
+  position: relative;
+  overflow: hidden;
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px;
+  padding: 16px 14px; border-radius: var(--radius);
+  background: var(--surface-2); border: 2px solid var(--border);
+  opacity: .72; transition: transform .14s, border-color .14s, opacity .14s;
+}
+.medal-card:hover {
+  transform: translateY(-2px);
+  opacity: .9;
+}
+.medal-card.earned {
+  opacity: 1;
+  border-color: var(--warn);
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--warn) 13%, var(--surface)) 0%, var(--surface) 58%),
+    var(--surface);
+}
+.medal-card.earned::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 0 34%, rgba(255,255,255,.5) 46%, transparent 58%);
+  transform: translateX(-130%);
+  animation: biblioMedalShine 4.8s ease-in-out infinite;
+  pointer-events: none;
+}
+.medal-card__badge {
+  position: relative;
+  z-index: 1;
+  width: 52px; height: 52px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--border); color: var(--ink-3);
+}
+.medal-card.earned .medal-card__badge {
+  background: var(--warn); color: #fff;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--warn) 25%, transparent);
+  animation: biblioMedalPulse 2.7s ease-in-out infinite;
+}
+.medal-card__title { font-family: var(--font-display); font-weight: 800; font-size: .98em; line-height: 1.1; }
+.medal-card.earned .medal-card__title { color: color-mix(in srgb, var(--warn) 60%, var(--ink)); }
+.medal-card__desc { font-size: .76em; color: var(--ink-3); line-height: 1.25; }
+.medal-card__bar { width: 100%; height: 7px; border-radius: 999px; background: var(--border); overflow: hidden; margin-top: 2px; }
+.medal-card__bar > span { display: block; height: 100%; border-radius: 999px; background: var(--warn); transition: width .4s ease; }
+.medal-card__count { display: inline-flex; align-items: center; gap: 4px; font-weight: 700; font-size: .8em; color: var(--ink-2); }
+.medal-card.earned .medal-card__count { color: var(--warn); }
+@keyframes biblioPath {
+  to { stroke-dashoffset: -48; }
+}
+@keyframes biblioFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-4px) rotate(-.6deg); }
+}
+@keyframes biblioGlobe {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(5px) rotate(1deg); }
+}
+@keyframes biblioRocket {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(8px, -8px) rotate(2deg); }
+}
+@keyframes biblioFlame {
+  from { transform: scaleX(.9) scaleY(.88); opacity: .78; }
+  to { transform: scaleX(1.08) scaleY(1.08); opacity: 1; }
+}
+@keyframes biblioTwinkle {
+  0%, 100% { transform: scale(.82) rotate(0deg); opacity: .42; }
+  45% { transform: scale(1.08) rotate(12deg); opacity: 1; }
+}
+@keyframes biblioBounce {
+  0%, 100% { transform: rotate(-2deg) translateY(0); }
+  50% { transform: rotate(2deg) translateY(-4px); }
+}
+@keyframes biblioRings {
+  0%, 100% { opacity: .58; transform: scale(1); }
+  50% { opacity: .9; transform: scale(1.04); }
+}
+@keyframes biblioIconNudge {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  45% { transform: rotate(-5deg) scale(1.08); }
+}
+@keyframes biblioMedalShine {
+  0%, 45% { transform: translateX(-130%); }
+  68%, 100% { transform: translateX(130%); }
+}
+@keyframes biblioMedalPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 4px color-mix(in srgb, var(--warn) 25%, transparent); }
+  50% { transform: scale(1.05); box-shadow: 0 0 0 7px color-mix(in srgb, var(--warn) 16%, transparent); }
+}
+@media (max-width: 620px) {
+  .biblio-scene {
+    border-radius: 20px;
+  }
+  .biblio-scene__svg {
+    width: 150%;
+    max-width: none;
+    transform: translateX(-16%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .biblio-scene__path,
+  .biblio-scene__shelf,
+  .biblio-scene__globe,
+  .biblio-scene__rocket,
+  .biblio-scene__flame,
+  .biblio-scene__sparkles > *,
+  .biblio-curio__emoji,
+  .biblio-recs--animated .rec-card,
+  .biblio-discover-grid .big-card:hover .bc-motif,
+  .medal-card.earned .medal-card__badge,
+  .medal-card.earned::before {
+    animation: none;
+  }
+  .medal-card__bar > span { transition: none; }
+}
+
+/* ============================================================= *
+ * Biblioteca — Fase 4 discovery widgets (volcano, skyblue,
+ * buoyancy, lifecycle, foodchain, layers). All SVG inline, speech
+ * only on tap, motion guarded by prefers-reduced-motion below.
+ * ============================================================= */
+
+/* shared: a tappable label chip used by a few of these widgets */
+.chip {
+  border: 2px solid var(--border-strong); background: var(--surface);
+  color: var(--ink-2); border-radius: 999px; padding: 5px 12px;
+  font-family: var(--font-display); font-weight: 700; font-size: .82em;
+  cursor: pointer; transition: background .12s, color .12s, border-color .12s, transform .12s;
+}
+.chip:hover { transform: translateY(-1px); border-color: var(--primary); }
+.chip.on { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+/* shared body layout: a diagram next to a little control/explain column */
+.volcano-body, .skyblue-body, .buoyancy-body, .lifecycle-body, .layers-body {
+  display: flex; gap: 18px; align-items: center; flex-wrap: wrap;
+}
+.volcano-svg, .skyblue-svg, .buoyancy-svg, .lifecycle-svg, .layers-svg {
+  flex: 1 1 260px; min-width: 240px; max-width: 360px; width: 100%; height: auto;
+  border-radius: var(--radius); background: var(--surface-2);
+}
+.volcano-side, .skyblue-side, .buoyancy-side, .lifecycle-side {
+  flex: 1 1 200px; min-width: 180px; display: flex; flex-direction: column; gap: 12px; align-items: flex-start;
+}
+
+/* Volcano */
+.volcano-widget .w-badge { background: var(--subj-et); }
+.volcano-parts { display: flex; flex-wrap: wrap; gap: 8px; }
+.volcano-lava, .volcano-ash { opacity: 0; transition: opacity .35s ease; }
+.volcano-widget.erupting .volcano-lava,
+.volcano-widget.erupting .volcano-ash { opacity: 1; }
+.volcano-widget.erupting .volcano-spark { animation: volcano-pop 1.1s ease-out infinite; }
+.volcano-spark.sp-1 { animation-delay: .2s; }
+.volcano-spark.sp-2 { animation-delay: .45s; }
+.volcano-spark.sp-3 { animation-delay: .7s; }
+@keyframes volcano-pop {
+  0% { transform: translateY(0); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateY(-26px); opacity: 0; }
+}
+
+/* SkyBlue */
+.skyblue-widget .w-badge { background: var(--subj-tic); }
+.skyblue-explain { margin: 0; font-size: .95em; color: var(--ink-2); line-height: 1.4; }
+
+/* Buoyancy */
+.buoyancy-widget .w-badge { background: var(--subj-cn); }
+.buoyancy-boat { transition: transform .5s cubic-bezier(.34, 1.56, .64, 1); animation: buoy-bob 3.4s ease-in-out infinite; }
+.buoyancy-widget.sunk .buoyancy-boat { animation: none; }
+.buoyancy-count { font-family: var(--font-display); font-weight: 800; font-size: 1.2em; min-width: 1.4em; text-align: center; }
+.buoyancy-state { margin: 0; font-family: var(--font-display); font-weight: 800; }
+.buoyancy-state.good { color: var(--ok); }
+.buoyancy-state.bad { color: var(--danger); }
+@keyframes buoy-bob {
+  0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+  50% { transform: translateY(-4px) rotate(1.5deg); }
+}
+
+/* Lifecycle */
+.lifecycle-widget .w-badge { background: var(--subj-edm); }
+.lifecycle-svg { max-width: 240px; }
+.lifecycle-now { display: flex; align-items: center; gap: 10px; }
+.lifecycle-now__emoji { font-size: 2em; }
+.lifecycle-now__label { font-family: var(--font-display); font-weight: 800; font-size: 1.15em; }
+.lifecycle-now__say { margin: 0; color: var(--ink-2); font-size: .95em; line-height: 1.4; }
+
+/* FoodChain */
+.foodchain-widget .w-badge { background: var(--subj-cn); }
+.foodchain-row { display: flex; flex-wrap: wrap; align-items: stretch; gap: 4px; justify-content: center; }
+.foodchain-item { display: flex; align-items: center; gap: 4px; }
+.foodchain-card {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  width: 96px; padding: 10px 8px; border-radius: var(--radius);
+  border: 2px solid var(--border-strong); background: var(--surface); cursor: pointer;
+  transition: transform .12s, border-color .12s, box-shadow .12s;
+}
+.foodchain-card:hover { transform: translateY(-2px); border-color: var(--primary); }
+.foodchain-card.on { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }
+.foodchain-emoji { font-size: 1.9em; line-height: 1; }
+.foodchain-name { font-family: var(--font-display); font-weight: 700; font-size: .82em; text-align: center; line-height: 1.1; }
+.foodchain-role { font-size: .66em; color: var(--ink-3); text-transform: uppercase; letter-spacing: .03em; }
+.foodchain-arrow { color: var(--ok); display: inline-flex; }
+
+/* Layers */
+.layers-widget .w-badge { background: var(--subj-et); }
+.layers-svg { max-width: 220px; }
+.layers-stack { flex: 1 1 240px; display: flex; flex-direction: column; gap: 4px; min-width: 220px; }
+.layers-band {
+  text-align: left; border: none; border-radius: 8px; padding: 12px 14px; cursor: pointer;
+  color: #11324a; display: flex; flex-direction: column; gap: 1px;
+  transition: transform .12s, box-shadow .12s; box-shadow: inset 0 0 0 2px transparent;
+}
+.layers-band:hover { transform: translateX(3px); }
+.layers-band.on { box-shadow: inset 0 0 0 3px var(--ink); }
+.layers-band__label { font-family: var(--font-display); font-weight: 800; }
+.layers-band__note { font-size: .8em; opacity: .85; }
+.layers-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; min-width: 150px; }
+.layers-key {
+  display: flex; align-items: center; gap: 8px; width: 100%;
+  background: transparent; border: none; cursor: pointer; padding: 4px 6px; border-radius: 8px;
+  font-family: var(--font-display); font-weight: 700; font-size: .9em; color: var(--ink-2);
+}
+.layers-key:hover, .layers-key.on { background: var(--surface-2); color: var(--ink); }
+.layers-key__dot { width: 16px; height: 16px; border-radius: 5px; flex: none; border: 1px solid rgba(0,0,0,.15); }
+
+@media (prefers-reduced-motion: reduce) {
+  .volcano-widget.erupting .volcano-spark { animation: none; opacity: 1; }
+  .buoyancy-boat { animation: none; transition: none; }
+  .foodchain-card, .layers-band, .chip { transition: none; }
+}
+@media (max-width: 520px) {
+  .foodchain-card { width: 78px; }
+}
+
+/* Biblioteca — Missões (percursos → cromo) */
+.missao-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.missao-card {
+  display: flex; flex-direction: column; gap: 12px;
+  background: var(--surface); border: 2px solid var(--border); border-radius: var(--radius);
+  padding: 16px; transition: border-color .15s, transform .15s, box-shadow .15s;
+}
+.missao-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.missao-card.done { border-color: var(--ok); background: var(--ok-soft); }
+.missao-card__top { display: flex; gap: 12px; align-items: flex-start; }
+.missao-card__cromo {
+  flex: none; width: 48px; height: 48px; border-radius: 14px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--surface-2); color: var(--ink-3); border: 2px dashed var(--border-strong);
+}
+.missao-card.done .missao-card__cromo { background: #fff; border: 2px solid var(--ok); border-style: solid; }
+.missao-card__sticker { font-size: 1.7em; line-height: 1; filter: drop-shadow(0 2px 3px rgba(0,0,0,.2)); }
+.missao-card__head { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.missao-card__title { font-family: var(--font-display); font-weight: 800; font-size: 1.02em; }
+.missao-card__blurb { font-size: .82em; color: var(--ink-3); line-height: 1.3; }
+.missao-card__steps { display: flex; gap: 6px; flex-wrap: wrap; }
+.missao-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--surface-3); border: 2px solid var(--border-strong); }
+.missao-dot.on { background: var(--ok); border-color: var(--ok); }
+.missao-card__go { align-self: flex-start; margin-top: auto; }

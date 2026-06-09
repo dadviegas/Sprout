@@ -1214,6 +1214,9 @@ export const SUBJECT_ICONS: Record<string, IconName> = {
   "enc-ciencia": "flask",
   "enc-terra": "mountain",
   "enc-pessoas": "people",
+  "enc-laboratorio": "atom",
+  "enc-historias": "story",
+  "enc-tecnologia": "robot",
   // Biblioteca catalogue collections (see content/cores.ts, content/atlas.ts).
   cores: "palette",
   atlas: "paw",

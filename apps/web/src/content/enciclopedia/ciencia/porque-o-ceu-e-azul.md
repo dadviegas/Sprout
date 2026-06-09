@@ -37,6 +37,13 @@ Ao fim do dia, o Sol fica baixinho e a luz tem de atravessar **muito mais ar**
 para chegar aos teus olhos. O azul espalha-se todo pelo caminho e **gasta-se** —
 sobram os **vermelhos** e **laranjas**. Por isso o pôr do sol é cor de fogo! 🔥
 
+Carrega no botão para veres o céu passar do dia para o pôr do sol — e percebe
+porque muda de cor! 🌇
+
+```skyblue
+{ "title": "Do dia ao pôr do sol" }
+```
+
 > **Truque para te lembrares:** **azul salta, vermelho passa**. De dia o azul
 > salta para todo o lado (céu azul); ao pôr do sol o azul já se gastou e fica o
 > vermelho-laranja. 💙➡️❤️

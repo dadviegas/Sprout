@@ -37,6 +37,14 @@ export const CURIOSIDADES: Curiosidade[] = [
   { emoji: "🌙", text: "Vês sempre a mesma cara da Lua — ela roda no tempo certo para isso." },
   { emoji: "🐧", text: "Os pinguins 'pedem casamento' oferecendo uma pedrinha." },
   { emoji: "🎨", text: "Um ecrã faz mais de 16 milhões de cores misturando só vermelho, verde e azul." },
+  { emoji: "🐞", text: "A palavra 'bug' (erro de computador) veio de uma traça a sério presa numa máquina — encontrada por Grace Hopper!", lessonId: "enc-pessoas-hopper" },
+  { emoji: "🌐", text: "O primeiro site do mundo nasceu em 1991, criado por Tim Berners-Lee — e ainda hoje funciona.", lessonId: "enc-pessoas-berners-lee" },
+  { emoji: "🤖", text: "Uma inteligência artificial não 'sabe' nada como tu — só descobre padrões em montes de exemplos. Por isso às vezes erra!", say: "Uma inteligência artificial não sabe nada como tu. Só descobre padrões em montes de exemplos. Por isso às vezes erra.", lessonId: "enc-tec-ia" },
+  { emoji: "🥚", text: "Um ovo afunda na água... mas flutua se puseres muito sal! É o mesmo truque do Mar Morto.", lessonId: "enc-lab-ovo" },
+  { emoji: "🌋", text: "Podes fazer um vulcão em erupção em casa, só com bicarbonato e vinagre!", lessonId: "enc-lab-vulcao" },
+  { emoji: "🐢", text: "Devagar se vai ao longe: a tartaruga ganhou a corrida à lebre só por nunca desistir.", lessonId: "enc-hist-lebre" },
+  { emoji: "🐓", text: "Conta a lenda que um galo já assado se levantou para provar que um homem era inocente.", lessonId: "enc-hist-galo" },
+  { emoji: "💻", text: "Alan Turing imaginou os computadores muito antes de existirem — e ajudou a decifrar códigos secretos numa guerra.", lessonId: "enc-pessoas-turing" },
 ];
 
 /** Day-of-year (1–366) for a date, in local time. */

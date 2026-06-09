@@ -629,7 +629,7 @@ function drawHero(ctx: CanvasRenderingContext2D, L: Level, x: number, groundY: n
   const ph = p.run;
   // run swing (radians); in the air, lock a natural leap/scissor pose from vy
   const air = clamp(p.vy / 760, -1, 1);
-  const swing = moving ? 0.72 : 0.12 * Math.sin(g.t * 2);
+  const swing = moving ? 0.85 : 0.12 * Math.sin(g.t * 2);
   const legFront = airborne ? -0.5 - air * 0.22 : Math.sin(ph) * swing;
   const legBack = airborne ? 0.46 - air * 0.1 : Math.sin(ph + Math.PI) * swing;
   const kneeFront = airborne ? 0.5 : Math.max(0, Math.sin(ph + Math.PI)) * 0.7; // knee bends on the back swing
@@ -650,9 +650,9 @@ function drawHero(ctx: CanvasRenderingContext2D, L: Level, x: number, groundY: n
 
   // anchor: feet at local y = 0, build upward (negative y). Person proportions:
   // head ~1/4 of height, real shoulders/hips, two-segment legs that bend.
-  const hipY = -44, shoulderY = -78, thigh = 24, shin = 22, armLen = 30;
+  const hipY = -52, shoulderY = -86, thigh = 28, shin = 24, armLen = 32;
   // back leg (two segments, shaded for depth) + back arm
-  leg(ctx, -4, hipY, thigh, shin, 15, legBack, kneeBack, shade(L.pants, -0.12), shade(boot, -0.06));
+  leg(ctx, -5, hipY, thigh, shin, 15, legBack, kneeBack, shade(L.pants, -0.12), shade(boot, -0.06));
   limb(ctx, -3, shoulderY, armLen, 11, armBack, shade(L.tunic, -0.1), { color: skinSh });
 
   // torso — chunky barrel: shoulders → waist, vertical gradient + tummy
@@ -685,7 +685,7 @@ function drawHero(ctx: CanvasRenderingContext2D, L: Level, x: number, groundY: n
   ctx.fill();
 
   // front leg
-  leg(ctx, 5, hipY, thigh, shin, 15, legFront, kneeFront, L.pants, boot);
+  leg(ctx, 6, hipY, thigh, shin, 15, legFront, kneeFront, L.pants, boot);
 
   // neck
   ctx.fillStyle = skinSh;
@@ -693,7 +693,7 @@ function drawHero(ctx: CanvasRenderingContext2D, L: Level, x: number, groundY: n
   ctx.fill();
 
   // head
-  const hx = 3, hy = -94, r = 21;
+  const hx = 3, hy = -102, r = 19;
   drawHair(ctx, L, hx, hy, r, sway); // back hair, behind the head
   const hg = ctx.createRadialGradient(hx - 5, hy - 6, 3, hx, hy, r * 1.25);
   hg.addColorStop(0, "#ffe2c0");
@@ -743,20 +743,8 @@ function drawHero(ctx: CanvasRenderingContext2D, L: Level, x: number, groundY: n
   // front hair cap so no skin shows on the crown
   drawHairCap(ctx, L, hx, hy, r);
 
-  // front arm + a held element spark (fire / light)
+  // front arm
   limb(ctx, 3, shoulderY, armLen, 11, armFront, L.tunic, { color: skin });
-  if (L.id === "fogo" || L.id === "luz") {
-    const hxh = 3 + Math.sin(armFront) * armLen;
-    const hyh = shoulderY + Math.cos(armFront) * armLen;
-    ctx.save();
-    ctx.shadowColor = L.accent;
-    ctx.shadowBlur = 14;
-    ctx.fillStyle = L.id === "fogo" ? "#ff8a33" : "#ffd027";
-    ctx.beginPath();
-    ctx.arc(hxh, hyh, 6.5, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-  }
   ctx.restore();
 }
 

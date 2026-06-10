@@ -4,6 +4,17 @@ Sprout is a kids' learning app for the Portuguese **1.º ciclo** (1.º–4.º an
 plus a cross-cutting **"O Mundo & Curiosidades"** area (general culture /
 common sense, Açores → world). Single-page, no server; progress is local.
 
+## Roadmap — follow this when building new features
+
+The plan for the **study/recovery engine** (TPC, spaced repetition / banco de
+erros, session tracking, diagnostic, holiday-recovery mode, study calendar,
+parent alerts + weekly report, pre-reader mode) lives in
+**[docs/PLANO-ESTUDO.md](docs/PLANO-ESTUDO.md)**. It is the single source of
+truth for *what to build next and in what order*, and records what already
+exists so you **extend** it instead of rebuilding. Read it before starting new
+work, and keep it updated as you ship. (For missing *lesson content*, see
+`docs/MATERIA_EM_FALTA.md` and `docs/COVERAGE.md`.)
+
 ## How to work here (keep this in focus)
 
 - **KISS.** Prefer the simplest thing that works. No frameworks, abstractions,

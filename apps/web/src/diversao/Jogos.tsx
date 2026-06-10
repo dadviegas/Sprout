@@ -15,6 +15,7 @@ import { PalavraSecreta } from "./PalavraSecreta";
 import { CacaPalavras } from "./CacaPalavras";
 import { BatalhaPalavras } from "./BatalhaPalavras";
 import { CorreContas } from "./CorreContas";
+import { ElementAcademy } from "./ElementAcademy";
 
 // Velho Oeste 3D and Xadrez 3D pull in Babylon.js (a big engine), so they're
 // lazy-loaded into their own chunks — they only download when a child actually
@@ -30,7 +31,7 @@ const Xadrez3D = lazy(() => import("./xadrez3d/Xadrez3D").then((m) => ({ default
  * Emoji are used INSIDE the games (game content, not chrome) — allowed by the
  * project conventions; the chrome (buttons, back arrow) uses @sprout/icons. */
 
-type GameId = "xadrez" | "xadrez3d" | "damas" | "domino" | "stop" | "palavra" | "caca" | "batalha" | "correcontas" | "corrida" | "salta" | "foguetao" | "oeste" | "oeste3d" | "memoria" | "sequencia" | "apanha" | "toupeira" | "conta" | "soma" | "dinheiro";
+type GameId = "xadrez" | "xadrez3d" | "damas" | "domino" | "stop" | "palavra" | "caca" | "batalha" | "correcontas" | "elementacademy" | "corrida" | "salta" | "foguetao" | "oeste" | "oeste3d" | "memoria" | "sequencia" | "apanha" | "toupeira" | "conta" | "soma" | "dinheiro";
 
 /* Each tile gets a little illustrated scene (same playful, multi-colour spirit
  * as the memory-card art) on a 0 0 48 48 grid, tinted with the tile's accent via
@@ -295,6 +296,24 @@ const ART_CORRECONTAS = (
   </g>
 );
 
+// Element Academy — five elemental sigils charging a central battle gate.
+const ART_ELEMENT = (
+  <g style={{ fontFamily: "var(--font-display)", fontWeight: 900 }} textAnchor="middle" dominantBaseline="central">
+    <circle cx="24" cy="24" r="17" fill="#fffef9" stroke="#cdbfa6" strokeWidth="1.4" />
+    <path d="M24 8l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" style={{ fill: "var(--c)" }} opacity="0.88" />
+    {[
+      [24, 8, "#ff6a2b"],
+      [39, 19, "#22a9dd"],
+      [33, 37, "#5aa84f"],
+      [15, 37, "#9bd7ef"],
+      [9, 19, "#f2c230"],
+    ].map(([x, y, fill], i) => (
+      <circle key={i} cx={x} cy={y} r="4.2" fill={fill as string} stroke="#fff" strokeWidth="1.4" />
+    ))}
+    <text x="24" y="24.5" fontSize="10" fill="#fff">E</text>
+  </g>
+);
+
 // Corrida dos Elementos — an element hero mid-run (side) with speed lines, a
 // flame tuft and a glowing orb ahead.
 const ART_CORRIDA = (
@@ -384,6 +403,7 @@ const GAMES: { id: GameId; art: ReactNode; accent: string; accentSoft: string; l
   { id: "caca", art: ART_CACA, accent: "var(--subj-edm)", accentSoft: "var(--subj-edm-soft)", label: "Caça-Palavras", blurb: "Encontra palavras escondidas na grelha.", rules: "Caça-Palavras. Escolhe um tema e procura as palavras na grelha. Toca nas letras por ordem para formar uma palavra. Quando encontrares uma, ela fica marcada. Encontra todas para ganhar." },
   { id: "batalha", art: ART_BATALHA, accent: "var(--joy)", accentSoft: "var(--joy-soft)", label: "Batalha das Palavras", blurb: "Responde antes da palavra cair.", rules: "Batalha das Palavras. Uma palavra aparece na arena com uma pergunta. Escolhe a resposta certa antes do tempo acabar. Acertos dão pontos e aumentam o combo; erros ou tempo esgotado tiram vidas." },
   { id: "correcontas", art: ART_CORRECONTAS, accent: "var(--subj-mat)", accentSoft: "var(--subj-mat-soft)", label: "Corre-Contas", blurb: "Resolve contas para abrir portas.", rules: "Corre-Contas. O corredor avança quando acertas. Vê a conta na porta e escolhe o resultado certo. Acertos fazem combo e dão pontos; erros tiram vidas. Chega à meta!" },
+  { id: "elementacademy", art: ART_ELEMENT, accent: "var(--subj-en)", accentSoft: "var(--subj-en-soft)", label: "Element Academy", blurb: "Fecha portais com poderes elementais.", rules: "Element Academy. Escolhe um herói elemental. Responde às perguntas para atacar o portal e carregar energia. Quando a energia chega ao máximo, usa o poder especial do herói. Fecha quatro portais para salvar a academia!" },
   { id: "corrida", art: ART_CORRIDA, accent: "var(--joy)", accentSoft: "var(--joy-soft)", label: "Corrida dos Elementos", blurb: "Corre pelos cinco mundos e salta tudo.", rules: "Corrida dos Elementos! O herói corre sozinho pelo seu mundo. Toca no ecrã para ele saltar — toca outra vez no ar para um salto duplo. Salta por cima dos obstáculos e apanha os orbes a brilhar. Quando chegas ao fim de um mundo, entras no seguinte: Vulcão, Oceano, Floresta, Céu e Cosmos. Quanto mais longe fores, mais depressa fica!" },
   { id: "salta", art: ART_SALTA, accent: "var(--subj-cn)", accentSoft: "var(--subj-cn-soft)", label: "Salta!", blurb: "Salta e apanha as estrelas.", rules: "Salta! O Saltão corre pela relva. Toca no ecrã para ele saltar — toca outra vez no ar para dar um salto duplo. Passa por cima das pedras e dos troncos e apanha as estrelas a brilhar. Quanto mais tempo aguentares, mais depressa fica!" },
   { id: "foguetao", art: ART_FOGUETAO, accent: "var(--subj-paises)", accentSoft: "var(--subj-paises-soft)", label: "Foguetão", blurb: "Voa e desvia-te dos meteoros.", rules: "Foguetão! Arrasta o dedo pelo ecrã para guiar o foguetão pelo espaço. Desvia-te dos meteoros, apanha as gemas a brilhar e agarra o escudo azul para ficares protegido uns segundos. Vê até onde consegues chegar!" },
@@ -451,6 +471,7 @@ export function Jogos() {
       {game === "caca" && <CacaPalavras />}
       {game === "batalha" && <BatalhaPalavras />}
       {game === "correcontas" && <CorreContas />}
+      {game === "elementacademy" && <ElementAcademy />}
       {game === "sequencia" && <Sequencia />}
       {game === "apanha" && <Apanha />}
       {game === "toupeira" && <Toupeira />}

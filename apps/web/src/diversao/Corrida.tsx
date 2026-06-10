@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import { Icon } from "@sprout/icons";
 import { Speaker } from "@sprout/ui";
 import { fitCanvas, prefersReducedMotion } from "./canvas";
@@ -13,13 +13,14 @@ import { sfx } from "./sfx";
  * world (Vulcão → Oceano → Floresta → Céu → Cosmos), each with its own brutal
  * parallax sky and its own hero — then it loops, faster.
  *
- * Like the other arcade games this is drawn entirely on <canvas> (the shared
- * fitCanvas keeps it crisp on retina/iPad). All simulation state lives in a ref
- * so the rAF loop never restarts; React state only carries the HUD/overlay.
- * Honours prefers-reduced-motion (gentler speed, fewer particles, no shake).
- * The high score persists between visits. The hero is drawn procedurally in
- * side profile — the polished front/side SVGs live in docs/ as the design
- * reference and the future character-select art. */
+ * The WORLD is drawn on <canvas> (the shared fitCanvas keeps it crisp on
+ * retina/iPad): sky, parallax scenery, ground, obstacles, orbs, particles and
+ * the hero's shadow. The HERO itself is a crisp inline SVG (HeroSVG) laid over
+ * the canvas — same character as the design preview — positioned and animated
+ * by the loop (is-run / is-air; the rig lives in diversao.css). All simulation
+ * state lives in a ref so the rAF loop never restarts; React state only carries
+ * the HUD/overlay + which world's hero to render. Honours prefers-reduced-motion
+ * (gentler speed, fewer particles, no shake). High score persists between visits. */
 
 const BEST_KEY = "sprout.corrida.best";
 const HEARTS = 3;
@@ -495,318 +496,160 @@ function drawOrb(ctx: CanvasRenderingContext2D, o: Orb, r: number, L: Level) {
   ctx.restore();
 }
 
-// A chunky rounded limb (thigh/arm) rotated about its top joint, with an optional
-// boot or hand at the far end. ang 0 = hanging straight down; + swings forward.
-function limb(ctx: CanvasRenderingContext2D, jx: number, jy: number, len: number, wide: number, ang: number, color: string, end?: { color: string; foot?: boolean }) {
-  ctx.save();
-  ctx.translate(jx, jy);
-  ctx.rotate(ang);
-  roundRect(ctx, -wide / 2, -wide * 0.35, wide, len + wide * 0.35, wide / 2);
-  ctx.fillStyle = color;
-  ctx.fill();
-  // soft inner shade for a bit of roundness
-  ctx.fillStyle = "rgba(0,0,0,0.13)";
-  roundRect(ctx, wide * 0.08, 0, wide * 0.42, len, wide * 0.21);
-  ctx.fill();
-  if (end) {
-    ctx.fillStyle = end.color;
-    if (end.foot) {
-      roundRect(ctx, -wide * 0.34, len - wide * 0.25, wide * 1.55, wide * 0.9, wide * 0.45);
-      ctx.fill();
-    } else {
-      ctx.beginPath();
-      ctx.arc(0, len, wide * 0.66, 0, Math.PI * 2);
-      ctx.fill();
-    }
-  }
-  ctx.restore();
-}
+/* ---------------- the hero: a crisp inline SVG laid over the canvas world ----
+   Side profile, facing right. The shared body is recoloured per world; only the
+   hair differs by element. The game loop positions it and toggles is-run/is-air
+   (run cycle + leap pose live in diversao.css). Ported from the design preview
+   in docs/assets/academia-element-heroes-svg.html. */
 
-function drawHair(ctx: CanvasRenderingContext2D, L: Level, hx: number, hy: number, r: number, sway: number) {
-  ctx.fillStyle = L.hair;
+// front crown cap — covers the skull so no skin shows; fringe sits above the brow
+const CAP_D = "M30 40 Q28 22 43 16 Q53 12 63 17 Q72 22 71 37 L68 30 L64 35 L60 30 L56 34 Q52 30 49 30 Q40 31 34 39 Q31 41 30 40 Z";
+
+// hair behind the head (volume, ponytail, flames) — drawn before the head circle
+function hairBack(L: Level) {
   switch (L.id) {
-    case "fogo": {
-      // flame crown: back tuft + pointed flames over the top, yellow inner
-      ctx.beginPath();
-      ctx.moveTo(hx - r, hy + 2);
-      ctx.quadraticCurveTo(hx - r * 1.3, hy - r * 1.6, hx - r * 0.5, hy - r * 1.1);
-      ctx.quadraticCurveTo(hx - r * 0.3, hy - r * 2.1, hx + r * 0.1, hy - r * 1.2);
-      ctx.quadraticCurveTo(hx + r * 0.4, hy - r * 2.3, hx + r * 0.7, hy - r * 1.1);
-      ctx.quadraticCurveTo(hx + r * 1.2, hy - r * 1.7, hx + r * 0.9, hy + r * 0.2);
-      ctx.quadraticCurveTo(hx, hy - r * 0.7, hx - r, hy + 2);
-      ctx.closePath();
-      ctx.fill();
-      ctx.fillStyle = L.hair2;
-      ctx.beginPath();
-      ctx.moveTo(hx - r * 0.5, hy - r * 0.4);
-      ctx.quadraticCurveTo(hx - r * 0.2, hy - r * 1.5, hx + r * 0.1, hy - r * 0.7);
-      ctx.quadraticCurveTo(hx + r * 0.35, hy - r * 1.6, hx + r * 0.6, hy - r * 0.6);
-      ctx.quadraticCurveTo(hx + r * 0.2, hy - r * 0.2, hx - r * 0.5, hy - r * 0.4);
-      ctx.closePath();
-      ctx.fill();
-      break;
-    }
-    case "agua": {
-      // long ponytail flowing back, sways with the run
-      ctx.beginPath();
-      ctx.moveTo(hx - r * 0.4, hy - r * 0.9);
-      ctx.quadraticCurveTo(hx - r * 1.7, hy - r * 0.6 + sway, hx - r * 1.9, hy + r * 1.6 + sway * 1.4);
-      ctx.quadraticCurveTo(hx - r * 1.2, hy + r * 1.4 + sway, hx - r * 0.7, hy + r * 0.2);
-      ctx.quadraticCurveTo(hx - r * 0.2, hy - r * 0.2, hx - r * 0.4, hy - r * 0.9);
-      ctx.closePath();
-      ctx.fill();
-      // crown cap
-      ctx.beginPath();
-      ctx.arc(hx, hy - r * 0.1, r * 1.02, Math.PI * 1.05, Math.PI * 2.05);
-      ctx.fill();
-      ctx.fillStyle = L.hair2;
-      ctx.beginPath();
-      ctx.moveTo(hx - r * 0.5, hy - r * 0.7);
-      ctx.quadraticCurveTo(hx - r * 1.4, hy - r * 0.4 + sway, hx - r * 1.5, hy + r * 1.1 + sway);
-      ctx.quadraticCurveTo(hx - r * 1.0, hy + r * 0.4 + sway, hx - r * 0.5, hy - r * 0.7);
-      ctx.closePath();
-      ctx.fill();
-      break;
-    }
-    case "terra": {
-      ctx.beginPath();
-      ctx.arc(hx, hy - r * 0.15, r * 1.04, Math.PI * 0.96, Math.PI * 2.04);
-      ctx.fill();
-      // tousled tufts
-      for (let i = -1; i <= 1; i++) {
-        ctx.beginPath();
-        ctx.moveTo(hx + i * r * 0.6, hy - r * 0.7);
-        ctx.lineTo(hx + i * r * 0.6 - r * 0.18, hy - r * 1.35);
-        ctx.lineTo(hx + i * r * 0.6 + r * 0.3, hy - r * 0.8);
-        ctx.closePath();
-        ctx.fill();
-      }
-      // leaf sprig
-      ctx.fillStyle = "#5bbf52";
-      ctx.beginPath();
-      ctx.ellipse(hx + r * 0.5, hy - r * 1.2, r * 0.18, r * 0.4, -0.6, 0, Math.PI * 2);
-      ctx.fill();
-      break;
-    }
-    case "ar": {
-      // swept-back spikes
-      ctx.beginPath();
-      ctx.arc(hx, hy - r * 0.1, r * 1.02, Math.PI * 1.0, Math.PI * 2.05);
-      ctx.fill();
-      ctx.fillStyle = L.hair2;
-      for (let i = 0; i < 4; i++) {
-        ctx.beginPath();
-        ctx.moveTo(hx - r * 0.2 - i * r * 0.4, hy - r * 0.5);
-        ctx.lineTo(hx - r * 1.1 - i * r * 0.4, hy - r * 0.9 - i * r * 0.1);
-        ctx.lineTo(hx - r * 0.1 - i * r * 0.4, hy - r * 0.1);
-        ctx.closePath();
-        ctx.fill();
-      }
-      break;
-    }
-    default: {
-      // luz — smooth golden cap with a glow + star spark
-      ctx.shadowColor = L.accent;
-      ctx.shadowBlur = 12;
-      ctx.beginPath();
-      ctx.arc(hx, hy - r * 0.12, r * 1.04, Math.PI * 0.98, Math.PI * 2.04);
-      ctx.fill();
-      ctx.shadowBlur = 0;
-      ctx.fillStyle = L.hair2;
-      ctx.beginPath();
-      ctx.arc(hx, hy - r * 0.4, r * 0.7, Math.PI * 1.05, Math.PI * 2.0);
-      ctx.fill();
-      break;
-    }
+    case "fogo":
+      return (
+        <>
+          <path d="M30 46 Q18 24 28 8 Q31 24 37 10 Q40 28 48 14 Q50 26 50 34 Q40 30 30 46 Z" fill="#ff7a2e" />
+          <path d="M46 16 Q53 5 60 16 Q55 22 53 31 Q49 24 46 16 Z" fill="#ff7a2e" />
+        </>
+      );
+    case "agua":
+      return (
+        <>
+          <path d="M31 44 Q20 26 32 14 Q44 8 52 17 Q42 27 34 42 Q32 34 31 44 Z" fill="#2aa9e0" />
+          <path d="M31 40 Q15 56 22 86 Q26 98 35 97 Q26 80 30 60 Q31 50 35 42 Z" fill="#2aa9e0" />
+          <path d="M30 46 Q19 60 25 82 Q21 60 28 46 Z" fill="#62c7ef" />
+        </>
+      );
+    case "terra":
+      return (
+        <>
+          <path d="M30 46 Q20 26 30 11 Q33 26 39 13 Q42 30 50 18 Q40 30 30 46 Z" fill="#6b4a2a" />
+          <path d="M30 44 Q22 28 28 17 Q30 30 30 44 Z" fill="#5a3f23" />
+        </>
+      );
+    case "ar":
+      return (
+        <>
+          <path d="M31 44 Q15 30 18 15 Q24 26 28 15 Q28 30 35 21 Q33 33 31 44 Z" fill="#cfe2ee" />
+          <path d="M35 20 Q24 13 17 18 Q26 16 33 22 Z" fill="#bcdcea" />
+        </>
+      );
+    default:
+      return (
+        <>
+          <path d="M30 46 Q20 26 32 14 Q45 7 53 18 Q40 28 30 46 Z" fill="#ffd54a" />
+          <path d="M30 44 Q24 53 31 59 Q34 61 36 57 Q30 55 31 46 Z" fill="#ffd54a" />
+        </>
+      );
   }
 }
 
-function drawHero(ctx: CanvasRenderingContext2D, L: Level, x: number, groundY: number, scale: number, g: Game, dim: boolean) {
+// fringe / flames / highlights in front of the face
+function hairFront(L: Level) {
+  switch (L.id) {
+    case "fogo":
+      return (
+        <>
+          <path d="M50 30 Q57 15 67 22 Q73 27 71 39 L67 31 L63 40 L59 31 L55 38 Q52 33 50 34 Z" fill="#ff7a2e" />
+          <path d="M52 31 Q58 20 65 24 Q60 30 60 37 Q56 31 52 32 Z" fill="#ffc23a" />
+        </>
+      );
+    case "agua":
+      return (
+        <>
+          <path d="M50 28 Q58 15 68 22 Q73 27 71 39 Q66 31 60 33 L64 25 Q54 30 50 34 Z" fill="#2aa9e0" />
+          <path d="M52 30 Q58 21 65 25 Q59 30 58 36 Q54 31 52 31 Z" fill="#62c7ef" />
+        </>
+      );
+    case "terra":
+      return (
+        <>
+          <path d="M50 26 Q58 13 68 22 Q73 27 71 41 L67 33 L63 41 L59 33 L55 39 Q52 31 50 32 Z" fill="#6b4a2a" />
+          <path d="M52 32 Q58 22 66 26 Q60 31 60 38 Q56 32 52 33 Z" fill="#7d5832" />
+          <g transform="rotate(10 60 13)">
+            <path d="M60 4 Q70 7 66 19 Q56 17 60 4 Z" fill="#5bbf52" />
+          </g>
+        </>
+      );
+    case "ar":
+      return (
+        <>
+          <path d="M50 26 Q58 15 71 17 Q62 22 60 30 Q69 25 75 27 Q66 34 71 41 Q66 33 58 34 Q53 30 50 32 Z" fill="#e0eef6" />
+          <path d="M54 28 Q60 22 69 21 Q62 27 60 33 Q56 29 54 30 Z" fill="#cfe2ee" />
+        </>
+      );
+    default:
+      return (
+        <>
+          <path d="M50 28 Q58 15 68 22 Q73 27 71 39 Q66 33 61 38 Q56 32 51 36 Z" fill="#ffd54a" />
+          <path d="M52 31 Q58 22 65 26 Q59 31 59 37 Q55 32 52 32 Z" fill="#ffe79a" />
+        </>
+      );
+  }
+}
+
+const HeroSVG = forwardRef<SVGSVGElement, { level: Level }>(function HeroSVG({ level: L }, ref) {
   const skin = "#f7cfa2", skinSh = "#e7b98a", boot = "#4a3b2c", line = "#b86a3a";
-  const p = g.player;
-  const moving = g.phase === "playing";
-  const airborne = p.py > 2;
-  const ph = p.run;
-  // run swing (radians); in the air, lock a natural leap/scissor pose from vy
-  const air = clamp(p.vy / 760, -1, 1);
-  const swing = moving ? 0.85 : 0.12 * Math.sin(g.t * 2);
-  const legFront = airborne ? -0.5 - air * 0.22 : Math.sin(ph) * swing;
-  const legBack = airborne ? 0.46 - air * 0.1 : Math.sin(ph + Math.PI) * swing;
-  const kneeFront = airborne ? 0.5 : Math.max(0, Math.sin(ph + Math.PI)) * 0.7; // knee bends on the back swing
-  const kneeBack = airborne ? 0.3 : Math.max(0, Math.sin(ph)) * 0.7;
-  const armFront = airborne ? -0.8 - air * 0.3 : Math.sin(ph + Math.PI) * swing * 0.85;
-  const armBack = airborne ? 0.72 : Math.sin(ph) * swing * 0.85;
-  const bob = moving ? -Math.abs(Math.sin(ph)) * 3 : Math.sin(g.t * 2) * 2;
-  const lean = airborne ? -0.04 : moving ? -0.08 : 0;
-  const sway = Math.sin(ph) * 3 * (moving ? 1 : 0.3);
-
-  ctx.save();
-  if (dim) ctx.globalAlpha = 0.45;
-  ctx.translate(x, groundY - p.py + bob);
-  ctx.scale(scale, scale);
-  ctx.rotate(lean);
-  const sq = p.squash;
-  ctx.scale(1 + sq * 0.22, 1 - sq * 0.26);
-
-  // anchor: feet at local y = 0, build upward (negative y). Person proportions:
-  // head ~1/4 of height, real shoulders/hips, two-segment legs that bend.
-  const hipY = -52, shoulderY = -86, thigh = 28, shin = 24, armLen = 32;
-  // back leg (two segments, shaded for depth) + back arm
-  leg(ctx, -5, hipY, thigh, shin, 15, legBack, kneeBack, shade(L.pants, -0.12), shade(boot, -0.06));
-  limb(ctx, -3, shoulderY, armLen, 11, armBack, shade(L.tunic, -0.1), { color: skinSh });
-
-  // torso — chunky barrel: shoulders → waist, vertical gradient + tummy
-  const bg = ctx.createLinearGradient(0, shoulderY, 0, hipY + 8);
-  bg.addColorStop(0, shade(L.tunic, 0.08));
-  bg.addColorStop(1, L.tunicDark);
-  ctx.fillStyle = bg;
-  ctx.beginPath();
-  ctx.moveTo(-14, shoulderY + 4);
-  ctx.quadraticCurveTo(-16, shoulderY, -11, shoulderY - 1);
-  ctx.lineTo(11, shoulderY - 1);
-  ctx.quadraticCurveTo(16, shoulderY, 14, shoulderY + 4);
-  ctx.lineTo(13, hipY + 2);
-  ctx.quadraticCurveTo(13, hipY + 8, 7, hipY + 8);
-  ctx.lineTo(-7, hipY + 8);
-  ctx.quadraticCurveTo(-13, hipY + 8, -13, hipY + 2);
-  ctx.closePath();
-  ctx.fill();
-  // tummy highlight on the front (+x)
-  ctx.fillStyle = "rgba(255,255,255,0.15)";
-  ctx.beginPath();
-  ctx.ellipse(5, (shoulderY + hipY) / 2 + 3, 8, 12, 0, 0, Math.PI * 2);
-  ctx.fill();
-  // belt
-  ctx.fillStyle = L.tunicDark;
-  roundRect(ctx, -13, hipY, 26, 6, 3);
-  ctx.fill();
-  ctx.fillStyle = L.accent;
-  roundRect(ctx, -1, hipY + 1, 6, 4, 2);
-  ctx.fill();
-
-  // front leg
-  leg(ctx, 6, hipY, thigh, shin, 15, legFront, kneeFront, L.pants, boot);
-
-  // neck
-  ctx.fillStyle = skinSh;
-  roundRect(ctx, -2.5, shoulderY - 7, 9, 11, 4);
-  ctx.fill();
-
-  // head
-  const hx = 3, hy = -102, r = 19;
-  drawHair(ctx, L, hx, hy, r, sway); // back hair, behind the head
-  const hg = ctx.createRadialGradient(hx - 5, hy - 6, 3, hx, hy, r * 1.25);
-  hg.addColorStop(0, "#ffe2c0");
-  hg.addColorStop(1, skin);
-  ctx.fillStyle = hg;
-  ctx.beginPath();
-  ctx.arc(hx, hy, r, 0, Math.PI * 2);
-  ctx.fill();
-  // little nose bump (faces right)
-  ctx.fillStyle = skin;
-  ctx.beginPath();
-  ctx.arc(hx + r * 0.95, hy + 3, r * 0.15, 0, Math.PI * 2);
-  ctx.fill();
-  // cheek
-  ctx.fillStyle = "rgba(255,150,170,0.5)";
-  ctx.beginPath();
-  ctx.arc(hx + r * 0.52, hy + r * 0.44, r * 0.16, 0, Math.PI * 2);
-  ctx.fill();
-  // brow
-  ctx.strokeStyle = "#7a5230";
-  ctx.lineWidth = 2.2;
-  ctx.lineCap = "round";
-  ctx.beginPath();
-  ctx.moveTo(hx + r * 0.2, hy - r * 0.48);
-  ctx.quadraticCurveTo(hx + r * 0.46, hy - r * 0.64, hx + r * 0.72, hy - r * 0.45);
-  ctx.stroke();
-  // eye (big, glances toward motion)
-  const look = clamp(p.vy / -900, -1, 1);
-  ctx.fillStyle = "#fff";
-  ctx.beginPath();
-  ctx.ellipse(hx + r * 0.48, hy - r * 0.03, r * 0.19, r * 0.25, 0, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = "#34304a";
-  ctx.beginPath();
-  ctx.arc(hx + r * 0.52, hy - r * 0.03 + look * r * 0.1, r * 0.12, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = "#fff";
-  ctx.beginPath();
-  ctx.arc(hx + r * 0.57, hy - r * 0.11, r * 0.045, 0, Math.PI * 2);
-  ctx.fill();
-  // smile
-  ctx.strokeStyle = line;
-  ctx.lineWidth = 2.2;
-  ctx.beginPath();
-  ctx.arc(hx + r * 0.5, hy + r * 0.32, r * 0.25, -0.08 * Math.PI, 0.55 * Math.PI);
-  ctx.stroke();
-  // front hair cap so no skin shows on the crown
-  drawHairCap(ctx, L, hx, hy, r);
-
-  // front arm
-  limb(ctx, 3, shoulderY, armLen, 11, armFront, L.tunic, { color: skin });
-  ctx.restore();
-}
-
-// A two-segment leg (thigh + shin) that bends at the knee — reads as a real
-// running leg, not a stiff stick. hipAng swings the whole leg; knee bends the
-// shin back. Drawn in the hero's local frame (y up = negative).
-function leg(ctx: CanvasRenderingContext2D, hx: number, hy: number, thigh: number, shin: number, wide: number, hipAng: number, knee: number, pants: string, boot: string) {
-  ctx.save();
-  ctx.translate(hx, hy);
-  ctx.rotate(hipAng);
-  // thigh
-  roundRect(ctx, -wide / 2, -wide * 0.3, wide, thigh + wide * 0.3, wide / 2);
-  ctx.fillStyle = pants;
-  ctx.fill();
-  // shin (rotated back at the knee) + boot
-  ctx.translate(0, thigh);
-  ctx.rotate(knee);
-  roundRect(ctx, -wide * 0.46, -wide * 0.2, wide * 0.92, shin + wide * 0.2, wide * 0.46);
-  ctx.fillStyle = pants;
-  ctx.fill();
-  ctx.fillStyle = "rgba(0,0,0,0.12)";
-  roundRect(ctx, wide * 0.06, 0, wide * 0.36, shin, wide * 0.18);
-  ctx.fill();
-  // boot pointing forward (+x)
-  ctx.fillStyle = boot;
-  roundRect(ctx, -wide * 0.4, shin - wide * 0.2, wide * 1.5, wide * 0.85, wide * 0.42);
-  ctx.fill();
-  ctx.restore();
-}
-
-// front crown cap (drawn after the face but above the brow line)
-function drawHairCap(ctx: CanvasRenderingContext2D, L: Level, hx: number, hy: number, r: number) {
-  ctx.fillStyle = L.hair;
-  ctx.beginPath();
-  ctx.moveTo(hx - r, hy - r * 0.1);
-  ctx.quadraticCurveTo(hx - r * 0.6, hy - r * 1.15, hx + r * 0.2, hy - r * 1.05);
-  ctx.quadraticCurveTo(hx + r * 0.95, hy - r * 0.95, hx + r * 0.98, hy - r * 0.2);
-  // fringe tips at the front
-  ctx.lineTo(hx + r * 0.7, hy - r * 0.55);
-  ctx.lineTo(hx + r * 0.5, hy - r * 0.2);
-  ctx.lineTo(hx + r * 0.28, hy - r * 0.55);
-  ctx.lineTo(hx + r * 0.05, hy - r * 0.25);
-  ctx.quadraticCurveTo(hx - r * 0.5, hy - r * 0.5, hx - r, hy - r * 0.1);
-  ctx.closePath();
-  ctx.fill();
-  if (L.id === "luz" || L.id === "ar" || L.id === "agua") {
-    ctx.fillStyle = L.hair2;
-    ctx.beginPath();
-    ctx.moveTo(hx - r * 0.6, hy - r * 0.3);
-    ctx.quadraticCurveTo(hx - r * 0.2, hy - r * 0.95, hx + r * 0.2, hy - r * 0.6);
-    ctx.quadraticCurveTo(hx - r * 0.2, hy - r * 0.4, hx - r * 0.6, hy - r * 0.3);
-    ctx.closePath();
-    ctx.fill();
-  }
-}
+  return (
+    <svg ref={ref} className="dv-hero is-run" viewBox="0 0 100 150" aria-hidden="true">
+      <g className="figure">
+        {/* back leg + back arm (shaded for depth) */}
+        <g className="legL">
+          <rect x="44" y="97" width="8" height="26" rx="3.6" fill={L.pants} />
+          <rect x="44" y="97" width="8" height="26" rx="3.6" fill="#000" opacity="0.14" />
+          <path d="M44 119 h12 a3 3 0 0 1 3 3 v2 a3 3 0 0 1 -3 3 H44 Z" fill="#4b3c2e" />
+        </g>
+        <g className="armL">
+          <rect x="46.5" y="66.5" width="7.6" height="28" rx="3.8" fill={L.tunicDark} />
+          <circle cx="50.3" cy="95" r="4.5" fill={skinSh} />
+        </g>
+        {/* torso */}
+        <path d="M40 70 Q40 65 45 65 L56 65 Q61 65 62 71 Q64 85 60.5 98 Q60.5 100.4 58 100.4 L43 100.4 Q40.5 100.4 40.5 98 Q38 85 40 70 Z" fill={L.tunic} />
+        <path d="M40 70 Q40 65 45 65 L56 65 Q61 65 62 71 L60 84 Q49 88 40.5 84 Z" fill="#ffffff" opacity="0.1" />
+        <rect x="41" y="92" width="20" height="5.4" rx="2.5" fill={L.tunicDark} />
+        <rect x="48" y="92.8" width="6" height="3.6" rx="1.3" fill="#ffe9a8" />
+        {/* front leg */}
+        <g className="legR">
+          <rect x="51" y="97" width="8" height="26" rx="3.6" fill={L.pants} />
+          <path d="M51 119 h12 a3 3 0 0 1 3 3 v2 a3 3 0 0 1 -3 3 H51 Z" fill={boot} />
+        </g>
+        {/* head */}
+        <g className="head">
+          {hairBack(L)}
+          <circle cx="50" cy="42" r="22" fill={skin} />
+          <path d="M70.5 40 q4.2 1.6 3.6 3.9 q-.6 2.2 -4.4 1.9 Z" fill={skin} />
+          <path d="M28 47 a22 22 0 0 0 30 14 a22 22 0 0 1 -30 -14 Z" fill={skinSh} opacity="0.4" />
+          <path d={CAP_D} fill={L.hair} />
+          <path className="browR" d="M55 37 Q59 35 63 37" fill="none" stroke="#7a5230" strokeWidth="2.1" strokeLinecap="round" />
+          <g className="eyes">
+            <circle cx="60" cy="45" r="4.6" fill="#3a3550" />
+            <circle cx="61.7" cy="43.4" r="1.5" fill="#ffffff" />
+          </g>
+          <circle cx="62" cy="51" r="3" fill="#ff9bb0" opacity="0.5" />
+          <path d="M59.5 53 Q63 56.5 66.5 52.5" fill="none" stroke={line} strokeWidth="2.1" strokeLinecap="round" />
+          {hairFront(L)}
+        </g>
+        {/* front arm */}
+        <g className="armR">
+          <rect x="50" y="66.5" width="7.8" height="28" rx="3.9" fill={L.tunic} />
+          <circle cx="53.8" cy="95" r="4.7" fill={skin} />
+        </g>
+      </g>
+    </svg>
+  );
+});
 
 export function Corrida() {
   const reduced = prefersReducedMotion();
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const heroRef = useRef<SVGSVGElement>(null);
   const gameRef = useRef<Game>(makeGame());
 
   const [phase, setPhase] = useState<ArcadePhase>("ready");
+  const [levelIdx, setLevelIdx] = useState(0); // which world's hero to render
   const [score, setScore] = useState(0);
   const [lives, setLives] = useState(HEARTS);
   const [best, setBest] = useState(() => loadBest(BEST_KEY));
@@ -828,6 +671,7 @@ export function Corrida() {
     setRecord(false);
     setLevelName(LEVELS[0].name);
     setLevelNo(1);
+    setLevelIdx(0);
     sfx.start();
   };
 
@@ -864,8 +708,8 @@ export function Corrida() {
       const groundH = Math.max(58, Math.min(104, h * 0.16));
       const groundY = h - groundH;
       const px = w * 0.24;
-      const heroScale = clamp(h / 360, 0.62, 1.05);
-      const heroR = 30 * heroScale; // rough body radius for collisions
+      const heroPx = clamp(h * 0.42, 120, 210); // rendered SVG hero height
+      const heroR = heroPx * 0.2; // rough body radius for collisions
       const gravity = reduced ? 2050 : 2350;
       const L = LEVELS[G.level];
 
@@ -1026,14 +870,27 @@ export function Corrida() {
       for (const o of G.obstacles) drawObstacle(ctx, o, groundY, L2, G.t);
       for (const s of G.orbs) drawOrb(ctx, s, 15, L2);
 
-      // shadow + hero
+      // shadow (canvas) — the hero itself is the SVG overlay, positioned below
       const p = G.player;
       const shadowScale = Math.max(0.3, 1 - p.py / 280);
       ctx.fillStyle = `rgba(0,0,0,${0.26 * shadowScale})`;
       ctx.beginPath();
-      ctx.ellipse(px, groundY - 1, heroR * 0.8 * shadowScale, heroR * 0.28 * shadowScale, 0, 0, Math.PI * 2);
+      ctx.ellipse(px, groundY - 1, heroR * 1.0 * shadowScale, heroR * 0.32 * shadowScale, 0, 0, Math.PI * 2);
       ctx.fill();
-      drawHero(ctx, L2, px, groundY, heroScale, G, G.invuln > 0 && Math.floor(G.t * 12) % 2 === 0);
+
+      // position + animate the SVG hero overlay (CSS px coords match the canvas)
+      const hero = heroRef.current;
+      if (hero) {
+        const wd = heroPx * (100 / 150);
+        const footY = heroPx * (126 / 150); // distance from the svg top to the feet
+        hero.style.width = `${wd}px`;
+        hero.style.height = `${heroPx}px`;
+        hero.style.transform = `translate(${px - wd / 2}px, ${groundY - footY - p.py}px)`;
+        const air = G.phase === "playing" && p.py > 2;
+        hero.classList.toggle("is-air", air);
+        hero.classList.toggle("is-run", !air);
+        hero.style.opacity = G.invuln > 0 && Math.floor(G.t * 12) % 2 === 0 ? "0.45" : "1";
+      }
 
       for (const pt of G.parts) {
         ctx.globalAlpha = Math.max(0, pt.life / pt.max);
@@ -1079,6 +936,7 @@ export function Corrida() {
           shownLevel = G.level;
           setLevelName(L2.name);
           setLevelNo(G.level + 1);
+          setLevelIdx(G.level); // re-render the SVG hero in the new world's colours
         }
       }
 
@@ -1141,6 +999,7 @@ export function Corrida() {
 
       <div className="dv-arcade">
         <canvas ref={canvasRef} className="dv-canvas" aria-label="Corrida dos Elementos — toca para saltar" />
+        <HeroSVG ref={heroRef} level={LEVELS[levelIdx]} />
 
         {phase === "ready" && (
           <div className="dv-overlay" onClick={begin} role="button" tabIndex={0} aria-label="Começar a jogar">

@@ -49,7 +49,7 @@ const defaultName: Record<ShapeKind, string> = {
 function ShapeSVG({ kind, color }: { kind: ShapeKind; color?: string }) {
   const stroke = colorVar(color);
   const fill = softFill(color);
-  const common = { fill, stroke, strokeWidth: 4, strokeLinejoin: "round" as const };
+  const common = { fill, stroke, strokeWidth: 3, strokeLinejoin: "round" as const, strokeLinecap: "round" as const };
   return (
     <svg viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label={defaultName[kind]}>
       {kind === "circle" && <circle cx="50" cy="50" r="42" {...common} />}

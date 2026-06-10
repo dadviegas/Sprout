@@ -94,12 +94,12 @@ export function Lifecycle({ spec }: { spec: LifecycleSpec }) {
             const my = (p.y + q.y) / 2 + ((p.x + q.x) / 2 - cx) * 0.12;
             return (
               <path key={k} d={`M${p.x} ${p.y} Q ${mx} ${my} ${q.x} ${q.y}`} fill="none"
-                stroke="#bcd3c4" strokeWidth="3" strokeLinecap="round" markerEnd="url(#lc-arrow)" />
+                stroke="color-mix(in srgb, var(--primary) 35%, var(--border))" strokeWidth="2" strokeLinecap="round" markerEnd="url(#lc-arrow)" />
             );
           })}
           <defs>
             <marker id="lc-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-              <path d="M0 0 L10 5 L0 10 z" fill="#9bbfa6" />
+              <path d="M0 0 L10 5 L0 10 z" fill="color-mix(in srgb, var(--primary) 55%, var(--border))" />
             </marker>
           </defs>
 

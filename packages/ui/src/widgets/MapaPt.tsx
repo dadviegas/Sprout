@@ -95,10 +95,10 @@ export function MapaPt({ spec }: { spec: MapaPtSpec }) {
             const fill = on ? "var(--accent)" : p.ra ? "var(--info)" : land;
             return (
               <g key={p.name} onClick={() => pick(i)} style={{ cursor: "pointer" }} role="button" aria-label={p.name}>
-                <circle cx={p.x} cy={p.y} r="14" fill="transparent" />
+                <circle cx={p.x} cy={p.y} r="17" fill="transparent" />
                 <circle cx={p.x} cy={p.y} r={r} fill={fill} stroke="#fff" strokeWidth="1.5" />
                 {p.num != null && (
-                  <text x={p.x} y={p.y + 3} textAnchor="middle" fontSize="9" fontWeight="800" fill="#fff" style={{ pointerEvents: "none" }}>
+                  <text x={p.x} y={p.y + 3.5} textAnchor="middle" fontSize="10" fontWeight="800" fill="#fff" style={{ pointerEvents: "none" }}>
                     {p.num}
                   </text>
                 )}

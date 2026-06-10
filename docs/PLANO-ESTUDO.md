@@ -348,6 +348,15 @@ Cada módulo diz: **o que é**, **o que já existe**, **o que falta**, **onde** 
 
 ### 4.11 Área dos pais: alertas reais + relatório semanal  *(estende ParentArea)*
 
+> **Decisões do utilizador (2026-06-10, testes):**
+> - Os **testes devem ser mais complexos** — pelo menos **+20% de contexto**
+>   nas perguntas (enunciados com história/dados, não memória seca), para
+>   obrigar a pensar. Vale como guia de autoria para testes novos e revisão
+>   dos existentes.
+> - Medir o **tempo de cada teste** (já existe `Achievement.secs` — passar a
+>   mostrá-lo) e dar aos pais: análise **fácil/difícil por tempo** (vs. a
+>   mediana esperada) e o ranking dos testes **onde demoraram mais**.
+
 > **Decisão (2026-06-10):** a Área dos Pais passa a ser uma **página própria**
 > (novo `View` `{ kind: "pais" }`, rota `#/pais`), **não um modal** — o gate de
 > multiplicação mantém-se à entrada da página. Deve incluir: **gráficos do que

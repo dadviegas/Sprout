@@ -58,13 +58,15 @@ export function Compass({ spec }: { spec: CompassSpec }) {
       </div>
 
       <div className="compass-body">
-        <svg className="compass-svg" viewBox="0 0 220 220" role="img" aria-label="Rosa dos ventos com os pontos cardeais">
-          <circle cx={CX} cy={CY} r="86" fill="var(--surface-2)" stroke="var(--border)" strokeWidth="2" />
-          <circle cx={CX} cy={CY} r="60" fill="none" stroke="var(--border)" strokeWidth="1" strokeDasharray="3 5" />
+        {/* viewBox overshoots the 220 square so the outer N/E/S/O chips are
+            never clipped at the edges (labels sit at radius 100 + chip radius) */}
+        <svg className="compass-svg" viewBox="-10 -10 240 240" role="img" aria-label="Rosa dos ventos com os pontos cardeais">
+          <circle cx={CX} cy={CY} r="86" fill="color-mix(in srgb, var(--acc, var(--primary)) 7%, var(--surface-2))" stroke="var(--border)" strokeWidth="2" />
+          <circle cx={CX} cy={CY} r="60" fill="none" stroke="var(--border)" strokeWidth="2" strokeDasharray="3 5" strokeLinecap="round" />
           {/* the star spokes */}
           {points.map((p) => {
             const [ex, ey] = polar(CX, CY, p.minor ? 70 : 78, p.deg);
-            return <line key={`s${p.key}`} x1={CX} y1={CY} x2={ex} y2={ey} stroke="var(--border-strong)" strokeWidth={p.minor ? 1 : 2} />;
+            return <line key={`s${p.key}`} x1={CX} y1={CY} x2={ex} y2={ey} stroke="var(--border-strong)" strokeWidth="2" strokeLinecap="round" opacity={p.minor ? 0.6 : 1} />;
           })}
           {/* needle: red toward the selected point, grey tail behind */}
           <polygon points={`${nx},${ny} ${lx},${ly} ${rx},${ry}`} fill="var(--danger)" />
@@ -76,8 +78,10 @@ export function Compass({ spec }: { spec: CompassSpec }) {
             const on = p.key === sel;
             return (
               <g key={p.key} onClick={() => pick(p)} style={{ cursor: "pointer" }} role="button" aria-label={p.name}>
-                <circle cx={bx} cy={by} r={p.minor ? 13 : 16} fill={on ? "var(--primary)" : "var(--surface)"} stroke={on ? "var(--primary)" : "var(--border-strong)"} strokeWidth="2" />
-                <text x={bx} y={by + (p.minor ? 4 : 5)} textAnchor="middle" fontSize={p.minor ? 11 : 14} fontWeight="800" fill={on ? "#fff" : "var(--ink)"} style={{ fontFamily: "var(--font-display)", pointerEvents: "none" }}>
+                {/* invisible halo so a finger hits the point easily */}
+                <circle cx={bx} cy={by} r="22" fill="transparent" />
+                <circle cx={bx} cy={by} r={p.minor ? 15 : 17} fill={on ? "var(--acc, var(--primary))" : "var(--surface)"} stroke={on ? "var(--acc, var(--primary))" : "var(--border-strong)"} strokeWidth="2" />
+                <text x={bx} y={by + (p.minor ? 4 : 5)} textAnchor="middle" fontSize={p.minor ? 12 : 14} fontWeight="800" fill={on ? "#fff" : "var(--ink)"} style={{ fontFamily: "var(--font-display)", pointerEvents: "none" }}>
                   {p.key}
                 </text>
               </g>

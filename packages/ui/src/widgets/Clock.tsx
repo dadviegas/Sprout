@@ -84,14 +84,14 @@ function ClockFace({
       onPointerMove={interactive ? (e) => { if (dragging.current) { e.preventDefault(); apply(e); } } : undefined}
       onPointerUp={interactive ? () => { dragging.current = false; } : undefined}
     >
-      <circle cx="100" cy="100" r="94" fill="var(--surface)" stroke="var(--ink)" strokeWidth="4" />
-      <circle cx="100" cy="100" r="94" fill="none" stroke="var(--accent)" strokeWidth="4" strokeDasharray="2 6" opacity="0.5" />
+      {/* face: soft accent-tinted dial with a clean 3px rim (subject accent) */}
+      <circle cx="100" cy="100" r="94" fill="color-mix(in srgb, var(--acc, var(--accent)) 8%, var(--surface))" stroke="color-mix(in srgb, var(--acc, var(--accent)) 60%, var(--border-strong))" strokeWidth="3" />
       {/* minute ticks */}
       {Array.from({ length: 60 }, (_, i) => {
         const major = i % 5 === 0;
         const [x1, y1] = polar(100, 100, 90, i * 6);
-        const [x2, y2] = polar(100, 100, major ? 80 : 85, i * 6);
-        return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--ink-3)" strokeWidth={major ? 2.5 : 1} />;
+        const [x2, y2] = polar(100, 100, major ? 81 : 86, i * 6);
+        return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={major ? "var(--ink-2)" : "var(--ink-3)"} strokeWidth={major ? 2 : 1} strokeLinecap="round" />;
       })}
       {/* numbers 1–12 */}
       {Array.from({ length: 12 }, (_, i) => {
@@ -105,10 +105,10 @@ function ClockFace({
       })}
       {/* hour hand */}
       <line x1="100" y1="100" x2={hhx} y2={hhy} stroke="var(--ink)" strokeWidth="7" strokeLinecap="round" />
-      {/* minute hand */}
-      <line x1="100" y1="100" x2={mhx} y2={mhy} stroke="var(--accent)" strokeWidth="5" strokeLinecap="round" />
+      {/* minute hand — the page's subject accent, so it matches the chrome */}
+      <line x1="100" y1="100" x2={mhx} y2={mhy} stroke="var(--acc, var(--accent))" strokeWidth="5" strokeLinecap="round" />
       <circle cx="100" cy="100" r="6" fill="var(--ink)" />
-      {interactive && <circle cx={mhx} cy={mhy} r="9" fill="var(--accent)" opacity="0.9" />}
+      {interactive && <circle cx={mhx} cy={mhy} r="9" fill="var(--acc, var(--accent))" opacity="0.9" />}
     </svg>
   );
 }
@@ -176,7 +176,7 @@ export function Clock({ spec }: { spec: ClockSpec }) {
                 <button className="iconbtn" onClick={() => stepMin(-5)} aria-label="Menos cinco minutos"><Icon name="minus" size={18} /></button>
                 <button className="iconbtn" onClick={() => stepMin(5)} aria-label="Mais cinco minutos"><Icon name="plus" size={18} /></button>
               </div>
-              <p className="w-hint">Dica: arrasta o ponteiro grande cor de laranja.</p>
+              <p className="w-hint">Dica: arrasta o ponteiro grande dos minutos.</p>
             </>
           )}
 

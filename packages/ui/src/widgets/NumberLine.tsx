@@ -40,18 +40,20 @@ export function NumberLine({ spec }: { spec: NumberLineSpec }) {
 
       <div className="numberline-scroll sprout-scroll">
         <svg viewBox={`0 0 ${width} 70`} style={{ width, maxWidth: "100%", height: "auto" }} role="img" aria-label={`Reta numérica de ${min} a ${max}, marcador no ${value}`}>
-          <line x1={padX} y1="48" x2={width - padX} y2="48" stroke="var(--ink-3)" strokeWidth="3" strokeLinecap="round" />
+          <line x1={padX} y1="48" x2={width - padX} y2="48" stroke="var(--ink-3)" strokeWidth="2.5" strokeLinecap="round" />
           {Array.from({ length: count + 1 }, (_, i) => {
             const n = min + i;
             const x = xOf(n);
             const on = n === value;
             return (
               <g key={n}>
-                <line x1={x} y1="42" x2={x} y2="54" stroke="var(--ink-3)" strokeWidth="2" />
-                <text x={x} y="68" textAnchor="middle" fontSize="13" fontWeight={on ? 800 : 600} fill={on ? "var(--primary)" : "var(--ink-2)"} style={{ fontFamily: "var(--font-display)" }}>
+                <line x1={x} y1="42" x2={x} y2="54" stroke="var(--ink-3)" strokeWidth="2" strokeLinecap="round" />
+                <text x={x} y="68" textAnchor="middle" fontSize="14" fontWeight={on ? 800 : 600} fill={on ? "var(--acc, var(--primary))" : "var(--ink-2)"} style={{ fontFamily: "var(--font-display)" }}>
                   {n}
                 </text>
-                {on && <circle cx={x} cy="48" r="7" fill="var(--primary)" />}
+                {/* soft halo + accent dot mark where the frog is standing */}
+                {on && <circle cx={x} cy="48" r="12" fill="color-mix(in srgb, var(--acc, var(--primary)) 22%, transparent)" />}
+                {on && <circle cx={x} cy="48" r="7" fill="var(--acc, var(--primary))" />}
               </g>
             );
           })}

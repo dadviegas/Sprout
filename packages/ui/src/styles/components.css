@@ -96,6 +96,10 @@
 .prose-speak:hover { transform: scale(1.1); background: var(--primary); color: #fff; }
 .prose-speak:active { transform: scale(.92); }
 .prose-speak[data-playing] { background: var(--primary); color: #fff; }
+/* fingers need a bigger speaker than a mouse cursor does */
+@media (pointer: coarse) {
+  .prose-speak { width: 38px; height: 38px; }
+}
 
 /* lesson summary block ("O que vais aprender") — tinted with the page's
    subject accent (--acc/--acc-soft), brand green elsewhere */
@@ -265,6 +269,7 @@
    the page's subject accent, brand green elsewhere. */
 .steps-reveal {
   display: inline-flex; align-items: center; gap: 8px;
+  max-width: 100%; /* long labels wrap inside the button instead of overflowing a phone */
   margin: -0.4em 0 1.4em;
   padding: 10px 22px; min-height: 44px;
   border: none; border-radius: 14px;

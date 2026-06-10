@@ -79,11 +79,13 @@ export function WaterCycle({ spec }: { spec: WaterCycleSpec }) {
           {/* tappable stage badges */}
           {STAGES.map((s) => {
             const on = s.key === sel;
-            const w = s.name.length * 6.4 + 16;
+            const w = s.name.length * 7 + 18;
             return (
               <g key={s.key} transform={`translate(${s.x} ${s.y})`} onClick={() => pick(s)} style={{ cursor: "pointer" }} role="button" aria-label={s.name}>
-                <rect x={-w / 2} y="-11" width={w} height="22" rx="11" fill={on ? "var(--primary)" : "var(--surface)"} stroke={on ? "var(--primary)" : "var(--border-strong)"} strokeWidth="1.5" />
-                <text x="0" y="4" textAnchor="middle" fontSize="11" fontWeight="800" fill={on ? "#fff" : "var(--ink)"} style={{ pointerEvents: "none" }}>{s.name}</text>
+                {/* invisible halo: a finger-sized hit area around the slim chip */}
+                <rect x={-w / 2 - 6} y="-18" width={w + 12} height="36" fill="transparent" />
+                <rect x={-w / 2} y="-12" width={w} height="24" rx="12" fill={on ? "var(--primary)" : "var(--surface)"} stroke={on ? "var(--primary)" : "var(--border-strong)"} strokeWidth="1.5" />
+                <text x="0" y="4" textAnchor="middle" fontSize="12" fontWeight="800" fill={on ? "#fff" : "var(--ink)"} style={{ pointerEvents: "none" }}>{s.name}</text>
               </g>
             );
           })}

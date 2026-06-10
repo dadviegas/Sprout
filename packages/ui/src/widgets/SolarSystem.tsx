@@ -73,6 +73,8 @@ function Orbiting({
         <g className="ss-body" onClick={() => onPick(body)} role="button" tabIndex={0}
            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onPick(body); } }}>
           <title>{body.name}</title>
+          {/* invisible halo so even Mercúrio is easy to tap with a finger */}
+          <circle cx={bx} cy={cy} r={Math.max(size, 16)} fill="transparent" />
           {body.ring && (
             <ellipse cx={bx} cy={cy} rx={size * 1.9} ry={size * 0.7} fill="none"
                      stroke={color} strokeWidth={size * 0.45} opacity={0.55} transform={`rotate(-18 ${bx} ${cy})`} />
@@ -244,6 +246,8 @@ function SolarLineup({ spec }: { spec: SolarSystemSpec }) {
                 <g className="ss-body" onClick={() => pick(it)} role="button" tabIndex={0}
                    onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(it); } }}>
                   <title>{it.name}</title>
+                  {/* invisible halo so the small planets stay easy to tap */}
+                  <circle cx={cx} cy={cy} r={Math.max(r, 16)} fill="transparent" />
                   {it.ring && (
                     <ellipse cx={cx} cy={cy} rx={r * 1.9} ry={r * 0.66} fill="none"
                              stroke={it.color ?? "#d8c89a"} strokeWidth={r * 0.4} opacity={0.6}

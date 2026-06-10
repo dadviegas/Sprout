@@ -44,7 +44,9 @@
   display: flex; align-items: center; gap: 8px; min-width: 0;
 }
 .topbar .crumb .sep { color: var(--ink-3); }
-.topbar .crumb .ell { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* min-width:0 lets the flex item actually shrink, so the ellipsis engages
+   instead of the long lesson title pushing the bar wider than the phone */
+.topbar .crumb .ell { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
 /* The app's action buttons sit at the far right; margin-auto replaces a spacer
    so the crumb keeps its width instead of being starved by a greedy flex spacer
    (breadcrumb on the left, app icons on the right). */
@@ -111,15 +113,12 @@
   gap: 14px;
 }
 @media (min-width: 560px) { .card-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; } }
-/* Wide screens: the shell is fluid now, so grids ADD columns instead of
-   stretching a few huge cards. Each card stays between a friendly min and max
-   size and the row centres when space is left over (few items on a big iPad/
-   desktop) — no fixed px caps. */
+/* Wide screens — like the Jogos grid (user-approved): tracks stretch to FILL
+   the row, so a full row uses the whole width; auto-FILL keeps short rows
+   (2 of 6 cards) left-aligned at a sane size instead of ballooning. */
 @media (min-width: 920px) {
-  /* auto-fit adds columns as space allows; rows align LEFT (centring rows of
-     different lengths looked odd — user-tuned), cards at a friendly size */
-  .card-grid { grid-template-columns: repeat(auto-fit, minmax(18rem, 28rem)); justify-content: start; }
-  .card-grid.cols-4 { grid-template-columns: repeat(auto-fit, minmax(15rem, 24rem)); }
+  .card-grid { grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); justify-content: start; }
+  .card-grid.cols-4 { grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); }
 }
 
 /* home: years grouped by school cycle (1.º ciclo = 1–4, 2.º ciclo = 5–6) */
@@ -131,6 +130,10 @@
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-lg);
   padding: 16px 18px 18px;
+}
+/* phones: thinner shelf walls so the cards inside keep a usable width */
+@media (max-width: 560px) {
+  .cycle-block { padding: 12px 12px 14px; }
 }
 .cycle-label {
   font-family: var(--font-display);
@@ -356,6 +359,8 @@
   padding: 0;
 }
 .lesson-body.test-body .quiz { margin: 0; }
+/* test pages are one big quiz — use the page width, not the reading measure */
+.lesson-body.test-body .prose { --read-width: 100%; }
 
 /* shown while the lazy-loaded markdown renderer chunk arrives */
 .lesson-loading {
@@ -446,7 +451,8 @@
 /* short-answer grid (numbers, letters): compact tiles in a row, aligned to
    the top so they keep equal height and never float apart as bare text */
 .quiz .options.grid {
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  /* min(…, 100%) so a tile can never force the grid wider than a phone */
+  grid-template-columns: repeat(auto-fit, minmax(min(120px, 100%), 1fr));
   align-items: stretch;
 }
 
@@ -696,7 +702,9 @@
 .chart-svg {
   width: 100%;
   max-width: 620px;
-  min-width: 360px;
+  /* min(…, 100%): keep bars readable when there's room, but never force a
+     sideways scroll on a narrow phone */
+  min-width: min(360px, 100%);
   height: auto;
   color: var(--ink);
 }
@@ -774,7 +782,7 @@
 
 @media (max-width: 560px) {
   .chart-head strong { max-width: 100%; font-size: .98em; }
-  .chart-svg { min-width: 320px; }
+  .chart-svg { min-width: min(320px, 100%); }
   .chart-chips { flex-direction: column; align-items: stretch; text-align: center; }
 }
 
@@ -800,9 +808,10 @@
 .clock-face { width: 100%; height: auto; display: block; }
 .clock-side { flex: 1; min-width: 160px; display: grid; gap: 10px; align-content: start; }
 .clock-readout {
-  font-family: var(--font-mono); font-weight: 700; font-size: 2.6em; line-height: 1;
-  color: var(--ink); letter-spacing: 1px;
-  background: var(--surface-2); border-radius: var(--radius); padding: 8px 14px; text-align: center;
+  font-family: var(--font-display); font-weight: 800; font-size: 2.6em; line-height: 1;
+  color: var(--ink); letter-spacing: 1px; font-variant-numeric: tabular-nums;
+  background: color-mix(in srgb, var(--acc, var(--accent)) 8%, var(--surface-2));
+  border-radius: var(--radius); padding: 8px 14px; text-align: center;
 }
 .clock-ctrl { display: flex; align-items: center; gap: 8px; font-weight: 700; }
 .clock-ctrl > span { width: 64px; color: var(--ink-2); font-size: .9em; }
@@ -835,7 +844,8 @@
 
 /* compass — rosa dos ventos */
 .compass-body { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
-.compass-svg { width: 220px; max-width: 60vw; height: auto; flex-shrink: 0; margin: 0 auto; display: block; }
+/* 240 matches the widget's overshot viewBox, keeping the rose at its old size */
+.compass-svg { width: 240px; max-width: 64vw; height: auto; flex-shrink: 0; margin: 0 auto; display: block; }
 .compass-side { flex: 1; min-width: 160px; display: grid; gap: 8px; align-content: start; }
 .compass-name { font-family: var(--font-display); font-weight: 800; font-size: 1.7em; line-height: 1; }
 .compass-key { color: var(--ink-3); font-weight: 700; font-size: .7em; }
@@ -942,13 +952,16 @@
 }
 .tf-cell {
   aspect-ratio: 1 / 1; border-radius: 14px;
-  border: 3px solid var(--border); background: var(--surface-2);
+  border: 2px solid var(--border-strong); background: var(--surface-2);
   display: flex; align-items: center; justify-content: center;
   font-size: 1.8em; transition: transform .12s, background .12s;
 }
-.tf-cell:hover { border-color: var(--primary); }
+.tf-cell:hover { border-color: var(--acc, var(--primary)); }
 .tf-cell:active { transform: scale(.9); }
-.tf-cell.on { background: var(--primary-soft); border-color: var(--primary); }
+.tf-cell.on {
+  background: color-mix(in srgb, var(--acc, var(--primary)) 14%, var(--surface));
+  border-color: var(--acc, var(--primary));
+}
 
 /* fraction */
 .fraction-body { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; justify-content: center; }
@@ -1380,7 +1393,9 @@
 .dict-chip.on { background: var(--accent); border-color: var(--accent); color: #fff; }
 .dict-grid {
   display: grid; gap: 14px;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  /* min(…, 100%) so the cards shrink with a narrow phone instead of forcing
+     180px columns that overflow the card padding */
+  grid-template-columns: repeat(auto-fill, minmax(min(160px, 100%), 1fr));
 }
 /* the card is the visual container; the read-aloud surface is the inner button,
    so a verb card can sit a separate "ver conjugação" button beside it (a nested
@@ -3123,3 +3138,26 @@ button.hm-cell:hover { transform: scale(1.18); }
 .missao-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--surface-3); border: 2px solid var(--border-strong); }
 .missao-dot.on { background: var(--ok); border-color: var(--ok); }
 .missao-card__go { align-self: flex-start; margin-top: auto; }
+
+/* ── Touch sizing — fingers, not cursors ─────────────────────────────────────
+   On coarse pointers (phone/tablet) the small round speak badges grow to a
+   comfortable touch size; the paddings beside them grow too, so a word/title
+   never slides under a bigger badge. Mouse/trackpad keeps the compact look. */
+@media (pointer: coarse) {
+  .card-speak { width: 40px; height: 40px; }
+  .ig-speak { width: 36px; height: 36px; }
+  .dict-card .dict-speak,
+  .atlas-card__speak,
+  .color-card__speak,
+  .soundcard .sc-speak,
+  .verb-speak { width: 36px; height: 36px; }
+  /* keep content clear of the grown corner badges */
+  .dict-card .dict-wordrow { padding-right: 42px; }
+  .atlas-card__name { padding-right: 40px; }
+  .color-card__name { padding-right: 40px; }
+  .soundcard { padding-top: 46px; }
+  .verb-explain-speak, .verb-tense-speak { width: 32px; height: 32px; }
+  .shop-card__hear { width: 34px; height: 34px; }
+  /* tappable label chips inside widgets (volcano parts, skyblue toggle, …) */
+  .chip { min-height: 38px; }
+}

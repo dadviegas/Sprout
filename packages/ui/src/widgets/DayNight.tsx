@@ -105,6 +105,8 @@ export function DayNight({ spec }: { spec: DayNightSpec }) {
               <g key={p.name} className="dn-place" onClick={() => say(p)} role="button" tabIndex={0}
                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); say(p); } }}>
                 <title>{p.name}: {day ? "dia" : "noite"}</title>
+                {/* invisible halo: the tiny marker dot alone is too small a target */}
+                <circle cx={x} cy={y} r={18} fill="transparent" />
                 <circle cx={x} cy={y} r={7} fill={day ? "#fff3c4" : "#9aa7c7"} stroke="rgba(0,0,0,.35)" strokeWidth="1.5" />
                 <text x={x} y={y - 12} textAnchor="middle" fontSize="13" className="dn-label">{p.emoji} {p.name}</text>
                 <text x={x} y={y + 22} textAnchor="middle" fontSize="13">{day ? "☀️" : "🌙"}</text>

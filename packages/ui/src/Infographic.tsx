@@ -1,4 +1,5 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
+import { Icon } from "@sprout/icons";
 import { Speaker } from "./Speaker";
 
 /* Infographic primitives from the atlantis design system: StatGrid, Steps,
@@ -129,14 +130,22 @@ export interface Step {
   icon?: ReactNode;
 }
 
-export function Steps({ items }: { items: Step[] }) {
+export function Steps({ items, reveal = false }: { items: Step[]; reveal?: boolean }) {
+  // Retrieval practice ("reveal" mode): only the first step shows, and the
+  // child taps to uncover each next one after thinking it through first.
+  // Plain local index — nothing persists, reopening starts hidden again.
+  const [shown, setShown] = useState(reveal ? 1 : items.length);
+  const visible = reveal ? items.slice(0, shown) : items;
   return (
+    <>
     <ol className="sprout-steps" style={{ listStyle: "none", padding: 0, margin: "1.4em 0", display: "grid", gap: 14 }}>
-      {items.map((step, i) => {
+      {visible.map((step, i) => {
         const t = toneCycle[i % toneCycle.length];
         return (
           <li
             key={i}
+            // steps uncovered by a tap pop in (calm under reduced motion)
+            className={reveal && i > 0 ? "sprout-pop" : undefined}
             style={{
               display: "grid",
               gridTemplateColumns: "48px 1fr",
@@ -176,6 +185,13 @@ export function Steps({ items }: { items: Step[] }) {
         );
       })}
     </ol>
+    {reveal && shown < items.length && (
+      <button type="button" className="steps-reveal" onClick={() => setShown((n) => n + 1)}>
+        <Icon name="brain" size={20} />
+        Pensa primeiro… e mostra o passo seguinte
+      </button>
+    )}
+    </>
   );
 }
 

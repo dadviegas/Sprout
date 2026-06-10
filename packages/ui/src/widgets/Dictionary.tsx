@@ -158,7 +158,15 @@ function DictCard({ entry }: { entry: DictEntry }) {
         onClick={() => toggle(say)}
         aria-label={playing ? "Parar" : `Ouvir: ${entry.word}`}
       >
-        {entry.emoji && <span className="dict-emoji" aria-hidden>{entry.emoji}</span>}
+        {/* every card gets a visual anchor: the entry's emoji, or (fallback)
+            its theme/class glyph — same icon language as the filter chips */}
+        {entry.emoji ? (
+          <span className="dict-emoji" aria-hidden>{entry.emoji}</span>
+        ) : (
+          <span className="dict-emoji dict-emoji--icon" aria-hidden>
+            <Icon name={entry.tema ? THEME_ICON[entry.tema] : entry.class ? CLASS_ICON[entry.class] : "letters"} size={30} duo />
+          </span>
+        )}
         <span className="dict-wordrow">
           {entry.class && (
             <span className="dict-class" title={CLASS_LABEL[entry.class]} aria-hidden>

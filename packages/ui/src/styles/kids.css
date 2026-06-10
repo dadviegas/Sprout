@@ -15,10 +15,11 @@
 [data-theme="dark"] .blob.b2 { opacity: .07; }
 [data-theme="dark"] .blob.b3 { opacity: .06; }
 
-/* page shell */
+/* page shell — fluid on phone/iPad (uses the whole screen), capped at a
+   comfortable width on big desktop/TV so content doesn't sprawl (user-tuned). */
 .shell {
   position: relative; z-index: 1;
-  max-width: 1200px;
+  max-width: min(95%, 96rem);
   margin: 0 auto;
   padding: 14px 16px calc(40px + env(safe-area-inset-bottom));
   width: 100%;
@@ -110,37 +111,56 @@
   gap: 14px;
 }
 @media (min-width: 560px) { .card-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; } }
-@media (min-width: 920px) { .card-grid.cols-3 { grid-template-columns: repeat(3, 1fr); } }
-@media (min-width: 920px) { .card-grid.cols-4 { grid-template-columns: repeat(4, 1fr); } }
+/* Wide screens: the shell is fluid now, so grids ADD columns instead of
+   stretching a few huge cards. Each card stays between a friendly min and max
+   size and the row centres when space is left over (few items on a big iPad/
+   desktop) — no fixed px caps. */
+@media (min-width: 920px) {
+  /* auto-fit adds columns as space allows; rows align LEFT (centring rows of
+     different lengths looked odd — user-tuned), cards at a friendly size */
+  .card-grid { grid-template-columns: repeat(auto-fit, minmax(18rem, 28rem)); justify-content: start; }
+  .card-grid.cols-4 { grid-template-columns: repeat(auto-fit, minmax(15rem, 24rem)); }
+}
 
 /* home: years grouped by school cycle (1.º ciclo = 1–4, 2.º ciclo = 5–6) */
 .cycle-block + .cycle-block { margin-top: 20px; }
+/* Each cycle is a tinted "shelf" panel: obvious grouping for a child and the
+   centred card row reads as part of the group (Opção B, user-approved). */
+.cycle-block {
+  background: color-mix(in srgb, var(--surface) 55%, var(--bg-2));
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px 18px;
+}
 .cycle-label {
   font-family: var(--font-display);
-  font-size: .8rem;
+  font-size: .92rem;
   font-weight: 700;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  margin: 0 0 10px 2px;
+  letter-spacing: .03em;
+  color: var(--ink-2);
+  margin: 0 0 12px 2px;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 .cycle-label::before {
   content: "";
-  width: 18px;
-  height: 2px;
-  border-radius: 2px;
-  background: currentColor;
-  opacity: .55;
+  width: 6px;
+  height: 18px;
+  border-radius: 3px;
+  background: var(--primary);
+  opacity: .8;
 }
 
 /* ---- Atlantis-style card: two zones (media preview + meta body).
-   --c / --c-soft set the per-card accent. ---- */
-.big-card {
+   --c / --c-soft set the per-card accent. The DEFAULT lives on .card-slot so a
+   per-card inline style on the slot wins; declared on .big-card itself it would
+   override the value inherited from the slot (that bug made every card green). */
+.card-slot {
   --c: var(--primary);
   --c-soft: var(--primary-soft);
+}
+.big-card {
   position: relative; text-align: left;
   display: flex; flex-direction: column;
   border: 1px solid var(--border);
@@ -227,8 +247,8 @@
 .bc-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
 .bc-kicker {
   display: flex; align-items: center; gap: 8px;
-  font-family: var(--font-mono); font-size: .7em; font-weight: 700;
-  letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2);
+  font-family: var(--font-mono); font-size: .8em; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2);
 }
 .bc-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c); box-shadow: 0 0 8px var(--c); flex-shrink: 0; }
 .bc-title { font-family: var(--font-display); font-weight: 700; font-size: 1.2em; color: var(--ink); line-height: 1.15; margin: 0; }
@@ -237,7 +257,7 @@
 /* progress block inside a card */
 .card-progress { margin-top: auto; padding-top: 12px; display: grid; gap: 7px; }
 .card-meta { display: flex; align-items: center; justify-content: space-between;
-  font-size: .82em; color: var(--ink-2); font-weight: 700; }
+  font-size: .85em; color: var(--ink-2); font-weight: 700; }
 .stars { display: inline-flex; align-items: center; gap: 2px; }
 .card-meta .stars-chip { display: inline-flex; align-items: center; gap: 4px; }
 
@@ -251,6 +271,22 @@
   font-size: .7em; font-weight: 800; text-transform: uppercase; letter-spacing: .06em;
   padding: 3px 10px; border-radius: 999px;
   background: var(--c-soft); color: var(--c);
+}
+
+/* lesson card chips — duration ("≈ N min") + earned stars under the title */
+.chip-row { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 2px; }
+.chip-min {
+  display: inline-flex; align-items: center;
+  font-size: .8em; font-weight: 800;
+  padding: 3px 10px; border-radius: 999px;
+  background: var(--c-soft); color: color-mix(in srgb, var(--c) 72%, var(--ink));
+}
+
+/* calm cards for children who prefer reduced motion: no entrance pop, no lift */
+@media (prefers-reduced-motion: reduce) {
+  .big-card { animation: none; transition: none; }
+  .big-card:hover { transform: none; }
+  .big-card:hover .bc-art { transform: none; }
 }
 
 /* progress ring */
@@ -520,7 +556,7 @@
 }
 
 /* progress bar (subject/year overview) */
-.pbar { height: 14px; border-radius: 999px; background: var(--surface-2); overflow: hidden; border: 1px solid var(--border); }
+.pbar { height: 10px; border-radius: 999px; background: var(--bg-2); overflow: hidden; border: 1px solid var(--border); }
 .pbar > i { display: block; height: 100%; border-radius: 999px; background: var(--c, var(--primary)); transition: width .5s cubic-bezier(.2,.8,.3,1); }
 
 /* small helper rows */
@@ -650,33 +686,6 @@
   font-size: 1.05em;
   line-height: 1.15;
 }
-.chart-summary {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin: 10px 0 12px;
-}
-.chart-summary span {
-  min-width: 0;
-  padding: 10px 12px;
-  border: 2px solid color-mix(in srgb, var(--subj-mat) 34%, var(--border));
-  border-radius: var(--radius);
-  background: color-mix(in srgb, var(--surface-2) 84%, var(--subj-mat-soft));
-}
-.chart-summary strong {
-  display: block;
-  color: var(--ink);
-  font-family: var(--font-display);
-  font-size: 1.35em;
-  line-height: 1;
-}
-.chart-summary small {
-  display: block;
-  margin-top: 4px;
-  color: var(--ink-2);
-  font-weight: 700;
-  line-height: 1.2;
-}
 .chart-stage {
   display: flex;
   justify-content: center;
@@ -695,125 +704,78 @@
   max-width: 320px;
   min-width: 240px;
 }
+/* quiet grid: hairlines + two small ticks — the values on the bars/points are
+   what the child reads, not the axes */
 .chart-gridline line {
-  stroke: color-mix(in srgb, var(--border) 72%, transparent);
+  stroke: var(--border-soft);
   stroke-width: 1;
-  stroke-dasharray: 5 7;
 }
-.chart-gridline:first-of-type line {
-  stroke-dasharray: none;
-  stroke-width: 2;
+.chart-gridline text {
+  fill: var(--ink-3);
+  font-size: 12px;
+  font-weight: 700;
 }
-.chart-gridline text,
 .chart-label {
+  fill: var(--ink-2);
+  font-size: 15px;
+  font-weight: 700;
+}
+.chart-axis-name {
   fill: var(--ink-3);
   font-size: 12px;
   font-weight: 800;
 }
-.chart-bar-track {
-  fill: color-mix(in srgb, var(--surface-3) 60%, transparent);
-}
-.chart-bar {
-  filter: drop-shadow(0 8px 10px rgb(0 0 0 / .16));
-}
-.chart-bar-group:hover .chart-bar,
-.chart-point-group:hover .chart-point {
-  filter: brightness(1.06) drop-shadow(0 8px 10px rgb(0 0 0 / .2));
-}
+.chart-bar-group:hover .chart-bar { filter: brightness(1.06); }
+/* the big readable number on top of each bar / point (line points tint it
+   with the series colour inline) */
 .chart-value {
   paint-order: stroke;
   stroke: var(--surface);
-  stroke-width: 5px;
+  stroke-width: 4px;
   fill: var(--ink);
   font-family: var(--font-display);
-  font-size: 16px;
-  font-weight: 900;
-}
-.chart-slice path {
-  stroke: var(--surface);
-  stroke-width: 4;
-  filter: drop-shadow(0 10px 12px rgb(0 0 0 / .14));
-}
-.chart-pct {
-  fill: #fff;
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 900;
-  paint-order: stroke;
-  stroke: rgb(0 0 0 / .22);
-  stroke-width: 4px;
-}
-.chart-pie-hole {
-  fill: var(--surface);
-  stroke: color-mix(in srgb, var(--border) 70%, transparent);
-  stroke-width: 2;
+  font-size: 20px;
+  font-weight: 800;
 }
 .chart-pie-total {
   fill: var(--ink);
   font-family: var(--font-display);
-  font-size: 28px;
-  font-weight: 900;
+  font-size: 24px;
+  font-weight: 800;
 }
 .chart-pie-caption {
   fill: var(--ink-2);
   font-size: 12px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0;
 }
-.chart-line-area { opacity: .16; }
 .chart-line {
-  stroke-width: 5;
+  stroke-width: 4;
   stroke-linecap: round;
   stroke-linejoin: round;
-  filter: drop-shadow(0 8px 8px rgb(0 0 0 / .14));
 }
-.chart-point-halo { opacity: .18; }
-.chart-point {
-  stroke: var(--surface);
-  stroke-width: 3;
-}
-.chart-legend {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+.chart-point { stroke-width: 3; }
+/* donut legend: each chip carries ITS slice colour (text/border) over a 15%
+   tint — set inline by Chart.tsx */
+.chart-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 8px;
-  width: 100%;
   margin-top: 12px;
 }
-.chart-legend > span {
-  display: grid;
-  grid-template-columns: 12px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 10px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: color-mix(in srgb, var(--surface-2) 86%, transparent);
-}
-.chart-legend > span > span {
-  width: 12px;
-  height: 12px;
+.chart-chips > span {
+  padding: 4px 12px;
+  border: 2px solid currentColor;
   border-radius: 999px;
-}
-.chart-legend strong {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: var(--ink);
   font-size: .85em;
-  white-space: nowrap;
-}
-.chart-legend small {
-  color: var(--ink-2);
   font-weight: 800;
-  font-size: .82em;
 }
 
 @media (max-width: 560px) {
   .chart-head strong { max-width: 100%; font-size: .98em; }
-  .chart-summary { grid-template-columns: 1fr; }
   .chart-svg { min-width: 320px; }
-  .chart-legend { grid-template-columns: 1fr; }
+  .chart-chips { flex-direction: column; align-items: stretch; text-align: center; }
 }
 
 /* shapes */
@@ -1313,6 +1275,22 @@
 /* Clickable ancestor segments (year, subject, lesson) — go back to that level. */
 .crumb .crumb-link { display: inline-flex; align-items: center; gap: 4px; padding: 2px 6px; border-radius: 8px; color: inherit; max-width: 40vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .crumb .crumb-link:hover { background: var(--surface-3); }
+/* Breadcrumb chip — the subject/area identity in the crumb: its NAME on the
+   accent-soft background, finger-sized (≥44px). --c/--c-soft are set inline;
+   the text pulls the accent toward the ink so it reads well on the soft tint. */
+.crumb .crumb-chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  min-height: 44px; padding: 4px 14px; min-width: 0;
+  border-radius: 999px;
+  background: var(--c-soft, var(--surface-2));
+  color: color-mix(in srgb, var(--c, var(--ink)) 72%, var(--ink));
+  border: 1px solid color-mix(in srgb, var(--c, var(--border)) 30%, transparent);
+  font-size: .92em; max-width: 40vw;
+}
+.crumb .crumb-chip .crumb-tx { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.crumb button.crumb-chip { cursor: pointer; transition: transform var(--dur-fast) var(--ease-out), filter var(--dur-fast); }
+.crumb button.crumb-chip:hover { transform: translateY(-1px); filter: brightness(1.05); }
+.crumb button.crumb-chip:active { transform: translateY(0) scale(.97); }
 
 /* year-number tile */
 .big-card .emoji.num { font-family: var(--font-display); font-weight: 800; font-size: 2.1em; color: var(--c); }
@@ -1367,8 +1345,12 @@
 .soundcard[data-playing] { border-color: var(--primary); }
 .soundcard[data-playing] .sc-speak { background: var(--primary); color: #fff; }
 
-/* dictionary — word cards (emoji + word + simple meaning), each read aloud */
-.dictionary-widget { border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); }
+/* dictionary — word cards (emoji + word + simple meaning), each read aloud.
+   The letter page card is already a frame: the panel drops its own border
+   (no frame-inside-frame) and the page widens to ~90% so the word grid
+   actually uses the space (user request). */
+.dictionary-widget { border: none; background: none; box-shadow: none; padding-inline: 0; }
+.prose:has(.dictionary-widget) { --read-width: 96%; }
 .dictionary-widget .w-badge { background: var(--accent); }
 /* "Ouvir tudo" — a pill (icon + label), pushed to the right of the head */
 .dict-hear-all {
@@ -1421,10 +1403,18 @@
   background: none; border: none; color: inherit; font: inherit;
 }
 .dict-card .dict-emoji { font-size: 2.2em; line-height: 1; }
+/* fallback visual for entries without an emoji: the theme/class glyph in a
+   soft accent blob — same icon language as the filter chips above the grid */
+.dict-card .dict-emoji--icon {
+  width: 46px; height: 46px; border-radius: 14px;
+  display: inline-grid; place-items: center;
+  background: var(--accent-soft); color: var(--accent);
+}
 .dict-card .dict-wordrow {
-  display: flex; align-items: center; gap: 7px;
+  display: flex; align-items: center; gap: 7px; flex-wrap: wrap;
   /* keep the word/badge clear of the speaker badge in the corner */
-  padding-right: 26px;
+  padding-right: 30px;
+  min-width: 0;
 }
 .dict-card .dict-class {
   flex-shrink: 0; width: 22px; height: 22px;
@@ -1441,6 +1431,8 @@
 .dict-card .dict-word {
   font-family: var(--font-display); font-weight: 800; font-size: 1.3em;
   color: var(--accent); line-height: 1.1;
+  /* long words (dactilografia…) wrap inside the tile instead of clipping */
+  min-width: 0; overflow-wrap: anywhere;
 }
 .dict-card .dict-meaning { font-size: .92em; color: var(--ink-2); line-height: 1.35; }
 .dict-card .dict-speak {

@@ -15,10 +15,10 @@ export class ErrorBoundary extends Component<{ children: ReactNode }, { error: E
 
   render() {
     if (this.state.error) {
+      // theme/palette attributes live on <html> (set in index.tsx)
       return (
         <div
           className="sprout-root"
-          data-palette="sprout"
           style={{ minHeight: "100vh", display: "grid", placeItems: "center", padding: 24, textAlign: "center" }}
         >
           <div style={{ maxWidth: 420 }}>

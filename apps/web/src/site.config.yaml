@@ -33,7 +33,7 @@ areas:
       label: Treinar
       blurb: "Saber de cor: tabuadas, alfabeto, mapas e muito mais."
       icon: target
-      accent: "--accent"
+      accent: "--area-treinar"
     - id: explorar
       label: Explorar
       blurb: "O Mundo e os países, dos Açores ao planeta inteiro."
@@ -48,7 +48,7 @@ areas:
       label: A Teia do Saber
       blurb: "Vê numa teia como tudo se liga — temas e matérias entrelaçados."
       icon: atom
-      accent: "--subj-emus"
+      accent: "--subj-en"
     - id: diversao
       label: Diversão
       blurb: "Jardim, jogos e caixa de brincar — o teu cantinho divertido."

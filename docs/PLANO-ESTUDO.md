@@ -305,6 +305,16 @@ Cada módulo diz: **o que é**, **o que já existe**, **o que falta**, **onde** 
 
 ### 4.9 Calendário / "O meu plano"  *(novo, child + pais)*
 
+> **Decisões do utilizador (2026-06-10):**
+> - Cada **ano** tem um **plano de estudo diário** de ~**30 min/dia**,
+>   **segunda a sábado — domingo é descanso**. Mostrar de forma visual o que
+>   estudar em cada dia (missões do dia, grandes e tocáveis).
+> - O calendário marca **quando foi feito** e também **quando a página foi
+>   apenas aberta** (sessão sem conclusão) — distinguir os dois estados.
+> - O **teste final é obrigatório** para terminar uma área/lição, e só conta
+>   como concluído com **≥ 80% de sucesso**; abaixo disso fica "a repetir" e
+>   entra no banco de erros.
+
 - **O que é.** Calendário com **1 mês para trás, mês atual e 2 meses à frente**.
   Dias passados mostram o que se estudou (verde/amarelo/vermelho/azul); dias
   futuros mostram missões planeadas.
@@ -337,6 +347,13 @@ Cada módulo diz: **o que é**, **o que já existe**, **o que falta**, **onde** 
   `Quiz.tsx`/`Markdown.tsx`. Respeita sempre a regra de voz só por toque.
 
 ### 4.11 Área dos pais: alertas reais + relatório semanal  *(estende ParentArea)*
+
+> **Decisão (2026-06-10):** a Área dos Pais passa a ser uma **página própria**
+> (novo `View` `{ kind: "pais" }`, rota `#/pais`), **não um modal** — o gate de
+> multiplicação mantém-se à entrada da página. Deve incluir: **gráficos do que
+> foi feito** (lições/testes/minutos por dia e por disciplina, com o widget
+> `chart` renovado) e o **calendário** (§4.9) na perspetiva dos pais — o que
+> foi feito *e o que devia ter sido feito* (missões planeadas vs. cumpridas).
 
 - **O que é.**
   - Alertas: *"⚠️ Saiu do browser 4× durante o estudo" · "⚠️ Fez o teste em 2

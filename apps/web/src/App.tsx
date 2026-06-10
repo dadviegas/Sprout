@@ -49,7 +49,7 @@ import { CommandCenter } from "./CommandCenter";
 import { AchievementsPanel } from "./Achievements";
 import { ParentArea, WipeModal, tabletMinutesToday } from "./ParentArea";
 import { SimuladoLauncher } from "./Simulado";
-import { splitLesson } from "./lesson-content";
+import { splitLesson, lessonMinutes } from "./lesson-content";
 import { Stars, ProgressBar, yearStats, yearAllStats, subjectStats, sumStats, schoolStats, pctOf } from "./ui";
 
 // The markdown renderer pulls in react-markdown + remark/rehype plugins + every
@@ -113,7 +113,13 @@ function Root() {
   const [parent, setParent] = useState(false);
   const [wipe, setWipe] = useState(false);
 
-  useEffect(() => store.set(THEME_KEY, theme), [theme]);
+  // The theme attribute lives on <html> (set before first render in index.tsx)
+  // so toggling repaints the whole page immediately — keeping it on a nested
+  // div left the current view stale until the next navigation re-render.
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    store.set(THEME_KEY, theme);
+  }, [theme]);
   useEffect(() => store.set(NAV_KEY, view), [view]);
   // Changing screen stops any read-aloud and scrolls to the top, so audio from
   // the previous page never keeps playing over the new one.
@@ -246,7 +252,7 @@ function Root() {
   }, []);
 
   return (
-    <div className="sprout-root sprout-scroll" data-palette="sprout" data-theme={theme} data-density="comfy">
+    <div className="sprout-root sprout-scroll" data-density="comfy">
       <div className="blobs" aria-hidden="true">
         <span className="blob b1" /><span className="blob b2" /><span className="blob b3" />
       </div>
@@ -334,6 +340,39 @@ function Root() {
 
 /* ---------------- top bar ---------------- */
 
+/* Breadcrumb chip — the subject/area NAME on its accent-soft background, so the
+ * crumb carries the page's identity instead of a tiny icon-only hint. Renders
+ * as a button when it links to an ancestor, as a plain chip when it IS the
+ * page. (On phones the label collapses to the icon — see kids.css.) */
+function CrumbChip({
+  icon,
+  label,
+  color,
+  colorSoft,
+  onClick,
+}: {
+  icon: IconName;
+  label: string;
+  color: string;
+  colorSoft: string;
+  onClick?: () => void;
+}) {
+  const style = { ["--c" as string]: color, ["--c-soft" as string]: colorSoft };
+  const body = (
+    <>
+      <Icon name={icon} size={18} duo />
+      <span className="crumb-tx">{label}</span>
+    </>
+  );
+  return onClick ? (
+    <button className="crumb-chip" style={style} onClick={onClick} aria-label={label}>
+      {body}
+    </button>
+  ) : (
+    <span className="crumb-chip" style={style}>{body}</span>
+  );
+}
+
 function TopBar({
   view,
   onBack,
@@ -392,23 +431,19 @@ function TopBar({
               (() => {
                 const a = site.areas.items.find((i) => i.id === view.area);
                 return a ? (
-                  <span style={{ color: `var(${a.accent})`, display: "inline-flex", alignItems: "center", gap: 4 }}>
-                    <Icon name={a.icon as IconName} size={18} /> <span className="crumb-tx">{a.label}</span>
-                  </span>
+                  <CrumbChip icon={a.icon as IconName} label={a.label} color={`var(${a.accent})`} colorSoft={`var(${a.accent}-soft)`} />
                 ) : null;
               })()
             ) : view.kind === "diversao" ? (
               // "Diversão" hub, plus the room name when inside one (a link back).
               <>
-                {view.room ? (
-                  <button className="crumb-link" style={{ color: "var(--joy)" }} onClick={() => onGo({ kind: "diversao" })}>
-                    <Icon name="sparkle" size={18} /> <span className="crumb-tx">{site.diversao.sectionTitle}</span>
-                  </button>
-                ) : (
-                  <span style={{ color: "var(--joy)", display: "inline-flex", alignItems: "center", gap: 4 }}>
-                    <Icon name="sparkle" size={18} /> <span className="crumb-tx">{site.diversao.sectionTitle}</span>
-                  </span>
-                )}
+                <CrumbChip
+                  icon="sparkle"
+                  label={site.diversao.sectionTitle}
+                  color="var(--joy)"
+                  colorSoft="var(--joy-soft)"
+                  onClick={view.room ? () => onGo({ kind: "diversao" }) : undefined}
+                />
                 {view.room && (
                   <>
                     <span className="sep">›</span>
@@ -418,14 +453,10 @@ function TopBar({
               </>
             ) : view.kind === "teia" ? (
               // "A Teia do Saber" — the knowledge web.
-              <span style={{ color: "var(--subj-emus)", display: "inline-flex", alignItems: "center", gap: 4 }}>
-                <Icon name="atom" size={18} /> <span className="crumb-tx">A Teia do Saber</span>
-              </span>
+              <CrumbChip icon="atom" label="A Teia do Saber" color="var(--subj-en)" colorSoft="var(--subj-en-soft)" />
             ) : view.kind === "mundo" ? (
               // The "Pelo mundo fora" overview itself.
-              <span style={{ color: mundoSubject.color, display: "inline-flex", alignItems: "center", gap: 4 }}>
-                <Icon name={MUNDO_BEYOND.icon as IconName} size={18} /> <span className="crumb-tx">{MUNDO_BEYOND.label}</span>
-              </span>
+              <CrumbChip icon={MUNDO_BEYOND.icon as IconName} label={MUNDO_BEYOND.label} color={mundoSubject.color} colorSoft={mundoSubject.colorSoft} />
             ) : subject && isMundo(subject.id) ? (
               // "O Mundo" lessons: ring name (never "X.º ano"). Wider-world rings
               // sit under the "Pelo mundo fora" entry, shown as a crumb hop.
@@ -438,45 +469,35 @@ function TopBar({
                     <span className="sep">›</span>
                   </>
                 )}
-                {deeperThanSubject ? (
-                  <button className="crumb-link" style={{ color: subject.color }} onClick={() => onGo({ kind: "subject", year: view.year, subjectId: subject.id })}>
-                    <Icon name={(mundoRings.find((r) => r.ring === view.year)?.icon ?? SUBJECT_ICON[subject.id]) as IconName} size={18} />
-                    <span className="crumb-tx">{tierLabel(subject.id, view.year)}</span>
-                  </button>
-                ) : (
-                  <span style={{ color: subject.color, display: "inline-flex", alignItems: "center", gap: 4 }}>
-                    <Icon name={(mundoRings.find((r) => r.ring === view.year)?.icon ?? SUBJECT_ICON[subject.id]) as IconName} size={18} />
-                    <span className="crumb-tx">{tierLabel(subject.id, view.year)}</span>
-                  </span>
-                )}
+                <CrumbChip
+                  icon={(mundoRings.find((r) => r.ring === view.year)?.icon ?? SUBJECT_ICON[subject.id]) as IconName}
+                  label={tierLabel(subject.id, view.year)}
+                  color={subject.color}
+                  colorSoft={subject.colorSoft}
+                  onClick={deeperThanSubject ? () => onGo({ kind: "subject", year: view.year, subjectId: subject.id }) : undefined}
+                />
               </>
             ) : subject && isPaises(subject.id) ? (
               // "Países" — country profiles, never "X.º ano". Show the country
               // name (a link back to that country's lesson list when on a lesson).
-              deeperThanSubject ? (
-                <button className="crumb-link" style={{ color: subject.color }} onClick={() => onGo({ kind: "subject", year: view.year, subjectId: subject.id })}>
-                  <Icon name={(paisesCountries.find((c) => c.tier === view.year)?.icon ?? SUBJECT_ICON[subject.id]) as IconName} size={18} />
-                  <span className="crumb-tx">{tierLabel(subject.id, view.year)}</span>
-                </button>
-              ) : (
-                <span style={{ color: subject.color, display: "inline-flex", alignItems: "center", gap: 4 }}>
-                  <Icon name={(paisesCountries.find((c) => c.tier === view.year)?.icon ?? SUBJECT_ICON[subject.id]) as IconName} size={18} />
-                  <span className="crumb-tx">{tierLabel(subject.id, view.year)}</span>
-                </span>
-              )
+              <CrumbChip
+                icon={(paisesCountries.find((c) => c.tier === view.year)?.icon ?? SUBJECT_ICON[subject.id]) as IconName}
+                label={tierLabel(subject.id, view.year)}
+                color={subject.color}
+                colorSoft={subject.colorSoft}
+                onClick={deeperThanSubject ? () => onGo({ kind: "subject", year: view.year, subjectId: subject.id }) : undefined}
+              />
             ) : subject && (isEstudo(subject.id) || isDicionario(subject.id) || isVerbos(subject.id) || isEnciclopedia(subject.id) || isCores(subject.id) || isAtlas(subject.id)) ? (
               // "Saber de cor" / "O Dicionário" / "Os Verbos" / Enciclopédia /
               // "As Cores" / "Atlas da Vida" — grade-less areas, never "X.º ano".
               // Just the area name (a link back to its overview when deeper in).
-              deeperThanSubject ? (
-                <button className="crumb-link" style={{ color: subject.color }} onClick={() => onGo({ kind: "subject", year: view.year, subjectId: subject.id })}>
-                  <Icon name={SUBJECT_ICON[subject.id]} size={18} /> <span className="crumb-tx">{subject.label}</span>
-                </button>
-              ) : (
-                <span style={{ color: subject.color, display: "inline-flex", alignItems: "center", gap: 4 }}>
-                  <Icon name={SUBJECT_ICON[subject.id]} size={18} /> <span className="crumb-tx">{subject.label}</span>
-                </span>
-              )
+              <CrumbChip
+                icon={SUBJECT_ICON[subject.id]}
+                label={subject.label}
+                color={subject.color}
+                colorSoft={subject.colorSoft}
+                onClick={deeperThanSubject ? () => onGo({ kind: "subject", year: view.year, subjectId: subject.id }) : undefined}
+              />
             ) : (
               <>
                 {deeperThanYear ? (
@@ -489,15 +510,13 @@ function TopBar({
                 {subject && (
                   <>
                     <span className="sep crumb-year-sep">›</span>
-                    {deeperThanSubject ? (
-                      <button className="crumb-link" style={{ color: subject.color }} aria-label={subject.label} onClick={() => onGo({ kind: "subject", year: view.year, subjectId: subject.id })}>
-                        <Icon name={SUBJECT_ICON[subject.id]} size={20} />
-                      </button>
-                    ) : (
-                      <span style={{ color: subject.color, display: "inline-flex" }}>
-                        <Icon name={SUBJECT_ICON[subject.id]} size={20} />
-                      </span>
-                    )}
+                    <CrumbChip
+                      icon={SUBJECT_ICON[subject.id]}
+                      label={subject.label}
+                      color={subject.color}
+                      colorSoft={subject.colorSoft}
+                      onClick={deeperThanSubject ? () => onGo({ kind: "subject", year: view.year, subjectId: subject.id }) : undefined}
+                    />
                   </>
                 )}
               </>
@@ -515,9 +534,7 @@ function TopBar({
             {view.kind === "test" && (
               <>
                 <span className="sep">›</span>
-                <span style={{ display: "inline-flex", alignItems: "center", gap: 4, color: "var(--warn)" }}>
-                  <Icon name="trophy" size={16} /> <span className="crumb-tx">Teste</span>
-                </span>
+                <CrumbChip icon="trophy" label="Teste" color="var(--warn)" colorSoft="var(--warn-soft)" />
               </>
             )}
           </>
@@ -625,7 +642,7 @@ function BigCard({
         <div className="bc-media">
           <span className="bc-motif" aria-hidden />
           <span className={`bc-art ${numberLabel ? "num" : ""}`}>
-            {numberLabel ? numberLabel : iconName ? <Icon name={iconName} size={38} /> : null}
+            {numberLabel ? numberLabel : iconName ? <Icon name={iconName} size={38} duo /> : null}
           </span>
         </div>
         <div className="bc-body">
@@ -867,7 +884,7 @@ function TreinarView({ onOpenLesson }: { onOpenLesson: (lessonId: string) => voi
         <div key={cat.label}>
           <h2 className="section-title" style={i > 0 ? { marginTop: 32 } : undefined}>
             <span style={{ color: estudoSubject.color, display: "inline-flex" }}>
-              <Icon name={cat.icon as IconName} size={26} />
+              <Icon name={cat.icon as IconName} size={26} duo />
             </span>
             {cat.label}
           </h2>
@@ -915,7 +932,7 @@ function ExplorarView({
       {/* "O Mundo" — Açores and Portugal up front; the wider world one tap in. */}
       <h2 className="section-title">
         <span style={{ color: mundoSubject.color, display: "inline-flex" }}>
-          <Icon name={SUBJECT_ICON[mundoSubject.id]} size={26} />
+          <Icon name={SUBJECT_ICON[mundoSubject.id]} size={26} duo />
         </span>
         {site.mundo.sectionTitle}
       </h2>
@@ -966,7 +983,7 @@ function ExplorarView({
       {/* "Países" — one card per country; each opens its parallel lessons. */}
       <h2 className="section-title" style={{ marginTop: 36 }}>
         <span style={{ color: paisesSubject.color, display: "inline-flex" }}>
-          <Icon name={SUBJECT_ICON[paisesSubject.id]} size={26} />
+          <Icon name={SUBJECT_ICON[paisesSubject.id]} size={26} duo />
         </span>
         {site.paises.sectionTitle}
       </h2>
@@ -1254,7 +1271,7 @@ function BibliotecaView({ onOpenSubject }: { onOpenSubject: (subjectId: string) 
 
       {/* Descobrir — the Enciclopédia themes (Espaço, Dinossauros, …). */}
       <h2 className="section-title">
-        <span style={{ color: "var(--subj-mundo)", display: "inline-flex" }}><Icon name="sparkle" size={26} /></span>
+        <span style={{ color: "var(--subj-mundo)", display: "inline-flex" }}><Icon name="sparkle" size={26} duo /></span>
         Descobrir
       </h2>
       <p className="section-sub">Toca num tema e parte à descoberta — cada artigo tem som, imagens e um quiz! 🚀</p>
@@ -1281,7 +1298,7 @@ function BibliotecaView({ onOpenSubject }: { onOpenSubject: (subjectId: string) 
 
       {/* Coleções — catálogos para folhear: Cores, Atlas da Vida, Dicionário. */}
       <h2 className="section-title" style={{ marginTop: 36 }}>
-        <span style={{ color: "var(--subj-pt)", display: "inline-flex" }}><Icon name="grid" size={26} /></span>
+        <span style={{ color: "var(--subj-pt)", display: "inline-flex" }}><Icon name="grid" size={26} duo /></span>
         Coleções
       </h2>
       <p className="section-sub">Catálogos para folhear, ouvir e descobrir — cores, seres vivos e palavras. 📚</p>
@@ -1334,7 +1351,7 @@ function MundoView({ onPick }: { onPick: (ring: YearN) => void }) {
       <Mascot message="Vamos viajar pelo mundo fora! Escolhe por onde queres começar." mood="happy" />
       <h2 className="section-title">
         <span style={{ color: mundoSubject.color, display: "inline-flex" }}>
-          <Icon name={MUNDO_BEYOND.icon as IconName} size={26} />
+          <Icon name={MUNDO_BEYOND.icon as IconName} size={26} duo />
         </span>
         {MUNDO_BEYOND.label}
       </h2>
@@ -1411,10 +1428,10 @@ function SubjectView({ subject, year, onPick }: { subject: Subject; year: YearN;
     ? `${subject.label}. Escolhe uma letra para veres o que as palavras significam!`
     : `${subject.label}${tier ? ` • ${tier}` : ""}. Escolhe uma lição para começar!`;
   return (
-    <div>
+    <div style={{ ["--acc" as string]: subject.color, ["--acc-soft" as string]: subject.colorSoft }}>
       <Mascot message={mascotMsg} mood="happy" />
       <h2 className="section-title">
-        <span style={{ color: subject.color, display: "inline-flex" }}><Icon name={SUBJECT_ICON[subject.id]} size={26} /></span>
+        <span style={{ color: subject.color, display: "inline-flex" }}><Icon name={SUBJECT_ICON[subject.id]} size={26} duo /></span>
         {subject.label}
         {tier && <span style={{ color: "var(--ink-3)", fontWeight: 500 }}> · {tier}</span>}
       </h2>
@@ -1445,10 +1462,11 @@ function SubjectView({ subject, year, onPick }: { subject: Subject; year: YearN;
                     {l.tag && <span className="sub" style={{ display: "block", fontWeight: 700 }}>{l.tag}</span>}
                     {soon ? (
                       <span className="tag"><Icon name="lock" size={13} /> Em breve</span>
-                    ) : p?.done ? (
-                      <Stars n={p.bestStars} />
                     ) : (
-                      <span className="sub">Toca para começar ›</span>
+                      <span className="chip-row">
+                        <span className="chip-min">≈ {lessonMinutes(l.body ?? "")} min</span>
+                        {p?.done && <Stars n={p.bestStars} />}
+                      </span>
                     )}
                   </>
                 )
@@ -1486,9 +1504,13 @@ function LessonView({
 
   const p = progress[lesson.id];
 
+  // Subject accent for the whole lesson page — headings, summary, blockquotes
+  // pick it up via var(--acc, …) in the CSS.
+  const accStyle = { ["--acc" as string]: subject.color, ["--acc-soft" as string]: subject.colorSoft };
+
   if (!lesson.body) {
     return (
-      <div className="sprout-fade-up">
+      <div className="sprout-fade-up" style={accStyle}>
         <div className="lesson-body" style={{ textAlign: "center" }}>
           <div style={{ color: subject.color, display: "flex", justifyContent: "center", margin: "8px 0" }}>
             <Icon name={lessonIcon(subject.id, lesson)} size={72} />
@@ -1513,7 +1535,7 @@ function LessonView({
 
   return (
     <LessonContext.Provider value={lesson.id}>
-      <div className="sprout-fade-up">
+      <div className="sprout-fade-up" style={accStyle}>
         <LessonBody>{learn}</LessonBody>
 
         {test && (
@@ -1583,7 +1605,7 @@ function TestView({
 
   return (
     <LessonContext.Provider value={lesson.id}>
-      <div className="sprout-fade-up">
+      <div className="sprout-fade-up" style={{ ["--acc" as string]: subject.color, ["--acc-soft" as string]: subject.colorSoft }}>
         <div className="test-header" style={{ ["--c" as string]: subject.color }}>
           <span className="test-header__icon"><Icon name="trophy" size={30} /></span>
           <div>

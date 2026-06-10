@@ -1,23 +1,24 @@
 /* Sprout — design tokens. Adapted from the Atlantis "Atlas" system:
-   calm near-black dark + clean paper light, soft layered shadows, a single
+   rich warm slate dark + warm paper light, soft layered shadows, a single
    green primary with blue/violet accents. Per-subject accents layer on top.
-   Palette via [data-palette="sprout"], theme via [data-theme]. */
+   Palette via [data-palette="sprout"], theme via [data-theme] — both set on
+   <html> (see apps/web/src/index.tsx) so a theme toggle repaints everything. */
 
 [data-palette="sprout"],
 [data-palette="sprout"][data-theme="light"] {
-  /* LIGHT — clean paper, Atlantis green */
-  --bg:          #f5f7fa;
-  --bg-2:        #eef1f5;
+  /* LIGHT — warm paper, Atlantis green */
+  --bg:          #faf8f4;
+  --bg-2:        #f1ede5;
   --bg-elev:     #ffffff;
   --surface:     #ffffff;
-  --surface-2:   #f0f3f6;
-  --surface-3:   #e6eaef;
-  --ink:         #18202b;
-  --ink-2:       #56616f;
-  --ink-3:       #8893a1;
-  --border:      #dde3ea;
-  --border-soft: #e9eef3;
-  --border-strong:#c6ced8;
+  --surface-2:   #f6f3ee;
+  --surface-3:   #ece7de;
+  --ink:         #1d2433;
+  --ink-2:       #4f5a6b;
+  --ink-3:       #7e8898;
+  --border:      #e4ded2;
+  --border-soft: #efebe3;
+  --border-strong:#cdc4b2;
 
   --primary:     #1f9d6b;
   --primary-soft:#dff3ea;
@@ -31,8 +32,8 @@
   --info-soft:   #dde8fb;
   --ok:          #1f9d6b;
   --ok-soft:     #dff3ea;
-  --code-bg:     #18202b;
-  --code-ink:    #f5f7fa;
+  --code-bg:     #1d2433;
+  --code-ink:    #faf8f4;
 
   --subj-mat:    #2f6df0;  --subj-mat-soft:#dde7fc;
   --subj-pt:     #e23b6d;  --subj-pt-soft: #fbdce6;
@@ -45,6 +46,7 @@
   --subj-fis:    #e0392b;  --subj-fis-soft: #fbdad7;
   --subj-paises: #4b54d6;  --subj-paises-soft:#e1e3fb;
   --joy:         #ff7a59;  --joy-soft:      #ffe3da;  /* "Diversão" — warm, playful coral */
+  --area-treinar:#dd8500;  --area-treinar-soft:#fcedd2; /* "Treinar" — practice amber */
   /* 2.º ciclo (5.º–6.º) subjects */
   --subj-cn:     #0ea371;  --subj-cn-soft:  #d6f3e8;
   --subj-hgp:    #b06a25;  --subj-hgp-soft: #f4e7d6;
@@ -56,19 +58,19 @@
 }
 
 [data-palette="sprout"][data-theme="dark"] {
-  /* DARK — Atlantis night: near-black slate, subtle borders, accent glow */
-  --bg:          #0a0e13;
-  --bg-2:        #070a0e;
-  --bg-elev:     #11161d;
-  --surface:     #141a22;
-  --surface-2:   #1a212b;
-  --surface-3:   #222b37;
-  --ink:         #e6edf3;
-  --ink-2:       #9aa7b4;
-  --ink-3:       #69737f;
-  --border:      #262f3a;
-  --border-soft: #1c242e;
-  --border-strong:#3a4655;
+  /* DARK — Atlantis night: rich warm slate, subtle borders, accent glow */
+  --bg:          #0f1420;
+  --bg-2:        #0b101a;
+  --bg-elev:     #161d2c;
+  --surface:     #1a2233;
+  --surface-2:   #202a3e;
+  --surface-3:   #28344c;
+  --ink:         #eef2f8;
+  --ink-2:       #aeb9c9;
+  --ink-3:       #7e8aa0;
+  --border:      #2a3550;
+  --border-soft: #222c44;
+  --border-strong:#3d4c70;
 
   --primary:     #4cc38a;
   --primary-soft:#11281e;
@@ -82,8 +84,8 @@
   --info-soft:   #122036;
   --ok:          #4cc38a;
   --ok-soft:     #11281e;
-  --code-bg:     #070a0e;
-  --code-ink:    #e6edf3;
+  --code-bg:     #0b101a;
+  --code-ink:    #eef2f8;
 
   --subj-mat:    #6ea8fe;  --subj-mat-soft:#10203a;
   --subj-pt:     #ff7aa8;  --subj-pt-soft: #2e1622;
@@ -96,6 +98,7 @@
   --subj-fis:    #ff7a6e;  --subj-fis-soft: #2e110e;
   --subj-paises: #9aa0ff;  --subj-paises-soft:#181a3a;
   --joy:         #ff9a73;  --joy-soft:      #2e160e;  /* "Diversão" — warm, playful coral */
+  --area-treinar:#ffb84d;  --area-treinar-soft:#2e2208; /* "Treinar" — practice amber */
   /* 2.º ciclo (5.º–6.º) subjects */
   --subj-cn:     #34d399;  --subj-cn-soft:  #0c2a20;
   --subj-hgp:    #d6a05f;  --subj-hgp-soft: #2a1d0e;

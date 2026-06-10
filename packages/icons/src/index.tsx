@@ -1,4 +1,4 @@
-import type { SVGProps } from "react";
+import { Children, Fragment, cloneElement, isValidElement, type ReactElement, type ReactNode, type SVGProps } from "react";
 
 /* @sprout/icons — a cohesive, kid-friendly line-icon set.
  * Every icon lives on a 24×24 grid, drawn with `currentColor`, 2px strokes and
@@ -1391,9 +1391,28 @@ export function lessonIconName(subjectId: string, lessonId: string): IconName {
 export interface IconProps extends Omit<SVGProps<SVGSVGElement>, "name"> {
   name: IconName;
   size?: number | string;
+  /** Duotone: tint the glyph's main shape with a soft currentColor fill. */
+  duo?: boolean;
 }
 
-export function Icon({ name, size = 24, ...rest }: IconProps) {
+/* Duotone base — a filled, strokeless copy of the glyph's FIRST shape (every
+ * glyph leads with its main silhouette), drawn beneath the line work. Generic
+ * on purpose: no glyph needs redrawing to gain a duotone variant. */
+function duoBase(glyph: ReactNode): ReactElement | null {
+  const first =
+    isValidElement(glyph) && glyph.type === Fragment
+      ? Children.toArray((glyph.props as { children?: ReactNode }).children)[0]
+      : glyph;
+  if (!isValidElement(first)) return null;
+  return cloneElement(first as ReactElement<SVGProps<SVGElement>>, {
+    fill: "currentColor",
+    fillOpacity: 0.14,
+    stroke: "none",
+  });
+}
+
+export function Icon({ name, size = 24, duo = false, ...rest }: IconProps) {
+  const glyph = ICONS[name];
   return (
     <svg
       viewBox="0 0 24 24"
@@ -1407,7 +1426,8 @@ export function Icon({ name, size = 24, ...rest }: IconProps) {
       aria-hidden="true"
       {...rest}
     >
-      {ICONS[name]}
+      {duo && duoBase(glyph)}
+      {glyph}
     </svg>
   );
 }

@@ -351,7 +351,7 @@ function drawGarden(
   const { w, h } = fitCanvas(canvas, ctx);
   // Read the theme tokens once per frame so the scene matches light/dark mode.
   const skyTop = cssVar(canvas, "--accent-soft", "#dde8fb");
-  const skyBottom = cssVar(canvas, "--bg", "#f5f7fa");
+  const skyBottom = cssVar(canvas, "--bg", "#faf8f4");
   const sunCol = cssVar(canvas, "--warn", "#f0b429");
   const soilCol = cssVar(canvas, "--subj-hgp", "#b06a25");
   const green = cssVar(canvas, "--subj-edm", "#1f9d6b");

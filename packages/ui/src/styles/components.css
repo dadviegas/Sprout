@@ -41,17 +41,18 @@
   color: var(--ink);
   width: 100%;
   --read-width: 76ch;
+  /* ONE centred reading column: the whole lesson shares a single left edge
+     (centring each block individually left titles/callouts misaligned). */
+  max-width: var(--read-width);
+  margin-inline: auto;
 }
 /* Phone keeps a tight reading measure; from tablet up let the text fill the
    card (full width on iPad) while still capping the line length on wide desktop
    so it never sprawls past comfortable reading. */
 @media (min-width: 700px) {
-  .prose { --read-width: min(100%, 1000px); }
-}
-.prose > :is(h1, h2, h3, h4, p, ul, ol, blockquote, details, .lesson-summary) {
-  max-width: var(--read-width);
-  margin-left: auto;
-  margin-right: auto;
+  /* relative measure (ch, not px): fills the card on iPad, still caps the
+     line length for comfortable reading on a wide desktop */
+  .prose { --read-width: min(100%, 90ch); }
 }
 .prose h1, .prose h2, .prose h3, .prose h4 {
   font-family: var(--font-display);
@@ -76,7 +77,9 @@
 .prose h3 {
   font-size: calc(1.25em * var(--d));
   margin-top: 1.45em;
-  color: var(--primary);
+  /* --acc = the page's subject accent (set on the lesson/test container);
+     falls back to the brand green outside subject pages */
+  color: var(--acc, var(--primary));
 }
 
 /* heading read-aloud (for children who can't read yet) */
@@ -94,17 +97,18 @@
 .prose-speak:active { transform: scale(.92); }
 .prose-speak[data-playing] { background: var(--primary); color: #fff; }
 
-/* lesson summary block ("O que vais aprender") */
+/* lesson summary block ("O que vais aprender") — tinted with the page's
+   subject accent (--acc/--acc-soft), brand green elsewhere */
 .lesson-summary {
   margin: 0 0 1.4em;
   padding: 16px 18px;
   border-radius: var(--radius);
-  background: var(--primary-soft);
-  border: 2px solid color-mix(in srgb, var(--primary) 40%, var(--border));
+  background: var(--acc-soft, var(--primary-soft));
+  border: 2px solid color-mix(in srgb, var(--acc, var(--primary)) 40%, var(--border));
 }
 .lesson-summary__head { display: flex; align-items: center; gap: 10px; }
 .lesson-summary__head strong { font-family: var(--font-display); font-size: 1.1em; color: var(--ink); }
-.lesson-summary__icon { display: inline-grid; place-items: center; color: var(--primary); }
+.lesson-summary__icon { display: inline-grid; place-items: center; color: var(--acc, var(--primary)); }
 .lesson-summary__speak {
   margin-left: auto;
   display: inline-flex; align-items: center; gap: 6px;
@@ -119,7 +123,7 @@
 .lesson-summary__list { margin: 12px 0 0; padding-left: 0; }
 .lesson-summary__ex {
   margin-top: 12px; padding-top: 10px;
-  border-top: 1px dashed color-mix(in srgb, var(--primary) 30%, var(--border));
+  border-top: 1px dashed color-mix(in srgb, var(--acc, var(--primary)) 30%, var(--border));
   display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
 }
 .lesson-summary__ex-label { font-weight: 700; color: var(--ink-2); font-size: .9em; }
@@ -149,8 +153,8 @@
 .prose blockquote {
   margin: 1.3em auto;
   padding: .7em 1.2em;
-  border-left: 5px solid var(--primary);
-  background: var(--primary-soft);
+  border-left: 5px solid var(--acc, var(--primary));
+  background: var(--acc-soft, var(--primary-soft));
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   color: var(--ink-2);
 }
@@ -255,6 +259,27 @@
 .read-more__btn:hover { transform: translateY(-2px); filter: brightness(1.04); }
 .read-more__btn:active { transform: translateY(0) scale(.98); }
 .read-more__btn:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 55%, transparent); outline-offset: 2px; }
+
+/* steps "reveal" mode — retrieval practice: the next step stays hidden until
+   the child taps the think-first button (Infographic.tsx Steps). Tinted with
+   the page's subject accent, brand green elsewhere. */
+.steps-reveal {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin: -0.4em 0 1.4em;
+  padding: 10px 22px; min-height: 44px;
+  border: none; border-radius: 14px;
+  font-family: var(--font-display); font-weight: 700; font-size: 1em;
+  background: var(--acc, var(--primary)); color: #fff;
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-out), filter var(--dur-fast);
+}
+.steps-reveal:hover { transform: translateY(-2px); filter: brightness(1.08); }
+.steps-reveal:active { transform: translateY(0) scale(.97); }
+.steps-reveal:focus-visible { outline: 3px solid color-mix(in srgb, var(--acc, var(--primary)) 55%, transparent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  .sprout-steps .sprout-pop { animation: none; }
+  .steps-reveal { transition: none; }
+}
 
 /* scrollbars */
 .sprout-scroll { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }

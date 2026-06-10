@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sprout — Mockup do revamp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;0,800&display=swap" rel="stylesheet">
+<style>
+/* ===== Tokens (proposta) ===== */
+[data-theme="light"]{
+  --bg:#faf8f4; --bg-2:#f3f0ea; --surface:#ffffff; --surface-2:#f6f3ee;
+  --ink:#1d2433; --ink-2:#4f5a6b; --ink-3:#7e8898;
+  --border:#e6e1d8; --border-soft:#efebe3;
+  --primary:#1f9d6b; --primary-soft:#dff3ea;
+  --shadow:0 2px 6px rgba(60,60,90,.06),0 12px 32px rgba(60,60,90,.08);
+}
+[data-theme="dark"]{
+  --bg:#0f1420; --bg-2:#131a29; --surface:#1a2233; --surface-2:#202a3e;
+  --ink:#eef2f8; --ink-2:#aeb9c9; --ink-3:#7e8aa0;
+  --border:#2a3550; --border-soft:#222c44;
+  --primary:#2fb981; --primary-soft:#15302a;
+  --shadow:0 2px 6px rgba(0,0,0,.3),0 16px 40px rgba(0,0,0,.35);
+}
+/* accent por disciplina — pinta a página inteira */
+.mat{ --acc:#3b82f6; --acc-soft:#dbeafe; --acc-ink:#1d4ed8; }
+.pt { --acc:#ec4899; --acc-soft:#fce7f3; --acc-ink:#be185d; }
+.edm{ --acc:#22c55e; --acc-soft:#dcfce7; --acc-ink:#15803d; }
+.en { --acc:#8b5cf6; --acc-soft:#ede9fe; --acc-ink:#6d28d9; }
+[data-theme="dark"] .mat{ --acc:#60a5fa; --acc-soft:#152544; --acc-ink:#93c5fd; }
+[data-theme="dark"] .pt { --acc:#f472b6; --acc-soft:#3a1a2e; --acc-ink:#f9a8d4; }
+[data-theme="dark"] .edm{ --acc:#4ade80; --acc-soft:#143226; --acc-ink:#86efac; }
+[data-theme="dark"] .en { --acc:#a78bfa; --acc-soft:#241a44; --acc-ink:#c4b5fd; }
+
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);
+  font:17px/1.65 "Nunito",system-ui,sans-serif; transition:background .25s,color .25s}
+h1,h2,h3,.display{font-family:"Baloo 2",system-ui,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px 80px}
+
+/* ===== Nav ===== */
+.nav{position:sticky;top:0;z-index:9;background:color-mix(in srgb,var(--bg) 86%,transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--border-soft)}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:10px 24px}
+.crumb{display:flex;gap:8px;align-items:center;font-weight:700;font-size:15px;color:var(--ink-2)}
+.crumb b{color:var(--ink)}
+.iconbtn{width:44px;height:44px;border-radius:14px;border:1px solid var(--border);
+  background:var(--surface);color:var(--ink);display:grid;place-items:center;font-size:19px;cursor:pointer}
+.iconbtn:hover{border-color:var(--acc,var(--primary))}
+.spacer{flex:1}
+.stars{display:flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;padding:8px 14px;font-weight:800}
+
+/* ===== Secção demo ===== */
+.demo-label{margin:48px 0 16px;font-size:13px;letter-spacing:.12em;font-weight:800;color:var(--ink-3);text-transform:uppercase}
+
+/* ===== HOME: cartões de área ===== */
+.areas{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.area{position:relative;border-radius:24px;padding:22px;border:1px solid var(--border);
+  background:linear-gradient(150deg,var(--a-soft) 0%,var(--surface) 70%);
+  box-shadow:var(--shadow);cursor:pointer;transition:transform .15s}
+.area:hover{transform:translateY(-3px) scale(1.01)}
+.area .big{font-size:44px;line-height:1}
+.area h3{margin:10px 0 2px;font-size:22px}
+.area p{margin:0;color:var(--ink-2);font-size:15px}
+.area .prog{margin-top:14px;height:10px;border-radius:6px;background:var(--bg-2);overflow:hidden}
+.area .prog i{display:block;height:100%;border-radius:6px;background:var(--a);width:var(--w,30%)}
+.area .meta{display:flex;justify-content:space-between;margin-top:8px;font-size:13.5px;font-weight:700;color:var(--ink-3)}
+.a-esc{--a:#3b82f6;--a-soft:#dbeafe55}.a-tre{--a:#f59e0b;--a-soft:#fef3c755}
+.a-exp{--a:#06b6d4;--a-soft:#cffafe55}.a-bib{--a:#ec4899;--a-soft:#fce7f355}
+.a-teia{--a:#8b5cf6;--a-soft:#ede9fe55}.a-div{--a:#ff7a59;--a-soft:#ffe3da55}
+[data-theme="dark"] .a-esc{--a-soft:#15254466}[data-theme="dark"] .a-tre{--a-soft:#33240b66}
+[data-theme="dark"] .a-exp{--a-soft:#0b2f3666}[data-theme="dark"] .a-bib{--a-soft:#3a1a2e66}
+[data-theme="dark"] .a-teia{--a-soft:#241a4466}[data-theme="dark"] .a-div{--a-soft:#38180f66}
+
+/* ===== Cartão de lição (página da matéria) ===== */
+.lessons{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.lesson-card{border-radius:22px;border:1px solid var(--border);background:var(--surface);
+  box-shadow:var(--shadow);overflow:hidden;cursor:pointer;transition:transform .15s}
+.lesson-card:hover{transform:translateY(-3px)}
+.lesson-card .cover{height:86px;display:grid;place-items:center;font-size:42px;
+  background:linear-gradient(140deg,var(--acc-soft),transparent)}
+.lesson-card .body{padding:14px 18px 18px}
+.lesson-card h4{margin:0 0 6px;font-size:19px;font-family:"Baloo 2"}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-size:13px;font-weight:800;padding:4px 10px;border-radius:999px;
+  background:var(--acc-soft);color:var(--acc-ink)}
+.chip.neutral{background:var(--bg-2);color:var(--ink-2)}
+
+/* ===== LIÇÃO: hero ===== */
+.hero{display:flex;gap:22px;align-items:center;margin:34px 0 26px;padding:26px;
+  border-radius:28px;border:1px solid var(--border);
+  background:linear-gradient(135deg,var(--acc-soft),var(--surface) 75%)}
+.hero .emoji{width:96px;height:96px;border-radius:28px;background:var(--surface);
+  display:grid;place-items:center;font-size:52px;box-shadow:var(--shadow)}
+.hero h1{margin:0 0 8px;font-size:38px;line-height:1.1}
+.speak{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:50%;
+  border:2px solid var(--acc);color:var(--acc);background:var(--surface);font-size:19px;cursor:pointer;flex:none}
+.speak:hover{background:var(--acc);color:#fff}
+.speak.sm{width:36px;height:36px;font-size:15px;border-width:1.5px}
+
+/* ===== LIÇÃO: secções com âncora ===== */
+.sec{margin:34px 0;padding:0}
+.sec.tinted{background:var(--bg-2);border-radius:24px;padding:26px;margin:34px -26px}
+.sec-h{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.sec-h .dot{width:42px;height:42px;border-radius:14px;background:var(--acc-soft);
+  display:grid;place-items:center;font-size:22px;flex:none}
+.sec-h h2{margin:0;font-size:26px;flex:1}
+.callout{display:flex;gap:14px;border-radius:18px;padding:16px 18px;margin:18px 0;
+  background:var(--acc-soft);border:none;align-items:flex-start}
+.callout .ic{font-size:22px;margin-top:2px}
+.callout b{color:var(--acc-ink)}
+.steps{counter-reset:s;display:grid;gap:10px;margin:18px 0}
+.step{display:flex;gap:14px;align-items:flex-start;background:var(--surface);
+  border:1px solid var(--border);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow)}
+.step::before{counter-increment:s;content:counter(s);width:34px;height:34px;flex:none;
+  border-radius:12px;background:var(--acc);color:#fff;display:grid;place-items:center;
+  font-weight:800;font-family:"Baloo 2"}
+.quiz-opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;
+  font:inherit;font-weight:700;color:var(--ink);padding:16px 18px;margin:10px 0;border-radius:18px;
+  border:2px solid var(--border);background:var(--surface);cursor:pointer;transition:all .12s}
+.quiz-opt:hover{border-color:var(--acc);transform:translateX(4px)}
+.quiz-opt .em{font-size:26px}
+.trail{position:fixed;right:max(18px,calc(50% - 560px));top:140px;display:grid;gap:10px}
+.trail i{width:12px;height:12px;border-radius:50%;background:var(--border);cursor:pointer}
+.trail i.on{background:var(--acc);box-shadow:0 0 0 4px var(--acc-soft)}
+@media(max-width:1180px){.trail{display:none}}
+footer{margin-top:60px;color:var(--ink-3);font-size:14px;text-align:center}
+.note{font-size:14.5px;color:var(--ink-2)}
+</style>
+</head>
+<body class="mat">
+<nav class="nav"><div class="nav-in">
+  <button class="iconbtn" title="Voltar">‹</button>
+  <span class="crumb">🏠 › 4.º ano › <b style="color:var(--acc-ink)">Matemática</b></span>
+  <span class="spacer"></span>
+  <span class="stars">⭐ 6</span>
+  <button class="iconbtn" id="themeBtn" onclick="toggleTheme()" title="Tema">🌙</button>
+</div></nav>
+
+<div class="wrap">
+
+<p class="demo-label">1 · Home — áreas com cor própria e progresso visível</p>
+<div class="areas">
+  <div class="area a-esc"><div class="big">🏫</div><h3>Escola</h3><p>As matérias do 1.º ao 6.º ano.</p><div class="prog"><i style="--w:32%"></i></div><div class="meta"><span>2/346</span><span>⭐ 6</span></div></div>
+  <div class="area a-tre"><div class="big">🎯</div><h3>Treinar</h3><p>Tabuadas, alfabeto, mapas…</p><div class="prog"><i style="--w:12%"></i></div><div class="meta"><span>4/33</span><span>⭐ 1</span></div></div>
+  <div class="area a-bib"><div class="big">📚</div><h3>Biblioteca</h3><p>Dicionário, verbos e descobertas.</p><div class="prog"><i style="--w:8%"></i></div><div class="meta"><span>9/120</span><span>⭐ 0</span></div></div>
+  <div class="area a-div"><div class="big">🎮</div><h3>Diversão</h3><p>Jardim, jogos e brincadeira.</p><div class="prog"><i style="--w:50%"></i></div><div class="meta"><span>—</span><span>⭐ 2</span></div></div>
+</div>
+
+<p class="demo-label">2 · Matéria — cartões de lição com capa, duração e nível</p>
+<div class="lessons">
+  <div class="lesson-card"><div class="cover">🧴</div><div class="body">
+    <h4>Volume e capacidade</h4>
+    <div class="chips"><span class="chip">≈ 15 min</span><span class="chip neutral">médio</span><span class="chip neutral">0/9 ⭐</span></div>
+  </div></div>
+  <div class="lesson-card"><div class="cover">🧮</div><div class="body">
+    <h4>Contas armadas</h4>
+    <div class="chips"><span class="chip">≈ 20 min</span><span class="chip neutral">difícil</span><span class="chip neutral">3/9 ⭐</span></div>
+  </div></div>
+  <div class="lesson-card"><div class="cover">📊</div><div class="body">
+    <h4>Gráficos e tabelas</h4>
+    <div class="chips"><span class="chip">≈ 10 min</span><span class="chip neutral">fácil</span><span class="chip neutral">9/9 ⭐</span></div>
+  </div></div>
+</div>
+
+<p class="demo-label">2b · Ícones — atual (linha) vs. proposta (duotone no blob da disciplina)</p>
+<div style="display:flex;gap:28px;flex-wrap:wrap;align-items:center">
+  <div style="text-align:center">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--ink-3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><path d="M7 8.5h3.6M8.8 6.7v3.6"/><path d="M13.4 14l3.2 3.2M16.6 14l-3.2 3.2"/><path d="M13.4 7.2h3.4"/><path d="M7 14.4h3.6M7 16.6h3.6"/></svg>
+    <div class="note">atual</div>
+  </div>
+  <div style="text-align:center" class="mat">
+    <span style="display:inline-grid;place-items:center;width:64px;height:64px;border-radius:20px;background:var(--acc-soft)">
+    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5" fill="var(--acc)" fill-opacity=".14" stroke="none"/><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><path d="M7 8.5h3.6M8.8 6.7v3.6"/><path d="M13.4 14l3.2 3.2M16.6 14l-3.2 3.2"/><path d="M13.4 7.2h3.4"/><path d="M7 14.4h3.6M7 16.6h3.6"/></svg></span>
+    <div class="note">Matemática</div>
+  </div>
+  <div style="text-align:center" class="pt">
+    <span style="display:inline-grid;place-items:center;width:64px;height:64px;border-radius:20px;background:var(--acc-soft)">
+    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.2C9.8 4.7 6.8 4.7 4.5 5.4v12.4c2.3-.7 5.3-.7 7.5.8 2.2-1.5 5.2-1.5 7.5-.8V5.4C17.2 4.7 14.2 4.7 12 6.2z" fill="var(--acc)" fill-opacity=".14"/><path d="M12 6.2v12.6"/></svg></span>
+    <div class="note">Português</div>
+  </div>
+  <div style="text-align:center" class="edm">
+    <span style="display:inline-grid;place-items:center;width:64px;height:64px;border-radius:20px;background:var(--acc-soft)">
+    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5" fill="var(--acc)" fill-opacity=".14"/><path d="M3.6 12h16.8"/><ellipse cx="12" cy="12" rx="4" ry="8.5"/></svg></span>
+    <div class="note">Estudo do Meio</div>
+  </div>
+  <div style="text-align:center" class="en">
+    <span style="display:inline-grid;place-items:center;width:64px;height:64px;border-radius:20px;background:var(--acc-soft)">
+    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-8.5L7 19.5V16H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z" fill="var(--acc)" fill-opacity=".14"/><path d="M7.5 13l2-5 2 5M8.2 11.2h2.6"/><path d="M14.5 9h3M16 9v.3c0 2-1.4 3.6-3 4.4"/></svg></span>
+    <div class="note">Inglês</div>
+  </div>
+</div>
+
+<p class="demo-label">3 · Lição — hero com identidade, secções com âncora e respiração</p>
+
+<div class="hero">
+  <div class="emoji">🧴</div>
+  <div style="flex:1">
+    <h1>Volume e capacidade</h1>
+    <div class="chips"><span class="chip">Matemática · 4.º ano</span><span class="chip neutral">≈ 15 min</span><span class="chip neutral">médio</span></div>
+  </div>
+  <button class="speak" title="Ouvir">🔊</button>
+</div>
+
+<div class="callout"><span class="ic">👀</span><div><b>O que vais aprender:</b> o que é a <b>capacidade</b> (o líquido que cabe) e o <b>volume</b> (o espaço que ocupa), medir em <b>litros e mililitros</b> e fazer trocas entre eles como um campeão! <button class="speak sm" style="vertical-align:middle">🔊</button></div></div>
+
+<div class="sec">
+  <div class="sec-h"><span class="dot">💧</span><h2>O que cabe lá dentro</h2><button class="speak sm">🔊</button></div>
+  <p>A <b>capacidade</b> é a quantidade de líquido que cabe dentro de um recipiente — uma garrafa, um copo, um balde, uma panela. Medimos em <b>litros (l)</b> e <b>mililitros (ml)</b>.</p>
+</div>
+
+<div class="sec tinted">
+  <div class="sec-h"><span class="dot">🔍</span><h2>Um exemplo passo a passo</h2><button class="speak sm">🔊</button></div>
+  <p>Com <b>1,5 l</b> de água encho <b>7 copos de 200 ml</b>. Quantos copos encho com <b>4 vezes mais água</b>?</p>
+  <div class="steps" id="steps">
+    <div class="step"><div>4 vezes mais água do que 1,5 l são <b>6 l</b>. <button class="speak sm" style="float:right">🔊</button></div></div>
+    <div class="step" hidden><div>Passa para mililitros: 6 l = <b>6000 ml</b>.</div></div>
+    <div class="step" hidden><div>Cada copo leva 200 ml: 6000 ÷ 200 = <b>30 copos</b>! 🎉</div></div>
+  </div>
+  <button id="nextStep" onclick="revealStep()" style="font:inherit;font-weight:800;font-family:'Baloo 2';
+    border:none;border-radius:16px;padding:12px 22px;background:var(--acc);color:#fff;cursor:pointer">
+    🤔 Pensa primeiro… e mostra o passo seguinte</button>
+  <div class="callout"><span class="ic">⚠️</span><div><b>Armadilha:</b> não respondas 28 (7 × 4)! Os 7 copos não gastam a água toda — sobram 100 ml. Converte sempre primeiro.</div></div>
+</div>
+
+<div class="sec">
+  <div class="sec-h"><span class="dot">🎈</span><h2>Vamos praticar</h2><button class="speak sm">🔊</button></div>
+  <p style="font-weight:700">O que mede a capacidade? <button class="speak sm" style="vertical-align:middle">🔊</button></p>
+  <button class="quiz-opt"><span class="em">💧</span> o líquido que cabe dentro</button>
+  <button class="quiz-opt"><span class="em">📏</span> o comprimento de uma régua</button>
+  <button class="quiz-opt"><span class="em">🪨</span> o peso de uma pedra</button>
+</div>
+
+<p class="demo-label">4 · Gráficos — o mesmo bloco ```chart``` do markdown, com design novo</p>
+
+<div class="sec tinted" style="margin-top:0">
+  <div class="sec-h"><span class="dot">📊</span><h2>População (milhões)</h2><button class="speak sm">🔊</button></div>
+  <svg viewBox="0 0 560 230" style="width:100%;max-width:560px">
+    <g stroke="var(--border-soft)" stroke-width="1">
+      <line x1="40" y1="40" x2="540" y2="40"/><line x1="40" y1="90" x2="540" y2="90"/>
+      <line x1="40" y1="140" x2="540" y2="140"/><line x1="40" y1="190" x2="540" y2="190"/>
+    </g>
+    <text x="32" y="44" text-anchor="end" font-size="12" fill="var(--ink-3)">40</text>
+    <text x="32" y="144" text-anchor="end" font-size="12" fill="var(--ink-3)">20</text>
+    <rect x="120" y="152" width="120" height="38" rx="10" fill="var(--acc)" opacity=".9"/>
+    <rect x="320" y="44" width="120" height="146" rx="10" fill="var(--acc)" opacity=".45"/>
+    <text x="180" y="142" text-anchor="middle" font-size="20" font-weight="800" fill="var(--ink)" font-family="Baloo 2">10</text>
+    <text x="380" y="34" text-anchor="middle" font-size="20" font-weight="800" fill="var(--ink)" font-family="Baloo 2">39</text>
+    <text x="180" y="212" text-anchor="middle" font-size="15" font-weight="700" fill="var(--ink-2)">🇵🇹 Portugal</text>
+    <text x="380" y="212" text-anchor="middle" font-size="15" font-weight="700" fill="var(--ink-2)">🇨🇦 Canadá</text>
+  </svg>
+  <p class="note">Barras com cantos redondos, valor em cima de cada barra (não em eixos), grelha quase invisível, emoji nos rótulos. O valor lê-se sem esforço — é isso que interessa a uma criança.</p>
+</div>
+
+<div class="sec" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start">
+  <div>
+    <div class="sec-h"><span class="dot">🍕</span><h2 style="font-size:21px">Como vamos para a escola</h2></div>
+    <svg viewBox="0 0 200 200" style="width:100%;max-width:230px">
+      <!-- 3 fatias contíguas, cada uma com a SUA cor (nenhuma se confunde com o fundo) -->
+      <circle cx="100" cy="100" r="70" fill="none" stroke="#3b82f6" stroke-width="34"
+        stroke-dasharray="219.9 439.8" transform="rotate(-90 100 100)"/>
+      <circle cx="100" cy="100" r="70" fill="none" stroke="#f59e0b" stroke-width="34"
+        stroke-dasharray="109.95 439.8" stroke-dashoffset="-219.9" transform="rotate(-90 100 100)"/>
+      <circle cx="100" cy="100" r="70" fill="none" stroke="#ec4899" stroke-width="34"
+        stroke-dasharray="109.95 439.8" stroke-dashoffset="-329.85" transform="rotate(-90 100 100)"/>
+      <text x="100" y="94" text-anchor="middle" font-size="22" font-weight="800" fill="var(--ink)" font-family="Baloo 2">20 alunos</text>
+      <text x="100" y="114" text-anchor="middle" font-size="13" fill="var(--ink-2)">da nossa turma</text>
+    </svg>
+    <div class="chips" style="margin-top:8px">
+      <span class="chip" style="background:#3b82f622;color:#3b82f6;border:2px solid #3b82f6">🚗 carro · 10 (50%)</span>
+      <span class="chip" style="background:#f59e0b22;color:#f59e0b;border:2px solid #f59e0b">🚶 a pé · 5 (25%)</span>
+      <span class="chip" style="background:#ec489922;color:#ec4899;border:2px solid #ec4899">🚌 autocarro · 5 (25%)</span>
+    </div>
+  </div>
+  <div>
+    <div class="sec-h"><span class="dot">📈</span><h2 style="font-size:21px">A minha planta a crescer</h2></div>
+    <svg viewBox="0 0 260 200" style="width:100%;max-width:280px">
+      <defs><linearGradient id="lg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="var(--acc)" stop-opacity=".35"/>
+        <stop offset="1" stop-color="var(--acc)" stop-opacity="0"/></linearGradient></defs>
+      <path d="M20 160 C70 150 90 120 130 100 C170 80 200 60 240 40 L240 180 L20 180 Z" fill="url(#lg)"/>
+      <path d="M20 160 C70 150 90 120 130 100 C170 80 200 60 240 40" fill="none" stroke="var(--acc)" stroke-width="4" stroke-linecap="round"/>
+      <g fill="var(--surface)" stroke="var(--acc)" stroke-width="3">
+        <circle cx="20" cy="160" r="7"/><circle cx="130" cy="100" r="7"/><circle cx="240" cy="40" r="7"/>
+      </g>
+      <text x="20" y="142" text-anchor="middle" font-size="14" font-weight="800" fill="var(--acc)">2 cm</text>
+      <text x="130" y="82" text-anchor="middle" font-size="14" font-weight="800" fill="var(--acc)">9 cm</text>
+      <text x="236" y="24" text-anchor="middle" font-size="14" font-weight="800" fill="var(--acc)">18 cm</text>
+      <text x="20" y="196" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-2)">semana 1</text>
+      <text x="130" y="196" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-2)">semana 2</text>
+      <text x="236" y="196" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--ink-2)">semana 3</text>
+      <text x="12" y="100" font-size="12" font-weight="800" fill="var(--ink-3)" transform="rotate(-90 12 100)" text-anchor="middle">altura (cm)</text>
+    </svg>
+    <p class="note" style="margin-top:4px">eixo x: <b>semanas</b> · eixo y: <b>altura em cm</b></p>
+  </div>
+</div>
+
+<div class="trail"><i class="on"></i><i></i><i></i><i></i></div>
+
+<footer>Mockup — alterna o tema no 🌙/☀️ · troca a classe <code>mat / pt / edm / en</code> no <code>&lt;body&gt;</code> para ver o accent por disciplina</footer>
+</div>
+
+<script>
+function revealStep(){
+  const next=document.querySelector('#steps .step[hidden]');
+  if(next){next.hidden=false;next.style.animation='pop .25s ease'}
+  if(!document.querySelector('#steps .step[hidden]'))
+    document.getElementById('nextStep').remove();
+}
+function toggleTheme(){
+  const r=document.documentElement;
+  const d=r.getAttribute('data-theme')==='dark';
+  r.setAttribute('data-theme',d?'light':'dark');
+  document.getElementById('themeBtn').textContent=d?'🌙':'☀️';
+}
+</script>
+</body>
+</html>

@@ -97,6 +97,11 @@ const INFOGRAPHIC = {
 function validateInfographic(lang, data, where, errors) {
   const spec = INFOGRAPHIC[lang];
   if (!spec) return;
+  // `steps` also accepts `{ "reveal": true, "items": [ … ] }` (retrieval
+  // practice — Markdown.tsx unwraps it the same way before rendering).
+  if (lang === "steps" && data !== null && typeof data === "object" && Array.isArray(data.items)) {
+    data = data.items;
+  }
   if (!Array.isArray(data)) {
     errors.push(`${where}: bloco '${lang}' tem de ser uma LISTA [ … ] (encontrei um objeto { … })`);
     return;

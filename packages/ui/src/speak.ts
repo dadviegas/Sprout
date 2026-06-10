@@ -10,12 +10,27 @@
 
 let cachedVoice: SpeechSynthesisVoice | null = null;
 
+/* Voice quality signals (in the voice NAME — the only metadata Web Speech
+   gives us). Rationale: within Portuguese voices, the right language variant
+   (pt-PT over pt-BR) is worth 1 point but each quality marker is worth 2 —
+   OSes often ship a robotic "compact" pt-PT next to a natural neural pt-BR,
+   and the natural voice is far easier for a child to follow. */
+const QUALITY = /enhanced|premium|natural|neural|melhorada/i; // OS "better voice" tiers
+const VENDOR = /google|microsoft|online/i; // cloud-backed voices read pt well
+const KNOWN_GOOD = /joana|catarina|duarte|raquel|fernanda/i; // good pt-PT voices by name
+const LOW_QUALITY = /compact|eloquence|espeak|grandma|grandpa|novelty/i; // robotic/joke voices
+
 /** Higher = better fit for European Portuguese. 0 = not Portuguese. */
 function ptScore(v: SpeechSynthesisVoice): number {
   const lang = (v.lang || "").toLowerCase().replace("_", "-");
-  if (lang === "pt-pt") return 3; // European Portuguese — best
-  if (lang.startsWith("pt")) return 2; // pt-BR etc. — still Portuguese
-  return 0; // not Portuguese
+  if (!lang.startsWith("pt")) return 0; // not Portuguese
+  let score = lang === "pt-pt" ? 4 : 3; // European Portuguese wins at equal quality
+  const name = v.name || "";
+  if (QUALITY.test(name)) score += 2;
+  if (VENDOR.test(name)) score += 2;
+  if (KNOWN_GOOD.test(name)) score += 2;
+  if (LOW_QUALITY.test(name)) score -= 3; // a compact pt-PT loses to any decent pt-BR
+  return Math.max(1, score); // any Portuguese voice still beats none at all
 }
 
 function pickVoice(): SpeechSynthesisVoice | null {
@@ -34,13 +49,38 @@ export function canSpeak(): boolean {
   return typeof window !== "undefined" && "speechSynthesis" in window;
 }
 
-/** Turn math notation into words so the engine says "1 vezes 2 é igual a 2"
- *  instead of spelling out (or skipping) the ×, =, ÷ symbols. Symbols that also
- *  appear in ordinary Portuguese (the hyphen in "bem-vindo", the slash in
- *  "e/ou") are only converted when they sit BETWEEN digits, i.e. in a real sum.
- *  Idempotent: text that's already words passes through unchanged. */
+/* Measure units, expanded only when glued to a number ("250 ml", "3km") so the
+   same letters inside ordinary words ("mala", "logo") are never touched.
+   Compound units come before their bare suffix ("ml"/"cl" before "l", "kg"
+   before "g") so the longer match wins. "1" takes the singular form. */
+const UNITS: [string, string][] = [
+  ["ml", "mililitro"], ["cl", "centilitro"], ["l", "litro"],
+  ["km", "quilómetro"], ["cm", "centímetro"], ["mm", "milímetro"],
+  ["kg", "quilograma"], ["g", "grama"],
+];
+
+function expandUnits(text: string): string {
+  for (const [u, word] of UNITS) {
+    text = text.replace(
+      new RegExp(`(\\d+(?:[.,]\\d+)?)\\s*${u}\\b`, "gi"),
+      (_, n: string) => `${n} ${word}${n === "1" ? "" : "s"}`,
+    );
+  }
+  return text;
+}
+
+/** Turn written notation into hearable prose: math symbols become words ("1
+ *  vezes 2 é igual a 2"), emoji are stripped (decoration for the eye, not the
+ *  ear), digit-adjacent measure units expand ("250 ml" → "250 mililitros"),
+ *  line breaks become sentence pauses, and the result always ends with
+ *  terminal punctuation so the engine reads a sentence, not a word list.
+ *  Symbols that also appear in ordinary Portuguese (the hyphen in "bem-vindo",
+ *  the slash in "e/ou") are only converted when they sit BETWEEN digits, i.e.
+ *  in a real sum. Idempotent: text that's already prose passes through. */
 export function speakable(text: string): string {
-  return text
+  let t = text
+    // Emoji, pictographs and their joiners — never read aloud.
+    .replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}]/gu, "")
     .replace(/(\d)\s*[×x*]\s*(\d)/gi, "$1 vezes $2") // 3 × 2 / 3x2 / 3*2
     .replace(/(\d)\s*÷\s*(\d)/g, "$1 a dividir por $2") // 6 ÷ 2 (NOT ":", which is clock time)
     .replace(/(\d)\s*\/\s*(\d)/g, "$1 sobre $2") // fractions: 1/2
@@ -51,9 +91,20 @@ export function speakable(text: string): string {
     .replace(/(\d)\s*<\s*(\d)/g, "$1 é menor que $2")
     .replace(/(\d)\s*>\s*(\d)/g, "$1 é maior que $2")
     .replace(/(\d)\s*%/g, "$1 por cento")
-    .replace(/(\d)\s*€/g, "$1 euros")
-    .replace(/\s+/g, " ")
-    .trim();
+    .replace(/(\d)\s*€/g, "$1 euros");
+  t = expandUnits(t);
+  // Newlines and runs of spaces are layout, not prose: close the chunk before
+  // the break as a sentence (".") unless it already ends with punctuation, so
+  // a list is read line by line with pauses instead of as one run-on string.
+  t = t.replace(/[ \t]*(?:\n|[ \t]{2,})\s*/g, (_m, offset: number, s: string) => {
+    const prev = s.slice(0, offset).trimEnd().slice(-1);
+    return !prev || /[.!?…:;,]/.test(prev) ? " " : ". ";
+  });
+  t = t.replace(/\s+/g, " ").trim();
+  // Always end on terminal punctuation — the engine then closes the sentence
+  // with falling intonation instead of trailing off.
+  if (t && !/[.!?…]$/.test(t)) t = t.replace(/[,;:]+$/, "") + ".";
+  return t;
 }
 
 /* Playing state, so a speaker button can show a "parar" (stop) control while
@@ -186,16 +237,14 @@ function whenReady(fn: () => void): void {
  *  identifies this playback (for showing a "parar" control), or null if nothing
  *  will be spoken. */
 export function speak(text: string): number | null {
-  const t = speakable(text);
-  if (!canSpeak() || !t) return null;
-  const token = ++nextToken;
-  whenReady(() => utterAll([t], token));
-  return token;
+  return speakSequence([text]); // one-part sequence — same cleanup, same queue
 }
 
 /** Speak several pieces in order, with a short pause between each — for lists
  *  read top to bottom, e.g. a tabuada ("1 vezes 2 é igual a 2", pause, next).
- *  Returns the playback token (or null if nothing will be spoken). */
+ *  Returns the playback token (or null if nothing will be spoken).
+ *  This is the single gate to the engine: speak() funnels here too, so every
+ *  utterance is normalised by speakable() exactly once. */
 export function speakSequence(parts: string[]): number | null {
   if (!canSpeak()) return null;
   const clean = parts.map(speakable).filter(Boolean);

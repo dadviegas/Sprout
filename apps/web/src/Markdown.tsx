@@ -147,7 +147,13 @@ function hashId(s: string): string {
 const infographicRenderers: Record<string, (json: unknown) => ReactNode> = {
   summary: (d) => <Summary spec={d as SummarySpec} />,
   stats: (d) => <StatGrid items={d as Parameters<typeof StatGrid>[0]["items"]} />,
-  steps: (d) => <Steps items={resolveIcons(d as Parameters<typeof Steps>[0]["items"])} />,
+  steps: (d) => {
+    // Plain array, or `{ "reveal": true, "items": [ … ] }` for retrieval
+    // practice — steps uncovered one tap at a time (see Infographic.tsx).
+    type StepItems = Parameters<typeof Steps>[0]["items"];
+    const spec = Array.isArray(d) ? { items: d as StepItems } : (d as { items: StepItems; reveal?: boolean });
+    return <Steps items={resolveIcons(spec.items ?? [])} reveal={spec.reveal} />;
+  },
   meters: (d) => <Meters items={d as Parameters<typeof Meters>[0]["items"]} />,
   keyvalue: (d) => <KeyValueGrid items={resolveIcons(d as Parameters<typeof KeyValueGrid>[0]["items"])} />,
   compare: (d) => <Compare columns={d as Parameters<typeof Compare>[0]["columns"]} />,

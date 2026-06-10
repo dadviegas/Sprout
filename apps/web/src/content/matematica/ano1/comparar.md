@@ -74,6 +74,15 @@ Quando os grupos têm a mesma coisa, basta contar e comparar os totais. Olha qua
 
 A Rita tem **8** peixes e o Tó tem **5**: a Rita tem **mais** (8 > 5). A Rita e a Bia têm os dois **8**: são **iguais** (8 = 8)! 🐠
 
+Num **gráfico de barras** vês logo quem tem mais — a barra mais alta ganha, sem precisares de contar!
+
+```chart
+{ "type": "bar", "title": "Quantos peixes tem cada tanque?",
+  "labels": ["🐠 Rita", "🐠 Tó", "🐠 Bia"], "data": [8, 5, 8],
+  "unit": "peixes",
+  "say": "A Rita tem oito peixes, o Tó tem cinco e a Bia tem oito. A barra mais baixa é a do Tó — é quem tem menos." }
+```
+
 ## Pôr em fila: ordenar 🧮
 
 Ordenar é pôr vários números **por ordem**, como amigos na fila do recreio do mais baixo ao mais alto. 📏

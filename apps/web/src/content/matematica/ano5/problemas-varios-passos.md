@@ -26,6 +26,19 @@ Um problema de vários passos é como uma receita: se saltas uma parte, o result
 
 > [!TIP] **Conta o degrau** Antes de calcular, pergunta «quantas contas até à resposta?». Se forem duas, sobe um degrau de cada vez — nunca saltes do chão para o cimo da escada de um pulo.
 
+## Quando os dados chegam num gráfico 📊
+
+Às vezes o enunciado não te dá os números por escrito — dá-tos num **gráfico**. Aí o problema ganha um passo extra: primeiro **lês as barras**, só depois fazes as contas.
+
+```chart
+{ "type": "bar", "title": "Rifas vendidas pela turma, dia a dia",
+  "labels": ["Seg", "Ter", "Qua", "Qui", "Sex"], "data": [4, 6, 3, 5, 6],
+  "unit": "rifas",
+  "say": "Segunda quatro rifas, terça seis, quarta três, quinta cinco e sexta seis. Ao todo, vinte e quatro rifas." }
+```
+
+Soma as barras: 4 + 6 + 3 + 5 + 6 = **24 rifas** — são exatamente as 24 do exemplo guiado! A 2 euros cada, dá 24 × 2 = 48 euros, e tirando os 15 de materiais sobram os mesmos **33 euros**. Caminhos diferentes, resposta igual. ✅
+
 ## Cuidado com estes erros
 
 ```compare

@@ -74,6 +74,15 @@ Para saber qual número é **maior**, há uma regra simples:
 
 Os sinais que usamos: **>** (maior que), **<** (menor que) e **=** (igual). O biquinho aponta sempre para o número **mais pequeno**! 🐊
 
+Vamos comparar números grandes a sério — quantas pessoas vivem nestas cidades? Cada barra está em **milhares**: a de Lisboa quer dizer cerca de **545 000** habitantes!
+
+```chart
+{ "type": "bar", "title": "Habitantes de cidades portuguesas (milhares)",
+  "labels": ["Lisboa", "Porto", "Braga", "Coimbra", "Évora"], "data": [545, 230, 190, 140, 55],
+  "unit": "milhares",
+  "say": "Lisboa tem cerca de quinhentos e quarenta e cinco mil habitantes; o Porto duzentos e trinta mil; Braga cento e noventa mil; Coimbra cento e quarenta mil; e Évora cinquenta e cinco mil." }
+```
+
 ## Um exemplo passo a passo 🔍
 
 Vamos ler o número **407 060** e descobrir o que vale cada algarismo.

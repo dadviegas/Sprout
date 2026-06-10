@@ -188,7 +188,21 @@ function makeUtterance(text: string): SpeechSynthesisUtterance {
 
 function utterAll(parts: string[], token: number): void {
   const synth = window.speechSynthesis;
+  // cancel() and speak() in the SAME tick wedges Chrome's engine (every new
+  // utterance dies instantly with "canceled" and `speaking` sticks at true,
+  // until the browser restarts). Cancel now, but queue the new speech on a
+  // short timeout so the engine finishes tearing down first. ~120ms is well
+  // inside the user-activation window, so autoplay policy still allows it.
   synth.cancel(); // stop anything already playing
+  setPlaying(token); // button flips to "parar" immediately
+  window.setTimeout(() => {
+    if (playingToken !== token) return; // a newer tap or stop() superseded us
+    reallyUtter(parts, token);
+  }, 120);
+}
+
+function reallyUtter(parts: string[], token: number): void {
+  const synth = window.speechSynthesis;
   // Mark the playback done only when THIS token is still the active one (a
   // newer tap, or stop(), will have moved it on — don't clobber that).
   const finish = () => {
@@ -205,7 +219,6 @@ function utterAll(parts: string[], token: number): void {
   last.addEventListener("end", finish);
   last.addEventListener("error", finish);
   for (const u of utterances) synth.speak(u);
-  setPlaying(token);
   // Chrome occasionally leaves synthesis paused right after cancel(); nudge it,
   // and the watchdog keeps nudging + clears the flag when speech really ends.
   if (synth.paused) synth.resume();

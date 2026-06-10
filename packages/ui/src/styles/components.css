@@ -50,9 +50,9 @@
    card (full width on iPad) while still capping the line length on wide desktop
    so it never sprawls past comfortable reading. */
 @media (min-width: 700px) {
-  /* relative measure (ch, not px): fills the card on iPad, still caps the
-     line length for comfortable reading on a wide desktop */
-  .prose { --read-width: min(100%, 90ch); }
+  /* relative measure (ch, not px): fills the card on iPad/mobile, still caps
+     the line on a wide desktop — 126ch user-tuned live on the real content */
+  .prose { --read-width: min(100%, 126ch); }
 }
 .prose h1, .prose h2, .prose h3, .prose h4 {
   font-family: var(--font-display);

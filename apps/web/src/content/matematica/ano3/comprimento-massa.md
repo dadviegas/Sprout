@@ -84,6 +84,15 @@ Para comparares duas medidas, é mais fácil se estiverem **na mesma unidade**. 
 
 > [!WARNING] Cuidado: **2 m são mais que 150 cm!** Não te enganes a olhar só para os números — primeiro põe tudo na mesma unidade. 2 m = 200 cm, e 200 é maior que 150. 🧐
 
+E se medirmos a família toda? Com as alturas todas em **centímetros**, um gráfico de barras ordena-as num piscar de olhos:
+
+```chart
+{ "type": "bar", "title": "Alturas da família (cm)",
+  "labels": ["👶 Bebé", "🧒 Maria", "👩 Mãe", "👨 Pai"], "data": [70, 120, 165, 180],
+  "unit": "cm",
+  "say": "O bebé mede setenta centímetros, a Maria cento e vinte, a mãe cento e sessenta e cinco e o pai cento e oitenta. As barras sobem como uma escada!" }
+```
+
 ## Um exemplo passo a passo 🔍
 
 A Maria tem uma fita de **1 metro e 30 centímetros** e cortou um pedaço de **45 cm** para um embrulho. **Quantos centímetros lhe sobraram?** Vamos com calma.

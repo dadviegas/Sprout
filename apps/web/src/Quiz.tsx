@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Icon, type IconName } from "@sprout/icons";
 import { Speaker, Confetti, FractionFigure, stop as stopSpeech, type FractionFigureSpec } from "@sprout/ui";
-import { starsForPct, useLessonId, useProgress } from "./progress";
+import { starsForPct, useLessonId, useProgress, TEST_PASS_PCT } from "./progress";
+import { lessonMeta } from "./content/curriculum";
+import { recordReviewAnswer } from "./study/review";
+import { preReaderActive } from "./ui-prefs";
 
 export interface QuizOption {
   t: string;
@@ -112,6 +115,9 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
   // When this attempt started — so we can record how long the test took. Reset
   // on every retry (below) so a re-take measures only the new attempt.
   const startedAt = useRef(Date.now());
+  // When the CURRENT question appeared — so the error bank (§4.2) can tell a
+  // quick right answer from a slow one. Reset on next/retry.
+  const questionShownAt = useRef(Date.now());
 
   const total = spec.questions.length;
   // Resolve `gen` questions into concrete ones; the seed (quizId + index +
@@ -148,12 +154,20 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
     if (picked !== null) return;
     setPicked(idx);
     setAnswers((prev) => prev.map((answer, answerIdx) => (answerIdx === i ? idx : answer)));
+    // Feed the error bank (§4.2). Only AUTHORED questions of real lessons:
+    // `gen` questions change on every run (no stable identity) and synthetic
+    // ids (Simulado, orphan quizzes) aren't lessons the child can reopen.
+    if (!question.gen && lessonMeta.has(lessonId)) {
+      const secs = Math.round((Date.now() - questionShownAt.current) / 1000);
+      recordReviewAnswer(lessonId, quizId, i, !!options[idx]?.correct, secs);
+    }
   };
 
   const next = () => {
     if (i + 1 < total) {
       setI(i + 1);
       setPicked(null);
+      questionShownAt.current = Date.now();
     } else {
       setPhase("result");
     }
@@ -166,22 +180,28 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
     setPhase("asking");
     setNonce((n) => n + 1);
     startedAt.current = Date.now(); // time the new attempt from scratch
+    questionShownAt.current = Date.now();
   };
 
   if (phase === "result") {
     const pct = total ? correctCount / total : 0;
     const stars = starsForPct(pct);
     const pctLabel = Math.round(pct * 100);
+    // A FINAL test only concludes the lesson at ≥ 80% — below that it stays
+    // "a repetir", said with encouragement (never "estás mal").
+    const passed = pct >= TEST_PASS_PCT;
     const msg =
       stars === 3
         ? "Uau! Acertaste em tudo!"
-        : stars === 2
-          ? "Muito bem! Estás quase!"
-          : "Boa tentativa! Tenta outra vez.";
+        : isFinal && !passed
+          ? "Boa tentativa! Repete o teste para concluíres a lição — estás quase!"
+          : stars === 2
+            ? "Muito bem! Estás quase!"
+            : "Boa tentativa! Tenta outra vez.";
     const resultIcon: IconName = stars === 3 ? "trophy" : stars === 2 ? "star" : "plant";
     return (
       <div className="quiz sprout-pop">
-        {stars >= 2 && <Confetti key={nonce} />}
+        {stars >= 2 && (!isFinal || passed) && <Confetti key={nonce} />}
         <div className="result">
           <div className="result-icon" style={{ color: stars >= 2 ? "var(--warn)" : "var(--primary)" }}>
             <Icon name={resultIcon} size={56} fill={stars >= 2 ? "currentColor" : "none"} />
@@ -190,6 +210,12 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
             {correctCount}/{total}
           </div>
           <div className="result-percent">{pctLabel}% certo</div>
+          {isFinal && (
+            <span className={`quiz-pass ${passed ? "ok" : "redo"}`}>
+              <Icon name={passed ? "check" : "refresh"} size={14} />
+              {passed ? "Lição concluída!" : "A repetir — concluis com 80% ou mais"}
+            </span>
+          )}
           <div className="stars">
             <StarRow n={stars} size={34} />
           </div>
@@ -224,6 +250,11 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
 
   const answered = picked !== null;
   const isCorrect = answered && !!options[picked!]?.correct;
+  // Pre-reader mode (§4.10): when every option carries an emoji, prefer the
+  // big tappable grid so a non-reader can answer by image alone.
+  const meta = lessonMeta.get(lessonId);
+  const preReader = !!meta && preReaderActive(meta.subjectId, meta.year);
+  const grid = question.layout === "grid" || (preReader && options.length > 0 && options.every((o) => o.emoji));
   // Read-aloud of the question PLUS the options, for non-readers navigating by
   // keyboard or who need to hear the choices.
   const optionsText = options.map((o) => o.t).filter(Boolean).join(", ");
@@ -279,12 +310,12 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
         </div>
       )}
 
-      <div className={`options ${question.layout === "grid" ? "grid" : ""}`}>
+      <div className={`options ${grid ? "grid" : ""}`}>
         {options.map((opt, idx) => {
           const reveal = answered;
           const right = reveal && opt.correct;
           const wrong = reveal && idx === picked && !opt.correct;
-          const cls = ["opt", question.layout === "grid" ? "big" : "", right ? "is-correct" : "", wrong ? "is-wrong" : ""]
+          const cls = ["opt", grid ? "big" : "", right ? "is-correct" : "", wrong ? "is-wrong" : ""]
             .filter(Boolean)
             .join(" ");
           return (

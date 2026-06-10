@@ -37,6 +37,15 @@ Antes de medir, ajuda teres uma ideia na cabeça. Olha estes valores do dia a di
 
 > [!NOTE] Repara: um **copo** tem cerca de 200 ml. Cinco copos cheios dão quase **1 litro** (5 × 200 = 1000 ml). Bebe água! 💦
 
+Agora os mesmos valores em **barras** — repara como o balde é gigante ao pé da colher:
+
+```chart
+{ "type": "bar", "title": "Quanto cabe em cada um? (ml)",
+  "labels": ["🥄 Colher", "🥛 Copo", "📦 Leite", "🧴 Garrafa", "🪣 Balde"], "data": [15, 200, 1000, 1500, 2000],
+  "unit": "ml",
+  "say": "A colher leva quinze mililitros, o copo duzentos, o pacote de leite mil, a garrafa mil e quinhentos e o balde dois mil — ou seja, dois litros!" }
+```
+
 ## Litros e mililitros: trocar entre eles 🔁
 
 Trocar de litros para mililitros (e ao contrário) é como trocar moedas por notas. A regra é sempre a mesma: **1 l = 1000 ml**.

@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { store } from "./storage";
 import { lessonMeta, type YearN } from "./content/curriculum";
+import { noteTestCompleted } from "./study/sessions";
 
 /* ------------------------------------------------------------------ *
  * Progress store — persisted via the storage facade (IndexedDB-backed,
@@ -42,7 +43,14 @@ export interface Achievement {
   at: number;
   /** how long the test took, in seconds (absent on older entries) */
   secs?: number;
+  /** how many questions the test had (absent on older entries) */
+  qs?: number;
 }
+
+/** A final test only counts as PASSED — lesson "concluída", streak, reward —
+ *  at this score or better (user decision 2026-06-10). Below it the lesson
+ *  stays "a repetir". One constant, shared by progress, plan and parents. */
+export const TEST_PASS_PCT = 0.8;
 
 const STORAGE_KEY = "sprout.progress.v1";
 const ACHIEVEMENTS_KEY = "sprout.achievements.v1";
@@ -226,7 +234,9 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
 
         let { done, bestPct, bestStars } = cur;
         if (isFinal) {
-          done = true;
+          // ≥ 80% gate: below it the lesson is NOT concluded — it stays
+          // "a repetir" (stars/bestPct still record the attempt's best).
+          done = done || ratio >= TEST_PASS_PCT;
           bestPct = Math.max(bestPct, ratio);
           bestStars = Math.max(bestStars, starsForPct(ratio));
         }
@@ -240,6 +250,9 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         if (meta) {
           const ratio = score.total ? score.correct / score.total : 0;
           const now = Date.now();
+          // Stamp the open study session with this completion (one source of
+          // session truth — see study/sessions.ts; the achievement is below).
+          noteTestCompleted(ratio);
           setAchievements((prev) => {
             // Guard against accidental double-logging of one completion (React
             // StrictMode double-invokes effects in dev; re-renders can refire).
@@ -258,6 +271,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
                 pct: ratio,
                 at: now,
                 ...(durationSecs && durationSecs > 0 ? { secs: durationSecs } : {}),
+                ...(score.total > 0 ? { qs: score.total } : {}),
               },
               ...prev,
             ];

@@ -489,18 +489,43 @@ export function CommandCenter({
               ))}
             </div>
           )}
+          {/* Subjects are MANY — a dropdown + removable tag keeps the palette
+              short (the chip wall ate half the screen). Reset clears all. */}
           <div className="cmdk-chips" role="group" aria-label="Matéria">
-            <button className={`cmdk-chip ${subjectId === "all" ? "on" : ""}`} onClick={() => pickSubject("all")}>Tudo</button>
-            {subjects.map((s) => (
-              <button
-                key={s.id}
-                className={`cmdk-chip ${subjectId === s.id ? "on" : ""}`}
-                style={{ ["--c" as string]: s.color }}
-                onClick={() => pickSubject(s.id)}
+            <label className="cmdk-select">
+              <Icon name="grid" size={16} />
+              <select
+                value={subjectId}
+                onChange={(e) => pickSubject(e.target.value)}
+                aria-label="Filtrar por matéria"
               >
-                <span className="cmdk-chip-dot" /> {s.label}
+                <option value="all">Todas as matérias</option>
+                {subjects.map((s) => (
+                  <option key={s.id} value={s.id}>{s.label}</option>
+                ))}
+              </select>
+            </label>
+            {subjectId !== "all" && (() => {
+              const s = subjects.find((x) => x.id === subjectId);
+              return s ? (
+                <button
+                  className="cmdk-chip on cmdk-tag"
+                  style={{ ["--c" as string]: s.color }}
+                  onClick={() => pickSubject("all")}
+                  aria-label={`Remover filtro ${s.label}`}
+                >
+                  <span className="cmdk-chip-dot" /> {s.label} ✕
+                </button>
+              ) : null;
+            })()}
+            {(area !== "all" || year !== "all" || subjectId !== "all") && (
+              <button
+                className="cmdk-chip cmdk-reset"
+                onClick={() => { pickArea("all"); setYear("all"); pickSubject("all"); }}
+              >
+                Limpar filtros
               </button>
-            ))}
+            )}
           </div>
         </div>
 

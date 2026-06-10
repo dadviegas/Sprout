@@ -58,21 +58,33 @@ estudo" tem alicerces:
 | **Progresso por lição** | `apps/web/src/progress.tsx` | Por lição: `visited`, `done`, `bestStars`, `bestPct`, melhor score por quiz. Chave `sprout.progress.v1`. |
 | **Registo de conquistas** | `progress.tsx` (`Achievement`) | Log *append-only* de cada teste final concluído, com data, disciplina, ano, estrelas, %, e **duração em segundos** (`secs`). Chave `sprout.achievements.v1`. **É a base do calendário e dos relatórios.** |
 | **Histórico recente** | `progress.tsx` | Últimas 20 lições abertas. Chave `sprout.history.v1`. |
-| **Área dos pais** | `apps/web/src/ParentArea.tsx` | Dashboard atrás de um *gate* de multiplicação: cartão de hoje + minutos de tablet, *streak* atual/recorde, repartição por área, "visto recentemente", **gráfico de uso diário** por mês, **heatmap** estilo GitHub por trimestre (com navegação para trás), detalhe do dia, definições de recompensa, "Limpar tudo". |
+| **Área dos pais** | `apps/web/src/ParentArea.tsx` | Agora uma **página** (`#/pais`) atrás de um *gate* de multiplicação: alertas, cartão de hoje + minutos de tablet, *streaks*, gráficos de minutos/disciplina, calendário planeado-vs-feito, últimos testes com tempos, uso diário, heatmap, detalhe do dia, recompensas, "Limpar tudo" (modal próprio no menu). |
 | **Simulado** | `apps/web/src/Simulado.tsx` | Teste-treino misto por disciplina+ano, junta todas as perguntas das lições, reusa o motor `Quiz`, escreve num id sintético (não polui o progresso). **É a base do diagnóstico.** |
 | **Missões** | `apps/web/src/content/missoes.ts` | Sequências nomeadas de artigos → ganha um cromo; progresso *derivado*, nada novo guardado. **É a base das missões curtas.** |
 | **Motor de Quiz** | `apps/web/src/Quiz.tsx` | Perguntas com `options` (auto-baralhadas), `explain` (uma linha pós-resposta), figuras de fração, perguntas dinâmicas (`gen`), estrelas/confetti, *read-aloud*. |
 | **Recompensa de tablet** | `ParentArea.tsx` (`tabletMinutesToday`) | Um dia "conta" quando passa 1 teste a ≥80%; minutos = base + por-estrela. |
 
-**Lacunas reais** (o que não existe e este plano cria):
+**Já entregue entretanto (2026-06-10):**
 
-- Registo de **sessões** (tempo na app, sair do browser) — hoje só se regista o
-  teste concluído.
-- **Banco de erros / revisão espaçada** — o progresso só guarda o melhor score,
-  não *que perguntas* falharam nem quando rever.
-- **Plano / calendário com futuro** — o heatmap só olha para trás.
-- **TPC**, **diagnóstico**, **modo férias/recuperação**, **relatório semanal**.
-- **Dificuldade por pergunta**, **modo "estudar com ajuda"**, **modo pré-leitor**.
+- **Sessões** — `study/sessions.ts` + `sprout.sessions.v1` (tempo ativo,
+  esconder/sair do browser, teto de 500). Ver §4.1.
+- **Plano diário + calendário -1/+2 meses** — `study/plan.ts` +
+  `study/Plano.tsx`, rota `#/plano`. Ver §4.9.
+- **Gate de 80%** — `TEST_PASS_PCT` em `progress.tsx`; abaixo fica "a repetir".
+- **Área dos pais como página** (`#/pais`) com gráficos, métricas de tempo,
+  calendário planeado-vs-feito e alertas (`study/alerts.ts`). Ver §4.11.
+- **Banco de erros / revisão espaçada** — `study/review.ts` +
+  `sprout.review.v1`, ligado ao `Quiz` por pergunta. Ver §4.2.
+- **Relatório semanal** — `study/report.ts` + cartão `WeeklyReportCard` na
+  Área dos Pais. Ver §4.11.
+- **Modo pré-leitor (mínimo)** — flag em `sprout.ui.v1` (`ui-prefs.ts`),
+  auto no 1.º ano, alternável na Área dos Pais. Ver §4.10.
+
+**Lacunas reais** (o que ainda não existe):
+
+- **TPC**, **diagnóstico**, **modo férias/recuperação**.
+- **Dificuldade por pergunta**, **modo "estudar com ajuda"**, widgets novos do
+  pré-leitor (arrastar letras / completar palavra).
 
 ---
 
@@ -108,11 +120,24 @@ Tudo com o prefixo `sprout.` e versionado (`.v1`):
 
 | Chave | Conteúdo |
 |---|---|
-| `sprout.sessions.v1` | `StudySession[]` (append-only, com teto) |
-| `sprout.review.v1` | `Record<string, ReviewItem>` — banco de erros / agenda de revisão |
-| `sprout.plan.v1` | `StudyPlan` — plano ativo (férias/recuperação) |
+| `sprout.sessions.v1` | ✅ **feito** — `StudySession[]` (append-only, teto 500, mais recente primeiro; `study/sessions.ts`) |
+| `sprout.review.v1` | ✅ **feito** — `Record<string, ReviewItem>`, banco de erros / agenda de revisão (`study/review.ts`, teto 400, os mais fortes rodam primeiro) |
+| `sprout.plan.v1` | `StudyPlan` — plano ativo (férias/recuperação). *Nota:* o plano **diário** (§4.9) é 100% derivado e não usa esta chave; ela fica para o modo férias/TPC. |
 | `sprout.diagnostic.v1` | `Diagnostic` — resultado do diagnóstico inicial |
 | `sprout.children.v1` | *(futuro)* perfis de criança para multi-criança/Supabase |
+
+> **Nota de implementação (2026-06-10):** os tipos vivem junto de cada módulo
+> (`StudySession` em `study/sessions.ts`, `Mission` em `study/plan.ts`,
+> `ParentAlert` em `study/alerts.ts`) em vez de um `study/types.ts` central —
+> KISS enquanto só há um consumidor por tipo. O `StudySession` real difere do
+> rascunho abaixo: `secs` (tempo ativo), `kind: "lesson"|"test"|"game"`,
+> `events: {type, at}[]` (browser_hidden/returned/exit), `exited`, `completed`,
+> `score?`. O `Mission` real é derivado (sem `dueDate`/persistência):
+> `{ id, kind: "repetir"|"rever"|"continuar"|"nova", lessonId, title, detail,
+> say, color, emoji, minutes, done }`. O `ReviewItem` real (em
+> `study/review.ts`) também é mais magro que o rascunho: `{ id, lessonId,
+> subjectId, box, attempts, correct, wrong, lastAt, nextAt }` — sem
+> `strength`/`topic`/`assistedCount` enquanto §4.4/§4.5 não existirem.
 
 ### Modelos (novo módulo `apps/web/src/study/types.ts`)
 
@@ -190,48 +215,65 @@ export interface Diagnostic {
 Cada módulo diz: **o que é**, **o que já existe**, **o que falta**, **onde** e
 **notas**. Implementa pela ordem da §8.
 
-### 4.1 Tracking de sessão  *(novo)*
+### 4.1 Tracking de sessão  ✅ *(feito 2026-06-10)*
 
 - **O que é.** Saber quanto tempo a criança estudou, em quê, e se saiu do
   browser a meio.
-- **Já existe.** O `Achievement.secs` mede a duração de *um teste*. Nada mede a
-  sessão inteira nem saídas.
-- **Falta.** Um *hook* `useSessionTracker()` que abre uma `StudySession` ao
-  arrancar, soma tempo ativo, conta `hidden`, e fecha em `beforeunload`/
-  `visibilitychange`. Acrescenta a `sprout.sessions.v1` (com teto).
-- **Onde.** Novo `apps/web/src/study/sessions.ts` + montar o *hook* em
-  `App.tsx`. A `View` atual já indica onde está (passa `view.kind`).
-- **Notas.** Só conta tempo com o separador **visível** (não conta a app aberta
-  esquecida). Eventos:
-  ```ts
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) pause()  // soma tempo, hiddenCount++
-    else resume()
-  });
-  window.addEventListener("beforeunload", () => flush()); // fecha a sessão
-  ```
+- **Como ficou.** `apps/web/src/study/sessions.ts` — módulo singleton (não um
+  hook): `startSession`/`endSession`/`trackView` + `initSessionTracking()`
+  montados em `App.tsx` (efeito sobre `view`). Uma sessão abre em
+  lição/teste/jogo e fecha ao navegar para fora. Só conta tempo com o separador
+  **visível**; `visibilitychange` pausa o relógio, soma `hiddenCount` e regista
+  eventos `browser_hidden`/`browser_returned`; `pagehide` marca `exited` +
+  `browser_exit`. *Heartbeat* de 25 s persiste a sessão aberta (o espelho
+  síncrono em localStorage é o que sobrevive a um fecho brusco). O `recordQuiz`
+  (progress.tsx) chama `noteTestCompleted(pct)` para carimbar a sessão com a
+  conclusão — reusa o ponto onde o `Achievement` já era registado.
+- **Leitura React:** `useSessions()` (subscreve `sprout.sessions.v1`).
+- **Só derivados:** calendário, gráficos e alertas calculam tudo dos logs ao
+  renderizar; nenhum relatório é guardado.
+- **Tracking de leitura (2026-06-10).** Cada sessão de lição guarda
+  `scrollPct` (máximo % do corpo da lição percorrido — *listener* passivo +
+  rAF em `App.tsx`, `noteScroll` em `sessions.ts`). O envolvimento é
+  **derivado** por sessão em `study/calendar.ts` (`engagementOf` /
+  `sessionEngagement`): `completed` (teste passado) · `read` (≥70% de scroll
+  e ≥40% do tempo estimado da lição, via `lessonMinutes`) · `skimmed` ·
+  `opened` (<20 s) · `abandoned` (teste começado e deixado a meio). Mostrado
+  na Área dos Pais com etiquetas pt-PT (`ENGAGEMENT_LABEL`).
+- **Persistência ao fechar a tab (2026-06-10).** O hydrate do facade faz
+  *merge* de `sprout.sessions.v1` por id (ganha `endedAt`/`secs` mais
+  recente), para o espelho localStorage do `pagehide` nunca ser sobreposto
+  por uma cópia IndexedDB mais antiga (ver §12).
 
-### 4.2 Banco de erros + revisão espaçada  *(novo)*
+### 4.2 Banco de erros + revisão espaçada  ✅ *(feito 2026-06-10)*
 
 - **O que é.** Cada erro vira treino. Errou problemas de litros/ml → amanhã
-  recebe 3 parecidos; depois outro daqui a 3 dias.
-- **Já existe.** `recordQuiz` guarda o melhor score por quiz — mas não *que*
-  pergunta falhou.
-- **Falta.** Ao responder, atualizar um `ReviewItem` por pergunta/tópico:
-  acertou → sobe de caixa; falhou → cai para a caixa 0 (rever amanhã).
-  `nextReviewAt = lastReviewedAt + REVIEW_DAYS[box] * DIA`. A regra do
-  utilizador:
+  recebe-os de volta; depois outro daqui a uns dias.
+- **Como ficou.** `apps/web/src/study/review.ts` + chave `sprout.review.v1`
+  (`Record<id, ReviewItem>`, teto 400 — ao estourar saem primeiro os itens
+  mais FORTES; os erros ficam). Cada resposta no `Quiz` (no `choose`, por
+  pergunta) chama `recordReviewAnswer` com a escada Leitner do utilizador:
   - errou → caixa 0 → **amanhã**
-  - acertou devagar → +1 caixa modesto → **2 dias**
-  - acertou bem → → **7 dias**
-  - acertou repetido → caixas altas → **14 / 30 dias**
-  ("devagar/bem" vem do tempo de resposta da sessão; se usou ajuda, não sobe.)
-- **Onde.** Novo `apps/web/src/study/review.ts` (lógica pura, testável) +
-  chamada em `Quiz.tsx` no `recordQuiz`. Uma fila `dueReviews(now)` devolve o
-  que está vencido para alimentar missões e o "corrigir erros de ontem".
-- **Notas.** Precisa de **ids estáveis de pergunta**. Hoje as perguntas em
-  markdown não têm id — gera um id determinístico (`${lessonId}#${index}` ou
-  hash do enunciado) para não depender de o autor escrever um.
+  - acertou devagar (> 45 s, `EXPECTED_SECS_PER_QUESTION`) → +1 caixa → **2 dias**
+  - acertou bem → caixa ≥ 2 → **7 dias**
+  - acertou repetido → caixas 3/4 → **14 / 30 dias**; acertar no topo =
+    dominada → sai do banco.
+  Um item só **nasce de um erro** (o banco guarda erros, não tudo o que foi
+  respondido); `nextAt` é baseado em início-de-dia, por isso "amanhã" é o dia
+  seguinte de calendário. **Id estável de pergunta**:
+  `${lessonId}#${quizId}#${índice}` (`questionId`); perguntas dinâmicas
+  (`gen`) e ids sintéticos (Simulado) ficam de fora.
+- **A alimentar.** `dueReviews`/`dueByLesson` + `useReview()`:
+  - `study/plan.ts` gera uma missão `"rever"` — *"Corrigir os erros: X"* —
+    para a lição com mais perguntas vencidas nesse dia (abre a lição; acertar
+    nos quizzes reagenda os itens e limpa a dívida);
+  - `#/plano` mostra o cartão **"Banco de erros"** ("Tens N perguntas para
+    vencer hoje!", com leitura em voz alta) que abre a lição com mais vencidas;
+  - o relatório semanal (§4.11) lista o que rever na semana seguinte.
+- **Futuro (anotado, não feito).** Um *runner* de revisão dedicado (hoje a
+  criança vence as perguntas reabrindo a lição — KISS); `topic` por pergunta
+  (para alertas "erra sempre medidas"); `strength`/`assisted` quando §4.4/§4.5
+  chegarem.
 
 ### 4.3 Explicação passo a passo  *(estende o que existe)*
 
@@ -303,7 +345,7 @@ Cada módulo diz: **o que é**, **o que já existe**, **o que falta**, **onde** 
 - **Onde.** `study/plan.ts` + a vista do plano (§4.9).
 - **Notas.** Sem culpa: um dia falhado reaparece, não acumula penalização.
 
-### 4.9 Calendário / "O meu plano"  *(novo, child + pais)*
+### 4.9 Calendário / "O meu plano"  🟢 *(núcleo feito 2026-06-10; falta férias/TPC)*
 
 > **Decisões do utilizador (2026-06-10):**
 > - Cada **ano** tem um **plano de estudo diário** de ~**30 min/dia**,
@@ -322,31 +364,45 @@ Cada módulo diz: **o que é**, **o que já existe**, **o que falta**, **onde** 
   gráfico de uso é por mês e só para trás. **Não reescrevas** — extrai a
   agregação por dia (`aggregateByDay`) para um módulo partilhado e constrói uma
   vista de calendário em cima dela, agora com futuro.
-- **Falta.**
-  - Novo *kind* de `View`: `{ kind: "plano" }`, rota `#/plano` (validar em
-    `nav.ts`, mapear em `viewToHash`/`viewFromHash`).
-  - Vista child-facing "O meu plano de hoje" (missões grandes, tocáveis) e a
-    grelha de calendário (passado real + futuro planeado).
-  - Cores por dia: **verde** estudou bem · **amarelo** estudou pouco ·
-    **vermelho** não estudou/saiu · **azul** fez teste.
-- **Onde.** `apps/web/src/study/Plano.tsx`; extrair `study/calendar.ts` da
-  agregação hoje em `ParentArea.tsx` (DRY).
+- **Feito (2026-06-10).**
+  - `View` `{ kind: "plano" }`, rota `#/plano` (validada em `nav.ts`), com
+    entrada na home (banner "O meu plano de hoje") + crumb próprio.
+  - `study/Plano.tsx`: missões do dia grandes e tocáveis (com leitura em voz
+    alta), barra "X de 30 min", domingo = cartão de descanso; calendário
+    mensal **-1/atual/+2** com estados verde/amarelo/vermelho + ponto azul
+    (teste) + descanso, e detalhe do dia tocado (feito no passado, planeado no
+    futuro). Distingue "só abriu a página" (amarelo) de "concluiu" (verde).
+  - `study/calendar.ts`: `aggregateByDay` **extraída** de `ParentArea.tsx`
+    (que agora a importa — DRY) + `aggregateSessionsByDay` + `dayState`.
+  - `study/plan.ts`: gerador puro `missionsForDay` (2–4 missões: "repetir"
+    testes <80%, "continuar" lições começadas, "nova" da disciplina mais
+    fraca/parada do ano inferido); dias futuros rodam as escolhas.
+- **Falta.** Plano de férias/TPC persistido (`sprout.plan.v1`) por fazer.
+  *(O banco de erros já alimenta as missões — §4.2, feito 2026-06-10.)*
+- **Afinado (2026-06-10, revisão §12):** verde no calendário exige teste
+  **passado** (≥ `TEST_PASS_PCT`) ou ≥20 min ativos — teste falhado sozinho
+  é amarelo + ponto azul. Planeado-vs-feito só se mostra para hoje/futuro;
+  dias passados mostram apenas atividade real (planos não são guardados).
 
-### 4.10 Modo pré-leitor (1.º ano)  *(novo + estende widgets)*
+### 4.10 Modo pré-leitor (1.º ano)  🟢 *(mínimo feito 2026-06-10; faltam widgets)*
 
 - **O que é.** Para quem ainda não lê: áudio a ler a pergunta, imagens, sílabas
   grandes, arrastar letras, completar palavras, "ouve e escolhe", **menos texto**.
-- **Já existe.** *Read-aloud* em todo o lado; `QuizOption.emoji` + `layout:"grid"`
-  (respostas por imagem); o widget `soundcards`.
-- **Falta.** Uma *flag* global "modo pré-leitor" (auto para 1.º ano, alternável
-  na área dos pais) que: aumenta tipos de letra, dá destaque ao altifalante,
-  prefere opções com emoji/imagem, e encaminha para widgets de letras/sílabas.
-  Possíveis widgets novos: "arrastar letras", "completar palavra", "ouve e
-  escolhe" (alguns podem nascer do `soundcards`).
-- **Onde.** *Flag* no facade (`sprout.parent.v1` ou novo) + condições em
-  `Quiz.tsx`/`Markdown.tsx`. Respeita sempre a regra de voz só por toque.
+- **Feito (2026-06-10).** *Flag* `preReader` em `sprout.ui.v1`
+  (`apps/web/src/ui-prefs.ts` — extraído do `App.tsx`, partilhado): valores
+  `"auto"` (default — liga só em lições do **1.º ano de disciplinas de
+  escola**, porque as áreas sem ano reutilizam o tier 1), `"on"`, `"off"`;
+  alternável na Área dos Pais ("Modo pré-leitor"). Quando ativo:
+  - a lição/teste ganha a classe **`pre-reader`** (CSS em `kids.css`): tipo de
+    letra maior, opções de quiz mais altas, altifalante maior e com sombra;
+  - o `Quiz` **prefere a grelha por imagem**: se todas as opções têm `emoji`,
+    usa `layout grid` mesmo que o autor não o tenha pedido.
+  Voz continua **só por toque** — o modo é apenas visual/estrutural.
+- **Falta.** Widgets novos de letras/sílabas ("arrastar letras", "completar
+  palavra", "ouve e escolhe" — alguns podem nascer do `soundcards`) e
+  encaminhamento para eles.
 
-### 4.11 Área dos pais: alertas reais + relatório semanal  *(estende ParentArea)*
+### 4.11 Área dos pais: alertas reais + relatório semanal  ✅ *(página + alertas + tempos + relatório semanal, 2026-06-10)*
 
 > **Decisões do utilizador (2026-06-10, testes):**
 > - Os **testes devem ser mais complexos** — pelo menos **+20% de contexto**
@@ -370,13 +426,48 @@ Cada módulo diz: **o que é**, **o que já existe**, **o que falta**, **onde** 
     "✅ Melhorou a leitura esta semana".*
   - Relatório de domingo: dias estudados, minutos totais, subiu de X% para Y%,
     o que rever, plano da próxima semana.
-- **Já existe.** Todo o dashboard (heatmap, uso, *streaks*, recompensas). O
-  `Achievement.secs` permite o alerta de "teste demasiado rápido".
-- **Falta.** Um derivador `study/alerts.ts` (regras puras sobre sessões +
-  achievements + review) e um cartão `WeeklyReport` na `ParentArea`. Mantém tudo
-  **derivado** dos logs — não guardes relatórios.
-- **Onde.** `ParentArea.tsx` (novos cartões) + `study/alerts.ts`. Linguagem
-  sempre positiva ([[tone-empathetic-fun]]).
+- **Feito (2026-06-10).**
+  - A Área dos Pais é uma **página** (`#/pais`, `View {kind:"pais"}`), não um
+    modal; o **gate de multiplicação** está à entrada da página (resolvido uma
+    vez por separador). O menu de definições navega para lá.
+  - `study/alerts.ts` (regras puras): saiu do browser N× na semana, teste
+    demasiado rápido (<15 s/pergunta), erra sempre a mesma lição (≥2 falhas),
+    melhorou a disciplina (≥10 pontos semana-a-semana) — positivos primeiro,
+    tom sempre construtivo.
+  - **Métricas de tempo** (decisão do utilizador): `Achievement` ganhou `qs`
+    (n.º de perguntas); `paceOf` classifica fácil/difícil pelo tempo vs.
+    mediana esperada (45 s/pergunta) e `slowestTests` dá o ranking "onde
+    demoraram mais" (top 5). Mostrado em "Últimos testes" + cartão próprio.
+  - **Gráficos** com o widget `Chart` (`@sprout/ui`): minutos de estudo por dia
+    (barras, 2 semanas, das sessões) e repartição por disciplina (donut por
+    minutos; recua para contagem de testes em dados antigos sem sessões).
+  - **Calendário dos pais**: reusa o `PlanCalendar` do `#/plano` com detalhe
+    planeado-vs-feito por dia (missões com ✓ feita / ✗ por fazer / planeada) —
+    **só para hoje/futuro**; dias passados mostram a atividade real (§12).
+  - **Drill-down por área (2026-06-10)**: os mosaicos de "O que andam a
+    explorar" são clicáveis → acordeão com as lições dessa área (envolvimento
+    de leitura + tempo, recente primeiro, teto 20) e os testes (nota + duração
+    + n.º de testes abandonados a meio).
+  - **"Nota da semana" 0–20 (2026-06-10)**: `study/grade.ts` (puro, últimos 14
+    dias) — mistura ponderada de plano cumprido (missões feitas÷planeadas,
+    seg–sáb), taxa de testes passados e leitura com atenção; cartão com os 3
+    componentes e tom encorajador.
+  - **Detalhe do dia com leitura**: cada lição/teste do dia mostra a etiqueta
+    de envolvimento ("leu com atenção", "passou os olhos", "só abriu",
+    "abandonou o teste") com tempos (§4.1).
+  - **Home**: o "Visto recentemente" passou a colapsável (fechado por defeito,
+    com contagem; preferência em `sprout.ui.v1`).
+- **Relatório semanal (2026-06-10).** `study/report.ts` (`weeklyReport`,
+  puro) + cartão `WeeklyReportCard` no `#/pais`: para a **última semana
+  completa seg–dom** — dias estudados, minutos totais, minutos por disciplina
+  (gráfico `Chart` quando há ≥2), testes feitos/passados, tendência por
+  disciplina vs. a semana anterior ("Matemática subiu de 42% para 58%" / uma
+  descida lê-se "vale a pena treinar juntos"), o que rever na próxima semana
+  (banco de erros §4.2 + testes "a repetir") e o alvo do plano da próxima
+  semana (6 dias × 30 min). Tudo derivado; devolve `null` numa semana vazia.
+- **Falta.** Os alertas que dependem de *tópico* por pergunta ("erra sempre
+  problemas de medidas" — hoje só por lição/pergunta) e a partilha/exportação
+  do relatório. Mantém-se tudo **derivado** dos logs.
 
 ### 4.12 TPC  *(novo)*
 
@@ -428,21 +519,21 @@ O motor acima só brilha com matéria forte por baixo. Detalhe e prioridades em
 | Matéria fraca (4.ª Dinastia) | §5 | reforço |
 | Problemas matemáticos escritos | §4.3, §5 | estende `math`/`steps` |
 | Sistema de TPC | §4.12 | novo (sobre `Mission`) |
-| Revisão espaçada | §4.2 | novo |
-| Dashboard dos pais | §4.11 | **já existe** + estende |
-| Calendário (-1 / +2 meses) | §4.9 | novo (sobre agregação atual) |
-| Tracking de sessão (sair do browser) | §4.1 | novo |
+| Revisão espaçada | §4.2 | ✅ feito (`study/review.ts`) |
+| Dashboard dos pais | §4.11 | ✅ página `#/pais` + alertas + tempos + relatório semanal |
+| Calendário (-1 / +2 meses) | §4.9 | ✅ feito (`#/plano` + vista dos pais) |
+| Tracking de sessão (sair do browser) | §4.1 | ✅ feito |
 | IndexedDB → Supabase | §3, §10 | costura pronta |
 | Modo Férias / Recuperar o ano | §4.8 | novo |
 | Diagnóstico inicial | §4.7 | estende Simulado |
-| Modo pré-leitor (1.º ano) | §4.10 | novo + widgets |
-| Banco de erros | §4.2 | novo |
+| Modo pré-leitor (1.º ano) | §4.10 | 🟢 mínimo feito (faltam widgets de letras) |
+| Banco de erros | §4.2 | ✅ feito (`study/review.ts`) |
 | Explicação passo a passo | §4.3 | estende `explain` |
 | Missões curtas | §4.6 | estende Missões |
-| Alertas reais (pais) | §4.11 | novo derivador |
+| Alertas reais (pais) | §4.11 | ✅ feito (`study/alerts.ts`) |
 | Dificuldade progressiva | §4.4 | novo, leve |
 | Estudar com ajuda | §4.5 | novo |
-| Relatório semanal | §4.11 | novo cartão |
+| Relatório semanal | §4.11 | ✅ feito (`study/report.ts` + cartão) |
 | Tom emocional/motivacional | §0, §9 | transversal |
 | Modo professor (PDF) | §4.13 | futuro |
 
@@ -452,20 +543,29 @@ O motor acima só brilha com matéria forte por baixo. Detalhe e prioridades em
 
 ```
 apps/web/src/study/
-  types.ts        // modelos (§3)
-  sessions.ts     // tracking de sessão (§4.1)
-  review.ts       // banco de erros + revisão espaçada (§4.2)
-  missions.ts     // gerador de missões diárias (§4.6)
-  plan.ts         // plano férias/recuperação (§4.8)
-  calendar.ts     // agregação por dia partilhada (extraída de ParentArea) (§4.9)
-  alerts.ts       // regras de alertas + relatório (§4.11)
-  Diagnostic.tsx  // fluxo de diagnóstico (§4.7)
-  Plano.tsx       // vista child-facing "O meu plano" + calendário (§4.9)
+  sessions.ts     // ✅ tracking de sessão (§4.1) — tipos incluídos
+  calendar.ts     // ✅ agregação por dia partilhada (extraída de ParentArea) (§4.9)
+  plan.ts         // ✅ gerador de missões diárias (§4.9; absorve o "missions.ts" planeado)
+  alerts.ts       // ✅ regras de alertas + métricas de tempo (§4.11)
+  grade.ts        // ✅ "Nota da semana" 0–20, últimos 14 dias (§4.11)
+  Plano.tsx       // ✅ vista child "O meu plano" + PlanCalendar + cartão "Banco de erros" (§4.9, §4.2)
+  review.ts       // ✅ banco de erros + revisão espaçada (§4.2)
+  report.ts       // ✅ relatório semanal seg–dom, derivado (§4.11)
+  Diagnostic.tsx  // fluxo de diagnóstico (§4.7) — POR FAZER
+                  // (plano férias/recuperação §4.8 estende plan.ts quando vier)
 ```
 
-Toca também: `nav.ts` (View `plano`), `App.tsx` (montar tracker + rota),
-`Quiz.tsx` (`steps`/`hint`/`level`/`assisted`), `ParentArea.tsx` (alertas +
-relatório, extrair agregação), `storage/backend.ts` (`SupabaseBackend` futuro).
+Fora de `study/`: `ui-prefs.ts` (✅ preferências de UI partilhadas em
+`sprout.ui.v1`, incl. o modo pré-leitor §4.10 — extraído do `App.tsx`).
+
+Já tocados: `nav.ts` (Views `plano` + `pais`), `App.tsx` (tracker + rotas +
+banner na home + classe `pre-reader` na lição/teste), `progress.tsx`
+(`TEST_PASS_PCT`, `Achievement.qs`, gate de 80%), `Quiz.tsx` (resultado
+pass/"a repetir", alimenta o banco de erros por pergunta, grelha por imagem
+no pré-leitor), `ParentArea.tsx` (página, gate, gráficos, alertas,
+calendário, relatório semanal, toggle pré-leitor). Por tocar: `Quiz.tsx`
+(`steps`/`hint`/`level`/`assisted` — §4.3/4.5), `storage/backend.ts`
+(`SupabaseBackend` futuro).
 
 ---
 
@@ -473,18 +573,22 @@ relatório, extrair agregação), `storage/backend.ts` (`SupabaseBackend` futuro
 
 Constrói de baixo para cima — os dados primeiro, a UI depois:
 
-1. **Modelos** (`study/types.ts`) — sem UI, só tipos + `REVIEW_DAYS`.
-2. **Sessões** (`study/sessions.ts` + *hook* no `App`). Já dá o alerta "saiu do
-   browser".
-3. **Calendário** — extrai `calendar.ts` de `ParentArea`, depois a vista
-   `#/plano` com -1/+2 meses (passado real primeiro).
-4. **Banco de erros + revisão** (`review.ts`, ligado ao `recordQuiz`).
-5. **Explicação passo a passo + estudar com ajuda** (`Quiz.tsx`).
-6. **Missões curtas** (`missions.ts`) a partir dos erros vencidos.
+1. ~~**Modelos**~~ — tipos co-locados em cada módulo (ver nota §3); `REVIEW_DAYS`
+   entra com o `review.ts`.
+2. ✅ **Sessões** (`study/sessions.ts`, montado no `App`). Alerta "saiu do
+   browser" a funcionar.
+3. ✅ **Calendário** — `calendar.ts` extraído de `ParentArea` + vista `#/plano`
+   com -1/+2 meses (e a vista dos pais em `#/pais`).
+4. ✅ **Banco de erros + revisão** (`review.ts`, ligado ao `Quiz` por pergunta;
+   missão "rever" + cartão no `#/plano`).
+5. **Explicação passo a passo + estudar com ajuda** (`Quiz.tsx`) — **o
+   próximo passo**.
+6. ✅ **Missões curtas** a partir dos erros vencidos (em `plan.ts`).
 7. **Diagnóstico** (`Diagnostic.tsx`) → **plano férias/recuperação** (`plan.ts`).
-8. **Alertas + relatório semanal** na área dos pais.
+8. ✅ **Alertas** + **relatório semanal** na área dos pais.
 9. **Dificuldade progressiva** (liga o auto-ajuste ao banco de erros).
-10. **Modo pré-leitor** (1.º ano).
+10. 🟢 **Modo pré-leitor** (1.º ano) — flag/tipografia/grelha feitas; faltam
+    os widgets de letras/sílabas.
 11. **Conteúdo:** problemas escritos, 4.ª Dinastia, reforço por ano/disciplina.
 12. **TPC** (sobre as missões) e, mais tarde, **Supabase** + **modo professor**.
 
@@ -564,4 +668,32 @@ Antes de dar uma peça por concluída:
 - [ ] `pnpm validate` e `pnpm typecheck` limpos.
 - [ ] `docs/PLANO-ESTUDO.md` atualizado (o que ficou feito, o que falta).
 - [ ] `teia-data.ts` atualizada se mexeu em lições/ids (§ CLAUDE.md).
-```
+
+---
+
+## 12. Revisões externas
+
+### Revisão externa 2026-06-10 — verificada
+
+Quatro sugestões de revisão de código, verificadas uma a uma e corrigidas
+no mesmo dia:
+
+1. **Persistência das sessões ao fechar a tab** — *confirmado.* O `pagehide`
+   escrevia no espelho síncrono (localStorage), mas o `hydrate` do IndexedDB
+   podia sobrescrevê-lo com uma cópia mais antiga no arranque seguinte.
+   **Corrigido** em `storage/index.ts`: para `sprout.sessions.v1` o hydrate
+   faz *merge* por `id` de sessão (ganha o registo com `endedAt`/`secs` mais
+   recente) e reescreve o resultado no backend durável.
+2. **Teste falhado contava o dia como verde** — *confirmado.* `dayState`
+   usava `s.completed` (teste terminado, mesmo <80%). **Corrigido** em
+   `study/calendar.ts`: verde exige teste **passado** (≥ `TEST_PASS_PCT`)
+   ou ≥20 min de estudo ativo; teste falhado sozinho fica amarelo, com o
+   ponto azul de "fez teste" na mesma.
+3. **Planeado-vs-feito em dias passados enganava** — *confirmado.* O plano de
+   dias passados era reconstruído do estado ATUAL (planos não são guardados),
+   podendo mostrar "por fazer" missões que nem existiam. **Corrigido** em
+   `ParentArea.tsx`: dias passados mostram só a atividade real (sessões com
+   envolvimento de leitura + testes); planeado-vs-feito só para hoje/futuro.
+4. **Sessões que cruzam a meia-noite** — *aceite sem alteração.* A sessão
+   conta inteira no dia em que começou; dividir os segundos pelos dois dias
+   não compensa a complexidade. Documentado em `study/calendar.ts`.

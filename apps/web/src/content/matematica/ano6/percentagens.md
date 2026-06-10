@@ -78,6 +78,15 @@ E ao contrário? «**Acertei 15 perguntas em 20. Que percentagem é?**» Fazes a
 ]
 ```
 
+Vê o mesmo teste num **gráfico circular** — as fatias mostram as percentagens sem fazeres conta nenhuma:
+
+```chart
+{ "type": "pie", "title": "O teste do Rui: 15 certas em 20",
+  "labels": ["✅ Certas", "❌ Erradas"], "data": [15, 5],
+  "unit": "perguntas",
+  "say": "O Rui acertou quinze perguntas em vinte: setenta e cinco por cento. As cinco erradas são os outros vinte e cinco por cento." }
+```
+
 ## Um exemplo passo a passo 🔍
 
 *«Um jogo custa **40 €** e está com **25% de desconto**. Quanto poupas? E quanto pagas?»* Saldos à vista! 🏷️

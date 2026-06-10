@@ -70,6 +70,15 @@ Comparar dinheiro é fácil: vê quem tem o **número maior**. Uma nota vale sem
 
 > Uma **nota de 5€** vale mais do que uma **moeda de 2€**, porque 5 é maior que 2! 😎
 
+E os preços, também se comparam! Olha o lanche no bar da escola — num gráfico vês logo o mais caro e o mais barato:
+
+```chart
+{ "type": "bar", "title": "Preços do lanche (cêntimos)",
+  "labels": ["🥖 Pão", "🥛 Leite", "🧃 Sumo", "🍎 Maçã"], "data": [80, 50, 60, 30],
+  "unit": "cêntimos",
+  "say": "O pão custa oitenta cêntimos, o leite cinquenta, o sumo sessenta e a maçã trinta. A maçã é o lanche mais barato!" }
+```
+
 ## Pagar e dar o troco 🛒
 
 Quando pagas com **mais** dinheiro do que o preço, recebes **troco** de volta. O troco é o que sobra!

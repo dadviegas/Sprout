@@ -1880,7 +1880,10 @@
 
 /* ---- settings menu (the cog) ---- */
 .settings-menu {
-  position: fixed; z-index: 41; top: 70px; right: 14px;
+  position: fixed; z-index: 41; top: 70px;
+  /* anchor under the cog: the shell is centred at min(95vw, 96rem), so offset
+     by the shell's side margin instead of hugging the viewport edge */
+  right: max(14px, calc((100vw - min(95vw, 96rem)) / 2 + 14px));
   width: min(300px, 92vw);
   background: var(--surface); border: 2px solid var(--border);
   border-radius: var(--radius-lg); padding: 8px;
@@ -1939,7 +1942,6 @@
 .parent-today__sub { display: block; font-size: .76rem; color: var(--ink-2); }
 
 /* streak / totals chips */
-.parent-stats { display: flex; gap: 8px; flex-wrap: wrap; margin: 6px 0 14px; }
 .parent-stat {
   display: inline-flex; align-items: baseline; gap: 5px;
   padding: 7px 12px; border-radius: 999px;
@@ -1947,7 +1949,6 @@
   font-size: .82rem; font-weight: 700; color: var(--ink-2);
 }
 .parent-stat__big { font-family: var(--font-display); font-size: 1.05rem; color: var(--ink); }
-.parent-stat--fail .parent-stat__big { color: var(--danger); }
 
 /* "O que andam a explorar" — passed tests per area + Biblioteca medals */
 .parent-areas { margin: 6px 0 16px; padding: 12px 14px; border-radius: var(--radius); background: var(--surface-2); border: 1px solid var(--border); }
@@ -1962,6 +1963,42 @@
 .parent-area__sub { font-size: .64rem; font-weight: 700; color: var(--primary); }
 .parent-areas__biblio { display: flex; align-items: center; gap: 6px; margin-top: 10px; font-size: .82rem; color: var(--ink-2); }
 .parent-areas__biblio svg { color: var(--warn); }
+
+/* the area tiles are buttons — tap one to open its inline drill-down */
+button.parent-area { font: inherit; cursor: pointer; transition: border-color var(--dur-fast), transform var(--dur-fast) var(--ease-out); }
+button.parent-area:hover { border-color: var(--primary); transform: translateY(-1px); }
+.parent-area.is-open { opacity: 1; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }
+
+/* the drill-down panel of one area (lessons + tests) */
+.parent-area-detail { margin-top: 10px; padding: 4px 10px 8px; border-radius: var(--radius-sm); background: var(--surface); border: 1px solid var(--border); }
+.parent-area-detail__sub { display: flex; align-items: center; gap: 6px; margin: 8px 0 6px; font-family: var(--font-display); font-weight: 800; font-size: .78rem; color: var(--ink-2); }
+
+/* reading-engagement chip ("leu com atenção" / "passou os olhos" / …) */
+.parent-engage { flex-shrink: 0; padding: 3px 8px; border-radius: 999px; font-size: .68rem; font-weight: 800; white-space: nowrap; background: var(--surface-2); border: 1px solid var(--border); color: var(--ink-2); }
+.parent-engage.is-completed,
+.parent-engage.is-read { color: var(--primary); background: color-mix(in srgb, var(--primary) 12%, var(--surface)); border-color: color-mix(in srgb, var(--primary) 40%, var(--border)); }
+.parent-engage.is-skimmed { color: color-mix(in srgb, var(--warn) 75%, var(--ink)); background: color-mix(in srgb, var(--warn) 14%, var(--surface)); border-color: color-mix(in srgb, var(--warn) 40%, var(--border)); }
+.parent-engage.is-abandoned { color: var(--danger); background: color-mix(in srgb, var(--danger) 10%, var(--surface)); border-color: color-mix(in srgb, var(--danger) 40%, var(--border)); }
+
+/* "Nota da semana" — the 0–20 grade card with its three components */
+.parent-grade { display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; align-items: center; margin: 6px 0 16px; padding: 12px 14px; border-radius: var(--radius); background: var(--surface-2); border: 1px solid var(--border); }
+.parent-grade__score { display: grid; justify-items: center; line-height: 1; }
+.parent-grade__score strong { font-family: var(--font-display); font-weight: 900; font-size: 2.2rem; color: var(--primary); }
+.parent-grade__score span { font-size: .78rem; font-weight: 700; color: var(--ink-3); }
+.parent-grade__score small { margin-top: 4px; font-size: .64rem; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-3); }
+.parent-grade__parts { display: grid; gap: 6px; min-width: 0; }
+.parent-grade__row { display: grid; grid-template-columns: minmax(128px, auto) 1fr auto; gap: 8px; align-items: center; }
+.parent-grade__lbl { display: inline-flex; align-items: center; gap: 5px; font-size: .78rem; font-weight: 700; color: var(--ink-2); }
+.parent-grade__bar { height: 8px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); overflow: hidden; }
+.parent-grade__bar i { display: block; height: 100%; border-radius: inherit; background: var(--primary); }
+.parent-grade__n { font-size: .76rem; font-weight: 800; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.parent-grade__n--empty { color: var(--ink-3); font-weight: 600; }
+.parent-grade__msg { grid-column: 1 / -1; margin: 2px 0 0; font-size: .8rem; color: var(--ink-2); }
+.parent-grade__msg span { color: var(--ink-3); }
+@media (max-width: 480px) {
+  .parent-grade { grid-template-columns: 1fr; justify-items: start; }
+  .parent-grade__parts { width: 100%; }
+}
 
 /* the GitHub-style heatmap (one trimestre at a time) */
 .hm { --cell: 18px; --gap: 4px; --gutter: 30px; margin: 4px 0; }
@@ -2002,9 +2039,7 @@ button.hm-cell:hover { transform: scale(1.18); }
 
 /* usage bar chart (daily, month-navigable) */
 .usage { margin: 16px 0 8px; }
-.usage__head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
-.usage__title { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: .85rem; color: var(--ink-2); }
-.usage__legend { display: inline-flex; gap: 12px; font-size: .74rem; color: var(--ink-3); }
+.usage__legend { display: inline-flex; gap: 12px; font-size: .74rem; color: var(--ink-3); font-weight: 600; }
 .usage__legend span { display: inline-flex; align-items: center; gap: 5px; }
 .usage__dot { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
 .usage__dot.pass { background: var(--primary); }
@@ -2086,10 +2121,11 @@ button.hm-cell:hover { transform: scale(1.18); }
 .parent-badge.seen { color: var(--ink-3); background: var(--surface-2); }
 
 /* reward settings + danger zone */
-.parent-settings { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 14px 0; padding: 12px 14px; border-radius: var(--radius); background: var(--surface-2); border: 1px solid var(--border); }
-.parent-settings__title { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: .85rem; color: var(--ink-2); }
+.parent-settings { margin: 14px 0; padding: 12px 14px; border-radius: var(--radius); background: var(--surface-2); border: 1px solid var(--border); }
+.parent-settings .parent-field { margin: 6px 0; display: flex; justify-content: space-between; }
 .parent-field { display: inline-flex; align-items: center; gap: 8px; font-size: .82rem; font-weight: 700; color: var(--ink-2); }
 .parent-field input { width: 64px; padding: 6px 8px; border-radius: 10px; border: 1.5px solid var(--border); background: var(--surface); color: var(--ink); font-weight: 700; }
+.parent-field select { padding: 6px 8px; border-radius: 10px; border: 1.5px solid var(--border); background: var(--surface); color: var(--ink); font-weight: 700; font-size: inherit; }
 .parent-danger { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
 .parent-wipe {
   display: inline-flex; align-items: center; gap: 7px;
@@ -2154,6 +2190,21 @@ button.hm-cell:hover { transform: scale(1.18); }
 .cmdk-chip:hover { color: var(--ink); border-color: var(--border-strong); }
 .cmdk-chip.on { color: var(--ink); background: var(--bg-elev); border-color: color-mix(in srgb, var(--c) 60%, var(--border)); }
 .cmdk-chip-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--c); flex-shrink: 0; }
+/* subject filter as a dropdown (the chip wall was eating the palette) */
+.cmdk-select {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 10px; border-radius: 999px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  color: var(--ink-2); font-size: .85em; font-weight: 700;
+}
+.cmdk-select select {
+  font: inherit; color: var(--ink); background: transparent;
+  border: 0; outline: 0; cursor: pointer; max-width: 13em;
+}
+.cmdk-select select option { color: initial; }
+.cmdk-tag { cursor: pointer; }
+.cmdk-reset { color: var(--danger); border-color: color-mix(in srgb, var(--danger) 35%, var(--border)); }
+.cmdk-reset:hover { color: var(--danger); background: var(--danger-soft); }
 .cmdk-results { overflow-y: auto; padding: 8px; display: grid; gap: 4px; }
 .cmdk-caption {
   display: flex; align-items: center; gap: 6px;
@@ -3160,4 +3211,281 @@ button.hm-cell:hover { transform: scale(1.18); }
   .shop-card__hear { width: 34px; height: 34px; }
   /* tappable label chips inside widgets (volcano parts, skyblue toggle, …) */
   .chip { min-height: 38px; }
+  .plan-mission__say, .plan-banner__say, .plan-rest__say, .plan-review__say { width: 40px; height: 40px; }
 }
+
+/* ── "O meu plano" (#/plano): banner, missions, calendar ──────────────────── */
+
+/* Home banner — the door to the daily plan. */
+.plan-banner { position: relative; margin: 14px 0 4px; }
+.plan-banner__btn {
+  display: flex; align-items: center; gap: 14px; width: 100%; text-align: left;
+  padding: 16px 52px 16px 18px; border-radius: var(--radius-lg); cursor: pointer;
+  /* richer than a flat bar: soft primary wash that fades into the surface */
+  background: linear-gradient(120deg, var(--primary-soft), color-mix(in srgb, var(--primary-soft) 30%, var(--surface)) 70%);
+  border: 2px solid color-mix(in srgb, var(--primary) 38%, var(--border));
+  box-shadow: var(--shadow-sm);
+  color: var(--ink); transition: transform var(--dur-fast), box-shadow var(--dur-fast);
+}
+.plan-banner__btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md, var(--shadow-sm)); }
+.plan-banner__ic {
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+  width: 52px; height: 52px; border-radius: 16px;
+  background: var(--primary); color: #fff;
+  box-shadow: 0 8px 18px -8px var(--primary);
+}
+.plan-banner__tx { display: grid; line-height: 1.35; min-width: 0; flex: 1; }
+.plan-banner__tx strong { font-family: var(--font-display); font-weight: 800; font-size: 1.18em; }
+.plan-banner__tx span { font-size: .9em; color: var(--ink-2); }
+.plan-banner__say { position: absolute; top: 50%; right: 10px; transform: translateY(-50%); }
+
+/* Mission cards — big, tappable, one per mission, child-facing. */
+.plan-missions { display: grid; gap: 10px; margin: 12px 0; }
+.plan-mission { position: relative; }
+.plan-mission__btn {
+  display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; cursor: pointer;
+  padding: 14px 52px 14px 14px; border-radius: var(--radius);
+  background: var(--surface); border: 2px solid color-mix(in srgb, var(--c, var(--primary)) 40%, var(--border));
+  color: var(--ink); transition: transform var(--dur-fast), box-shadow var(--dur-fast);
+}
+.plan-mission__btn:hover { transform: translateY(-2px); }
+.plan-mission__num {
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+  width: 38px; height: 38px; border-radius: 50%; font-family: var(--font-display); font-weight: 800; font-size: 1.1em;
+  background: color-mix(in srgb, var(--c, var(--primary)) 16%, var(--surface)); color: var(--c, var(--primary));
+}
+.plan-mission__emoji { font-size: 1.6em; flex-shrink: 0; }
+.plan-mission__tx { display: grid; line-height: 1.3; min-width: 0; flex: 1; }
+.plan-mission__tx strong { font-family: var(--font-display); font-weight: 800; }
+.plan-mission__tx span { font-size: .82em; color: var(--ink-2); }
+.plan-mission__min { font-size: .78em; font-weight: 700; color: var(--ink-3); white-space: nowrap; }
+.plan-mission__say { position: absolute; top: 50%; right: 10px; transform: translateY(-50%); }
+.plan-mission.is-done .plan-mission__btn { opacity: .72; border-style: dashed; }
+.plan-mission.is-done .plan-mission__num { background: var(--primary); color: #fff; }
+
+/* Today's minutes vs. the ~30 min target. */
+.plan-today-min { display: grid; gap: 4px; margin: 4px 0 12px; }
+.plan-today-min > span { font-size: .8rem; font-weight: 700; color: var(--ink-2); }
+
+/* Sunday rest card. */
+.plan-rest {
+  position: relative; display: flex; gap: 14px; align-items: center; margin: 12px 0;
+  padding: 18px 52px 18px 16px; border-radius: var(--radius);
+  background: color-mix(in srgb, var(--warn) 12%, var(--surface));
+  border: 2px solid color-mix(in srgb, var(--warn) 45%, var(--border));
+}
+.plan-rest__ic { color: var(--warn); display: inline-flex; flex-shrink: 0; }
+.plan-rest strong { font-family: var(--font-display); font-size: 1.1em; }
+.plan-rest p { margin: 2px 0 0; color: var(--ink-2); font-size: .9em; }
+.plan-rest__say { position: absolute; top: 50%; right: 10px; transform: translateY(-50%); }
+
+/* "Banco de erros" — small card shown when review questions are due (§4.2). */
+.plan-review { position: relative; margin: 4px 0 12px; }
+.plan-review__btn {
+  display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; cursor: pointer;
+  padding: 12px 52px 12px 14px; border-radius: var(--radius); color: var(--ink);
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+  border: 2px solid color-mix(in srgb, var(--accent) 40%, var(--border));
+  transition: transform var(--dur-fast);
+}
+.plan-review__btn:hover { transform: translateY(-1px); }
+.plan-review__ic {
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+  width: 40px; height: 40px; border-radius: 13px; background: var(--surface); color: var(--accent);
+}
+.plan-review__tx { display: grid; line-height: 1.3; min-width: 0; flex: 1; }
+.plan-review__tx strong { font-family: var(--font-display); font-weight: 800; }
+.plan-review__tx span { font-size: .82em; color: var(--ink-2); }
+.plan-review__say { position: absolute; top: 50%; right: 10px; transform: translateY(-50%); }
+
+/* The month calendar: -1 / current / +2 months, coloured day states. */
+.plan-cal { margin: 6px 0; padding: 12px 14px; border-radius: var(--radius); background: var(--surface-2); border: 1px solid var(--border); }
+.plan-cal__nav { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 8px; }
+.plan-cal__nav .iconbtn:disabled { opacity: .3; cursor: default; }
+.plan-cal__month { font-family: var(--font-display); font-weight: 700; min-width: 14ch; text-align: center; text-transform: capitalize; }
+.plan-cal__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.plan-cal__wd { text-align: center; font-size: .68rem; font-weight: 800; color: var(--ink-3); }
+.plan-cal__pad { aspect-ratio: 1; }
+.plan-cal__day {
+  position: relative; aspect-ratio: 1; border-radius: 10px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: .82rem; color: var(--ink-2);
+  background: var(--surface); border: 1px solid var(--border);
+  transition: transform var(--dur-fast);
+}
+.plan-cal__day:hover { transform: scale(1.06); }
+.plan-cal__day.is-good { background: color-mix(in srgb, var(--primary) 55%, var(--surface)); border-color: var(--primary); color: #fff; }
+.plan-cal__day.is-some { background: color-mix(in srgb, var(--warn) 45%, var(--surface)); border-color: var(--warn); }
+.plan-cal__day.is-none { background: color-mix(in srgb, var(--danger) 22%, var(--surface)); border-color: color-mix(in srgb, var(--danger) 55%, var(--border)); }
+.plan-cal__day.is-rest { background: var(--bg-2); color: var(--ink-3); }
+.plan-cal__day.is-blank { opacity: .55; }
+.plan-cal__day.is-future { background: var(--surface); color: var(--ink-3); border-style: dashed; }
+.plan-cal__day.is-future.is-planned::after {
+  content: ""; position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%);
+  width: 10px; height: 3px; border-radius: 2px; background: var(--ink-3); opacity: .6;
+}
+.plan-cal__day.is-today { outline: 2px solid var(--ink); outline-offset: 1px; }
+.plan-cal__day.is-sel { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 55%, transparent); }
+.plan-cal__dot {
+  position: absolute; top: 4px; right: 4px; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--accent); border: 1px solid var(--surface);
+}
+.plan-cal__legend { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 10px; font-size: .72rem; color: var(--ink-3); }
+.plan-cal__legend span { display: inline-flex; align-items: center; gap: 5px; }
+.plan-cal__chip { width: 12px; height: 12px; border-radius: 4px; display: inline-block; border: 1px solid var(--border); }
+.plan-cal__chip.is-good { background: color-mix(in srgb, var(--primary) 55%, var(--surface)); }
+.plan-cal__chip.is-some { background: color-mix(in srgb, var(--warn) 45%, var(--surface)); }
+.plan-cal__chip.is-none { background: color-mix(in srgb, var(--danger) 22%, var(--surface)); }
+.plan-cal__chip.is-test { background: var(--accent); border-radius: 50%; }
+.plan-cal__chip.is-rest { background: var(--bg-2); }
+
+/* Tapped-day detail under the calendar. */
+.plan-day-detail { margin: 12px 0; padding: 12px 14px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--border); }
+.plan-day-detail__head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.plan-day-detail__head strong { font-family: var(--font-display); text-transform: capitalize; }
+.plan-day-detail__min { display: inline-flex; align-items: center; gap: 5px; font-size: .8rem; font-weight: 700; color: var(--ink-2); }
+.plan-day-detail__list { margin: 8px 0 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.plan-day-detail__list li { display: flex; align-items: center; gap: 8px; font-size: .9rem; }
+.plan-day-detail__empty { margin: 8px 0 0; color: var(--ink-3); font-size: .88rem; }
+
+/* ── Parents' page (#/pais) extras ─────────────────────────────────────────── */
+
+.parent-page { max-width: 1320px; margin: 0 auto; }
+.parent-gate { margin: 10px 0; padding: 16px; border-radius: var(--radius); background: var(--surface-2); border: 1px solid var(--border); display: grid; gap: 10px; justify-items: start; }
+.parent-gate p { margin: 0; color: var(--ink-2); }
+
+/* Alerts — positives first, then "worth a look", all constructive. */
+.parent-alerts { display: grid; gap: 8px; margin: 6px 0 14px; }
+.parent-alert {
+  display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px;
+  border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface);
+}
+.parent-alert.is-good { border-color: color-mix(in srgb, var(--primary) 45%, var(--border)); background: color-mix(in srgb, var(--primary) 8%, var(--surface)); }
+.parent-alert.is-watch { border-color: color-mix(in srgb, var(--warn) 50%, var(--border)); background: color-mix(in srgb, var(--warn) 9%, var(--surface)); }
+.parent-alert__ic { display: inline-flex; flex-shrink: 0; margin-top: 2px; }
+.parent-alert.is-good .parent-alert__ic { color: var(--primary); }
+.parent-alert.is-watch .parent-alert__ic { color: var(--warn); }
+.parent-alert__tx { display: grid; line-height: 1.35; }
+.parent-alert__tx strong { font-size: .9rem; }
+.parent-alert__tx span { font-size: .78rem; color: var(--ink-3); }
+
+/* Planned-vs-done rows in the parents' calendar detail. */
+.parent-plan { margin: 6px 0 16px; }
+.parent-mission { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px dashed var(--border); }
+.parent-mission:last-of-type { border-bottom: 0; }
+.parent-mission__st { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0; }
+.parent-mission__st.ok { background: color-mix(in srgb, var(--primary) 18%, var(--surface)); color: var(--primary); }
+.parent-mission__st.miss { background: color-mix(in srgb, var(--danger) 14%, var(--surface)); color: var(--danger); }
+.parent-mission__st.plan { background: var(--surface-2); color: var(--ink-3); }
+.parent-mission__tx { flex: 1; min-width: 0; font-size: .88rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.parent-mission__lbl { font-size: .72rem; font-weight: 700; color: var(--ink-3); }
+.parent-plan__extra { margin: 8px 0 0; font-size: .78rem; color: var(--ink-3); }
+
+/* Time-based difficulty chip on a test row. */
+.parent-pace { font-size: .68rem; font-weight: 700; padding: 1px 7px; border-radius: 999px; white-space: nowrap; }
+.parent-pace.is-rapido { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); color: var(--accent); }
+.parent-pace.is-lento { background: color-mix(in srgb, var(--warn) 18%, var(--surface)); color: color-mix(in srgb, var(--warn) 70%, var(--ink)); }
+.parent-slow__rank {
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+  width: 24px; height: 24px; border-radius: 50%; font-family: var(--font-display); font-weight: 800; font-size: .8rem;
+  background: var(--surface-2); color: var(--ink-2);
+}
+
+/* Weekly report card (§4.11 "relatório de domingo") — derived, shareable feel. */
+.parent-report { margin: 6px 0 16px; padding: 12px 14px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--border); }
+.parent-report__stats { display: flex; gap: 14px; flex-wrap: wrap; margin: 10px 0; }
+.parent-report__list { margin: 8px 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.parent-report__list li { display: flex; align-items: flex-start; gap: 7px; font-size: .85rem; line-height: 1.4; }
+.parent-report__list li svg { flex-shrink: 0; margin-top: 2px; }
+.parent-report__list li.is-up { color: color-mix(in srgb, var(--primary) 75%, var(--ink)); }
+.parent-report__list li.is-down { color: color-mix(in srgb, var(--warn) 60%, var(--ink)); }
+.parent-report__line { display: flex; align-items: flex-start; gap: 7px; margin: 8px 0 0; font-size: .82rem; color: var(--ink-2); line-height: 1.4; }
+.parent-report__line svg { flex-shrink: 0; margin-top: 2px; color: var(--ink-3); }
+
+/* Final-test pass/repeat chip on the quiz result. */
+.quiz-pass {
+  display: inline-flex; align-items: center; gap: 6px; margin: 4px 0;
+  padding: 3px 12px; border-radius: 999px; font-size: .8rem; font-weight: 800;
+}
+.quiz-pass.ok { background: color-mix(in srgb, var(--primary) 16%, var(--surface)); color: var(--primary); }
+.quiz-pass.redo { background: color-mix(in srgb, var(--warn) 18%, var(--surface)); color: color-mix(in srgb, var(--warn) 70%, var(--ink)); }
+
+/* ── Pre-reader mode (PLANO-ESTUDO §4.10) ──────────────────────────────────
+ * The `pre-reader` class sits on the lesson/test container (App.tsx) when the
+ * mode is active: bigger type for emerging readers and a louder, easier-to-hit
+ * speaker button. Speech itself still only fires on a tap — this is styling. */
+.pre-reader .lesson-body { font-size: 1.16em; line-height: 1.75; }
+.pre-reader .quiz .question { font-size: 1.2em; }
+.pre-reader .opt { min-height: 56px; font-size: 1.08em; }
+.pre-reader .opt .opt-emoji { font-size: 2em; }
+.pre-reader .prose-speak {
+  width: 44px; height: 44px;
+  border-width: 2px;
+  box-shadow: 0 2px 0 color-mix(in srgb, var(--primary) 30%, transparent);
+}
+.pre-reader .prose-speak svg { width: 22px; height: 22px; }
+
+/* ── Parents' dashboard grid (#/pais) ──────────────────────────────────────
+ * One responsive grid owns the rhythm: 1 column on phones, 2 on tablets,
+ * 3 from ~1100px. Cards opt into wider cells with .dash-wide / .dash-full;
+ * `dense` lets small cards fill the holes the wide ones leave behind. */
+.parent-dash { display: grid; grid-template-columns: 1fr; grid-auto-flow: row dense; gap: 14px; align-items: start; }
+.parent-dash > * { margin: 0; min-width: 0; }
+.dash-full { grid-column: 1 / -1; }
+@media (min-width: 720px) {
+  .parent-dash { grid-template-columns: repeat(2, 1fr); }
+  .dash-wide { grid-column: span 2; }
+}
+@media (min-width: 1100px) { .parent-dash { grid-template-columns: repeat(3, 1fr); } }
+
+/* full-width section label between card groups */
+.dash-sec {
+  grid-column: 1 / -1; display: flex; align-items: center; gap: 10px;
+  margin: 8px 0 0; font-family: var(--font-display); font-weight: 800;
+  font-size: .76rem; color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em;
+}
+.dash-sec::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+
+/* shared card header: icon blob + title + right-side aside */
+.pcard-head { display: flex; align-items: center; gap: 9px; margin-bottom: 10px; min-width: 0; }
+.pcard-head__ic {
+  width: 28px; height: 28px; flex-shrink: 0; display: grid; place-items: center;
+  border-radius: 9px; background: var(--primary-soft); color: var(--primary);
+}
+.pcard-head__t { font-family: var(--font-display); font-size: .95rem; color: var(--ink); line-height: 1.2; }
+.pcard-head__aside { margin-left: auto; flex-shrink: 0; font-size: .76rem; font-weight: 700; color: var(--ink-3); text-transform: capitalize; }
+
+/* cards that had no chrome of their own get it inside the grid */
+.parent-dash > .parent-detail,
+.parent-dash > .parent-plan,
+.parent-dash > .hm,
+.parent-dash > .usage {
+  padding: 12px 14px; border: 1px solid var(--border);
+  border-radius: var(--radius); background: var(--surface-2);
+}
+
+/* KPI strip: compact metric cards, each with its own accent */
+.parent-kpis { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, minmax(118px, 1fr)); gap: 8px; }
+.kpi {
+  position: relative; overflow: hidden; display: grid; gap: 2px; justify-items: start;
+  padding: 10px 12px 9px 15px; border-radius: var(--radius);
+  background: var(--surface-2); border: 1px solid var(--border);
+}
+.kpi::before { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 4px; background: var(--kpi-c, var(--primary)); opacity: .85; }
+.kpi__ic { display: inline-flex; color: var(--kpi-c, var(--primary)); }
+.kpi__v { font-family: var(--font-display); font-weight: 800; font-size: 1.45rem; line-height: 1.05; color: var(--ink); font-variant-numeric: tabular-nums; }
+.kpi__v small { font-size: .85rem; font-weight: 700; color: var(--ink-3); }
+.kpi__l { font-size: .7rem; font-weight: 700; color: var(--ink-2); }
+
+/* usage panel ("Como usam a app") */
+.parent-usage { padding: 12px 14px; border-radius: var(--radius); background: var(--surface-2); border: 1px solid var(--border); }
+.parent-usage__stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(112px, 1fr)); gap: 8px; }
+.ustat { display: grid; gap: 1px; padding: 8px 10px; border-radius: var(--radius-sm); background: var(--surface); border: 1px solid var(--border); }
+.ustat__v { font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; color: var(--ink); font-variant-numeric: tabular-nums; }
+.ustat__l { font-size: .7rem; font-weight: 700; color: var(--ink-2); }
+.parent-usage__charts { display: grid; gap: 10px; }
+@media (min-width: 900px) { .parent-usage__charts { grid-template-columns: 1fr 1fr; } }
+
+/* lesson-style chart widgets sit flush inside the dashboard grid */
+.parent-dash .widget { margin: 0; }
+.parent-usage .widget { margin-top: 10px; }

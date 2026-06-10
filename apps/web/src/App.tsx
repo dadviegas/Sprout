@@ -47,10 +47,14 @@ import { bibliotecaMedals, recommendedArticles, missoesState } from "./bibliotec
 import { Mascot } from "./Mascot";
 import { CommandCenter } from "./CommandCenter";
 import { AchievementsPanel } from "./Achievements";
-import { ParentArea, WipeModal, tabletMinutesToday } from "./ParentArea";
+import { ParentPage, WipeModal, tabletMinutesToday } from "./ParentArea";
+import { Plano } from "./study/Plano";
+import { initSessionTracking, trackView, noteScroll } from "./study/sessions";
+import { isRestDay } from "./study/plan";
 import { SimuladoLauncher } from "./Simulado";
 import { splitLesson, lessonMinutes } from "./lesson-content";
 import { Stars, ProgressBar, yearStats, yearAllStats, subjectStats, sumStats, schoolStats, pctOf } from "./ui";
+import { loadUiPrefs, saveUiPrefs, preReaderActive } from "./ui-prefs";
 
 // The markdown renderer pulls in react-markdown + remark/rehype plugins + every
 // interactive widget — heavy, and only needed on lesson/test screens. Lazy-load
@@ -107,11 +111,19 @@ function Root() {
   const [drawer, setDrawer] = useState(false);
   const [palette, setPalette] = useState(false);
   const [achievements, setAchievements] = useState(false);
-  // The cog opens a small settings menu; from it the parent area (gated) and
-  // the math-gated "Limpar tudo" each open as their own session.
+  // The cog opens a small settings menu; from it the parents' page (#/pais,
+  // gated on entry) and the math-gated "Limpar tudo" modal.
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [parent, setParent] = useState(false);
   const [wipe, setWipe] = useState(false);
+
+  // Study-session tracking (study/sessions.ts): visibility/exit listeners once,
+  // then map every navigation to an open/closed session.
+  useEffect(() => {
+    initSessionTracking();
+  }, []);
+  useEffect(() => {
+    trackView(view);
+  }, [view]);
 
   // The theme attribute lives on <html> (set before first render in index.tsx)
   // so toggling repaints the whole page immediately — keeping it on a nested
@@ -179,7 +191,6 @@ function Root() {
     setPalette(false);
     setAchievements(false);
     setSettingsOpen(false);
-    setParent(false);
     setWipe(false);
   };
 
@@ -265,8 +276,11 @@ function Root() {
             onOpenDiversao={() => go({ kind: "diversao" })}
             onOpenTeia={() => go({ kind: "teia" })}
             onOpenLesson={openLesson}
+            onOpenPlano={() => go({ kind: "plano" })}
           />
         )}
+        {view.kind === "plano" && <Plano onGo={go} />}
+        {view.kind === "pais" && <ParentPage />}
         {view.kind === "area" && view.area === "escola" && (
           <EscolaView onPick={(year) => go({ kind: "year", year })} />
         )}
@@ -328,11 +342,10 @@ function Root() {
           onClose={() => setSettingsOpen(false)}
           theme={theme}
           onToggleTheme={() => setTheme((t) => (t === "light" ? "dark" : "light"))}
-          onOpenParent={() => { setSettingsOpen(false); setParent(true); }}
+          onOpenParent={() => go({ kind: "pais" })}
           onOpenWipe={() => { setSettingsOpen(false); setWipe(true); }}
         />
       )}
-      {parent && <ParentArea onClose={() => setParent(false)} />}
       {wipe && <WipeModal onClose={() => setWipe(false)} />}
     </div>
   );
@@ -454,6 +467,12 @@ function TopBar({
             ) : view.kind === "teia" ? (
               // "A Teia do Saber" — the knowledge web.
               <CrumbChip icon="atom" label="A Teia do Saber" color="var(--subj-en)" colorSoft="var(--subj-en-soft)" />
+            ) : view.kind === "plano" ? (
+              // "O meu plano" — daily missions + calendar.
+              <CrumbChip icon="calendar" label="O meu plano" color="var(--primary)" colorSoft="var(--primary-soft)" />
+            ) : view.kind === "pais" ? (
+              // The parents' page (math-gated on entry).
+              <CrumbChip icon="gear" label="Área dos pais" color="var(--ink-2)" colorSoft="var(--surface-2)" />
             ) : view.kind === "mundo" ? (
               // The "Pelo mundo fora" overview itself.
               <CrumbChip icon={MUNDO_BEYOND.icon as IconName} label={MUNDO_BEYOND.label} color={mundoSubject.color} colorSoft={mundoSubject.colorSoft} />
@@ -678,7 +697,8 @@ function CardProgress({ pct, done, real, stars, color }: { pct: number; done: nu
 
 // The last lessons the child opened (newest first). Lets them hop straight back
 // in without re-walking year → subject. Only real lessons are tracked, so every
-// chip is openable; ids whose lesson no longer exists are skipped.
+// chip is openable; ids whose lesson no longer exists are skipped. Collapsed by
+// default (it grew long); the preference persists via the storage facade.
 function RecentlySeen({
   history,
   progress,
@@ -693,6 +713,15 @@ function RecentlySeen({
   onClear: () => void;
 }) {
   const [editing, setEditing] = useState(false);
+  const [open, setOpen] = useState(() => loadUiPrefs().recentOpen === true);
+  const toggleOpen = () => {
+    setEditing(false); // collapsing mid-edit would strand the edit state
+    setOpen((o) => {
+      const next = !o;
+      saveUiPrefs({ recentOpen: next });
+      return next;
+    });
+  };
   const items = history.map((id) => lessonMeta.get(id) && { id, meta: lessonMeta.get(id)! }).filter(Boolean) as {
     id: string;
     meta: NonNullable<ReturnType<typeof lessonMeta.get>>;
@@ -706,21 +735,33 @@ function RecentlySeen({
       <h2 className="section-title">
         <Icon name="clock" size={24} /> Visto recentemente
         <span className="recent-tools">
-          {editing && (
+          {open && editing && (
             <button className="recent-tool recent-tool--danger" onClick={onClear}>
               <Icon name="trash" size={15} /> Limpar
             </button>
           )}
+          {open && (
+            <button
+              className={`recent-tool ${editing ? "on" : ""}`}
+              onClick={() => setEditing((e) => !e)}
+              aria-label={editing ? "Concluir edição da lista" : "Editar a lista"}
+            >
+              <Icon name={editing ? "check" : "pencil"} size={15} />
+              {editing ? "Concluir" : "Editar"}
+            </button>
+          )}
           <button
-            className={`recent-tool ${editing ? "on" : ""}`}
-            onClick={() => setEditing((e) => !e)}
-            aria-label={editing ? "Concluir edição da lista" : "Editar a lista"}
+            className="recent-tool"
+            onClick={toggleOpen}
+            aria-expanded={open}
+            aria-label={open ? "Esconder a lista" : `Mostrar ${items.length} lições recentes`}
           >
-            <Icon name={editing ? "check" : "pencil"} size={15} />
-            {editing ? "Concluir" : "Editar"}
+            <Icon name={open ? "collapse" : "expand"} size={15} />
+            {open ? "Esconder" : `Mostrar (${items.length})`}
           </button>
         </span>
       </h2>
+      {open && (
       <div className="recent-row">
         {items.map(({ id, meta }) => {
           const tier = tierLabel(meta.subjectId, meta.year); // "" for the grade-less study area
@@ -750,6 +791,7 @@ function RecentlySeen({
           );
         })}
       </div>
+      )}
     </>
   );
 }
@@ -765,11 +807,13 @@ function Home({
   onOpenDiversao,
   onOpenTeia,
   onOpenLesson,
+  onOpenPlano,
 }: {
   onOpenArea: (area: AreaId) => void;
   onOpenDiversao: () => void;
   onOpenTeia: () => void;
   onOpenLesson: (lessonId: string) => void;
+  onOpenPlano: () => void;
 }) {
   const { progress, achievements, history, totalStars, removeSeen, clearHistory } = useProgress();
   const greeting =
@@ -783,6 +827,24 @@ function Home({
   return (
     <div>
       <Mascot message={greeting} mood={totalStars > 0 ? "cheer" : "happy"} />
+
+      {/* "O meu plano de hoje" — the door to the daily missions + calendar. */}
+      <div className="plan-banner">
+        <button className="plan-banner__btn" onClick={onOpenPlano}>
+          <span className="plan-banner__ic"><Icon name="calendar" size={24} duo /></span>
+          <span className="plan-banner__tx">
+            <strong>O meu plano de hoje</strong>
+            <span>{isRestDay(Date.now()) ? "Domingo — dia de descanso!" : "As tuas missões de hoje — cerca de 30 minutos"}</span>
+          </span>
+          <Icon name="forward" size={20} />
+        </button>
+        <Speaker
+          text={isRestDay(Date.now()) ? "O meu plano. Hoje é domingo, dia de descanso!" : "O meu plano de hoje. Toca para veres as tuas missões!"}
+          className="plan-banner__say"
+          size={18}
+          label="Ouvir: o meu plano de hoje"
+        />
+      </div>
 
       {tabletToday > 0 && (
         <div className="home-reward">
@@ -1044,7 +1106,9 @@ function CuriosidadeDoDia() {
 function BibliotecaScene() {
   return (
     <div className="biblio-scene" aria-hidden="true">
-      <svg className="biblio-scene__svg" viewBox="0 0 760 260" role="img">
+      {/* slice (not meet): the scene COVERS the full card width instead of
+          letterboxing as a centred strip on wide screens */}
+      <svg className="biblio-scene__svg" viewBox="0 0 760 260" preserveAspectRatio="xMidYMid slice" role="img">
         <defs>
           <linearGradient id="biblio-sky" x1="0" x2="1" y1="0" y2="1">
             <stop offset="0" stopColor="#fff7d7" />
@@ -1502,6 +1566,33 @@ function LessonView({
     if (lesson.body) recordSeen(lesson.id); // only real lessons join "recently seen"
   }, [lesson.id, lesson.body, markVisited, recordSeen]);
 
+  // Reading tracking (PLANO-ESTUDO §4.1): record how far down the lesson the
+  // child scrolled (max %), onto the open study session. Passive listener,
+  // rAF-throttled; the first measure also runs in a rAF so the session tracker
+  // (a PARENT effect, which runs after this child effect) has already started.
+  const pageRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!lesson.body) return;
+    let raf = 0;
+    const measure = () => {
+      raf = 0;
+      const el = pageRef.current;
+      if (!el || el.offsetHeight === 0) return;
+      const top = el.getBoundingClientRect().top + window.scrollY;
+      const seen = window.scrollY + window.innerHeight - top;
+      noteScroll((seen / el.offsetHeight) * 100, lesson.id);
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(measure);
+    };
+    onScroll(); // a lesson that fits on one screen counts as fully seen
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [lesson.id, lesson.body]);
+
   const p = progress[lesson.id];
 
   // Subject accent for the whole lesson page — headings, summary, blockquotes
@@ -1533,32 +1624,43 @@ function LessonView({
   // lives on its own screen, reached by the "Fazer o teste" link below.
   const { learn, test } = splitLesson(lesson.body);
 
+  // Pre-reader mode (§4.10): bigger type + emphasized speakers via CSS, read
+  // fresh on every render so the parents' toggle applies on the next visit.
+  const preReader = preReaderActive(subject.id, year);
+
   return (
     <LessonContext.Provider value={lesson.id}>
-      <div className="sprout-fade-up" style={accStyle}>
+      <div className={`sprout-fade-up${preReader ? " pre-reader" : ""}`} style={accStyle} ref={pageRef}>
         <LessonBody>{learn}</LessonBody>
 
-        {test && (
-          <button
-            className="test-cta"
-            style={{ ["--c" as string]: subject.color }}
-            onClick={() => onDoneNext({ kind: "test", year, subjectId: subject.id, lessonId: lesson.id })}
-          >
-            <span className="test-cta__icon"><Icon name="trophy" size={26} /></span>
-            <span className="test-cta__text">
-              <span className="test-cta__title">
-                {p?.done ? "Repetir o teste" : "Fazer o teste"}
-                {p?.done && <Stars n={p.bestStars} />}
+        {test && (() => {
+          // "A repetir": tried the final test but hasn't reached the 80% pass
+          // mark yet (TEST_PASS_PCT in progress.tsx) — said with encouragement.
+          const tried = !p?.done && (p?.bestPct ?? 0) > 0;
+          return (
+            <button
+              className="test-cta"
+              style={{ ["--c" as string]: subject.color }}
+              onClick={() => onDoneNext({ kind: "test", year, subjectId: subject.id, lessonId: lesson.id })}
+            >
+              <span className="test-cta__icon"><Icon name="trophy" size={26} /></span>
+              <span className="test-cta__text">
+                <span className="test-cta__title">
+                  {p?.done ? "Repetir o teste" : tried ? "Tentar outra vez" : "Fazer o teste"}
+                  {p?.done && <Stars n={p.bestStars} />}
+                </span>
+                <span className="test-cta__sub">
+                  {p?.done
+                    ? "Já concluíste — tenta melhorar as estrelas!"
+                    : tried
+                      ? "Estás quase! Com 80% ou mais a lição fica concluída."
+                      : "Mostra o que aprendeste e ganha estrelas ⭐"}
+                </span>
               </span>
-              <span className="test-cta__sub">
-                {p?.done
-                  ? "Já completaste — tenta melhorar as estrelas!"
-                  : "Mostra o que aprendeste e ganha estrelas ⭐"}
-              </span>
-            </span>
-            <span className="test-cta__go"><Icon name="forward" size={22} /></span>
-          </button>
-        )}
+              <span className="test-cta__go"><Icon name="forward" size={22} /></span>
+            </button>
+          );
+        })()}
 
         <div className="row" style={{ justifyContent: "flex-start", marginTop: 18 }}>
           <button className="pill ghost" onClick={() => onDoneNext({ kind: "subject", year, subjectId: subject.id })}>
@@ -1605,7 +1707,10 @@ function TestView({
 
   return (
     <LessonContext.Provider value={lesson.id}>
-      <div className="sprout-fade-up" style={{ ["--acc" as string]: subject.color, ["--acc-soft" as string]: subject.colorSoft }}>
+      <div
+        className={`sprout-fade-up${preReaderActive(subject.id, year) ? " pre-reader" : ""}`}
+        style={{ ["--acc" as string]: subject.color, ["--acc-soft" as string]: subject.colorSoft }}
+      >
         <div className="test-header" style={{ ["--c" as string]: subject.color }}>
           <span className="test-header__icon"><Icon name="trophy" size={30} /></span>
           <div>

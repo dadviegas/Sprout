@@ -106,6 +106,15 @@ Quando olhas para os dados, há três palavras muito úteis para os descrever:
 
 > [!TIP] **Para saberes mais** 🌱 Há gráficos de **linha**, que ligam pontos para mostrar como algo **muda ao longo do tempo** — por exemplo, a temperatura ao longo da semana. Quando a linha **sobe**, o valor aumenta; quando **desce**, diminui. Os meteorologistas usam-nos todos os dias para te dizerem o tempo que vai fazer! 📈🌤️
 
+Olha um a sério: a turma plantou um **feijoeiro** e mediu-o todas as semanas. A linha só sobe — a planta não para de crescer!
+
+```chart
+{ "type": "line", "title": "O nosso feijoeiro a crescer 🌱",
+  "labels": ["Sem. 1", "Sem. 2", "Sem. 3", "Sem. 4", "Sem. 5"], "data": [2, 5, 9, 14, 18],
+  "unit": "cm", "xLabel": "semana",
+  "say": "Na semana um o feijoeiro media dois centímetros; depois cinco, nove, catorze; e na semana cinco já media dezoito. A linha sobe sempre — está a crescer!" }
+```
+
 ## Vamos praticar 🎈
 
 ```quiz

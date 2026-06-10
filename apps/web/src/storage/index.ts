@@ -21,6 +21,45 @@ type Listener = () => void;
 
 const KEY_PREFIX = "sprout.";
 
+/* The sessions log can be AHEAD in localStorage: a pagehide write reaches the
+ * synchronous mirror but the async IndexedDB write may not finish before the
+ * tab dies. A plain hydrate would then overwrite the fresher mirror with the
+ * stale durable copy. For this one key the two are MERGED instead — per
+ * session id, the record with the most recent `endedAt` (then `secs`) wins.
+ * (Key literal kept here, not imported, to avoid a storage ↔ sessions cycle;
+ * the shape lives in study/sessions.ts.) */
+const SESSIONS_LOG_KEY = "sprout.sessions.v1";
+
+interface SessionLike {
+  id: string;
+  startedAt: number;
+  endedAt?: number;
+  secs?: number;
+}
+
+function mergeSessionLogs(cachedRaw: string, durableRaw: string): string {
+  try {
+    const cached = JSON.parse(cachedRaw) as SessionLike[];
+    const durable = JSON.parse(durableRaw) as SessionLike[];
+    if (!Array.isArray(cached) || !Array.isArray(durable)) return durableRaw;
+    const byId = new Map<string, SessionLike>();
+    for (const s of [...durable, ...cached]) {
+      if (!s || typeof s.id !== "string") continue;
+      const prev = byId.get(s.id);
+      const newer =
+        !prev ||
+        (s.endedAt ?? 0) > (prev.endedAt ?? 0) ||
+        ((s.endedAt ?? 0) === (prev.endedAt ?? 0) && (s.secs ?? 0) >= (prev.secs ?? 0));
+      if (newer) byId.set(s.id, s);
+    }
+    // Newest first, capped like MAX_SESSIONS in study/sessions.ts.
+    const merged = [...byId.values()].sort((a, b) => b.startedAt - a.startedAt).slice(0, 500);
+    return JSON.stringify(merged);
+  } catch {
+    return durableRaw; // unparsable → fall back to the plain hydrate behaviour
+  }
+}
+
 class PersistentStore {
   private cache = new Map<string, string>();
   private listeners = new Map<string, Set<Listener>>();
@@ -56,11 +95,18 @@ class PersistentStore {
     try {
       const durable = await this.backend.load();
       for (const [k, v] of Object.entries(durable)) {
-        if (this.cache.get(k) !== v) {
-          this.cache.set(k, v);
-          this.mirror(k, v);
+        const cached = this.cache.get(k);
+        if (cached === v) continue;
+        // The sessions log merges (mirror may be ahead — see mergeSessionLogs);
+        // every other key takes the durable copy as-is.
+        const next = k === SESSIONS_LOG_KEY && cached != null ? mergeSessionLogs(cached, v) : v;
+        if (next !== cached) {
+          this.cache.set(k, next);
+          this.mirror(k, next);
           this.emit(k);
         }
+        // Write a merge result back so IndexedDB catches up to the mirror.
+        if (next !== v) void this.backend.set(k, next).catch(() => {});
       }
     } catch {
       /* durable backend unreadable — localStorage cache already serves reads */

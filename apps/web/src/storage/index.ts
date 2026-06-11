@@ -171,6 +171,21 @@ class PersistentStore {
     }
   }
 
+  /** Snapshot of every `sprout.*` key as parsed JSON — feeds the parents'
+   *  "Exportar dados (JSON)". The cache already holds everything (primed from
+   *  localStorage, reconciled with the durable backend), so this is sync. */
+  exportAll(): Record<string, unknown> {
+    const out: Record<string, unknown> = {};
+    for (const [k, raw] of this.cache) {
+      try {
+        out[k] = JSON.parse(raw);
+      } catch {
+        out[k] = raw; // unparsable → export the raw string rather than drop it
+      }
+    }
+    return out;
+  }
+
   /** Subscribe to changes for one key. Returns an unsubscribe fn. */
   subscribe(key: string, fn: Listener): () => void {
     let set = this.listeners.get(key);

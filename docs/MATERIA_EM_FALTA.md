@@ -7,9 +7,40 @@ crianças.
 Importante: uma disciplina pode existir na app e, mesmo assim, faltar matéria
 concreta, mais prática ou mais visível dentro dela.
 
-Estado atual: a app já tem **422 lições válidas**, todas com questionário final.
+Estado atual: a app já tem **453 lições válidas**, todas com questionário final.
 Já não há placeholders de matéria no currículo. O trabalho agora é sobretudo
 aprofundar, tornar visual e aproximar as páginas de situações reais de estudo.
+
+> **Atualização 2026-06-11 (Fase 4)** — fechada a Matemática vs. a auditoria:
+> **moda e pictogramas** (`mat-2-dados`) e **perímetro** (`mat-2-perimetro`) no
+> 2.º; **ângulos sem graus** (`mat-3-angulos`) e **km/mm/g** (`mat-3-medidas-2`)
+> no 3.º; **quadriláteros** (`mat-4-quadrilateros`) e **círculo/circunferência**
+> (`mat-4-circulo`) no 4.º; **percentagens com cálculo** no 5.º
+> (`mat-5-percentagens`); **probabilidade** no 6.º (`mat-6-probabilidade`, serve
+> também a 1.ª abordagem do 5.º); `inteiros`/`equacoes` marcados como "Matéria
+> extra — espreitadela ao 7.º ano"; dm³↔litro acrescentado a `volumes`. Em
+> Matemática 5.º faltam ainda as áreas do paralelogramo/triângulo e a
+> construção de triângulos.
+
+> **Atualização 2026-06-11 (Fase 3)** — HGP reordenado por AE 2018: os
+> Descobrimentos, o império e a Restauração passaram para o **5.º ano** (ids
+> `hgp-6-*` mantidos), o 6.º arruma o séc. XVIII em diante; novas lições
+> `hgp-5-peninsula-natural` (quadro natural) e `hgp-6-portugal-hoje`
+> (população/atividades/UE), invasões francesas reforçadas em `hgp-6-liberalismo`.
+> Estudo do Meio: criadas a **roda dos alimentos**+dentição (`edm-2-roda-alimentos`),
+> **ossos/músculos/pele** (`edm-3-ossos-musculos`), **Sol/Terra/Lua**
+> (`edm-3-sol-terra-lua`) e **sismos/vulcões** (`edm-4-sismos-vulcoes`).
+
+> **Atualização 2026-06-11** — fechadas as Fases 1 e 2 da auditoria curricular
+> (`docs/AUDITORIA-CURRICULO.md`). Fase 1: série **"As letras"** (6 lições) +
+> casos de leitura ce/ci/ge/gi no Português 1.º; **números até 100**
+> (dezenas/unidades) na Matemática do 1.º; **problemas de vários passos** com
+> conversões, troco e resto interpretado na Matemática do 4.º
+> (`mat-4-problemas-2`). Fase 2: **sons nasais** (`pt-1-nasais`) a fechar a
+> escada de leitura do 1.º; **números até 1000** no 2.º e **até 10 000** no 3.º;
+> **metades e quartas partes** no 2.º; **tabuadas do 6/7/8/9** e **algoritmos
+> +/− (contas em pé)** no 3.º; **percentagens amigas + orçamentos** no 4.º; e o
+> **cl** na lição de volume/capacidade do 4.º.
 
 ---
 
@@ -76,7 +107,8 @@ Formato recomendado:
 ### Matemática
 
 Já há páginas próprias para cálculo mental, estimativa, problemas de vários
-passos e problemas com dados a mais ou em falta.
+passos (5.º e, desde 2026-06-11, também 4.º — `mat-4-problemas-2`) e problemas
+com dados a mais ou em falta.
 
 O que ainda falta reforçar:
 
@@ -104,9 +136,13 @@ O que ainda falta reforçar:
 Já foi reforçado com relevo e clima de Portugal, segurança rodoviária,
 freguesia/município, mapas da localidade e experiências.
 
+Já tem ainda (2026-06-11): roda dos alimentos + dentição (2.º),
+ossos/músculos/pele (3.º), Sol/Terra/Lua e movimentos (3.º) e sismos/vulcões (4.º).
+
 O que ainda falta ou pode ficar mais claro:
 
-- sistemas do corpo separados por função;
+- **pontos cardeais no 3.º** (a AE pede no 3.º; a app só tem no 4.º);
+- rochas e solo; som e luz; atividades económicas locais;
 - mais experiências simples com hipótese, observação e conclusão;
 - mapas práticos da localidade com orientação e símbolos;
 - ligação entre ambiente local, recursos e responsabilidade.

@@ -93,3 +93,9 @@ export interface SiteConfig {
 }
 
 export const site = raw as SiteConfig;
+
+/** The "Aprender a ler" ladder — by convention the FIRST estudo category in
+ *  the YAML. It gets special treatment in two places: the featured hero tile
+ *  at the top of Treinar, and the reading track prepended to a 1.º-ano férias
+ *  plan (study/ferias.ts). */
+export const readingCategory: EstudoCategory = site.estudo.categories[0];

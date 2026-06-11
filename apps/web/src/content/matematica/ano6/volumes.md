@@ -80,6 +80,42 @@ Aqui está a ponte mágica: o volume liga-se à **capacidade** (quanto líquido 
 
 > [!WARNING] Não confundas as unidades! **Comprimento → cm**, **área → cm²**, **volume → cm³**. O pequenino expoente diz quantas dimensões tem: ¹ uma linha, ² uma superfície, ³ um espaço. Esquecer o ³ no volume é o erro mais comum! 🚫
 
+## O dm³: o irmão gémeo do litro 👯
+
+Entre o cm³ (pequenino) e o m³ (gigante) vive o **decímetro cúbico (dm³)** — um cubo de **1 dm de aresta** (1 dm = 10 cm). E ele tem um segredo: o cubo de 10 × 10 × 10 cm que viste em cima **é exatamente um dm³**! Por isso:
+
+```math
+{ "expr": "1 dm³ = 1 L", "say": "um decímetro cúbico é igual a um litro" }
+```
+
+```compare
+[
+  { "title": "Volume 📦", "rows": [
+    { "label": "1 cm³", "value": "= 1 mL (uma gota grande)" },
+    { "label": "1 dm³", "value": "= 1 L (o pacote de leite!)" },
+    { "label": "1 m³", "value": "= 1000 L (mil pacotes)" }
+  ] },
+  { "title": "Capacidade 💧", "highlight": true, "rows": [
+    { "label": "1 mL", "value": "= 1 cm³", "highlight": true },
+    { "label": "1 L", "value": "= 1 dm³ = 1000 cm³", "highlight": true },
+    { "label": "1000 L", "value": "= 1 m³", "highlight": true }
+  ] }
+]
+```
+
+> Um pacote de leite de **1 litro** ocupa exatamente **1 dm³** — é por isso que os pacotes têm mais ou menos 10 cm de lado! 🥛 Se um aquário tem 24 dm³, leva 24 L: a conversão dm³ ↔ litro é **direta**, sem zeros para cortar.
+
+```quiz
+{
+  "id": "mat-6-volumes-dm3",
+  "questions": [
+    { "q": "Uma caixa tem 5 dm³ de volume. Quantos litros de água leva?", "layout": "grid",
+      "options": [ { "t": "5 L", "emoji": "🥛", "correct": true }, { "t": "500 L" }, { "t": "0,5 L" } ],
+      "explain": "1 dm³ = 1 L — a conversão é direta: 5 dm³ = 5 L." }
+  ]
+}
+```
+
 ## Um exemplo passo a passo 🔍
 
 *«Um aquário tem **30 cm de comprimento, 20 cm de largura e 25 cm de altura**. Quantos litros de água leva, cheio até cima?»* 🐠

@@ -1,0 +1,14 @@
+<!-- Sprout app icon — the mascot's sprout (stem + two leaves) on the brand
+     green (the "primary" token, light theme). Drawn inside the central safe
+     zone so the same file works as a "maskable" icon (any mask keeps the leaf). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#1f9d6b" />
+  <!-- stem -->
+  <path d="M256 392V236" stroke="#fff" stroke-width="26" stroke-linecap="round" fill="none" />
+  <!-- left leaf -->
+  <path d="M256 268C256 268 244 188 186 162C158 150 130 148 116 150C114 166 122 196 142 222C176 266 256 268 256 268Z" fill="#fff" />
+  <!-- right leaf -->
+  <path d="M256 236C256 236 268 164 320 140C346 128 372 126 386 128C388 144 380 172 362 196C330 238 256 236 256 236Z" fill="#dff5e9" />
+  <!-- soil bump -->
+  <path d="M168 392h176" stroke="#dff5e9" stroke-width="26" stroke-linecap="round" />
+</svg>

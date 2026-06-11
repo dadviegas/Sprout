@@ -2,6 +2,17 @@ import { Icon } from "@sprout/icons";
 import type { ProgressMap } from "./progress";
 import { YEARS, schoolSubjects, type Subject, type YearN } from "./content/curriculum";
 
+/** The year cards' colour pairing — shared by the home year picker, the study
+ *  tree and the férias-plan year picker, so a year looks the same everywhere. */
+export const YEAR_STYLE: Record<YearN, { color: string; soft: string }> = {
+  1: { color: "var(--subj-edm)", soft: "var(--subj-edm-soft)" },
+  2: { color: "var(--subj-mat)", soft: "var(--subj-mat-soft)" },
+  3: { color: "var(--subj-en)", soft: "var(--subj-en-soft)" },
+  4: { color: "var(--accent)", soft: "var(--accent-soft)" },
+  5: { color: "var(--subj-cn)", soft: "var(--subj-cn-soft)" },
+  6: { color: "var(--subj-hgp)", soft: "var(--subj-hgp-soft)" },
+};
+
 export interface Stats {
   total: number; // all registered lessons
   real: number; // lessons with content

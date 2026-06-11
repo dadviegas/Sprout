@@ -1,5 +1,7 @@
 # Números inteiros relativos ➖
 
+> [!NOTE] **Matéria extra — já é uma espreitadela ao 7.º ano!** 🚀 Este tema saiu do programa do 6.º ano (passou para o 3.º ciclo), por isso não aparece nos testes deste ano. Mas se tiveres curiosidade, ficas com avanço!
+
 > [!NOTE] **O que vais aprender** 👀 Que existem números **mais pequenos que zero** — os **negativos**! Vais aprender a **ler** os inteiros relativos, a **compará-los** numa reta (qual é maior?), a saber o que é o **simétrico** e o **módulo**, e a **somar e subtrair** com positivos e negativos sem te enganares. 🌡️⬆️⬇️
 
 Até agora os números só andavam para cima a partir do zero: 0, 1, 2, 3… Mas e quando faz **frio** e o termómetro marca abaixo de zero? E quando o elevador vai para a **cave**? Aí precisas de números **negativos** — os que vivem do outro lado do zero. Juntos, os positivos, o zero e os negativos formam os **inteiros relativos**. Vem daí descobrir este mundo «debaixo de zero»! 🧊

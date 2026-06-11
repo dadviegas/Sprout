@@ -1,7 +1,8 @@
 import type { IconName } from "@sprout/icons";
 import { TEST_PASS_PCT, type Achievement } from "../progress";
 import type { StudySession } from "./sessions";
-import { DAY } from "./calendar";
+import { DAY, startOfDay } from "./calendar";
+import type { Tpc } from "./tpc";
 
 /* ------------------------------------------------------------------ *
  * Parents' alerts (PLANO-ESTUDO §4.11) — pure rules over the session +
@@ -63,9 +64,25 @@ export function avgPct(achievements: Achievement[], subjectId: string, from: num
 }
 
 /** All the alerts worth showing right now, positives first. */
-export function buildAlerts(sessions: StudySession[], achievements: Achievement[], now: number): ParentAlert[] {
+export function buildAlerts(
+  sessions: StudySession[],
+  achievements: Achievement[],
+  now: number,
+  tpcs: Tpc[] = [],
+): ParentAlert[] {
   const weekAgo = now - WEEK;
   const out: ParentAlert[] = [];
+
+  // ⚠️ TPC past its due date (§4.12) — framed as a nudge, never a fault.
+  const lateTpcs = tpcs.filter((t) => t.doneAt == null && t.dueDate < startOfDay(now)).length;
+  if (lateTpcs > 0) {
+    out.push({
+      tone: "watch",
+      icon: "backpack",
+      text: lateTpcs === 1 ? "Há 1 TPC a passar do prazo." : `Há ${lateTpcs} TPC a passar do prazo.`,
+      why: "Ainda vai a tempo — um lembrete simpático ao lanche costuma chegar.",
+    });
+  }
 
   // ✅ Improved a subject this week vs. last week (≥ 10 points).
   const subjects = new Map<string, string>();

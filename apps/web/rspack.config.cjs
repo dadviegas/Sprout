@@ -2,6 +2,7 @@ const path = require("node:path");
 const rspack = require("@rspack/core");
 
 const port = Number(process.env.PORT) || 4000;
+const prod = process.env.NODE_ENV === "production";
 
 // Workspace packages (@sprout/ui, @sprout/icons) are source-only TSX; force a
 // single React instance so hooks work across package boundaries.
@@ -10,7 +11,7 @@ const reactDomDir = path.dirname(require.resolve("react-dom/package.json"));
 
 module.exports = {
   entry: "./src/index.tsx",
-  mode: process.env.NODE_ENV === "production" ? "production" : "development",
+  mode: prod ? "production" : "development",
   devServer: {
     port,
     host: "localhost",
@@ -31,6 +32,15 @@ module.exports = {
     publicPath: process.env.PUBLIC_PATH || "/",
     path: path.resolve(__dirname, "dist"),
     clean: true,
+    // Content-hashed names in production so the service worker (public/sw.js)
+    // can cache them forever (cache-first): a new build changes the filename
+    // and the refreshed index.html points at it. Dev keeps plain names.
+    ...(prod && {
+      filename: "[name].[contenthash:8].js",
+      chunkFilename: "[id].[contenthash:8].js",
+      cssFilename: "[name].[contenthash:8].css",
+      cssChunkFilename: "[id].[contenthash:8].css",
+    }),
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
@@ -70,5 +80,10 @@ module.exports = {
     // Copy bundled pictures (apps/web/static/**) into the build output so
     // "img/foo.jpg" paths in lessons resolve in production too.
     new rspack.CopyRspackPlugin({ patterns: [{ from: "static", to: ".", noErrorOnMissing: true }] }),
+    // Copy the PWA files (sw.js, manifest, icon) to the dist ROOT — index.html
+    // is skipped because HtmlRspackPlugin already emits it from the template.
+    new rspack.CopyRspackPlugin({
+      patterns: [{ from: "public", to: ".", globOptions: { ignore: ["**/index.html"] } }],
+    }),
   ],
 };

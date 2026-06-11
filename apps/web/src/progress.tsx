@@ -156,7 +156,9 @@ interface ProgressContextValue {
   removeSeen: (lessonId: string) => void;
   /** Empty the recently-seen list. */
   clearHistory: () => void;
-  recordQuiz: (lessonId: string, quizId: string, score: QuizScore, isFinal: boolean, durationSecs?: number) => void;
+  /** `starsPct` is the help-weighted score (§4.5) used for the STARS only —
+   *  pass/`done` always use the raw `score`. Defaults to the raw ratio. */
+  recordQuiz: (lessonId: string, quizId: string, score: QuizScore, isFinal: boolean, durationSecs?: number, starsPct?: number) => void;
   totalStars: number;
   resetAll: () => void;
 }
@@ -224,7 +226,10 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   const clearHistory = useCallback(() => setHistory([]), []);
 
   const recordQuiz = useCallback(
-    (lessonId: string, quizId: string, score: QuizScore, isFinal: boolean, durationSecs?: number) => {
+    (lessonId: string, quizId: string, score: QuizScore, isFinal: boolean, durationSecs?: number, starsPct?: number) => {
+      // Stars are help-weighted (§4.5: an answer "com ajuda" is worth half),
+      // while `done`/bestPct keep the raw score — help never blocks a pass.
+      const starRatio = starsPct ?? (score.total ? score.correct / score.total : 0);
       setProgress((prev) => {
         const cur = prev[lessonId] ?? emptyLesson();
         const prevScore = cur.quizzes[quizId];
@@ -238,7 +243,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
           // "a repetir" (stars/bestPct still record the attempt's best).
           done = done || ratio >= TEST_PASS_PCT;
           bestPct = Math.max(bestPct, ratio);
-          bestStars = Math.max(bestStars, starsForPct(ratio));
+          bestStars = Math.max(bestStars, starsForPct(starRatio));
         }
         return { ...prev, [lessonId]: { ...cur, visited: true, done, bestPct, bestStars, quizzes } };
       });
@@ -267,7 +272,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
                 color: meta.color,
                 year: meta.year,
                 emoji: meta.emoji,
-                stars: starsForPct(ratio),
+                stars: starsForPct(starRatio),
                 pct: ratio,
                 at: now,
                 ...(durationSecs && durationSecs > 0 ? { secs: durationSecs } : {}),

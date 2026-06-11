@@ -1,13 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
 import { Icon, type IconName } from "@sprout/icons";
-import { Chart } from "@sprout/ui";
+import { TrendChart, BarList } from "@sprout/ui";
 import { useProgress, TEST_PASS_PCT, type Achievement, type ProgressMap } from "./progress";
 import {
   tierLabel,
+  yearLabel,
   lessonMeta,
   subjectById,
+  subjectsForYear,
+  YEARS,
   isEstudo, isMundo, isPaises,
   isDicionario, isVerbos, isEnciclopedia, isCores, isAtlas,
+  type YearN,
 } from "./content/curriculum";
 import { bibliotecaMedals } from "./biblioteca";
 import { store } from "./storage";
@@ -17,13 +21,18 @@ import {
   sessionEngagement, ENGAGEMENT_LABEL, type DayAgg,
 } from "./study/calendar";
 import { missionsForDay } from "./study/plan";
+import { useFeriasState, activePlan, feriasProgress, feriasStatusLine, planRecordLabel, type StudyPlan, type PlanRecord } from "./study/ferias";
 import { buildAlerts, paceOf, slowestTests } from "./study/alerts";
-import { usageStats, sessionsPerDay, sessionsByHour } from "./study/usage";
+import { usageStats, sessionsPerDay, sessionsByHour, hiddenSecsOf, sessionSegments } from "./study/usage";
 import { weekGrade, type WeekGrade, type GradePart } from "./study/grade";
-import { useReview, type ReviewMap } from "./study/review";
+import { useReview, dueByLesson, type ReviewMap } from "./study/review";
 import { weeklyReport } from "./study/report";
+import { useTpcs, addTpc, removeTpc, tpcLessonDone, tpcDueLabel, MAX_TPC_LESSONS, TPC_DUE_DAYS, type Tpc } from "./study/tpc";
+import { useDiagnostic, weakSubjects, diagnosticScoresLine } from "./study/diagnostico";
 import { PlanCalendar } from "./study/Plano";
 import { loadUiPrefs, saveUiPrefs, type PreReaderPref } from "./ui-prefs";
+import { viewToHash } from "./nav";
+import { version as appVersion } from "../package.json";
 
 /** Which top-level area a subject's work belongs to — so the parent dashboard
  *  can show where the child spends time (mirrors the Command Center's mapping). */
@@ -244,6 +253,28 @@ function DashSection({ label }: { label: string }) {
   return <h3 className="dash-sec">{label}</h3>;
 }
 
+/** Long lists cap at a few rows + this expander, so one busy day can't blow
+ *  a card out of the grid's rhythm (the columns stay balanced). */
+const LIST_CAP = 8;
+
+function MoreToggle({ hidden, expanded, onToggle }: { hidden: number; expanded: boolean; onToggle: () => void }) {
+  if (hidden <= 0 && !expanded) return null;
+  return (
+    <button type="button" className="parent-more" onClick={onToggle}>
+      <Icon name={expanded ? "close" : "forward"} size={13} /> {expanded ? "ver menos" : `ver mais (${hidden})`}
+    </button>
+  );
+}
+
+/** The dashboard's three tabs (view-local state, no routes): the day-to-day
+ *  overview, the STUDY-PLAN metrics, and the raw usage drill-down. */
+type DashTab = "geral" | "estudo" | "uso";
+const DASH_TABS: { id: DashTab; label: string; icon: IconName }[] = [
+  { id: "geral", label: "Visão geral", icon: "eye" },
+  { id: "estudo", label: "Estudo", icon: "calendar" },
+  { id: "uso", label: "Utilização", icon: "device" },
+];
+
 function Dashboard() {
   const { achievements, progress, history } = useProgress();
   const sessions = useSessions();
@@ -251,6 +282,7 @@ function Dashboard() {
   const [settings, setSettings] = useParentSettings();
   const [now] = useState(() => Date.now());
   const today = startOfDay(now);
+  const [tab, setTab] = useState<DashTab>("geral");
 
   const byDay = useMemo(() => aggregateByDay(achievements), [achievements]);
   const [selected, setSelected] = useState<number>(today);
@@ -261,63 +293,86 @@ function Dashboard() {
     agg && agg.passed > 0 ? settings.rewardBase + settings.rewardPerStar * agg.stars : 0;
 
   const todayAgg = byDay.get(today);
+  // The férias plan (§4.8): one plan per year — `activePlan` is the shared
+  // accessor. When active it feeds the calendar's planned days and the
+  // grade's "plano cumprido" (via missionsForDay / weekGrade).
+  const planState = useFeriasState();
+  const ferias = activePlan(planState);
+  const planHistory = planState.history;
+  const tpcs = useTpcs(); // TPC (§4.12): assigned + listed in the Estudo tab
   const grade = useMemo(
-    () => weekGrade(now, progress, achievements, history, sessions),
-    [now, progress, achievements, history, sessions],
+    () => weekGrade(now, progress, achievements, history, sessions, ferias),
+    [now, progress, achievements, history, sessions, ferias],
   );
 
   return (
-    <div className="parent-dash">
-      <AlertsCard sessions={sessions} achievements={achievements} now={now} />
+    <>
+      <div className="parent-tabs" role="tablist" aria-label="Secções da área dos pais">
+        {DASH_TABS.map((t) => (
+          <button
+            key={t.id}
+            role="tab"
+            aria-selected={tab === t.id}
+            className={`parent-tab ${tab === t.id ? "is-on" : ""}`}
+            onClick={() => setTab(t.id)}
+          >
+            <Icon name={t.icon} size={16} /> {t.label}
+          </button>
+        ))}
+      </div>
 
-      <KpiStrip achievements={achievements} sessions={sessions} byDay={byDay} grade={grade} today={today} />
+      <div className="parent-dash">
+        {tab === "geral" && (
+          <>
+            <AlertsCard sessions={sessions} achievements={achievements} now={now} tpcs={tpcs} />
+            <KpiStrip achievements={achievements} sessions={sessions} byDay={byDay} grade={grade} today={today} />
+            <TodayCard agg={todayAgg} minutes={minutesFor(todayAgg)} settings={settings} />
+            <WeekGradeCard grade={grade} />
 
-      <TodayCard agg={todayAgg} minutes={minutesFor(todayAgg)} settings={settings} />
+            {/* settings stay one tap away (user choice) — parents configure first */}
+            <DashSection label="Definições" />
+            <RewardSettings settings={settings} onChange={setSettings} />
+            <PreReaderSettings />
+            <ExportCard />
+          </>
+        )}
 
-      <WeekGradeCard grade={grade} />
+        {tab === "estudo" && (
+          <>
+            {ferias && <FeriasInfoCard plan={ferias} progress={progress} today={today} />}
+            <DiagnosticoCard />
+            <TpcCard tpcs={tpcs} achievements={achievements} today={today} planYear={ferias?.year ?? null} />
+            <PlanAdherenceCard grade={grade} hasPlan={!!ferias} />
+            <ReviewDueCard review={review} now={now} />
+            <PlanHistoryCard history={planHistory} />
+            <ParentCalendar achievements={achievements} sessions={sessions} progress={progress} history={history} review={review} ferias={ferias} tpcs={tpcs} today={today} />
+            <WeeklyReportCard achievements={achievements} sessions={sessions} progress={progress} review={review} now={now} />
+          </>
+        )}
 
-      <DashSection label="Utilização" />
-
-      <UsagePanel sessions={sessions} today={today} />
-
-      <MinutesChart sessions={sessions} now={now} />
-
-      <SubjectChart sessions={sessions} achievements={achievements} />
-
-      <MonthlyActivity achievements={achievements} now={now} earliestDay={earliestDay} />
-
-      <DashSection label="Plano e calendário" />
-
-      <ParentCalendar achievements={achievements} sessions={sessions} progress={progress} history={history} review={review} today={today} />
-
-      <Heatmap byDay={byDay} today={today} selected={selected} onSelect={setSelected} earliestDay={earliestDay} />
-
-      <DayDetail
-        day={selected}
-        today={today}
-        agg={byDay.get(selected)}
-        sessions={sessions}
-        minutes={minutesFor(byDay.get(selected))}
-      />
-
-      <DashSection label="Testes e lições" />
-
-      <WeeklyReportCard achievements={achievements} sessions={sessions} progress={progress} review={review} now={now} />
-
-      <TestsRecent achievements={achievements} />
-
-      <SlowestCard achievements={achievements} />
-
-      <RecentActivity />
-
-      <AreasBreakdown />
-
-      <DashSection label="Definições" />
-
-      <RewardSettings settings={settings} onChange={setSettings} />
-
-      <PreReaderSettings />
-    </div>
+        {tab === "uso" && (
+          <>
+            <UsagePanel sessions={sessions} today={today} />
+            <MinutesChart sessions={sessions} now={now} />
+            <SubjectChart sessions={sessions} achievements={achievements} />
+            <MonthlyActivity achievements={achievements} now={now} earliestDay={earliestDay} />
+            <Heatmap byDay={byDay} today={today} selected={selected} onSelect={setSelected} earliestDay={earliestDay} />
+            <DayDetail
+              day={selected}
+              today={today}
+              agg={byDay.get(selected)}
+              sessions={sessions}
+              minutes={minutesFor(byDay.get(selected))}
+            />
+            <DashSection label="Testes e lições" />
+            <TestsRecent achievements={achievements} />
+            <SlowestCard achievements={achievements} />
+            <RecentActivity />
+            <AreasBreakdown />
+          </>
+        )}
+      </div>
+    </>
   );
 }
 
@@ -402,26 +457,22 @@ function UsagePanel({ sessions, today }: { sessions: StudySession[]; today: numb
         ))}
       </div>
       <div className="parent-usage__charts">
-        <Chart
-          spec={{
-            type: "bar",
-            title: "Sessões por dia",
-            labels: perDay.labels,
-            data: perDay.data,
-            unit: "sessões",
-            say: `Sessões por dia nas últimas duas semanas. Hoje: ${perDay.data[perDay.data.length - 1]}.`,
-          }}
-        />
-        {byHour.data.length >= 2 && (
-          <Chart
-            spec={{
-              type: "bar",
-              title: "Horas do dia mais usadas",
-              labels: byHour.labels,
-              data: byHour.data,
-              unit: "sessões",
-            }}
+        <div className="pchart">
+          <span className="pchart__t">Sessões por dia</span>
+          <TrendChart
+            labels={perDay.labels}
+            unit="sessões"
+            series={[{ label: "Sessões", data: perDay.data, color: "var(--subj-en)", fill: true }]}
           />
+        </div>
+        {byHour.data.length >= 2 && (
+          <div className="pchart">
+            <span className="pchart__t">Horas do dia mais usadas</span>
+            <BarList
+              items={byHour.labels.map((label, i) => ({ label, value: byHour.data[i], color: "var(--subj-en)" }))}
+              unit="sessões"
+            />
+          </div>
         )}
       </div>
     </div>
@@ -467,15 +518,13 @@ function WeeklyReportCard({
       </div>
 
       {r.subjectMinutes.length >= 2 && (
-        <Chart
-          spec={{
-            type: "bar",
-            title: "Minutos por disciplina",
-            labels: r.subjectMinutes.map((e) => e.label),
-            data: r.subjectMinutes.map((e) => e.minutes),
-            unit: "min",
-          }}
-        />
+        <div className="pchart">
+          <span className="pchart__t">Minutos por disciplina</span>
+          <BarList
+            items={r.subjectMinutes.map((e) => ({ label: e.label, value: e.minutes, color: subjectColorByLabel(e.label) }))}
+            unit="min"
+          />
+        </div>
       )}
 
       {trends.length > 0 && (
@@ -530,10 +579,46 @@ function PreReaderSettings() {
   );
 }
 
+/* ---- export (settings): download every sprout.* key as one JSON ------ */
+
+/** "Exportar dados (JSON)" — a pretty-printed snapshot of ALL study data
+ *  (progress, achievements, history, sessions, review, plan + its history,
+ *  parent settings, ui prefs…), downloaded via the standard Blob + <a download>
+ *  pattern. Lets a parent back up or move the child's data — there's no server. */
+function ExportCard() {
+  const exportJson = () => {
+    const payload = {
+      app: "Sprout",
+      version: appVersion,
+      exportedAt: new Date().toISOString(),
+      data: store.exportAll(), // every sprout.* key, parsed
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `sprout-export-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+  return (
+    <div className="parent-settings">
+      <CardHead icon="download" title="Os dados" />
+      <p className="parent-plan__extra">
+        Tudo o que a app guarda (progresso, testes, sessões, planos) fica só neste aparelho.
+        Descarrega uma cópia para guardar ou mudar de dispositivo.
+      </p>
+      <button type="button" className="pill ghost" onClick={exportJson}>
+        <Icon name="download" size={16} /> Exportar dados (JSON)
+      </button>
+    </div>
+  );
+}
+
 /* ---- alerts (study/alerts.ts rules; tone always constructive) ------- */
 
-function AlertsCard({ sessions, achievements, now }: { sessions: StudySession[]; achievements: Achievement[]; now: number }) {
-  const alerts = useMemo(() => buildAlerts(sessions, achievements, now), [sessions, achievements, now]);
+function AlertsCard({ sessions, achievements, now, tpcs }: { sessions: StudySession[]; achievements: Achievement[]; now: number; tpcs: Tpc[] }) {
+  const alerts = useMemo(() => buildAlerts(sessions, achievements, now, tpcs), [sessions, achievements, now, tpcs]);
   if (alerts.length === 0) return null;
   return (
     <div className="parent-alerts dash-full">
@@ -596,74 +681,190 @@ function WeekGradeCard({ grade: g }: { grade: WeekGrade | null }) {
 
 /* ---- one day's real activity: sessions with reading engagement ------- */
 
+/** "esteve parado 2m em 3 paragens" — the session's paused time, pt-PT. */
+const pauseLabel = (pausedSecs: number, pauses: number): string =>
+  `esteve parado ${durationLabel(pausedSecs)} em ${pauses} ${pauses === 1 ? "paragem" : "paragens"}`;
+
+/** The "evolution of the lesson": one slim horizontal bar along the session's
+ *  wall-clock span — green while active, grey-striped while the tab was hidden
+ *  (segments from study/usage.ts sessionSegments). Pure SVG, no library. */
+function SessionSegmentBar({ session }: { session: StudySession }) {
+  const segs = sessionSegments(session);
+  if (segs.length < 2) return null; // a fully-active session needs no bar
+  const total = segs[segs.length - 1].toSec;
+  const patternId = `pseg-${session.id}`;
+  const title = `Evolução da sessão: ${segs
+    .map((g) => `${g.type === "ativo" ? "ativo" : "parado"} ${durationLabel(g.toSec - g.fromSec)}`)
+    .join(", ")}.`;
+  return (
+    <svg className="pseg__bar" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label={title}>
+      <title>{title}</title>
+      <pattern id={patternId} patternUnits="userSpaceOnUse" width="4" height="8" patternTransform="rotate(45)">
+        <rect width="2" height="8" fill="currentColor" opacity="0.45" />
+      </pattern>
+      {segs.map((g, i) => (
+        <rect
+          key={i}
+          x={(g.fromSec / total) * 100}
+          y={0}
+          width={((g.toSec - g.fromSec) / total) * 100}
+          height={8}
+          fill={g.type === "ativo" ? "var(--primary)" : `url(#${patternId})`}
+        >
+          <title>{`${g.type === "ativo" ? "Ativo" : "Parado"}: ${durationLabel(g.toSec - g.fromSec)}`}</title>
+        </rect>
+      ))}
+    </svg>
+  );
+}
+
+/** One display row of a day: a session, or several CONSECUTIVE sessions of
+ *  the same lesson folded into one (re-mount/navigation joggling used to log
+ *  one session per mount — sessions.ts now resumes them, this keeps any
+ *  leftovers readable without rewriting the log). */
+interface DayRow {
+  /** representative session (the longest) — carries the segment bar */
+  rep: StudySession;
+  secs: number;
+  paused: number;
+  pauses: number;
+  /** earliest start of the folded run (the list is newest-first) */
+  startedAt: number;
+  completed: boolean;
+  score?: number;
+  scrollPct?: number;
+}
+
+function dayRowsOf(sessions: StudySession[], day: number): DayRow[] {
+  const items = sessions.filter((s) => startOfDay(s.startedAt) === day && s.lessonId && lessonMeta.has(s.lessonId));
+  const rows: DayRow[] = [];
+  for (const s of items) {
+    const prev = rows[rows.length - 1];
+    if (prev && prev.rep.lessonId === s.lessonId && prev.rep.kind === s.kind) {
+      prev.secs += s.secs;
+      prev.paused += hiddenSecsOf(s);
+      prev.pauses += s.hiddenCount;
+      prev.startedAt = s.startedAt; // s is older — keep the run's first start
+      prev.completed = prev.completed || s.completed;
+      if (s.score != null) prev.score = Math.max(prev.score ?? 0, s.score);
+      if (s.scrollPct != null) prev.scrollPct = Math.max(prev.scrollPct ?? 0, s.scrollPct);
+      if (s.secs > prev.rep.secs) prev.rep = s;
+    } else {
+      rows.push({
+        rep: s,
+        secs: s.secs,
+        paused: hiddenSecsOf(s),
+        pauses: s.hiddenCount,
+        startedAt: s.startedAt,
+        completed: s.completed,
+        ...(s.score != null ? { score: s.score } : {}),
+        ...(s.scrollPct != null ? { scrollPct: s.scrollPct } : {}),
+      });
+    }
+  }
+  return rows;
+}
+
 /** Lesson/test sessions of one day, newest first, each with its engagement
- *  label ("leu com atenção" / "passou os olhos" / …) and times. Shared by the
- *  calendar's past-day detail and the heatmap's day detail. */
+ *  label ("leu com atenção" / "passou os olhos" / …), times, paused time and
+ *  the active/paused segment bar. Consecutive same-lesson sessions fold into
+ *  one row; long days cap at LIST_CAP + "ver mais". Opens with the day's
+ *  active-vs-paused aggregate. Shared by the calendar's past-day detail and
+ *  the heatmap's day detail. */
 function DaySessionRows({ sessions, day }: { sessions: StudySession[]; day: number }) {
-  const items = sessions
-    .filter((s) => startOfDay(s.startedAt) === day && s.lessonId && lessonMeta.has(s.lessonId))
-    .slice(0, 12);
-  if (items.length === 0) return null;
+  const rows = useMemo(() => dayRowsOf(sessions, day), [sessions, day]);
+  const [expanded, setExpanded] = useState(false);
+  if (rows.length === 0) return null;
+  const shown = expanded ? rows : rows.slice(0, LIST_CAP);
+  const activeSecs = rows.reduce((n, r) => n + r.secs, 0);
+  const pausedSecs = rows.reduce((n, r) => n + r.paused, 0);
   return (
     <>
-      {items.map((s) => {
-        const meta = lessonMeta.get(s.lessonId!)!;
-        const e = sessionEngagement(s);
+      <p className="parent-day-totals">
+        <Icon name="clock" size={13} /> {durationLabel(activeSecs)} ativo
+        {pausedSecs > 0 && <> · {durationLabel(pausedSecs)} parado</>}
+      </p>
+      {shown.map((r) => {
+        const meta = lessonMeta.get(r.rep.lessonId!)!;
+        // The folded run reuses the single-session engagement rules (one
+        // source of truth) over its combined time/scroll/score.
+        const e = sessionEngagement({
+          ...r.rep,
+          secs: r.secs,
+          completed: r.completed,
+          ...(r.score != null ? { score: r.score } : {}),
+          ...(r.scrollPct != null ? { scrollPct: r.scrollPct } : {}),
+        });
         return (
-          <div key={s.id} className="parent-row" style={{ ["--c" as string]: meta.color }}>
+          <div key={r.rep.id} className="parent-row" style={{ ["--c" as string]: meta.color }}>
             <span className="parent-row__emoji" aria-hidden>{meta.emoji}</span>
             <div className="parent-row__main">
               <div className="parent-row__title">{meta.title}</div>
               <div className="parent-row__meta">
                 <span className="parent-row__area"><span className="parent-row__dot" /> {meta.subjectLabel}</span>
                 <span className="parent-row__time">
-                  {s.secs > 0 && <span className="parent-row__dur"><Icon name="clock" size={12} /> {durationLabel(s.secs)}</span>}
-                  {timeLabel(s.startedAt)}
+                  {r.secs > 0 && <span className="parent-row__dur"><Icon name="clock" size={12} /> {durationLabel(r.secs)}</span>}
+                  {timeLabel(r.startedAt)}
                 </span>
               </div>
+              {r.paused > 0 && <div className="parent-row__pause">{pauseLabel(r.paused, r.pauses)}</div>}
+              <SessionSegmentBar session={r.rep} />
             </div>
             <span className={`parent-engage is-${e}`}>{ENGAGEMENT_LABEL[e]}</span>
           </div>
         );
       })}
+      <MoreToggle hidden={rows.length - shown.length} expanded={expanded} onToggle={() => setExpanded((v) => !v)} />
     </>
   );
 }
 
-/* ---- minutes per day (from the session log; last two weeks) --------- */
+/* ---- minutes per day (from the session log; last 30 days) ----------- */
+
+const TREND_DAYS = 30;
 
 function MinutesChart({ sessions, now }: { sessions: StudySession[]; now: number }) {
   const today = startOfDay(now);
-  const { labels, data } = useMemo(() => {
+  const { labels, data, avg } = useMemo(() => {
     const byDay = aggregateSessionsByDay(sessions);
     const labels: string[] = [];
     const data: number[] = [];
-    for (let i = 13; i >= 0; i--) {
+    for (let i = TREND_DAYS - 1; i >= 0; i--) {
       const day = today - i * DAY;
       const d = new Date(day);
       labels.push(`${d.getDate()}/${d.getMonth() + 1}`);
       data.push(minutesOf(byDay.get(day)));
     }
-    return { labels, data };
+    // 7-day moving average — the habit trend reads through the daily spikes.
+    const avg = data.map((_, i) => {
+      const from = Math.max(0, i - 6);
+      const window = data.slice(from, i + 1);
+      return Math.round(window.reduce((s, v) => s + v, 0) / window.length);
+    });
+    return { labels, data, avg };
   }, [sessions, today]);
   if (data.every((v) => v === 0)) return null;
   return (
-    <div className="dash-wide">
-      <Chart
-        spec={{
-          type: "bar",
-          title: "Minutos de estudo por dia",
-          labels,
-          data,
-          unit: "min",
-          say: `Minutos de estudo por dia, nas últimas duas semanas. Hoje: ${data[data.length - 1]} minutos.`,
-        }}
+    <div className="parent-detail dash-wide">
+      <CardHead icon="chart" title="Minutos de estudo por dia" aside="últimos 30 dias" />
+      <TrendChart
+        labels={labels}
+        unit="min"
+        series={[
+          { label: "Minutos", data, color: "var(--primary)", fill: true },
+          { label: "Média de 7 dias", data: avg, color: "var(--subj-mat)", dash: true },
+        ]}
       />
     </div>
   );
 }
 
 /* ---- where the time goes: per-subject breakdown ---------------------- */
+
+/** The subject's token colour for a chart row, looked up by its LABEL (the
+ *  achievements log and the weekly report only carry labels). */
+const subjectColorByLabel = (label: string): string | undefined =>
+  [...subjectById.values()].find((s) => s.label === label)?.color;
 
 function SubjectChart({ sessions, achievements }: { sessions: StudySession[]; achievements: Achievement[] }) {
   const entries = useMemo(() => {
@@ -675,27 +876,288 @@ function SubjectChart({ sessions, achievements }: { sessions: StudySession[]; ac
     }
     if (secs.size > 0) {
       return [...secs.entries()]
-        .map(([id, v]) => ({ label: subjectById.get(id)?.label ?? id, value: Math.round(v / 60), unit: "min" }))
+        .map(([id, v]) => {
+          const subj = subjectById.get(id);
+          return { label: subj?.label ?? id, color: subj?.color, value: Math.round(v / 60), unit: "min" };
+        })
         .filter((e) => e.value > 0);
     }
     const counts = new Map<string, number>();
     for (const a of achievements) counts.set(a.subjectLabel, (counts.get(a.subjectLabel) ?? 0) + 1);
-    return [...counts.entries()].map(([label, value]) => ({ label, value, unit: "testes" }));
+    return [...counts.entries()].map(([label, value]) => ({ label, value, unit: "testes", color: subjectColorByLabel(label) }));
   }, [sessions, achievements]);
 
-  const top = entries.sort((a, b) => b.value - a.value).slice(0, 5);
+  const top = entries.sort((a, b) => b.value - a.value).slice(0, 6);
   if (top.length < 2) return null;
   const unit = top[0].unit;
   return (
-    <Chart
-      spec={{
-        type: "pie",
-        title: unit === "min" ? "Tempo por disciplina" : "Testes por disciplina",
-        labels: top.map((e) => e.label),
-        data: top.map((e) => e.value),
-        unit,
-      }}
-    />
+    <div className="parent-detail">
+      <CardHead icon="chart" title={unit === "min" ? "Tempo por disciplina" : "Testes por disciplina"} />
+      <BarList items={top} unit={unit} />
+    </div>
+  );
+}
+
+/* ---- "Plano de férias": a small info-only card (§4.8) ----------------- */
+
+function FeriasInfoCard({ plan, progress, today }: { plan: StudyPlan; progress: ProgressMap; today: number }) {
+  const p = feriasProgress(plan, progress, today);
+  return (
+    <div className="parent-detail">
+      <CardHead icon="sun" title="Plano de férias" aside={yearLabel(plan.year)} />
+      <p className="parent-plan__extra">{feriasStatusLine(p)}.</p>
+      <p className="parent-plan__extra">
+        {p.finishAt
+          ? `Fim previsto: ${new Date(p.finishAt).toLocaleDateString("pt-PT", { day: "numeric", month: "long" })}.`
+          : "Matéria toda concluída."}
+        {" "}Seg–sex matéria nova; sábado é revisão; domingo descanso. Um dia
+        falhado não acumula — a matéria espera pelo dia seguinte.
+      </p>
+      {/* Navigates via the hash router — the dashboard has no onGo and one
+          link doesn't justify threading it down. */}
+      <button className="parent-plan__link" onClick={() => { window.location.hash = viewToHash({ kind: "plano-completo" }); }}>
+        <Icon name="calendar" size={14} /> Ver plano completo
+      </button>
+    </div>
+  );
+}
+
+/** "Plano cumprido" on its own (the Estudo tab wants the plan metric without
+ *  the whole grade card): done vs. planned over the last 14 days — minutes of
+ *  plan steps with an active férias plan, missions otherwise (study/grade.ts
+ *  is the single source of the numbers). */
+function PlanAdherenceCard({ grade, hasPlan }: { grade: WeekGrade | null; hasPlan: boolean }) {
+  const part = grade?.adherence ?? null;
+  if (!part) return null;
+  const missed = part.total - part.done;
+  const done = hasPlan ? `${part.done} de ${part.total} min planeados` : `${part.done} de ${part.total} missões planeadas`;
+  const left = hasPlan ? `${missed} min ficaram por fazer.` : `${missed} ${missed === 1 ? "missão ficou" : "missões ficaram"} por fazer.`;
+  return (
+    <div className="parent-detail">
+      <CardHead icon="calendar" title="Plano cumprido" aside="últimos 14 dias" />
+      <GradeRow icon="check" label="Cumprido" part={part} />
+      <p className="parent-plan__extra">
+        {done} ({Math.round(part.pct * 100)}%){missed > 0 ? ` — ${left}` : " — tudo em dia."}
+      </p>
+    </div>
+  );
+}
+
+/** "Banco de erros" (§4.2): how many wrong questions are due for revision and
+ *  where the biggest debt lives. Info-only — the daily missions and the
+ *  child's #/plano card already schedule the actual training. */
+function ReviewDueCard({ review, now }: { review: ReviewMap; now: number }) {
+  const due = useMemo(() => dueByLesson(review, now), [review, now]);
+  let total = 0;
+  let topId: string | null = null;
+  let topN = 0;
+  for (const [id, n] of due) {
+    total += n;
+    if (n > topN) { topId = id; topN = n; }
+  }
+  const meta = topId ? lessonMeta.get(topId) : undefined;
+  return (
+    <div className="parent-detail">
+      <CardHead icon="target" title="Banco de erros" aside={total > 0 ? `${total} por vencer` : "em dia"} />
+      {total === 0 ? (
+        <p className="parent-detail__empty">Sem perguntas vencidas — as revisões estão em dia.</p>
+      ) : (
+        <p className="parent-plan__extra">
+          {total === 1 ? "1 pergunta errada espera revisão" : `${total} perguntas erradas esperam revisão`}
+          {meta ? ` — a maior parte em «${meta.title}»` : ""}. As missões diárias já as agendam sozinhas.
+        </p>
+      )}
+    </div>
+  );
+}
+
+/* ---- "Diagnóstico": the placement mini-test's result (§4.7) ----------- */
+
+/** Info-only: what the optional mini-test found and how the plan reacted —
+ *  "Matemática 40% · Português 75% — plano ajustado para reforçar Matemática". */
+function DiagnosticoCard() {
+  const diag = useDiagnostic();
+  if (!diag) return null;
+  const weak = weakSubjects(diag).map((id) => subjectById.get(id)?.label ?? id);
+  const when = new Date(diag.at).toLocaleDateString("pt-PT", { day: "numeric", month: "short" });
+  return (
+    <div className="parent-detail">
+      <CardHead icon="target" title="Diagnóstico" aside={`${yearLabel(diag.year)} · ${when}`} />
+      <p className="parent-plan__extra">
+        {diagnosticScoresLine(diag)}
+        {weak.length > 0
+          ? ` — plano ajustado para reforçar ${weak.join(" e ")}.`
+          : " — sem matérias fracas; o plano segue a ordem normal."}
+      </p>
+    </div>
+  );
+}
+
+/* ---- "TPC": parents assign homework (§4.12) --------------------------- */
+
+/** "sexta-feira, 13 de jun" — one due-date option in the picker. */
+const tpcDueOptionLabel = (d: number): string =>
+  new Date(d).toLocaleDateString("pt-PT", { weekday: "long", day: "numeric", month: "short" });
+
+/** Assign homework: pick 1–3 lessons (year → subject → lesson; the plan year
+ *  is pre-selected) and a due date in the next week. Open TPCs list first,
+ *  with per-lesson state ("done" = final test ≥ 80% AFTER assignment — see
+ *  study/tpc.ts); the child sees them as priority missions on #/plano. */
+function TpcCard({
+  tpcs,
+  achievements,
+  today,
+  planYear,
+}: {
+  tpcs: Tpc[];
+  achievements: Achievement[];
+  today: number;
+  planYear: YearN | null;
+}) {
+  const [year, setYear] = useState<YearN>(planYear ?? 1);
+  const subjects = subjectsForYear(year);
+  const [subjectId, setSubjectId] = useState(subjects[0]?.id ?? "");
+  const subject = subjects.find((s) => s.id === subjectId) ?? subjects[0];
+  const lessons = subject ? subject.years[year].filter((l) => l.body) : [];
+  const [lessonId, setLessonId] = useState("");
+  const [picked, setPicked] = useState<string[]>([]);
+  // Day offsets are computed noon-anchored (today + n×DAY + DAY/2 → startOfDay)
+  // so the options stay calendar days across a DST change.
+  const dueOptions = Array.from({ length: TPC_DUE_DAYS }, (_, i) => startOfDay(today + (i + 1) * DAY + DAY / 2));
+  const [dueDate, setDueDate] = useState(dueOptions[0]);
+
+  const changeYear = (y: YearN) => {
+    setYear(y);
+    setSubjectId(subjectsForYear(y)[0]?.id ?? "");
+    setLessonId("");
+  };
+  const add = () => {
+    if (lessonId && !picked.includes(lessonId) && picked.length < MAX_TPC_LESSONS) setPicked([...picked, lessonId]);
+    setLessonId("");
+  };
+  const create = () => {
+    if (picked.length === 0) return;
+    addTpc(picked, dueDate);
+    setPicked([]);
+  };
+
+  const open = tpcs.filter((t) => t.doneAt == null);
+  const done = tpcs.filter((t) => t.doneAt != null).slice(0, 5);
+
+  return (
+    <div className="parent-detail parent-tpc dash-wide">
+      <CardHead icon="backpack" title="TPC" aside={open.length > 0 ? `${open.length} em aberto` : "nenhum em aberto"} />
+
+      {open.map((t) => (
+        <div key={t.id} className={`parent-tpc__item ${t.dueDate < today ? "is-late" : ""}`}>
+          <div className="parent-tpc__head">
+            <strong>TPC {tpcDueLabel(t.dueDate, today)}</strong>
+            <button type="button" className="parent-more" onClick={() => removeTpc(t.id)}>
+              <Icon name="trash" size={13} /> remover
+            </button>
+          </div>
+          <ul className="parent-tpc__lessons">
+            {t.lessonIds.map((id) => {
+              const meta = lessonMeta.get(id)!;
+              const ok = tpcLessonDone(t, id, achievements);
+              return (
+                <li key={id} className={ok ? "is-ok" : ""}>
+                  <Icon name={ok ? "check" : "clock"} size={13} /> {meta.title} <small>· {meta.subjectLabel}</small>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ))}
+
+      <div className="parent-tpc__form">
+        <label className="parent-field">
+          <span>Ano</span>
+          <select value={year} onChange={(e) => changeYear(Number(e.target.value) as YearN)}>
+            {YEARS.map((y) => (
+              <option key={y} value={y}>{yearLabel(y)}</option>
+            ))}
+          </select>
+        </label>
+        <label className="parent-field">
+          <span>Disciplina</span>
+          <select value={subject?.id ?? ""} onChange={(e) => { setSubjectId(e.target.value); setLessonId(""); }}>
+            {subjects.map((s) => (
+              <option key={s.id} value={s.id}>{s.label}</option>
+            ))}
+          </select>
+        </label>
+        <label className="parent-field">
+          <span>Lição</span>
+          <select value={lessonId} onChange={(e) => setLessonId(e.target.value)}>
+            <option value="">— escolher —</option>
+            {lessons.map((l) => (
+              <option key={l.id} value={l.id} disabled={picked.includes(l.id)}>{l.title}</option>
+            ))}
+          </select>
+        </label>
+        <button type="button" className="pill ghost" onClick={add} disabled={!lessonId || picked.length >= MAX_TPC_LESSONS}>
+          <Icon name="plus" size={14} /> juntar
+        </button>
+      </div>
+
+      {picked.length > 0 && (
+        <div className="parent-tpc__create">
+          <ul className="parent-tpc__picked">
+            {picked.map((id) => (
+              <li key={id}>
+                {lessonMeta.get(id)?.title ?? id}
+                <button type="button" onClick={() => setPicked(picked.filter((p) => p !== id))} aria-label={`Tirar ${lessonMeta.get(id)?.title ?? id}`}>
+                  <Icon name="close" size={12} />
+                </button>
+              </li>
+            ))}
+          </ul>
+          <label className="parent-field">
+            <span>Para</span>
+            <select value={dueDate} onChange={(e) => setDueDate(Number(e.target.value))}>
+              {dueOptions.map((d) => (
+                <option key={d} value={d}>{tpcDueOptionLabel(d)}</option>
+              ))}
+            </select>
+          </label>
+          <button type="button" className="pill" onClick={create}>
+            <Icon name="backpack" size={14} /> Marcar TPC ({picked.length} {picked.length === 1 ? "lição" : "lições"})
+          </button>
+        </div>
+      )}
+
+      {open.length === 0 && picked.length === 0 && (
+        <p className="parent-plan__extra">
+          Escolhe 1–{MAX_TPC_LESSONS} lições e um prazo — a criança vê o TPC como missão prioritária no plano dela.
+        </p>
+      )}
+
+      {done.length > 0 && (
+        <div className="parent-tpc__done">
+          {done.map((t) => (
+            <p key={t.id} className="parent-plan__extra">
+              <Icon name="check" size={13} /> {t.lessonIds.map((id) => lessonMeta.get(id)?.title ?? id).join(" + ")} — feito a{" "}
+              {new Date(t.doneAt!).toLocaleDateString("pt-PT", { day: "numeric", month: "short" })}
+            </p>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** Archived férias plans (§4.8): one line per past plan, with the exam grade
+ *  when taken — "4.º ano · mai–jun · 100% · exame 16/20". */
+function PlanHistoryCard({ history }: { history: PlanRecord[] }) {
+  if (history.length === 0) return null;
+  return (
+    <div className="parent-detail">
+      <CardHead icon="sun" title="Planos anteriores" />
+      {[...history].reverse().map((r) => (
+        <p key={`${r.year}-${r.startedAt}`} className="parent-plan__extra">{planRecordLabel(r)}</p>
+      ))}
+    </div>
   );
 }
 
@@ -707,6 +1169,8 @@ function ParentCalendar({
   progress,
   history,
   review,
+  ferias,
+  tpcs,
   today,
 }: {
   achievements: Achievement[];
@@ -714,6 +1178,8 @@ function ParentCalendar({
   progress: ProgressMap;
   history: string[];
   review: ReviewMap;
+  ferias: StudyPlan | null;
+  tpcs: Tpc[];
   today: number;
 }) {
   const [sel, setSel] = useState(today);
@@ -723,9 +1189,10 @@ function ParentCalendar({
   // the plan would have to be RECONSTRUCTED from the current state (plans
   // aren't stored), which can mark "por fazer" missions that didn't even
   // exist that day — so past days show only the real activity instead.
+  // (With a férias plan the same rule holds: past days show real activity.)
   const planned = useMemo(
-    () => (past ? [] : missionsForDay(sel, today, progress, achievements, history, Object.values(review))),
-    [past, sel, today, progress, achievements, history, review],
+    () => (past ? [] : missionsForDay(sel, today, progress, achievements, history, Object.values(review), ferias, tpcs)),
+    [past, sel, today, progress, achievements, history, review, ferias, tpcs],
   );
   const tests = useMemo(() => aggregateByDay(achievements).get(sel), [achievements, sel]);
   const mins = minutesOf(aggregateSessionsByDay(sessions).get(sel));
@@ -924,18 +1391,25 @@ function AreaDetail({
   // seconds, max scroll, most recent visit. Lessons with progress but no
   // sessions (data older than the tracker) still appear, with no time.
   const lessons = useMemo(() => {
-    const byLesson = new Map<string, { secs: number; scroll: number; lastAt: number }>();
+    const byLesson = new Map<string, { secs: number; scroll: number; lastAt: number; paused: number; pauses: number; last?: StudySession }>();
     for (const s of sessions) {
       if (s.kind !== "lesson" || !s.lessonId || !inArea(s.lessonId)) continue;
-      const agg = byLesson.get(s.lessonId) ?? { secs: 0, scroll: 0, lastAt: 0 };
+      const agg = byLesson.get(s.lessonId) ?? { secs: 0, scroll: 0, lastAt: 0, paused: 0, pauses: 0 };
       agg.secs += s.secs;
       agg.scroll = Math.max(agg.scroll, s.scrollPct ?? 0);
-      agg.lastAt = Math.max(agg.lastAt, s.startedAt);
+      agg.paused += hiddenSecsOf(s);
+      agg.pauses += s.hiddenCount;
+      // Keep the most recent session — its segment bar is the lesson's
+      // "evolution" chart (an aggregate over sessions has no single timeline).
+      if (s.startedAt >= agg.lastAt) {
+        agg.lastAt = s.startedAt;
+        agg.last = s;
+      }
       byLesson.set(s.lessonId, agg);
     }
     for (const [id, p] of Object.entries(progress)) {
       if (!p?.visited || byLesson.has(id) || !inArea(id)) continue;
-      byLesson.set(id, { secs: 0, scroll: 0, lastAt: 0 });
+      byLesson.set(id, { secs: 0, scroll: 0, lastAt: 0, paused: 0, pauses: 0 });
     }
     return [...byLesson.entries()]
       .sort((a, b) => b[1].lastAt - a[1].lastAt)
@@ -976,6 +1450,8 @@ function AreaDetail({
                       {agg.lastAt > 0 && dayLabel(startOfDay(agg.lastAt), startOfDay(Date.now()))}
                     </span>
                   </div>
+                  {agg.paused > 0 && <div className="parent-row__pause">{pauseLabel(agg.paused, agg.pauses)}</div>}
+                  {agg.last && <SessionSegmentBar session={agg.last} />}
                 </div>
                 <span className={`parent-engage is-${e}`}>{ENGAGEMENT_LABEL[e]}</span>
               </div>
@@ -1268,6 +1744,8 @@ function DayDetail({
   minutes: number;
 }) {
   const hasSessions = sessions.some((s) => startOfDay(s.startedAt) === day && s.lessonId && lessonMeta.has(s.lessonId));
+  const [expanded, setExpanded] = useState(false);
+  const items = agg ? (expanded ? agg.items : agg.items.slice(0, LIST_CAP)) : [];
   return (
     <div className="parent-detail">
       <CardHead
@@ -1280,7 +1758,7 @@ function DayDetail({
       {!agg ? (
         !hasSessions && <p className="parent-detail__empty">Nada nesse dia.</p>
       ) : (
-        agg.items.map((a, i) => {
+        items.map((a, i) => {
           const ok = a.pct >= TEST_PASS_PCT;
           return (
             <div key={`${a.lessonId}-${a.at}-${i}`} className="parent-row" style={{ ["--c" as string]: a.color }}>
@@ -1303,6 +1781,9 @@ function DayDetail({
             </div>
           );
         })
+      )}
+      {agg && (
+        <MoreToggle hidden={agg.items.length - items.length} expanded={expanded} onToggle={() => setExpanded((v) => !v)} />
       )}
     </div>
   );

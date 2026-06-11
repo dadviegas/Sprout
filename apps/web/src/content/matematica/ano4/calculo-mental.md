@@ -13,7 +13,7 @@ Cálculo mental não é “adivinhar”. É escolher um caminho esperto para che
 Decompor é partir um número em bocados mais fáceis.
 
 ```math
-{ "expr": "47 + 30 = 77", "say": "quarenta e sete mais trinta é igual a setenta e sete" }
+{ "expr": "47 + 32 = 47 + 30 + 2 = 79", "say": "quarenta e sete mais trinta e dois é o mesmo que quarenta e sete mais trinta mais dois, que dá setenta e nove" }
 ```
 
 Se tens **47 + 32**, podes pensar assim:

@@ -39,6 +39,48 @@ export function hiddenSecsOf(s: StudySession): number {
   return Math.round(total);
 }
 
+/* ---- one session as active/paused segments (the "lesson evolution") --- */
+
+export interface SessionSegment {
+  type: "ativo" | "parado";
+  /** seconds since the session started */
+  fromSec: number;
+  toSec: number;
+}
+
+/** Turn ONE session into alternating segments along its wall-clock span
+ *  (0 … endedAt−startedAt, in seconds): a browser_hidden event opens a
+ *  "parado" segment, the browser_returned that follows closes it; an
+ *  unmatched hide runs "parado" to the end (closed while hidden). Everything
+ *  else is "ativo". Zero-length segments are dropped. Pure — feeds the slim
+ *  segment bar in the parents' day detail. */
+export function sessionSegments(s: StudySession): SessionSegment[] {
+  const end = Math.max(0, Math.round((s.endedAt - s.startedAt) / 1000));
+  if (end === 0) return [];
+  const segs: SessionSegment[] = [];
+  const push = (type: SessionSegment["type"], fromSec: number, toSec: number) => {
+    const a = Math.max(0, Math.min(end, fromSec));
+    const b = Math.max(0, Math.min(end, toSec));
+    if (b > a) segs.push({ type, fromSec: a, toSec: b });
+  };
+  let cursor = 0;
+  let hidden = false;
+  for (const e of s.events) {
+    const at = Math.round((e.at - s.startedAt) / 1000);
+    if (e.type === "browser_hidden" && !hidden) {
+      push("ativo", cursor, at);
+      cursor = Math.max(cursor, Math.min(end, at));
+      hidden = true;
+    } else if (e.type === "browser_returned" && hidden) {
+      push("parado", cursor, at);
+      cursor = Math.max(cursor, Math.min(end, at));
+      hidden = false;
+    }
+  }
+  push(hidden ? "parado" : "ativo", cursor, end);
+  return segs;
+}
+
 export function usageStats(sessions: StudySession[]): UsageStats {
   let exits = 0;
   let hidden = 0;

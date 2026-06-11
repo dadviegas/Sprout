@@ -12,15 +12,18 @@ export interface NumberLineSpec {
 
 export function NumberLine({ spec }: { spec: NumberLineSpec }) {
   const min = spec.min ?? 0;
-  const max = Math.min(spec.max ?? 10, min + 20); // keep it readable for kids
   const step = spec.step ?? 1;
+  // Whole-number steps get one tick per hop (10, 20, 30… até 100); fractional
+  // steps (decimais) keep ticks on the whole numbers, as before.
+  const tick = step >= 1 ? step : 1;
+  const max = Math.min(spec.max ?? 10, min + 20 * tick); // keep it readable for kids
   const [value, setValue] = useState(Math.min(Math.max(spec.start ?? min, min), max));
 
-  const count = max - min;
+  const count = Math.ceil((max - min) / tick);
   const gap = 34;
   const padX = 22;
   const width = padX * 2 + count * gap;
-  const xOf = (n: number) => padX + (n - min) * gap;
+  const xOf = (n: number) => padX + ((n - min) / tick) * gap;
 
   const hop = (d: number) => {
     setValue((v) => {
@@ -42,7 +45,7 @@ export function NumberLine({ spec }: { spec: NumberLineSpec }) {
         <svg viewBox={`0 0 ${width} 70`} style={{ width, maxWidth: "100%", height: "auto" }} role="img" aria-label={`Reta numérica de ${min} a ${max}, marcador no ${value}`}>
           <line x1={padX} y1="48" x2={width - padX} y2="48" stroke="var(--ink-3)" strokeWidth="2.5" strokeLinecap="round" />
           {Array.from({ length: count + 1 }, (_, i) => {
-            const n = min + i;
+            const n = min + i * tick;
             const x = xOf(n);
             const on = n === value;
             return (

@@ -1,0 +1,15 @@
+{
+  "name": "Sprout — Aprender a brincar",
+  "short_name": "Sprout",
+  "description": "App de aprendizagem para o 1.º ciclo: matérias, leitura, jogos e muito mais — tudo offline.",
+  "lang": "pt-PT",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0f1420",
+  "theme_color": "#3aa76d",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

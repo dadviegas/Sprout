@@ -48,15 +48,18 @@ const ACCENT = "var(--acc, var(--primary))";
  * teal reads apart in both themes, and no slice blends into the surface. */
 const PALETTE = ["var(--subj-mat)", "var(--warn)", "var(--subj-pt)", "var(--subj-en)", "var(--subj-mundo)"];
 
+/* The scale/grid/path helpers below are shared with TrendChart.tsx (the
+ * parent-grade charts) — same maths, different chrome. */
+
 /** Round an axis maximum up to a clean number (10, 50, 200, …). */
-function niceMax(max: number): number {
+export function niceMax(max: number): number {
   if (max <= 0) return 10;
   const exp = Math.pow(10, Math.floor(Math.log10(max)));
   return Math.ceil(max / exp) * exp;
 }
 
 // Show at most ~8 x-axis labels; for longer lists, render every Nth.
-function formatTick(label: string, i: number, total: number): string {
+export function formatTick(label: string, i: number, total: number): string {
   const stride = Math.max(1, Math.ceil(total / 8));
   if (i !== 0 && i !== total - 1 && i % stride !== 0) return "";
   return label.length > 12 ? label.slice(0, 11) + "…" : label;
@@ -67,20 +70,20 @@ function tickText(v: number): string {
   return String(v).replace(".", ",");
 }
 
-interface Frame {
+export interface Frame {
   pad: { top: number; right: number; bottom: number; left: number };
   cw: number;
   ch: number;
 }
 
 /** Plot area inside a W×H viewBox, minus the padding. */
-function makeFrame(W: number, H: number, pad: Frame["pad"]): Frame {
+export function makeFrame(W: number, H: number, pad: Frame["pad"]): Frame {
   return { pad, cw: W - pad.left - pad.right, ch: H - pad.top - pad.bottom };
 }
 
 /* Quiet grid shared by bar + line: a few hairlines (the data should pop, not
  * the grid) and just two small axis numbers to anchor the scale. */
-function Grid({ max, frame }: { max: number; frame: Frame }) {
+export function Grid({ max, frame }: { max: number; frame: Frame }) {
   const { pad, cw, ch } = frame;
   return (
     <g>
@@ -176,11 +179,11 @@ function DonutChart({ data, colors, unit }: { data: number[]; colors: string[]; 
   );
 }
 
-function linePath(points: { x: number; y: number }[]): string {
+export function linePath(points: { x: number; y: number }[]): string {
   return points.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ");
 }
 
-function areaPath(points: { x: number; y: number }[], baseY: number): string {
+export function areaPath(points: { x: number; y: number }[], baseY: number): string {
   if (!points.length) return "";
   const first = points[0];
   const last = points[points.length - 1];

@@ -41,7 +41,7 @@ import {
 } from "./content/curriculum";
 import { Icon, SUBJECT_ICONS, lessonIconName, type IconName } from "@sprout/icons";
 import { Speaker, stop as stopSpeech } from "@sprout/ui";
-import { site } from "./site-config";
+import { site, readingCategory } from "./site-config";
 import { curiosidadeOfDay } from "./content/curiosidades";
 import { bibliotecaMedals, recommendedArticles, missoesState } from "./biblioteca";
 import { Mascot } from "./Mascot";
@@ -49,11 +49,12 @@ import { CommandCenter } from "./CommandCenter";
 import { AchievementsPanel } from "./Achievements";
 import { ParentPage, WipeModal, tabletMinutesToday } from "./ParentArea";
 import { Plano } from "./study/Plano";
+import { PlanoCompleto } from "./study/PlanoCompleto";
 import { initSessionTracking, trackView, noteScroll } from "./study/sessions";
 import { isRestDay } from "./study/plan";
 import { SimuladoLauncher } from "./Simulado";
 import { splitLesson, lessonMinutes } from "./lesson-content";
-import { Stars, ProgressBar, yearStats, yearAllStats, subjectStats, sumStats, schoolStats, pctOf } from "./ui";
+import { Stars, ProgressBar, YEAR_STYLE, yearStats, yearAllStats, subjectStats, sumStats, schoolStats, pctOf } from "./ui";
 import { loadUiPrefs, saveUiPrefs, preReaderActive } from "./ui-prefs";
 
 // The markdown renderer pulls in react-markdown + remark/rehype plugins + every
@@ -78,15 +79,6 @@ function LessonBody({ children, className = "" }: { children: string; className?
 }
 
 const SUBJECT_ICON = SUBJECT_ICONS;
-
-const YEAR_STYLE: Record<YearN, { color: string; soft: string }> = {
-  1: { color: "var(--subj-edm)", soft: "var(--subj-edm-soft)" },
-  2: { color: "var(--subj-mat)", soft: "var(--subj-mat-soft)" },
-  3: { color: "var(--subj-en)", soft: "var(--subj-en-soft)" },
-  4: { color: "var(--accent)", soft: "var(--accent-soft)" },
-  5: { color: "var(--subj-cn)", soft: "var(--subj-cn-soft)" },
-  6: { color: "var(--subj-hgp)", soft: "var(--subj-hgp-soft)" },
-};
 
 const lessonIconById = (subjectId: string, lessonId: string): IconName => lessonIconName(subjectId, lessonId);
 const lessonIcon = (subjectId: string, l: Lesson): IconName => lessonIconById(subjectId, l.id);
@@ -280,6 +272,7 @@ function Root() {
           />
         )}
         {view.kind === "plano" && <Plano onGo={go} />}
+        {view.kind === "plano-completo" && <PlanoCompleto onGo={go} />}
         {view.kind === "pais" && <ParentPage />}
         {view.kind === "area" && view.area === "escola" && (
           <EscolaView onPick={(year) => go({ kind: "year", year })} />
@@ -467,9 +460,24 @@ function TopBar({
             ) : view.kind === "teia" ? (
               // "A Teia do Saber" — the knowledge web.
               <CrumbChip icon="atom" label="A Teia do Saber" color="var(--subj-en)" colorSoft="var(--subj-en-soft)" />
-            ) : view.kind === "plano" ? (
-              // "O meu plano" — daily missions + calendar.
-              <CrumbChip icon="calendar" label="O meu plano" color="var(--primary)" colorSoft="var(--primary-soft)" />
+            ) : view.kind === "plano" || view.kind === "plano-completo" ? (
+              // "O meu plano" — daily missions + calendar; "Plano completo"
+              // sits under it as a crumb hop.
+              <>
+                <CrumbChip
+                  icon="calendar"
+                  label="O meu plano"
+                  color="var(--primary)"
+                  colorSoft="var(--primary-soft)"
+                  onClick={view.kind === "plano-completo" ? () => onGo({ kind: "plano" }) : undefined}
+                />
+                {view.kind === "plano-completo" && (
+                  <>
+                    <span className="sep">›</span>
+                    <span className="ell">Plano completo</span>
+                  </>
+                )}
+              </>
             ) : view.kind === "pais" ? (
               // The parents' page (math-gated on entry).
               <CrumbChip icon="gear" label="Área dos pais" color="var(--ink-2)" colorSoft="var(--surface-2)" />
@@ -938,37 +946,54 @@ function EscolaView({ onPick }: { onPick: (year: YearN) => void }) {
 
 // The "Saber de cor" topics, grouped by the categories in site.estudo. One big
 // flat grid became hard to scan, so each category is its own labelled block.
+// "Aprender a ler" (readingCategory, always the first) is THE entry point for
+// a pre-reader, so it leads the page as a featured hero tile in the Português
+// colour; tapping the tile shows/hides its topic grid (open by default).
 function TreinarView({ onOpenLesson }: { onOpenLesson: (lessonId: string) => void }) {
+  const [lerOpen, setLerOpen] = useState(true);
+  const lerSay = `${readingCategory.label} — começa aqui! Das letras às palavras, um degrau de cada vez.`;
+  const topicCards = (ids: string[]) =>
+    ids.map((id) => {
+      const t = estudoById.get(id);
+      if (!t) return null;
+      return (
+        <BigCard
+          key={id}
+          iconName={lessonIcon(estudoSubject.id, t)}
+          kicker="Saber de cor"
+          title={t.title}
+          color={estudoSubject.color}
+          colorSoft={estudoSubject.colorSoft}
+          sub={<span className="sub">Toca para ouvir e treinar</span>}
+          say={t.title}
+          onClick={() => onOpenLesson(id)}
+        />
+      );
+    });
   return (
     <div>
       <Mascot message={`${site.estudo.sectionTitle}. Escolhe um tema para ouvires e treinares!`} mood="happy" />
-      {site.estudo.categories.map((cat, i) => (
+      <div className="treinar-hero">
+        <button type="button" className="treinar-hero__btn" aria-expanded={lerOpen} onClick={() => setLerOpen((o) => !o)}>
+          <span className="treinar-hero__ic"><Icon name={readingCategory.icon as IconName} size={32} duo /></span>
+          <span className="treinar-hero__tx">
+            <strong>{readingCategory.label} — começa aqui</strong>
+            <span>Das letras às palavras, um degrau de cada vez.</span>
+          </span>
+          <span className="treinar-hero__arrow" data-open={lerOpen || undefined}><Icon name="arrowRight" size={22} /></span>
+        </button>
+        <Speaker className="treinar-hero__say" text={lerSay} />
+      </div>
+      {lerOpen && <div className="card-grid cols-4">{topicCards(readingCategory.topics)}</div>}
+      {site.estudo.categories.slice(1).map((cat) => (
         <div key={cat.label}>
-          <h2 className="section-title" style={i > 0 ? { marginTop: 32 } : undefined}>
+          <h2 className="section-title" style={{ marginTop: 32 }}>
             <span style={{ color: estudoSubject.color, display: "inline-flex" }}>
               <Icon name={cat.icon as IconName} size={26} duo />
             </span>
             {cat.label}
           </h2>
-          <div className="card-grid cols-4">
-            {cat.topics.map((id) => {
-              const t = estudoById.get(id);
-              if (!t) return null;
-              return (
-                <BigCard
-                  key={id}
-                  iconName={lessonIcon(estudoSubject.id, t)}
-                  kicker="Saber de cor"
-                  title={t.title}
-                  color={estudoSubject.color}
-                  colorSoft={estudoSubject.colorSoft}
-                  sub={<span className="sub">Toca para ouvir e treinar</span>}
-                  say={t.title}
-                  onClick={() => onOpenLesson(id)}
-                />
-              );
-            })}
-          </div>
+          <div className="card-grid cols-4">{topicCards(cat.topics)}</div>
         </div>
       ))}
     </div>

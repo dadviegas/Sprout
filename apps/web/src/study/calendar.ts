@@ -21,6 +21,17 @@ export const startOfDay = (t: number): number => {
 /** Sunday is rest (user decision: study Mon–Sat, ~30 min/day). */
 export const isRestDay = (day: number): boolean => new Date(day).getDay() === 0;
 
+/** Comparable (year, month) index of a timestamp — year × 12 + month. Shared
+ *  by the calendar pager (#/plano) and the full-plan month grids. */
+export const monthIndex = (t: number): number => {
+  const d = new Date(t);
+  return d.getFullYear() * 12 + d.getMonth();
+};
+
+/** The daily study target (user decision §4.9): ~30 min, Monday–Saturday.
+ *  Lives here so plan.ts and ferias.ts share it without importing each other. */
+export const DAILY_TARGET_MINUTES = 30;
+
 /** A day "studied well" at this much ACTIVE time, even without passing a test. */
 export const GOOD_DAY_SECS = 20 * 60;
 

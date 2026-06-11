@@ -496,6 +496,33 @@
 .quiz .feedback.bad { background: var(--danger-soft); color: var(--danger); }
 .quiz .quiz-foot { display: flex; align-items: center; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
 
+/* Help ladder (§4.5) — "Preciso de ajuda": pista → opção riscada → explicação */
+.quiz-help { margin-top: 14px; display: grid; gap: 10px; justify-items: start; }
+.quiz-help__btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 44px; padding: 8px 16px;
+  border: 2px solid color-mix(in srgb, var(--acc, var(--accent)) 45%, var(--border));
+  border-radius: 999px; background: var(--surface);
+  color: var(--acc, var(--accent));
+  font: inherit; font-weight: 700; cursor: pointer;
+}
+.quiz-help__btn:hover { background: color-mix(in srgb, var(--acc, var(--accent)) 10%, var(--surface)); }
+.quiz-help__box {
+  width: 100%;
+  border: 2px dashed color-mix(in srgb, var(--acc, var(--accent)) 40%, var(--border));
+  border-radius: var(--radius); padding: 10px 14px;
+  background: color-mix(in srgb, var(--acc, var(--accent)) 7%, var(--surface));
+  display: grid; gap: 6px;
+}
+.quiz-help__head { display: flex; align-items: center; gap: 8px; color: var(--acc, var(--accent)); }
+.quiz-help__row { margin: 0; font-weight: 600; }
+.opt.is-eliminated { opacity: .45; text-decoration: line-through; box-shadow: none; cursor: default; }
+
+/* Step-by-step solution (§4.3), revealed after answering — right or wrong */
+.quiz-solution { margin-top: 12px; border: 1.5px solid var(--border); border-radius: var(--radius); padding: 10px 14px; background: var(--surface-2); }
+.quiz-solution__head { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.quiz-solution__steps { margin: 0; padding-left: 22px; display: grid; gap: 4px; }
+
 .quiz .result {
   text-align: center; padding: 10px 4px;
 }
@@ -870,12 +897,13 @@
   .wc-drop { animation: none; opacity: 0; }
 }
 
-/* body systems — o corpo humano */
+/* body systems — o corpo humano (a big illustrated figure + a tidy column:
+   chips, system name, organ tags, then the kid fact with its speaker) */
 .bodysystem-widget { border-color: color-mix(in srgb, var(--subj-edm) 55%, var(--border)); }
 .bodysystem-widget .w-badge { background: var(--subj-edm); }
-.bodysystem-body { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
-.bodysystem-svg { width: 200px; max-width: 52vw; height: auto; flex-shrink: 0; margin: 0 auto; display: block; }
-.bodysystem-side { flex: 1; min-width: 180px; display: grid; gap: 10px; align-content: start; justify-items: start; }
+.bodysystem-body { display: flex; gap: 22px; align-items: stretch; flex-wrap: wrap; }
+.bodysystem-svg { width: min(240px, 56vw); height: auto; flex-shrink: 0; margin: 0 auto; display: block; max-height: 420px; }
+.bodysystem-side { flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 12px; align-items: start; }
 .bodysystem-chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .bodysys-chip {
   font-family: var(--font-display); font-weight: 700; font-size: .9em;
@@ -887,7 +915,20 @@
 .bodysys-chip:hover { transform: translateY(-2px); }
 .bodysys-chip:active { transform: scale(.95); }
 .bodysystem-name { font-family: var(--font-display); font-weight: 800; font-size: 1.7em; line-height: 1; }
-.bodysystem-organs { color: var(--ink-2); font-weight: 600; margin: 0; }
+.bodysystem-organs { display: flex; flex-wrap: wrap; gap: 6px; }
+.bodysystem-organ {
+  padding: 3px 11px; border-radius: 999px; font-weight: 700; font-size: .85em; color: var(--ink-2);
+  background: color-mix(in srgb, var(--sys, var(--subj-edm)) 12%, var(--surface));
+  border: 1.5px solid color-mix(in srgb, var(--sys, var(--subj-edm)) 38%, var(--border));
+}
+.bodysystem-fact {
+  position: relative; margin-top: auto; width: 100%;
+  padding: 12px 48px 12px 14px; border-radius: var(--radius);
+  background: color-mix(in srgb, var(--sys, var(--subj-edm)) 9%, var(--surface-2));
+  border: 1.5px solid color-mix(in srgb, var(--sys, var(--subj-edm)) 32%, var(--border));
+}
+.bodysystem-fact p { margin: 0; color: var(--ink-2); font-weight: 600; font-size: .92em; line-height: 1.45; }
+.bodysystem-fact .prose-speak { position: absolute; top: 50%; right: 10px; transform: translateY(-50%); }
 .bodysys-pulse { transform-box: fill-box; transform-origin: center; animation: bodysys-beat 1s ease-in-out infinite; }
 @keyframes bodysys-beat {
   0%, 100% { transform: scale(1); }
@@ -2060,14 +2101,21 @@ button.hm-cell:hover { transform: scale(1.18); }
 .usage__empty { color: var(--ink-3); font-size: .9rem; margin: 10px 2px; }
 
 /* home greeting reward chip (tablet time earned today) */
+/* Earned tablet minutes — a small celebration, warm (it's a PRIZE), spaced in
+   rhythm with the plan banner instead of overlapping it. */
 .home-reward {
   display: inline-flex; align-items: center; gap: 10px;
-  margin: -8px 2px 22px; padding: 9px 15px;
-  border-radius: 999px; font-weight: 700; color: var(--ink);
-  background: color-mix(in srgb, var(--primary) 12%, var(--surface));
-  border: 1.5px solid color-mix(in srgb, var(--primary) 40%, var(--border));
+  margin: 12px 0 24px; padding: 10px 16px;
+  border-radius: 14px; font-weight: 700; color: var(--ink);
+  background: color-mix(in srgb, var(--warn) 14%, var(--surface));
+  border: 1.5px solid color-mix(in srgb, var(--warn) 45%, var(--border));
+  box-shadow: var(--shadow-sm);
 }
-.home-reward__ic { display: inline-flex; color: var(--primary); }
+.home-reward__ic {
+  display: inline-grid; place-items: center;
+  width: 34px; height: 34px; border-radius: 10px;
+  background: var(--warn); color: #fff;
+}
 
 /* Biblioteca — "Curiosidade do Dia" banner (one fun fact, changes daily) */
 .biblio-curio {
@@ -2115,6 +2163,10 @@ button.hm-cell:hover { transform: scale(1.18); }
 .parent-row__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--c); flex-shrink: 0; }
 .parent-row__time { display: inline-flex; align-items: center; gap: 8px; font-size: .74em; color: var(--ink-3); flex-shrink: 0; font-variant-numeric: tabular-nums; }
 .parent-row__dur { display: inline-flex; align-items: center; gap: 3px; color: var(--ink-2); font-weight: 700; }
+/* per-session pause info + the active/paused "evolution" segment bar */
+.parent-row__pause { margin-top: 3px; font-size: .72em; color: var(--ink-3); }
+.pseg__bar { display: block; width: 100%; height: 7px; margin-top: 5px; border-radius: 4px; overflow: hidden; color: var(--ink-3); background: var(--surface); }
+.parent-day-totals { display: inline-flex; align-items: center; gap: 5px; margin: 2px 0 8px; font-size: .78rem; font-weight: 700; color: var(--ink-2); }
 .parent-badge { flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px; padding: 4px 9px; border-radius: 999px; font-size: .74rem; font-weight: 800; font-variant-numeric: tabular-nums; }
 .parent-badge.ok { color: var(--primary); background: color-mix(in srgb, var(--primary) 14%, var(--surface)); }
 .parent-badge.fail { color: var(--danger); background: color-mix(in srgb, var(--danger) 12%, var(--surface)); }
@@ -3211,7 +3263,7 @@ button.hm-cell:hover { transform: scale(1.18); }
   .shop-card__hear { width: 34px; height: 34px; }
   /* tappable label chips inside widgets (volcano parts, skyblue toggle, …) */
   .chip { min-height: 38px; }
-  .plan-mission__say, .plan-banner__say, .plan-rest__say, .plan-review__say { width: 40px; height: 40px; }
+  .plan-mission__say, .plan-banner__say, .plan-rest__say, .plan-review__say, .plan-ferias__say { width: 40px; height: 40px; }
 }
 
 /* ── "O meu plano" (#/plano): banner, missions, calendar ──────────────────── */
@@ -3298,6 +3350,77 @@ button.hm-cell:hover { transform: scale(1.18); }
 .plan-review__tx span { font-size: .82em; color: var(--ink-2); }
 .plan-review__say { position: absolute; top: 50%; right: 10px; transform: translateY(-50%); }
 
+/* "Plano de férias" (§4.8): the offer card (pick a year) and, once active,
+   the progress strip (week N of M, % of the matter, pace). */
+.plan-ferias {
+  position: relative; margin: 4px 0 16px; padding: 14px 16px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(120deg, var(--accent-soft), color-mix(in srgb, var(--accent-soft) 30%, var(--surface)) 70%);
+  border: 2px solid color-mix(in srgb, var(--accent) 38%, var(--border));
+}
+.plan-ferias__head { display: flex; align-items: flex-start; gap: 12px; padding-right: 40px; }
+.plan-ferias__ic {
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+  width: 44px; height: 44px; border-radius: 14px; background: var(--accent); color: #fff;
+}
+.plan-ferias__head strong { font-family: var(--font-display); font-weight: 800; font-size: 1.08em; }
+.plan-ferias__head p { margin: 2px 0 0; color: var(--ink-2); font-size: .88em; line-height: 1.45; }
+.plan-ferias__say { position: absolute; top: 12px; right: 12px; }
+.plan-ferias__years { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.plan-ferias__year {
+  padding: 8px 14px; border-radius: 999px; cursor: pointer; min-height: 38px;
+  font-family: var(--font-display); font-weight: 800; font-size: .95em;
+  background: color-mix(in srgb, var(--c, var(--primary)) 14%, var(--surface));
+  border: 2px solid color-mix(in srgb, var(--c, var(--primary)) 45%, var(--border));
+  color: var(--c, var(--primary)); transition: transform var(--dur-fast);
+}
+.plan-ferias__year:hover { transform: translateY(-1px); }
+.plan-ferias__year.is-sel { background: var(--c, var(--primary)); color: #fff; }
+.plan-ferias__start {
+  display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; padding: 10px 18px;
+  border-radius: 999px; cursor: pointer; border: none;
+  font-family: var(--font-display); font-weight: 800;
+  background: var(--primary); color: #fff; box-shadow: var(--shadow-sm);
+}
+.plan-ferias__bar { margin-top: 10px; }
+.plan-ferias__end {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  margin-top: 10px; font-size: .8em; color: var(--ink-3);
+}
+.plan-ferias__endbtn {
+  padding: 5px 12px; border-radius: 999px; cursor: pointer; font-weight: 700; font-size: .95em;
+  background: var(--surface); border: 1px solid var(--border); color: var(--ink-2);
+}
+.plan-ferias__endbtn.is-yes { border-color: var(--danger); color: var(--danger); }
+
+/* "Exame final do X.º ano" — the review-card pattern in primary colours. */
+.plan-exame .plan-review__btn {
+  background: color-mix(in srgb, var(--primary) 10%, var(--surface));
+  border-color: color-mix(in srgb, var(--primary) 40%, var(--border));
+}
+.plan-exame .plan-review__ic { color: var(--primary); }
+
+/* Archived férias plans — one small line each. */
+.plan-history { margin: 4px 0 12px; padding: 10px 14px; border-radius: var(--radius); background: var(--surface-2); border: 1px solid var(--border); }
+.plan-history__t { display: inline-flex; align-items: center; gap: 6px; font-weight: 800; font-size: .8em; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.plan-history ul { margin: 6px 0 0; padding: 0; list-style: none; display: grid; gap: 4px; }
+.plan-history li { font-weight: 600; font-size: .9em; color: var(--ink-2); }
+
+/* The nota banner inside the exame modal (0–20, tiered message). */
+.exame-nota {
+  position: relative; display: grid; gap: 2px; margin: 0 0 10px; padding: 10px 48px 10px 14px;
+  border-radius: var(--radius); font-size: .95em;
+  background: color-mix(in srgb, var(--ok) 12%, var(--surface));
+  border: 2px solid color-mix(in srgb, var(--ok) 45%, var(--border));
+}
+.exame-nota.is-redo {
+  background: color-mix(in srgb, var(--warn) 12%, var(--surface));
+  border-color: color-mix(in srgb, var(--warn) 45%, var(--border));
+}
+.exame-nota strong { font-family: var(--font-display); font-size: 1.15em; }
+.exame-nota span { color: var(--ink-2); font-size: .9em; }
+.exame-nota .prose-speak { position: absolute; top: 50%; right: 10px; transform: translateY(-50%); }
+
 /* The month calendar: -1 / current / +2 months, coloured day states. */
 .plan-cal { margin: 6px 0; padding: 12px 14px; border-radius: var(--radius); background: var(--surface-2); border: 1px solid var(--border); }
 .plan-cal__nav { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 8px; }
@@ -3348,9 +3471,121 @@ button.hm-cell:hover { transform: scale(1.18); }
 .plan-day-detail__list li { display: flex; align-items: center; gap: 8px; font-size: .9rem; }
 .plan-day-detail__empty { margin: 8px 0 0; color: var(--ink-3); font-size: .88rem; }
 
+/* ── "Plano completo" (#/plano/completo): calendar-first full plan ─────────── */
+
+/* header facts: início / fim previsto / semana / % / "+N dias" */
+.plano-full-facts { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 12px; }
+.plano-full-fact { display: grid; line-height: 1.3; }
+.plano-full-fact__v { font-family: var(--font-display); font-weight: 800; font-size: .98em; }
+.plano-full-fact__v.is-late { color: color-mix(in srgb, var(--warn) 70%, var(--ink)); }
+.plano-full-fact__l { font-size: .68em; font-weight: 700; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+
+/* two columns on wide screens: calendar+detail | time totals */
+.plano-full__cols { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 20px; align-items: start; }
+.plano-full__side { min-width: 0; }
+@media (max-width: 920px) { .plano-full__cols { grid-template-columns: 1fr; } }
+
+/* the two month grids (current + next), side by side when they fit */
+.plano-full-months { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); }
+.pfcal { padding: 12px 14px; border-radius: var(--radius); background: var(--surface-2); border: 1px solid var(--border); }
+.pfcal__month { display: block; text-align: center; font-family: var(--font-display); font-weight: 700; text-transform: capitalize; margin-bottom: 8px; }
+.pfcal__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.pfcal__wd { text-align: center; font-size: .68rem; font-weight: 800; color: var(--ink-3); }
+.pfcal__pad { min-height: 46px; }
+.pfcal__day {
+  min-height: 46px; padding: 3px 2px; border-radius: 10px; border: 1px solid var(--border);
+  background: var(--surface); display: grid; gap: 1px; place-items: center; align-content: start;
+  font: inherit; color: inherit; cursor: pointer; transition: transform .12s ease;
+}
+.pfcal__day:hover { transform: scale(1.05); }
+.pfcal__num { font-size: .66rem; font-weight: 800; color: var(--ink-3); line-height: 1; }
+.pfcal__ics { display: inline-flex; align-items: center; gap: 2px; line-height: 1; }
+.pfcal__more { font-style: normal; font-size: .58rem; font-weight: 800; color: var(--ink-3); }
+.pfcal__min { font-size: .58rem; font-weight: 700; color: var(--ink-3); line-height: 1; }
+.pfcal__missed { font-size: .55rem; font-weight: 800; color: color-mix(in srgb, var(--warn) 70%, var(--ink)); line-height: 1; }
+.pfcal__dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+/* past days reuse the plan-cal state colours; future = projection */
+.pfcal__day.is-good { background: color-mix(in srgb, var(--primary) 55%, var(--surface)); border-color: var(--primary); }
+.pfcal__day.is-good .pfcal__num { color: #fff; }
+.pfcal__day.is-some { background: color-mix(in srgb, var(--warn) 45%, var(--surface)); border-color: var(--warn); }
+.pfcal__day.is-none { background: color-mix(in srgb, var(--danger) 14%, var(--surface)); }
+.pfcal__day.is-missed { background: var(--surface); border-style: dashed; border-color: color-mix(in srgb, var(--warn) 55%, var(--border)); }
+.pfcal__day.is-rest { background: var(--bg-2); color: var(--ink-3); cursor: default; }
+.pfcal__day.is-rev { border-style: dashed; color: var(--ink-3); }
+.pfcal__day.is-planned { border-color: color-mix(in srgb, var(--primary) 35%, var(--border)); }
+.pfcal__day.is-blank { opacity: .55; }
+.pfcal__day.is-today { outline: 2px solid var(--ink); outline-offset: 1px; }
+.pfcal__day.is-sel { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 55%, transparent); }
+.pfcal__legend { display: flex; gap: 12px; flex-wrap: wrap; margin: 8px 0 4px; font-size: .72rem; color: var(--ink-3); }
+.pfcal__legend span { display: inline-flex; align-items: center; gap: 5px; }
+.pfcal__chip { width: 12px; height: 12px; border-radius: 4px; display: inline-block; border: 1px solid var(--border); }
+.pfcal__chip.is-good { background: color-mix(in srgb, var(--primary) 55%, var(--surface)); }
+.pfcal__chip.is-some { background: color-mix(in srgb, var(--warn) 45%, var(--surface)); }
+.pfcal__chip.is-missed { background: var(--surface); border-style: dashed; border-color: color-mix(in srgb, var(--warn) 55%, var(--border)); }
+.pfcal__chip.is-rev { background: var(--surface); border-style: dashed; }
+.pfcal__chip.is-rest { background: var(--bg-2); }
+
+/* the tapped day's panel (reuses .plan-day-detail) + its speaker */
+.plano-full-panel { position: relative; }
+.plano-full-panel__say { position: absolute; top: 10px; right: 10px; }
+.plano-full-panel .plan-day-detail__head { padding-right: 36px; }
+
+/* the compact "Dia a dia" list (behind the toggle) */
+.plano-full-toggle {
+  display: inline-flex; align-items: center; gap: 7px; margin: 4px 0 10px;
+  padding: 8px 14px; border-radius: 999px; border: 1px solid var(--border);
+  background: var(--surface); font: inherit; font-weight: 700; font-size: .85rem;
+  color: var(--ink-2); cursor: pointer;
+}
+.plano-full-toggle:hover { border-color: var(--primary); color: var(--primary); }
+.plano-full-days { display: grid; gap: 10px; margin-bottom: 12px; }
+.plano-full-day { position: relative; padding: 10px 12px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--border); }
+.plano-full-day.is-today { border-color: var(--primary); box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 25%, transparent); }
+.plano-full-day__head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding-right: 30px; }
+.plano-full-day__head strong { font-family: var(--font-display); font-weight: 800; }
+.plano-full-day__date { font-size: .85em; color: var(--ink-2); text-transform: capitalize; }
+.plano-full-day__min { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; font-size: .78em; font-weight: 700; color: var(--ink-3); white-space: nowrap; }
+.plano-full-day__say { position: absolute; top: 8px; right: 8px; }
+.plano-full-day__steps { display: grid; gap: 6px; margin-top: 8px; }
+.plano-full-step {
+  display: flex; align-items: center; gap: 10px; width: 100%; text-align: left;
+  padding: 8px 10px; border-radius: 12px; border: 1px solid var(--border);
+  background: var(--surface-2); font: inherit; color: inherit; cursor: pointer;
+  transition: transform .12s ease;
+}
+.plano-full-step:hover { transform: translateY(-1px); border-color: var(--c, var(--primary)); }
+.plano-full-step__subj {
+  flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px;
+  font-size: .68em; font-weight: 800; color: #fff; background: var(--c, var(--primary));
+  padding: 3px 8px; border-radius: 999px; white-space: nowrap;
+}
+.plano-full-step__tx { display: grid; min-width: 0; flex: 1; line-height: 1.3; }
+.plano-full-step__tx strong { font-weight: 700; font-size: .92em; }
+.plano-full-step__tx span { font-size: .78em; color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.plano-full-step__min { font-size: .72em; font-weight: 700; color: var(--ink-3); white-space: nowrap; }
+.plano-full-step__st { display: inline-flex; align-items: center; gap: 3px; font-size: .68em; font-weight: 800; color: var(--ink-3); text-transform: uppercase; letter-spacing: .03em; white-space: nowrap; }
+.plano-full-step.is-done { opacity: .72; }
+.plano-full-step.is-done .plano-full-step__st { color: var(--primary); }
+.plano-full-step.is-today { border-color: var(--primary); }
+@media (max-width: 560px) {
+  .plano-full-step { flex-wrap: wrap; }
+  .plano-full-step__tx { flex-basis: 100%; order: 2; }
+  .plano-full-step__tx span { white-space: normal; }
+}
+
+/* time totals strip (hoje / semana / mês) + month-by-subject card */
+.plano-full-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 6px 0 10px; }
+.plano-full-kpi { display: grid; justify-items: center; gap: 2px; padding: 10px 6px; border-radius: var(--radius); background: var(--surface-2); border: 1px solid var(--border); }
+.plano-full-kpi__v { font-family: var(--font-display); font-weight: 800; font-size: 1.25rem; }
+.plano-full-kpi__v i { font-style: normal; font-size: .6em; font-weight: 700; color: var(--ink-3); margin-left: 2px; }
+.plano-full-kpi__l { font-size: .7rem; font-weight: 700; color: var(--ink-3); }
+.plano-full-card { margin-top: 10px; padding: 10px 12px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--border); display: grid; gap: 8px; }
+.plano-full-card__t { display: inline-flex; align-items: center; gap: 6px; font-weight: 800; font-size: .78em; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+
 /* ── Parents' page (#/pais) extras ─────────────────────────────────────────── */
 
-.parent-page { max-width: 1320px; margin: 0 auto; }
+/* full width (user choice) — the shell already caps the page sanely */
+.parent-page { max-width: none; margin: 0 auto; }
 .parent-gate { margin: 10px 0; padding: 16px; border-radius: var(--radius); background: var(--surface-2); border: 1px solid var(--border); display: grid; gap: 10px; justify-items: start; }
 .parent-gate p { margin: 0; color: var(--ink-2); }
 
@@ -3426,17 +3661,17 @@ button.hm-cell:hover { transform: scale(1.18); }
 .pre-reader .prose-speak svg { width: 22px; height: 22px; }
 
 /* ── Parents' dashboard grid (#/pais) ──────────────────────────────────────
- * One responsive grid owns the rhythm: 1 column on phones, 2 on tablets,
- * 3 from ~1100px. Cards opt into wider cells with .dash-wide / .dash-full;
- * `dense` lets small cards fill the holes the wide ones leave behind. */
+ * Tabs split the dashboard; inside a tab the content FLOWS: one column up to
+ * ~1100px (informação seguida, nothing stranded beside a tall list), then a
+ * balanced 2-column grid. Cards opt into the full row with .dash-wide /
+ * .dash-full; `dense` + capped lists keep the two columns level. */
 .parent-dash { display: grid; grid-template-columns: 1fr; grid-auto-flow: row dense; gap: 14px; align-items: start; }
 .parent-dash > * { margin: 0; min-width: 0; }
 .dash-full { grid-column: 1 / -1; }
-@media (min-width: 720px) {
+@media (min-width: 1100px) {
   .parent-dash { grid-template-columns: repeat(2, 1fr); }
   .dash-wide { grid-column: span 2; }
 }
-@media (min-width: 1100px) { .parent-dash { grid-template-columns: repeat(3, 1fr); } }
 
 /* full-width section label between card groups */
 .dash-sec {
@@ -3486,6 +3721,232 @@ button.hm-cell:hover { transform: scale(1.18); }
 .parent-usage__charts { display: grid; gap: 10px; }
 @media (min-width: 900px) { .parent-usage__charts { grid-template-columns: 1fr 1fr; } }
 
-/* lesson-style chart widgets sit flush inside the dashboard grid */
-.parent-dash .widget { margin: 0; }
-.parent-usage .widget { margin-top: 10px; }
+/* ── Parent-grade charts (TrendChart + BarList) ────────────────────────────
+ * Quiet and compact — values live in point tooltips, not painted on top. */
+.pchart { min-width: 0; }
+.parent-report .pchart { margin: 10px 0 4px; }
+.pchart__t {
+  display: block; margin-bottom: 6px;
+  font-family: var(--font-display); font-size: .82rem; font-weight: 800; color: var(--ink-2);
+}
+.ptrend svg { display: block; width: 100%; height: auto; }
+.ptrend__line { stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.ptrend__pt { stroke: var(--surface-2); stroke-width: 1.5; }
+.ptrend__pt:hover { r: 5; }
+.ptrend__tick { fill: var(--ink-3); font-size: 11px; font-weight: 700; }
+/* the shared Grid ticks inherit the kid sizing; quieten them here */
+.ptrend .chart-gridline text { font-size: 11px; }
+.ptrend__legend { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 2px; font-size: .76rem; font-weight: 700; color: var(--ink-2); }
+.ptrend__legend i {
+  display: inline-block; width: 14px; height: 3px; border-radius: 2px;
+  vertical-align: middle; margin-right: 5px; background: var(--c);
+}
+.ptrend__legend i.is-dash {
+  background: repeating-linear-gradient(90deg, var(--c) 0 4px, transparent 4px 7px);
+}
+
+.pbars { display: grid; gap: 7px; }
+.pbars__row { display: grid; grid-template-columns: minmax(64px, 9em) 1fr auto; align-items: center; gap: 8px; min-width: 0; }
+.pbars__label { font-size: .8rem; font-weight: 700; color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pbars__track { height: 10px; border-radius: 999px; background: var(--surface-3, var(--border-soft)); overflow: hidden; }
+.pbars__track i { display: block; height: 100%; border-radius: inherit; min-width: 2px; }
+.pbars__value { font-family: var(--font-display); font-size: .8rem; font-weight: 800; color: var(--ink); white-space: nowrap; }
+
+/* =====================================================================
+   BodySystem v3 — organ-level interactivity (Phase 16A)
+   Appended block: tappable parts on the figure + word chips, with a
+   highlight/dim/leader treatment. Do not reformat the regions above.
+   ===================================================================== */
+
+/* the figure column keeps the SVG centred; leader labels overflow the right
+   edge of the viewBox, so allow a touch of horizontal room */
+.bodysystem-figure { flex-shrink: 0; margin: 0 auto; display: block; }
+
+/* each part of the system is a tappable SVG group */
+.bodysys-part { cursor: pointer; transition: opacity .2s ease; outline: none; }
+.bodysys-part:focus-visible { outline: none; }
+/* the focused/selected part gets a soft glow in the system colour */
+.bodysys-part.is-on { filter: drop-shadow(0 0 4px color-mix(in srgb, var(--sys, var(--subj-edm)) 70%, transparent)); }
+/* a keyboard-focused (not yet selected) part shows a gentle ring so it's reachable */
+.bodysys-part:focus-visible:not(.is-on) { filter: drop-shadow(0 0 3px color-mix(in srgb, var(--sys, var(--subj-edm)) 60%, transparent)); }
+/* the rest of the system fades back while one part is selected */
+.bodysys-part.is-dim { opacity: .22; }
+.bodysys-part.is-dim:hover { opacity: .5; }
+
+/* one-shot pulse when a part becomes selected (re-keyed so it replays) */
+.bodysys-flash { transform-box: fill-box; transform-origin: center; animation: bodysys-flash 0.5s ease-out 1; }
+@keyframes bodysys-flash {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.16); }
+  100% { transform: scale(1); }
+}
+
+/* the leader line/dot fades in next to the selected part */
+.bodysys-leader { animation: bodysys-leader-in .25s ease-out 1; }
+@keyframes bodysys-leader-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* the parts shown as tappable WORD chips under the system name */
+.bodysystem-parts { display: flex; flex-wrap: wrap; gap: 6px; }
+.bodysys-word {
+  font-family: var(--font-display); font-weight: 700; font-size: .82em;
+  padding: 4px 11px; border-radius: 999px; cursor: pointer;
+  color: var(--ink-2);
+  background: color-mix(in srgb, var(--sys, var(--subj-edm)) 12%, var(--surface));
+  border: 1.5px solid color-mix(in srgb, var(--sys, var(--subj-edm)) 38%, var(--border));
+  transition: transform .15s cubic-bezier(.34,1.56,.64,1), background .15s ease, color .15s ease;
+}
+.bodysys-word:hover { transform: translateY(-2px); }
+.bodysys-word:active { transform: scale(.95); }
+.bodysys-word.is-on { box-shadow: 0 2px 8px color-mix(in srgb, var(--sys, var(--subj-edm)) 40%, transparent); }
+
+@media (prefers-reduced-motion: reduce) {
+  .bodysys-flash { animation: none; }
+  .bodysys-leader { animation: none; }
+}
+
+/* ── Treinar: "Aprender a ler — começa aqui" featured hero tile ───────────────
+   The reading ladder's entry tile at the top of Treinar (App.tsx TreinarView).
+   Português accent — reading is a Português skill. Appended (phase 16B). */
+.treinar-hero { position: relative; margin: 14px 0 18px; }
+.treinar-hero__btn {
+  display: flex; align-items: center; gap: 14px; width: 100%;
+  padding: 18px 64px 18px 18px;
+  border: 2px solid color-mix(in srgb, var(--subj-pt) 45%, transparent);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--subj-pt-soft), var(--surface));
+  color: var(--ink); cursor: pointer; text-align: left; font: inherit;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.treinar-hero__btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.treinar-hero__btn:active { transform: translateY(0) scale(.995); }
+.treinar-hero__btn:focus-visible { outline: 3px solid color-mix(in srgb, var(--subj-pt) 60%, transparent); outline-offset: 2px; }
+.treinar-hero__ic {
+  display: grid; place-items: center; width: 56px; height: 56px; flex: none;
+  border-radius: 16px; background: var(--subj-pt); color: #fff;
+}
+.treinar-hero__tx { display: grid; line-height: 1.35; min-width: 0; flex: 1; }
+.treinar-hero__tx strong { font-family: var(--font-display); font-weight: 800; font-size: 1.18em; }
+.treinar-hero__tx span { font-size: .9em; color: var(--ink-2); }
+.treinar-hero__arrow { display: inline-flex; color: var(--subj-pt); transition: transform .2s ease; }
+.treinar-hero__arrow[data-open] { transform: rotate(90deg); }
+.treinar-hero__say { position: absolute; top: 50%; right: 10px; transform: translateY(-50%); }
+
+/* ── #/plano calendar: plan marks inside the day cells (phase 17) ───────────
+   PlanDayMarks (PlanoCompleto.tsx) reuses the pfcal__* mark styles inside the
+   plan-cal cells; the cell stacks number → icons → ≈min, and the marks replace
+   the old "planned" bar. Cells without marks keep their single centred number. */
+.plan-cal__day { flex-direction: column; gap: 1px; overflow: hidden; }
+.plan-cal__day.has-marks { font-size: .68rem; }
+.plan-cal__day.is-future.has-marks::after { display: none; }
+
+/* ── #/pais: tabs + list expander (phase 18) ────────────────────────────────
+   Three view-local tabs split the dashboard (Visão geral / Estudo /
+   Utilização); .parent-more is the "ver mais" expander capping long lists. */
+.parent-tabs {
+  display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 14px;
+  padding: 4px; border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--surface-2);
+}
+.parent-tab {
+  display: inline-flex; align-items: center; gap: 7px; flex: 1; justify-content: center;
+  min-height: 40px; padding: 8px 14px; border: none; border-radius: calc(var(--radius) - 4px);
+  background: transparent; color: var(--ink-2); font: inherit; font-weight: 700;
+  font-family: var(--font-display); cursor: pointer;
+}
+.parent-tab:hover { color: var(--ink); background: color-mix(in srgb, var(--primary) 8%, transparent); }
+.parent-tab.is-on { background: var(--primary); color: #fff; }
+.parent-tab:focus-visible { outline: 3px solid color-mix(in srgb, var(--primary) 60%, transparent); outline-offset: 2px; }
+
+.parent-more {
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 8px;
+  padding: 6px 10px; border: 1px dashed var(--border); border-radius: 999px;
+  background: transparent; color: var(--ink-2); font: inherit; font-size: .8rem;
+  font-weight: 700; cursor: pointer;
+}
+.parent-more:hover { color: var(--ink); border-color: var(--ink-3); }
+
+/* ── Fase 19B: TPC (§4.12) + Diagnóstico inicial (§4.7) ─────────────────────
+   Appended at the end on purpose — a parallel branch owns the middle of this
+   file (BodySystem); keep additions below this line. */
+
+/* TPC missions on #/plano: the parents' homework wears the --warn accent so
+   it reads as "prioridade" among the subject-coloured plan missions. */
+.plan-mission.is-tpc .plan-mission__btn {
+  background: color-mix(in srgb, var(--warn) 10%, var(--surface));
+  border-color: color-mix(in srgb, var(--warn) 55%, var(--border));
+}
+.plan-mission.is-tpc .plan-mission__num {
+  background: color-mix(in srgb, var(--warn) 18%, var(--surface));
+  color: var(--warn);
+}
+.plan-mission.is-tpc.is-done .plan-mission__num { background: var(--warn); color: #fff; }
+
+/* The optional mini-teste button under the year picker (ghost twin of
+   .plan-ferias__start — same shape, quiet colours: it must read as optional). */
+.plan-ferias__go { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.plan-ferias__diag {
+  background: var(--surface);
+  color: var(--primary);
+  border: 2px solid color-mix(in srgb, var(--primary) 45%, var(--border));
+  box-shadow: none;
+}
+
+/* Diagnóstico modal (Simulado.tsx): the "próxima parte" button + summary. */
+.diag-go {
+  display: inline-flex; align-items: center; gap: 8px; margin: 0 0 10px; padding: 10px 18px;
+  border-radius: 999px; cursor: pointer; border: none;
+  font-family: var(--font-display); font-weight: 800;
+  background: var(--primary); color: #fff; box-shadow: var(--shadow-sm);
+}
+.diag-say { float: right; margin: -4px 0 4px 8px; }
+.diag-result {
+  position: relative; display: grid; gap: 4px; margin: 0 0 10px; padding: 12px 48px 12px 14px;
+  border-radius: var(--radius); font-size: .95em;
+  background: color-mix(in srgb, var(--primary) 10%, var(--surface));
+  border: 2px solid color-mix(in srgb, var(--primary) 40%, var(--border));
+}
+.diag-result strong { font-family: var(--font-display); font-size: 1.1em; }
+.diag-result p { margin: 0; color: var(--ink-2); font-size: .92em; }
+.diag-result .prose-speak { position: absolute; top: 12px; right: 10px; }
+.diag-result .diag-go { margin: 8px 0 0; justify-self: start; }
+
+/* Parents' TPC card (#/pais · Estudo): open TPCs + the assign form. */
+.parent-tpc__item {
+  margin: 8px 0; padding: 10px 12px; border-radius: var(--radius);
+  background: var(--surface-2); border: 1px solid var(--border);
+}
+.parent-tpc__item.is-late { border-color: color-mix(in srgb, var(--warn) 55%, var(--border)); }
+.parent-tpc__item.is-late > .parent-tpc__head strong { color: var(--warn); }
+.parent-tpc__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.parent-tpc__head strong { font-size: .88em; }
+.parent-tpc__head .parent-more { margin-top: 0; }
+.parent-tpc__lessons { margin: 6px 0 0; padding: 0; list-style: none; display: grid; gap: 4px; }
+.parent-tpc__lessons li {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: .85em; font-weight: 600; color: var(--ink-2);
+}
+.parent-tpc__lessons li.is-ok { color: var(--ok, var(--primary)); }
+.parent-tpc__lessons li small { color: var(--ink-3); font-weight: 600; }
+.parent-tpc__form, .parent-tpc__create {
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 10px;
+}
+.parent-tpc .parent-field select {
+  max-width: 220px; padding: 6px 8px; border-radius: 10px;
+  border: 1.5px solid var(--border); background: var(--surface); color: var(--ink);
+  font: inherit; font-size: .92em; font-weight: 600;
+}
+.parent-tpc__picked { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+.parent-tpc__picked li {
+  display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px 4px 10px;
+  border-radius: 999px; font-size: .8em; font-weight: 700; color: var(--ink-2);
+  background: color-mix(in srgb, var(--warn) 12%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--warn) 45%, var(--border));
+}
+.parent-tpc__picked li button {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; padding: 0; border: none; border-radius: 50%;
+  background: transparent; color: var(--ink-3); cursor: pointer;
+}
+.parent-tpc__picked li button:hover { color: var(--danger); }
+.parent-tpc__done { margin-top: 8px; }
+.parent-tpc__done .parent-plan__extra { display: flex; align-items: center; gap: 6px; }

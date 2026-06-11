@@ -50,6 +50,10 @@ export interface ReviewItem {
   lastAt: number;
   /** when it should reappear (start-of-day based, epoch ms) */
   nextAt: number;
+  /** the question's difficulty tag, 1 fácil · 2 média · 3 difícil (§4.4) */
+  level?: number;
+  /** how many answers used the help ladder (§4.5) — visible to parents */
+  assisted?: number;
 }
 
 export type ReviewMap = Record<string, ReviewItem>;
@@ -74,26 +78,31 @@ export const questionId = (lessonId: string, quizId: string, index: number): str
   `${lessonId}#${quizId}#${index}`;
 
 /** Fold one answered question into the bank. No-ops for unknown lessons
- *  (e.g. the Simulado's synthetic id) — the bank only holds real lessons. */
+ *  (e.g. the Simulado's synthetic id) — the bank only holds real lessons.
+ *  `assisted` (§4.5) means the help ladder was used: the answer still counts,
+ *  but the question is "needs work" — it enters/stays at box 0 like an error.
+ *  `level` (§4.4) is the question's difficulty tag, recorded for later use. */
 export function recordReviewAnswer(
   lessonId: string,
   quizId: string,
   questionIndex: number,
   correct: boolean,
   answerSecs: number,
+  opts: { assisted?: boolean; level?: number } = {},
   now = Date.now(),
 ): void {
   const meta = lessonMeta.get(lessonId);
   if (!meta) return;
+  const assisted = !!opts.assisted;
   const items = loadReview();
   const id = questionId(lessonId, quizId, questionIndex);
   const cur = items[id];
 
-  if (!cur && correct) return; // nothing to fix — the bank holds errors only
+  if (!cur && correct && !assisted) return; // nothing to fix — the bank holds errors only
 
   let box: number;
-  if (!correct) {
-    box = 0; // back to the start: review tomorrow
+  if (!correct || assisted) {
+    box = 0; // wrong, or right only with help: review tomorrow
   } else if (answerSecs > SLOW_SECS) {
     box = (cur?.box ?? 0) + 1; // right but slow — climb modestly
   } else {
@@ -115,6 +124,8 @@ export function recordReviewAnswer(
     attempts: (cur?.attempts ?? 0) + 1,
     correct: (cur?.correct ?? 0) + (correct ? 1 : 0),
     wrong: (cur?.wrong ?? 0) + (correct ? 0 : 1),
+    level: opts.level ?? cur?.level,
+    assisted: (cur?.assisted ?? 0) + (assisted ? 1 : 0),
     lastAt: now,
     // Start-of-day based, so "amanhã" means the next calendar day, not 24 h.
     nextAt: startOfDay(now) + REVIEW_DAYS[box] * DAY,

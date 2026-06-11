@@ -737,6 +737,12 @@ export const ICONS = {
       <path d="M3.5 7h6l2 2h9v9.5a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z" />
     </>
   ),
+  download: (
+    <>
+      <path d="M12 4v10M8 10.5l4 4 4-4" />
+      <path d="M4.5 16.5V18a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-1.5" />
+    </>
+  ),
   monitor: (
     <>
       <rect x="4" y="5" width="16" height="11" rx="2" />

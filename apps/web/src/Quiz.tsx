@@ -24,6 +24,13 @@ export interface QuizQuestion {
   layout?: "grid" | "list";
   options?: QuizOption[]; // optional when `gen` builds the options
   explain?: string;
+  /** step-by-step solution (§4.3), revealed after answering — right OR wrong */
+  steps?: string[];
+  /** the first rung of the help ladder (§4.5); without it help starts at rung 2 */
+  hint?: string;
+  /** difficulty (§4.4): 1 fácil · 2 média · 3 difícil; default 2. Final tests
+   *  serve questions easiest-first so the run warms up. */
+  level?: 1 | 2 | 3;
   figure?: FractionFigureSpec; // a fraction drawn above the options
   gen?: QuizGen; // build q + figure + options dynamically
 }
@@ -103,13 +110,26 @@ function StarRow({ n, size = 24 }: { n: number; size?: number }) {
   );
 }
 
-export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
+export function Quiz({
+  spec,
+  quizId,
+  onResult,
+}: {
+  spec: QuizSpec;
+  quizId: string;
+  /** Called on each finished attempt with the score (0–1) — lets a wrapper
+   *  (e.g. the exame final) grade the run; retries fire it again. */
+  onResult?: (pct: number) => void;
+}) {
   const lessonId = useLessonId();
   const { recordQuiz } = useProgress();
 
   const [i, setI] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
   const [answers, setAnswers] = useState<(number | null)[]>(() => spec.questions.map(() => null));
+  // Help ladder used per question (§4.5): 0 none · 1 pista · 2 opção riscada ·
+  // 3 explicação revelada. Any value > 0 marks the answer "com ajuda".
+  const [helps, setHelps] = useState<number[]>(() => spec.questions.map(() => 0));
   const [phase, setPhase] = useState<"asking" | "result">("asking");
   const [nonce, setNonce] = useState(0); // forces confetti remount on retry
   // When this attempt started — so we can record how long the test took. Reset
@@ -120,25 +140,46 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
   const questionShownAt = useRef(Date.now());
 
   const total = spec.questions.length;
-  // Resolve `gen` questions into concrete ones; the seed (quizId + index +
-  // nonce) keeps the same question while it's shown and re-rolls it on retry.
+  const isFinal = !!spec.final;
+  // Final tests serve the questions easiest-first (§4.4): a stable sort by
+  // `level` (default 2), so the authored order breaks ties. `order[k]` is the
+  // question's ORIGINAL index — the review bank keys items by authored index,
+  // so re-ordering the run must not change a question's identity.
+  const order = useMemo(() => {
+    const idx = spec.questions.map((_, k) => k);
+    if (isFinal) idx.sort((a, b) => (spec.questions[a].level ?? 2) - (spec.questions[b].level ?? 2));
+    return idx;
+  }, [spec.questions, isFinal]);
+  // Resolve `gen` questions into concrete ones; the seed (quizId + original
+  // index + nonce) keeps the same question while it's shown and re-rolls it on
+  // every retry.
   const questions = useMemo(
-    () => spec.questions.map((q, idx) => resolveQuestion(q, hashSeed(quizId) + idx * 101 + nonce * 7919)),
-    [spec.questions, quizId, nonce],
+    () => order.map((k) => resolveQuestion(spec.questions[k], hashSeed(quizId) + k * 101 + nonce * 7919)),
+    [spec.questions, order, quizId, nonce],
   );
   const question = questions[i];
   const options = question.options ?? [];
-  const isFinal = !!spec.final;
   const correctCount = questions.reduce((sum, q, idx) => {
     const answer = answers[idx];
     return sum + (answer !== null && q.options?.[answer]?.correct ? 1 : 0);
+  }, 0);
+  // Star points (§4.5): a clean right answer is worth 1, one answered with
+  // help (pista / opção riscada) half, and one where the explanation was
+  // revealed nothing. Progress and the ≥80% pass gate keep the FULL count —
+  // only the stars are weighted.
+  const starPoints = questions.reduce((sum, q, idx) => {
+    const answer = answers[idx];
+    if (answer === null || !q.options?.[answer]?.correct) return sum;
+    const h = helps[idx];
+    return sum + (h === 0 ? 1 : h < 3 ? 0.5 : 0);
   }, 0);
   const progressPct = total ? ((i + (picked !== null ? 1 : 0)) / total) * 100 : 0;
 
   useEffect(() => {
     if (phase === "result") {
       const secs = Math.round((Date.now() - startedAt.current) / 1000);
-      recordQuiz(lessonId, quizId, { correct: correctCount, total }, isFinal, secs);
+      recordQuiz(lessonId, quizId, { correct: correctCount, total }, isFinal, secs, total ? starPoints / total : 0);
+      onResult?.(total ? correctCount / total : 0);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, nonce]);
@@ -157,9 +198,14 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
     // Feed the error bank (§4.2). Only AUTHORED questions of real lessons:
     // `gen` questions change on every run (no stable identity) and synthetic
     // ids (Simulado, orphan quizzes) aren't lessons the child can reopen.
+    // The bank is keyed by the AUTHORED index (`order[i]`), and an answer that
+    // used help enters it as "needs work" even when right (§4.5).
     if (!question.gen && lessonMeta.has(lessonId)) {
       const secs = Math.round((Date.now() - questionShownAt.current) / 1000);
-      recordReviewAnswer(lessonId, quizId, i, !!options[idx]?.correct, secs);
+      recordReviewAnswer(lessonId, quizId, order[i], !!options[idx]?.correct, secs, {
+        assisted: helps[i] > 0,
+        level: question.level ?? 2,
+      });
     }
   };
 
@@ -177,6 +223,7 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
     setI(0);
     setPicked(null);
     setAnswers(spec.questions.map(() => null));
+    setHelps(spec.questions.map(() => 0));
     setPhase("asking");
     setNonce((n) => n + 1);
     startedAt.current = Date.now(); // time the new attempt from scratch
@@ -185,7 +232,9 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
 
   if (phase === "result") {
     const pct = total ? correctCount / total : 0;
-    const stars = starsForPct(pct);
+    // Stars come from the WEIGHTED points (§4.5): help halves a question's
+    // worth. The score, percentage and pass gate keep the full count.
+    const stars = starsForPct(total ? starPoints / total : 0);
     const pctLabel = Math.round(pct * 100);
     // A FINAL test only concludes the lesson at ≥ 80% — below that it stays
     // "a repetir", said with encouragement (never "estás mal").
@@ -229,7 +278,7 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
                 <div key={idx} className={`quiz-review__item ${ok ? "ok" : "no"}`}>
                   <span className="quiz-review__num">{idx + 1}</span>
                   <span className="quiz-review__text">
-                    <strong>{ok ? "Certa" : "A rever"}</strong>
+                    <strong>{ok ? (helps[idx] > 0 ? "Certa com ajuda" : "Certa") : "A rever"}</strong>
                     {correct && <span>Resposta: {correct}</span>}
                   </span>
                   <Icon name={ok ? "check" : "info"} size={18} />
@@ -259,6 +308,23 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
   // keyboard or who need to hear the choices.
   const optionsText = options.map((o) => o.t).filter(Boolean).join(", ");
   const questionSpeech = optionsText ? `${question.q}. As opções são: ${optionsText}.` : question.q ?? "";
+
+  // Help ladder (§4.5): each press unlocks the next rung — 1 pista (skipped
+  // when the author wrote none) → 2 risca uma opção errada → 3 revela a
+  // explicação (the question stops counting for the stars). Before answering only.
+  const helpLevel = helps[i];
+  const hasHint = !!question.hint;
+  const askHelp = () => setHelps((prev) => prev.map((h, k) => (k === i ? (h === 0 && !hasHint ? 2 : h + 1) : h)));
+  // The struck-out option: the first wrong one in this run's shuffled order.
+  const eliminatedIdx = helpLevel >= 2 ? options.findIndex((o) => !o.correct) : -1;
+  const helpRows: string[] = [];
+  if (helpLevel >= 1 && hasHint) helpRows.push(`Pista: ${question.hint}`);
+  if (helpLevel >= 2) helpRows.push("Risquei uma opção errada por ti.");
+  if (helpLevel >= 3)
+    helpRows.push(
+      `${question.explain ? `Explicação: ${question.explain}` : "Lê com calma e escolhe."} Esta pergunta já não conta para as estrelas — mas aprender conta sempre!`,
+    );
+  const helpSpeech = ["Pedir ajuda é de espertos!", ...helpRows].join(" ");
 
   return (
     <div className={`quiz ${isFinal ? "is-final" : ""}`}>
@@ -315,11 +381,12 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
           const reveal = answered;
           const right = reveal && opt.correct;
           const wrong = reveal && idx === picked && !opt.correct;
-          const cls = ["opt", grid ? "big" : "", right ? "is-correct" : "", wrong ? "is-wrong" : ""]
+          const struck = idx === eliminatedIdx && !answered;
+          const cls = ["opt", grid ? "big" : "", right ? "is-correct" : "", wrong ? "is-wrong" : "", struck ? "is-eliminated" : ""]
             .filter(Boolean)
             .join(" ");
           return (
-            <button key={idx} className={cls} disabled={answered} onClick={() => choose(idx)}>
+            <button key={idx} className={cls} disabled={answered || struck} onClick={() => choose(idx)}>
               {opt.emoji && <span className="opt-emoji">{opt.emoji}</span>}
               {opt.t && <span>{opt.t}</span>}
               {right && <span className="opt-mark ok"><Icon name="check" size={18} /></span>}
@@ -328,6 +395,28 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
           );
         })}
       </div>
+
+      {!answered && (
+        <div className="quiz-help">
+          {helpLevel > 0 && (
+            <div className="quiz-help__box">
+              <div className="quiz-help__head">
+                <Icon name="tip" size={18} />
+                <strong>Pedir ajuda é de espertos!</strong>
+                <Speaker text={helpSpeech} className="prose-speak" size={18} label="Ouvir a ajuda" />
+              </div>
+              {helpRows.map((row, k) => (
+                <p key={k} className="quiz-help__row">{row}</p>
+              ))}
+            </div>
+          )}
+          {helpLevel < 3 && (
+            <button type="button" className="quiz-help__btn" onClick={askHelp}>
+              <Icon name="tip" size={18} /> {helpLevel === 0 ? "Preciso de ajuda" : "Mais ajuda"}
+            </button>
+          )}
+        </div>
+      )}
 
       {answered && (
         <>
@@ -341,6 +430,22 @@ export function Quiz({ spec, quizId }: { spec: QuizSpec; quizId: string }) {
               label="Ouvir"
             />
           </div>
+          {question.steps && question.steps.length > 0 && (
+            // Step-by-step solution (§4.3) — shown after answering, right OR
+            // wrong, so the reasoning is always walked through.
+            <div className="quiz-solution">
+              <div className="quiz-solution__head">
+                <Icon name="reading" size={18} />
+                <strong>Passo a passo</strong>
+                <Speaker text={question.steps.join(". ")} className="prose-speak" size={18} label="Ouvir a resolução" />
+              </div>
+              <ol className="quiz-solution__steps">
+                {question.steps.map((s, k) => (
+                  <li key={k}>{s}</li>
+                ))}
+              </ol>
+            </div>
+          )}
           <div className="quiz-foot">
             <button className="pill" onClick={next}>
               {i + 1 < total ? "Próxima" : "Ver resultado"} <Icon name="arrowRight" size={18} />

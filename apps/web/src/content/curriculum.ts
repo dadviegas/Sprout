@@ -68,6 +68,7 @@ export { atlasSubject } from "./atlas";
 /* ---- Matemática ---- */
 import matNumeros10 from "./matematica/ano1/numeros-ate-10.md";
 import matNumeros20 from "./matematica/ano1/numeros-ate-20.md";
+import matNumeros100Ano1 from "./matematica/ano1/numeros-ate-100.md";
 import matSomar from "./matematica/ano1/somar.md";
 import matFormas from "./matematica/ano1/formas.md";
 import matTempo from "./matematica/ano1/tempo.md";
@@ -97,9 +98,15 @@ import matMedida from "./matematica/ano3/comprimento-massa.md";
 import matDadosTabelas from "./matematica/ano3/dados-tabelas.md";
 import matDecimais from "./matematica/ano4/decimais.md";
 import matContasArmadas from "./matematica/ano4/contas-armadas.md";
+// Operation masterclasses — one lesson per algorithm, basics → tricky cases
+import matSomarPe from "./matematica/ano4/somar-pe.md";
+import matSubtrairPe from "./matematica/ano4/subtrair-pe.md";
+import matMultiplicarPe from "./matematica/ano4/multiplicar-pe.md";
+import matDividirPe from "./matematica/ano4/dividir-pe.md";
 import matArea from "./matematica/ano4/area-perimetro.md";
 import matDados from "./matematica/ano4/graficos-tabelas.md";
 import matProblemas from "./matematica/ano4/resolver-problemas.md";
+import matProblemas2 from "./matematica/ano4/problemas-varios-passos.md";
 // AE coverage — Matemática (gaps: simetria, romanos, estimativa)
 import matSimetria from "./matematica/ano2/simetria.md";
 import matProbleminhas from "./matematica/ano2/resolver-probleminhas.md";
@@ -108,10 +115,36 @@ import matEstimar from "./matematica/ano4/estimar-arredondar.md";
 import matCalculoMental from "./matematica/ano4/calculo-mental.md";
 import mat5ProblemasVariosPassos from "./matematica/ano5/problemas-varios-passos.md";
 import mat5DadosAMais from "./matematica/ano5/dados-a-mais-ou-a-menos.md";
+// AE coverage — Matemática (auditoria Fase 2: alcance dos números, frações no
+// 2.º, tabuadas altas + algoritmos +/− no 3.º, percentagens/orçamentos no 4.º)
+import matNumeros1000Ano2 from "./matematica/ano2/numeros-ate-1000.md";
+import matMetadesQuartas from "./matematica/ano2/metades-quartas.md";
+import matNumeros10000 from "./matematica/ano3/numeros-ate-10000.md";
+import matTabuadasAltas from "./matematica/ano3/tabuadas-altas.md";
+import matContasArmadas3 from "./matematica/ano3/contas-armadas.md";
+import matPercentagens from "./matematica/ano4/percentagens-orcamentos.md";
+// AE coverage — Matemática (auditoria Fase 4: geometria/medida/dados + 5.º/6.º)
+import matModaPictogramas from "./matematica/ano2/moda-pictogramas.md";
+import matPerimetro2 from "./matematica/ano2/perimetro.md";
+import matAngulos3 from "./matematica/ano3/angulos.md";
+import matMedidas2 from "./matematica/ano3/medidas-km-mm-g.md";
+import matQuadrilateros from "./matematica/ano4/quadrilateros-retas.md";
+import matCirculo4 from "./matematica/ano4/circulo-circunferencia.md";
+import mat5Percentagens from "./matematica/ano5/percentagens.md";
+import mat6Probabilidade from "./matematica/ano6/probabilidade.md";
 
 /* ---- Português ---- */
 import ptVogais from "./portugues/ano1/vogais.md";
 import ptSilabas from "./portugues/ano1/silabas.md";
+// "As letras" — the consonant ladder (AE didactic order) + casos de leitura
+import ptLetrasPTL from "./portugues/ano1/letras-p-t-l.md";
+import ptLetrasDMV from "./portugues/ano1/letras-d-m-v.md";
+import ptLetrasCNR from "./portugues/ano1/letras-c-n-r.md";
+import ptLetrasBGJ from "./portugues/ano1/letras-b-g-j.md";
+import ptLetrasFZS from "./portugues/ano1/letras-f-z-s.md";
+import ptLetrasXH from "./portugues/ano1/letras-x-h-alfabeto.md";
+import ptCasosCeGi from "./portugues/ano1/casos-ce-ci-ge-gi.md";
+import ptNasais from "./portugues/ano1/nasais.md";
 import ptPrimeirasPalavras from "./portugues/ano1/primeiras-palavras.md";
 import ptRimas from "./portugues/ano1/rimas.md";
 import ptPontuacao from "./portugues/ano2/pontuacao.md";
@@ -176,6 +209,7 @@ import edmDias from "./estudo-do-meio/ano1/dias-da-semana.md";
 import edmFamilia from "./estudo-do-meio/ano1/a-minha-familia.md";
 import edmHigiene from "./estudo-do-meio/ano1/higiene-e-saude.md";
 import edmEstacoes from "./estudo-do-meio/ano2/estacoes-do-ano.md";
+import edmRodaAlimentos from "./estudo-do-meio/ano2/roda-dos-alimentos.md";
 import edmAnimais from "./estudo-do-meio/ano2/os-animais.md";
 import edmAgua from "./estudo-do-meio/ano2/a-agua.md";
 import edmPlantas from "./estudo-do-meio/ano3/as-plantas.md";
@@ -191,6 +225,9 @@ import edmSeresVivos from "./estudo-do-meio/ano2/seres-vivos.md";
 import edmProfissoes from "./estudo-do-meio/ano2/profissoes.md";
 import edmLocalidade from "./estudo-do-meio/ano2/a-minha-localidade.md";
 import edmAlimentacao from "./estudo-do-meio/ano3/alimentacao-saudavel.md";
+import edmOssosMusculos from "./estudo-do-meio/ano3/ossos-musculos-pele.md";
+import edmSolTerraLua from "./estudo-do-meio/ano3/sol-terra-lua.md";
+import edmSismosVulcoes from "./estudo-do-meio/ano4/sismos-e-vulcoes.md";
 import edmEletricidade from "./estudo-do-meio/ano3/eletricidade-e-imanes.md";
 import edmExperiencias from "./estudo-do-meio/ano3/experiencias.md";
 import edmSegurancaRodoviaria from "./estudo-do-meio/ano3/seguranca-rodoviaria.md";
@@ -309,7 +346,9 @@ import estudoContas from "./estudo/contas-armadas.md";
 import estudoAlfabeto from "./estudo/alfabeto.md";
 import estudoSilabasP from "./estudo/silabas-p.md";
 import estudoSilabasFaceis from "./estudo/silabas-faceis.md";
+import estudoSilabasTreino from "./estudo/silabas-treino.md";
 import estudoJuntarPalavras from "./estudo/juntar-palavras.md";
+import estudoLerPalavras from "./estudo/ler-palavras.md";
 import estudoLeituraRapida from "./estudo/leitura-rapida.md";
 import estudoTestesLeitura from "./estudo/testes-leitura.md";
 import estudoNumeros from "./estudo/numeros.md";
@@ -436,6 +475,7 @@ import cn5AnimaisFuncoes from "./ciencias/ano5/animais-funcoes.md";
 import cn5Plantas from "./ciencias/ano5/plantas.md";
 import cn5Ecossistemas from "./ciencias/ano5/ecossistemas.md";
 // História e Geografia de Portugal 5.º
+import hgp5PeninsulaNatural from "./hgp/ano5/peninsula-natural.md";
 import hgp5PrimeirosPovos from "./hgp/ano5/primeiros-povos.md";
 import hgp5Romanos from "./hgp/ano5/romanos.md";
 import hgp5Muculmanos from "./hgp/ano5/muculmanos.md";
@@ -534,6 +574,7 @@ import hgp6Republica from "./hgp/ano6/republica.md";
 import hgp6EstadoNovo from "./hgp/ano6/estado-novo.md";
 import hgp6Democracia from "./hgp/ano6/democracia.md";
 import hgp6ReisMonumentos from "./hgp/ano6/reis-monumentos.md";
+import hgp6PortugalHoje from "./hgp/ano6/portugal-hoje.md";
 // Educação Visual 6.º
 import ev6LuzSombra from "./ed-visual/ano6/luz-sombra.md";
 import ev6Volume from "./ed-visual/ano6/volume.md";
@@ -588,6 +629,7 @@ export const schoolSubjects: Subject[] = [
       1: [
         { id: "mat-1-numeros-10", title: "Números até 10", emoji: "🔟", body: matNumeros10 },
         { id: "mat-1-numeros-20", title: "Números até 20", emoji: "✋", body: matNumeros20 },
+        { id: "mat-1-numeros-100", title: "Os números até 100", emoji: "💯", body: matNumeros100Ano1 },
         { id: "mat-1-somar", title: "Somar e subtrair", emoji: "➕", body: matSomar },
         { id: "mat-1-formas", title: "Formas geométricas", emoji: "🔺", body: matFormas },
         { id: "mat-1-tempo", title: "Antes e depois, dia e noite", emoji: "🌗", body: matTempo },
@@ -599,21 +641,30 @@ export const schoolSubjects: Subject[] = [
         { id: "mat-2-tabuada", title: "Tabuada do 2 e do 5", emoji: "✖️", body: matTabuada },
         { id: "mat-2-tabuada-3-4-10", title: "Tabuada do 3, do 4 e do 10", emoji: "✖️", body: matTabuada34 },
         { id: "mat-2-numeros-100", title: "Números até 100", emoji: "💯", body: matNumeros100 },
+        { id: "mat-2-numeros-1000", title: "Os números até 1000", emoji: "🚀", body: matNumeros1000Ano2 },
         { id: "mat-2-par-impar", title: "Pares e ímpares", emoji: "🔢", body: matParImpar },
+        { id: "mat-2-fracoes-iniciais", title: "Metades e quartas partes", emoji: "🍫", body: matMetadesQuartas },
         { id: "mat-2-dinheiro", title: "O dinheiro (euros)", emoji: "💶", body: matDinheiro },
         { id: "mat-2-horas", title: "As horas no relógio", emoji: "🕐", body: matHoras },
         { id: "mat-2-solidos", title: "Sólidos geométricos", emoji: "🧊", body: matSolidos },
         { id: "mat-2-padroes", title: "Sequências e padrões", emoji: "🔁", body: matPadroes },
         { id: "mat-2-simetria", title: "Simetria e eixos", emoji: "🦋", body: matSimetria },
+        { id: "mat-2-perimetro", title: "À volta das figuras: o perímetro", emoji: "🧵", body: matPerimetro2 },
+        { id: "mat-2-dados", title: "A moda e os pictogramas", emoji: "📊", body: matModaPictogramas },
         { id: "mat-2-problemas", title: "Resolver probleminhas", emoji: "🧩", body: matProbleminhas },
       ],
       3: [
         { id: "mat-3-numeros-1000", title: "Números até 1000", emoji: "💯", body: matNumeros1000 },
+        { id: "mat-3-numeros-10000", title: "Os números até 10 000", emoji: "🏔️", body: matNumeros10000 },
+        { id: "mat-3-contas-armadas", title: "Contas em pé: somar e subtrair", emoji: "➕", body: matContasArmadas3 },
         { id: "mat-3-multiplicacao", title: "A multiplicação", emoji: "✖️", body: matMultiplicacao },
         { id: "mat-3-multiplos", title: "Múltiplos e tabuadas", emoji: "✖️", body: matMultiplos },
+        { id: "mat-3-tabuadas-altas", title: "As tabuadas do 6, 7, 8 e 9", emoji: "✖️", body: matTabuadasAltas },
         { id: "mat-3-divisao", title: "A divisão", emoji: "➗", body: matDivisao },
         { id: "mat-3-fracoes", title: "Frações simples", emoji: "🍕", body: matFracoes },
+        { id: "mat-3-angulos", title: "Os ângulos", emoji: "🐊", body: matAngulos3 },
         { id: "mat-3-medida", title: "Comprimento e massa", emoji: "📏", body: matMedida },
+        { id: "mat-3-medidas-2", title: "Medir longe e perto: km, m, mm e g", emoji: "🗺️", body: matMedidas2 },
         { id: "mat-3-dados", title: "Recolher e organizar dados", emoji: "📋", body: matDadosTabelas },
         { id: "mat-3-calendario", title: "O calendário e o tempo", emoji: "📅", body: matCalendario },
         { id: "mat-3-romanos", title: "Numerais romanos", emoji: "🏛️", body: matRomanos },
@@ -623,19 +674,28 @@ export const schoolSubjects: Subject[] = [
         { id: "mat-4-estimar", title: "Estimar e arredondar", emoji: "🎯", body: matEstimar },
         { id: "mat-4-decimais", title: "Números decimais", emoji: "🔢", body: matDecimais },
         { id: "mat-4-contas-armadas", title: "Contas armadas passo a passo", emoji: "🧮", body: matContasArmadas },
+        { id: "mat-4-somar-pe", title: "Somar em pé — do simples ao «vai 1»", emoji: "➕", body: matSomarPe },
+        { id: "mat-4-subtrair-pe", title: "Subtrair em pé — do simples ao «pede emprestado»", emoji: "➖", body: matSubtrairPe },
+        { id: "mat-4-multiplicar-pe", title: "Multiplicar em pé — por 1 e por 2 algarismos", emoji: "✖️", body: matMultiplicarPe },
+        { id: "mat-4-dividir-pe", title: "Dividir passo a passo", emoji: "➗", body: matDividirPe },
         { id: "mat-4-fracoes-decimais", title: "Frações e decimais", emoji: "🍕", body: matFracDec },
         { id: "mat-4-calculo-mental", title: "Cálculo mental", emoji: "🧠", body: matCalculoMental },
         { id: "mat-4-area", title: "Área e perímetro", emoji: "📐", body: matArea },
         { id: "mat-4-angulos", title: "Ângulos e retas", emoji: "📐", body: matAngulos },
+        { id: "mat-4-quadrilateros", title: "Os quadriláteros e as retas", emoji: "🔷", body: matQuadrilateros },
+        { id: "mat-4-circulo", title: "O círculo e a circunferência", emoji: "⭕", body: matCirculo4 },
         { id: "mat-4-volume", title: "Volume e capacidade", emoji: "🧴", body: matVolume },
         { id: "mat-4-dados", title: "Gráficos e tabelas", emoji: "📊", body: matDados },
         { id: "mat-4-problemas", title: "Resolver problemas", emoji: "🧩", body: matProblemas },
+        { id: "mat-4-problemas-2", title: "Resolver problemas 2: vários passos", emoji: "🕵️", body: matProblemas2 },
+        { id: "mat-4-percentagens", title: "Percentagens amigas e orçamentos", emoji: "💰", body: matPercentagens },
       ],
       5: [
         { id: "mat-5-naturais", title: "Números naturais e operações", emoji: "🔢", body: mat5Naturais },
         { id: "mat-5-mdc-mmc", title: "Múltiplos, divisores, m.d.c. e m.m.c.", emoji: "🔗", body: mat5MdcMmc },
         { id: "mat-5-fracoes", title: "Frações: comparar e operar", emoji: "🍕", body: mat5Fracoes },
         { id: "mat-5-decimais", title: "Números racionais não negativos", emoji: "🔟", body: mat5Decimais },
+        { id: "mat-5-percentagens", title: "As percentagens", emoji: "💯", body: mat5Percentagens },
         { id: "mat-5-potencias", title: "Potências de base 10", emoji: "⏫", body: mat5Potencias },
         { id: "mat-5-angulos-poligonos", title: "Ângulos e polígonos", emoji: "📐", body: mat5AngulosPoligonos },
         { id: "mat-5-area-perimetro", title: "Perímetros e áreas", emoji: "🟦", body: mat5AreaPerimetro },
@@ -645,15 +705,16 @@ export const schoolSubjects: Subject[] = [
         { id: "mat-5-dados-a-mais", title: "Problemas com dados a mais ou em falta", emoji: "🔎", body: mat5DadosAMais },
       ],
       6: [
-        { id: "mat-6-inteiros", title: "Números inteiros relativos", emoji: "➖", body: mat6Inteiros },
+        { id: "mat-6-inteiros", title: "Números inteiros relativos", emoji: "➖", body: mat6Inteiros, tag: "Extra — espreitadela ao 7.º ano" },
         { id: "mat-6-fracoes-operacoes", title: "Multiplicar e dividir frações", emoji: "✖️", body: mat6FracoesOperacoes },
         { id: "mat-6-potencias", title: "Potências e expressões numéricas", emoji: "⏫", body: mat6Potencias },
         { id: "mat-6-proporcionalidade", title: "Proporcionalidade direta", emoji: "⚖️", body: mat6Proporcionalidade },
         { id: "mat-6-percentagens", title: "Percentagens", emoji: "💯", body: mat6Percentagens },
-        { id: "mat-6-equacoes", title: "Expressões e equações", emoji: "🟰", body: mat6Equacoes },
+        { id: "mat-6-equacoes", title: "Expressões e equações", emoji: "🟰", body: mat6Equacoes, tag: "Extra — espreitadela ao 7.º ano" },
         { id: "mat-6-circulo", title: "Circunferência e círculo", emoji: "⭕", body: mat6Circulo },
         { id: "mat-6-volumes", title: "Volumes de sólidos", emoji: "📦", body: mat6Volumes },
         { id: "mat-6-graficos", title: "Representar e interpretar dados", emoji: "📈", body: mat6Graficos },
+        { id: "mat-6-probabilidade", title: "O acaso e a probabilidade", emoji: "🎲", body: mat6Probabilidade },
       ],
     },
   },
@@ -668,6 +729,14 @@ export const schoolSubjects: Subject[] = [
       1: [
         { id: "pt-1-vogais", title: "As vogais", emoji: "🅰️", body: ptVogais },
         { id: "pt-1-silabas", title: "As sílabas", emoji: "👏", body: ptSilabas },
+        { id: "pt-1-letras-ptl", title: "As letras P, T e L", emoji: "🦆", body: ptLetrasPTL },
+        { id: "pt-1-letras-dmv", title: "As letras D, M e V", emoji: "🎲", body: ptLetrasDMV },
+        { id: "pt-1-letras-cnr", title: "As letras C, N e R", emoji: "🏠", body: ptLetrasCNR },
+        { id: "pt-1-letras-bgj", title: "As letras B, G e J", emoji: "🎈", body: ptLetrasBGJ },
+        { id: "pt-1-letras-fzs", title: "As letras F, Z e S", emoji: "🐸", body: ptLetrasFZS },
+        { id: "pt-1-letras-xh", title: "As letras X e H (e o alfabeto)", emoji: "🔤", body: ptLetrasXH },
+        { id: "pt-1-casos-cegi", title: "Os sons que mudam: CE, CI, GE e GI", emoji: "🍦", body: ptCasosCeGi },
+        { id: "pt-1-nasais", title: "Os sons do nariz: ÃO, AM, EM, OM e UM", emoji: "👃", body: ptNasais },
         { id: "pt-1-maiusculas", title: "Letra grande e pequena", emoji: "🔠", body: ptMaiuscula },
         { id: "pt-1-primeiras-palavras", title: "As primeiras palavras", emoji: "🔡", body: ptPrimeirasPalavras },
         { id: "pt-1-ler-frases", title: "Ler as primeiras frases", emoji: "📖", body: ptLerFrases },
@@ -772,15 +841,18 @@ export const schoolSubjects: Subject[] = [
         { id: "edm-2-estacoes", title: "As estações do ano", emoji: "🍂", body: edmEstacoes },
         { id: "edm-2-animais", title: "Os animais", emoji: "🐾", body: edmAnimais },
         { id: "edm-2-agua", title: "A água", emoji: "💧", body: edmAgua },
+        { id: "edm-2-roda-alimentos", title: "A roda dos alimentos", emoji: "🍎", body: edmRodaAlimentos },
         { id: "edm-2-profissoes", title: "As profissões", emoji: "👷", body: edmProfissoes },
         { id: "edm-2-localidade", title: "A minha localidade e as suas festas", emoji: "🏘️", body: edmLocalidade },
       ],
       3: [
         { id: "edm-3-plantas", title: "As plantas", emoji: "🌻", body: edmPlantas },
         { id: "edm-3-alimentacao", title: "Alimentação saudável", emoji: "🥗", body: edmAlimentacao },
+        { id: "edm-3-ossos-musculos", title: "Ossos, músculos e pele", emoji: "🦴", body: edmOssosMusculos },
         { id: "edm-3-portugal", title: "Portugal: o meu país", emoji: "🇵🇹", body: edmPortugal },
         { id: "edm-3-solidos-liquidos", title: "Sólidos, líquidos e gases", emoji: "🧊", body: edmEstados },
         { id: "edm-3-eletricidade", title: "Eletricidade e ímanes", emoji: "🧲", body: edmEletricidade },
+        { id: "edm-3-sol-terra-lua", title: "O Sol, a Terra e a Lua", emoji: "🌗", body: edmSolTerraLua },
         { id: "edm-3-experiencias", title: "Vamos fazer experiências!", emoji: "🔬", body: edmExperiencias },
         { id: "edm-3-seguranca-rodoviaria", title: "Segurança rodoviária", emoji: "🚦", body: edmSegurancaRodoviaria },
       ],
@@ -792,6 +864,7 @@ export const schoolSubjects: Subject[] = [
         { id: "edm-4-mapa-localidade", title: "Mapa da localidade e orientação", emoji: "🗺️", body: edmMapaLocalidade },
         { id: "edm-4-freguesia-municipio", title: "Freguesia, município e participação local", emoji: "🏘️", body: edmFreguesiaMunicipio },
         { id: "edm-4-relevo-clima", title: "Relevo e clima de Portugal", emoji: "🏞️", body: edmRelevoClima },
+        { id: "edm-4-sismos-vulcoes", title: "Sismos e vulcões", emoji: "🌋", body: edmSismosVulcoes },
         { id: "edm-4-historia", title: "História de Portugal", emoji: "🏰", body: edmHistoria },
         { id: "edm-4-reis-dinastias", title: "Reis e famílias reais", emoji: "👑", body: edmReisDinastias },
       ],
@@ -1070,7 +1143,11 @@ export const schoolSubjects: Subject[] = [
     blurb: "Como nasceu Portugal — dos primeiros povos até hoje.",
     years: {
       1: [], 2: [], 3: [], 4: [],
+      // AE 2018: o 5.º ano vai até ao séc. XVII (expansão, união ibérica,
+      // Restauração); o 6.º começa no séc. XVIII. Os ids "hgp-6-*" das lições
+      // movidas mantêm-se — progresso e Teia referem-nos.
       5: [
+        { id: "hgp-5-peninsula-natural", title: "A Península Ibérica: o quadro natural", emoji: "🌍", body: hgp5PeninsulaNatural },
         { id: "hgp-5-primeiros-povos", title: "Os primeiros povos da Península", emoji: "🏹", body: hgp5PrimeirosPovos },
         { id: "hgp-5-romanos", title: "Os romanos na Península Ibérica", emoji: "🏛️", body: hgp5Romanos },
         { id: "hgp-5-muculmanos", title: "Muçulmanos e cristãos", emoji: "🕌", body: hgp5Muculmanos },
@@ -1078,18 +1155,19 @@ export const schoolSubjects: Subject[] = [
         { id: "hgp-5-consolidacao", title: "Consolidar o reino", emoji: "👑", body: hgp5Consolidacao },
         { id: "hgp-5-crise-1383", title: "A crise de 1383-1385", emoji: "⚔️", body: hgp5Crise1383 },
         { id: "hgp-5-sociedade", title: "A sociedade medieval", emoji: "🏰", body: hgp5Sociedade },
-      ],
-      6: [
         { id: "hgp-6-descobrimentos", title: "Os Descobrimentos", emoji: "⛵", body: hgp6Descobrimentos },
         { id: "hgp-6-imperio", title: "O império português", emoji: "🌍", body: hgp6Imperio },
         { id: "hgp-6-restauracao", title: "União Ibérica e Restauração", emoji: "👑", body: hgp6Restauracao },
-        { id: "hgp-6-dinastias", title: "As dinastias de Portugal", emoji: "👑", body: hgp6Dinastias },
-        { id: "hgp-6-reis-monumentos", title: "Reis, datas e monumentos de Portugal", emoji: "🏰", body: hgp6ReisMonumentos },
+      ],
+      6: [
         { id: "hgp-6-pombal", title: "O século XVIII e o Marquês de Pombal", emoji: "🏛️", body: hgp6Pombal },
-        { id: "hgp-6-liberalismo", title: "O Liberalismo", emoji: "📜", body: hgp6Liberalismo },
+        { id: "hgp-6-liberalismo", title: "As invasões francesas e o Liberalismo", emoji: "📜", body: hgp6Liberalismo },
         { id: "hgp-6-republica", title: "A 1.ª República", emoji: "🇵🇹", body: hgp6Republica },
         { id: "hgp-6-estado-novo", title: "O Estado Novo e o 25 de Abril", emoji: "🌼", body: hgp6EstadoNovo },
         { id: "hgp-6-democracia", title: "Portugal democrático e a Europa", emoji: "🇪🇺", body: hgp6Democracia },
+        { id: "hgp-6-portugal-hoje", title: "Portugal hoje: população e atividades", emoji: "🏙️", body: hgp6PortugalHoje },
+        { id: "hgp-6-dinastias", title: "As dinastias de Portugal", emoji: "👑", body: hgp6Dinastias },
+        { id: "hgp-6-reis-monumentos", title: "Reis, datas e monumentos de Portugal", emoji: "🏰", body: hgp6ReisMonumentos },
       ],
     },
   },
@@ -1244,7 +1322,9 @@ export const estudoSubject: Subject = {
       { id: "estudo-alfabeto", title: "O alfabeto", emoji: "🔤", body: estudoAlfabeto },
       { id: "estudo-silabas-p", title: "PA PE PI PO PU", emoji: "🦆", body: estudoSilabasP },
       { id: "estudo-silabas-faceis", title: "BA BE BI e outras", emoji: "🎈", body: estudoSilabasFaceis },
+      { id: "estudo-silabas-treino", title: "Treino de sílabas: pa, pe, pi…", emoji: "🏃", body: estudoSilabasTreino },
       { id: "estudo-juntar-palavras", title: "Juntar sílabas em palavras", emoji: "🧩", body: estudoJuntarPalavras },
+      { id: "estudo-ler-palavras", title: "Ler palavras à primeira", emoji: "👀", body: estudoLerPalavras },
       { id: "estudo-leitura-rapida", title: "Treino rápido de leitura", emoji: "🚀", body: estudoLeituraRapida },
       { id: "estudo-testes-leitura", title: "Testes de leitura 50 + 50", emoji: "🏁", body: estudoTestesLeitura },
       { id: "estudo-numeros", title: "Os números", emoji: "🔢", body: estudoNumeros },

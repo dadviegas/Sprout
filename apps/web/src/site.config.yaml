@@ -66,18 +66,21 @@ estudo:
   # Each category lists topic ids from estudoSubject (content/curriculum.ts) —
   # the order here is the order shown. Every topic must appear in exactly one.
   categories:
+    # The reading ladder, in learning order: letters → syllables → words → texts.
+    # KEEP IT FIRST: the first category is the featured "começa aqui" hero tile
+    # on Treinar AND feeds the 1.º-ano férias plan (site-config readingCategory).
     - label: Aprender a ler
       icon: reading
-      topics: [estudo-silabas-p, estudo-silabas-faceis, estudo-juntar-palavras, estudo-leitura-rapida, estudo-testes-leitura]
+      topics: [estudo-alfabeto, estudo-silabas-p, estudo-silabas-faceis, estudo-silabas-treino, estudo-juntar-palavras, estudo-ler-palavras, estudo-leitura-rapida, estudo-testes-leitura]
     - label: Matemática rápida
       icon: math
       topics: [estudo-tabuadas, estudo-contas, estudo-numeros, estudo-dinheiro, estudo-loja, estudo-medidas, estudo-formulas, estudo-romanos]
     - label: Português rápido
       icon: reading
-      topics: [estudo-alfabeto, estudo-pontuacao, estudo-classes, estudo-verbos]
+      topics: [estudo-pontuacao, estudo-classes, estudo-verbos]
     - label: Tempo e calendário
       icon: calendar
-      topics: [estudo-dias-meses, estudo-datas]
+      topics: [estudo-relogio, estudo-dias-meses, estudo-datas]
     - label: Mundo e mapas
       icon: compass
       topics: [estudo-planetas, estudo-continentes, estudo-pontos-cardeais, estudo-distritos]

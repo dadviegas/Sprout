@@ -15,6 +15,18 @@ import { loadTheme } from "./nav";
 document.documentElement.dataset.palette = "sprout";
 document.documentElement.dataset.theme = loadTheme();
 
+// Offline mode: register the service worker (public/sw.js) in PRODUCTION only
+// — caching the dev server would mask live edits behind stale bundles. The
+// relative URL resolves against the page, so the same line serves "/" locally
+// and "/Sprout/" on GitHub Pages.
+if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => {
+      // Offline mode is a bonus, never a blocker (e.g. http:// without TLS).
+    });
+  });
+}
+
 const root = document.getElementById("root");
 if (root) {
   createRoot(root).render(

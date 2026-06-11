@@ -7,6 +7,11 @@ ajuda porque arruma tudo: unidades com unidades, dezenas com dezenas, centenas
 com centenas. Carrega no **+** dentro de cada conta para veres o próximo passo,
 e no 🔊 para ouvires a explicação. Vem daí! ✨
 
+> [!TIP] Esta lição é a **visão geral** das quatro operações. Para treinares
+> cada uma a fundo, do caso simples ao mais traiçoeiro, há uma lição só dela:
+> **Somar em pé**, **Subtrair em pé**, **Multiplicar em pé** e **Dividir passo
+> a passo** — estão já a seguir a esta. 🎓
+
 ```summary
 {
   "learn": [

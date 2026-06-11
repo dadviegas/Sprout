@@ -1,6 +1,6 @@
 # Volume e capacidade 🧴
 
-> [!NOTE] **O que vais aprender** 👀 Vais descobrir o que é a **capacidade** (o líquido que cabe) e o **volume** (o espaço que ocupa), medir em **litros** e **mililitros** e fazer trocas entre eles como um campeão! 💧
+> [!NOTE] **O que vais aprender** 👀 Vais descobrir o que é a **capacidade** (o líquido que cabe) e o **volume** (o espaço que ocupa), medir em **litros**, **centilitros** e **mililitros** e fazer trocas entre eles como um campeão! 💧
 
 Quanto cabe dentro de uma garrafa? E quanto espaço ocupa uma caixa de sapatos? Hoje vais ficar a saber medir os líquidos e o espaço à tua volta. Vai ser fácil e divertido — pega num copo imaginário e vamos a isto! 🧴💧
 
@@ -66,6 +66,27 @@ Trocar de litros para mililitros (e ao contrário) é como trocar moedas por not
 ```
 
 > E quando temos litros **e** mililitros juntos? **1 l e 500 ml** é o mesmo que **1500 ml** (1000 + 500). Meio litro são **500 ml**! 🥤
+
+## O centilitro (cl): o irmão do meio 🥤
+
+Entre o litro e o mililitro vive o **centilitro (cl)** — é ele que aparece nas latas e nos pacotes de sumo! «Centi» quer dizer centésima parte: **1 l = 100 cl**, e cada centilitro são **10 ml**.
+
+```compare
+[
+  { "title": "As trocas com o cl 🔁", "rows": [
+    { "label": "1 l", "value": "100 cl" },
+    { "label": "1 cl", "value": "10 ml" },
+    { "label": "meio litro", "value": "50 cl", "highlight": true }
+  ] },
+  { "title": "Valores do dia a dia 🛒", "highlight": true, "rows": [
+    { "label": "Lata de sumo 🥤", "value": "33 cl (= 330 ml)" },
+    { "label": "Pacote de sumo 🧃", "value": "20 cl (= 200 ml)" },
+    { "label": "3 latas de 33 cl", "value": "99 cl — ainda não é 1 litro!", "highlight": true }
+  ] }
+]
+```
+
+> Olha para o rótulo da próxima lata que abrires: vais lá encontrar o **33 cl**! Para passar de cl para ml, acrescentas **um zero** (33 cl = 330 ml); de litros para cl, acrescentas **dois** (2 l = 200 cl). 🔍
 
 ## Capacidade ou volume? 📦
 
@@ -137,7 +158,13 @@ A Matilde tem uma garrafa com **2 litros** de sumo. Quantos **mililitros** são?
       "explain": "O volume mede o espaço ocupado; a capacidade mede o líquido que cabe." },
     { "q": "1 litro e 500 ml são, ao todo, quantos ml?", "layout": "grid",
       "options": [ { "t": "1500 ml", "correct": true }, { "t": "150 ml" }, { "t": "600 ml" } ],
-      "explain": "1000 ml + 500 ml = 1500 ml." }
+      "explain": "1000 ml + 500 ml = 1500 ml." },
+    { "q": "Quantos centilitros tem 1 litro?", "layout": "grid",
+      "options": [ { "t": "100 cl", "emoji": "🥤", "correct": true }, { "t": "10 cl" }, { "t": "1000 cl" } ],
+      "explain": "1 l = 100 cl (e cada cl são 10 ml)." },
+    { "q": "Uma lata de sumo tem 33 cl. Quantos ml são?", "layout": "grid",
+      "options": [ { "t": "330 ml", "correct": true }, { "t": "33 ml" }, { "t": "3300 ml" } ],
+      "explain": "1 cl = 10 ml, logo 33 cl = 330 ml — acrescentas um zero." }
   ]
 }
 ```

@@ -1,6 +1,6 @@
-# O Liberalismo 📜
+# As invasões francesas e o Liberalismo 📜
 
-> [!NOTE] **O que vais aprender** 👀 Houve um tempo em que o rei mandava em **tudo**, sozinho. Depois chegaram ideias novas: o povo devia ter **direitos**, **leis iguais para todos** e uma **Constituição**! Vais descobrir como a família real fugiu para o **Brasil**, o que foi a **Revolução Liberal de 1820**, a primeira **Constituição (1822)**, a triste **guerra entre dois irmãos** (D. Pedro e D. Miguel) e como Portugal passou da monarquia absoluta à monarquia **constitucional**. 📜⚖️
+> [!NOTE] **O que vais aprender** 👀 Houve um tempo em que o rei mandava em **tudo**, sozinho. Depois chegaram as **invasões francesas** (1807-1811) e ideias novas: o povo devia ter **direitos**, **leis iguais para todos** e uma **Constituição**! Vais descobrir como a família real fugiu para o **Brasil**, o que foi a **Revolução Liberal de 1820**, a primeira **Constituição (1822)**, a triste **guerra entre dois irmãos** (D. Pedro e D. Miguel) e como Portugal passou da monarquia absoluta à monarquia **constitucional**. 📜⚖️
 
 Antes, o rei era como o «dono» do país: as suas vontades eram lei, e ninguém o podia contrariar. Mas no início do século XIX (anos 1800), espalharam-se pela Europa umas ideias **revolucionárias**: e se o **povo** também tivesse uma palavra a dizer? E se houvesse **regras escritas** que até o rei tivesse de cumprir? Foi uma autêntica revolução de ideias — e em Portugal não foi nada pacífica! ⚖️
 
@@ -17,9 +17,24 @@ Durante séculos, Portugal viveu em **monarquia absoluta**: o rei tinha **todo o
 ]
 ```
 
+## As invasões francesas (1807-1811) ⚔️
+
+No início do século XIX, o imperador francês **Napoleão** queria mandar em toda a Europa. Como Portugal não quis fechar os portos aos **ingleses** (seus velhos aliados), Napoleão mandou invadir o país — **três vezes**!
+
+```timeline
+{ "title": "As três invasões francesas", "events": [
+  { "year": 1807, "emoji": "⚔️", "label": "1.ª invasão (Junot)", "body": "as tropas de Napoleão entram em Lisboa; a família real foge para o Brasil", "say": "Mil oitocentos e sete: a primeira invasão, comandada por Junot. As tropas de Napoleão entram em Lisboa e a família real foge para o Brasil." },
+  { "year": 1809, "emoji": "🛡️", "label": "2.ª invasão (Soult)", "body": "os franceses tomam o Porto, mas são expulsos com a ajuda inglesa", "say": "Mil oitocentos e nove: a segunda invasão, comandada por Soult. Os franceses tomam o Porto, mas são expulsos com a ajuda inglesa." },
+  { "year": 1810, "emoji": "🧱", "label": "3.ª invasão (Massena)", "body": "travada nas Linhas de Torres Vedras, enormes muralhas que protegiam Lisboa", "say": "Mil oitocentos e dez: a terceira invasão, comandada por Massena, é travada nas Linhas de Torres Vedras, enormes muralhas que protegiam Lisboa." },
+  { "year": 1811, "emoji": "🎉", "label": "Os franceses partem", "body": "derrotados e com fome, os franceses abandonam Portugal de vez", "say": "Mil oitocentos e onze: derrotados e com fome, os franceses abandonam Portugal de vez." }
+] }
+```
+
+> [!NOTE] As **Linhas de Torres Vedras** foram um plano genial: quilómetros de muralhas, fossos e fortes a norte de Lisboa, mandados construir pelo general inglês **Wellington**. O exército francês nem conseguiu passar — ficou à espera, com frio e fome, até desistir. 🧱
+
 ## A fuga para o Brasil 🚢
 
-Em **1807**, o exército do imperador francês **Napoleão** invadiu Portugal! A família real, em vez de ficar a lutar, **fugiu** de navio para a colónia mais rica: o **Brasil**. A corte ficou lá **catorze anos**! Por uns tempos, o Brasil foi quase a «capital» de Portugal.
+Logo na **1.ª invasão (1807)**, a família real, em vez de ficar a lutar, **fugiu** de navio para a colónia mais rica: o **Brasil**. A corte ficou lá **catorze anos**! Por uns tempos, o Brasil foi quase a «capital» de Portugal.
 
 ```steps
 [

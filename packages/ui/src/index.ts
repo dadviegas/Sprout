@@ -84,6 +84,8 @@ export { MathBlock } from "./widgets/MathBlock";
 export type { MathSpec } from "./widgets/MathBlock";
 export { Chart } from "./widgets/Chart";
 export type { ChartSpec } from "./widgets/Chart";
+export { TrendChart, BarList } from "./widgets/TrendChart";
+export type { TrendSeries, BarItem } from "./widgets/TrendChart";
 export { Dictionary, dictWordId } from "./widgets/Dictionary";
 export type { DictionarySpec, DictEntry, WordClass, Theme } from "./widgets/Dictionary";
 export { Verbs, verbCardId } from "./widgets/Verbs";

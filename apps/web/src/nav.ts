@@ -24,6 +24,8 @@ export type View =
   | { kind: "teia" }
   // "O meu plano" — the child's daily missions + study calendar.
   | { kind: "plano" }
+  // "Plano completo" — the full day-by-day schedule of the férias plan.
+  | { kind: "plano-completo" }
   // "Área dos pais" — the parents' dashboard page (math-gated on entry).
   | { kind: "pais" }
   | { kind: "subject"; year: YearN; subjectId: string }
@@ -53,6 +55,7 @@ export function loadView(): View {
     if (v.kind === "mundo") return { kind: "mundo" };
     if (v.kind === "teia") return { kind: "teia" };
     if (v.kind === "plano") return { kind: "plano" };
+    if (v.kind === "plano-completo") return { kind: "plano-completo" };
     if (v.kind === "pais") return { kind: "pais" };
     if (v.kind === "diversao") {
       const room = v.room === "jardim" || v.room === "jogos" || v.room === "caixa" ? v.room : undefined;
@@ -99,6 +102,8 @@ export function viewToHash(view: View): string {
       return "#/teia";
     case "plano":
       return "#/plano";
+    case "plano-completo":
+      return "#/plano/completo";
     case "pais":
       return "#/pais";
     case "year":
@@ -124,6 +129,7 @@ export function viewFromHash(hash: string): View | null {
   if (seg[0] === "world" && seg.length === 1) return { kind: "mundo" };
   if (seg[0] === "teia" && seg.length === 1) return { kind: "teia" };
   if (seg[0] === "plano" && seg.length === 1) return { kind: "plano" };
+  if (seg[0] === "plano" && seg[1] === "completo" && seg.length === 2) return { kind: "plano-completo" };
   if (seg[0] === "pais" && seg.length === 1) return { kind: "pais" };
   if (seg[0] === "fun") {
     if (seg.length === 1) return { kind: "diversao" };

@@ -1,11 +1,12 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Icon } from "@sprout/icons";
 import { Speaker } from "@sprout/ui";
-import { useProgress, TEST_PASS_PCT, type Achievement } from "../progress";
+import { useProgress, TEST_PASS_PCT, type Achievement, type ProgressMap } from "../progress";
 import { useSessions, type StudySession } from "./sessions";
 import {
   startOfDay,
   isRestDay,
+  monthIndex,
   aggregateByDay,
   aggregateSessionsByDay,
   dayState,
@@ -13,10 +14,32 @@ import {
   GOOD_DAY_SECS,
 } from "./calendar";
 import { missionsForDay, DAILY_TARGET_MINUTES, type Mission } from "./plan";
+import {
+  useFeriasState,
+  activePlan,
+  startFeriasPlan,
+  archiveFeriasPlan,
+  syncFeriasDone,
+  earnedDuringPlan,
+  feriasFullSchedule,
+  feriasPct,
+  feriasProgress,
+  feriasStatusLine,
+  planRecordLabel,
+  planDaysByDate,
+  isRevisionDay,
+  EXAM_READY_PCT,
+  type PlanDay,
+  type StudyPlan,
+  type PlanRecord,
+} from "./ferias";
+import { PlanDayMarks, planDayMinutes } from "./PlanoCompleto";
+import { ExameModal, DiagnosticoModal, buildDiagnostico } from "../Simulado";
 import { useReview, dueByLesson } from "./review";
-import { lessonMeta } from "../content/curriculum";
+import { useTpcs, syncTpcs } from "./tpc";
+import { lessonMeta, YEARS, yearLabel, type YearN } from "../content/curriculum";
 import { Mascot } from "../Mascot";
-import { ProgressBar } from "../ui";
+import { ProgressBar, YEAR_STYLE } from "../ui";
 import type { View } from "../nav";
 
 /* ------------------------------------------------------------------ *
@@ -42,7 +65,7 @@ function MissionCards({ missions, onGo }: { missions: Mission[]; onGo: (v: View)
   return (
     <div className="plan-missions">
       {missions.map((m, i) => (
-        <div key={m.id} className={`plan-mission ${m.done ? "is-done" : ""}`} style={{ ["--c" as string]: m.color }}>
+        <div key={m.id} className={`plan-mission ${m.done ? "is-done" : ""} ${m.kind === "tpc" ? "is-tpc" : ""}`} style={{ ["--c" as string]: m.color }}>
           <button
             className="plan-mission__btn"
             onClick={() => {
@@ -50,7 +73,11 @@ function MissionCards({ missions, onGo }: { missions: Mission[]; onGo: (v: View)
               if (v) onGo(v);
             }}
           >
-            <span className="plan-mission__num">{m.done ? <Icon name="check" size={22} /> : i + 1}</span>
+            {/* a TPC (§4.12) is the parents' homework — it wears the backpack,
+                not a number, and the --warn accent (see kids.css .is-tpc) */}
+            <span className="plan-mission__num">
+              {m.done ? <Icon name="check" size={22} /> : m.kind === "tpc" ? <Icon name="backpack" size={20} /> : i + 1}
+            </span>
             <span className="plan-mission__emoji" aria-hidden>{m.emoji}</span>
             <span className="plan-mission__tx">
               <strong>{m.title}</strong>
@@ -104,6 +131,225 @@ function ReviewBankCard({ due, onGo }: { due: Map<string, number>; onGo: (v: Vie
   );
 }
 
+/* ---- "Plano de férias" — recover a whole year (§4.8) ----------------- */
+
+/** Shown while there is NO active férias plan: pick a year, hear the rules,
+ *  start. A year that already has a (paused) plan offers "continuar (N%)"
+ *  instead of starting over — its queue and progress stayed put. Starting is
+ *  a two-tap flow (select the year, then confirm) so a stray tap never kicks
+ *  off six weeks of plan. A FRESH year also offers the optional diagnostic
+ *  mini-test (§4.7) — never forced; its result front-loads the weak subjects
+ *  in the new queue (a resumed plan keeps its stored queue, so no offer). */
+function FeriasOfferCard({
+  plans,
+  progress,
+  onStart,
+}: {
+  plans: Partial<Record<YearN, StudyPlan>>;
+  progress: ProgressMap;
+  onStart: (year: YearN) => void;
+}) {
+  const [year, setYear] = useState<YearN | null>(null);
+  const [diagOpen, setDiagOpen] = useState(false);
+  const pctOf = (y: YearN) => {
+    const p = plans[y];
+    return p ? Math.round(feriasPct(p, progress) * 100) : null;
+  };
+  // Only offer the mini-test when the year has enough questions to build one.
+  const canDiag = useMemo(
+    () => year != null && pctOf(year) == null && buildDiagnostico(year).length > 0,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [year, plans],
+  );
+  const explain =
+    "Escolhe um ano e eu preparo um plano dia a dia: de segunda a sexta há matéria nova, cerca de trinta minutos por dia. Ao sábado revês o que custou mais na semana, e ao domingo descansas. Se falhares um dia, a matéria espera por ti. Cada ano tem o seu próprio plano — podes mudar de ano e voltar onde ficaste.";
+  return (
+    <div className="plan-ferias">
+      <div className="plan-ferias__head">
+        <span className="plan-ferias__ic"><Icon name="sun" size={24} /></span>
+        <div>
+          <strong>Plano de férias — recuperar um ano inteiro</strong>
+          <p>
+            Seg–sex matéria nova (~30 min/dia); sábado é dia de revisão;
+            domingo é descanso. Cada ano tem o seu plano — podes mudar e
+            voltar onde ficaste. Escolhe o teu ano para começar.
+          </p>
+        </div>
+      </div>
+      <Speaker text={`Plano de férias. ${explain}`} className="plan-ferias__say" size={18} label="Ouvir: plano de férias" />
+      <div className="plan-ferias__years">
+        {YEARS.map((y) => {
+          const pct = pctOf(y);
+          return (
+            <button
+              key={y}
+              className={`plan-ferias__year ${year === y ? "is-sel" : ""}`}
+              style={{ ["--c" as string]: YEAR_STYLE[y].color }}
+              onClick={() => setYear(y)}
+            >
+              {yearLabel(y)}{pct != null ? ` · ${pct}%` : ""}
+            </button>
+          );
+        })}
+      </div>
+      {year != null && (
+        <div className="plan-ferias__go">
+          <button className="plan-ferias__start" onClick={() => onStart(year)}>
+            <Icon name="forward" size={18} />{" "}
+            {pctOf(year) != null
+              ? `Continuar o plano do ${yearLabel(year)} (${pctOf(year)}%)`
+              : `Começar o plano do ${yearLabel(year)}`}
+          </button>
+          {canDiag && (
+            <button className="plan-ferias__start plan-ferias__diag" onClick={() => setDiagOpen(true)}>
+              <Icon name="target" size={18} /> Queres fazer um mini-teste primeiro? (5 min)
+            </button>
+          )}
+        </div>
+      )}
+      {diagOpen && year != null && (
+        <DiagnosticoModal
+          year={year}
+          onClose={() => setDiagOpen(false)}
+          onStart={() => {
+            // The result was just saved — startFeriasPlan picks it up (§4.7).
+            setDiagOpen(false);
+            onStart(year);
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
+/** The active plan's progress strip: week N of M, % of the matter, pace —
+ *  plus discreet "Terminar plano" / "Mudar de ano", each with inline confirm.
+ *  Switching KEEPS this year's plan (one plan per year — §4.8); only
+ *  "Terminar plano" archives it into the history. */
+function FeriasStrip({
+  plan,
+  plans,
+  progress,
+  today,
+  onEnd,
+  onSwitch,
+  onFull,
+}: {
+  plan: StudyPlan;
+  plans: Partial<Record<YearN, StudyPlan>>;
+  progress: ProgressMap;
+  today: number;
+  onEnd: () => void;
+  onSwitch: (year: YearN) => void;
+  onFull: () => void;
+}) {
+  const [confirm, setConfirm] = useState<"end" | "switch" | null>(null);
+  const p = feriasProgress(plan, progress, today);
+  const line = feriasStatusLine(p);
+  const finish = p.finishAt
+    ? `Fim previsto: ${new Date(p.finishAt).toLocaleDateString("pt-PT", { day: "numeric", month: "long" })}.`
+    : "Matéria toda concluída — és incrível!";
+  return (
+    <div className="plan-ferias plan-ferias--active">
+      <div className="plan-ferias__head">
+        <span className="plan-ferias__ic"><Icon name="sun" size={24} /></span>
+        <div>
+          <strong>Plano de férias · {yearLabel(plan.year)}</strong>
+          <p>{line}. {finish}</p>
+        </div>
+      </div>
+      <Speaker
+        text={`Plano de férias do ${yearLabel(plan.year)}. ${line}. ${finish}`}
+        className="plan-ferias__say"
+        size={18}
+        label="Ouvir: plano de férias"
+      />
+      <div className="plan-ferias__bar">
+        <ProgressBar pct={p.pct} color="var(--primary)" />
+      </div>
+      <button className="plan-ferias__start plan-ferias__full" onClick={onFull}>
+        <Icon name="calendar" size={18} /> Ver o plano completo
+      </button>
+      <div className="plan-ferias__end">
+        {confirm === "end" ? (
+          <>
+            <span>Terminar o plano? Fica guardado no histórico.</span>
+            <button className="plan-ferias__endbtn is-yes" onClick={onEnd}>Sim, terminar</button>
+            <button className="plan-ferias__endbtn" onClick={() => setConfirm(null)}>Não</button>
+          </>
+        ) : confirm === "switch" ? (
+          <>
+            <span>O plano deste ano fica guardado — voltas quando quiseres. Mudar para que ano?</span>
+            {YEARS.filter((y) => y !== plan.year).map((y) => {
+              const other = plans[y];
+              return (
+                <button
+                  key={y}
+                  className="plan-ferias__year"
+                  style={{ ["--c" as string]: YEAR_STYLE[y].color }}
+                  onClick={() => onSwitch(y)}
+                >
+                  {yearLabel(y)}{other ? ` · ${Math.round(feriasPct(other, progress) * 100)}%` : ""}
+                </button>
+              );
+            })}
+            <button className="plan-ferias__endbtn" onClick={() => setConfirm(null)}>Cancelar</button>
+          </>
+        ) : (
+          <>
+            <button className="plan-ferias__endbtn" onClick={() => setConfirm("switch")}>Mudar de ano</button>
+            <button className="plan-ferias__endbtn" onClick={() => setConfirm("end")}>Terminar plano</button>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ---- exame final + histórico de planos (§4.8) ------------------------- */
+
+/** The "Exame final do X.º ano" card — shown when the plan is ≥ 90% done or
+ *  just finished. Retakes are welcome; the best nota stays. */
+function ExameCard({ year, bestPct, onOpen }: { year: YearN; bestPct?: number; onOpen: () => void }) {
+  const sub =
+    bestPct != null
+      ? `A tua melhor nota: ${Math.round(bestPct * 20)}/20. Podes repetir — fica a melhor.`
+      : "Perguntas de todas as disciplinas do ano, como na escola. Mostra o que sabes!";
+  return (
+    <div className="plan-review plan-exame">
+      <button className="plan-review__btn" onClick={onOpen}>
+        <span className="plan-review__ic"><Icon name="trophy" size={24} /></span>
+        <span className="plan-review__tx">
+          <strong>Exame final do {yearLabel(year)}</strong>
+          <span>{sub}</span>
+        </span>
+        <Icon name="forward" size={18} />
+      </button>
+      <Speaker
+        text={`Exame final do ${yearLabel(year)}. ${sub}`}
+        className="plan-review__say"
+        size={18}
+        label="Ouvir: exame final"
+      />
+    </div>
+  );
+}
+
+/** The archived plans, one small line each ("4.º ano · mai–jun · 100% · exame 16/20"). */
+function FeriasHistoryList({ history }: { history: PlanRecord[] }) {
+  if (history.length === 0) return null;
+  return (
+    <div className="plan-history">
+      <span className="plan-history__t"><Icon name="calendar" size={14} /> Planos anteriores</span>
+      <ul>
+        {[...history].reverse().map((r) => (
+          <li key={`${r.year}-${r.startedAt}`}>{planRecordLabel(r)}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 /* ---- the calendar grid (shared with the parents' page) -------------- */
 
 export function PlanCalendar({
@@ -111,20 +357,32 @@ export function PlanCalendar({
   sessions,
   selected,
   onSelect,
+  planDays,
 }: {
   achievements: Achievement[];
   sessions: StudySession[];
   selected: number;
   onSelect: (day: number) => void;
+  /** The active férias plan's day-by-day schedule (date → PlanDay, from
+   *  feriasFullSchedule + planDaysByDate). When given, today's and future
+   *  planned days carry the same subject-icon + ≈min marks as the full-plan
+   *  month grids; without it (no plan / parents' page) cells stay plain. */
+  planDays?: Map<number, PlanDay>;
 }) {
   const now = Date.now();
   const today = startOfDay(now);
-  const monthIndex = (t: number) => { const d = new Date(t); return d.getFullYear() * 12 + d.getMonth(); };
-  // One month back, the current one, two ahead (user decision §4.9).
+  // One month back, the current one, two ahead (user decision §4.9) — and,
+  // with a férias plan, the WHOLE plan: back to its start month and as far
+  // ahead as its projection reaches.
   const curIdx = monthIndex(now);
-  const [idx, setIdx] = useState(curIdx);
-  const minIdx = curIdx - 1;
-  const maxIdx = curIdx + 2;
+  const [rawIdx, setIdx] = useState(curIdx);
+  const firstPlanned = planDays && planDays.size > 0 ? Math.min(...planDays.keys()) : 0;
+  const lastPlanned = planDays && planDays.size > 0 ? Math.max(...planDays.keys()) : 0;
+  const minIdx = Math.min(curIdx - 1, firstPlanned > 0 ? monthIndex(firstPlanned) : curIdx);
+  const maxIdx = Math.max(curIdx + 2, lastPlanned > 0 ? monthIndex(lastPlanned) : minIdx);
+  // Clamp, not just disable: switching plans mid-session can shrink the range
+  // while the pager is parked on a month that no longer exists.
+  const idx = Math.min(Math.max(rawIdx, minIdx), maxIdx);
   const year = Math.floor(idx / 12);
   const month = idx % 12;
 
@@ -146,11 +404,11 @@ export function PlanCalendar({
   return (
     <div className="plan-cal">
       <div className="plan-cal__nav">
-        <button className="iconbtn" onClick={() => setIdx((i) => i - 1)} disabled={idx <= minIdx} aria-label="Mês anterior">
+        <button className="iconbtn" onClick={() => setIdx(idx - 1)} disabled={idx <= minIdx} aria-label="Mês anterior">
           <Icon name="back" size={18} />
         </button>
         <span className="plan-cal__month">{label}</span>
-        <button className="iconbtn" onClick={() => setIdx((i) => i + 1)} disabled={idx >= maxIdx} aria-label="Mês seguinte">
+        <button className="iconbtn" onClick={() => setIdx(idx + 1)} disabled={idx >= maxIdx} aria-label="Mês seguinte">
           <Icon name="forward" size={18} />
         </button>
       </div>
@@ -167,6 +425,9 @@ export function PlanCalendar({
           const rest = isRestDay(day);
           const { state, test } = dayState(day, byDayTests.get(day), byDaySessions.get(day));
           const beforeStart = day < firstActivity;
+          // Plan marks (subject icons + ≈min) on today's and future planned
+          // days — past days keep their real-state colours, like always.
+          const pd = day >= today ? planDays?.get(day) : undefined;
           const cls = future
             ? `is-future ${rest ? "is-rest" : "is-planned"}`
             : rest
@@ -175,7 +436,9 @@ export function PlanCalendar({
                 ? "is-blank"
                 : `is-${state}`;
           const what = future
-            ? rest ? "descanso" : "missões planeadas"
+            ? rest ? "descanso"
+            : pd ? `${pd.steps.length} ${pd.steps.length === 1 ? "lição planeada" : "lições planeadas"}, cerca de ${planDayMinutes(pd)} minutos`
+            : "missões planeadas"
             : rest ? "descanso"
             : state === "good" ? "estudou bem"
             : state === "some" ? "estudou um pouco"
@@ -184,12 +447,13 @@ export function PlanCalendar({
           return (
             <button
               key={day}
-              className={`plan-cal__day ${cls} ${day === today ? "is-today" : ""} ${day === selected ? "is-sel" : ""}`}
+              className={`plan-cal__day ${cls} ${pd ? "has-marks" : ""} ${day === today ? "is-today" : ""} ${day === selected ? "is-sel" : ""}`}
               aria-label={aria}
               title={aria}
               onClick={() => onSelect(day)}
             >
               {i + 1}
+              {pd && <PlanDayMarks pd={pd} />}
               {test && <span className="plan-cal__dot" aria-hidden />}
             </button>
           );
@@ -217,33 +481,107 @@ export function Plano({ onGo }: { onGo: (v: View) => void }) {
   const rest = isRestDay(today);
   const [selected, setSelected] = useState(today);
 
+  // The férias plan (§4.8): when active, its steps REPLACE the derived daily
+  // missions (missionsForDay decides — one source of truth for the day).
+  // One plan per year — `activePlan` is the single accessor everyone reads.
+  const planState = useFeriasState();
+  const ferias = activePlan(planState);
+  const { plans, history: planHistory } = planState;
+  useEffect(() => {
+    if (ferias) syncFeriasDone(ferias, progress, achievements); // mirror passed lessons into doneSteps
+  }, [ferias, progress, achievements]);
+
+  // TPC (§4.12): open homework rides ABOVE the day's missions; passing every
+  // lesson of a TPC stamps it done here (the one writer, like syncFeriasDone).
+  const tpcs = useTpcs();
+  useEffect(() => {
+    syncTpcs(achievements);
+  }, [achievements]);
+
+  // A finished queue archives itself (endedAt = now, 100%) — the plan moves
+  // to the history and the exame final card below takes over. Only when the
+  // child passed at least one of its lessons WHILE the plan was active: a
+  // plan born at 100% (the year's tests were all passed before it existed)
+  // used to be archived on its very first render, which made starting that
+  // year look like "o plano não foi atualizado".
+  const feriasDonePct = ferias ? feriasProgress(ferias, progress, today).pct : 0;
+  useEffect(() => {
+    if (ferias && feriasDonePct >= 1 && earnedDuringPlan(ferias, achievements)) archiveFeriasPlan(progress);
+  }, [ferias, feriasDonePct, progress, achievements]);
+
+  // Exame final (§4.8): offered from 90% of the plan, and after completion
+  // for the last archived plan (retakes keep the best nota).
+  const lastRecord = planHistory[planHistory.length - 1];
+  const examYear: YearN | null =
+    ferias && feriasDonePct >= EXAM_READY_PCT ? ferias.year
+    : !ferias && lastRecord && lastRecord.pctDone >= Math.round(EXAM_READY_PCT * 100) ? lastRecord.year
+    : null;
+  const examBest = ferias ? ferias.examPct : lastRecord?.examPct;
+  const [examOpen, setExamOpen] = useState(false);
+
   const reviewItems = useMemo(() => Object.values(review), [review]);
   const due = useMemo(() => dueByLesson(review, now), [review, now]);
   const missions = useMemo(
-    () => missionsForDay(today, today, progress, achievements, history, reviewItems),
-    [today, progress, achievements, history, reviewItems],
+    () => missionsForDay(today, today, progress, achievements, history, reviewItems, ferias, tpcs),
+    [today, progress, achievements, history, reviewItems, ferias, tpcs],
   );
   const doneCount = missions.filter((m) => m.done).length;
   const minutesToday = minutesOf(aggregateSessionsByDay(sessions).get(today));
+
+  // The plan's day-by-day schedule, indexed by date — gives the calendar the
+  // same per-day marks (subject icons + ≈min) as the full-plan month grids.
+  const planDays = useMemo(
+    () => (ferias ? planDaysByDate(feriasFullSchedule(ferias, progress, achievements, today)) : undefined),
+    [ferias, progress, achievements, today],
+  );
 
   // Detail of the tapped calendar day (what was done / what's planned).
   const selTests = useMemo(() => aggregateByDay(achievements).get(selected), [achievements, selected]);
   const selMinutes = minutesOf(aggregateSessionsByDay(sessions).get(selected));
   const selFuture = selected > today;
   const selMissions = useMemo(
-    () => (selFuture ? missionsForDay(selected, today, progress, achievements, history, reviewItems) : []),
-    [selFuture, selected, today, progress, achievements, history, reviewItems],
+    () => (selFuture ? missionsForDay(selected, today, progress, achievements, history, reviewItems, ferias, tpcs) : []),
+    [selFuture, selected, today, progress, achievements, history, reviewItems, ferias, tpcs],
   );
 
+  // Saturday under a férias plan is the revision day (§4.8) — its missions
+  // derive from the week, so an empty Saturday just means a clean week.
+  const revDay = !!ferias && isRevisionDay(today);
+  // With a férias plan, an empty new-matter day means the whole queue is done.
+  const feriasDone = !!ferias && !rest && !revDay && missions.length === 0;
   const mascotMsg = rest
     ? "Hoje é domingo — dia de descansar e brincar! As missões voltam amanhã."
-    : doneCount >= missions.length && missions.length > 0
-      ? "Missões todas feitas! És uma estrela!"
-      : `Olá! Tens ${missions.length} ${missions.length === 1 ? "missão" : "missões"} para hoje — cerca de ${DAILY_TARGET_MINUTES} minutos.`;
+    : revDay && missions.length === 0
+      ? "Sábado é dia de revisão, mas esta semana está tudo em ordem. Aproveita para brincar!"
+      : revDay && doneCount < missions.length
+        ? "Hoje é sábado — dia de revisão! Repete o que custou mais esta semana."
+        : feriasDone
+          ? "O plano de férias está concluído — recuperaste a matéria toda! Parabéns!"
+          : doneCount >= missions.length && missions.length > 0
+            ? "Missões todas feitas! És uma estrela!"
+            : `Olá! Tens ${missions.length} ${missions.length === 1 ? "missão" : "missões"} para hoje — cerca de ${DAILY_TARGET_MINUTES} minutos.`;
 
   return (
     <div className="plan-page">
-      <Mascot message={mascotMsg} mood={doneCount > 0 || rest ? "cheer" : "happy"} />
+      <Mascot message={mascotMsg} mood={doneCount > 0 || rest || feriasDone ? "cheer" : "happy"} />
+
+      {ferias ? (
+        <FeriasStrip
+          plan={ferias}
+          plans={plans}
+          progress={progress}
+          today={today}
+          onEnd={() => archiveFeriasPlan(progress)}
+          onSwitch={(y) => startFeriasPlan(y)}
+          onFull={() => onGo({ kind: "plano-completo" })}
+        />
+      ) : (
+        <FeriasOfferCard plans={plans} progress={progress} onStart={(y) => startFeriasPlan(y)} />
+      )}
+
+      {examYear != null && <ExameCard year={examYear} bestPct={examBest} onOpen={() => setExamOpen(true)} />}
+      <FeriasHistoryList history={planHistory} />
+      {examOpen && examYear != null && <ExameModal year={examYear} onClose={() => setExamOpen(false)} />}
 
       {rest ? (
         <div className="plan-rest">
@@ -274,7 +612,7 @@ export function Plano({ onGo }: { onGo: (v: View) => void }) {
         <span style={{ color: "var(--primary)", display: "inline-flex" }}><Icon name="calendar" size={26} duo /></span>
         O meu calendário
       </h2>
-      <PlanCalendar achievements={achievements} sessions={sessions} selected={selected} onSelect={setSelected} />
+      <PlanCalendar achievements={achievements} sessions={sessions} selected={selected} onSelect={setSelected} planDays={planDays} />
 
       <div className="plan-day-detail">
         <div className="plan-day-detail__head">
@@ -284,6 +622,10 @@ export function Plano({ onGo }: { onGo: (v: View) => void }) {
         {selFuture ? (
           isRestDay(selected) ? (
             <p className="plan-day-detail__empty">Dia de descanso — sem missões.</p>
+          ) : selMissions.length === 0 && ferias && isRevisionDay(selected) ? (
+            // A future Saturday's revision derives from a week that hasn't
+            // happened yet — so it shows as "revisão" instead of a list.
+            <p className="plan-day-detail__empty">Dia de revisão — repetir o teste mais difícil da semana e vencer o banco de erros.</p>
           ) : (
             <ul className="plan-day-detail__list">
               {selMissions.map((m) => (

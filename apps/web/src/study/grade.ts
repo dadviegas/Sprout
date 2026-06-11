@@ -2,6 +2,7 @@ import { TEST_PASS_PCT, type Achievement, type ProgressMap } from "../progress";
 import type { StudySession } from "./sessions";
 import { DAY, startOfDay, isRestDay, sessionEngagement } from "./calendar";
 import { missionsForDay } from "./plan";
+import { feriasPlanPart, type StudyPlan } from "./ferias";
 
 /* ------------------------------------------------------------------ *
  * "Nota da semana" (PLANO-ESTUDO §4.11) — a 0–20 school-style grade for
@@ -42,6 +43,7 @@ export function weekGrade(
   achievements: Achievement[],
   history: string[],
   sessions: StudySession[],
+  ferias?: StudyPlan | null,
 ): WeekGrade | null {
   const today = startOfDay(now);
   // Days before the first recorded activity never count against the plan.
@@ -50,16 +52,24 @@ export function weekGrade(
   for (const s of sessions) first = Math.min(first, startOfDay(s.startedAt));
   const start = Math.max(today - (WINDOW_DAYS - 1) * DAY, first);
 
-  // 1. Plan adherence, Mon–Sat. Past days reuse the mission generator, which
-  //    reconstructs from CURRENT state (plans aren't stored) — an honest
+  // 1. Plan adherence, Mon–Sat. With an active férias plan (§4.8) the plan IS
+  //    stored, so adherence is real: minutes of plan steps passed in the
+  //    window vs. the window's planned minutes. Otherwise past days reuse the
+  //    mission generator, which reconstructs from CURRENT state — an honest
   //    approximation, same as the calendar (§4.9).
   let planned = 0;
   let plannedDone = 0;
-  for (let d = start; d <= today; d += DAY) {
-    if (isRestDay(d)) continue;
-    const missions = missionsForDay(d, today, progress, achievements, history);
-    planned += missions.length;
-    plannedDone += missions.filter((m) => m.done).length;
+  if (ferias) {
+    const p = feriasPlanPart(ferias, achievements, start, today);
+    planned = p.total;
+    plannedDone = p.done;
+  } else {
+    for (let d = start; d <= today; d += DAY) {
+      if (isRestDay(d)) continue;
+      const missions = missionsForDay(d, today, progress, achievements, history);
+      planned += missions.length;
+      plannedDone += missions.filter((m) => m.done).length;
+    }
   }
 
   // 2. Test pass rate in the window.

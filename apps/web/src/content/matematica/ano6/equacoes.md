@@ -1,5 +1,7 @@
 # Expressões e equações 🟰
 
+> [!NOTE] **Matéria extra — já é uma espreitadela ao 7.º ano!** 🚀 Este tema saiu do programa do 6.º ano (passou para o 3.º ciclo), por isso não aparece nos testes deste ano. Mas se tiveres curiosidade, ficas com avanço!
+
 > [!NOTE] **O que vais aprender** 👀 O que é uma **incógnita** (uma letra que esconde um número!), a diferença entre uma **expressão** e uma **equação**, e a resolver equações simples mantendo a **balança** sempre equilibrada. No fim, descobres o número secreto de qualquer enigma matemático! 🔍⚖️
 
 E se te dissesse que a matemática tem **enigmas com letras**? «Um número mais 3 dá 10 — que número é?» 🤔 Essa letra misteriosa chama-se **incógnita**, e descobrir quanto vale é resolver uma **equação**. É como ser detetive: segues as pistas até apanhar o número escondido. Pega na lupa! 🕵️

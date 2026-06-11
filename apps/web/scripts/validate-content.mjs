@@ -60,6 +60,16 @@ function validateQuiz(spec, where, errors) {
   }
   spec.questions.forEach((q, qi) => {
     const at = `${where} · pergunta ${qi + 1}`;
+    // Optional per-question extras (apply to `gen` questions too):
+    //   hint  — the help ladder's pista (§4.5), a non-empty string;
+    //   level — difficulty 1|2|3 (§4.4), final tests sort easiest-first;
+    //   steps — step-by-step solution lines (§4.3).
+    if (q && q.hint !== undefined && (typeof q.hint !== "string" || q.hint.trim() === ""))
+      errors.push(`${at}: 'hint' tem de ser texto não vazio`);
+    if (q && q.level !== undefined && ![1, 2, 3].includes(q.level))
+      errors.push(`${at}: 'level' inválido '${q.level}' — usa 1 (fácil), 2 (média) ou 3 (difícil)`);
+    if (q && q.steps !== undefined && (!Array.isArray(q.steps) || q.steps.length === 0 || q.steps.some((s) => typeof s !== "string" || s.trim() === "")))
+      errors.push(`${at}: 'steps' tem de ser uma lista de textos não vazios`);
     // A `gen` question is built at run time (q + figure + options), so it has
     // no static text/options to validate here — just check the recipe shape.
     if (q && typeof q.gen === "object" && q.gen !== null) {

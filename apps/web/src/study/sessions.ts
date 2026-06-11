@@ -57,6 +57,13 @@ const MAX_SESSIONS = 500;
 const MAX_EVENTS = 40;
 /** While a session is open, persist progress this often (visible time only). */
 const HEARTBEAT_MS = 25_000;
+/** RESUME RULE: re-entering the SAME lesson within this window reopens the
+ *  last session instead of logging a new one — rapid re-mounts / back-and-
+ *  forth navigation were spamming the log with one entry per mount. */
+const RESUME_WINDOW_MS = 60_000;
+/** DISCARD RULE: a session that ends under this many active seconds with no
+ *  completed test is a stray open-and-leave (mis-tap, remount) — dropped. */
+const MIN_KEEP_SECS = 5;
 
 /** Read the log, guarding the shape so stale/garbled data never crashes. */
 export function loadSessions(): StudySession[] {
@@ -108,6 +115,22 @@ export function startSession(kind: SessionKind, lessonId?: string, subjectId?: s
   if (open && open.kind === kind && open.lessonId === lessonId && open.area === area) return;
   endSession();
   const now = Date.now();
+  // RESUME RULE: if the newest logged session is this same target and ended
+  // less than RESUME_WINDOW_MS ago (navigation joggling, remount loops),
+  // reopen it and keep accumulating its seconds instead of logging junk.
+  const last = loadSessions()[0];
+  if (
+    last &&
+    last.kind === kind &&
+    last.lessonId === lessonId &&
+    last.area === area &&
+    now - last.endedAt < RESUME_WINDOW_MS
+  ) {
+    open = { ...last, exited: false };
+    visibleSince = typeof document !== "undefined" && document.hidden ? null : now;
+    persist();
+    return;
+  }
   open = {
     id: `${now}-${nonce++}`,
     startedAt: now,
@@ -130,7 +153,15 @@ export function startSession(kind: SessionKind, lessonId?: string, subjectId?: s
 export function endSession(): void {
   if (!open) return;
   settleClock(Date.now());
-  persist();
+  // DISCARD RULE: under MIN_KEEP_SECS of active time and nothing completed —
+  // a stray "só abriu" blip. Remove it from the log (startSession persisted
+  // it on open) instead of keeping junk rows.
+  if (open.secs < MIN_KEEP_SECS && !open.completed) {
+    const id = open.id;
+    store.set(SESSIONS_KEY, loadSessions().filter((s) => s.id !== id));
+  } else {
+    persist();
+  }
   open = null;
   visibleSince = null;
 }
@@ -170,6 +201,17 @@ export function initSessionTracking(): void {
   if (installed || typeof window === "undefined") return;
   installed = true;
 
+  // One-time sweep of historical junk: before the resume/discard rules above,
+  // every re-mount logged its own session, so old logs carry piles of "<5 s,
+  // nothing done" rows. Apply the discard rule once, after the durable backend
+  // hydrates (sweeping earlier would be undone by the hydrate merge).
+  void store.ready.then(() => {
+    if (open) return; // never touch a session that's currently running
+    const all = loadSessions();
+    const keep = all.filter((s) => s.secs >= MIN_KEEP_SECS || s.completed);
+    if (keep.length !== all.length) store.set(SESSIONS_KEY, keep);
+  });
+
   document.addEventListener("visibilitychange", () => {
     if (!open) return;
     const now = Date.now();
@@ -191,6 +233,13 @@ export function initSessionTracking(): void {
   window.addEventListener("pagehide", () => {
     if (!open) return;
     settleClock(Date.now());
+    // DISCARD RULE applies at exit too: an open-and-close blip leaves no row
+    // (if the page comes back from the bfcache, the heartbeat re-persists it).
+    if (open.secs < MIN_KEEP_SECS && !open.completed) {
+      const id = open.id;
+      store.set(SESSIONS_KEY, loadSessions().filter((s) => s.id !== id));
+      return;
+    }
     open.exited = true;
     pushEvent("browser_exit", Date.now());
     persist();

@@ -53,7 +53,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-fis)",
     blurb:
       "O teu corpo aparece no Estudo do Meio, nas Ciências, na Educação Física e até em Inglês.",
-    lessons: ["edm-1-corpo", "edm-1-sentidos", "edm-4-corpo-sistemas", "cn-6-digestivo", "cn-6-circulatorio", "en-2-body", "ef-3-corpo", "enc-corpo-cerebro", "enc-corpo-coracao", "enc-corpo-espirro", "enc-corpo-sentidos", "enc-ciencia-caca-mitos", "enc-corpo-vitaminas"],
+    lessons: ["edm-1-corpo", "edm-1-sentidos", "edm-3-ossos-musculos", "edm-4-corpo-sistemas", "cn-6-digestivo", "cn-6-circulatorio", "en-2-body", "ef-3-corpo", "enc-corpo-cerebro", "enc-corpo-coracao", "enc-corpo-espirro", "enc-corpo-sentidos", "enc-ciencia-caca-mitos", "enc-corpo-vitaminas"],
   },
   {
     id: "saude",
@@ -62,7 +62,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-cid)",
     blurb:
       "Cuidar de ti junta a higiene, a alimentação, o desporto e a cidadania.",
-    lessons: ["edm-1-higiene", "edm-3-alimentacao", "cid-4-saude", "ef-4-vida-ativa", "cn-6-saude", "enc-corpo-vitaminas"],
+    lessons: ["edm-1-higiene", "edm-2-roda-alimentos", "edm-3-alimentacao", "cid-4-saude", "ef-4-vida-ativa", "cn-6-saude", "enc-corpo-vitaminas"],
   },
   {
     id: "espaco-tempo",
@@ -71,7 +71,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-mat)",
     blurb:
       "Do sistema solar aos relógios e calendários — o espaço e o tempo ligam a Matemática, o Estudo do Meio e o Mundo.",
-    lessons: ["edm-4-sistema-solar", "estudo-planetas", "mat-1-tempo", "mat-2-horas", "estudo-relogio", "estudo-dias-meses", "mat-3-calendario", "mundo-4-fusos", "enc-espaco-planetas", "enc-terra-dia-noite", "enc-espaco-sol", "enc-espaco-lua", "enc-espaco-buracos-negros", "enc-espaco-apollo", "enc-terra-estacoes", "enc-espaco-exoplanetas"],
+    lessons: ["edm-3-sol-terra-lua", "edm-4-sistema-solar", "estudo-planetas", "mat-1-tempo", "mat-2-horas", "estudo-relogio", "estudo-dias-meses", "mat-3-calendario", "mundo-4-fusos", "enc-espaco-planetas", "enc-terra-dia-noite", "enc-espaco-sol", "enc-espaco-lua", "enc-espaco-buracos-negros", "enc-espaco-apollo", "enc-terra-estacoes", "enc-espaco-exoplanetas"],
   },
   {
     id: "animais",
@@ -89,7 +89,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-paises)",
     blurb:
       "Conhecer Portugal liga o Estudo do Meio, o Mundo, os países e o Saber de cor.",
-    lessons: ["edm-3-portugal", "mundo-2-portugal", "paises-pt-pais", "estudo-distritos", "edm-4-relevo-clima", "mundo-2-simbolos", "paises-pt-bandeira", "mundo-2-rios", "enc-terra-alqueva", "enc-hist-galo", "enc-hist-martinho"],
+    lessons: ["edm-3-portugal", "mundo-2-portugal", "paises-pt-pais", "estudo-distritos", "edm-4-relevo-clima", "hgp-5-peninsula-natural", "hgp-6-portugal-hoje", "mundo-2-simbolos", "paises-pt-bandeira", "mundo-2-rios", "enc-terra-alqueva", "enc-hist-galo", "enc-hist-martinho"],
   },
   {
     id: "historia",
@@ -116,7 +116,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--accent)",
     blurb:
       "Os números estão na Matemática, no Saber de cor, em Inglês e até nos numerais romanos da História.",
-    lessons: ["mat-1-numeros-10", "mat-1-somar", "mat-2-tabuada", "mat-3-multiplicacao", "mat-3-divisao", "estudo-tabuadas", "estudo-numeros", "en-1-numbers", "mat-3-romanos", "estudo-romanos"],
+    lessons: ["mat-1-numeros-10", "mat-1-numeros-100", "mat-2-numeros-1000", "mat-3-numeros-10000", "mat-1-somar", "mat-2-tabuada", "mat-3-tabuadas-altas", "mat-3-contas-armadas", "mat-4-contas-armadas", "mat-4-somar-pe", "mat-4-subtrair-pe", "mat-4-multiplicar-pe", "mat-4-dividir-pe", "mat-3-multiplicacao", "mat-3-divisao", "estudo-tabuadas", "estudo-numeros", "en-1-numbers", "mat-3-romanos", "estudo-romanos"],
   },
   {
     id: "formas",
@@ -125,7 +125,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-mat)",
     blurb:
       "As formas e as medidas ligam a Matemática, o Saber de cor e a Educação Visual.",
-    lessons: ["mat-1-formas", "mat-2-solidos", "estudo-formas", "mat-4-area", "estudo-formulas", "mat-4-angulos", "ev-5-formas", "mat-2-simetria", "ev-5-geometria", "enc-lab-cristais"],
+    lessons: ["mat-1-formas", "mat-2-solidos", "estudo-formas", "mat-2-perimetro", "mat-3-angulos", "mat-3-medidas-2", "mat-4-area", "estudo-formulas", "mat-4-angulos", "mat-4-quadrilateros", "mat-4-circulo", "ev-5-formas", "mat-2-simetria", "ev-5-geometria", "enc-lab-cristais"],
   },
   {
     id: "dinheiro",
@@ -134,7 +134,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-cid)",
     blurb:
       "O dinheiro junta a Matemática, o Saber de cor e a Cidadania — poupar e escolher bem.",
-    lessons: ["mat-2-dinheiro", "estudo-dinheiro", "estudo-loja", "cid-2-poupar", "cid-3-consumir"],
+    lessons: ["mat-2-dinheiro", "mat-4-percentagens", "mat-5-percentagens", "estudo-dinheiro", "estudo-loja", "cid-2-poupar", "cid-3-consumir"],
   },
   {
     id: "palavras",
@@ -143,7 +143,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-pt)",
     blurb:
       "Aprender a ler e a escrever liga o Português, o Saber de cor, o Dicionário e os Verbos.",
-    lessons: ["pt-1-vogais", "pt-1-silabas", "pt-1-primeiras-palavras", "pt-3-texto", "pt-4-classes", "estudo-alfabeto", "estudo-classes", "estudo-verbos", "pt-1-rimas", "dic-a", "verb-a", "enc-hist-cigarra", "enc-hist-lebre", "enc-hist-pomba", "enc-hist-galo", "enc-hist-martinho"],
+    lessons: ["pt-1-vogais", "pt-1-silabas", "pt-1-nasais", "pt-1-primeiras-palavras", "pt-3-texto", "pt-4-classes", "estudo-alfabeto", "estudo-classes", "estudo-verbos", "pt-1-rimas", "dic-a", "verb-a", "enc-hist-cigarra", "enc-hist-lebre", "enc-hist-pomba", "enc-hist-galo", "enc-hist-martinho"],
   },
   {
     id: "planeta",
@@ -152,7 +152,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-edm)",
     blurb:
       "Proteger a Terra junta a Cidadania, o Estudo do Meio, as Ciências e a Tecnologia.",
-    lessons: ["cid-1-reciclar", "cid-4-sustentavel", "edm-4-ambiente", "cn-5-ecossistemas", "et-6-reciclar", "enc-terra-vulcoes", "enc-lab-vulcao"],
+    lessons: ["cid-1-reciclar", "cid-4-sustentavel", "edm-4-ambiente", "edm-4-sismos-vulcoes", "cn-5-ecossistemas", "et-6-reciclar", "enc-terra-vulcoes", "enc-lab-vulcao"],
   },
   {
     id: "som-arte",

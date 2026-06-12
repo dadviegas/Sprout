@@ -81,6 +81,28 @@ Para comparar, olha **primeiro para as centenas** — quem tem mais caixas gigan
 ]
 ```
 
+## Truques de cálculo mental 🧠
+
+Com as caixas na cabeça, fazes contas **sem papel**! Dois truques de campeão:
+
+**Truque 1 — decompor para somar:** parte um dos números nas suas caixas e soma por partes.
+
+```math
+{ "expr": "34 + 25 = 34 + 20 + 5 = 59", "say": "trinta e quatro mais vinte e cinco: somo primeiro o vinte, dá cinquenta e quatro, e depois o cinco: cinquenta e nove" }
+```
+
+**Truque 2 — saltar para a dezena:** quando a soma «não cabe», salta primeiro para a dezena redonda e dá o resto a seguir.
+
+```steps
+[
+  { "title": "38 + 5?", "body": "do 38 ao 40 vão 2 — salto primeiro para o 40! 🐸", "icon": "🐸" },
+  { "title": "Quanto sobra?", "body": "dei 2 dos 5; sobram 3 ✋", "icon": "✋" },
+  { "title": "Salto final", "body": "40 + 3 = 43 🎯", "icon": "🎯" }
+]
+```
+
+> **Truque:** as dezenas redondas (10, 20, 30…) são as **pedras grandes do rio** — saltar primeiro para uma pedra grande é sempre mais fácil do que atravessar de uma vez! 🐸
+
 ## Um exemplo passo a passo 🔍
 
 A escola comprou **3 caixas de 100 lápis**, **4 caixas de 10** e **2 lápis soltos**. Quantos lápis são? ✏️
@@ -131,7 +153,15 @@ A escola comprou **3 caixas de 100 lápis**, **4 caixas de 10** e **2 lápis sol
       "explain": "10 centenas de 100: 1000, um milhar!" },
     { "q": "Tenho 2 caixas de 100 cromos e 5 caixas de 10. Quantos cromos?", "emoji": "🃏", "layout": "grid",
       "options": [ { "t": "250", "correct": true }, { "t": "205" }, { "t": "25" } ],
-      "explain": "2 centenas + 5 dezenas: 200 + 50 = 250." }
+      "explain": "2 centenas + 5 dezenas: 200 + 50 = 250." },
+    { "q": "De cabeça: 34 + 25?", "layout": "grid", "level": 2,
+      "hint": "Soma primeiro o 20, depois o 5.",
+      "options": [ { "t": "59", "emoji": "🧠", "correct": true }, { "t": "54" }, { "t": "61" } ],
+      "explain": "34 + 20 = 54; 54 + 5 = 59. Decompor torna a conta fácil!" },
+    { "q": "De cabeça: 38 + 5? (salta primeiro para o 40)", "layout": "grid", "level": 2,
+      "hint": "Do 38 ao 40 vão 2; ainda sobram 3 para dar.",
+      "options": [ { "t": "43", "emoji": "🐸", "correct": true }, { "t": "42" }, { "t": "45" } ],
+      "explain": "38 + 2 = 40 e 40 + 3 = 43 — o salto para a dezena redonda!" }
   ]
 }
 ```

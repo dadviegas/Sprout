@@ -11,7 +11,8 @@ Estado: `✅ tratado` (lição completa: exemplos + truque + treino + teste) ·
 
 > **A app já cobre os dois ciclos** — **1.º ciclo (1.º–4.º ano)** e
 > **2.º ciclo (5.º–6.º ano)**, cada um com o seu conjunto próprio de disciplinas
-> (Decreto-Lei 55/2018). São **459 lições**, todas com questionário final.
+> (Decreto-Lei 55/2018). O `pnpm validate` conta **577 lições** (2026-06-11,
+> incluindo a Enciclopédia), todas com questionário final.
 > A *estrutura* segue as AE; cada tema é **uma lição** (não a totalidade dos
 > descritores). Continua a ser uma **seleção curada**, não cobertura exaustiva —
 > e falta **revisão pedagógica por docente** antes de fechar qualquer tema.
@@ -20,11 +21,11 @@ Estado: `✅ tratado` (lição completa: exemplos + truque + treino + teste) ·
 
 ## Visão geral por ciclo
 
-### 1.º ciclo (1.º–4.º ano) — 215 lições
+### 1.º ciclo (1.º–4.º ano) — 221 lições
 
 | Disciplina | Lições | Estado |
 | --- | --- | --- |
-| Matemática | 56 | ✅ domínios todos representados |
+| Matemática | 62 | ✅ domínios todos representados (Fase 20B 2026-06-11: factos, problemas, padrões, orientação e pictogramas no 1.º + relógio digital/compras no 3.º) |
 | Português | 60 | ✅ os 5 domínios cobertos |
 | Estudo do Meio | 32 | ✅ todos os blocos cobertos (+ roda dos alimentos/dentição, ossos/músculos/pele, Sol/Terra/Lua, sismos/vulcões) |
 | Inglês *(obrigatório só 3.º–4.º; 1.º–2.º é AEC/bónus)* | 24 | ✅ vocabulário + primeiras estruturas |
@@ -33,11 +34,11 @@ Estado: `✅ tratado` (lição completa: exemplos + truque + treino + teste) ·
 | Educação Artística | 12 | ✅ Visuais, Música, Teatro, Dança |
 | Educação Física | 12 | ✅ "conhecer sobre" (não se faz EF no ecrã) |
 
-### 2.º ciclo (5.º–6.º ano) — 165 lições
+### 2.º ciclo (5.º–6.º ano) — 166 lições
 
 | Disciplina | Lições | Estado |
 | --- | --- | --- |
-| Matemática | 22 | ✅ números, percentagens, geometria, dados, probabilidade, problemas (inteiros/equações ficam marcados como "extra 7.º ano") |
+| Matemática | 23 | ✅ números, percentagens, geometria (incl. áreas do paralelogramo/triângulo, `mat-5-areas`), dados, probabilidade, problemas (inteiros/equações ficam marcados como "extra 7.º ano") |
 | Português | 20 | ✅ leitura, escrita, gramática, literária, resumo, descrição |
 | Inglês | 19 | ✅ present/past/future, comparatives, temas, diálogos, escrita guiada |
 | Ciências Naturais | 15 | ✅ água/ar/solo/seres vivos (5.º) + corpo humano (6.º) |
@@ -68,10 +69,10 @@ Tratamento de Dados**, e capacidades transversais (**resolução de problemas**,
 
 | Domínio | Estado | Notas / por aprofundar |
 | --- | --- | --- |
-| Números e Operações | ✅ | escada completa ao ritmo da AE 2021 — 1.º até 100 (`mat-1-numeros-100`), 2.º até 1000 (`mat-2-numeros-1000`), 3.º até 10 000 (`mat-3-numeros-10000`), 4.º até ao milhão; frações desde o 2.º (`mat-2-fracoes-iniciais`: metade/quarta parte), decimais; tabuadas todas (2/3/4/5/10 no 2.º + **6/7/8/9** no 3.º, `mat-3-tabuadas-altas`); algoritmos +/− no 3.º (`mat-3-contas-armadas`) e ×/÷ no 4.º, com uma lição-mestra por operação no 4.º (`mat-4-somar-pe`, `mat-4-subtrair-pe`, `mat-4-multiplicar-pe`, `mat-4-dividir-pe`, 2026-06-11: do caso simples ao «vai 1» encadeado, empréstimo com zero, zero da 2.ª linha e resto vs. divisor); **percentagens de referência + orçamentos** no 4.º (`mat-4-percentagens`, literacia financeira); comparar/ordenar, dobro/metade, par/ímpar, múltiplos, romanos, estimar/arredondar; 2.º ciclo: m.d.c./m.m.c., racionais, potências, **percentagens com cálculo desde o 5.º** (`mat-5-percentagens`, 2026-06-11) e inteiros/equações como extra "7.º ano" |
-| Geometria e Medida | ✅ | formas, sólidos, simetria, padrões, **perímetro desde o 2.º** (`mat-2-perimetro`), **ângulos sem graus no 3.º** (`mat-3-angulos`) e com graus no 4.º, **km/mm/g no 3.º** (`mat-3-medidas-2`), **quadriláteros** (`mat-4-quadrilateros`) e **círculo/circunferência no 4.º** (`mat-4-circulo`), área/perímetro, volume/capacidade, horas, calendário, dinheiro; 2.º ciclo: círculo com π, volumes (+ dm³↔litro) |
-| Organização e Tratamento de Dados | ✅ | primeiro contacto no 2.º (`mat-2-dados`, 2026-06-11: risquinhos, pictograma, **moda**) → 3.º (`mat-3-dados`: tabela de frequência, barras/circular) → 4.º (`mat-4-dados`: máximo/mínimo/moda/amplitude, linha) → 5.º/6.º (média, gráficos) → **probabilidade no 6.º** (`mat-6-probabilidade`, 2026-06-11: escala 0–1, equiprovável, frequência relativa) |
-| Resolução de problemas | ✅ | primeiro contacto no 2.º (`mat-2-problemas`: plano de 3 passos, +/−, palavras-pista, reta numérica) → método completo no 4.º (`mat-4-problemas`: 4 passos, as 4 operações, problemas de 2 passos, verificação inversa) → nível de prova no 4.º (`mat-4-problemas-2`: 2–3 passos com conversões l/cl/ml, kg/g, km/m, troco, fração de quantidade, resto interpretado e armadilhas explicadas). Continua a ganhar-se permeando as outras lições |
+| Números e Operações | ✅ | escada completa ao ritmo da AE 2021 — **factos básicos até 10** no 1.º (`mat-1-factos`, 2026-06-11: amigos do 10, dobros, quase-dobros), 1.º até 100 (`mat-1-numeros-100`), 2.º até 1000 (`mat-2-numeros-1000`), 3.º até 10 000 (`mat-3-numeros-10000`), 4.º até ao milhão; frações desde o 2.º (`mat-2-fracoes-iniciais`: metade/quarta parte), decimais; tabuadas todas (2/3/4/5/10 no 2.º + **6/7/8/9** no 3.º, `mat-3-tabuadas-altas`); algoritmos +/− no 3.º (`mat-3-contas-armadas`) e ×/÷ no 4.º, com uma lição-mestra por operação no 4.º (`mat-4-somar-pe`, `mat-4-subtrair-pe`, `mat-4-multiplicar-pe`, `mat-4-dividir-pe`, 2026-06-11: do caso simples ao «vai 1» encadeado, empréstimo com zero, zero da 2.ª linha e resto vs. divisor); **percentagens de referência + orçamentos** no 4.º (`mat-4-percentagens`, literacia financeira); comparar/ordenar, dobro/metade, par/ímpar, múltiplos, romanos, estimar/arredondar; 2.º ciclo: m.d.c./m.m.c., racionais, potências, **percentagens com cálculo desde o 5.º** (`mat-5-percentagens`, 2026-06-11) e inteiros/equações como extra "7.º ano" |
+| Geometria e Medida | ✅ | formas, sólidos (+ **planificações** do cubo/caixa em `mat-2-solidos`, 2026-06-11), simetria (+ **rotação** em `mat-4-quadrilateros`, 2026-06-11), padrões (desde o 1.º: `mat-1-padroes`), **orientação espacial + passos/palmos no 1.º** (`mat-1-orientacao`, 2026-06-11), **perímetro desde o 2.º** (`mat-2-perimetro`), **ângulos sem graus no 3.º** (`mat-3-angulos`) e com graus no 4.º, **km/mm/g no 3.º** (`mat-3-medidas-2`), **quadriláteros** (`mat-4-quadrilateros`) e **círculo/circunferência no 4.º** (`mat-4-circulo`), área/perímetro, volume/capacidade, horas + **relógio digital/durações no 3.º** (`mat-3-relogio-digital`, 2026-06-11), calendário, dinheiro; 2.º ciclo: **áreas do paralelogramo e do triângulo** (`mat-5-areas`, 2026-06-11, com construção de triângulos), círculo com π, volumes (+ dm³↔litro) |
+| Organização e Tratamento de Dados | ✅ | primeiro contacto no **1.º** (`mat-1-pictogramas`, 2026-06-11: contar filas, pictograma, "qual tem mais?") → 2.º (`mat-2-dados`, 2026-06-11: risquinhos, pictograma, **moda**) → 3.º (`mat-3-dados`: tabela de frequência, barras/circular) → 4.º (`mat-4-dados`: máximo/mínimo/moda/amplitude, linha) → 5.º/6.º (média, gráficos) → **probabilidade no 6.º** (`mat-6-probabilidade`, 2026-06-11: escala 0–1, equiprovável, frequência relativa) |
+| Resolução de problemas | ✅ | primeiro contacto no **1.º** (`mat-1-problemas`, 2026-06-11: juntar/retirar/comparar/completar com histórias) → 2.º (`mat-2-problemas`: plano de 3 passos, +/−, palavras-pista, reta numérica) → método completo no 4.º (`mat-4-problemas`: 4 passos, as 4 operações, problemas de 2 passos, verificação inversa) → nível de prova no 4.º (`mat-4-problemas-2`: 2–3 passos com conversões l/cl/ml, kg/g, km/m, troco, fração de quantidade, resto interpretado e armadilhas explicadas). Continua a ganhar-se permeando as outras lições |
 
 ## Português — domínios das AE
 

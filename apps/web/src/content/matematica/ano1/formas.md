@@ -104,6 +104,22 @@ Estas aparecem menos, mas é giro conhecê-las. Toca para ouvir quantos lados t�
 ]
 ```
 
+## Os sólidos à tua volta 🎲⚽🥫
+
+As formas do papel são **lisas**. Mas há formas que se **pegam na mão** — são os **sólidos**! Conhece já os três mais famosos:
+
+```keyvalue
+[
+  { "k": "Cubo 🎲", "v": "como um dado ou uma caixa — tem cantos e fica quieto" },
+  { "k": "Esfera ⚽", "v": "como uma bola — é toda redonda e rola para todo o lado" },
+  { "k": "Cilindro 🥫", "v": "como uma lata — redondo dos lados, liso em cima e em baixo" }
+]
+```
+
+E sabias que podes **juntar formas para fazer desenhos**? Um quadrado com um triângulo em cima faz uma **casinha** 🏠; um retângulo com dois círculos em baixo faz um **autocarro** 🚌. Compor formas é como brincar com peças!
+
+> [!NOTE] **Truque:** se rola, é redondo (esfera ou cilindro deitado); se fica quieto, tem cantos (cubo). Empurra com o dedo e descobre! 👉
+
 ## Um exemplo passo a passo 🔍
 
 Imagina que vês uma forma e perguntas: *«Que forma é esta? Tem 3 lados.»* Vamos descobrir juntos! 🧐
@@ -120,7 +136,7 @@ Imagina que vês uma forma e perguntas: *«Que forma é esta? Tem 3 lados.»* Va
 
 > **Truque:** conta sempre pela ponta dos dedos! Um triângulo cabe em **3 dedos**, um quadrado em **4 dedos**. Se não consegues contar bicos nenhuns porque é todo redondo… é um **círculo**! 🖐️
 
-> [!TIP] **Para saberes mais** 🌱 As formas também existem **a 3 dimensões** — aquelas que se pegam com a mão! Uma bola é uma **esfera** ⚽, um dado é um **cubo** 🎲 e um gelado tem a ponta em **cone** 🍦. As formas do papel são lisas e planas; estas são "fofas" e ocupam espaço!
+> [!TIP] **Para saberes mais** 🌱 Olha bem para um dado 🎲: cada lado dele é… um **quadrado**! Os sólidos são feitos das formas planas que já conheces — chamam-se as **faces** do sólido. No 2.º ano vais contar as faces, as beirinhas (arestas) e os bicos (vértices) de todos os sólidos!
 
 ## Vamos praticar 🎈
 
@@ -193,7 +209,15 @@ Imagina que vês uma forma e perguntas: *«Que forma é esta? Tem 3 lados.»* Va
       "explain": "O pentágono tem 5 lados e 5 bicos." },
     { "q": "Quantos lados tem um círculo?", "layout": "grid",
       "options": [ { "t": "nenhum, é todo redondo", "emoji": "🔴", "correct": true }, { "t": "4", "emoji": "4️⃣" }, { "t": "3", "emoji": "3️⃣" } ],
-      "explain": "O círculo não tem lados nem bicos — é uma curva fechada." }
+      "explain": "O círculo não tem lados nem bicos — é uma curva fechada." },
+    { "q": "Uma bola é um…", "emoji": "⚽", "layout": "grid", "level": 2,
+      "hint": "Rola para todo o lado — é toda redonda!",
+      "options": [ { "t": "esfera", "emoji": "⚽", "correct": true }, { "t": "cubo", "emoji": "🎲" }, { "t": "quadrado", "emoji": "⬜" } ],
+      "explain": "A bola pega-se na mão e rola para todo o lado: é uma esfera." },
+    { "q": "Um quadrado com um triângulo em cima faz o desenho de…", "layout": "grid", "level": 2,
+      "hint": "O triângulo é o telhado!",
+      "options": [ { "t": "uma casinha", "emoji": "🏠", "correct": true }, { "t": "uma bola", "emoji": "⚽" }, { "t": "um peixe", "emoji": "🐟" } ],
+      "explain": "Quadrado (paredes) + triângulo (telhado) = casinha! Compor formas é juntá-las." }
   ]
 }
 ```

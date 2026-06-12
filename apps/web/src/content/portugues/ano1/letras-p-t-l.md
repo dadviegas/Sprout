@@ -111,6 +111,18 @@ As sílabas são peças de um puzzle: juntas duas e nasce uma palavra!
 
 > **Truque:** quando vires uma palavra nova, **não leias as letras uma a uma** — lê os bocadinhos! Primeiro devagar, sílaba a sílaba (PA… TO…), e depois tudo junto e mais depressa: **PATO**! 🐢➡️🚀
 
+Agora és tu! Ouve a palavra e **monta-a com as letras** — toca numa letra (ou arrasta-a) para a pôr no seu lugar:
+
+```dragletters
+{ "word": "PATO", "emoji": "🦆", "say": "pato", "distractors": ["L", "M"] }
+```
+
+E nesta palavra **falta um bocadinho**. Ouve-a e escolhe a sílaba certa:
+
+```completeword
+{ "word": "SAPATO", "missing": "PA", "options": ["PA", "TA", "MA"], "emoji": "👟", "say": "sapato" }
+```
+
 ## Um exemplo passo a passo 🔍
 
 Como se lê a palavra **LUA**? Vamos juntos, com calma. 🌙

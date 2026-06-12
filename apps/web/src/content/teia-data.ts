@@ -71,7 +71,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-mat)",
     blurb:
       "Do sistema solar aos relógios e calendários — o espaço e o tempo ligam a Matemática, o Estudo do Meio e o Mundo.",
-    lessons: ["edm-3-sol-terra-lua", "edm-4-sistema-solar", "estudo-planetas", "mat-1-tempo", "mat-2-horas", "estudo-relogio", "estudo-dias-meses", "mat-3-calendario", "mundo-4-fusos", "enc-espaco-planetas", "enc-terra-dia-noite", "enc-espaco-sol", "enc-espaco-lua", "enc-espaco-buracos-negros", "enc-espaco-apollo", "enc-terra-estacoes", "enc-espaco-exoplanetas"],
+    lessons: ["edm-3-sol-terra-lua", "edm-4-sistema-solar", "estudo-planetas", "mat-1-tempo", "mat-2-horas", "estudo-relogio", "mat-3-relogio-digital", "estudo-dias-meses", "mat-3-calendario", "mundo-4-fusos", "enc-espaco-planetas", "enc-terra-dia-noite", "enc-espaco-sol", "enc-espaco-lua", "enc-espaco-buracos-negros", "enc-espaco-apollo", "enc-terra-estacoes", "enc-espaco-exoplanetas"],
   },
   {
     id: "animais",
@@ -80,7 +80,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-edm)",
     blurb:
       "Os seres vivos aparecem no Estudo do Meio, nas Ciências, no Mundo, em Inglês e nos países.",
-    lessons: ["edm-2-animais", "edm-2-seres-vivos", "cn-5-animais-diversidade", "edm-3-plantas", "cn-5-plantas", "mundo-4-animais", "mundo-3-animais-oceano", "en-2-animals", "paises-pt-natureza", "enc-animais-polvo", "enc-animais-baleia", "enc-dinos-trex", "enc-dinos-triceratops", "enc-animais-gatos", "enc-animais-formigas", "enc-plantas-fotossintese", "enc-plantas-semente", "enc-plantas-flores", "enc-plantas-chocolate", "enc-ciencia-caca-mitos"],
+    lessons: ["edm-2-animais", "edm-2-seres-vivos", "cn-5-animais-diversidade", "cn-5-celula", "edm-3-plantas", "cn-5-plantas", "mundo-4-animais", "mundo-3-animais-oceano", "en-2-animals", "paises-pt-natureza", "enc-animais-polvo", "enc-animais-baleia", "enc-dinos-trex", "enc-dinos-triceratops", "enc-animais-gatos", "enc-animais-formigas", "enc-plantas-fotossintese", "enc-plantas-semente", "enc-plantas-flores", "enc-plantas-chocolate", "enc-ciencia-caca-mitos"],
   },
   {
     id: "portugal",
@@ -107,7 +107,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-en)",
     blurb:
       "Saber onde estás junta os pontos cardeais, os mapas, os continentes e até as direções em Inglês.",
-    lessons: ["edm-4-mapas", "estudo-pontos-cardeais", "mundo-4-continentes", "estudo-continentes", "mundo-2-rios", "estudo-distritos", "en-3-directions"],
+    lessons: ["mat-1-orientacao", "edm-3-pontos-cardeais", "edm-4-mapas", "estudo-pontos-cardeais", "mundo-4-continentes", "estudo-continentes", "mundo-2-rios", "estudo-distritos", "en-3-directions", "en-4-countries"],
   },
   {
     id: "numeros",
@@ -116,7 +116,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--accent)",
     blurb:
       "Os números estão na Matemática, no Saber de cor, em Inglês e até nos numerais romanos da História.",
-    lessons: ["mat-1-numeros-10", "mat-1-numeros-100", "mat-2-numeros-1000", "mat-3-numeros-10000", "mat-1-somar", "mat-2-tabuada", "mat-3-tabuadas-altas", "mat-3-contas-armadas", "mat-4-contas-armadas", "mat-4-somar-pe", "mat-4-subtrair-pe", "mat-4-multiplicar-pe", "mat-4-dividir-pe", "mat-3-multiplicacao", "mat-3-divisao", "estudo-tabuadas", "estudo-numeros", "en-1-numbers", "mat-3-romanos", "estudo-romanos"],
+    lessons: ["mat-1-numeros-10", "mat-1-numeros-100", "mat-2-numeros-1000", "mat-3-numeros-10000", "mat-1-somar", "mat-1-factos", "mat-1-problemas", "mat-2-tabuada", "mat-3-tabuadas-altas", "mat-3-contas-armadas", "mat-4-contas-armadas", "mat-4-somar-pe", "mat-4-subtrair-pe", "mat-4-multiplicar-pe", "mat-4-dividir-pe", "mat-3-multiplicacao", "mat-3-divisao", "estudo-tabuadas", "estudo-numeros", "en-1-numbers", "mat-3-romanos", "estudo-romanos"],
   },
   {
     id: "formas",
@@ -125,7 +125,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-mat)",
     blurb:
       "As formas e as medidas ligam a Matemática, o Saber de cor e a Educação Visual.",
-    lessons: ["mat-1-formas", "mat-2-solidos", "estudo-formas", "mat-2-perimetro", "mat-3-angulos", "mat-3-medidas-2", "mat-4-area", "estudo-formulas", "mat-4-angulos", "mat-4-quadrilateros", "mat-4-circulo", "ev-5-formas", "mat-2-simetria", "ev-5-geometria", "enc-lab-cristais"],
+    lessons: ["mat-1-formas", "mat-1-orientacao", "mat-2-solidos", "estudo-formas", "mat-2-perimetro", "mat-3-angulos", "mat-3-medidas-2", "mat-4-area", "estudo-formulas", "mat-4-angulos", "mat-4-quadrilateros", "mat-4-circulo", "mat-5-areas", "ev-5-formas", "mat-2-simetria", "ev-5-geometria", "enc-lab-cristais"],
   },
   {
     id: "dinheiro",
@@ -134,7 +134,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-cid)",
     blurb:
       "O dinheiro junta a Matemática, o Saber de cor e a Cidadania — poupar e escolher bem.",
-    lessons: ["mat-2-dinheiro", "mat-4-percentagens", "mat-5-percentagens", "estudo-dinheiro", "estudo-loja", "cid-2-poupar", "cid-3-consumir"],
+    lessons: ["mat-2-dinheiro", "mat-3-relogio-digital", "mat-4-percentagens", "mat-5-percentagens", "estudo-dinheiro", "estudo-loja", "cid-2-poupar", "cid-3-consumir"],
   },
   {
     id: "palavras",
@@ -143,7 +143,7 @@ export const THEMES: TeiaTheme[] = [
     accent: "var(--subj-pt)",
     blurb:
       "Aprender a ler e a escrever liga o Português, o Saber de cor, o Dicionário e os Verbos.",
-    lessons: ["pt-1-vogais", "pt-1-silabas", "pt-1-nasais", "pt-1-primeiras-palavras", "pt-3-texto", "pt-4-classes", "estudo-alfabeto", "estudo-classes", "estudo-verbos", "pt-1-rimas", "dic-a", "verb-a", "enc-hist-cigarra", "enc-hist-lebre", "enc-hist-pomba", "enc-hist-galo", "enc-hist-martinho"],
+    lessons: ["pt-1-vogais", "pt-1-silabas", "pt-1-fonemas", "pt-1-nasais", "pt-1-primeiras-palavras", "pt-1-escrever", "pt-3-texto", "pt-4-classes", "pt-4-conjugacoes", "estudo-alfabeto", "estudo-classes", "estudo-verbos", "pt-1-rimas", "dic-a", "verb-a", "enc-hist-cigarra", "enc-hist-lebre", "enc-hist-pomba", "enc-hist-galo", "enc-hist-martinho"],
   },
   {
     id: "planeta",

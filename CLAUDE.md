@@ -108,7 +108,7 @@ dictionary tagged `class: "verbo"`.
 
 ## Markdown/widget blocks (for lesson authors)
 
-`quiz`, `soundcards`, `clock`, `shape`, `angle`, `areagrid`, `symmetry`,
+`quiz`, `soundcards`, `dragletters`, `completeword`, `clock`, `shape`, `angle`, `areagrid`, `symmetry`,
 `compass`, `watercycle`, `bodysystem`, `timeline`, `mapapt`, `numberline`, `tenframe`, `fraction`, `money`, `shop`,
 `solarsystem`, `daynight`, `tabuada`, `contaarmada`, `dinheirojogo`, `math`, `chart`, `dictionary`, `verbs`,
 `colors`, `colormix`, `atlas`, `sizecompare`,
@@ -120,6 +120,14 @@ callouts `> [!NOTE]/[!TIP]/…`. The `icon` field in `steps`/`keyvalue` accepts 
 Each SVG widget teaches one idea with a kid metaphor and read-aloud (audio fires
 only on a button/tap — see the speech rule below). New ones:
 
+- `dragletters` (pré-leitor, §4.10) builds a word from shuffled letter tiles
+  (+2 distractors) into slots — tap-to-place is first-class, drag is an
+  enhancement; completing celebrates and reveals a speaker to hear the word.
+  Fields: `word`, `emoji?`, `say?`, `distractors?`.
+- `completeword` (pré-leitor) shows a word with ONE missing syllable/letter
+  ("SA __ TO") and 3 big choices — wrong shakes gently, right fills and
+  celebrates. Fields: `word`, `missing` (must occur in `word`), `options`
+  (3, includes `missing`), `emoji?`, `say?`.
 - `angle` draws an angle as inline SVG — a vertex with two sides (semirretas), a
   tinted opening arc, the little square at exactly 90°, and a live name
   (agudo/reto/obtuso/raso) read aloud. Interactive by default (drag the tip or

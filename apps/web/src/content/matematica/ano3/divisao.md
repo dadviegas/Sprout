@@ -81,6 +81,26 @@ Nem sempre a divisão fica certinha. Às vezes sobra um bocadinho — a esse boc
 ]
 ```
 
+## Estratégias espertas: partir o dividendo 🧩
+
+E uma divisão grande, como **135 ÷ 5**? O truque é **partir o número que vais repartir** em bocados amigos da tabuada — divide cada bocado e junta no fim. Pensa primeiro, depois revela:
+
+```steps
+{ "reveal": true, "items": [
+  { "title": "1. Olha para a conta", "body": "135 ÷ 5… o 135 não está na tabuada! Mas 135 = 100 + 35 🧐", "icon": "👀" },
+  { "title": "2. Divide o bocado grande", "body": "100 ÷ 5 = 20 (duas notas de 50 em moedas de 5!) 💯", "icon": "➗" },
+  { "title": "3. Divide o bocado pequeno", "body": "35 ÷ 5 = 7 (está na tabuada: 5 × 7 = 35) ✋", "icon": "➗" },
+  { "title": "4. Junta os dois", "body": "20 + 7 = 27 → 135 ÷ 5 = 27 🎉", "icon": "➕" },
+  { "title": "5. Confirma", "body": "27 × 5 = 135 ✔️ Está certo!", "icon": "✅" }
+] }
+```
+
+```math
+{ "expr": "135 ÷ 5 = 100 ÷ 5 + 35 ÷ 5 = 27", "say": "cento e trinta e cinco a dividir por cinco: cem a dividir por cinco dá vinte, trinta e cinco a dividir por cinco dá sete, vinte mais sete são vinte e sete" }
+```
+
+> [!NOTE] Escolhe bocados que a tabuada conheça: para dividir por 5, parte em **100, 50, 35, 20**… Outro exemplo: 96 ÷ 4 = 80 ÷ 4 + 16 ÷ 4 = 20 + 4 = **24**. 🧩
+
 ## Um exemplo passo a passo 🔍
 
 Vamos resolver juntos: *«A professora tem 20 lápis 🖍️ para guardar em 5 caixas iguais. Quantos lápis ficam em cada caixa?»*
@@ -167,7 +187,15 @@ Vamos resolver juntos: *«A professora tem 20 lápis 🖍️ para guardar em 5 c
       "explain": "16 ÷ 4 = 4, porque 4 × 4 = 16." },
     { "q": "14 ÷ 3 não fica certinho. Quanto dá e quanto sobra?", "layout": "grid",
       "options": [ { "t": "dá 4 e sobra resto 2", "emoji": "🤏", "correct": true }, { "t": "dá 5 e sobra 0" }, { "t": "dá 3 e sobra 5" } ],
-      "explain": "3 × 4 = 12, e 14 − 12 = 2. Dá 4, resto 2." }
+      "explain": "3 × 4 = 12, e 14 − 12 = 2. Dá 4, resto 2." },
+    { "q": "Para calcular 135 ÷ 5, partes o 135 em…", "layout": "grid", "level": 2,
+      "hint": "Escolhe bocados que a tabuada do 5 conheça.",
+      "options": [ { "t": "100 + 35", "emoji": "🧩", "correct": true }, { "t": "1 + 35" }, { "t": "130 + 5" } ],
+      "explain": "100 ÷ 5 = 20 e 35 ÷ 5 = 7; 20 + 7 = 27." },
+    { "q": "96 ÷ 4 = 80 ÷ 4 + 16 ÷ 4 = ?", "layout": "grid", "level": 3,
+      "hint": "Divide cada bocado e junta os dois resultados.",
+      "options": [ { "t": "24", "emoji": "🎯", "correct": true }, { "t": "20" }, { "t": "26" } ],
+      "explain": "80 ÷ 4 = 20 e 16 ÷ 4 = 4; 20 + 4 = 24." }
   ]
 }
 ```

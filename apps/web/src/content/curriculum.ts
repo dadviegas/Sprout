@@ -130,6 +130,13 @@ import matAngulos3 from "./matematica/ano3/angulos.md";
 import matMedidas2 from "./matematica/ano3/medidas-km-mm-g.md";
 import matQuadrilateros from "./matematica/ano4/quadrilateros-retas.md";
 import matCirculo4 from "./matematica/ano4/circulo-circunferencia.md";
+import matFactos from "./matematica/ano1/factos-ate-10.md";
+import matProblemas1 from "./matematica/ano1/problemas-juntar-completar.md";
+import matPadroes1 from "./matematica/ano1/padroes-sequencias.md";
+import matOrientacao1 from "./matematica/ano1/orientacao-espacial.md";
+import matPictogramas1 from "./matematica/ano1/pictogramas.md";
+import matRelogioDigital from "./matematica/ano3/relogio-digital.md";
+import mat5Areas from "./matematica/ano5/areas-paralelogramo-triangulo.md";
 import mat5Percentagens from "./matematica/ano5/percentagens.md";
 import mat6Probabilidade from "./matematica/ano6/probabilidade.md";
 
@@ -202,6 +209,12 @@ import ptConectores from "./portugues/ano4/conectores.md";
 import ptRevisaoOrtografica from "./portugues/ano4/revisao-ortografica.md";
 import pt5Resumo from "./portugues/ano5/fazer-resumo.md";
 import pt5Descrever from "./portugues/ano5/descrever.md";
+// AE coverage — fecho da auditoria (fonemas, escrita guiada, conjugações, discurso indireto, ativa/passiva)
+import ptFonemas from "./portugues/ano1/brincar-com-sons.md";
+import ptEscrever from "./portugues/ano1/escrever-primeiras-frases.md";
+import ptConjugacoes from "./portugues/ano4/conjugar-verbos.md";
+import ptDiscursoIndireto from "./portugues/ano4/discurso-direto-indireto.md";
+import pt6AtivaPassiva from "./portugues/ano6/ativa-passiva.md";
 
 /* ---- Estudo do Meio ---- */
 import edmCorpo from "./estudo-do-meio/ano1/o-meu-corpo.md";
@@ -237,6 +250,7 @@ import edmReisDinastias from "./estudo-do-meio/ano4/reis-e-dinastias.md";
 import edmRelevoClima from "./estudo-do-meio/ano4/relevo-clima-portugal.md";
 import edmFreguesiaMunicipio from "./estudo-do-meio/ano4/freguesia-municipio.md";
 import edmMapaLocalidade from "./estudo-do-meio/ano4/mapa-localidade.md";
+import edmPontosCardeais from "./estudo-do-meio/ano3/pontos-cardeais-mapas.md";
 
 /* ---- Inglês ---- */
 import enHello from "./ingles/ano1/hello.md";
@@ -267,6 +281,7 @@ import enComparatives from "./ingles/ano4/comparatives.md";
 import enTravel from "./ingles/ano4/travel.md";
 import en5DialoguesListening from "./ingles/ano5/dialogues-listening.md";
 import en5GuidedWriting from "./ingles/ano5/guided-writing.md";
+import enCountries from "./ingles/ano4/countries.md";
 
 /* ---- Cidadania e Desenvolvimento ---- */
 import cidDireitos from "./cidadania/ano1/direitos-e-deveres.md";
@@ -474,6 +489,7 @@ import cn5AnimaisDiversidade from "./ciencias/ano5/animais-diversidade.md";
 import cn5AnimaisFuncoes from "./ciencias/ano5/animais-funcoes.md";
 import cn5Plantas from "./ciencias/ano5/plantas.md";
 import cn5Ecossistemas from "./ciencias/ano5/ecossistemas.md";
+import cn5Celula from "./ciencias/ano5/celula-classificacao.md";
 // História e Geografia de Portugal 5.º
 import hgp5PeninsulaNatural from "./hgp/ano5/peninsula-natural.md";
 import hgp5PrimeirosPovos from "./hgp/ano5/primeiros-povos.md";
@@ -631,7 +647,12 @@ export const schoolSubjects: Subject[] = [
         { id: "mat-1-numeros-20", title: "Números até 20", emoji: "✋", body: matNumeros20 },
         { id: "mat-1-numeros-100", title: "Os números até 100", emoji: "💯", body: matNumeros100Ano1 },
         { id: "mat-1-somar", title: "Somar e subtrair", emoji: "➕", body: matSomar },
+        { id: "mat-1-factos", title: "Os factos amigos: somas até 10", emoji: "🤝", body: matFactos },
+        { id: "mat-1-problemas", title: "Problemas de juntar e completar", emoji: "🧩", body: matProblemas1 },
         { id: "mat-1-formas", title: "Formas geométricas", emoji: "🔺", body: matFormas },
+        { id: "mat-1-orientacao", title: "Onde está? Esquerda, direita, em cima, em baixo", emoji: "🧭", body: matOrientacao1 },
+        { id: "mat-1-padroes", title: "Padrões e sequências", emoji: "🔁", body: matPadroes1 },
+        { id: "mat-1-pictogramas", title: "Pictogramas: contar com desenhos", emoji: "📊", body: matPictogramas1 },
         { id: "mat-1-tempo", title: "Antes e depois, dia e noite", emoji: "🌗", body: matTempo },
         { id: "mat-1-comparar", title: "Comparar e ordenar números", emoji: "⚖️", body: matComparar },
         { id: "mat-1-ordinais", title: "Primeiro, segundo, terceiro…", emoji: "🏅", body: matOrdinais },
@@ -667,6 +688,7 @@ export const schoolSubjects: Subject[] = [
         { id: "mat-3-medidas-2", title: "Medir longe e perto: km, m, mm e g", emoji: "🗺️", body: matMedidas2 },
         { id: "mat-3-dados", title: "Recolher e organizar dados", emoji: "📋", body: matDadosTabelas },
         { id: "mat-3-calendario", title: "O calendário e o tempo", emoji: "📅", body: matCalendario },
+        { id: "mat-3-relogio-digital", title: "O relógio digital e as horas certas", emoji: "⏰", body: matRelogioDigital },
         { id: "mat-3-romanos", title: "Numerais romanos", emoji: "🏛️", body: matRomanos },
       ],
       4: [
@@ -699,6 +721,7 @@ export const schoolSubjects: Subject[] = [
         { id: "mat-5-potencias", title: "Potências de base 10", emoji: "⏫", body: mat5Potencias },
         { id: "mat-5-angulos-poligonos", title: "Ângulos e polígonos", emoji: "📐", body: mat5AngulosPoligonos },
         { id: "mat-5-area-perimetro", title: "Perímetros e áreas", emoji: "🟦", body: mat5AreaPerimetro },
+        { id: "mat-5-areas", title: "Áreas do paralelogramo e do triângulo", emoji: "🔺", body: mat5Areas },
         { id: "mat-5-solidos", title: "Sólidos geométricos", emoji: "🧊", body: mat5Solidos },
         { id: "mat-5-dados", title: "Organização e tratamento de dados", emoji: "📊", body: mat5Dados },
         { id: "mat-5-problemas-varios-passos", title: "Problemas de vários passos", emoji: "🧩", body: mat5ProblemasVariosPassos },
@@ -729,6 +752,7 @@ export const schoolSubjects: Subject[] = [
       1: [
         { id: "pt-1-vogais", title: "As vogais", emoji: "🅰️", body: ptVogais },
         { id: "pt-1-silabas", title: "As sílabas", emoji: "👏", body: ptSilabas },
+        { id: "pt-1-fonemas", title: "Brincar com os sons", emoji: "🎵", body: ptFonemas },
         { id: "pt-1-letras-ptl", title: "As letras P, T e L", emoji: "🦆", body: ptLetrasPTL },
         { id: "pt-1-letras-dmv", title: "As letras D, M e V", emoji: "🎲", body: ptLetrasDMV },
         { id: "pt-1-letras-cnr", title: "As letras C, N e R", emoji: "🏠", body: ptLetrasCNR },
@@ -740,6 +764,7 @@ export const schoolSubjects: Subject[] = [
         { id: "pt-1-maiusculas", title: "Letra grande e pequena", emoji: "🔠", body: ptMaiuscula },
         { id: "pt-1-primeiras-palavras", title: "As primeiras palavras", emoji: "🔡", body: ptPrimeirasPalavras },
         { id: "pt-1-ler-frases", title: "Ler as primeiras frases", emoji: "📖", body: ptLerFrases },
+        { id: "pt-1-escrever", title: "Escrever as primeiras frases", emoji: "✏️", body: ptEscrever },
         { id: "pt-1-rimas", title: "Rimas e lengalengas", emoji: "🎵", body: ptRimas },
         { id: "pt-1-ouvir-falar", title: "Saber ouvir e falar", emoji: "👂", body: ptOuvirFalar },
         { id: "pt-1-contos", title: "Os contos tradicionais", emoji: "📖", body: ptContos },
@@ -777,6 +802,7 @@ export const schoolSubjects: Subject[] = [
       ],
       4: [
         { id: "pt-4-classes", title: "Classes de palavras", emoji: "🧩", body: ptClasses },
+        { id: "pt-4-conjugacoes", title: "Conjugar verbos: presente, passado e futuro", emoji: "⏳", body: ptConjugacoes },
         { id: "pt-4-graus-adjetivo", title: "Adjetivos: comparar qualidades", emoji: "🌟", body: ptAdjetivo },
         { id: "pt-4-tipos-texto", title: "Tipos de texto", emoji: "📝", body: ptTiposTexto },
         { id: "pt-4-carta", title: "Escrever uma carta e um convite", emoji: "✉️", body: ptCarta },
@@ -786,6 +812,7 @@ export const schoolSubjects: Subject[] = [
         { id: "pt-4-prefixos-sufixos", title: "Prefixos e sufixos", emoji: "🧱", body: ptPrefixos },
         { id: "pt-4-frase-complexa", title: "Frase simples e frase complexa", emoji: "🔗", body: ptFraseComplexa },
         { id: "pt-4-noticia", title: "A notícia", emoji: "📰", body: ptNoticia },
+        { id: "pt-4-discurso-indireto", title: "Quem disse o quê: discurso direto e indireto", emoji: "💬", body: ptDiscursoIndireto },
         { id: "pt-4-hifen-x", title: "O hífen e o «x»", emoji: "✖️", body: ptHifenX },
         { id: "pt-4-adverbios", title: "Os advérbios", emoji: "🏃", body: ptAdverbios },
         { id: "pt-4-sujeito-predicado", title: "Sujeito e predicado", emoji: "🧱", body: ptSujeitoPredicado },
@@ -813,6 +840,7 @@ export const schoolSubjects: Subject[] = [
         { id: "pt-6-classes", title: "Classes de palavras (II)", emoji: "🧩", body: pt6Classes },
         { id: "pt-6-sintaxe", title: "A frase e as suas funções", emoji: "🔗", body: pt6Sintaxe },
         { id: "pt-6-verbos", title: "Conjugar verbos", emoji: "⏳", body: pt6Verbos },
+        { id: "pt-6-ativa-passiva", title: "A frase ativa e passiva", emoji: "🔄", body: pt6AtivaPassiva },
         { id: "pt-6-grau-nome", title: "Nome, grau e flexão", emoji: "🔤", body: pt6GrauNome },
         { id: "pt-6-teatro", title: "O texto dramático", emoji: "🎭", body: pt6Teatro },
         { id: "pt-6-recursos", title: "Poesia e recursos expressivos", emoji: "✨", body: pt6Recursos },
@@ -850,6 +878,7 @@ export const schoolSubjects: Subject[] = [
         { id: "edm-3-alimentacao", title: "Alimentação saudável", emoji: "🥗", body: edmAlimentacao },
         { id: "edm-3-ossos-musculos", title: "Ossos, músculos e pele", emoji: "🦴", body: edmOssosMusculos },
         { id: "edm-3-portugal", title: "Portugal: o meu país", emoji: "🇵🇹", body: edmPortugal },
+        { id: "edm-3-pontos-cardeais", title: "Os pontos cardeais e os mapas", emoji: "🧭", body: edmPontosCardeais },
         { id: "edm-3-solidos-liquidos", title: "Sólidos, líquidos e gases", emoji: "🧊", body: edmEstados },
         { id: "edm-3-eletricidade", title: "Eletricidade e ímanes", emoji: "🧲", body: edmEletricidade },
         { id: "edm-3-sol-terra-lua", title: "O Sol, a Terra e a Lua", emoji: "🌗", body: edmSolTerraLua },
@@ -913,6 +942,7 @@ export const schoolSubjects: Subject[] = [
         { id: "en-4-time", title: "What time is it?", emoji: "⏰", body: enTime },
         { id: "en-4-comparatives", title: "Comparatives", emoji: "📏", body: enComparatives },
         { id: "en-4-travel", title: "Travel & transport", emoji: "✈️", body: enTravel },
+        { id: "en-4-countries", title: "Countries, numbers and celebrations", emoji: "🌍", body: enCountries },
       ],
       5: [
         { id: "en-5-greetings", title: "Greetings & introductions", emoji: "👋", body: en5Greetings },
@@ -1120,6 +1150,7 @@ export const schoolSubjects: Subject[] = [
         { id: "cn-5-animais-diversidade", title: "Diversidade nos animais", emoji: "🐾", body: cn5AnimaisDiversidade },
         { id: "cn-5-animais-funcoes", title: "Como vivem os animais", emoji: "🦅", body: cn5AnimaisFuncoes },
         { id: "cn-5-plantas", title: "Diversidade nas plantas", emoji: "🌻", body: cn5Plantas },
+        { id: "cn-5-celula", title: "A célula e a classificação dos seres vivos", emoji: "🔬", body: cn5Celula },
         { id: "cn-5-ecossistemas", title: "Proteger os seres vivos", emoji: "🌍", body: cn5Ecossistemas },
       ],
       6: [

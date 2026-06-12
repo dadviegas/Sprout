@@ -25,7 +25,7 @@ const FINAL_MARKER = "## 🎯 Questionário final";
 // `widgetRenderers` / `infographicRenderers` maps + the `quiz` branch there.
 const JSON_BLOCKS = new Set([
   "quiz",
-  "shape", "angle", "areagrid", "symmetry", "compass", "watercycle", "clock", "numberline", "tenframe", "fraction", "fractionstrips", "fractionof", "money", "shop", "solarsystem", "daynight", "soundcards", "dictionary", "verbs", "colors", "colormix", "atlas", "sizecompare", "tabuada", "drill", "figure", "math", "chart", "timeline", "bodysystem", "mapapt",
+  "shape", "angle", "areagrid", "symmetry", "compass", "watercycle", "clock", "numberline", "tenframe", "fraction", "fractionstrips", "fractionof", "money", "shop", "solarsystem", "daynight", "soundcards", "dragletters", "completeword", "dictionary", "verbs", "colors", "colormix", "atlas", "sizecompare", "tabuada", "drill", "figure", "math", "chart", "timeline", "bodysystem", "mapapt",
   "volcano", "skyblue", "buoyancy", "lifecycle", "foodchain", "layers",
   "summary", "stats", "steps", "meters", "keyvalue", "compare", "quote",
 ]);
@@ -198,6 +198,39 @@ function validateDictionary(data, where, errors) {
   });
 }
 
+/* The pre-reader word builders (§4.10). `dragletters` builds a word from
+ * letter tiles: it needs a non-empty `word`; `distractors`, when given, must
+ * be single letters. `completeword` shows a word with one gap: `missing` must
+ * occur inside `word`, and `options` must be exactly 3 choices including it. */
+function validateDragLetters(data, where, errors) {
+  if (typeof data !== "object" || data === null) {
+    errors.push(`${where}: bloco 'dragletters' tem de ser um objeto`);
+    return;
+  }
+  if (typeof data.word !== "string" || !data.word.trim()) errors.push(`${where}: falta 'word'`);
+  if (data.distractors !== undefined) {
+    const ok = Array.isArray(data.distractors) && data.distractors.every((d) => typeof d === "string" && d.trim().length === 1);
+    if (!ok) errors.push(`${where}: 'distractors' tem de ser uma lista de letras (1 carácter cada)`);
+  }
+}
+function validateCompleteWord(data, where, errors) {
+  if (typeof data !== "object" || data === null) {
+    errors.push(`${where}: bloco 'completeword' tem de ser um objeto`);
+    return;
+  }
+  const word = typeof data.word === "string" ? data.word.toUpperCase() : null;
+  const missing = typeof data.missing === "string" ? data.missing.toUpperCase() : null;
+  if (!word || !word.trim()) errors.push(`${where}: falta 'word'`);
+  if (!missing || !missing.trim()) errors.push(`${where}: falta 'missing'`);
+  if (word && missing && !word.includes(missing))
+    errors.push(`${where}: 'missing' ("${data.missing}") não existe dentro de 'word' ("${data.word}")`);
+  if (!Array.isArray(data.options) || data.options.length !== 3 || data.options.some((o) => typeof o !== "string" || !o.trim())) {
+    errors.push(`${where}: 'options' tem de ser uma lista de 3 textos`);
+  } else if (missing && !data.options.some((o) => o.toUpperCase() === missing)) {
+    errors.push(`${where}: 'options' tem de incluir 'missing' ("${data.missing}")`);
+  }
+}
+
 /* The `colors` block ("As Cores"): every entry needs a `name` and a 6-digit
  * `hex` (the RGB is derived from it at render time). */
 function validateColors(data, where, errors) {
@@ -250,6 +283,8 @@ function validateFile(absPath, errors, warnings) {
     if (b.lang === "verbs") validateVerbs(data, `${rel}:${b.line}`, errors);
     if (b.lang === "dictionary") validateDictionary(data, `${rel}:${b.line}`, errors);
     if (b.lang === "colors") validateColors(data, `${rel}:${b.line}`, errors);
+    if (b.lang === "dragletters") validateDragLetters(data, `${rel}:${b.line}`, errors);
+    if (b.lang === "completeword") validateCompleteWord(data, `${rel}:${b.line}`, errors);
     if (b.lang === "atlas") validateAtlas(data, `${rel}:${b.line}`, errors);
     if (b.lang !== "quiz") continue;
 

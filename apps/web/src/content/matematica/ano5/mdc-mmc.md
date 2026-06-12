@@ -65,6 +65,30 @@ Um **número primo** tem **exatamente dois** divisores: o **1** e ele próprio. 
 ]
 ```
 
+### O crivo de Eratóstenes — a peneira dos primos 🕳️
+
+Há mais de 2000 anos, o grego **Eratóstenes** inventou uma «peneira» para apanhar todos os primos de uma vez. Escreves os números todos e vais **riscando os compostos** — o que sobra na peneira são os primos!
+
+```steps
+[
+  { "title": "1. Risca o 1", "body": "o 1 não é primo (só tem 1 divisor) — fora! ❌", "icon": "1️⃣" },
+  { "title": "2. Guarda o 2, risca os outros pares", "body": "4, 6, 8, 10… são todos múltiplos de 2 ✂️", "icon": "✌️" },
+  { "title": "3. Guarda o 3, risca os múltiplos de 3", "body": "6, 9, 12, 15… (alguns já estavam riscados) ✂️", "icon": "3️⃣" },
+  { "title": "4. Guarda o 5 e o 7, risca os múltiplos", "body": "10, 15, 20… e 14, 21, 28… ✂️", "icon": "🖐️" },
+  { "title": "5. O que sobrou são os primos!", "body": "até 30: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 🧱", "icon": "🎉" }
+]
+```
+
+```keyvalue
+[
+  { "k": "Primos até 30 (sabe-os de cor!)", "v": "2, 3, 5, 7, 11, 13, 17, 19, 23, 29 — são 10 🧠" },
+  { "k": "Cuidado com os disfarçados", "v": "91 = 7 × 13 e 51 = 3 × 17 parecem primos, mas não são! 🎭" },
+  { "k": "Até 100", "v": "há 25 primos; o maior é o 97 🔭" }
+]
+```
+
+> [!NOTE] **Truque para testar um número até 100:** experimenta dividir só por **2, 3, 5 e 7**. Se nenhum couber certinho, é primo! (Usa os critérios de divisibilidade lá de cima — quase nunca precisas de fazer a conta.) 🔮
+
 ## m.m.c. — o mínimo múltiplo comum 🤝
 
 Imagina dois autocarros: um passa de **4** em 4 minutos, outro de **6** em 6. Quando voltam a passar **juntos**? Procura o **primeiro múltiplo que os dois partilham** — esse é o **m.m.c.**! 🚌🚌
@@ -204,7 +228,15 @@ Agora ao contrário! Tens **12** rebuçados de morango e **8** de limão e quere
       "explain": "«Repartir igual, o maior número» = m.d.c. = 6 ramos." },
     { "q": "Atalho: m.m.c.(4,6) = (4 × 6) ÷ m.d.c.(4,6). Quanto dá?", "layout": "grid",
       "options": [ { "t": "12", "emoji": "🔭", "correct": true }, { "t": "24" }, { "t": "2" } ],
-      "explain": "24 ÷ 2 = 12. Bonito, não é?" }
+      "explain": "24 ÷ 2 = 12. Bonito, não é?" },
+    { "q": "No crivo de Eratóstenes, o primeiro número a riscar é…", "layout": "grid", "level": 2,
+      "hint": "Quantos divisores tem? Um primo precisa de exatamente dois.",
+      "options": [ { "t": "o 1 (não é primo)", "emoji": "🕳️", "correct": true }, { "t": "o 2" }, { "t": "o 3" } ],
+      "explain": "O 1 só tem um divisor (ele próprio), por isso sai logo da peneira." },
+    { "q": "O 91 é primo?", "layout": "grid", "level": 3,
+      "hint": "Experimenta dividir por 2, 3, 5 e 7 antes de decidir.",
+      "options": [ { "t": "não — 91 = 7 × 13", "emoji": "🎭", "correct": true }, { "t": "sim, é primo" }, { "t": "não — é par" } ],
+      "explain": "Parece primo, mas 7 × 13 = 91. Os disfarçados caem no teste do 7!" }
   ]
 }
 ```

@@ -1399,6 +1399,72 @@
 .soundcard[data-playing] { border-color: var(--primary); }
 .soundcard[data-playing] .sc-speak { background: var(--primary); color: #fff; }
 
+/* pre-reader word builders (§4.10): dragletters + completeword — big display
+   type, ≥56px touch targets, the page's subject accent */
+.dragletters-widget, .completeword-widget { border-color: color-mix(in srgb, var(--acc, var(--primary)) 50%, var(--border)); }
+.dragletters-widget .w-badge, .completeword-widget .w-badge { background: var(--acc, var(--primary)); }
+
+.dl-board { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px; margin: 12px 0 6px; }
+.dl-emoji { font-size: 3em; line-height: 1; }
+.dl-slots { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.dl-slot {
+  width: 56px; height: 64px; display: grid; place-items: center;
+  border: 2.5px dashed var(--border-strong); border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  font-family: var(--font-display); font-weight: 800; font-size: 1.8em;
+  color: var(--acc, var(--primary));
+}
+.dl-slot.is-filled { border-style: solid; border-color: var(--acc, var(--primary)); background: color-mix(in srgb, var(--acc, var(--primary)) 10%, var(--surface)); }
+.dl-slot.is-next { border-color: var(--acc, var(--primary)); }
+.dl-tray { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 12px; }
+.dl-tile {
+  min-width: 56px; min-height: 56px; padding: 4px 12px;
+  border: 2px solid var(--border-strong); border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--surface) 70%, var(--ink) 6%);
+  font-family: var(--font-display); font-weight: 800; font-size: 1.6em; color: var(--ink);
+  box-shadow: var(--shadow-sm); cursor: pointer;
+  /* the tile is draggable: keep the browser from panning/selecting mid-drag */
+  touch-action: none; user-select: none; -webkit-user-select: none;
+  transition: transform var(--dur-fast) var(--ease-out), border-color var(--dur-fast), opacity var(--dur-fast);
+}
+.dl-tile:hover:not(:disabled) { transform: translateY(-2px); border-color: var(--acc, var(--primary)); }
+.dl-tile.is-used { opacity: 0; pointer-events: none; } /* keeps the tray layout stable */
+.dl-tile.is-dragging { position: relative; z-index: 5; transition: none; box-shadow: var(--shadow-md); border-color: var(--acc, var(--primary)); }
+.dl-tile.is-shake { animation: sproutShake .4s; border-color: var(--danger); }
+.dl-done, .cw-done { display: grid; gap: 10px; justify-items: center; text-align: center; margin-top: 10px; }
+.dl-done__msg, .cw-done__msg { font-family: var(--font-display); font-size: 1.15em; }
+.dl-actions, .cw-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+.cw-word {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px;
+  margin: 12px 0;
+  font-family: var(--font-display); font-weight: 800; font-size: 2em; color: var(--ink);
+}
+.cw-emoji { font-size: 1.4em; line-height: 1; }
+.cw-gap {
+  min-width: 64px; min-height: 56px; display: grid; place-items: center; padding: 0 8px;
+  border: 2.5px dashed var(--border-strong); border-radius: var(--radius-sm);
+  background: var(--surface-2); color: var(--acc, var(--primary));
+}
+.cw-gap.is-filled { border-style: solid; border-color: var(--ok); background: var(--ok-soft); }
+.cw-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.cw-opt {
+  min-width: 76px; min-height: 56px; padding: 8px 16px;
+  border: 2px solid var(--border-strong); border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--surface) 70%, var(--ink) 6%);
+  font-family: var(--font-display); font-weight: 800; font-size: 1.4em; color: var(--ink);
+  box-shadow: var(--shadow-sm); cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-out), border-color var(--dur-fast), opacity var(--dur-fast);
+}
+.cw-opt:hover { transform: translateY(-2px); border-color: var(--acc, var(--primary)); }
+.cw-opt.is-wrong { opacity: .5; border-color: var(--danger); }
+.cw-opt.is-shake { animation: sproutShake .4s; }
+@media (prefers-reduced-motion: reduce) {
+  .dl-tile, .cw-opt { transition: none; }
+  .dl-tile.is-shake, .cw-opt.is-shake { animation: none; }
+  .dl-tile:hover:not(:disabled), .cw-opt:hover { transform: none; }
+}
+
 /* dictionary — word cards (emoji + word + simple meaning), each read aloud.
    The letter page card is already a frame: the panel drops its own border
    (no frame-inside-frame) and the page widens to ~90% so the word grid

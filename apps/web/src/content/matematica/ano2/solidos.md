@@ -1,6 +1,6 @@
 # Sólidos geométricos 🧊
 
-> [!NOTE] **O que vais aprender** 👀 Vais conhecer os **sólidos geométricos** — cubo, paralelepípedo, esfera, cilindro, cone e pirâmide — e descobrir os seus **lados (faces), bicos (vértices) e arestas**. Vais ver quais **rolam** e quais **ficam quietos**! 🙌
+> [!NOTE] **O que vais aprender** 👀 Vais conhecer os **sólidos geométricos** — cubo, paralelepípedo, esfera, cilindro, cone e pirâmide — e descobrir os seus **lados (faces), bicos (vértices) e arestas**. Vais ver quais **rolam** e quais **ficam quietos**, e ainda abrir uma caixa para veres a sua **planificação**! 🙌
 
 Olha à tua volta: uma bola, um dado, uma lata, um gelado, uma caixa de sapatos… Todas estas coisas têm uma **forma** que se pega na mão e ocupa espaço. São os **sólidos geométricos**! Vamos conhecê-los um a um? Vais ver que já os usas todos os dias sem saber o nome. 😄
 
@@ -79,6 +79,46 @@ Vamos contar no **cubo** (o dado), que é o mais fácil de imaginar:
 ]
 ```
 
+## Planificações: o sólido aberto e espalmado 📦✂️
+
+Já desmontaste uma **caixa de cereais** para ir para a reciclagem? Quando a abres toda e a espalmas na mesa, vês as 6 faces **abertas numa figura plana** — isso chama-se a **planificação** do sólido! É o «molde» de papel que, dobrado, volta a ser o sólido. 🪄
+
+```compare
+[
+  { "title": "Cubo aberto 🎲", "rows": [
+    { "label": "O que vês", "value": "6 quadrados iguais ligados" },
+    { "label": "Forma famosa", "value": "uma cruz de quadrados ➕", "highlight": true },
+    { "label": "Dobrar", "value": "dobra nas arestas e fecha o dado!" }
+  ] },
+  { "title": "Caixa aberta 📦", "rows": [
+    { "label": "O que vês", "value": "6 retângulos (iguais 2 a 2)" },
+    { "label": "Forma famosa", "value": "a caixa de cereais espalmada", "highlight": true },
+    { "label": "Dobrar", "value": "dobra e volta a ser o paralelepípedo!" }
+  ] }
+]
+```
+
+> [!NOTE] Truque para conferir: conta as faces do molde! O cubo e a caixa têm **6 faces**, por isso a planificação tem de mostrar **6 pedaços** — nem mais, nem menos. Se o molde tiver 5, fica um buraco; se tiver 7, sobra papel! ✂️
+
+E os outros sólidos de faces planas? Também se abrem — mas os moldes são **diferentes**, porque as faces são diferentes:
+
+```compare
+[
+  { "title": "Prisma triangular aberto ⛺", "rows": [
+    { "label": "O que é", "value": "como a caixa do Toblerone: 2 triângulos nas pontas" },
+    { "label": "O molde mostra", "value": "3 retângulos em fila + 2 triângulos", "highlight": true },
+    { "label": "Total", "value": "5 faces — conta e confere!" }
+  ] },
+  { "title": "Pirâmide aberta 🔺", "rows": [
+    { "label": "O que é", "value": "como as do Egito: base em baixo, bico em cima" },
+    { "label": "O molde mostra", "value": "1 quadrado no meio + 4 triângulos à volta (uma estrela!)", "highlight": true },
+    { "label": "Total", "value": "5 faces — todas a fechar no bico" }
+  ] }
+]
+```
+
+> [!TIP] Olha para o molde e tenta adivinhar o sólido **antes** de dobrar: só retângulos (e 2 triângulos nas pontas)? É um **prisma**. Triângulos todos à volta de uma base, prontos a juntar num bico? É uma **pirâmide**! 🕵️
+
 ## Um exemplo passo a passo 🔍
 
 A Matilde tem uma **lata de tomate** na mão e quer saber que sólido é. Vamos descobrir juntos! 🥫
@@ -128,7 +168,11 @@ A Matilde tem uma **lata de tomate** na mão e quer saber que sólido é. Vamos 
       "explain": "A caixa tem 6 faces retangulares: é um paralelepípedo." },
     { "q": "Qual destes rola melhor para todos os lados?", "layout": "grid",
       "options": [ { "t": "esfera", "emoji": "⚽", "correct": true }, { "t": "cubo", "emoji": "🎲" }, { "t": "pirâmide", "emoji": "⛺" } ],
-      "explain": "A esfera é toda redonda, por isso rola para todos os lados." }
+      "explain": "A esfera é toda redonda, por isso rola para todos os lados." },
+    { "q": "Abres e espalmas uma caixa de cereais. Essa figura plana chama-se…", "layout": "grid",
+      "hint": "É o «molde» de papel do sólido. ✂️",
+      "options": [ { "t": "planificação", "emoji": "📦", "correct": true }, { "t": "esfera", "emoji": "⚽" }, { "t": "aresta", "emoji": "📏" } ],
+      "explain": "O sólido aberto e espalmado é a sua planificação — dobrada, volta a ser a caixa." }
   ]
 }
 ```
@@ -167,7 +211,19 @@ A Matilde tem uma **lata de tomate** na mão e quer saber que sólido é. Vamos 
       "explain": "Redondo em baixo e bico em cima: é um cone!" },
     { "q": "Uma caixa de sapatos é um…", "emoji": "📦", "layout": "grid",
       "options": [ { "t": "paralelepípedo", "emoji": "📦", "correct": true }, { "t": "cilindro", "emoji": "🥫" }, { "t": "esfera", "emoji": "⚽" } ],
-      "explain": "Tem 6 faces retangulares: é um paralelepípedo." }
+      "explain": "Tem 6 faces retangulares: é um paralelepípedo." },
+    { "q": "A planificação do cubo (a cruz ➕) tem quantos quadrados?", "layout": "grid",
+      "hint": "Tantos quantas as faces do cubo!",
+      "options": [ { "t": "6", "emoji": "🎲", "correct": true }, { "t": "4" }, { "t": "8" } ],
+      "explain": "O cubo tem 6 faces, por isso o molde mostra 6 quadrados." },
+    { "q": "Um molde tem 1 quadrado no meio e 4 triângulos à volta. Que sólido fecha?", "layout": "grid", "level": 2,
+      "hint": "Os triângulos dobram todos para cima e juntam-se num bico…",
+      "options": [ { "t": "uma pirâmide", "emoji": "⛺", "correct": true }, { "t": "um cubo", "emoji": "🎲" }, { "t": "uma esfera", "emoji": "⚽" } ],
+      "explain": "Base quadrada + 4 triângulos a fechar no bico = pirâmide!" },
+    { "q": "O molde do prisma triangular (caixa do Toblerone) mostra…", "layout": "grid", "level": 3,
+      "hint": "Pensa nas pontas da caixa: que forma têm?",
+      "options": [ { "t": "3 retângulos + 2 triângulos", "emoji": "🍫", "correct": true }, { "t": "6 quadrados" }, { "t": "4 círculos" } ],
+      "explain": "As 3 faces compridas são retângulos e as 2 pontas são triângulos — 5 faces." }
   ]
 }
 ```

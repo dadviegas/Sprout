@@ -25,6 +25,8 @@ import {
   SolarSystem, type SolarSystemSpec,
   DayNight, type DayNightSpec,
   SoundCards, type SoundCardsSpec,
+  DragLetters, type DragLettersSpec,
+  CompleteWord, type CompleteWordSpec,
   Dictionary, type DictionarySpec,
   Verbs, type VerbsSpec,
   Colors, type ColorsSpec,
@@ -191,6 +193,8 @@ const widgetRenderers: Record<string, (json: unknown) => ReactNode> = {
   solarsystem: (d) => <SolarSystem spec={d as SolarSystemSpec} />,
   daynight: (d) => <DayNight spec={d as DayNightSpec} />,
   soundcards: (d) => <SoundCards spec={d as SoundCardsSpec} />,
+  dragletters: (d) => <DragLetters spec={d as DragLettersSpec} />,
+  completeword: (d) => <CompleteWord spec={d as CompleteWordSpec} />,
   dictionary: (d) => {
     // Bring this letter's verbs into the dictionary (single source stays
     // verbos/*.md — see dictMerge). A word that already exists *and* is a verb

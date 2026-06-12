@@ -87,6 +87,7 @@ export function DragLetters({ spec }: { spec: DragLettersSpec }) {
 
   const onPointerDown = (e: ReactPointerEvent<HTMLButtonElement>, tile: Tile) => {
     if (done || placed.includes(tile.id)) return;
+    justDragged.current = false; // a fresh press — never swallow its tap
     e.currentTarget.setPointerCapture(e.pointerId);
     dragInfo.current = { id: tile.id, x0: e.clientX, y0: e.clientY, moved: false };
   };
@@ -167,7 +168,7 @@ export function DragLetters({ spec }: { spec: DragLettersSpec }) {
         <div className="dl-tray">
           {tray.map((tile) => {
             const used = placed.includes(tile.id);
-            const dragging = drag?.id === tile.id;
+            const dragging = drag !== null && drag.id === tile.id;
             return (
               <button
                 key={tile.id}
@@ -175,7 +176,7 @@ export function DragLetters({ spec }: { spec: DragLettersSpec }) {
                 className={["dl-tile", used ? "is-used" : "", dragging ? "is-dragging" : "", shakeId === tile.id ? "is-shake" : ""]
                   .filter(Boolean)
                   .join(" ")}
-                style={dragging ? { transform: `translate(${drag.dx}px, ${drag.dy}px)` } : undefined}
+                style={drag !== null && drag.id === tile.id ? { transform: `translate(${drag.dx}px, ${drag.dy}px)` } : undefined}
                 disabled={used}
                 onClick={() => onTap(tile)}
                 onPointerDown={(e) => onPointerDown(e, tile)}

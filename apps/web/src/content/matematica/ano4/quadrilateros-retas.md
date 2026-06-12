@@ -1,6 +1,6 @@
 # Os quadriláteros e as retas 🔷
 
-> [!NOTE] **O que vais aprender** 👀 Vais rever as retas **paralelas** e **perpendiculares** e conhecer a família das figuras de **4 lados** — os **quadriláteros**: quadrado, retângulo, **losango**, **paralelogramo** e **trapézio**. E vais descobrir o segredo da família: o quadrado é um retângulo especial! 🤯
+> [!NOTE] **O que vais aprender** 👀 Vais rever as retas **paralelas** e **perpendiculares** e conhecer a família das figuras de **4 lados** — os **quadriláteros**: quadrado, retângulo, **losango**, **paralelogramo** e **trapézio**. Vais descobrir o segredo da família (o quadrado é um retângulo especial! 🤯) e a **simetria de rotação** — figuras que giram e ficam iguais. 🔄
 
 Olha à tua volta: janelas, portas, ecrãs, azulejos, sinais de trânsito… o mundo está cheio de figuras de **4 lados**! Mas nem todas são iguais — há uma família inteira, com primos parecidos e segredos de família. Hoje vais conhecê-los a todos pelo nome. 👨‍👩‍👧‍👦
 
@@ -77,6 +77,23 @@ E o segredo maior: o **quadrado** é o menino querido da família — é **retâ
 ]
 ```
 
+## Simetria de rotação: figuras que giram e ficam iguais 🔄
+
+Já conheces a simetria do espelho (a do 2.º ano, com o eixo 🦋). Há outra: a **simetria de rotação** — pega na figura, **gira-a** sem a levantar e… ela fica **exatamente igual** antes de dar a volta toda!
+
+Experimenta na cabeça com os teus novos amigos quadriláteros:
+
+```keyvalue
+[
+  { "k": "Quadrado 🟧", "v": "gira um quarto de volta (90°) e fica igual — e outra vez, e outra! São 4 posições iguais por volta" },
+  { "k": "Retângulo 📺", "v": "a 90° fica deitado ao contrário (nota-se!); só a MEIA-VOLTA (180°) fica igual — 2 posições" },
+  { "k": "Losango ♦️", "v": "como o retângulo: fica igual na meia-volta (180°)" },
+  { "k": "Trapézio ⛺", "v": "gira-o como quiseres — só fica igual na volta completa: NÃO tem simetria de rotação" }
+]
+```
+
+> Pensa na **roda do leme** de um navio ⎈ ou numa **estrela do mar** 🌟: rodas um bocadinho e parece que ninguém lhe tocou. Uma **chave** 🔑, pelo contrário, rodada fica logo «de pernas para o ar» — não tem simetria de rotação. O teste é sempre o mesmo: *consigo girar menos de uma volta completa e ver a figura igualzinha?*
+
 ## Um exemplo passo a passo 🔍
 
 Apareceu um quadrilátero misterioso: tem os **lados opostos paralelos**, os **4 lados iguais**, mas os cantos **não são retos**. Quem é? 🕵️
@@ -120,7 +137,11 @@ Apareceu um quadrilátero misterioso: tem os **lados opostos paralelos**, os **4
       "explain": "O trapézio é o do telhado: só um par paralelo." },
     { "q": "Todo o quadrado é também um…", "layout": "grid",
       "options": [ { "t": "retângulo", "emoji": "🤯", "correct": true }, { "t": "trapézio" }, { "t": "triângulo" } ],
-      "explain": "Tem 4 cantos retos → é um retângulo (especial, de lados iguais)." }
+      "explain": "Tem 4 cantos retos → é um retângulo (especial, de lados iguais)." },
+    { "q": "Giras um quadrado um quarto de volta (90°). O que vês?", "layout": "list",
+      "hint": "Os 4 lados são todos iguais… nota-se a diferença?",
+      "options": [ { "t": "fica exatamente igual — simetria de rotação!", "emoji": "🔄", "correct": true }, { "t": "fica torto" }, { "t": "vira um triângulo" } ],
+      "explain": "O quadrado fica igual a cada 90° — tem simetria de rotação." }
   ]
 }
 ```
@@ -159,7 +180,11 @@ Apareceu um quadrilátero misterioso: tem os **lados opostos paralelos**, os **4
       "explain": "Lados iguais sem cantos retos: o diamante — losango." },
     { "q": "A primeira pergunta mágica para dar nome a um quadrilátero é…", "layout": "list",
       "options": [ { "t": "quantos pares de lados paralelos tem?", "emoji": "🪄", "correct": true }, { "t": "de que cor é?" }, { "t": "quanto pesa?" } ],
-      "explain": "2 pares → família do paralelogramo; 1 par → trapézio. Depois vês cantos e lados." }
+      "explain": "2 pares → família do paralelogramo; 1 par → trapézio. Depois vês cantos e lados." },
+    { "q": "O retângulo 📺 tem simetria de rotação? Em que volta fica igual?", "layout": "list",
+      "hint": "A 90° fica em pé… nota-se. E à meia-volta?",
+      "options": [ { "t": "sim — fica igual na meia-volta (180°)", "emoji": "🔄", "correct": true }, { "t": "sim — a cada 90°, como o quadrado" }, { "t": "não, nunca fica igual" } ],
+      "explain": "Rodado 180° o retângulo fica igualzinho; a 90° ficaria ao alto." }
   ]
 }
 ```

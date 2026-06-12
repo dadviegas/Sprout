@@ -6,6 +6,15 @@
 > `MATERIA_EM_FALTA.md` e `COVERAGE.md`; o plano de execução vive em
 > `PLANO-ESTUDO.md`.
 
+> **🏁 Auditoria fechada (2026-06-12).** Todas as linhas ❌ e os ⚠️ principais
+> foram resolvidos entre 2026-06-10 e 2026-06-12 (Fases 1–4 e 20B/20C — 585
+> lições no validador). Restam apenas aprofundamentos opcionais, marcados ⚠️
+> nas tabelas: estratégias de ×/÷ no 3.º, ciclo estatístico completo no 4.º,
+> dividir por 10/100/1000 (verificar em `calculo-mental`), primos < 100
+> (verificar em `mdc-mmc`), sólidos no 1.º (aceitável no 2.º) e planificações
+> de prismas variados (🟢). Nada disto bloqueia um ano letivo completo na app.
+> Reauditar quando as novas AE (EduQA) forem homologadas.
+
 ## Resumo executivo
 
 1. **Matemática anda ~1 ano atrasada nos números.** A app ensina "até 20" no
@@ -42,8 +51,9 @@
    *(✅ Em grande parte resolvido em 2026-06-11 — `inteiros`/`equacoes` marcados
    como "Matéria extra — espreitadela ao 7.º ano" (callout + tag no cartão);
    criadas `mat-5-percentagens` (cálculo) e `mat-6-probabilidade` (escala 0–1,
-   frequência relativa); dm³↔litro acrescentado a `volumes`. Ficam as áreas do
-   paralelogramo/triângulo e a construção de triângulos no 5.º.)*
+   frequência relativa); dm³↔litro acrescentado a `volumes`. ✅ As áreas do
+   paralelogramo/triângulo e a construção de triângulos fecharam em 2026-06-11
+   com `mat-5-areas`.)*
 6. Estudo do Meio tem lacunas pontuais por ano (ver tabelas).
 
 ⚠️ Está em curso uma revisão geral das AE (pilotos 2025/26, entrada gradual
@@ -51,23 +61,23 @@ prevista a partir de 2027/28) — reauditar quando for homologada.
 
 ## Matemática
 
-### 1.º ano — app: 9 lições
+### 1.º ano — app: 14 lições
 
 | AE 2021 | Estado na app |
 |---|---|
 | Contagens até 50+; números até **100**; dezenas e unidades | ✅ `mat-1-numeros-100` (2026-06-11): contar às dezenas, dezenas/unidades, comparar |
-| Factos básicos até 10 (pares de 10, dobros, quase-dobros) | ⚠️ parcial (`somar`, `dobro-metade`) — falta treino sistemático dos factos |
-| Adição/subtração: juntar, retirar, comparar, **completar** | ⚠️ parcial — falta o sentido "completar" e problemas de comparação |
-| Problemas de um passo | ⚠️ só dentro de `somar`; sem lição própria |
-| Álgebra: sequências de repetição | ❌ só existe no 2.º (`padroes`) — AE põe no 1.º |
-| Dados: pictogramas, gráficos de pontos | ❌ só existe no 3.º (`dados`) |
-| GM: orientação espacial (posições, itinerários) | ❌ em falta |
+| Factos básicos até 10 (pares de 10, dobros, quase-dobros) | ✅ `mat-1-factos` (2026-06-11): amigos do 10, dobros, quase-dobros — treino pesado com `hint`/`level` |
+| Adição/subtração: juntar, retirar, comparar, **completar** | ✅ `mat-1-problemas` (2026-06-11): os 4 sentidos com histórias de emoji |
+| Problemas de um passo | ✅ `mat-1-problemas` (2026-06-11): 2 exemplos passo a passo + palavras-pista |
+| Álgebra: sequências de repetição | ✅ `mat-1-padroes` (2026-06-11): cores/formas/sons batidos, "o que vem a seguir?" (crescimento fica no 2.º) |
+| Dados: pictogramas, gráficos de pontos | ✅ `mat-1-pictogramas` (2026-06-11): contar filas, ler pictograma, "qual tem mais?", 1.ª barra (`chart`) |
+| GM: orientação espacial (posições, itinerários) | ✅ `mat-1-orientacao` (2026-06-11): posições, esquerda/direita (truque do coração), itinerários em grelha |
 | GM: sólidos + figuras planas, compor/decompor | ⚠️ `formas` cobre figuras planas; sólidos só no 2.º (aceitável) |
-| GM: comprimento com unidades não convencionais | ❌ em falta |
+| GM: comprimento com unidades não convencionais | ✅ secção "passos e palmos" em `mat-1-orientacao` (2026-06-11) |
 | GM: tempo (dia, semana, sequências) | ✅ `tempo` |
 | Ordinais, comparar/ordenar | ✅ (`ordinais`, `comparar`) |
 
-### 2.º ano — app: 12 lições
+### 2.º ano — app: 14 lições
 
 | AE 2021 | Estado na app |
 |---|---|
@@ -82,7 +92,7 @@ prevista a partir de 2027/28) — reauditar quando for homologada.
 | Dinheiro: euro↔cêntimo, contar quantias | ✅ `dinheiro` |
 | Pares/ímpares, sólidos, simetria | ✅ |
 
-### 3.º ano — app: 12 lições
+### 3.º ano — app: 15 lições
 
 | AE 2021 | Estado na app |
 |---|---|
@@ -93,14 +103,14 @@ prevista a partir de 2027/28) — reauditar quando for homologada.
 | Frações: equivalências simples (1/2=2/4) | ⚠️ `fracoes` cobre 1/2,1/3,1/4; equivalências fracas |
 | **Ângulos** (reto/agudo/obtuso, sem graus) | ✅ `mat-3-angulos` (2026-06-11): reto/agudo/obtuso/raso sem graus, crocodilo + canto da folha |
 | km e mm; massa kg/g | ✅ `mat-3-medidas-2` (2026-06-11): km (Lisboa–Porto ≈ 300 km), mm, g + escada de conversões |
-| Relógios analógicos **e digitais**; h/min/s | ⚠️ `calendario` cobre tempo; relógio digital em falta |
-| Dinheiro: listas de compras, estimar custos | ❌ em falta (existe `estudo/loja` fora do ano — ligar) |
+| Relógios analógicos **e digitais**; h/min/s | ✅ `mat-3-relogio-digital` (2026-06-11): digital vs ponteiros, 24 h (truque ±12), 1 h = 60 min, durações |
+| Dinheiro: listas de compras, estimar custos | ✅ secção "lista de compras" em `mat-3-relogio-digital` (2026-06-11): estimar, planear, pagar (`money`) e troco — liga à loja do Saber de cor |
 | Reflexão axial | ✅ (simetria no 2.º) |
 | Dados: gráfico de barras, moda | ✅ `dados` |
 | Nota: decimais **já não são** matéria do 3.º (AE 2021) | ✅ app está certa |
 | `romanos` | extra fora da AE — manter como curiosidade |
 
-### 4.º ano — app: 13 lições
+### 4.º ano — app: 19 lições
 
 | AE 2021 | Estado na app |
 |---|---|
@@ -111,10 +121,10 @@ prevista a partir de 2027/28) — reauditar quando for homologada.
 | Algoritmos: ×3×2 algarismos; ÷ com divisor de 2 algarismos; **resto interpretado** | ✅ `contas-armadas` (mecânica) + `mat-4-problemas-2` (2026-06-11): resto em contexto |
 | **Problemas de 2–3 passos** com conversões, troco, fração de quantidade, dados de tabela | ✅ `mat-4-problemas-2` (2026-06-11): copos/água, troco, resto, fração de quantidade, armadilhas explicadas |
 | Capacidade: l, **cl**, ml (33 cl, 200 ml como referências) | ✅ cl na lição `volume` (2026-06-11: 1 l = 100 cl, lata 33 cl, pacote 20 cl) + treino em `mat-4-problemas-2` |
-| **Planificações de prismas/pirâmides** | ❌ em falta |
+| **Planificações de prismas/pirâmides** | 🟢 planificação do cubo/caixa (secção em `mat-2-solidos`, 2026-06-11, com 2 perguntas); prismas/pirâmides variados ficam para aprofundar |
 | Quadriláteros (classificação); paralelas/perpendiculares | ✅ `mat-4-quadrilateros` (2026-06-11): quadrado/retângulo/losango/paralelogramo/trapézio + retas |
 | **Círculo vs circunferência, raio/diâmetro** | ✅ `mat-4-circulo` (2026-06-11): raio/diâmetro (d = 2r), compasso; π fica para o 6.º |
-| Simetria de **rotação** | ❌ em falta |
+| Simetria de **rotação** | ✅ secção em `mat-4-quadrilateros` (2026-06-11): quadrado a 90°, retângulo/losango a 180°, trapézio sem rotação; 2 perguntas |
 | **Dinheiro: orçamentos (receitas/despesas/saldo)**, publicidade | ✅ `mat-4-percentagens` (2026-06-11): orçamento da mesada + callout "publicidade enganosa?" |
 | Área cm²/m², fórmula do retângulo | ✅ `area` |
 | Dados: estudos estatísticos completos | ⚠️ `dados` lê gráficos; falta o ciclo completo |
@@ -126,8 +136,10 @@ prevista a partir de 2027/28) — reauditar quando for homologada.
   abordagem às **probabilidades** (AE 5.º) é servida por `mat-6-probabilidade`
   (a lição diz na abertura que a matéria começa no 5.º; registada no 6.º, onde
   se aprofunda — mudar de ano se um dia o 5.º ganhar bloco de dados próprio).
-  Em falta ainda: áreas do **paralelogramo e triângulo**, construção de
-  triângulos, números primos < 100 (⚠️ verificar em `mdc-mmc`).
+  ✅ áreas do **paralelogramo e do triângulo** + construção de triângulos
+  (régua e compasso, desigualdade triangular) — `mat-5-areas` (2026-06-11):
+  recortar-e-deslizar → b × h; triângulo = metade → b × h ÷ 2; armadilha da
+  altura ⊥. Em falta ainda: números primos < 100 (⚠️ verificar em `mdc-mmc`).
 - 6.º: `inteiros` e `equacoes` **saíram do programa** (AE 2021 → 3.º ciclo).
   ✅ Marcados em 2026-06-11 como "Matéria extra — espreitadela ao 7.º ano"
   (callout de abertura + tag no cartão), sem apagar nada. ✅ **probabilidade**
@@ -263,8 +275,9 @@ do PLANO-ESTUDO §4.2.
 2. ⚠️ **(2026-06-11)** Matemática 4.º: lição "Resolver problemas 2: vários
    passos" (`mat-4-problemas-2`) com conversões/troco/resto e armadilhas
    explicadas. Falta: gerador de problemas + níveis de dificuldade.
-3. ⚠️ **(2026-06-11)** Matemática 1.º: números até 100 (`mat-1-numeros-100`,
-   dezenas/unidades, comparar). Falta: treino sistemático dos factos básicos.
+3. ✅ **(2026-06-11)** Matemática 1.º: números até 100 (`mat-1-numeros-100`,
+   dezenas/unidades, comparar). O treino sistemático dos factos básicos fechou
+   na Fase 20B (`mat-1-factos`).
 4. ✅ **(2026-06-11)** Matemática 4.º: medidas completadas (cl na lição
    `volume`) e percentagens de referência + orçamentos/publicidade
    (`mat-4-percentagens`).
@@ -318,6 +331,19 @@ quatro lições-mestras das operações no 4.º ano (`mat-4-somar-pe`,
 de leitura no Saber de cor (`estudo-silabas-treino`, `estudo-ler-palavras`),
 com a categoria «Aprender a ler» do Treinar a ordenar a escada completa
 (alfabeto → sílabas → palavras → textos).
+
+## Fase 20B (2026-06-11) — Matemática fechada vs. as tabelas acima
+
+Sete lições novas + duas secções para limpar os ⚠️/❌ restantes de Matemática:
+`mat-1-factos`, `mat-1-problemas`, `mat-1-padroes`, `mat-1-orientacao` (com
+passos/palmos), `mat-1-pictogramas`, `mat-3-relogio-digital` (com lista de
+compras) e `mat-5-areas`; secções novas "Simetria de rotação" em
+`mat-4-quadrilateros` e "Planificações" em `mat-2-solidos`. As lições novas
+estreiam os campos `hint`/`level` do Quiz (fase 20A) — pistas e dificuldade
+1–3 em todas as perguntas. Em Matemática ficam só os ⚠️ "parciais" das tabelas
+(estratégias de ×/÷ no 3.º, equivalências de frações, dividir por 10/100/1000
+no 4.º, ciclo estatístico completo, cálculo mental sem lição no 2.º, primos
+< 100 no 5.º) e o aprofundar das planificações de prismas/pirâmides.
 
 ## Fontes
 

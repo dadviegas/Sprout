@@ -7,9 +7,20 @@ crianças.
 Importante: uma disciplina pode existir na app e, mesmo assim, faltar matéria
 concreta, mais prática ou mais visível dentro dela.
 
-Estado atual: a app já tem **453 lições válidas**, todas com questionário final.
+Estado atual: a app já tem **577 lições válidas**, todas com questionário final.
 Já não há placeholders de matéria no currículo. O trabalho agora é sobretudo
 aprofundar, tornar visual e aproximar as páginas de situações reais de estudo.
+
+> **Atualização 2026-06-11 (Fase 20B)** — Matemática fechada vs.
+> `AUDITORIA-CURRICULO.md`: no **1.º ano**, factos básicos (`mat-1-factos`),
+> problemas de juntar/retirar/comparar/completar (`mat-1-problemas`), padrões
+> (`mat-1-padroes`), orientação espacial + medir com passos/palmos
+> (`mat-1-orientacao`) e pictogramas (`mat-1-pictogramas`); no **3.º**, relógio
+> digital + durações + listas de compras (`mat-3-relogio-digital`); no **5.º**,
+> áreas do paralelogramo/triângulo + construção de triângulos (`mat-5-areas`).
+> Secções novas: **simetria de rotação** em `mat-4-quadrilateros` e
+> **planificações** (cubo/caixa) em `mat-2-solidos`. As lições novas usam os
+> campos `hint`/`level` do Quiz (fase 20A).
 
 > **Atualização 2026-06-11 (Fase 4)** — fechada a Matemática vs. a auditoria:
 > **moda e pictogramas** (`mat-2-dados`) e **perímetro** (`mat-2-perimetro`) no
@@ -18,9 +29,9 @@ aprofundar, tornar visual e aproximar as páginas de situações reais de estudo
 > (`mat-4-circulo`) no 4.º; **percentagens com cálculo** no 5.º
 > (`mat-5-percentagens`); **probabilidade** no 6.º (`mat-6-probabilidade`, serve
 > também a 1.ª abordagem do 5.º); `inteiros`/`equacoes` marcados como "Matéria
-> extra — espreitadela ao 7.º ano"; dm³↔litro acrescentado a `volumes`. Em
-> Matemática 5.º faltam ainda as áreas do paralelogramo/triângulo e a
-> construção de triângulos.
+> extra — espreitadela ao 7.º ano"; dm³↔litro acrescentado a `volumes`. As
+> áreas do paralelogramo/triângulo e a construção de triângulos fecharam na
+> Fase 20B (`mat-5-areas`).
 
 > **Atualização 2026-06-11 (Fase 3)** — HGP reordenado por AE 2018: os
 > Descobrimentos, o império e a Restauração passaram para o **5.º ano** (ids

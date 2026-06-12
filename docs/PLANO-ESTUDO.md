@@ -105,14 +105,21 @@ estudo" tem alicerces:
 - **TPC** — `study/tpc.ts` + `sprout.tpc.v1`; os pais marcam 1–3 lições com
   prazo na Área dos Pais (tab Estudo) e a criança vê-as como missões
   PRIORITÁRIAS no `#/plano`. Ver §4.12.
+- **Extensões do Quiz (fase 20A)** — `hint`/`level`/`steps` por pergunta +
+  escada "Preciso de ajuda" com estrelas ponderadas (`Quiz.tsx`,
+  `progress.tsx`, `review.ts`). Ver §4.3/§4.4/§4.5.
+- **Widgets pré-leitor** — `dragletters` + `completeword` em `@sprout/ui`,
+  pilotados em `pt-1-letras-ptl`. Ver §4.10.
 
 **Lacunas reais** (o que ainda não existe):
 
 - **Nenhum módulo do motor falta** — TPC e diagnóstico fecharam a lista
-  (2026-06-11, fase 19B). O que resta são extensões do *Quiz* e conteúdo:
-- **Dificuldade por pergunta** (§4.4), **modo "estudar com ajuda"** (§4.5),
-  **passo a passo nas perguntas** (§4.3) e widgets novos do pré-leitor
-  (arrastar letras / completar palavra, §4.10).
+  (2026-06-11, fase 19B); as extensões do *Quiz* (`hint`/`level`/`steps`,
+  §4.3–4.5) e os widgets do pré-leitor (`dragletters`/`completeword`, §4.10)
+  fecharam na fase 20A (2026-06-11). Resta:
+- **O auto-ajuste da dificuldade** (§4.4 — servir perguntas um nível
+  acima/abaixo conforme a força no banco de erros) e **etiquetar o conteúdo
+  existente** com `hint`/`level`/`steps` (hoje só o motor está pronto).
 
 ---
 
@@ -165,8 +172,9 @@ Tudo com o prefixo `sprout.` e versionado (`.v1`):
 > `{ id, kind: "repetir"|"rever"|"continuar"|"nova", lessonId, title, detail,
 > say, color, emoji, minutes, done }`. O `ReviewItem` real (em
 > `study/review.ts`) também é mais magro que o rascunho: `{ id, lessonId,
-> subjectId, box, attempts, correct, wrong, lastAt, nextAt }` — sem
-> `strength`/`topic`/`assistedCount` enquanto §4.4/§4.5 não existirem.
+> subjectId, box, attempts, correct, wrong, lastAt, nextAt, level?, assisted? }`
+> — `level`/`assisted` chegaram com §4.4/§4.5 (2026-06-11); sem
+> `strength`/`topic` por agora.
 > O `Diagnostic` real (em `study/diagnostico.ts`) também difere do rascunho
 > abaixo: `{ year, at, pct, bySubject }` — `level`/`recommendedDays` nunca
 > foram precisos (o plano de férias escolhe o ano à mão e o horizonte deriva
@@ -305,41 +313,47 @@ Cada módulo diz: **o que é**, **o que já existe**, **o que falta**, **onde** 
   - o relatório semanal (§4.11) lista o que rever na semana seguinte.
 - **Futuro (anotado, não feito).** Um *runner* de revisão dedicado (hoje a
   criança vence as perguntas reabrindo a lição — KISS); `topic` por pergunta
-  (para alertas "erra sempre medidas"); `strength`/`assisted` quando §4.4/§4.5
-  chegarem.
+  (para alertas "erra sempre medidas"). *(2026-06-11: o `ReviewItem` ganhou
+  `level` e `assisted` com §4.4/§4.5 — ver abaixo.)*
 
-### 4.3 Explicação passo a passo  *(estende o que existe)*
+### 4.3 Explicação passo a passo  ✅ *(feito 2026-06-11)*
 
 - **O que é.** Nunca só "certo/errado". Mostrar o raciocínio:
   > Não é só 7 × 4. Tens de converter litros para ml: 6 L = 6000 ml;
   > 6000 ÷ 200 = **30 copos**.
-- **Já existe.** `QuizQuestion.explain` (uma linha, mostrada após responder).
-  Para conteúdo de lição há os blocos `math` e o infográfico `steps`.
-- **Falta.** Estender `QuizQuestion` com `steps?: string[]` (resolução passo a
-  passo, lida em voz alta, revelada após responder — certo **ou** errado). O
-  `explain` continua a ser a "ideia-chave" de uma linha.
-- **Onde.** `Quiz.tsx` (tipo + ecrã de resultado). Autores de lição usam
-  `math` + `steps` no corpo para problemas escritos.
+- **Como ficou.** `QuizQuestion.steps?: string[]` — a resolução passo a passo,
+  revelada após responder (certo **ou** errado) como cartão "Passo a passo"
+  numerado, com leitura em voz alta. O `explain` continua a ser a "ideia-chave"
+  de uma linha. `pnpm validate` exige uma lista de textos não vazios. Para o
+  corpo da lição continuam os blocos `math` e o infográfico `steps`.
 
-### 4.4 Dificuldade progressiva  *(novo, leve)*
+### 4.4 Dificuldade progressiva  🟢 *(etiqueta + ordenação feitas 2026-06-11; falta o auto-ajuste)*
 
-- **O que é.** Fácil → Médio → Difícil → Desafio, e a app sobe/desce sozinha.
-- **Já existe.** Nada por pergunta. As frações dinâmicas (`gen`) já variam.
-- **Falta.** Campo opcional `level?: "facil" | "medio" | "dificil" | "desafio"`
-  em `QuizQuestion` (default `medio`). O motor de prática serve a próxima
-  pergunta um nível acima quando a força do tópico (`ReviewItem.strength`) está
-  alta, e um abaixo quando está baixa.
-- **Onde.** `Quiz.tsx` + `study/review.ts`. KISS: começa só por *etiquetar* e
-  ordenar; o "auto-ajuste" liga-se quando o banco de erros existir.
+- **O que é.** Fácil → Média → Difícil, e a app sobe/desce sozinha.
+- **Feito (2026-06-11).** Campo opcional `level?: 1 | 2 | 3` em `QuizQuestion`
+  (1 fácil · 2 média · 3 difícil; default 2 — números, mais curtos de escrever
+  e validar do que strings). Os **testes finais ordenam por `level` ascendente**
+  (sort estável; aquecer primeiro), preservando a identidade no banco de erros
+  pelo índice DE AUTOR (`order[i]` no `Quiz.tsx`). O `ReviewItem` regista o
+  `level`. Um `level` inválido (ex.: 5) **chumba** o `pnpm validate`.
+- **Falta.** O auto-ajuste: o motor de prática servir a próxima pergunta um
+  nível acima/abaixo conforme a força do item no banco de erros.
 
-### 4.5 Modo "estudar com ajuda"  *(novo)*
+### 4.5 Modo "estudar com ajuda"  ✅ *(feito 2026-06-11)*
 
-- **O que é.** Por pergunta: Ver pista → Ver exemplo parecido → Ver passo 1 →
-  Ver resolução completa. Se usar ajuda, a nota conta de forma diferente.
-- **Falta.** `QuizQuestion.hint?: string` + reaproveitar `steps` (revelados um a
-  um a pedido). Marcar a resposta como `assisted` → entra no `ReviewItem` com
-  peso reduzido (não sobe de caixa) e fica visível no detalhe dos pais.
-- **Onde.** `Quiz.tsx` (botões progressivos de ajuda) + `study/review.ts`.
+- **O que é.** Por pergunta, uma escada de ajuda opcional; usar ajuda faz a
+  nota contar de forma diferente.
+- **Como ficou.** Botão **"Preciso de ajuda"** (ícone `tip`, cor da disciplina)
+  antes de responder; cada toque sobe um degrau: (1) **pista**
+  (`QuizQuestion.hint?: string` — sem `hint` o degrau salta-se), (2) **riscar
+  uma opção errada**, (3) **revelar a explicação** e responder na mesma. Copy
+  quente ("Pedir ajuda é de espertos!"), tudo com leitura em voz alta. Usar
+  QUALQUER ajuda marca a resposta "com ajuda": conta para o progresso e para a
+  passagem (o gate ≥80% usa a contagem crua), mas para as **estrelas** vale
+  **metade** (degrau 3 = zero) — a percentagem ponderada segue para
+  `starsForPct`/`recordQuiz`. No banco de erros a resposta entra como "needs
+  work" (caixa 0; contador `assisted` no `ReviewItem`). O resultado mostra
+  "Certa com ajuda".
 
 ### 4.6 Missões curtas  *(estende as Missões)*
 
@@ -585,7 +599,7 @@ Cada módulo diz: **o que é**, **o que já existe**, **o que falta**, **onde** 
   é amarelo + ponto azul. Planeado-vs-feito só se mostra para hoje/futuro;
   dias passados mostram apenas atividade real (planos não são guardados).
 
-### 4.10 Modo pré-leitor (1.º ano)  🟢 *(mínimo feito 2026-06-10; faltam widgets)*
+### 4.10 Modo pré-leitor (1.º ano)  ✅ *(feito 2026-06-11)*
 
 - **O que é.** Para quem ainda não lê: áudio a ler a pergunta, imagens, sílabas
   grandes, arrastar letras, completar palavras, "ouve e escolhe", **menos texto**.
@@ -603,9 +617,20 @@ Cada módulo diz: **o que é**, **o que já existe**, **o que falta**, **onde** 
   letras"** no Português 1.º (6 lições, 3 consoantes cada, pela ordem didática
   p…h — `pt-1-letras-*`) + casos de leitura ce/ci/ge/gi (`pt-1-casos-cegi`),
   tudo áudio-primeiro com `soundcards`/`drill` e quizzes "ouve e escolhe".
-- **Falta.** Widgets novos de letras/sílabas ("arrastar letras", "completar
-  palavra" — alguns podem nascer do `soundcards`) e
-  encaminhamento para eles.
+- **Feito (2026-06-11).** Os widgets de letras/sílabas (`@sprout/ui`):
+  - **`dragletters`** — "monta a palavra": as letras da palavra (baralhadas,
+    + 2 distratores) preenchem as casas por ordem; o **toque é primeira
+    classe** (toca numa letra → entra na próxima casa) e o arrasto (pointer
+    events) é só melhoria; letra errada abana, completar celebra e faz
+    aparecer o altifalante para OUVIR a palavra (voz só nesse toque). Campos:
+    `word`, `emoji?`, `say?`, `distractors?`.
+  - **`completeword`** — palavra com UMA sílaba/letra em falta ("SA __ TO") e
+    3 botões grandes; errado abana e esmorece, certo preenche e celebra.
+    Campos: `word`, `missing`, `options` (3, inclui `missing`), `emoji?`,
+    `say?`. O validador exige que `missing` exista dentro de `word`.
+  Ambos com tipo display, alvos ≥56px, cor da disciplina (`--acc`),
+  reduced-motion seguro e validação estrita no `pnpm validate`. Piloto em
+  `pt-1-letras-ptl` (PATO / SAPATO).
 
 ### 4.11 Área dos pais: alertas reais + relatório semanal  ✅ *(página + alertas + tempos + relatório semanal, 2026-06-10)*
 
@@ -743,8 +768,8 @@ O motor acima só brilha com matéria forte por baixo. Detalhe e prioridades em
 - **Mais matéria em todos os anos (1–6) e disciplinas**, com um *stretch fact*
   "Para saberes mais 🌱" ([[teach-a-little-more]]) e exemplos/truques/problemas
   ([[lessons-examples-tricks-problems]]).
-- **Dificuldade por lição:** etiqueta perguntas com `level` (§4.4) para o
-  fácil→desafio funcionar.
+- **Dificuldade por lição:** etiqueta perguntas com `level` (§4.4 — o motor
+  já ordena os testes finais por nível) para o fácil→difícil funcionar.
 
 ---
 
@@ -754,7 +779,7 @@ O motor acima só brilha com matéria forte por baixo. Detalhe e prioridades em
 |---|---|---|
 | Conteúdo didático completo (1–6) | §5 | reforço contínuo |
 | Matéria fraca (4.ª Dinastia) | §5 | reforço |
-| Problemas matemáticos escritos | §4.3, §5 | estende `math`/`steps` |
+| Problemas matemáticos escritos | §4.3, §5 | ✅ motor (`QuizQuestion.steps`); falta etiquetar conteúdo |
 | Sistema de TPC | §4.12 | ✅ feito (`study/tpc.ts` + missões prioritárias no `#/plano`) |
 | Revisão espaçada | §4.2 | ✅ feito (`study/review.ts`) |
 | Dashboard dos pais | §4.11 | ✅ página `#/pais` + alertas + tempos + relatório semanal |
@@ -763,13 +788,13 @@ O motor acima só brilha com matéria forte por baixo. Detalhe e prioridades em
 | IndexedDB → Supabase | §3, §10 | costura pronta |
 | Modo Férias / Recuperar o ano | §4.8 | ✅ feito (`study/ferias.ts` + `sprout.plan.v1`, com histórico + exame final 0–20) |
 | Diagnóstico inicial | §4.7 | ✅ feito (`study/diagnostico.ts` + `DiagnosticoModal` no Simulado) |
-| Modo pré-leitor (1.º ano) | §4.10 | 🟢 mínimo feito (faltam widgets de letras) |
+| Modo pré-leitor (1.º ano) | §4.10 | ✅ feito (flag + lições + `dragletters`/`completeword`) |
 | Banco de erros | §4.2 | ✅ feito (`study/review.ts`) |
-| Explicação passo a passo | §4.3 | estende `explain` |
+| Explicação passo a passo | §4.3 | ✅ feito (`QuizQuestion.steps`) |
 | Missões curtas | §4.6 | estende Missões |
 | Alertas reais (pais) | §4.11 | ✅ feito (`study/alerts.ts`) |
-| Dificuldade progressiva | §4.4 | novo, leve |
-| Estudar com ajuda | §4.5 | novo |
+| Dificuldade progressiva | §4.4 | 🟢 `level` + ordenação feitas; falta auto-ajuste |
+| Estudar com ajuda | §4.5 | ✅ feito (escada de ajuda no `Quiz.tsx`) |
 | Relatório semanal | §4.11 | ✅ feito (`study/report.ts` + cartão) |
 | Tom emocional/motivacional | §0, §9 | transversal |
 | Modo professor (PDF) | §4.13 | futuro |
@@ -808,9 +833,12 @@ calendário, relatório semanal, toggle pré-leitor). Na fase 19B (2026-06-11):
 (`mandatorySubjectsForYear` partilhado + reorder do diagnóstico),
 `plan.ts` (+`tpcMissions`, parâmetro `tpcs`), `alerts.ts` (alerta "TPC a
 passar do prazo"), `Plano.tsx` (oferta do mini-teste + missões TPC),
-`ParentArea.tsx` (cartões "TPC" e "Diagnóstico" na tab Estudo). Por tocar:
-`Quiz.tsx` (`steps`/`hint`/`level`/`assisted` — §4.3/4.5),
-`storage/backend.ts` (`SupabaseBackend` futuro).
+`ParentArea.tsx` (cartões "TPC" e "Diagnóstico" na tab Estudo). Na fase 20A
+(2026-06-11): `Quiz.tsx` (`steps`/`hint`/`level` + escada de ajuda + ordenação
+por nível — §4.3/4.4/4.5), `progress.tsx` (`recordQuiz` com `starsPct`
+ponderada), `review.ts` (`assisted`/`level` no `ReviewItem`), `@sprout/ui`
+(`DragLetters`/`CompleteWord` — §4.10) e o validador (`hint`/`level`/`steps` +
+blocos novos). Por tocar: `storage/backend.ts` (`SupabaseBackend` futuro).
 
 ---
 
@@ -826,16 +854,17 @@ Constrói de baixo para cima — os dados primeiro, a UI depois:
    com -1/+2 meses (e a vista dos pais em `#/pais`).
 4. ✅ **Banco de erros + revisão** (`review.ts`, ligado ao `Quiz` por pergunta;
    missão "rever" + cartão no `#/plano`).
-5. **Explicação passo a passo + estudar com ajuda** (`Quiz.tsx`) — **o
-   próximo passo**.
+5. ✅ **Explicação passo a passo + estudar com ajuda** (`Quiz.tsx`,
+   2026-06-11 — `steps`/`hint` + escada de ajuda; falta etiquetar conteúdo).
 6. ✅ **Missões curtas** a partir dos erros vencidos (em `plan.ts`).
 7. ✅ **Diagnóstico** (`diagnostico.ts` + `DiagnosticoModal`, 2026-06-11);
    ✅ **plano férias/recuperação** (`ferias.ts`, 2026-06-11 — não depende do
    diagnóstico, mas um plano novo aproveita-o para reforçar as matérias fracas).
 8. ✅ **Alertas** + **relatório semanal** na área dos pais.
-9. **Dificuldade progressiva** (liga o auto-ajuste ao banco de erros).
-10. 🟢 **Modo pré-leitor** (1.º ano) — flag/tipografia/grelha feitas; faltam
-    os widgets de letras/sílabas.
+9. 🟢 **Dificuldade progressiva** — `level` + ordenação feitas (2026-06-11);
+   falta ligar o auto-ajuste ao banco de erros.
+10. ✅ **Modo pré-leitor** (1.º ano) — flag/tipografia/grelha + os widgets
+    `dragletters`/`completeword` (2026-06-11).
 11. **Conteúdo:** problemas escritos, 4.ª Dinastia, reforço por ano/disciplina.
 12. ✅ **TPC** (sobre as missões, `tpc.ts`, 2026-06-11); mais tarde,
     **Supabase** + **modo professor**.

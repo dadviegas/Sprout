@@ -68,6 +68,30 @@ Algumas contas ficam fáceis quando sabes o dobro ou a metade.
 ]
 ```
 
+## Estratégia 5: dividir por 10, 100 e 1000 🚀
+
+Multiplicar por 10 acrescenta um zero — e dividir por 10 **tira** um zero! É o truque dos zeros, e funciona em cadeia:
+
+```keyvalue
+[
+  { "k": "340 ÷ 10", "v": "34 — tira um zero 0️⃣" },
+  { "k": "3400 ÷ 100", "v": "34 — tira dois zeros 0️⃣0️⃣" },
+  { "k": "34 000 ÷ 1000", "v": "34 — tira três zeros 0️⃣0️⃣0️⃣" }
+]
+```
+
+E quando os zeros **acabam**? Aí a **vírgula anda para a esquerda** — uma casa por cada zero do divisor:
+
+```math
+{ "expr": "35 ÷ 10 = 3,5", "say": "trinta e cinco a dividir por dez dá três vírgula cinco: a vírgula anda uma casa para a esquerda" }
+```
+
+```math
+{ "expr": "35 ÷ 100 = 0,35", "say": "trinta e cinco a dividir por cem dá zero vírgula trinta e cinco: a vírgula anda duas casas" }
+```
+
+> **Truque:** dividir por 10/100/1000 **encolhe** o número, por isso a vírgula anda para a **esquerda** (1, 2 ou 3 casas). Multiplicar **estica**, e a vírgula anda para a **direita**. Pensa: 35 rebuçados por 10 amigos — cada um leva 3 e meio! 🍬
+
 ## Estimar antes de responder 🔎
 
 Estimar é prever mais ou menos quanto deve dar. Ajuda a apanhar erros.
@@ -150,7 +174,15 @@ Estimar é prever mais ou menos quanto deve dar. Ajuda a apanhar erros.
       "explain": "Quatro quartos de 100 fazem 100." },
     { "q": "Antes de responder, estimar ajuda a…", "layout": "grid",
       "options": [ { "t": "ver se a resposta faz sentido", "emoji": "✅", "correct": true }, { "t": "evitar pensar" }, { "t": "mudar a pergunta" } ],
-      "explain": "A estimativa é uma verificação rápida." }
+      "explain": "A estimativa é uma verificação rápida." },
+    { "q": "780 ÷ 10 = ?", "layout": "grid", "level": 2,
+      "hint": "Dividir por 10 tira um zero.",
+      "options": [ { "t": "78", "emoji": "🚀", "correct": true }, { "t": "7800" }, { "t": "7,8" } ],
+      "explain": "Tira um zero: 780 ÷ 10 = 78." },
+    { "q": "47 ÷ 10 = ? (já não há zeros para tirar!)", "layout": "grid", "level": 3,
+      "hint": "A vírgula anda uma casa para a esquerda.",
+      "options": [ { "t": "4,7", "emoji": "🪄", "correct": true }, { "t": "470" }, { "t": "0,47" } ],
+      "explain": "Sem zeros, a vírgula anda 1 casa para a esquerda: 47 ÷ 10 = 4,7." }
   ]
 }
 ```

@@ -120,14 +120,32 @@ Vamos resolver juntos: *«Cortei um bolo em 6 fatias iguais e comi 2. Que fraç�
 
 > **Truque:** lembra-te de **«Cima = Comi, Baixo = Bocados»**! O número de cima são as partes que tens (que comeste); o de baixo são todos os bocados em que partiste o todo. 🍰
 
-> [!TIP] **Para saberes mais** 🌱 Duas frações podem valer o **mesmo** mesmo parecendo diferentes — chamam-se **frações equivalentes**. Por exemplo, **1/2 = 2/4 = 4/8**: metade da pizza é sempre metade, quer a cortes em 2, em 4 ou em 8 fatias! Vê nas barras aqui em baixo. 🤓
+## Frações equivalentes 👯
 
-As três barras são do mesmo tamanho e têm sempre **a mesma parte pintada** — só muda em quantos bocados a cortei:
+Duas frações podem valer **o mesmo** mesmo parecendo diferentes — chamam-se **frações equivalentes**. Metade da pizza é sempre metade, quer a cortes em 2, em 4 ou em 8 fatias! Compara as duas pizzas — a parte pintada é igualzinha:
+
+```fraction
+{ "parts": 2, "filled": 1, "shape": "pie", "title": "1/2 — metade em 2 fatias", "color": "accent", "interactive": false }
+```
+
+```fraction
+{ "parts": 4, "filled": 2, "shape": "pie", "title": "2/4 — a MESMA metade em 4 fatias", "color": "accent", "interactive": false }
+```
+
+E nas barras vês a família toda: do mesmo tamanho, sempre **a mesma parte pintada** — só muda em quantos bocados a cortei:
 
 ```fractionstrips
 { "mode": "equivalent", "title": "1/2 = 2/4 = 4/8", "color": "accent",
   "rows": [ { "parts": 2, "filled": 1 }, { "parts": 4, "filled": 2 }, { "parts": 8, "filled": 4 } ] }
 ```
+
+```math
+{ "expr": "1/2 = 2/4 = 4/8", "say": "um meio, dois quartos e quatro oitavos são frações equivalentes: valem todas metade" }
+```
+
+> **Truque da dobradura:** corta cada fatia **ao meio** e a fração não muda de valor — dobras o número de cima E o de baixo ao mesmo tempo: 1/2 → 2/4 → 4/8. Se só mudasses um deles, aí sim a fração mudava! ✂️
+
+> [!TIP] **Para saberes mais** 🌱 Este jogo também funciona ao contrário: 4/8 pode **encolher** para 2/4 e depois para 1/2 — chama-se **simplificar** uma fração, e é como arrumar a fração na sua forma mais simples. No 5.º ano vais usar isto a toda a hora! 🤓
 
 ## Vamos praticar 🎈
 
@@ -163,7 +181,15 @@ As três barras são do mesmo tamanho e têm sempre **a mesma parte pintada** �
       "explain": "3/4 lê-se «três quartos»." },
     { "q": "Para uma fração valer, as partes têm de ser...", "layout": "grid",
       "options": [ { "t": "todas iguais", "emoji": "🟰", "correct": true }, { "t": "todas diferentes" }, { "t": "muito grandes" } ],
-      "explain": "As partes de uma fração são sempre iguais." }
+      "explain": "As partes de uma fração são sempre iguais." },
+    { "q": "1/2 e 2/4 são frações...", "layout": "grid", "level": 2,
+      "hint": "Pinta metade de cada pizza e compara!",
+      "options": [ { "t": "equivalentes (valem o mesmo)", "emoji": "👯", "correct": true }, { "t": "diferentes" }, { "t": "inimigas" } ],
+      "explain": "Metade é metade: 1/2 = 2/4 — equivalentes!" },
+    { "q": "Corta cada fatia de 2/4 ao meio. Que fração equivalente nasce?", "layout": "grid", "level": 3,
+      "hint": "Dobra o número de cima E o de baixo.",
+      "options": [ { "t": "4/8", "emoji": "✂️", "correct": true }, { "t": "2/8" }, { "t": "4/4" } ],
+      "explain": "2/4 → dobra os dois números → 4/8. Continua a ser metade!" }
   ]
 }
 ```
@@ -176,36 +202,46 @@ As três barras são do mesmo tamanho e têm sempre **a mesma parte pintada** �
   "final": true,
   "title": "Frações simples",
   "questions": [
-    { "q": "Que fração está pintada?", "layout": "grid",
+    { "q": "Que fração está pintada?", "layout": "grid", "level": 1,
+      "hint": "Conta as partes pintadas (cima) e as partes todas (baixo).",
       "figure": { "parts": 4, "filled": 3, "shape": "pie", "color": "accent" },
       "options": [ { "t": "3/4", "correct": true }, { "t": "4/3" }, { "t": "1/4" } ],
       "explain": "Estão pintadas 3 de 4 partes: 3/4." },
     { "gen": { "kind": "fraction", "shape": "bar", "max": 6 } },
-    { "q": "Na fração 3/4, o número de baixo (4) diz...", "layout": "grid",
+    { "q": "Na fração 3/4, o número de baixo (4) diz...", "layout": "grid", "level": 1,
+      "hint": "Lembra-te: Baixo = Bocados!",
       "options": [ { "t": "em quantas partes dividimos", "correct": true }, { "t": "quantas partes temos" } ],
       "explain": "O denominador (em baixo) diz em quantas partes se dividiu." },
-    { "q": "Metade escreve-se...", "layout": "grid",
+    { "q": "Metade escreve-se...", "layout": "grid", "level": 1,
+      "hint": "Partes o todo em 2 e ficas com 1.",
       "options": [ { "t": "1/2", "correct": true }, { "t": "1/3" }, { "t": "2/1" } ],
       "explain": "Metade = 1/2." },
-    { "q": "Qual fatia é MAIOR?", "layout": "grid",
+    { "q": "Qual fatia é MAIOR?", "layout": "grid", "level": 2,
+      "hint": "Quanto mais fatias na pizza, mais pequena fica cada uma.",
       "options": [ { "t": "1/2", "emoji": "🍕", "correct": true }, { "t": "1/4" }, { "t": "1/8" } ],
       "explain": "Menos fatias = fatias maiores. 1/2 é a maior." },
-    { "q": "Pintaste 2 de 4 quadrados. Que fração?", "layout": "grid",
+    { "q": "Pintaste 2 de 4 quadrados. Que fração?", "layout": "grid", "level": 1,
+      "hint": "Cima = as que pintaste; baixo = todas.",
       "options": [ { "t": "2/4", "correct": true }, { "t": "4/2" }, { "t": "2/2" } ],
       "explain": "2 partes de 4 = 2/4 (que também é metade!)." },
-    { "q": "Como é que se chama o número de CIMA de uma fração?", "layout": "grid",
+    { "q": "Como é que se chama o número de CIMA de uma fração?", "layout": "grid", "level": 1,
+      "hint": "É o que conta as partes que tens na mão.",
       "options": [ { "t": "numerador", "correct": true }, { "t": "denominador" }, { "t": "calculadora" } ],
       "explain": "O número de cima é o numerador; o de baixo é o denominador." },
-    { "q": "Como se lê 2/5?", "layout": "grid",
+    { "q": "Como se lê 2/5?", "layout": "grid", "level": 2,
+      "hint": "Diz primeiro o número de cima, depois o nome da família do 5.",
       "options": [ { "t": "dois quintos", "correct": true }, { "t": "vinte e cinco" }, { "t": "dois meios" } ],
       "explain": "2/5 lê-se «dois quintos» — 2 partes de 5." },
-    { "q": "Comeste as 8 fatias de uma pizza partida em 8. Que fração comeste?", "emoji": "🍕", "layout": "grid",
+    { "q": "Comeste as 8 fatias de uma pizza partida em 8. Que fração comeste?", "emoji": "🍕", "layout": "grid", "level": 2,
+      "hint": "Cima igual a baixo… ficou alguma fatia no prato?",
       "options": [ { "t": "8/8 (a pizza toda)", "correct": true }, { "t": "1/8" }, { "t": "metade" } ],
       "explain": "8/8 é o todo inteiro — a pizza toda! 😋" },
-    { "q": "Cortaste um chocolate em 6 e deste 1 ao teu amigo. Que fração lhe deste?", "emoji": "🍫", "layout": "grid",
+    { "q": "Cortaste um chocolate em 6 e deste 1 ao teu amigo. Que fração lhe deste?", "emoji": "🍫", "layout": "grid", "level": 1,
+      "hint": "Os bocados todos vão para baixo; o que deste vai para cima.",
       "options": [ { "t": "1/6", "correct": true }, { "t": "6/1" }, { "t": "1/2" } ],
       "explain": "1 parte de 6 = 1/6 (um sexto)." },
-    { "q": "Qual destas frações é IGUAL a 1/2?", "layout": "grid",
+    { "q": "Qual destas frações é IGUAL a 1/2?", "layout": "grid", "level": 3,
+      "hint": "Dobra o número de cima E o de baixo ao mesmo tempo.",
       "options": [ { "t": "2/4", "correct": true }, { "t": "1/4" }, { "t": "1/3" } ],
       "explain": "2/4 vale o mesmo que 1/2 — são frações equivalentes!" }
   ]

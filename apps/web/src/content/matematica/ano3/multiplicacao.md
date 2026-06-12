@@ -66,6 +66,25 @@ Há regras mágicas que te poupam trabalho. Decora estas e ficas a ganhar tempo!
 ]
 ```
 
+## Estratégias espertas: partir um fator 🧩
+
+E quando a conta é grande de mais para a tabuada, como **5 × 28**? Não entres em pânico: **parte o 28 aos bocadinhos** (20 + 8), multiplica cada bocado e junta no fim. Pensa primeiro como farias, depois revela:
+
+```steps
+{ "reveal": true, "items": [
+  { "title": "1. Olha para a conta", "body": "5 × 28… o 28 não está na tabuada! 😱 Mas 28 = 20 + 8", "icon": "👀" },
+  { "title": "2. Multiplica o bocado grande", "body": "5 × 20 = 100 (cinco vezes duas dezenas) 💯", "icon": "✖️" },
+  { "title": "3. Multiplica o bocado pequeno", "body": "5 × 8 = 40 ✋", "icon": "✖️" },
+  { "title": "4. Junta os dois", "body": "100 + 40 = 140 → 5 × 28 = 140 🎉", "icon": "➕" }
+] }
+```
+
+```math
+{ "expr": "5 × 28 = 5 × 20 + 5 × 8 = 140", "say": "cinco vezes vinte e oito é cinco vezes vinte mais cinco vezes oito: cem mais quarenta, cento e quarenta" }
+```
+
+> [!NOTE] Este truque tem nome de gente grande: **propriedade distributiva**. Multiplicar o todo é o mesmo que multiplicar cada bocado e somar — e funciona sempre! Outro exemplo: 4 × 36 = 4 × 30 + 4 × 6 = 120 + 24 = **144**. 🧩
+
 ## Um exemplo passo a passo 🔍
 
 A Rita pôs **3 caixas** na mesa e em cada caixa cabem **5 lápis**. Quantos lápis tem ao todo? Vamos resolver com calma!
@@ -156,7 +175,15 @@ A Rita pôs **3 caixas** na mesa e em cada caixa cabem **5 lápis**. Quantos lá
       "explain": "60 + 12 = 72. Partir aos bocadinhos resulta!" },
     { "q": "Na tabuada do 5, os resultados acabam sempre em…", "layout": "grid",
       "options": [ { "t": "5 ou 0", "emoji": "✋", "correct": true }, { "t": "1 ou 2" }, { "t": "9" } ],
-      "explain": "5, 10, 15, 20, 25… acabam sempre em 5 ou 0." }
+      "explain": "5, 10, 15, 20, 25… acabam sempre em 5 ou 0." },
+    { "q": "Para calcular 5 × 28, partes o 28 em…", "layout": "grid", "level": 2,
+      "hint": "Parte em dezenas e unidades.",
+      "options": [ { "t": "20 + 8", "emoji": "🧩", "correct": true }, { "t": "2 + 8" }, { "t": "14 + 14" } ],
+      "explain": "28 = 20 + 8; depois 5 × 20 + 5 × 8 = 100 + 40 = 140." },
+    { "q": "3 × 24 = 3 × 20 + 3 × 4 = ?", "layout": "grid", "level": 3,
+      "hint": "Multiplica cada bocado e junta no fim.",
+      "options": [ { "t": "72", "emoji": "🎯", "correct": true }, { "t": "62" }, { "t": "84" } ],
+      "explain": "60 + 12 = 72. A distributiva nunca falha!" }
   ]
 }
 ```

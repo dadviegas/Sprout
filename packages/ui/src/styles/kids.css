@@ -3672,6 +3672,11 @@ button.hm-cell:hover { transform: scale(1.18); }
 
 /* Planned-vs-done rows in the parents' calendar detail. */
 .parent-plan { margin: 6px 0 16px; }
+.parent-action { margin: 6px 0 16px; border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; background: linear-gradient(135deg, color-mix(in srgb, var(--primary) 10%, var(--surface)), var(--surface)); }
+.parent-action.is-tpc { background: linear-gradient(135deg, color-mix(in srgb, var(--warn) 12%, var(--surface)), var(--surface)); }
+.parent-action.is-test { background: linear-gradient(135deg, color-mix(in srgb, var(--danger) 10%, var(--surface)), var(--surface)); }
+.parent-action.is-calm { background: linear-gradient(135deg, color-mix(in srgb, var(--ok) 10%, var(--surface)), var(--surface)); }
+.parent-action__title { margin: 8px 0 0; font-family: var(--font-display); font-weight: 800; color: var(--ink); }
 .parent-mission { appearance: none; width: 100%; background: transparent; color: inherit; font: inherit; text-align: left; display: flex; align-items: center; gap: 8px; padding: 8px 0; border: 0; border-bottom: 1px dashed var(--border); cursor: pointer; }
 .parent-mission:hover .parent-mission__tx strong { color: var(--primary); }
 .parent-mission:last-of-type { border-bottom: 0; }

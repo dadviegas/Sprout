@@ -304,6 +304,10 @@ function Dashboard() {
     () => weekGrade(now, progress, achievements, history, sessions, ferias),
     [now, progress, achievements, history, sessions, ferias],
   );
+  const todayMissions = useMemo(
+    () => missionsForDay(today, today, progress, achievements, history, Object.values(review), ferias, tpcs),
+    [today, progress, achievements, history, review, ferias, tpcs],
+  );
 
   return (
     <>
@@ -339,6 +343,7 @@ function Dashboard() {
 
         {tab === "estudo" && (
           <>
+            <NextActionCard review={review} now={now} tpcs={tpcs} achievements={achievements} todayMissions={todayMissions} />
             {ferias && <FeriasInfoCard plan={ferias} progress={progress} today={today} />}
             <DiagnosticoCard />
             <TpcCard tpcs={tpcs} achievements={achievements} today={today} planYear={ferias?.year ?? null} />
@@ -966,6 +971,136 @@ function ReviewDueCard({ review, now }: { review: ReviewMap; now: number }) {
           {total === 1 ? "1 pergunta errada espera revisão" : `${total} perguntas erradas esperam revisão`}
           {meta ? ` — a maior parte em «${meta.title}»` : ""}. As missões diárias já as agendam sozinhas.
         </p>
+      )}
+    </div>
+  );
+}
+
+/* ---- "Próxima melhor ação": one clear thing for the adult to do now ----- */
+
+interface ParentAction {
+  icon: IconName;
+  title: string;
+  detail: string;
+  label: string;
+  viewHash: string;
+  tone: "review" | "tpc" | "test" | "plan";
+}
+
+function lessonHash(lessonId: string, kind: "lesson" | "test" = "lesson"): string | null {
+  const meta = lessonMeta.get(lessonId);
+  return meta ? viewToHash({ kind, year: meta.year, subjectId: meta.subjectId, lessonId }) : null;
+}
+
+function nextParentAction({
+  review,
+  now,
+  tpcs,
+  achievements,
+  todayMissions,
+}: {
+  review: ReviewMap;
+  now: number;
+  tpcs: Tpc[];
+  achievements: Achievement[];
+  todayMissions: ReturnType<typeof missionsForDay>;
+}): ParentAction | null {
+  const due = dueByLesson(review, now);
+  let topReview: { id: string; n: number } | null = null;
+  for (const [id, n] of due) if (!topReview || n > topReview.n) topReview = { id, n };
+  if (topReview) {
+    const meta = lessonMeta.get(topReview.id);
+    const hash = lessonHash(topReview.id);
+    if (meta && hash) {
+      return {
+        icon: "target",
+        title: `Rever erros: ${meta.title}`,
+        detail: `${topReview.n} ${topReview.n === 1 ? "pergunta vencida espera" : "perguntas vencidas esperam"} treino nesta matéria.`,
+        label: "Abrir revisão",
+        viewHash: hash,
+        tone: "review",
+      };
+    }
+  }
+
+  for (const t of tpcs) {
+    if (t.doneAt != null) continue;
+    const id = t.lessonIds.find((lessonId) => !tpcLessonDone(t, lessonId, achievements));
+    const meta = id ? lessonMeta.get(id) : null;
+    const hash = id ? lessonHash(id) : null;
+    if (id && meta && hash) {
+      return {
+        icon: "backpack",
+        title: `TPC: ${meta.title}`,
+        detail: `Prazo ${tpcDueLabel(t.dueDate, startOfDay(now))}. Terminar o teste fecha este TPC.`,
+        label: "Abrir TPC",
+        viewHash: hash,
+        tone: "tpc",
+      };
+    }
+  }
+
+  const failed = achievements.find((a) => a.pct < TEST_PASS_PCT);
+  if (failed) {
+    const hash = lessonHash(failed.lessonId, "test");
+    if (hash) {
+      return {
+        icon: "refresh",
+        title: `Repetir teste: ${failed.lessonTitle}`,
+        detail: `Última tentativa: ${Math.round(failed.pct * 100)}%. Com 80% ou mais fica concluída.`,
+        label: "Abrir teste",
+        viewHash: hash,
+        tone: "test",
+      };
+    }
+  }
+
+  const mission = todayMissions.find((m) => !m.done);
+  const hash = mission ? lessonHash(mission.lessonId, mission.kind === "repetir" ? "test" : "lesson") : null;
+  if (mission && hash) {
+    return {
+      icon: "calendar",
+      title: mission.title,
+      detail: mission.detail,
+      label: "Abrir missão",
+      viewHash: hash,
+      tone: "plan",
+    };
+  }
+
+  return null;
+}
+
+function NextActionCard({
+  review,
+  now,
+  tpcs,
+  achievements,
+  todayMissions,
+}: {
+  review: ReviewMap;
+  now: number;
+  tpcs: Tpc[];
+  achievements: Achievement[];
+  todayMissions: ReturnType<typeof missionsForDay>;
+}) {
+  const action = useMemo(
+    () => nextParentAction({ review, now, tpcs, achievements, todayMissions }),
+    [review, now, tpcs, achievements, todayMissions],
+  );
+  return (
+    <div className={`parent-action ${action ? `is-${action.tone}` : "is-calm"}`}>
+      <CardHead icon={action?.icon ?? "check"} title="Próxima melhor ação" aside={action ? "agora" : "em dia"} />
+      {action ? (
+        <>
+          <p className="parent-action__title">{action.title}</p>
+          <p className="parent-plan__extra">{action.detail}</p>
+          <button className="parent-plan__link" onClick={() => { window.location.hash = action.viewHash; }}>
+            <Icon name="forward" size={14} /> {action.label}
+          </button>
+        </>
+      ) : (
+        <p className="parent-detail__empty">Tudo em ordem: sem erros vencidos, TPCs abertos ou testes a repetir.</p>
       )}
     </div>
   );

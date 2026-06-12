@@ -50,6 +50,7 @@ import { AchievementsPanel } from "./Achievements";
 import { ParentPage, WipeModal, tabletMinutesToday } from "./ParentArea";
 import { Plano } from "./study/Plano";
 import { PlanoCompleto } from "./study/PlanoCompleto";
+import { ReviewRunner } from "./study/ReviewRunner";
 import { initSessionTracking, trackView, noteScroll } from "./study/sessions";
 import { isRestDay } from "./study/plan";
 import { SimuladoLauncher } from "./Simulado";
@@ -273,6 +274,7 @@ function Root() {
         )}
         {view.kind === "plano" && <Plano onGo={go} />}
         {view.kind === "plano-completo" && <PlanoCompleto onGo={go} />}
+        {view.kind === "review" && <ReviewRunner onGo={go} />}
         {view.kind === "pais" && <ParentPage />}
         {view.kind === "area" && view.area === "escola" && (
           <EscolaView onPick={(year) => go({ kind: "year", year })} />
@@ -460,7 +462,7 @@ function TopBar({
             ) : view.kind === "teia" ? (
               // "A Teia do Saber" — the knowledge web.
               <CrumbChip icon="atom" label="A Teia do Saber" color="var(--subj-en)" colorSoft="var(--subj-en-soft)" />
-            ) : view.kind === "plano" || view.kind === "plano-completo" ? (
+            ) : view.kind === "plano" || view.kind === "plano-completo" || view.kind === "review" ? (
               // "O meu plano" — daily missions + calendar; "Plano completo"
               // sits under it as a crumb hop.
               <>
@@ -469,12 +471,18 @@ function TopBar({
                   label="O meu plano"
                   color="var(--primary)"
                   colorSoft="var(--primary-soft)"
-                  onClick={view.kind === "plano-completo" ? () => onGo({ kind: "plano" }) : undefined}
+                  onClick={view.kind === "plano-completo" || view.kind === "review" ? () => onGo({ kind: "plano" }) : undefined}
                 />
                 {view.kind === "plano-completo" && (
                   <>
                     <span className="sep">›</span>
                     <span className="ell">Plano completo</span>
+                  </>
+                )}
+                {view.kind === "review" && (
+                  <>
+                    <span className="sep">›</span>
+                    <span className="ell">Revisão de erros</span>
                   </>
                 )}
               </>

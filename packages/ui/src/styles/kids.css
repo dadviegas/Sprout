@@ -3416,6 +3416,189 @@ button.hm-cell:hover { transform: scale(1.18); }
 .plan-review__tx span { font-size: .82em; color: var(--ink-2); }
 .plan-review__say { position: absolute; top: 50%; right: 10px; transform: translateY(-50%); }
 
+/* "Revisão de erros" (#/review): due review grouped by source lesson. */
+.review-runner {
+  display: grid;
+  gap: 18px;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+.review-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 58px 18px 18px;
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+  border: 2px solid color-mix(in srgb, var(--accent) 42%, var(--border));
+}
+.review-hero--empty { background: color-mix(in srgb, var(--primary) 10%, var(--surface)); }
+.review-hero__icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 54px; height: 54px; border-radius: 16px;
+  color: #fff; background: var(--accent);
+}
+.review-hero h1 {
+  margin: 0 0 4px;
+  font: 900 clamp(1.65rem, 1.2rem + 1vw, 2.25rem)/1 var(--font-display);
+}
+.review-hero p { margin: 0; color: var(--ink-2); max-width: 66ch; }
+.review-hero__say { position: absolute; top: 14px; right: 14px; }
+.review-last {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--primary) 10%, var(--surface));
+  border: 2px solid color-mix(in srgb, var(--primary) 38%, var(--border));
+}
+.review-last.is-ok {
+  background: color-mix(in srgb, var(--good) 12%, var(--surface));
+  border-color: color-mix(in srgb, var(--good) 48%, var(--border));
+}
+.review-last.is-no {
+  background: color-mix(in srgb, var(--danger) 10%, var(--surface));
+  border-color: color-mix(in srgb, var(--danger) 42%, var(--border));
+}
+.review-last > svg { flex-shrink: 0; color: var(--primary); margin-top: 2px; }
+.review-last.is-ok > svg { color: var(--good); }
+.review-last.is-no > svg { color: var(--danger); }
+.review-last div { display: grid; gap: 2px; }
+.review-last strong { font-family: var(--font-display); font-weight: 900; }
+.review-last span { color: var(--ink-2); }
+.review-questions { display: grid; gap: 12px; }
+.review-question {
+  position: relative;
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 2px solid var(--border);
+}
+.review-question.is-ok { border-color: color-mix(in srgb, var(--good) 58%, var(--border)); }
+.review-question.is-no { border-color: color-mix(in srgb, var(--danger) 52%, var(--border)); }
+.review-question__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: 44px;
+  color: var(--ink-2);
+  font-size: .86rem;
+}
+.review-question__head strong { color: var(--ink); font-family: var(--font-display); font-weight: 900; }
+.review-question__head span::after { content: "·"; margin-left: 8px; color: var(--ink-3); }
+.review-question__head em {
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--ink-2);
+  font-style: normal;
+  font-size: .76rem;
+  font-weight: 900;
+}
+.review-question__say { position: absolute; top: 12px; right: 12px; }
+.review-question__q {
+  margin: 0;
+  font: 900 1.18rem/1.25 var(--font-display);
+}
+.review-question__options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.review-question__options button {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 48px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 2px solid var(--border);
+  background: var(--surface-2);
+  color: var(--ink);
+  font-weight: 900;
+  cursor: pointer;
+}
+.review-question__options button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--accent) 48%, var(--border));
+}
+.review-question__options button:disabled { cursor: default; opacity: .76; }
+.review-question__feedback {
+  display: grid;
+  gap: 3px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--primary) 10%, var(--surface-2));
+  color: var(--ink);
+}
+.review-question__feedback strong { font-family: var(--font-display); font-weight: 900; }
+.review-question__feedback span { color: var(--ink-2); }
+.review-list { display: grid; gap: 10px; }
+.review-row {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--review-soft, var(--surface-2)) 50%, var(--surface));
+  border: 2px solid color-mix(in srgb, var(--review-color, var(--accent)) 36%, var(--border));
+}
+.review-row__rank {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; border-radius: 13px;
+  font: 900 1rem/1 var(--font-display);
+  color: #fff; background: var(--review-color, var(--accent));
+}
+.review-row__icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 42px; height: 42px; border-radius: 12px;
+  color: var(--review-color, var(--accent));
+  background: color-mix(in srgb, var(--review-soft, var(--surface-2)) 70%, var(--surface));
+}
+.review-row__body { display: grid; gap: 3px; min-width: 0; }
+.review-row__body strong {
+  font-family: var(--font-display);
+  font-weight: 900;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.review-row__body span { color: var(--ink-2); font-size: .9rem; }
+.review-row__actions { display: flex; gap: 8px; }
+.review-row__actions button {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-height: 38px; padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--review-color, var(--accent)) 34%, var(--border));
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 800;
+  cursor: pointer;
+}
+.review-row__actions button:hover { transform: translateY(-1px); }
+@media (max-width: 760px) {
+  .review-hero {
+    grid-template-columns: auto minmax(0, 1fr);
+    padding-right: 52px;
+  }
+  .review-hero .btn { grid-column: 1 / -1; justify-self: start; }
+  .review-row {
+    grid-template-columns: auto auto minmax(0, 1fr);
+  }
+  .review-row__actions {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+  .review-row__actions button { flex: 1; }
+  .review-question__options { grid-template-columns: 1fr; }
+  .review-question__head { display: grid; gap: 2px; }
+  .review-question__head span::after { content: ""; margin: 0; }
+}
+
 /* "Plano de férias" (§4.8): the offer card (pick a year) and, once active,
    the progress strip (week N of M, % of the matter, pace). */
 .plan-ferias {

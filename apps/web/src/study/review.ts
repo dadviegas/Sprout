@@ -54,6 +54,16 @@ export interface ReviewItem {
   level?: number;
   /** how many answers used the help ladder (§4.5) — visible to parents */
   assisted?: number;
+  /** Frozen copy of the authored question, so review survives markdown/id edits. */
+  snapshot?: ReviewQuestionSnapshot;
+}
+
+export interface ReviewQuestionSnapshot {
+  q: string;
+  emoji?: string;
+  options: { t: string; emoji?: string; correct?: boolean }[];
+  explain?: string;
+  level?: number;
 }
 
 export type ReviewMap = Record<string, ReviewItem>;
@@ -81,14 +91,16 @@ export const questionId = (lessonId: string, quizId: string, index: number): str
  *  (e.g. the Simulado's synthetic id) — the bank only holds real lessons.
  *  `assisted` (§4.5) means the help ladder was used: the answer still counts,
  *  but the question is "needs work" — it enters/stays at box 0 like an error.
- *  `level` (§4.4) is the question's difficulty tag, recorded for later use. */
+ *  `level` (§4.4) is the question's difficulty tag, recorded for later use.
+ *  `snapshot` keeps the original question available even if the lesson body
+ *  changes before the item is due. */
 export function recordReviewAnswer(
   lessonId: string,
   quizId: string,
   questionIndex: number,
   correct: boolean,
   answerSecs: number,
-  opts: { assisted?: boolean; level?: number } = {},
+  opts: { assisted?: boolean; level?: number; snapshot?: ReviewQuestionSnapshot } = {},
   now = Date.now(),
 ): void {
   const meta = lessonMeta.get(lessonId);
@@ -126,6 +138,7 @@ export function recordReviewAnswer(
     wrong: (cur?.wrong ?? 0) + (correct ? 0 : 1),
     level: opts.level ?? cur?.level,
     assisted: (cur?.assisted ?? 0) + (assisted ? 1 : 0),
+    snapshot: opts.snapshot ?? cur?.snapshot,
     lastAt: now,
     // Start-of-day based, so "amanhã" means the next calendar day, not 24 h.
     nextAt: startOfDay(now) + REVIEW_DAYS[box] * DAY,

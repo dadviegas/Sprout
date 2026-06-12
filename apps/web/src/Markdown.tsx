@@ -50,6 +50,7 @@ import {
   Speaker,
 } from "@sprout/ui";
 import { Quiz, type QuizSpec } from "./Quiz";
+import { hashQuizId } from "./quiz-content";
 import { verbEntriesForLetter } from "./content/dictMerge";
 import { Icon, iconNames, type IconName } from "@sprout/icons";
 
@@ -138,12 +139,6 @@ function resolveIcons<T extends { icon?: unknown }>(items: T[]): T[] {
       ? { ...it, icon: <Icon name={it.icon as IconName} size={24} /> }
       : it,
   );
-}
-
-function hashId(s: string): string {
-  let h = 5381;
-  for (let i = 0; i < s.length; i++) h = (h * 33) ^ s.charCodeAt(i);
-  return "q" + (h >>> 0).toString(36);
 }
 
 const infographicRenderers: Record<string, (json: unknown) => ReactNode> = {
@@ -312,7 +307,7 @@ const components: Components = {
     if (lang === "quiz") {
       try {
         const spec = JSON.parse(source) as QuizSpec;
-        return <BlockBoundary lang="quiz"><Quiz spec={spec} quizId={spec.id ?? hashId(source)} /></BlockBoundary>;
+        return <BlockBoundary lang="quiz"><Quiz spec={spec} quizId={spec.id ?? hashQuizId(source)} /></BlockBoundary>;
       } catch (e) {
         return jsonError("quiz", e);
       }

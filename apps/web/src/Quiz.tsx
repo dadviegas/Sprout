@@ -205,6 +205,15 @@ export function Quiz({
       recordReviewAnswer(lessonId, quizId, order[i], !!options[idx]?.correct, secs, {
         assisted: helps[i] > 0,
         level: question.level ?? 2,
+        snapshot: question.q && question.options?.length
+          ? {
+              q: question.q,
+              emoji: question.emoji,
+              options: question.options.map((o) => ({ t: o.t, emoji: o.emoji, correct: o.correct })),
+              explain: question.explain,
+              level: question.level ?? 2,
+            }
+          : undefined,
       });
     }
   };

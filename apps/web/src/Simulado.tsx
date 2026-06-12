@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Icon } from "@sprout/icons";
 import { Speaker } from "@sprout/ui";
 import { Quiz, type QuizQuestion } from "./Quiz";
+import { quizBlocksFromBody, questionsFromBody } from "./quiz-content";
 import { LessonContext, useProgress } from "./progress";
 import { tierLabel, subjectById, subjectsForYear, yearLabel, type Subject, type YearN } from "./content/curriculum";
 import { mandatorySubjectsForYear, recordExamPct, requeueWeakestLessons } from "./study/ferias";
@@ -20,29 +21,6 @@ import { saveDiagnostic, weakSubjects, diagnosticScoresLine, type Diagnostic } f
  * mini-test before a férias plan — one short part per mandatory subject,
  * warm tone, no nota; the result (study/diagnostico.ts) shapes the new
  * plan's queue. */
-
-const QUIZ_BLOCK = /```quiz\s*\r?\n([\s\S]*?)\r?\n```/g;
-
-/** Every quiz block of a lesson body, each tagged final vs. practice. */
-function quizBlocksFromBody(body: string): { final: boolean; questions: QuizQuestion[] }[] {
-  const out: { final: boolean; questions: QuizQuestion[] }[] = [];
-  QUIZ_BLOCK.lastIndex = 0;
-  let m: RegExpExecArray | null;
-  while ((m = QUIZ_BLOCK.exec(body))) {
-    try {
-      const spec = JSON.parse(m[1]) as { final?: boolean; questions?: QuizQuestion[] };
-      if (Array.isArray(spec.questions)) out.push({ final: !!spec.final, questions: spec.questions });
-    } catch {
-      /* malformed blocks are caught by `pnpm validate`; skip here */
-    }
-  }
-  return out;
-}
-
-/** Pull every quiz question out of a lesson body (practice + final blocks). */
-export function questionsFromBody(body: string): QuizQuestion[] {
-  return quizBlocksFromBody(body).flatMap((b) => b.questions);
-}
 
 function shuffle<T>(a: T[]): T[] {
   const r = a.slice();

@@ -95,8 +95,7 @@ function MissionCards({ missions, onGo }: { missions: Mission[]; onGo: (v: View)
 /* ---- "Banco de erros" — the due-questions card (§4.2) ---------------- */
 
 /** A small card shown when error-bank questions are due: how many there are,
- *  read aloud, tapping opens the lesson with the most due. KISS — there is no
- *  separate review runner; the child beats the questions inside the lesson. */
+ *  read aloud, tapping opens the short review page. */
 function ReviewBankCard({ due, onGo }: { due: Map<string, number>; onGo: (v: View) => void }) {
   let total = 0;
   let topId: string | null = null;
@@ -112,7 +111,7 @@ function ReviewBankCard({ due, onGo }: { due: Map<string, number>; onGo: (v: Vie
     <div className="plan-review">
       <button
         className="plan-review__btn"
-        onClick={() => onGo({ kind: "lesson", year: meta.year, subjectId: meta.subjectId, lessonId: topId! })}
+        onClick={() => onGo({ kind: "review" })}
       >
         <span className="plan-review__ic"><Icon name="target" size={24} /></span>
         <span className="plan-review__tx">

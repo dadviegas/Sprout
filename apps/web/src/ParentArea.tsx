@@ -1010,14 +1010,13 @@ function nextParentAction({
   for (const [id, n] of due) if (!topReview || n > topReview.n) topReview = { id, n };
   if (topReview) {
     const meta = lessonMeta.get(topReview.id);
-    const hash = lessonHash(topReview.id);
-    if (meta && hash) {
+    if (meta) {
       return {
         icon: "target",
         title: `Rever erros: ${meta.title}`,
         detail: `${topReview.n} ${topReview.n === 1 ? "pergunta vencida espera" : "perguntas vencidas esperam"} treino nesta matéria.`,
-        label: "Abrir revisão",
-        viewHash: hash,
+        label: "Abrir revisão curta",
+        viewHash: viewToHash({ kind: "review" }),
         tone: "review",
       };
     }

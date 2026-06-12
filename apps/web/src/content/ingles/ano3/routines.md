@@ -10,10 +10,30 @@ Logo de manhã, há coisas que fazes sempre. Vamos dizê-las em inglês!
 
 ```keyvalue
 [
-  { "icon": "⏰", "k": "Wake up", "v": "acordar" },
-  { "icon": "🛏️", "k": "Get up", "v": "levantar-se" },
-  { "icon": "🪥", "k": "Brush my teeth", "v": "lavar os dentes" },
-  { "icon": "💧", "k": "Wash my face", "v": "lavar a cara" }
+  {
+    "icon": "⏰",
+    "k": "Wake up",
+    "v": "acordar",
+    "lang": "en-US"
+  },
+  {
+    "icon": "🛏️",
+    "k": "Get up",
+    "v": "levantar-se",
+    "lang": "en-US"
+  },
+  {
+    "icon": "🪥",
+    "k": "Brush my teeth",
+    "v": "lavar os dentes",
+    "lang": "en-US"
+  },
+  {
+    "icon": "💧",
+    "k": "Wash my face",
+    "v": "lavar a cara",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -25,10 +45,30 @@ Depois de te arranjares, comes e vais para a escola. Aqui estão essas ações e
 
 ```keyvalue
 [
-  { "icon": "🥣", "k": "Have breakfast", "v": "tomar o pequeno-almoço" },
-  { "icon": "🎒", "k": "Go to school", "v": "ir para a escola" },
-  { "icon": "✏️", "k": "Do my homework", "v": "fazer os trabalhos de casa" },
-  { "icon": "🛏️", "k": "Go to bed", "v": "ir para a cama" }
+  {
+    "icon": "🥣",
+    "k": "Have breakfast",
+    "v": "tomar o pequeno-almoço",
+    "lang": "en-US"
+  },
+  {
+    "icon": "🎒",
+    "k": "Go to school",
+    "v": "ir para a escola",
+    "lang": "en-US"
+  },
+  {
+    "icon": "✏️",
+    "k": "Do my homework",
+    "v": "fazer os trabalhos de casa",
+    "lang": "en-US"
+  },
+  {
+    "icon": "🛏️",
+    "k": "Go to bed",
+    "v": "ir para a cama",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -40,10 +80,30 @@ Para dizeres a que horas fazes uma coisa, usas **at** e a hora. É muito fácil!
 
 ```keyvalue
 [
-  { "icon": "🕖", "k": "I wake up at 7 o'clock", "v": "acordo às 7" },
-  { "icon": "🥣", "k": "I have breakfast at 8", "v": "tomo o pequeno-almoço às 8" },
-  { "icon": "🎒", "k": "I go to school at 9", "v": "vou para a escola às 9" },
-  { "icon": "🛏️", "k": "I go to bed at 9", "v": "vou para a cama às 9" }
+  {
+    "icon": "🕖",
+    "k": "I wake up at 7 o'clock",
+    "v": "acordo às 7",
+    "lang": "en-US"
+  },
+  {
+    "icon": "🥣",
+    "k": "I have breakfast at 8",
+    "v": "tomo o pequeno-almoço às 8",
+    "lang": "en-US"
+  },
+  {
+    "icon": "🎒",
+    "k": "I go to school at 9",
+    "v": "vou para a escola às 9",
+    "lang": "en-US"
+  },
+  {
+    "icon": "🛏️",
+    "k": "I go to bed at 9",
+    "v": "vou para a cama às 9",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -55,9 +115,24 @@ O dia tem partes diferentes. Em inglês também têm nomes!
 
 ```keyvalue
 [
-  { "icon": "🌅", "k": "Morning", "v": "manhã" },
-  { "icon": "🌞", "k": "Afternoon", "v": "tarde" },
-  { "icon": "🌙", "k": "Evening", "v": "noite" }
+  {
+    "icon": "🌅",
+    "k": "Morning",
+    "v": "manhã",
+    "lang": "en-US"
+  },
+  {
+    "icon": "🌞",
+    "k": "Afternoon",
+    "v": "tarde",
+    "lang": "en-US"
+  },
+  {
+    "icon": "🌙",
+    "k": "Evening",
+    "v": "noite",
+    "lang": "en-US"
+  }
 ]
 ```
 

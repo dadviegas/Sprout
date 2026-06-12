@@ -10,16 +10,56 @@ Estes são os animais que vês todos os dias — em casa, na rua ou na quinta. O
 
 ```keyvalue
 [
-  { "k": "Dog 🐶", "v": "cão" },
-  { "k": "Cat 🐱", "v": "gato" },
-  { "k": "Fish 🐟", "v": "peixe" },
-  { "k": "Bird 🐦", "v": "pássaro" },
-  { "k": "Cow 🐄", "v": "vaca" },
-  { "k": "Horse 🐴", "v": "cavalo" },
-  { "k": "Pig 🐷", "v": "porco" },
-  { "k": "Sheep 🐑", "v": "ovelha" },
-  { "k": "Duck 🦆", "v": "pato" },
-  { "k": "Rabbit 🐰", "v": "coelho" }
+  {
+    "k": "Dog 🐶",
+    "v": "cão",
+    "lang": "en-US"
+  },
+  {
+    "k": "Cat 🐱",
+    "v": "gato",
+    "lang": "en-US"
+  },
+  {
+    "k": "Fish 🐟",
+    "v": "peixe",
+    "lang": "en-US"
+  },
+  {
+    "k": "Bird 🐦",
+    "v": "pássaro",
+    "lang": "en-US"
+  },
+  {
+    "k": "Cow 🐄",
+    "v": "vaca",
+    "lang": "en-US"
+  },
+  {
+    "k": "Horse 🐴",
+    "v": "cavalo",
+    "lang": "en-US"
+  },
+  {
+    "k": "Pig 🐷",
+    "v": "porco",
+    "lang": "en-US"
+  },
+  {
+    "k": "Sheep 🐑",
+    "v": "ovelha",
+    "lang": "en-US"
+  },
+  {
+    "k": "Duck 🦆",
+    "v": "pato",
+    "lang": "en-US"
+  },
+  {
+    "k": "Rabbit 🐰",
+    "v": "coelho",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -29,13 +69,41 @@ Agora vamos ao **zoo**! Aqui vivem os animais grandes e selvagens. Repete cada p
 
 ```keyvalue
 [
-  { "k": "Lion 🦁", "v": "leão" },
-  { "k": "Elephant 🐘", "v": "elefante" },
-  { "k": "Monkey 🐵", "v": "macaco" },
-  { "k": "Bear 🐻", "v": "urso" },
-  { "k": "Tiger 🐯", "v": "tigre" },
-  { "k": "Snake 🐍", "v": "cobra" },
-  { "k": "Frog 🐸", "v": "rã" }
+  {
+    "k": "Lion 🦁",
+    "v": "leão",
+    "lang": "en-US"
+  },
+  {
+    "k": "Elephant 🐘",
+    "v": "elefante",
+    "lang": "en-US"
+  },
+  {
+    "k": "Monkey 🐵",
+    "v": "macaco",
+    "lang": "en-US"
+  },
+  {
+    "k": "Bear 🐻",
+    "v": "urso",
+    "lang": "en-US"
+  },
+  {
+    "k": "Tiger 🐯",
+    "v": "tigre",
+    "lang": "en-US"
+  },
+  {
+    "k": "Snake 🐍",
+    "v": "cobra",
+    "lang": "en-US"
+  },
+  {
+    "k": "Frog 🐸",
+    "v": "rã",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -45,20 +113,63 @@ Os animais não falam inglês… mas em inglês os seus **sons** têm nome próp
 
 ```compare
 [
-  { "title": "Animal 🐾", "rows": [
-    { "label": "Dog 🐶", "value": "cão" },
-    { "label": "Cat 🐱", "value": "gato" },
-    { "label": "Cow 🐄", "value": "vaca" },
-    { "label": "Duck 🦆", "value": "pato" },
-    { "label": "Pig 🐷", "value": "porco" }
-  ] },
-  { "title": "What does it say? 🔊", "rows": [
-    { "label": "Dog says", "value": "woof! 🐶", "highlight": true },
-    { "label": "Cat says", "value": "meow! 🐱", "highlight": true },
-    { "label": "Cow says", "value": "moo! 🐄", "highlight": true },
-    { "label": "Duck says", "value": "quack! 🦆", "highlight": true },
-    { "label": "Pig says", "value": "oink! 🐷", "highlight": true }
-  ] }
+  {
+    "title": "Animal 🐾",
+    "rows": [
+      {
+        "label": "Dog 🐶",
+        "value": "cão"
+      },
+      {
+        "label": "Cat 🐱",
+        "value": "gato"
+      },
+      {
+        "label": "Cow 🐄",
+        "value": "vaca"
+      },
+      {
+        "label": "Duck 🦆",
+        "value": "pato"
+      },
+      {
+        "label": "Pig 🐷",
+        "value": "porco"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "What does it say? 🔊",
+    "rows": [
+      {
+        "label": "Dog says",
+        "value": "woof! 🐶",
+        "highlight": true
+      },
+      {
+        "label": "Cat says",
+        "value": "meow! 🐱",
+        "highlight": true
+      },
+      {
+        "label": "Cow says",
+        "value": "moo! 🐄",
+        "highlight": true
+      },
+      {
+        "label": "Duck says",
+        "value": "quack! 🦆",
+        "highlight": true
+      },
+      {
+        "label": "Pig says",
+        "value": "oink! 🐷",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -68,12 +179,36 @@ Saber o nome é bom, mas o mais fixe é **fazer frases**! Em inglês usamos *I h
 
 ```keyvalue
 [
-  { "k": "I have a dog 🐶", "v": "Tenho um cão" },
-  { "k": "I have a cat 🐱", "v": "Tenho um gato" },
-  { "k": "It is a bird 🐦", "v": "É um pássaro" },
-  { "k": "What animal is it? 🤔", "v": "Que animal é? (a pergunta)" },
-  { "k": "I like lions 🦁", "v": "Eu gosto de leões" },
-  { "k": "Big / small", "v": "grande / pequeno 📏" }
+  {
+    "k": "I have a dog 🐶",
+    "v": "Tenho um cão",
+    "lang": "en-US"
+  },
+  {
+    "k": "I have a cat 🐱",
+    "v": "Tenho um gato",
+    "lang": "en-US"
+  },
+  {
+    "k": "It is a bird 🐦",
+    "v": "É um pássaro",
+    "lang": "en-US"
+  },
+  {
+    "k": "What animal is it? 🤔",
+    "v": "Que animal é? (a pergunta)",
+    "lang": "en-US"
+  },
+  {
+    "k": "I like lions 🦁",
+    "v": "Eu gosto de leões",
+    "lang": "en-US"
+  },
+  {
+    "k": "Big / small",
+    "v": "grande / pequeno 📏",
+    "lang": "en-US"
+  }
 ]
 ```
 

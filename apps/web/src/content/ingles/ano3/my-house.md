@@ -20,12 +20,36 @@ Dentro de cada divisão há **furniture** (móveis e objetos). Olha estas palavr
 
 ```keyvalue
 [
-  { "k": "bed 🛏️", "v": "cama — fica no bedroom" },
-  { "k": "table 🍽️", "v": "mesa — fica na kitchen ou na living room" },
-  { "k": "chair 🪑", "v": "cadeira — para te sentares" },
-  { "k": "sofa 🛋️", "v": "sofá — fica na living room" },
-  { "k": "door 🚪", "v": "porta — por onde entras" },
-  { "k": "window 🪟", "v": "janela — por onde entra a luz ☀️" }
+  {
+    "k": "bed 🛏️",
+    "v": "cama — fica no bedroom",
+    "lang": "en-US"
+  },
+  {
+    "k": "table 🍽️",
+    "v": "mesa — fica na kitchen ou na living room",
+    "lang": "en-US"
+  },
+  {
+    "k": "chair 🪑",
+    "v": "cadeira — para te sentares",
+    "lang": "en-US"
+  },
+  {
+    "k": "sofa 🛋️",
+    "v": "sofá — fica na living room",
+    "lang": "en-US"
+  },
+  {
+    "k": "door 🚪",
+    "v": "porta — por onde entras",
+    "lang": "en-US"
+  },
+  {
+    "k": "window 🪟",
+    "v": "janela — por onde entra a luz ☀️",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -37,16 +61,44 @@ Para dizer o que **há** numa divisão usas duas expressões mágicas. A diferen
 
 ```compare
 [
-  { "title": "There is", "rows": [
-    { "label": "Quando usar?", "value": "para UMA coisa (singular)" },
-    { "label": "Exemplo", "value": "There is a bed. 🛏️" },
-    { "label": "Negativa", "value": "There isn't a sofa." }
-  ] },
-  { "title": "There are", "highlight": true, "badge": "muitas", "rows": [
-    { "label": "Quando usar?", "value": "para MUITAS coisas (plural)" },
-    { "label": "Exemplo", "value": "There are two chairs. 🪑🪑" },
-    { "label": "Negativa", "value": "There aren't any windows." }
-  ] }
+  {
+    "title": "There is",
+    "rows": [
+      {
+        "label": "Quando usar?",
+        "value": "para UMA coisa (singular)"
+      },
+      {
+        "label": "Exemplo",
+        "value": "There is a bed. 🛏️"
+      },
+      {
+        "label": "Negativa",
+        "value": "There isn't a sofa."
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "There are",
+    "highlight": true,
+    "badge": "muitas",
+    "rows": [
+      {
+        "label": "Quando usar?",
+        "value": "para MUITAS coisas (plural)"
+      },
+      {
+        "label": "Exemplo",
+        "value": "There are two chairs. 🪑🪑"
+      },
+      {
+        "label": "Negativa",
+        "value": "There aren't any windows."
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -58,10 +110,26 @@ Para dizeres ONDE está uma coisa, usas pequenas palavras chamadas **preposiçõ
 
 ```keyvalue
 [
-  { "k": "in 📦", "v": "dentro de — The cat is in the box." },
-  { "k": "on ⬆️", "v": "em cima de — The book is on the table." },
-  { "k": "under ⬇️", "v": "debaixo de — The ball is under the bed." },
-  { "k": "next to ➡️", "v": "ao lado de — The chair is next to the door." }
+  {
+    "k": "in 📦",
+    "v": "dentro de — The cat is in the box.",
+    "lang": "en-US"
+  },
+  {
+    "k": "on ⬆️",
+    "v": "em cima de — The book is on the table.",
+    "lang": "en-US"
+  },
+  {
+    "k": "under ⬇️",
+    "v": "debaixo de — The ball is under the bed.",
+    "lang": "en-US"
+  },
+  {
+    "k": "next to ➡️",
+    "v": "ao lado de — The chair is next to the door.",
+    "lang": "en-US"
+  }
 ]
 ```
 

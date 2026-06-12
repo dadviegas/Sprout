@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { Icon } from "@sprout/icons";
 import { Speaker } from "./Speaker";
+import type { SpeechLang, SpeechPart } from "./speak";
 
 /* Infographic primitives from the atlantis design system: StatGrid, Steps,
    Compare, Quote, Meters, KeyValueGrid. Rendered from JSON fenced-code blocks
@@ -10,6 +11,15 @@ import { Speaker } from "./Speaker";
 /** Plain text of a field for read-aloud (markdown JSON gives strings/numbers). */
 function txt(x: ReactNode): string {
   return typeof x === "string" ? x : typeof x === "number" ? String(x) : "";
+}
+
+function mixedParts(en: ReactNode, pt?: ReactNode): SpeechPart[] {
+  const a = txt(en);
+  const b = txt(pt);
+  return [
+    ...(a ? [{ text: a, lang: "en-US" as const }] : []),
+    ...(b ? [{ text: b, lang: "pt-PT" as const }] : []),
+  ];
 }
 
 type Trend = "up" | "down" | "neutral" | "warn";
@@ -128,6 +138,7 @@ export interface Step {
   title: string;
   body?: string;
   icon?: ReactNode;
+  lang?: SpeechLang;
 }
 
 export function Steps({ items, reveal = false }: { items: Step[]; reveal?: boolean }) {
@@ -177,7 +188,12 @@ export function Steps({ items, reveal = false }: { items: Step[]; reveal?: boole
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 700, color: "var(--ink)", fontFamily: "var(--font-display)" }}>
                 <span>{step.title}</span>
-                <Speaker text={[txt(step.title), txt(step.body)].filter(Boolean).join(". ")} className="ig-speak" size={15} />
+                <Speaker
+                  parts={step.lang === "en-US" ? mixedParts(step.title, step.body) : undefined}
+                  text={step.lang === "en-US" ? undefined : [txt(step.title), txt(step.body)].filter(Boolean).join(". ")}
+                  className="ig-speak"
+                  size={15}
+                />
               </div>
               {step.body && <div style={{ color: "var(--ink-2)", fontSize: ".95em", marginTop: 2, lineHeight: 1.55 }}>{step.body}</div>}
             </div>
@@ -199,7 +215,8 @@ export interface CompareCol {
   title: string;
   badge?: string;
   highlight?: boolean;
-  rows: { label: string; value: ReactNode }[];
+  lang?: SpeechLang;
+  rows: { label: string; value: ReactNode; lang?: SpeechLang }[];
 }
 
 export function Compare({ columns }: { columns: CompareCol[] }) {
@@ -224,7 +241,13 @@ export function Compare({ columns }: { columns: CompareCol[] }) {
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
               <div style={{ fontWeight: 700, color: "var(--ink)", fontSize: "1.1em", flex: 1, fontFamily: "var(--font-display)" }}>{col.title}</div>
               <Speaker
-                text={`${txt(col.title)}. ${col.rows.map((r) => `${txt(r.label)}: ${txt(r.value)}`).join(". ")}`}
+                parts={col.rows.some((r) => (r.lang ?? col.lang) === "en-US")
+                  ? [
+                      { text: txt(col.title), lang: "pt-PT" },
+                      ...col.rows.flatMap((r) => (r.lang ?? col.lang) === "en-US" ? mixedParts(r.label, r.value) : [{ text: `${txt(r.label)}: ${txt(r.value)}`, lang: "pt-PT" as const }]),
+                    ]
+                  : undefined}
+                text={col.rows.some((r) => (r.lang ?? col.lang) === "en-US") ? undefined : `${txt(col.title)}. ${col.rows.map((r) => `${txt(r.label)}: ${txt(r.value)}`).join(". ")}`}
                 className="ig-speak"
                 size={15}
               />
@@ -348,6 +371,7 @@ export interface KeyValueItem {
   k: string;
   v: ReactNode;
   icon?: ReactNode;
+  lang?: SpeechLang;
 }
 
 export function KeyValueGrid({ items }: { items: KeyValueItem[] }) {
@@ -388,7 +412,12 @@ export function KeyValueGrid({ items }: { items: KeyValueItem[] }) {
             <div style={{ minWidth: 0, flex: 1 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: ".78em", color: "var(--ink-2)", textTransform: "uppercase", letterSpacing: ".06em", fontWeight: 700 }}>
                 <span>{it.k}</span>
-                <Speaker text={`${txt(it.k)}: ${txt(it.v)}`} className="ig-speak" size={14} />
+                <Speaker
+                  parts={it.lang === "en-US" ? mixedParts(it.k, it.v) : undefined}
+                  text={it.lang === "en-US" ? undefined : `${txt(it.k)}: ${txt(it.v)}`}
+                  className="ig-speak"
+                  size={14}
+                />
               </div>
               <div style={{ color: "var(--ink)", marginTop: 3, fontWeight: 600 }}>{it.v}</div>
             </div>

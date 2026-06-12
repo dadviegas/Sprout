@@ -25,12 +25,36 @@ Estas são as palavras mais importantes para falar do tempo em inglês. Repete c
 
 ```keyvalue
 [
-  { "k": "sunny ☀️", "v": "está sol 🙂" },
-  { "k": "rainy 🌧️", "v": "está a chover" },
-  { "k": "cloudy ☁️", "v": "está nublado (com nuvens)" },
-  { "k": "windy 💨", "v": "está vento" },
-  { "k": "snowy ❄️", "v": "está a nevar" },
-  { "k": "foggy 🌫️", "v": "está nevoeiro" }
+  {
+    "k": "sunny ☀️",
+    "v": "está sol 🙂",
+    "lang": "en-US"
+  },
+  {
+    "k": "rainy 🌧️",
+    "v": "está a chover",
+    "lang": "en-US"
+  },
+  {
+    "k": "cloudy ☁️",
+    "v": "está nublado (com nuvens)",
+    "lang": "en-US"
+  },
+  {
+    "k": "windy 💨",
+    "v": "está vento",
+    "lang": "en-US"
+  },
+  {
+    "k": "snowy ❄️",
+    "v": "está a nevar",
+    "lang": "en-US"
+  },
+  {
+    "k": "foggy 🌫️",
+    "v": "está nevoeiro",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -40,11 +64,31 @@ O tempo também pode estar quente, frio ou ameno. Estas palavras dizem-te se pre
 
 ```keyvalue
 [
-  { "k": "hot 🥵", "v": "muito calor" },
-  { "k": "warm 🌤️", "v": "calorzinho ameno (agradável)" },
-  { "k": "cool 🍃", "v": "fresco" },
-  { "k": "cold 🥶", "v": "frio" },
-  { "k": "freezing 🧊", "v": "gelado, muito frio!" }
+  {
+    "k": "hot 🥵",
+    "v": "muito calor",
+    "lang": "en-US"
+  },
+  {
+    "k": "warm 🌤️",
+    "v": "calorzinho ameno (agradável)",
+    "lang": "en-US"
+  },
+  {
+    "k": "cool 🍃",
+    "v": "fresco",
+    "lang": "en-US"
+  },
+  {
+    "k": "cold 🥶",
+    "v": "frio",
+    "lang": "en-US"
+  },
+  {
+    "k": "freezing 🧊",
+    "v": "gelado, muito frio!",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -56,16 +100,44 @@ Para falar do tempo, usas sempre **It's...** (que vem de *It is*). E para pergun
 
 ```compare
 [
-  { "title": "Perguntar ❓", "rows": [
-    { "label": "What's the weather like?", "value": "Como está o tempo?", "highlight": true },
-    { "label": "What's the weather like today?", "value": "Como está o tempo hoje?" },
-    { "label": "Is it sunny?", "value": "Está sol?" }
-  ] },
-  { "title": "Responder ✅", "rows": [
-    { "label": "It's sunny.", "value": "Está sol. ☀️", "highlight": true },
-    { "label": "It's raining.", "value": "Está a chover. 🌧️" },
-    { "label": "It's cold and windy.", "value": "Está frio e vento. 🥶💨" }
-  ] }
+  {
+    "title": "Perguntar ❓",
+    "rows": [
+      {
+        "label": "What's the weather like?",
+        "value": "Como está o tempo?",
+        "highlight": true
+      },
+      {
+        "label": "What's the weather like today?",
+        "value": "Como está o tempo hoje?"
+      },
+      {
+        "label": "Is it sunny?",
+        "value": "Está sol?"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Responder ✅",
+    "rows": [
+      {
+        "label": "It's sunny.",
+        "value": "Está sol. ☀️",
+        "highlight": true
+      },
+      {
+        "label": "It's raining.",
+        "value": "Está a chover. 🌧️"
+      },
+      {
+        "label": "It's cold and windy.",
+        "value": "Está frio e vento. 🥶💨"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -77,12 +149,29 @@ Cada estação do ano (*season*) costuma trazer um tempo diferente. Vê como com
 
 ```compare
 [
-  { "title": "Estações 🌍", "rows": [
-    { "label": "spring 🌷", "value": "primavera — rainy e sunny" },
-    { "label": "summer ☀️", "value": "verão — hot e sunny", "highlight": true },
-    { "label": "autumn 🍁", "value": "outono — windy e cloudy" },
-    { "label": "winter ❄️", "value": "inverno — cold e snowy" }
-  ] }
+  {
+    "title": "Estações 🌍",
+    "rows": [
+      {
+        "label": "spring 🌷",
+        "value": "primavera — rainy e sunny"
+      },
+      {
+        "label": "summer ☀️",
+        "value": "verão — hot e sunny",
+        "highlight": true
+      },
+      {
+        "label": "autumn 🍁",
+        "value": "outono — windy e cloudy"
+      },
+      {
+        "label": "winter ❄️",
+        "value": "inverno — cold e snowy"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 

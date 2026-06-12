@@ -33,10 +33,26 @@ Estas são as quatro frases-mágicas para dares direções. Decora-as como um ma
 
 ```keyvalue
 [
-  { "k": "Go straight on 🡹", "v": "Segue em frente" },
-  { "k": "Turn left ⬅️", "v": "Vira à esquerda" },
-  { "k": "Turn right ➡️", "v": "Vira à direita" },
-  { "k": "Stop / It's here 🛑", "v": "Para / É aqui" }
+  {
+    "k": "Go straight on 🡹",
+    "v": "Segue em frente",
+    "lang": "en-US"
+  },
+  {
+    "k": "Turn left ⬅️",
+    "v": "Vira à esquerda",
+    "lang": "en-US"
+  },
+  {
+    "k": "Turn right ➡️",
+    "v": "Vira à direita",
+    "lang": "en-US"
+  },
+  {
+    "k": "Stop / It's here 🛑",
+    "v": "Para / É aqui",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -52,16 +68,44 @@ Para perguntar e responder onde fica um sítio:
 
 ```compare
 [
-  { "title": "Perguntar 🙋", "rows": [
-    { "label": "Where is the bank?", "value": "Onde fica o banco? 🏦", "highlight": true },
-    { "label": "Is there a park near here?", "value": "Há um parque aqui perto? 🌳" },
-    { "label": "How do I get to the station?", "value": "Como vou para a estação? 🚉" }
-  ] },
-  { "title": "Responder 🗣️", "rows": [
-    { "label": "It's next to the school.", "value": "Fica ao lado da escola 🏫", "highlight": true },
-    { "label": "Go straight on and turn left.", "value": "Segue em frente e vira à esquerda ⬅️" },
-    { "label": "It's on your right.", "value": "Fica à tua direita ➡️" }
-  ] }
+  {
+    "title": "Perguntar 🙋",
+    "rows": [
+      {
+        "label": "Where is the bank?",
+        "value": "Onde fica o banco? 🏦",
+        "highlight": true
+      },
+      {
+        "label": "Is there a park near here?",
+        "value": "Há um parque aqui perto? 🌳"
+      },
+      {
+        "label": "How do I get to the station?",
+        "value": "Como vou para a estação? 🚉"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Responder 🗣️",
+    "rows": [
+      {
+        "label": "It's next to the school.",
+        "value": "Fica ao lado da escola 🏫",
+        "highlight": true
+      },
+      {
+        "label": "Go straight on and turn left.",
+        "value": "Segue em frente e vira à esquerda ⬅️"
+      },
+      {
+        "label": "It's on your right.",
+        "value": "Fica à tua direita ➡️"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -71,11 +115,31 @@ Para dizeres **onde** está uma coisa em relação a outra, usas estas palavrinh
 
 ```keyvalue
 [
-  { "k": "next to 🤝", "v": "ao lado de — The bank is next to the park." },
-  { "k": "opposite ↔️", "v": "em frente a — The shop is opposite the school." },
-  { "k": "between ⬅️🏠➡️", "v": "entre — The café is between the bank and the library." },
-  { "k": "on the corner 📐", "v": "na esquina — The post office is on the corner." },
-  { "k": "near 📌", "v": "perto de — It's near the station." }
+  {
+    "k": "next to 🤝",
+    "v": "ao lado de — The bank is next to the park.",
+    "lang": "en-US"
+  },
+  {
+    "k": "opposite ↔️",
+    "v": "em frente a — The shop is opposite the school.",
+    "lang": "en-US"
+  },
+  {
+    "k": "between ⬅️🏠➡️",
+    "v": "entre — The café is between the bank and the library.",
+    "lang": "en-US"
+  },
+  {
+    "k": "on the corner 📐",
+    "v": "na esquina — The post office is on the corner.",
+    "lang": "en-US"
+  },
+  {
+    "k": "near 📌",
+    "v": "perto de — It's near the station.",
+    "lang": "en-US"
+  }
 ]
 ```
 

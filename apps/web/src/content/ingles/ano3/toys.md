@@ -28,12 +28,36 @@ E há ainda mais! Estes também aparecem muitas vezes na caixa dos brinquedos:
 
 ```keyvalue
 [
-  { "k": "blocks 🧱", "v": "blocos de montar" },
-  { "k": "puzzle 🧩", "v": "puzzle" },
-  { "k": "robot 🤖", "v": "robô" },
-  { "k": "train 🚂", "v": "comboio" },
-  { "k": "drum 🥁", "v": "tambor" },
-  { "k": "balloon 🎈", "v": "balão" }
+  {
+    "k": "blocks 🧱",
+    "v": "blocos de montar",
+    "lang": "en-US"
+  },
+  {
+    "k": "puzzle 🧩",
+    "v": "puzzle",
+    "lang": "en-US"
+  },
+  {
+    "k": "robot 🤖",
+    "v": "robô",
+    "lang": "en-US"
+  },
+  {
+    "k": "train 🚂",
+    "v": "comboio",
+    "lang": "en-US"
+  },
+  {
+    "k": "drum 🥁",
+    "v": "tambor",
+    "lang": "en-US"
+  },
+  {
+    "k": "balloon 🎈",
+    "v": "balão",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -45,10 +69,26 @@ Agora vamos juntar as palavras numa frase. É muito simples:
 
 ```keyvalue
 [
-  { "k": "I have a ball.", "v": "Eu tenho uma bola. ⚽" },
-  { "k": "I like my teddy bear.", "v": "Eu gosto do meu urso de peluche. 🧸" },
-  { "k": "This is my car.", "v": "Este é o meu carro. 🚗" },
-  { "k": "It's a robot!", "v": "É um robô! 🤖" }
+  {
+    "k": "I have a ball.",
+    "v": "Eu tenho uma bola. ⚽",
+    "lang": "en-US"
+  },
+  {
+    "k": "I like my teddy bear.",
+    "v": "Eu gosto do meu urso de peluche. 🧸",
+    "lang": "en-US"
+  },
+  {
+    "k": "This is my car.",
+    "v": "Este é o meu carro. 🚗",
+    "lang": "en-US"
+  },
+  {
+    "k": "It's a robot!",
+    "v": "É um robô! 🤖",
+    "lang": "en-US"
+  }
 ]
 ```
 

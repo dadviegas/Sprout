@@ -48,8 +48,16 @@ A natureza também tem muita água! Vamos aprender estas duas palavras especiais
 
 ```keyvalue
 [
-  { "k": "sea 🌊", "v": "mar" },
-  { "k": "beach 🏖️", "v": "praia" }
+  {
+    "k": "sea 🌊",
+    "v": "mar",
+    "lang": "en-US"
+  },
+  {
+    "k": "beach 🏖️",
+    "v": "praia",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -61,16 +69,44 @@ Em inglês podemos descrever as coisas com cores. Usamos a palavrinha **is** (é
 
 ```compare
 [
-  { "title": "The tree is green 🌳", "rows": [
-    { "label": "A árvore é verde", "value": "tree = árvore" },
-    { "label": "is", "value": "é" },
-    { "label": "green", "value": "verde", "highlight": true }
-  ] },
-  { "title": "The sun is yellow ☀️", "rows": [
-    { "label": "O sol é amarelo", "value": "sun = sol" },
-    { "label": "is", "value": "é" },
-    { "label": "yellow", "value": "amarelo", "highlight": true }
-  ] }
+  {
+    "title": "The tree is green 🌳",
+    "rows": [
+      {
+        "label": "A árvore é verde",
+        "value": "tree = árvore"
+      },
+      {
+        "label": "is",
+        "value": "é"
+      },
+      {
+        "label": "green",
+        "value": "verde",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "The sun is yellow ☀️",
+    "rows": [
+      {
+        "label": "O sol é amarelo",
+        "value": "sun = sol"
+      },
+      {
+        "label": "is",
+        "value": "é"
+      },
+      {
+        "label": "yellow",
+        "value": "amarelo",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 

@@ -29,25 +29,71 @@ O país tem um nome, e as pessoas desse país têm outro — a **nacionalidade**
 
 ```keyvalue
 [
-  { "k": "Portugal 🇵🇹", "v": "I'm Portuguese. (sou português/portuguesa)" },
-  { "k": "Spain 🇪🇸", "v": "He's Spanish. (ele é espanhol)" },
-  { "k": "France 🇫🇷", "v": "She's French. (ela é francesa)" },
-  { "k": "England 🏴󠁧󠁢󠁥󠁮󠁧󠁿", "v": "They're English. (eles são ingleses)" },
-  { "k": "Italy 🇮🇹", "v": "He's Italian. (ele é italiano)" },
-  { "k": "Brazil 🇧🇷", "v": "She's Brazilian. (ela é brasileira)" }
+  {
+    "k": "Portugal 🇵🇹",
+    "v": "I'm Portuguese. (sou português/portuguesa)",
+    "lang": "en-US"
+  },
+  {
+    "k": "Spain 🇪🇸",
+    "v": "He's Spanish. (ele é espanhol)",
+    "lang": "en-US"
+  },
+  {
+    "k": "France 🇫🇷",
+    "v": "She's French. (ela é francesa)",
+    "lang": "en-US"
+  },
+  {
+    "k": "England 🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+    "v": "They're English. (eles são ingleses)",
+    "lang": "en-US"
+  },
+  {
+    "k": "Italy 🇮🇹",
+    "v": "He's Italian. (ele é italiano)",
+    "lang": "en-US"
+  },
+  {
+    "k": "Brazil 🇧🇷",
+    "v": "She's Brazilian. (ela é brasileira)",
+    "lang": "en-US"
+  }
 ]
 ```
 
 ```compare
 [
-  { "title": "Perguntar ❓", "rows": [
-    { "label": "Where are you from?", "value": "De onde és?", "highlight": true },
-    { "label": "Are you Portuguese?", "value": "És português/portuguesa?" }
-  ] },
-  { "title": "Responder ✅", "rows": [
-    { "label": "I'm from Portugal.", "value": "Sou de Portugal. 🇵🇹", "highlight": true },
-    { "label": "Yes, I'm Portuguese!", "value": "Sim, sou português/portuguesa!" }
-  ] }
+  {
+    "title": "Perguntar ❓",
+    "rows": [
+      {
+        "label": "Where are you from?",
+        "value": "De onde és?",
+        "highlight": true
+      },
+      {
+        "label": "Are you Portuguese?",
+        "value": "És português/portuguesa?"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Responder ✅",
+    "rows": [
+      {
+        "label": "I'm from Portugal.",
+        "value": "Sou de Portugal. 🇵🇹",
+        "highlight": true
+      },
+      {
+        "label": "Yes, I'm Portuguese!",
+        "value": "Sim, sou português/portuguesa!"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -87,10 +133,26 @@ E os números do meio? **Dezena + hífen + unidade** — como montar LEGO:
 
 ```keyvalue
 [
-  { "k": "Christmas 🎄", "v": "o Natal — Father Christmas (Pai Natal), presents (presentes), Christmas tree (árvore)" },
-  { "k": "Easter 🐣", "v": "a Páscoa — Easter eggs (ovos da Páscoa), Easter bunny (coelhinho), chocolate!" },
-  { "k": "Halloween 🎃", "v": "31 de outubro — pumpkin (abóbora), costume (disfarce), «trick or treat!» (doçura ou travessura)" },
-  { "k": "Birthday 🎂", "v": "o aniversário — «Happy birthday!», cake (bolo), candles (velas)" }
+  {
+    "k": "Christmas 🎄",
+    "v": "o Natal — Father Christmas (Pai Natal), presents (presentes), Christmas tree (árvore)",
+    "lang": "en-US"
+  },
+  {
+    "k": "Easter 🐣",
+    "v": "a Páscoa — Easter eggs (ovos da Páscoa), Easter bunny (coelhinho), chocolate!",
+    "lang": "en-US"
+  },
+  {
+    "k": "Halloween 🎃",
+    "v": "31 de outubro — pumpkin (abóbora), costume (disfarce), «trick or treat!» (doçura ou travessura)",
+    "lang": "en-US"
+  },
+  {
+    "k": "Birthday 🎂",
+    "v": "o aniversário — «Happy birthday!», cake (bolo), candles (velas)",
+    "lang": "en-US"
+  }
 ]
 ```
 

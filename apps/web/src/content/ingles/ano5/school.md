@@ -29,12 +29,36 @@ Há ainda mais matérias na escola — e cada uma com o seu nome em inglês!
 
 ```keyvalue
 [
-  { "k": "Art 🎨", "v": "Educação Visual / Artes" },
-  { "k": "Music 🎵", "v": "Música" },
-  { "k": "Portuguese 🇵🇹", "v": "Português" },
-  { "k": "I.T. / Computing 💻", "v": "TIC / Informática" },
-  { "k": "Drama 🎭", "v": "Teatro / Expressão Dramática" },
-  { "k": "break / playtime 🛝", "v": "intervalo / recreio" }
+  {
+    "k": "Art 🎨",
+    "v": "Educação Visual / Artes",
+    "lang": "en-US"
+  },
+  {
+    "k": "Music 🎵",
+    "v": "Música",
+    "lang": "en-US"
+  },
+  {
+    "k": "Portuguese 🇵🇹",
+    "v": "Português",
+    "lang": "en-US"
+  },
+  {
+    "k": "I.T. / Computing 💻",
+    "v": "TIC / Informática",
+    "lang": "en-US"
+  },
+  {
+    "k": "Drama 🎭",
+    "v": "Teatro / Expressão Dramática",
+    "lang": "en-US"
+  },
+  {
+    "k": "break / playtime 🛝",
+    "v": "intervalo / recreio",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -44,14 +68,36 @@ Para dizeres de que disciplinas gostas, usas **I like** (gosto) e **I don't like
 
 ```compare
 [
-  { "title": "Gosto 💗", "rows": [
-    { "label": "I like Science.", "value": "Gosto de Ciências 🔬", "highlight": true },
-    { "label": "I love Art!", "value": "Adoro Artes! 🎨" }
-  ] },
-  { "title": "Não gosto 🙅", "rows": [
-    { "label": "I don't like Maths.", "value": "Não gosto de Matemática ➗", "highlight": true },
-    { "label": "I hate tests.", "value": "Detesto testes 📝" }
-  ] }
+  {
+    "title": "Gosto 💗",
+    "rows": [
+      {
+        "label": "I like Science.",
+        "value": "Gosto de Ciências 🔬",
+        "highlight": true
+      },
+      {
+        "label": "I love Art!",
+        "value": "Adoro Artes! 🎨"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Não gosto 🙅",
+    "rows": [
+      {
+        "label": "I don't like Maths.",
+        "value": "Não gosto de Matemática ➗",
+        "highlight": true
+      },
+      {
+        "label": "I hate tests.",
+        "value": "Detesto testes 📝"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -63,10 +109,26 @@ Para falares da tua **favorita** (preferida), usa esta frase-modelo:
 
 ```keyvalue
 [
-  { "k": "What's your favourite subject? 🤔", "v": "Qual é a tua disciplina preferida?" },
-  { "k": "My favourite subject is P.E. ⚽", "v": "A minha disciplina preferida é Educação Física." },
-  { "k": "Because it's fun! 😄", "v": "Porque é divertida!" },
-  { "k": "It's easy / difficult. 🙂😖", "v": "É fácil / difícil." }
+  {
+    "k": "What's your favourite subject? 🤔",
+    "v": "Qual é a tua disciplina preferida?",
+    "lang": "en-US"
+  },
+  {
+    "k": "My favourite subject is P.E. ⚽",
+    "v": "A minha disciplina preferida é Educação Física.",
+    "lang": "en-US"
+  },
+  {
+    "k": "Because it's fun! 😄",
+    "v": "Porque é divertida!",
+    "lang": "en-US"
+  },
+  {
+    "k": "It's easy / difficult. 🙂😖",
+    "v": "É fácil / difícil.",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -76,16 +138,44 @@ Um **timetable** (horário) diz que disciplina tens em cada **dia**. Lê este pe
 
 ```compare
 [
-  { "title": "Monday (segunda) 📘", "rows": [
-    { "label": "9:00 Maths", "value": "➗" },
-    { "label": "10:00 English", "value": "🇬🇧", "highlight": true },
-    { "label": "11:00 P.E.", "value": "⚽" }
-  ] },
-  { "title": "Tuesday (terça) 📗", "rows": [
-    { "label": "9:00 Science", "value": "🔬" },
-    { "label": "10:00 Art", "value": "🎨", "highlight": true },
-    { "label": "11:00 Music", "value": "🎵" }
-  ] }
+  {
+    "title": "Monday (segunda) 📘",
+    "rows": [
+      {
+        "label": "9:00 Maths",
+        "value": "➗"
+      },
+      {
+        "label": "10:00 English",
+        "value": "🇬🇧",
+        "highlight": true
+      },
+      {
+        "label": "11:00 P.E.",
+        "value": "⚽"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Tuesday (terça) 📗",
+    "rows": [
+      {
+        "label": "9:00 Science",
+        "value": "🔬"
+      },
+      {
+        "label": "10:00 Art",
+        "value": "🎨",
+        "highlight": true
+      },
+      {
+        "label": "11:00 Music",
+        "value": "🎵"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 

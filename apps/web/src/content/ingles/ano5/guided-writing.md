@@ -6,10 +6,26 @@ A short text is easier when you use a model. You can change the words to make it
 
 ```keyvalue
 [
-  { "k": "Opening", "v": "Hello! My name is..." },
-  { "k": "Details", "v": "I am... years old. I live in..." },
-  { "k": "Likes", "v": "I like... / I don't like..." },
-  { "k": "Ending", "v": "What about you?" }
+  {
+    "k": "Opening",
+    "v": "Hello! My name is...",
+    "lang": "en-US"
+  },
+  {
+    "k": "Details",
+    "v": "I am... years old. I live in...",
+    "lang": "en-US"
+  },
+  {
+    "k": "Likes",
+    "v": "I like... / I don't like...",
+    "lang": "en-US"
+  },
+  {
+    "k": "Ending",
+    "v": "What about you?",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -26,12 +42,27 @@ A short text is easier when you use a model. You can change the words to make it
 
 ```compare
 [
-  { "title": "Too short", "rows": [
-    { "label": "Text", "value": "Hello. I like football." }
-  ] },
-  { "title": "Better", "rows": [
-    { "label": "Text", "value": "Hello! My name is Tom. I am ten years old. I like football and science.", "highlight": true }
-  ] }
+  {
+    "title": "Too short",
+    "rows": [
+      {
+        "label": "Text",
+        "value": "Hello. I like football."
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Better",
+    "rows": [
+      {
+        "label": "Text",
+        "value": "Hello! My name is Tom. I am ten years old. I like football and science.",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 

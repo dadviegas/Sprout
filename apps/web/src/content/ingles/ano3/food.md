@@ -10,14 +10,46 @@ Vamos começar com palavras do dia a dia. Lê cada uma em voz alta e ouve o som 
 
 ```keyvalue
 [
-  { "k": "Apple 🍎", "v": "maçã" },
-  { "k": "Bread 🍞", "v": "pão" },
-  { "k": "Cheese 🧀", "v": "queijo" },
-  { "k": "Egg 🥚", "v": "ovo" },
-  { "k": "Rice 🍚", "v": "arroz" },
-  { "k": "Fish 🐟", "v": "peixe" },
-  { "k": "Banana 🍌", "v": "banana" },
-  { "k": "Chicken 🍗", "v": "frango" }
+  {
+    "k": "Apple 🍎",
+    "v": "maçã",
+    "lang": "en-US"
+  },
+  {
+    "k": "Bread 🍞",
+    "v": "pão",
+    "lang": "en-US"
+  },
+  {
+    "k": "Cheese 🧀",
+    "v": "queijo",
+    "lang": "en-US"
+  },
+  {
+    "k": "Egg 🥚",
+    "v": "ovo",
+    "lang": "en-US"
+  },
+  {
+    "k": "Rice 🍚",
+    "v": "arroz",
+    "lang": "en-US"
+  },
+  {
+    "k": "Fish 🐟",
+    "v": "peixe",
+    "lang": "en-US"
+  },
+  {
+    "k": "Banana 🍌",
+    "v": "banana",
+    "lang": "en-US"
+  },
+  {
+    "k": "Chicken 🍗",
+    "v": "frango",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -27,10 +59,26 @@ Vamos começar com palavras do dia a dia. Lê cada uma em voz alta e ouve o som 
 
 ```keyvalue
 [
-  { "k": "Milk 🥛", "v": "leite" },
-  { "k": "Water 💧", "v": "água" },
-  { "k": "Juice 🧃", "v": "sumo" },
-  { "k": "Tea 🍵", "v": "chá" }
+  {
+    "k": "Milk 🥛",
+    "v": "leite",
+    "lang": "en-US"
+  },
+  {
+    "k": "Water 💧",
+    "v": "água",
+    "lang": "en-US"
+  },
+  {
+    "k": "Juice 🧃",
+    "v": "sumo",
+    "lang": "en-US"
+  },
+  {
+    "k": "Tea 🍵",
+    "v": "chá",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -42,14 +90,36 @@ Em inglês dizemos o que sentimos sobre a comida de forma muito simples. Repara 
 
 ```compare
 [
-  { "title": "Gosto 😋", "rows": [
-    { "label": "I like apples", "value": "Eu gosto de maçãs 🍎", "highlight": true },
-    { "label": "I like fish", "value": "Eu gosto de peixe 🐟" }
-  ] },
-  { "title": "Não gosto 🤢", "rows": [
-    { "label": "I don't like cheese", "value": "Eu não gosto de queijo 🧀", "highlight": true },
-    { "label": "I don't like eggs", "value": "Eu não gosto de ovos 🥚" }
-  ] }
+  {
+    "title": "Gosto 😋",
+    "rows": [
+      {
+        "label": "I like apples",
+        "value": "Eu gosto de maçãs 🍎",
+        "highlight": true
+      },
+      {
+        "label": "I like fish",
+        "value": "Eu gosto de peixe 🐟"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Não gosto 🤢",
+    "rows": [
+      {
+        "label": "I don't like cheese",
+        "value": "Eu não gosto de queijo 🧀",
+        "highlight": true
+      },
+      {
+        "label": "I don't like eggs",
+        "value": "Eu não gosto de ovos 🥚"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 

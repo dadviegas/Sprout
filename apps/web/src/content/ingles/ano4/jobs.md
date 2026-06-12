@@ -17,7 +17,38 @@ Olha para estas profissões e **ouve** como se dizem. Carrega no altifalante e r
 Cada trabalho serve para ajudar os outros. Vê o que cada pessoa faz no seu dia a dia:
 
 ```keyvalue
-[ { "k": "teacher", "v": "ensina os meninos na escola 👩‍🏫" }, { "k": "doctor", "v": "ajuda quem está doente 👨‍⚕️" }, { "k": "nurse", "v": "cuida dos doentes no hospital 💉" }, { "k": "firefighter", "v": "apaga fogos e salva pessoas 🚒" }, { "k": "farmer", "v": "trata dos animais e das plantas na quinta 🚜" }, { "k": "vet", "v": "é o médico dos animais 🐶" } ]
+[
+  {
+    "k": "teacher",
+    "v": "ensina os meninos na escola 👩‍🏫",
+    "lang": "en-US"
+  },
+  {
+    "k": "doctor",
+    "v": "ajuda quem está doente 👨‍⚕️",
+    "lang": "en-US"
+  },
+  {
+    "k": "nurse",
+    "v": "cuida dos doentes no hospital 💉",
+    "lang": "en-US"
+  },
+  {
+    "k": "firefighter",
+    "v": "apaga fogos e salva pessoas 🚒",
+    "lang": "en-US"
+  },
+  {
+    "k": "farmer",
+    "v": "trata dos animais e das plantas na quinta 🚜",
+    "lang": "en-US"
+  },
+  {
+    "k": "vet",
+    "v": "é o médico dos animais 🐶",
+    "lang": "en-US"
+  }
+]
 ```
 
 ## He is a... / She is a... 🗣️
@@ -25,7 +56,28 @@ Cada trabalho serve para ajudar os outros. Vê o que cada pessoa faz no seu dia 
 Para dizer o que **uma** pessoa é, usamos **He is a...** (Ele é...) para meninos e **She is a...** (Ela é...) para meninas. Não te esqueças do pequenino **a** antes da profissão!
 
 ```keyvalue
-[ { "k": "He is a doctor.", "v": "Ele é médico. 👨‍⚕️" }, { "k": "She is a teacher.", "v": "Ela é professora. 👩‍🏫" }, { "k": "He is a pilot.", "v": "Ele é piloto. ✈️" }, { "k": "She is a nurse.", "v": "Ela é enfermeira. 💉" } ]
+[
+  {
+    "k": "He is a doctor.",
+    "v": "Ele é médico. 👨‍⚕️",
+    "lang": "en-US"
+  },
+  {
+    "k": "She is a teacher.",
+    "v": "Ela é professora. 👩‍🏫",
+    "lang": "en-US"
+  },
+  {
+    "k": "He is a pilot.",
+    "v": "Ele é piloto. ✈️",
+    "lang": "en-US"
+  },
+  {
+    "k": "She is a nurse.",
+    "v": "Ela é enfermeira. 💉",
+    "lang": "en-US"
+  }
+]
 ```
 
 ## Perguntar e responder 💬
@@ -33,7 +85,37 @@ Para dizer o que **uma** pessoa é, usamos **He is a...** (Ele é...) para menin
 Quando queres saber o trabalho de alguém, fazes uma pergunta. E quando falas de ti, dizes **I am a...** (Eu sou...).
 
 ```compare
-[ { "title": "Perguntar ❓", "rows": [ { "label": "What's your job?", "value": "Qual é o teu trabalho?" }, { "label": "What does she do?", "value": "O que faz ela?" } ] }, { "title": "Responder ✅", "rows": [ { "label": "I am a teacher.", "value": "Eu sou professor(a).", "highlight": true }, { "label": "She is a nurse.", "value": "Ela é enfermeira." } ] } ]
+[
+  {
+    "title": "Perguntar ❓",
+    "rows": [
+      {
+        "label": "What's your job?",
+        "value": "Qual é o teu trabalho?"
+      },
+      {
+        "label": "What does she do?",
+        "value": "O que faz ela?"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Responder ✅",
+    "rows": [
+      {
+        "label": "I am a teacher.",
+        "value": "Eu sou professor(a).",
+        "highlight": true
+      },
+      {
+        "label": "She is a nurse.",
+        "value": "Ela é enfermeira."
+      }
+    ],
+    "lang": "en-US"
+  }
+]
 ```
 
 ## Um exemplo passo a passo 🔍

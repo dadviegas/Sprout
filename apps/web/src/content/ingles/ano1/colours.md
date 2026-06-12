@@ -10,12 +10,36 @@ Estas são as cores que vais ouvir mais vezes. Olha para cada bolinha e repete a
 
 ```keyvalue
 [
-  { "k": "Red 🔴", "v": "vermelho — como um morango 🍓" },
-  { "k": "Blue 🔵", "v": "azul — como o céu ☁️" },
-  { "k": "Yellow 🟡", "v": "amarelo — como o sol ☀️" },
-  { "k": "Green 🟢", "v": "verde — como a relva 🌿" },
-  { "k": "Orange 🟠", "v": "laranja — como a fruta laranja 🍊" },
-  { "k": "Purple 🟣", "v": "roxo — como uma uva 🍇" }
+  {
+    "k": "Red 🔴",
+    "v": "vermelho — como um morango 🍓",
+    "lang": "en-US"
+  },
+  {
+    "k": "Blue 🔵",
+    "v": "azul — como o céu ☁️",
+    "lang": "en-US"
+  },
+  {
+    "k": "Yellow 🟡",
+    "v": "amarelo — como o sol ☀️",
+    "lang": "en-US"
+  },
+  {
+    "k": "Green 🟢",
+    "v": "verde — como a relva 🌿",
+    "lang": "en-US"
+  },
+  {
+    "k": "Orange 🟠",
+    "v": "laranja — como a fruta laranja 🍊",
+    "lang": "en-US"
+  },
+  {
+    "k": "Purple 🟣",
+    "v": "roxo — como uma uva 🍇",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -27,11 +51,31 @@ Já sabes as principais? Boa! Agora vamos juntar mais algumas. Estas aparecem mu
 
 ```keyvalue
 [
-  { "k": "Pink 💗", "v": "cor-de-rosa — como um chiclete 🍬" },
-  { "k": "Brown 🟤", "v": "castanho — como o chocolate 🍫" },
-  { "k": "Black ⚫", "v": "preto — como a noite 🌙" },
-  { "k": "White ⚪", "v": "branco — como a neve ❄️" },
-  { "k": "Grey 🩶", "v": "cinzento — como uma nuvem de chuva ☁️" }
+  {
+    "k": "Pink 💗",
+    "v": "cor-de-rosa — como um chiclete 🍬",
+    "lang": "en-US"
+  },
+  {
+    "k": "Brown 🟤",
+    "v": "castanho — como o chocolate 🍫",
+    "lang": "en-US"
+  },
+  {
+    "k": "Black ⚫",
+    "v": "preto — como a noite 🌙",
+    "lang": "en-US"
+  },
+  {
+    "k": "White ⚪",
+    "v": "branco — como a neve ❄️",
+    "lang": "en-US"
+  },
+  {
+    "k": "Grey 🩶",
+    "v": "cinzento — como uma nuvem de chuva ☁️",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -43,14 +87,36 @@ Em inglês, perguntamos a cor de uma coisa assim. É muito fácil — só tens d
 
 ```compare
 [
-  { "title": "Perguntar ❓", "rows": [
-    { "label": "What colour is it?", "value": "Que cor é?" },
-    { "label": "What colour is the apple?", "value": "Que cor é a maçã? 🍎" }
-  ] },
-  { "title": "Responder ✅", "rows": [
-    { "label": "It is red.", "value": "É vermelho/vermelha.", "highlight": true },
-    { "label": "It is green.", "value": "É verde 🟢", "highlight": true }
-  ] }
+  {
+    "title": "Perguntar ❓",
+    "rows": [
+      {
+        "label": "What colour is it?",
+        "value": "Que cor é?"
+      },
+      {
+        "label": "What colour is the apple?",
+        "value": "Que cor é a maçã? 🍎"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Responder ✅",
+    "rows": [
+      {
+        "label": "It is red.",
+        "value": "É vermelho/vermelha.",
+        "highlight": true
+      },
+      {
+        "label": "It is green.",
+        "value": "É verde 🟢",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -62,12 +128,36 @@ Vamos treinar com coisas que conheces. Que cor têm? Diz em inglês! 🌍
 
 ```keyvalue
 [
-  { "k": "The sun ☀️", "v": "is yellow (amarelo)" },
-  { "k": "The grass 🌿", "v": "is green (verde)" },
-  { "k": "The sky ☁️", "v": "is blue (azul)" },
-  { "k": "A banana 🍌", "v": "is yellow (amarelo)" },
-  { "k": "A strawberry 🍓", "v": "is red (vermelho)" },
-  { "k": "Chocolate 🍫", "v": "is brown (castanho)" }
+  {
+    "k": "The sun ☀️",
+    "v": "is yellow (amarelo)",
+    "lang": "en-US"
+  },
+  {
+    "k": "The grass 🌿",
+    "v": "is green (verde)",
+    "lang": "en-US"
+  },
+  {
+    "k": "The sky ☁️",
+    "v": "is blue (azul)",
+    "lang": "en-US"
+  },
+  {
+    "k": "A banana 🍌",
+    "v": "is yellow (amarelo)",
+    "lang": "en-US"
+  },
+  {
+    "k": "A strawberry 🍓",
+    "v": "is red (vermelho)",
+    "lang": "en-US"
+  },
+  {
+    "k": "Chocolate 🍫",
+    "v": "is brown (castanho)",
+    "lang": "en-US"
+  }
 ]
 ```
 

@@ -10,16 +10,66 @@ Olha bem para cada número, ouve como soa e repete em voz alta. Cada número tem
 
 ```keyvalue
 [
-  { "k": "1 — one", "v": "um 🙂", "icon": "1️⃣" },
-  { "k": "2 — two", "v": "dois", "icon": "2️⃣" },
-  { "k": "3 — three", "v": "três", "icon": "3️⃣" },
-  { "k": "4 — four", "v": "quatro", "icon": "4️⃣" },
-  { "k": "5 — five", "v": "cinco ✋", "icon": "5️⃣" },
-  { "k": "6 — six", "v": "seis", "icon": "6️⃣" },
-  { "k": "7 — seven", "v": "sete", "icon": "7️⃣" },
-  { "k": "8 — eight", "v": "oito", "icon": "8️⃣" },
-  { "k": "9 — nine", "v": "nove", "icon": "9️⃣" },
-  { "k": "10 — ten", "v": "dez 🙌", "icon": "🔟" }
+  {
+    "k": "1 — one",
+    "v": "um 🙂",
+    "icon": "1️⃣",
+    "lang": "en-US"
+  },
+  {
+    "k": "2 — two",
+    "v": "dois",
+    "icon": "2️⃣",
+    "lang": "en-US"
+  },
+  {
+    "k": "3 — three",
+    "v": "três",
+    "icon": "3️⃣",
+    "lang": "en-US"
+  },
+  {
+    "k": "4 — four",
+    "v": "quatro",
+    "icon": "4️⃣",
+    "lang": "en-US"
+  },
+  {
+    "k": "5 — five",
+    "v": "cinco ✋",
+    "icon": "5️⃣",
+    "lang": "en-US"
+  },
+  {
+    "k": "6 — six",
+    "v": "seis",
+    "icon": "6️⃣",
+    "lang": "en-US"
+  },
+  {
+    "k": "7 — seven",
+    "v": "sete",
+    "icon": "7️⃣",
+    "lang": "en-US"
+  },
+  {
+    "k": "8 — eight",
+    "v": "oito",
+    "icon": "8️⃣",
+    "lang": "en-US"
+  },
+  {
+    "k": "9 — nine",
+    "v": "nove",
+    "icon": "9️⃣",
+    "lang": "en-US"
+  },
+  {
+    "k": "10 — ten",
+    "v": "dez 🙌",
+    "icon": "🔟",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -46,16 +96,56 @@ Em inglês, escrevemos de uma maneira e dizemos de outra. Aqui tens uma ajuda pa
 
 ```keyvalue
 [
-  { "k": "one", "v": "diz-se \"uan\" 🔊" },
-  { "k": "two", "v": "diz-se \"tu\" 🔊" },
-  { "k": "three", "v": "diz-se \"trii\" (põe a língua entre os dentes!) 👅" },
-  { "k": "four", "v": "diz-se \"fôr\" 🔊" },
-  { "k": "five", "v": "diz-se \"faiv\" 🔊" },
-  { "k": "six", "v": "diz-se \"sics\" 🔊" },
-  { "k": "seven", "v": "diz-se \"séven\" 🔊" },
-  { "k": "eight", "v": "diz-se \"eit\" 🔊" },
-  { "k": "nine", "v": "diz-se \"nain\" 🔊" },
-  { "k": "ten", "v": "diz-se \"ten\" 🔊" }
+  {
+    "k": "one",
+    "v": "diz-se \"uan\" 🔊",
+    "lang": "en-US"
+  },
+  {
+    "k": "two",
+    "v": "diz-se \"tu\" 🔊",
+    "lang": "en-US"
+  },
+  {
+    "k": "three",
+    "v": "diz-se \"trii\" (põe a língua entre os dentes!) 👅",
+    "lang": "en-US"
+  },
+  {
+    "k": "four",
+    "v": "diz-se \"fôr\" 🔊",
+    "lang": "en-US"
+  },
+  {
+    "k": "five",
+    "v": "diz-se \"faiv\" 🔊",
+    "lang": "en-US"
+  },
+  {
+    "k": "six",
+    "v": "diz-se \"sics\" 🔊",
+    "lang": "en-US"
+  },
+  {
+    "k": "seven",
+    "v": "diz-se \"séven\" 🔊",
+    "lang": "en-US"
+  },
+  {
+    "k": "eight",
+    "v": "diz-se \"eit\" 🔊",
+    "lang": "en-US"
+  },
+  {
+    "k": "nine",
+    "v": "diz-se \"nain\" 🔊",
+    "lang": "en-US"
+  },
+  {
+    "k": "ten",
+    "v": "diz-se \"ten\" 🔊",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -67,14 +157,36 @@ Quando queres saber a quantidade de uma coisa em inglês, perguntas **"How many?
 
 ```compare
 [
-  { "title": "Pergunta ❓", "rows": [
-    { "label": "How many apples?", "value": "Quantas maçãs? 🍎" },
-    { "label": "How many cats?", "value": "Quantos gatos? 🐱" }
-  ] },
-  { "title": "Resposta ✅", "rows": [
-    { "label": "🍎🍎🍎", "value": "Three! (três)", "highlight": true },
-    { "label": "🐱🐱", "value": "Two! (dois)", "highlight": true }
-  ] }
+  {
+    "title": "Pergunta ❓",
+    "rows": [
+      {
+        "label": "How many apples?",
+        "value": "Quantas maçãs? 🍎"
+      },
+      {
+        "label": "How many cats?",
+        "value": "Quantos gatos? 🐱"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Resposta ✅",
+    "rows": [
+      {
+        "label": "🍎🍎🍎",
+        "value": "Three! (três)",
+        "highlight": true
+      },
+      {
+        "label": "🐱🐱",
+        "value": "Two! (dois)",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 

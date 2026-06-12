@@ -25,13 +25,41 @@ Estes são os transportes que vês todos os dias. Ouve bem cada palavra e repete
 
 ```keyvalue
 [
-  { "k": "plane ✈️", "v": "avião (também se diz aeroplane)" },
-  { "k": "train 🚂", "v": "comboio" },
-  { "k": "bus 🚌", "v": "autocarro" },
-  { "k": "car 🚗", "v": "carro" },
-  { "k": "boat / ship 🚢", "v": "barco / navio" },
-  { "k": "bicycle / bike 🚲", "v": "bicicleta" },
-  { "k": "taxi 🚕", "v": "táxi" }
+  {
+    "k": "plane ✈️",
+    "v": "avião (também se diz aeroplane)",
+    "lang": "en-US"
+  },
+  {
+    "k": "train 🚂",
+    "v": "comboio",
+    "lang": "en-US"
+  },
+  {
+    "k": "bus 🚌",
+    "v": "autocarro",
+    "lang": "en-US"
+  },
+  {
+    "k": "car 🚗",
+    "v": "carro",
+    "lang": "en-US"
+  },
+  {
+    "k": "boat / ship 🚢",
+    "v": "barco / navio",
+    "lang": "en-US"
+  },
+  {
+    "k": "bicycle / bike 🚲",
+    "v": "bicicleta",
+    "lang": "en-US"
+  },
+  {
+    "k": "taxi 🚕",
+    "v": "táxi",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -41,10 +69,26 @@ Quando viajas, passas por sítios especiais! Apanhas o avião no **aeroporto** e
 
 ```keyvalue
 [
-  { "k": "airport ✈️", "v": "aeroporto (onde apanhas o avião)" },
-  { "k": "station 🚉", "v": "estação (onde apanhas o comboio)" },
-  { "k": "bus stop 🚏", "v": "paragem de autocarro" },
-  { "k": "hotel 🏨", "v": "hotel (onde dormes na viagem)" }
+  {
+    "k": "airport ✈️",
+    "v": "aeroporto (onde apanhas o avião)",
+    "lang": "en-US"
+  },
+  {
+    "k": "station 🚉",
+    "v": "estação (onde apanhas o comboio)",
+    "lang": "en-US"
+  },
+  {
+    "k": "bus stop 🚏",
+    "v": "paragem de autocarro",
+    "lang": "en-US"
+  },
+  {
+    "k": "hotel 🏨",
+    "v": "hotel (onde dormes na viagem)",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -56,11 +100,31 @@ Para dizeres como viajas, usas **"I go by..."** (vou de...). E o segredo é junt
 
 ```keyvalue
 [
-  { "k": "I go by train. 🚂", "v": "Vou de comboio." },
-  { "k": "I go by plane. ✈️", "v": "Vou de avião." },
-  { "k": "I go by bus. 🚌", "v": "Vou de autocarro." },
-  { "k": "I go by car. 🚗", "v": "Vou de carro." },
-  { "k": "How do you go to school? 🤔", "v": "Como vais para a escola? (a pergunta)" }
+  {
+    "k": "I go by train. 🚂",
+    "v": "Vou de comboio.",
+    "lang": "en-US"
+  },
+  {
+    "k": "I go by plane. ✈️",
+    "v": "Vou de avião.",
+    "lang": "en-US"
+  },
+  {
+    "k": "I go by bus. 🚌",
+    "v": "Vou de autocarro.",
+    "lang": "en-US"
+  },
+  {
+    "k": "I go by car. 🚗",
+    "v": "Vou de carro.",
+    "lang": "en-US"
+  },
+  {
+    "k": "How do you go to school? 🤔",
+    "v": "Como vais para a escola? (a pergunta)",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -70,16 +134,44 @@ Atenção a uma exceção engraçada! Com transportes dizes sempre **by** (by ca
 
 ```compare
 [
-  { "title": "Com transporte: by 🚗", "rows": [
-    { "label": "by car", "value": "de carro 🚗", "highlight": true },
-    { "label": "by bus", "value": "de autocarro 🚌" },
-    { "label": "by train", "value": "de comboio 🚂" },
-    { "label": "by plane", "value": "de avião ✈️" },
-    { "label": "by bike", "value": "de bicicleta 🚲" }
-  ] },
-  { "title": "Sem transporte: on foot 🚶", "rows": [
-    { "label": "on foot", "value": "a pé (a exceção!)", "highlight": true }
-  ] }
+  {
+    "title": "Com transporte: by 🚗",
+    "rows": [
+      {
+        "label": "by car",
+        "value": "de carro 🚗",
+        "highlight": true
+      },
+      {
+        "label": "by bus",
+        "value": "de autocarro 🚌"
+      },
+      {
+        "label": "by train",
+        "value": "de comboio 🚂"
+      },
+      {
+        "label": "by plane",
+        "value": "de avião ✈️"
+      },
+      {
+        "label": "by bike",
+        "value": "de bicicleta 🚲"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Sem transporte: on foot 🚶",
+    "rows": [
+      {
+        "label": "on foot",
+        "value": "a pé (a exceção!)",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 

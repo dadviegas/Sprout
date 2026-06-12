@@ -28,11 +28,31 @@ Em inglês também dizemos **mum** (mãe) e **dad** (pai) quando estamos com a f
 
 ```keyvalue
 [
-  { "k": "mum / mom 👩", "v": "mãe (carinhoso) 💕" },
-  { "k": "dad 👨", "v": "pai (carinhoso) 💕" },
-  { "k": "grandmother / grandma 👵", "v": "avó" },
-  { "k": "grandfather / grandpa 👴", "v": "avô" },
-  { "k": "family 👪", "v": "família" }
+  {
+    "k": "mum / mom 👩",
+    "v": "mãe (carinhoso) 💕",
+    "lang": "en-US"
+  },
+  {
+    "k": "dad 👨",
+    "v": "pai (carinhoso) 💕",
+    "lang": "en-US"
+  },
+  {
+    "k": "grandmother / grandma 👵",
+    "v": "avó",
+    "lang": "en-US"
+  },
+  {
+    "k": "grandfather / grandpa 👴",
+    "v": "avô",
+    "lang": "en-US"
+  },
+  {
+    "k": "family 👪",
+    "v": "família",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -59,16 +79,44 @@ Cada família é diferente — umas são grandes, outras pequenas, e todas são 
 
 ```compare
 [
-  { "title": "A small family 🏠", "rows": [
-    { "label": "mother 👩", "value": "1" },
-    { "label": "father 👨", "value": "1" },
-    { "label": "baby 👶", "value": "1", "highlight": true }
-  ] },
-  { "title": "A big family 🏡", "rows": [
-    { "label": "mum & dad 👩👨", "value": "2" },
-    { "label": "sister & brother 👧👦", "value": "2" },
-    { "label": "grandma & grandpa 👵👴", "value": "2", "highlight": true }
-  ] }
+  {
+    "title": "A small family 🏠",
+    "rows": [
+      {
+        "label": "mother 👩",
+        "value": "1"
+      },
+      {
+        "label": "father 👨",
+        "value": "1"
+      },
+      {
+        "label": "baby 👶",
+        "value": "1",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "A big family 🏡",
+    "rows": [
+      {
+        "label": "mum & dad 👩👨",
+        "value": "2"
+      },
+      {
+        "label": "sister & brother 👧👦",
+        "value": "2"
+      },
+      {
+        "label": "grandma & grandpa 👵👴",
+        "value": "2",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 

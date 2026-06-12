@@ -33,16 +33,44 @@ Há duas formas de te queixares em inglês. Aprende as duas — uma com **have**
 
 ```compare
 [
-  { "title": "1️⃣ have a …ache 🤒", "rows": [
-    { "label": "I have a headache.", "value": "Dói-me a cabeça 🤯", "highlight": true },
-    { "label": "I have a stomachache.", "value": "Dói-me a barriga 🤢" },
-    { "label": "I have a toothache.", "value": "Dói-me um dente 🦷" }
-  ] },
-  { "title": "2️⃣ … hurts 😖", "rows": [
-    { "label": "My leg hurts.", "value": "Dói-me a perna 🦵", "highlight": true },
-    { "label": "My arm hurts.", "value": "Dói-me o braço 💪" },
-    { "label": "My eyes hurt.", "value": "Doem-me os olhos 👀" }
-  ] }
+  {
+    "title": "1️⃣ have a …ache 🤒",
+    "rows": [
+      {
+        "label": "I have a headache.",
+        "value": "Dói-me a cabeça 🤯",
+        "highlight": true
+      },
+      {
+        "label": "I have a stomachache.",
+        "value": "Dói-me a barriga 🤢"
+      },
+      {
+        "label": "I have a toothache.",
+        "value": "Dói-me um dente 🦷"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "2️⃣ … hurts 😖",
+    "rows": [
+      {
+        "label": "My leg hurts.",
+        "value": "Dói-me a perna 🦵",
+        "highlight": true
+      },
+      {
+        "label": "My arm hurts.",
+        "value": "Dói-me o braço 💪"
+      },
+      {
+        "label": "My eyes hurt.",
+        "value": "Doem-me os olhos 👀"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -54,11 +82,31 @@ Estas são as frases para uma ida ao médico:
 
 ```keyvalue
 [
-  { "k": "What's the matter? 🩺", "v": "O que se passa? (o médico pergunta)" },
-  { "k": "I don't feel well. 🤒", "v": "Não me sinto bem." },
-  { "k": "I have a cold / a cough. 🤧", "v": "Estou constipado / tenho tosse." },
-  { "k": "I have a temperature. 🌡️", "v": "Tenho febre." },
-  { "k": "Take this medicine. 💊", "v": "Toma este medicamento." }
+  {
+    "k": "What's the matter? 🩺",
+    "v": "O que se passa? (o médico pergunta)",
+    "lang": "en-US"
+  },
+  {
+    "k": "I don't feel well. 🤒",
+    "v": "Não me sinto bem.",
+    "lang": "en-US"
+  },
+  {
+    "k": "I have a cold / a cough. 🤧",
+    "v": "Estou constipado / tenho tosse.",
+    "lang": "en-US"
+  },
+  {
+    "k": "I have a temperature. 🌡️",
+    "v": "Tenho febre.",
+    "lang": "en-US"
+  },
+  {
+    "k": "Take this medicine. 💊",
+    "v": "Toma este medicamento.",
+    "lang": "en-US"
+  }
 ]
 ```
 

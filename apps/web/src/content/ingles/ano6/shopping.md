@@ -33,16 +33,44 @@ Para descreveres a roupa, precisas das cores e dos tamanhos:
 
 ```compare
 [
-  { "title": "Cores 🎨", "rows": [
-    { "label": "red / blue", "value": "vermelho / azul 🔴🔵", "highlight": true },
-    { "label": "green / yellow", "value": "verde / amarelo 🟢🟡" },
-    { "label": "black / white", "value": "preto / branco ⚫⚪" }
-  ] },
-  { "title": "Tamanhos 📏", "rows": [
-    { "label": "small (S)", "value": "pequeno 🤏", "highlight": true },
-    { "label": "medium (M)", "value": "médio 👕" },
-    { "label": "large (L)", "value": "grande 🐘" }
-  ] }
+  {
+    "title": "Cores 🎨",
+    "rows": [
+      {
+        "label": "red / blue",
+        "value": "vermelho / azul 🔴🔵",
+        "highlight": true
+      },
+      {
+        "label": "green / yellow",
+        "value": "verde / amarelo 🟢🟡"
+      },
+      {
+        "label": "black / white",
+        "value": "preto / branco ⚫⚪"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Tamanhos 📏",
+    "rows": [
+      {
+        "label": "small (S)",
+        "value": "pequeno 🤏",
+        "highlight": true
+      },
+      {
+        "label": "medium (M)",
+        "value": "médio 👕"
+      },
+      {
+        "label": "large (L)",
+        "value": "grande 🐘"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -54,12 +82,36 @@ Estas são as frases-chave para uma ida às compras. Decora-as como um diálogo!
 
 ```keyvalue
 [
-  { "k": "Can I help you? 🙋", "v": "Posso ajudar? (o que a vendedora diz)" },
-  { "k": "I'm looking for a jacket. 🧥", "v": "Procuro um casaco." },
-  { "k": "How much is it? 💶", "v": "Quanto custa?" },
-  { "k": "Can I try it on? 🪞", "v": "Posso experimentar?" },
-  { "k": "It's too big / small. 📏", "v": "É grande/pequeno demais." },
-  { "k": "I'll take it! 🛍️", "v": "Levo-o! (vou comprar)" }
+  {
+    "k": "Can I help you? 🙋",
+    "v": "Posso ajudar? (o que a vendedora diz)",
+    "lang": "en-US"
+  },
+  {
+    "k": "I'm looking for a jacket. 🧥",
+    "v": "Procuro um casaco.",
+    "lang": "en-US"
+  },
+  {
+    "k": "How much is it? 💶",
+    "v": "Quanto custa?",
+    "lang": "en-US"
+  },
+  {
+    "k": "Can I try it on? 🪞",
+    "v": "Posso experimentar?",
+    "lang": "en-US"
+  },
+  {
+    "k": "It's too big / small. 📏",
+    "v": "É grande/pequeno demais.",
+    "lang": "en-US"
+  },
+  {
+    "k": "I'll take it! 🛍️",
+    "v": "Levo-o! (vou comprar)",
+    "lang": "en-US"
+  }
 ]
 ```
 

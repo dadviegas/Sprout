@@ -29,12 +29,36 @@ Olha para esta tabela — de um lado a carinha e a palavra em inglês, do outro 
 
 ```keyvalue
 [
-  { "k": "happy 😀", "v": "feliz" },
-  { "k": "sad 😢", "v": "triste" },
-  { "k": "angry 😠", "v": "zangado" },
-  { "k": "tired 😴", "v": "cansado" },
-  { "k": "hungry 🍽️", "v": "com fome" },
-  { "k": "scared 😨", "v": "assustado" }
+  {
+    "k": "happy 😀",
+    "v": "feliz",
+    "lang": "en-US"
+  },
+  {
+    "k": "sad 😢",
+    "v": "triste",
+    "lang": "en-US"
+  },
+  {
+    "k": "angry 😠",
+    "v": "zangado",
+    "lang": "en-US"
+  },
+  {
+    "k": "tired 😴",
+    "v": "cansado",
+    "lang": "en-US"
+  },
+  {
+    "k": "hungry 🍽️",
+    "v": "com fome",
+    "lang": "en-US"
+  },
+  {
+    "k": "scared 😨",
+    "v": "assustado",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -44,11 +68,31 @@ A pergunta mais importante de hoje! **"How are you?"** quer dizer **"Como estás
 
 ```keyvalue
 [
-  { "k": "How are you? 🤔", "v": "Como estás? (a pergunta)" },
-  { "k": "I am happy. 😀", "v": "Estou feliz." },
-  { "k": "I am sad. 😢", "v": "Estou triste." },
-  { "k": "I'm tired. 😴", "v": "Estou cansado. ('I'm' é igual a 'I am')" },
-  { "k": "I'm hungry. 🍽️", "v": "Estou com fome." }
+  {
+    "k": "How are you? 🤔",
+    "v": "Como estás? (a pergunta)",
+    "lang": "en-US"
+  },
+  {
+    "k": "I am happy. 😀",
+    "v": "Estou feliz.",
+    "lang": "en-US"
+  },
+  {
+    "k": "I am sad. 😢",
+    "v": "Estou triste.",
+    "lang": "en-US"
+  },
+  {
+    "k": "I'm tired. 😴",
+    "v": "Estou cansado. ('I'm' é igual a 'I am')",
+    "lang": "en-US"
+  },
+  {
+    "k": "I'm hungry. 🍽️",
+    "v": "Estou com fome.",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -60,16 +104,44 @@ Vamos juntar tudo! Quando um amigo te pergunta *«How are you?»*, respondes com
 
 ```compare
 [
-  { "title": "Pergunta ❓", "rows": [
-    { "label": "How are you?", "value": "Como estás?", "highlight": true },
-    { "label": "Are you happy?", "value": "Estás feliz? 😀" },
-    { "label": "Are you tired?", "value": "Estás cansado? 😴" }
-  ] },
-  { "title": "Resposta ✅", "rows": [
-    { "label": "I'm happy!", "value": "Estou feliz! 😀", "highlight": true },
-    { "label": "I'm sad.", "value": "Estou triste. 😢" },
-    { "label": "I'm hungry!", "value": "Estou com fome! 🍽️" }
-  ] }
+  {
+    "title": "Pergunta ❓",
+    "rows": [
+      {
+        "label": "How are you?",
+        "value": "Como estás?",
+        "highlight": true
+      },
+      {
+        "label": "Are you happy?",
+        "value": "Estás feliz? 😀"
+      },
+      {
+        "label": "Are you tired?",
+        "value": "Estás cansado? 😴"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Resposta ✅",
+    "rows": [
+      {
+        "label": "I'm happy!",
+        "value": "Estou feliz! 😀",
+        "highlight": true
+      },
+      {
+        "label": "I'm sad.",
+        "value": "Estou triste. 😢"
+      },
+      {
+        "label": "I'm hungry!",
+        "value": "Estou com fome! 🍽️"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 

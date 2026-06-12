@@ -42,20 +42,60 @@ Alguns verbos **não** seguem o -ed — mudam por completo! São os mais usados 
 
 ```compare
 [
-  { "title": "Presente ➡️", "rows": [
-    { "label": "go", "value": "ir" },
-    { "label": "have", "value": "ter" },
-    { "label": "see", "value": "ver", "highlight": true },
-    { "label": "eat", "value": "comer" },
-    { "label": "make", "value": "fazer" }
-  ] },
-  { "title": "Past simple ⏪", "rows": [
-    { "label": "went", "value": "fui / foi 🚶" },
-    { "label": "had", "value": "tive / teve 🎁" },
-    { "label": "saw", "value": "vi / viu 👀", "highlight": true },
-    { "label": "ate", "value": "comi / comeu 🍽️" },
-    { "label": "made", "value": "fiz / fez 🛠️" }
-  ] }
+  {
+    "title": "Presente ➡️",
+    "rows": [
+      {
+        "label": "go",
+        "value": "ir"
+      },
+      {
+        "label": "have",
+        "value": "ter"
+      },
+      {
+        "label": "see",
+        "value": "ver",
+        "highlight": true
+      },
+      {
+        "label": "eat",
+        "value": "comer"
+      },
+      {
+        "label": "make",
+        "value": "fazer"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Past simple ⏪",
+    "rows": [
+      {
+        "label": "went",
+        "value": "fui / foi 🚶"
+      },
+      {
+        "label": "had",
+        "value": "tive / teve 🎁"
+      },
+      {
+        "label": "saw",
+        "value": "vi / viu 👀",
+        "highlight": true
+      },
+      {
+        "label": "ate",
+        "value": "comi / comeu 🍽️"
+      },
+      {
+        "label": "made",
+        "value": "fiz / fez 🛠️"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -67,14 +107,36 @@ Aqui está a magia do past simple: para negativas e perguntas usas **did** — e
 
 ```compare
 [
-  { "title": "Negativa: didn't + verbo base 🚫", "rows": [
-    { "label": "I didn't play.", "value": "Não joguei (não 'didn't played'!)", "highlight": true },
-    { "label": "She didn't go.", "value": "Ela não foi (não 'didn't went'!)" }
-  ] },
-  { "title": "Pergunta: Did + verbo base ❓", "rows": [
-    { "label": "Did you play?", "value": "Jogaste? → Yes, I did. / No, I didn't.", "highlight": true },
-    { "label": "Where did she go?", "value": "Onde é que ela foi?" }
-  ] }
+  {
+    "title": "Negativa: didn't + verbo base 🚫",
+    "rows": [
+      {
+        "label": "I didn't play.",
+        "value": "Não joguei (não 'didn't played'!)",
+        "highlight": true
+      },
+      {
+        "label": "She didn't go.",
+        "value": "Ela não foi (não 'didn't went'!)"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Pergunta: Did + verbo base ❓",
+    "rows": [
+      {
+        "label": "Did you play?",
+        "value": "Jogaste? → Yes, I did. / No, I didn't.",
+        "highlight": true
+      },
+      {
+        "label": "Where did she go?",
+        "value": "Onde é que ela foi?"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 

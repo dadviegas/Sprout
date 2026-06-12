@@ -29,11 +29,25 @@ O **to be** muda conforme o sujeito (tal como no present continuous!); o resto f
 
 ```compare
 [
-  { "title": "to be (escolhe a 1.ª peça) 🔧", "rows": [
-    { "label": "I am going to…", "value": "Eu vou… (I'm)", "highlight": true },
-    { "label": "He / She / It is going to…", "value": "Ele/ela vai… (he's)" },
-    { "label": "You / We / They are going to…", "value": "Tu/nós/eles vão… (we're)" }
-  ] }
+  {
+    "title": "to be (escolhe a 1.ª peça) 🔧",
+    "rows": [
+      {
+        "label": "I am going to…",
+        "value": "Eu vou… (I'm)",
+        "highlight": true
+      },
+      {
+        "label": "He / She / It is going to…",
+        "value": "Ele/ela vai… (he's)"
+      },
+      {
+        "label": "You / We / They are going to…",
+        "value": "Tu/nós/eles vão… (we're)"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -45,14 +59,36 @@ Boa notícia outra vez: como tem o *to be*, **não** precisas de *do/does*! Para
 
 ```compare
 [
-  { "title": "Negativa: to be + not 🚫", "rows": [
-    { "label": "I'm not going to play.", "value": "Não vou jogar 🎮", "highlight": true },
-    { "label": "She isn't going to come.", "value": "Ela não vai vir 🙅" }
-  ] },
-  { "title": "Pergunta: to be à frente ❓", "rows": [
-    { "label": "Are you going to study?", "value": "Vais estudar? → Yes, I am.", "highlight": true },
-    { "label": "What are you going to do?", "value": "O que vais fazer? 🤔" }
-  ] }
+  {
+    "title": "Negativa: to be + not 🚫",
+    "rows": [
+      {
+        "label": "I'm not going to play.",
+        "value": "Não vou jogar 🎮",
+        "highlight": true
+      },
+      {
+        "label": "She isn't going to come.",
+        "value": "Ela não vai vir 🙅"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Pergunta: to be à frente ❓",
+    "rows": [
+      {
+        "label": "Are you going to study?",
+        "value": "Vais estudar? → Yes, I am.",
+        "highlight": true
+      },
+      {
+        "label": "What are you going to do?",
+        "value": "O que vais fazer? 🤔"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -62,14 +98,36 @@ Este é o segredo do 6.º ano! Há **duas** formas de futuro, e usam-se em momen
 
 ```compare
 [
-  { "title": "going to 🗓️ (plano já decidido)", "rows": [
-    { "label": "I'm going to visit Paris.", "value": "Já planeei, tenho bilhetes ✈️", "highlight": true },
-    { "label": "We're going to have a party.", "value": "Já está combinado 🎉" }
-  ] },
-  { "title": "will ⚡ (decisão na hora)", "rows": [
-    { "label": "It's hot. I'll open the window.", "value": "Decidi agora mesmo 🪟", "highlight": true },
-    { "label": "OK, I'll help you!", "value": "Decisão no momento 🤝" }
-  ] }
+  {
+    "title": "going to 🗓️ (plano já decidido)",
+    "rows": [
+      {
+        "label": "I'm going to visit Paris.",
+        "value": "Já planeei, tenho bilhetes ✈️",
+        "highlight": true
+      },
+      {
+        "label": "We're going to have a party.",
+        "value": "Já está combinado 🎉"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "will ⚡ (decisão na hora)",
+    "rows": [
+      {
+        "label": "It's hot. I'll open the window.",
+        "value": "Decidi agora mesmo 🪟",
+        "highlight": true
+      },
+      {
+        "label": "OK, I'll help you!",
+        "value": "Decisão no momento 🤝"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 

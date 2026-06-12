@@ -17,13 +17,65 @@ Em inglês, cada comida e bebida tem o seu nome. Vamos conhecer cinco amigos da 
 Quanto mais palavras souberes, mais coisas podes pedir! Olha estas — algumas são tão parecidas com o português que vais decorar num instante. 😄
 
 ```keyvalue
-[ { "k": "banana 🍌", "v": "banana (igualzinho!) 😄" }, { "k": "rice 🍚", "v": "arroz" }, { "k": "fish 🐟", "v": "peixe" }, { "k": "egg 🥚", "v": "ovo" }, { "k": "cheese 🧀", "v": "queijo" }, { "k": "chicken 🍗", "v": "frango" } ]
+[
+  {
+    "k": "banana 🍌",
+    "v": "banana (igualzinho!) 😄",
+    "lang": "en-US"
+  },
+  {
+    "k": "rice 🍚",
+    "v": "arroz",
+    "lang": "en-US"
+  },
+  {
+    "k": "fish 🐟",
+    "v": "peixe",
+    "lang": "en-US"
+  },
+  {
+    "k": "egg 🥚",
+    "v": "ovo",
+    "lang": "en-US"
+  },
+  {
+    "k": "cheese 🧀",
+    "v": "queijo",
+    "lang": "en-US"
+  },
+  {
+    "k": "chicken 🍗",
+    "v": "frango",
+    "lang": "en-US"
+  }
+]
 ```
 
 E para as bebidas favoritas do lanche:
 
 ```keyvalue
-[ { "k": "juice 🧃", "v": "sumo" }, { "k": "water 💧", "v": "água" }, { "k": "milk 🥛", "v": "leite" }, { "k": "tea 🍵", "v": "chá" } ]
+[
+  {
+    "k": "juice 🧃",
+    "v": "sumo",
+    "lang": "en-US"
+  },
+  {
+    "k": "water 💧",
+    "v": "água",
+    "lang": "en-US"
+  },
+  {
+    "k": "milk 🥛",
+    "v": "leite",
+    "lang": "en-US"
+  },
+  {
+    "k": "tea 🍵",
+    "v": "chá",
+    "lang": "en-US"
+  }
+]
 ```
 
 ## Comida ou bebida? 🍽️ vs 🥤
@@ -32,17 +84,48 @@ Algumas coisas comemos com os dentes 😬, outras bebemos com a boca a fazer *gl
 
 ```compare
 [
-  { "title": "Food 🍽️ (comida)", "rows": [
-    { "label": "apple 🍎", "value": "maçã" },
-    { "label": "bread 🍞", "value": "pão" },
-    { "label": "cake 🍰", "value": "bolo" },
-    { "label": "egg 🥚", "value": "ovo", "highlight": true }
-  ] },
-  { "title": "Drinks 🥤 (bebidas)", "rows": [
-    { "label": "water 💧", "value": "água" },
-    { "label": "milk 🥛", "value": "leite" },
-    { "label": "juice 🧃", "value": "sumo", "highlight": true }
-  ] }
+  {
+    "title": "Food 🍽️ (comida)",
+    "rows": [
+      {
+        "label": "apple 🍎",
+        "value": "maçã"
+      },
+      {
+        "label": "bread 🍞",
+        "value": "pão"
+      },
+      {
+        "label": "cake 🍰",
+        "value": "bolo"
+      },
+      {
+        "label": "egg 🥚",
+        "value": "ovo",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Drinks 🥤 (bebidas)",
+    "rows": [
+      {
+        "label": "water 💧",
+        "value": "água"
+      },
+      {
+        "label": "milk 🥛",
+        "value": "leite"
+      },
+      {
+        "label": "juice 🧃",
+        "value": "sumo",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -51,13 +134,50 @@ Algumas coisas comemos com os dentes 😬, outras bebemos com a boca a fazer *gl
 Antes de pedires, dizes o que sentes. E depois dizes se **gostas** ou **não gostas**. Estas quatro frases valem ouro! 🪙
 
 ```keyvalue
-[ { "k": "I'm hungry", "v": "Tenho fome 🍽️" }, { "k": "I'm thirsty", "v": "Tenho sede 💧" }, { "k": "I like…", "v": "Eu gosto de… 😍" }, { "k": "I don't like…", "v": "Eu não gosto de… 🙅" } ]
+[
+  {
+    "k": "I'm hungry",
+    "v": "Tenho fome 🍽️",
+    "lang": "en-US"
+  },
+  {
+    "k": "I'm thirsty",
+    "v": "Tenho sede 💧",
+    "lang": "en-US"
+  },
+  {
+    "k": "I like…",
+    "v": "Eu gosto de… 😍",
+    "lang": "en-US"
+  },
+  {
+    "k": "I don't like…",
+    "v": "Eu não gosto de… 🙅",
+    "lang": "en-US"
+  }
+]
 ```
 
 E quando alguém te oferece comida, podes responder com boas maneiras: 🙏
 
 ```keyvalue
-[ { "k": "Yes, please 🙂", "v": "Sim, por favor" }, { "k": "No, thank you 🙅", "v": "Não, obrigado(a)" }, { "k": "Thank you! 💛", "v": "Obrigado(a)!" } ]
+[
+  {
+    "k": "Yes, please 🙂",
+    "v": "Sim, por favor",
+    "lang": "en-US"
+  },
+  {
+    "k": "No, thank you 🙅",
+    "v": "Não, obrigado(a)",
+    "lang": "en-US"
+  },
+  {
+    "k": "Thank you! 💛",
+    "v": "Obrigado(a)!",
+    "lang": "en-US"
+  }
+]
 ```
 
 ## Um exemplo passo a passo 🔍

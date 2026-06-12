@@ -30,13 +30,41 @@ Há ainda mais desportos fixes! Olha para esta tabela — de um lado a palavra e
 
 ```keyvalue
 [
-  { "k": "football ⚽", "v": "futebol" },
-  { "k": "swimming 🏊", "v": "natação" },
-  { "k": "running 🏃", "v": "corrida" },
-  { "k": "tennis 🎾", "v": "ténis" },
-  { "k": "basketball 🏀", "v": "basquetebol" },
-  { "k": "cycling 🚴", "v": "ciclismo (andar de bicicleta)" },
-  { "k": "dancing 💃", "v": "dança" }
+  {
+    "k": "football ⚽",
+    "v": "futebol",
+    "lang": "en-US"
+  },
+  {
+    "k": "swimming 🏊",
+    "v": "natação",
+    "lang": "en-US"
+  },
+  {
+    "k": "running 🏃",
+    "v": "corrida",
+    "lang": "en-US"
+  },
+  {
+    "k": "tennis 🎾",
+    "v": "ténis",
+    "lang": "en-US"
+  },
+  {
+    "k": "basketball 🏀",
+    "v": "basquetebol",
+    "lang": "en-US"
+  },
+  {
+    "k": "cycling 🚴",
+    "v": "ciclismo (andar de bicicleta)",
+    "lang": "en-US"
+  },
+  {
+    "k": "dancing 💃",
+    "v": "dança",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -46,10 +74,26 @@ A frase mais importante de hoje! **"I like..."** quer dizer **"Gosto de..."**. �
 
 ```keyvalue
 [
-  { "k": "I like football. ⚽", "v": "Gosto de futebol." },
-  { "k": "I like swimming. 🏊", "v": "Gosto de natação." },
-  { "k": "I like dancing. 💃", "v": "Gosto de dança." },
-  { "k": "What's your favourite sport? 🤔", "v": "Qual é o teu desporto favorito?" }
+  {
+    "k": "I like football. ⚽",
+    "v": "Gosto de futebol.",
+    "lang": "en-US"
+  },
+  {
+    "k": "I like swimming. 🏊",
+    "v": "Gosto de natação.",
+    "lang": "en-US"
+  },
+  {
+    "k": "I like dancing. 💃",
+    "v": "Gosto de dança.",
+    "lang": "en-US"
+  },
+  {
+    "k": "What's your favourite sport? 🤔",
+    "v": "Qual é o teu desporto favorito?",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -61,15 +105,40 @@ Outra frase muito útil! **"I can..."** quer dizer **"Sei.../Consigo..."**. Usa-
 
 ```compare
 [
-  { "title": "I can... 💪", "rows": [
-    { "label": "I can swim.", "value": "Sei nadar. 🏊", "highlight": true },
-    { "label": "I can run fast.", "value": "Consigo correr depressa. 🏃" },
-    { "label": "I can dance.", "value": "Sei dançar. 💃" }
-  ] },
-  { "title": "I can't... 🚫", "rows": [
-    { "label": "I can't swim.", "value": "Não sei nadar. 🏊", "highlight": true },
-    { "label": "I can't ride a bike.", "value": "Não sei andar de bicicleta. 🚴" }
-  ] }
+  {
+    "title": "I can... 💪",
+    "rows": [
+      {
+        "label": "I can swim.",
+        "value": "Sei nadar. 🏊",
+        "highlight": true
+      },
+      {
+        "label": "I can run fast.",
+        "value": "Consigo correr depressa. 🏃"
+      },
+      {
+        "label": "I can dance.",
+        "value": "Sei dançar. 💃"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "I can't... 🚫",
+    "rows": [
+      {
+        "label": "I can't swim.",
+        "value": "Não sei nadar. 🏊",
+        "highlight": true
+      },
+      {
+        "label": "I can't ride a bike.",
+        "value": "Não sei andar de bicicleta. 🚴"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 

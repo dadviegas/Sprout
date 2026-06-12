@@ -10,13 +10,41 @@ Aqui tens os **sete dias da semana**, do primeiro ao último. Repara que em ingl
 
 ```keyvalue
 [
-  { "k": "Monday", "v": "segunda-feira 😴" },
-  { "k": "Tuesday", "v": "terça-feira" },
-  { "k": "Wednesday", "v": "quarta-feira (o «d» é mudo: lê-se 'uénsdei') 🤫" },
-  { "k": "Thursday", "v": "quinta-feira" },
-  { "k": "Friday", "v": "sexta-feira 🎉" },
-  { "k": "Saturday", "v": "sábado" },
-  { "k": "Sunday", "v": "domingo ☀️" }
+  {
+    "k": "Monday",
+    "v": "segunda-feira 😴",
+    "lang": "en-US"
+  },
+  {
+    "k": "Tuesday",
+    "v": "terça-feira",
+    "lang": "en-US"
+  },
+  {
+    "k": "Wednesday",
+    "v": "quarta-feira (o «d» é mudo: lê-se 'uénsdei') 🤫",
+    "lang": "en-US"
+  },
+  {
+    "k": "Thursday",
+    "v": "quinta-feira",
+    "lang": "en-US"
+  },
+  {
+    "k": "Friday",
+    "v": "sexta-feira 🎉",
+    "lang": "en-US"
+  },
+  {
+    "k": "Saturday",
+    "v": "sábado",
+    "lang": "en-US"
+  },
+  {
+    "k": "Sunday",
+    "v": "domingo ☀️",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -28,17 +56,48 @@ Os dias dividem-se em dois grupos. Os dias de escola e de trabalho são os **wee
 
 ```compare
 [
-  { "title": "Weekdays 🎒 (dias de semana)", "rows": [
-    { "label": "Monday", "value": "segunda-feira" },
-    { "label": "Tuesday", "value": "terça-feira" },
-    { "label": "Wednesday", "value": "quarta-feira" },
-    { "label": "Thursday", "value": "quinta-feira" },
-    { "label": "Friday", "value": "sexta-feira" }
-  ] },
-  { "title": "Weekend 🥳 (fim de semana)", "rows": [
-    { "label": "Saturday", "value": "sábado", "highlight": true },
-    { "label": "Sunday", "value": "domingo", "highlight": true }
-  ] }
+  {
+    "title": "Weekdays 🎒 (dias de semana)",
+    "rows": [
+      {
+        "label": "Monday",
+        "value": "segunda-feira"
+      },
+      {
+        "label": "Tuesday",
+        "value": "terça-feira"
+      },
+      {
+        "label": "Wednesday",
+        "value": "quarta-feira"
+      },
+      {
+        "label": "Thursday",
+        "value": "quinta-feira"
+      },
+      {
+        "label": "Friday",
+        "value": "sexta-feira"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Weekend 🥳 (fim de semana)",
+    "rows": [
+      {
+        "label": "Saturday",
+        "value": "sábado",
+        "highlight": true
+      },
+      {
+        "label": "Sunday",
+        "value": "domingo",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -50,18 +109,66 @@ Agora os **doze meses do ano**. Repara que três deles têm o nome ligado a deus
 
 ```keyvalue
 [
-  { "k": "January", "v": "janeiro ❄️" },
-  { "k": "February", "v": "fevereiro" },
-  { "k": "March", "v": "março 🌷" },
-  { "k": "April", "v": "abril" },
-  { "k": "May", "v": "maio" },
-  { "k": "June", "v": "junho ☀️" },
-  { "k": "July", "v": "julho 🏖️" },
-  { "k": "August", "v": "agosto" },
-  { "k": "September", "v": "setembro 🍂" },
-  { "k": "October", "v": "outubro 🎃" },
-  { "k": "November", "v": "novembro" },
-  { "k": "December", "v": "dezembro 🎄" }
+  {
+    "k": "January",
+    "v": "janeiro ❄️",
+    "lang": "en-US"
+  },
+  {
+    "k": "February",
+    "v": "fevereiro",
+    "lang": "en-US"
+  },
+  {
+    "k": "March",
+    "v": "março 🌷",
+    "lang": "en-US"
+  },
+  {
+    "k": "April",
+    "v": "abril",
+    "lang": "en-US"
+  },
+  {
+    "k": "May",
+    "v": "maio",
+    "lang": "en-US"
+  },
+  {
+    "k": "June",
+    "v": "junho ☀️",
+    "lang": "en-US"
+  },
+  {
+    "k": "July",
+    "v": "julho 🏖️",
+    "lang": "en-US"
+  },
+  {
+    "k": "August",
+    "v": "agosto",
+    "lang": "en-US"
+  },
+  {
+    "k": "September",
+    "v": "setembro 🍂",
+    "lang": "en-US"
+  },
+  {
+    "k": "October",
+    "v": "outubro 🎃",
+    "lang": "en-US"
+  },
+  {
+    "k": "November",
+    "v": "novembro",
+    "lang": "en-US"
+  },
+  {
+    "k": "December",
+    "v": "dezembro 🎄",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -71,14 +178,36 @@ Esta é a regra mais importante desta lição. Em **inglês**, os dias e os mese
 
 ```compare
 [
-  { "title": "English 🇬🇧 (sempre maiúscula)", "rows": [
-    { "label": "I love Monday", "value": "correto ✅", "highlight": true },
-    { "label": "My birthday is in July", "value": "correto ✅", "highlight": true }
-  ] },
-  { "title": "Português 🇵🇹 (letra pequena)", "rows": [
-    { "label": "Adoro segunda-feira", "value": "correto ✅" },
-    { "label": "O meu aniversário é em julho", "value": "correto ✅" }
-  ] }
+  {
+    "title": "English 🇬🇧 (sempre maiúscula)",
+    "rows": [
+      {
+        "label": "I love Monday",
+        "value": "correto ✅",
+        "highlight": true
+      },
+      {
+        "label": "My birthday is in July",
+        "value": "correto ✅",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Português 🇵🇹 (letra pequena)",
+    "rows": [
+      {
+        "label": "Adoro segunda-feira",
+        "value": "correto ✅"
+      },
+      {
+        "label": "O meu aniversário é em julho",
+        "value": "correto ✅"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 

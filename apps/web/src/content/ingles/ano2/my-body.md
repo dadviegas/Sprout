@@ -29,14 +29,46 @@ O corpo tem muitas mais partes! Aqui ficam outras palavras úteis em inglês:
 
 ```keyvalue
 [
-  { "k": "ear 👂", "v": "orelha" },
-  { "k": "hair 💇", "v": "cabelo" },
-  { "k": "arm 💪", "v": "braço" },
-  { "k": "hand ✋", "v": "mão" },
-  { "k": "leg 🦵", "v": "perna" },
-  { "k": "foot 🦶", "v": "pé" },
-  { "k": "tummy 🤰", "v": "barriga" },
-  { "k": "finger ☝️", "v": "dedo (da mão)" }
+  {
+    "k": "ear 👂",
+    "v": "orelha",
+    "lang": "en-US"
+  },
+  {
+    "k": "hair 💇",
+    "v": "cabelo",
+    "lang": "en-US"
+  },
+  {
+    "k": "arm 💪",
+    "v": "braço",
+    "lang": "en-US"
+  },
+  {
+    "k": "hand ✋",
+    "v": "mão",
+    "lang": "en-US"
+  },
+  {
+    "k": "leg 🦵",
+    "v": "perna",
+    "lang": "en-US"
+  },
+  {
+    "k": "foot 🦶",
+    "v": "pé",
+    "lang": "en-US"
+  },
+  {
+    "k": "tummy 🤰",
+    "v": "barriga",
+    "lang": "en-US"
+  },
+  {
+    "k": "finger ☝️",
+    "v": "dedo (da mão)",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -46,18 +78,51 @@ Na **cara** (*face*) ficam algumas das partes mais divertidas. Vamos vê-las jun
 
 ```compare
 [
-  { "title": "Em inglês 🇬🇧", "rows": [
-    { "label": "eyes", "value": "olhos 👀", "highlight": true },
-    { "label": "nose", "value": "nariz 👃" },
-    { "label": "mouth", "value": "boca 👄" },
-    { "label": "ears", "value": "orelhas 👂" }
-  ] },
-  { "title": "Em português 🇵🇹", "rows": [
-    { "label": "olhos", "value": "eyes" },
-    { "label": "nariz", "value": "nose" },
-    { "label": "boca", "value": "mouth" },
-    { "label": "orelhas", "value": "ears" }
-  ] }
+  {
+    "title": "Em inglês 🇬🇧",
+    "rows": [
+      {
+        "label": "eyes",
+        "value": "olhos 👀",
+        "highlight": true
+      },
+      {
+        "label": "nose",
+        "value": "nariz 👃"
+      },
+      {
+        "label": "mouth",
+        "value": "boca 👄"
+      },
+      {
+        "label": "ears",
+        "value": "orelhas 👂"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Em português 🇵🇹",
+    "rows": [
+      {
+        "label": "olhos",
+        "value": "eyes"
+      },
+      {
+        "label": "nariz",
+        "value": "nose"
+      },
+      {
+        "label": "boca",
+        "value": "mouth"
+      },
+      {
+        "label": "orelhas",
+        "value": "ears"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -69,16 +134,44 @@ Tens **um** nariz mas **dois** olhos! Em inglês, quando há mais do que um, a p
 
 ```compare
 [
-  { "title": "Tens só um 1️⃣", "rows": [
-    { "label": "head", "value": "uma cabeça 🧠", "highlight": true },
-    { "label": "nose", "value": "um nariz 👃" },
-    { "label": "mouth", "value": "uma boca 👄" }
-  ] },
-  { "title": "Tens dois (plural) 2️⃣", "rows": [
-    { "label": "eyes", "value": "dois olhos 👀", "highlight": true },
-    { "label": "ears", "value": "duas orelhas 👂" },
-    { "label": "feet", "value": "dois pés 🦶🦶 (foot → feet!)" }
-  ] }
+  {
+    "title": "Tens só um 1️⃣",
+    "rows": [
+      {
+        "label": "head",
+        "value": "uma cabeça 🧠",
+        "highlight": true
+      },
+      {
+        "label": "nose",
+        "value": "um nariz 👃"
+      },
+      {
+        "label": "mouth",
+        "value": "uma boca 👄"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Tens dois (plural) 2️⃣",
+    "rows": [
+      {
+        "label": "eyes",
+        "value": "dois olhos 👀",
+        "highlight": true
+      },
+      {
+        "label": "ears",
+        "value": "duas orelhas 👂"
+      },
+      {
+        "label": "feet",
+        "value": "dois pés 🦶🦶 (foot → feet!)"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 

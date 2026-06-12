@@ -10,9 +10,21 @@ O present simple serve para **três** coisas. Olha:
 
 ```keyvalue
 [
-  { "k": "Rotinas 🔁", "v": "I play football every day. (jogo todos os dias)" },
-  { "k": "Verdades sempre 🌍", "v": "The sun rises in the east. (o Sol nasce a este)" },
-  { "k": "Gostos e opiniões 💗", "v": "I like pizza. (gosto de piza)" }
+  {
+    "k": "Rotinas 🔁",
+    "v": "I play football every day. (jogo todos os dias)",
+    "lang": "en-US"
+  },
+  {
+    "k": "Verdades sempre 🌍",
+    "v": "The sun rises in the east. (o Sol nasce a este)",
+    "lang": "en-US"
+  },
+  {
+    "k": "Gostos e opiniões 💗",
+    "v": "I like pizza. (gosto de piza)",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -22,12 +34,29 @@ Para **I, you, we, they** o verbo fica **igual** — não muda nada!
 
 ```compare
 [
-  { "title": "Sujeito 🙋", "rows": [
-    { "label": "I play", "value": "eu jogo" },
-    { "label": "You play", "value": "tu jogas", "highlight": true },
-    { "label": "We play", "value": "nós jogamos" },
-    { "label": "They play", "value": "eles jogam" }
-  ] }
+  {
+    "title": "Sujeito 🙋",
+    "rows": [
+      {
+        "label": "I play",
+        "value": "eu jogo"
+      },
+      {
+        "label": "You play",
+        "value": "tu jogas",
+        "highlight": true
+      },
+      {
+        "label": "We play",
+        "value": "nós jogamos"
+      },
+      {
+        "label": "They play",
+        "value": "eles jogam"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -37,16 +66,45 @@ Aqui está o coração da lição! Quando o sujeito é **he, she ou it** (ele, e
 
 ```compare
 [
-  { "title": "Sem -s (I/you/we/they) 🙅", "rows": [
-    { "label": "I play", "value": "🎮" },
-    { "label": "We eat", "value": "🍽️" },
-    { "label": "They read", "value": "📖" }
-  ] },
-  { "title": "Com -s (he/she/it) ⭐", "rows": [
-    { "label": "He plays", "value": "🎮", "highlight": true },
-    { "label": "She eats", "value": "🍽️", "highlight": true },
-    { "label": "It rains", "value": "🌧️", "highlight": true }
-  ] }
+  {
+    "title": "Sem -s (I/you/we/they) 🙅",
+    "rows": [
+      {
+        "label": "I play",
+        "value": "🎮"
+      },
+      {
+        "label": "We eat",
+        "value": "🍽️"
+      },
+      {
+        "label": "They read",
+        "value": "📖"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Com -s (he/she/it) ⭐",
+    "rows": [
+      {
+        "label": "He plays",
+        "value": "🎮",
+        "highlight": true
+      },
+      {
+        "label": "She eats",
+        "value": "🍽️",
+        "highlight": true
+      },
+      {
+        "label": "It rains",
+        "value": "🌧️",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -71,14 +129,36 @@ Para dizer que **NÃO** fazes algo, usas um ajudante: **don't** (= do not) ou **
 
 ```compare
 [
-  { "title": "don't (I/you/we/they) 🙅", "rows": [
-    { "label": "I don't play", "value": "não jogo" },
-    { "label": "They don't eat fish", "value": "não comem peixe 🐟", "highlight": true }
-  ] },
-  { "title": "doesn't (he/she/it) ⭐", "rows": [
-    { "label": "He doesn't play", "value": "ele não joga" },
-    { "label": "She doesn't eat fish", "value": "ela não come peixe 🐟", "highlight": true }
-  ] }
+  {
+    "title": "don't (I/you/we/they) 🙅",
+    "rows": [
+      {
+        "label": "I don't play",
+        "value": "não jogo"
+      },
+      {
+        "label": "They don't eat fish",
+        "value": "não comem peixe 🐟",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "doesn't (he/she/it) ⭐",
+    "rows": [
+      {
+        "label": "He doesn't play",
+        "value": "ele não joga"
+      },
+      {
+        "label": "She doesn't eat fish",
+        "value": "ela não come peixe 🐟",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -90,10 +170,26 @@ Para **perguntar**, começas a frase com **Do** ou **Does**:
 
 ```keyvalue
 [
-  { "k": "Do you like pizza? 🍕", "v": "Gostas de piza? → Yes, I do. / No, I don't." },
-  { "k": "Does he play tennis? 🎾", "v": "Ele joga ténis? → Yes, he does. / No, he doesn't." },
-  { "k": "Where do you live? 🏠", "v": "Onde vives?" },
-  { "k": "What does she eat? 🍽️", "v": "O que come ela?" }
+  {
+    "k": "Do you like pizza? 🍕",
+    "v": "Gostas de piza? → Yes, I do. / No, I don't.",
+    "lang": "en-US"
+  },
+  {
+    "k": "Does he play tennis? 🎾",
+    "v": "Ele joga ténis? → Yes, he does. / No, he doesn't.",
+    "lang": "en-US"
+  },
+  {
+    "k": "Where do you live? 🏠",
+    "v": "Onde vives?",
+    "lang": "en-US"
+  },
+  {
+    "k": "What does she eat? 🍽️",
+    "v": "O que come ela?",
+    "lang": "en-US"
+  }
 ]
 ```
 

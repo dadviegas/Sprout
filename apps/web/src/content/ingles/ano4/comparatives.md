@@ -10,10 +10,26 @@ Para comparar com adjetivos curtos, juntamos **-er** no fim. É como dar um "emp
 
 ```keyvalue
 [
-  { "k": "big → bigger 🐘", "v": "grande → maior" },
-  { "k": "small → smaller 🐭", "v": "pequeno → mais pequeno" },
-  { "k": "tall → taller 📏", "v": "alto → mais alto" },
-  { "k": "fast → faster 🏃", "v": "rápido → mais rápido" }
+  {
+    "k": "big → bigger 🐘",
+    "v": "grande → maior",
+    "lang": "en-US"
+  },
+  {
+    "k": "small → smaller 🐭",
+    "v": "pequeno → mais pequeno",
+    "lang": "en-US"
+  },
+  {
+    "k": "tall → taller 📏",
+    "v": "alto → mais alto",
+    "lang": "en-US"
+  },
+  {
+    "k": "fast → faster 🏃",
+    "v": "rápido → mais rápido",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -25,14 +41,36 @@ Quando comparas duas coisas, usas a palavra **than**, que quer dizer **"do que"*
 
 ```compare
 [
-  { "title": "Inglês 🇬🇧", "rows": [
-    { "label": "An elephant is bigger than a mouse", "value": "🐘 > 🐭", "highlight": true },
-    { "label": "A cheetah is faster than a turtle", "value": "🐆 > 🐢" }
-  ] },
-  { "title": "Português 🇵🇹", "rows": [
-    { "label": "Um elefante é maior do que um rato", "value": "🐘 > 🐭", "highlight": true },
-    { "label": "Uma chita é mais rápida do que uma tartaruga", "value": "🐆 > 🐢" }
-  ] }
+  {
+    "title": "Inglês 🇬🇧",
+    "rows": [
+      {
+        "label": "An elephant is bigger than a mouse",
+        "value": "🐘 > 🐭",
+        "highlight": true
+      },
+      {
+        "label": "A cheetah is faster than a turtle",
+        "value": "🐆 > 🐢"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Português 🇵🇹",
+    "rows": [
+      {
+        "label": "Um elefante é maior do que um rato",
+        "value": "🐘 > 🐭",
+        "highlight": true
+      },
+      {
+        "label": "Uma chita é mais rápida do que uma tartaruga",
+        "value": "🐆 > 🐢"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -44,10 +82,26 @@ Vamos ver mais adjetivos curtos que ganham **-er** para comparar:
 
 ```keyvalue
 [
-  { "k": "old → older 👴", "v": "velho → mais velho" },
-  { "k": "young → younger 👶", "v": "novo → mais novo" },
-  { "k": "tall → taller 🦒", "v": "alto → mais alto" },
-  { "k": "slow → slower 🐢", "v": "lento → mais lento" }
+  {
+    "k": "old → older 👴",
+    "v": "velho → mais velho",
+    "lang": "en-US"
+  },
+  {
+    "k": "young → younger 👶",
+    "v": "novo → mais novo",
+    "lang": "en-US"
+  },
+  {
+    "k": "tall → taller 🦒",
+    "v": "alto → mais alto",
+    "lang": "en-US"
+  },
+  {
+    "k": "slow → slower 🐢",
+    "v": "lento → mais lento",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -59,14 +113,36 @@ Atenção! Alguns adjetivos são teimosos e **não** seguem a regra do **-er**. 
 
 ```compare
 [
-  { "title": "Adjetivo 🔤", "rows": [
-    { "label": "good 👍", "value": "bom" },
-    { "label": "bad 👎", "value": "mau" }
-  ] },
-  { "title": "Comparativo ⏫", "rows": [
-    { "label": "better", "value": "melhor 👍", "highlight": true },
-    { "label": "worse", "value": "pior 👎", "highlight": true }
-  ] }
+  {
+    "title": "Adjetivo 🔤",
+    "rows": [
+      {
+        "label": "good 👍",
+        "value": "bom"
+      },
+      {
+        "label": "bad 👎",
+        "value": "mau"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Comparativo ⏫",
+    "rows": [
+      {
+        "label": "better",
+        "value": "melhor 👍",
+        "highlight": true
+      },
+      {
+        "label": "worse",
+        "value": "pior 👎",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 

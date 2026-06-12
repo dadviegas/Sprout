@@ -33,8 +33,8 @@ export function Buoyancy({ spec }: { spec: BuoyancySpec }) {
   };
 
   // how deep the boat sits: more cargo → lower; sunk → at the bottom
-  const sink = sunk ? 70 : cargo * 7;
-  const boatY = 96 + sink;
+  const sink = sunk ? 64 : cargo * 6;
+  const boatY = 76 + sink;
 
   return (
     <div className={`widget buoyancy-widget${sunk ? " sunk" : ""}`}>
@@ -49,10 +49,10 @@ export function Buoyancy({ spec }: { spec: BuoyancySpec }) {
         <svg className="buoyancy-svg" viewBox="0 0 300 200" role="img" aria-label="Um barco a flutuar na água, com a força do peso para baixo e a impulsão para cima">
           <rect x="0" y="0" width="300" height="200" rx="12" fill="#eaf6ff" />
           {/* water */}
-          <rect x="0" y="100" width="300" height="100" fill="#5bb6e6" />
-          <rect x="0" y="100" width="300" height="100" fill="#3aa0e6" opacity="0.25" />
+          <rect x="0" y="112" width="300" height="88" fill="#5bb6e6" />
+          <rect x="0" y="112" width="300" height="88" fill="#3aa0e6" opacity="0.25" />
           {/* waterline */}
-          <line x1="0" y1="100" x2="300" y2="100" stroke="#2b8fd0" strokeWidth="2" strokeDasharray="6 5" />
+          <line x1="0" y1="112" x2="300" y2="112" stroke="#2b8fd0" strokeWidth="2" strokeDasharray="6 5" />
 
           {/* boat (hull + cargo), bobbing via CSS */}
           <g className="buoyancy-boat" transform={`translate(150 ${boatY})`}>
@@ -61,22 +61,22 @@ export function Buoyancy({ spec }: { spec: BuoyancySpec }) {
               <rect key={i} x={-14 + (i % 3) * 14 - 7} y={-14 - Math.floor(i / 3) * 12} width="12" height="11" rx="2" fill="#c9863f" stroke="#8a5a26" strokeWidth="1" />
             ))}
             {/* hull */}
-            <path d="M-34 0 L34 0 L24 22 L-24 22 Z" fill="#e2553f" stroke="#a83824" strokeWidth="2" />
+            <path d="M-42 0 L42 0 L30 24 L-30 24 Z" fill="#e2553f" stroke="#a83824" strokeWidth="2" />
           </g>
 
           {/* force arrows */}
           {/* weight: down */}
           <g onClick={() => pick("peso")} style={{ cursor: "pointer" }} role="button" aria-label="Peso">
-            <line x1="150" y1={boatY + 6} x2="150" y2={boatY + 40} stroke={sel === "peso" ? "var(--primary)" : "#c0392b"} strokeWidth="5" strokeLinecap="round" />
-            <path d={`M150 ${boatY + 46} l-7 -10 14 0 z`} fill={sel === "peso" ? "var(--primary)" : "#c0392b"} />
-            <text x="160" y={boatY + 34} fontSize="11" fontWeight="800" fill="#c0392b">peso</text>
+            <line x1="170" y1={boatY + 8} x2="170" y2={Math.min(184, boatY + 40)} stroke={sel === "peso" ? "var(--primary)" : "#c0392b"} strokeWidth="5" strokeLinecap="round" />
+            <path d={`M170 ${Math.min(190, boatY + 46)} l-7 -10 14 0 z`} fill={sel === "peso" ? "var(--primary)" : "#c0392b"} />
+            <text x="180" y={Math.min(178, boatY + 34)} fontSize="11" fontWeight="800" fill="#c0392b">peso</text>
           </g>
           {/* buoyancy: up (hidden when sunk) */}
           {!sunk && (
             <g onClick={() => pick("impulsao")} style={{ cursor: "pointer" }} role="button" aria-label="Impulsão">
-              <line x1="120" y1={boatY + 40} x2="120" y2={boatY + 8} stroke={sel === "impulsao" ? "var(--primary)" : "#1b7e3c"} strokeWidth="5" strokeLinecap="round" />
-              <path d={`M120 ${boatY + 2} l-7 10 14 0 z`} fill={sel === "impulsao" ? "var(--primary)" : "#1b7e3c"} />
-              <text x="60" y={boatY + 26} fontSize="11" fontWeight="800" fill="#1b7e3c">impulsão</text>
+              <line x1="130" y1={boatY + 42} x2="130" y2={boatY + 10} stroke={sel === "impulsao" ? "var(--primary)" : "#1b7e3c"} strokeWidth="5" strokeLinecap="round" />
+              <path d={`M130 ${boatY + 4} l-7 10 14 0 z`} fill={sel === "impulsao" ? "var(--primary)" : "#1b7e3c"} />
+              <text x="70" y={boatY + 30} fontSize="11" fontWeight="800" fill="#1b7e3c">impulsão</text>
             </g>
           )}
         </svg>

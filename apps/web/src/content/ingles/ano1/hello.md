@@ -10,11 +10,31 @@ Quando encontras alguém, dizes **olá**. Quando te vais embora, dizes **adeus**
 
 ```keyvalue
 [
-  { "k": "Hello! 👋", "v": "Olá! (a forma mais usada)" },
-  { "k": "Hi! 🙋", "v": "Oi! (mais informal, com amigos)" },
-  { "k": "Goodbye! 👋", "v": "Adeus! (a forma completa)" },
-  { "k": "Bye! / Bye-bye! 👋", "v": "Adeusinho! (curtinho e amigável)" },
-  { "k": "See you! 😊", "v": "Até logo! / Vemo-nos depois!" }
+  {
+    "k": "Hello! 👋",
+    "v": "Olá! (a forma mais usada)",
+    "lang": "en-US"
+  },
+  {
+    "k": "Hi! 🙋",
+    "v": "Oi! (mais informal, com amigos)",
+    "lang": "en-US"
+  },
+  {
+    "k": "Goodbye! 👋",
+    "v": "Adeus! (a forma completa)",
+    "lang": "en-US"
+  },
+  {
+    "k": "Bye! / Bye-bye! 👋",
+    "v": "Adeusinho! (curtinho e amigável)",
+    "lang": "en-US"
+  },
+  {
+    "k": "See you! 😊",
+    "v": "Até logo! / Vemo-nos depois!",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -24,14 +44,36 @@ Em inglês também cumprimentamos de forma diferente conforme a **hora do dia**.
 
 ```compare
 [
-  { "title": "De dia ☀️", "rows": [
-    { "label": "Good morning!", "value": "Bom dia! (de manhã)" },
-    { "label": "Good afternoon!", "value": "Boa tarde! (à tarde)", "highlight": true }
-  ] },
-  { "title": "À noite 🌙", "rows": [
-    { "label": "Good evening!", "value": "Boa noite! (quando chegas)" },
-    { "label": "Good night!", "value": "Boa noite! (quando vais dormir 😴)", "highlight": true }
-  ] }
+  {
+    "title": "De dia ☀️",
+    "rows": [
+      {
+        "label": "Good morning!",
+        "value": "Bom dia! (de manhã)"
+      },
+      {
+        "label": "Good afternoon!",
+        "value": "Boa tarde! (à tarde)",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "À noite 🌙",
+    "rows": [
+      {
+        "label": "Good evening!",
+        "value": "Boa noite! (quando chegas)"
+      },
+      {
+        "label": "Good night!",
+        "value": "Boa noite! (quando vais dormir 😴)",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -41,10 +83,26 @@ Depois de dizer olá, costumamos perguntar **como está** a outra pessoa. Em ing
 
 ```keyvalue
 [
-  { "k": "How are you? 🙂", "v": "Como estás?" },
-  { "k": "I'm fine, thank you! 😊", "v": "Estou bem, obrigado(a)!" },
-  { "k": "I'm happy! 😄", "v": "Estou feliz!" },
-  { "k": "And you? 🔄", "v": "E tu?" }
+  {
+    "k": "How are you? 🙂",
+    "v": "Como estás?",
+    "lang": "en-US"
+  },
+  {
+    "k": "I'm fine, thank you! 😊",
+    "v": "Estou bem, obrigado(a)!",
+    "lang": "en-US"
+  },
+  {
+    "k": "I'm happy! 😄",
+    "v": "Estou feliz!",
+    "lang": "en-US"
+  },
+  {
+    "k": "And you? 🔄",
+    "v": "E tu?",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -67,10 +125,26 @@ Quando conheces alguém, dizes como te chamas. É a primeira coisa que se aprend
 
 ```keyvalue
 [
-  { "k": "What's your name? 🙋", "v": "Como te chamas?" },
-  { "k": "My name is… 😊", "v": "O meu nome é… (e dizes o teu nome!)" },
-  { "k": "I'm… 🙂", "v": "Eu sou… (mais curtinho)" },
-  { "k": "Nice to meet you! 🤝", "v": "Muito prazer! (gosto de te conhecer)" }
+  {
+    "k": "What's your name? 🙋",
+    "v": "Como te chamas?",
+    "lang": "en-US"
+  },
+  {
+    "k": "My name is… 😊",
+    "v": "O meu nome é… (e dizes o teu nome!)",
+    "lang": "en-US"
+  },
+  {
+    "k": "I'm… 🙂",
+    "v": "Eu sou… (mais curtinho)",
+    "lang": "en-US"
+  },
+  {
+    "k": "Nice to meet you! 🤝",
+    "v": "Muito prazer! (gosto de te conhecer)",
+    "lang": "en-US"
+  }
 ]
 ```
 

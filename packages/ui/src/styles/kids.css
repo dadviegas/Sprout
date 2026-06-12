@@ -3672,13 +3672,16 @@ button.hm-cell:hover { transform: scale(1.18); }
 
 /* Planned-vs-done rows in the parents' calendar detail. */
 .parent-plan { margin: 6px 0 16px; }
-.parent-mission { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px dashed var(--border); }
+.parent-mission { appearance: none; width: 100%; background: transparent; color: inherit; font: inherit; text-align: left; display: flex; align-items: center; gap: 8px; padding: 8px 0; border: 0; border-bottom: 1px dashed var(--border); cursor: pointer; }
+.parent-mission:hover .parent-mission__tx strong { color: var(--primary); }
 .parent-mission:last-of-type { border-bottom: 0; }
 .parent-mission__st { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0; }
 .parent-mission__st.ok { background: color-mix(in srgb, var(--primary) 18%, var(--surface)); color: var(--primary); }
 .parent-mission__st.miss { background: color-mix(in srgb, var(--danger) 14%, var(--surface)); color: var(--danger); }
 .parent-mission__st.plan { background: var(--surface-2); color: var(--ink-3); }
-.parent-mission__tx { flex: 1; min-width: 0; font-size: .88rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.parent-mission__tx { flex: 1; min-width: 0; font-size: .88rem; display: grid; gap: 2px; }
+.parent-mission__tx strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; transition: color .15s ease; }
+.parent-mission__tx small { color: var(--ink-3); line-height: 1.25; }
 .parent-mission__lbl { font-size: .72rem; font-weight: 700; color: var(--ink-3); }
 .parent-plan__extra { margin: 8px 0 0; font-size: .78rem; color: var(--ink-3); }
 

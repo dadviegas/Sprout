@@ -20,13 +20,41 @@ De **thirteen (13)** a **nineteen (19)**, os números são feitos de duas partes
 
 ```keyvalue
 [
-  { "k": "three → thirteen", "v": "13 — quase como 'three', mas com -teen 🙂" },
-  { "k": "four → fourteen", "v": "14 — 'four' + teen 🙂" },
-  { "k": "five → fifteen", "v": "15 — 'five' muda para 'fif' + teen 🙂" },
-  { "k": "six → sixteen", "v": "16 — 'six' + teen 🙂" },
-  { "k": "seven → seventeen", "v": "17 — 'seven' + teen 🙂" },
-  { "k": "eight → eighteen", "v": "18 — 'eight' + teen 🙂" },
-  { "k": "nine → nineteen", "v": "19 — 'nine' + teen 🙂" }
+  {
+    "k": "three → thirteen",
+    "v": "13 — quase como 'three', mas com -teen 🙂",
+    "lang": "en-US"
+  },
+  {
+    "k": "four → fourteen",
+    "v": "14 — 'four' + teen 🙂",
+    "lang": "en-US"
+  },
+  {
+    "k": "five → fifteen",
+    "v": "15 — 'five' muda para 'fif' + teen 🙂",
+    "lang": "en-US"
+  },
+  {
+    "k": "six → sixteen",
+    "v": "16 — 'six' + teen 🙂",
+    "lang": "en-US"
+  },
+  {
+    "k": "seven → seventeen",
+    "v": "17 — 'seven' + teen 🙂",
+    "lang": "en-US"
+  },
+  {
+    "k": "eight → eighteen",
+    "v": "18 — 'eight' + teen 🙂",
+    "lang": "en-US"
+  },
+  {
+    "k": "nine → nineteen",
+    "v": "19 — 'nine' + teen 🙂",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -38,8 +66,16 @@ Antes dos -teen começarem, há dois números diferentes. Olha com atenção e d
 
 ```keyvalue
 [
-  { "k": "eleven 1️⃣1️⃣", "v": "onze (11) — não tem -teen, é especial!" },
-  { "k": "twelve 1️⃣2️⃣", "v": "doze (12) — também é especial; é o número de uma dúzia 🥚" }
+  {
+    "k": "eleven 1️⃣1️⃣",
+    "v": "onze (11) — não tem -teen, é especial!",
+    "lang": "en-US"
+  },
+  {
+    "k": "twelve 1️⃣2️⃣",
+    "v": "doze (12) — também é especial; é o número de uma dúzia 🥚",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -51,14 +87,36 @@ Em inglês, quando queres saber a quantidade de coisas, perguntas **"How many?"*
 
 ```compare
 [
-  { "title": "Pergunta 🙋", "rows": [
-    { "label": "How many balloons?", "value": "Quantos balões? 🎈" },
-    { "label": "How many fingers?", "value": "Quantos dedos? ✋" }
-  ] },
-  { "title": "Resposta 🗣️", "rows": [
-    { "label": "Fourteen balloons!", "value": "Catorze balões! 🎈", "highlight": true },
-    { "label": "I have fifteen cards.", "value": "Tenho quinze cromos. ⚽", "highlight": true }
-  ] }
+  {
+    "title": "Pergunta 🙋",
+    "rows": [
+      {
+        "label": "How many balloons?",
+        "value": "Quantos balões? 🎈"
+      },
+      {
+        "label": "How many fingers?",
+        "value": "Quantos dedos? ✋"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Resposta 🗣️",
+    "rows": [
+      {
+        "label": "Fourteen balloons!",
+        "value": "Catorze balões! 🎈",
+        "highlight": true
+      },
+      {
+        "label": "I have fifteen cards.",
+        "value": "Tenho quinze cromos. ⚽",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 

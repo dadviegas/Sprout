@@ -10,11 +10,31 @@ Quando o ponteiro grande está no **12**, é uma **hora certa**. Em inglês, diz
 
 ```keyvalue
 [
-  { "k": "1:00", "v": "it's one o'clock 🕐" },
-  { "k": "3:00", "v": "it's three o'clock 🕒" },
-  { "k": "7:00", "v": "it's seven o'clock 🕖" },
-  { "k": "10:00", "v": "it's ten o'clock 🕙" },
-  { "k": "12:00", "v": "it's twelve o'clock 🕛" }
+  {
+    "k": "1:00",
+    "v": "it's one o'clock 🕐",
+    "lang": "en-US"
+  },
+  {
+    "k": "3:00",
+    "v": "it's three o'clock 🕒",
+    "lang": "en-US"
+  },
+  {
+    "k": "7:00",
+    "v": "it's seven o'clock 🕖",
+    "lang": "en-US"
+  },
+  {
+    "k": "10:00",
+    "v": "it's ten o'clock 🕙",
+    "lang": "en-US"
+  },
+  {
+    "k": "12:00",
+    "v": "it's twelve o'clock 🕛",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -34,10 +54,26 @@ Quando o ponteiro grande está no **6**, já passou **meia hora**. Em inglês di
 
 ```keyvalue
 [
-  { "k": "2:30", "v": "it's half past two 🕝" },
-  { "k": "6:30", "v": "it's half past six 🕡" },
-  { "k": "9:30", "v": "it's half past nine 🕤" },
-  { "k": "12:30", "v": "it's half past twelve 🕧" }
+  {
+    "k": "2:30",
+    "v": "it's half past two 🕝",
+    "lang": "en-US"
+  },
+  {
+    "k": "6:30",
+    "v": "it's half past six 🕡",
+    "lang": "en-US"
+  },
+  {
+    "k": "9:30",
+    "v": "it's half past nine 🕤",
+    "lang": "en-US"
+  },
+  {
+    "k": "12:30",
+    "v": "it's half past twelve 🕧",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -49,16 +85,44 @@ Um relógio é como uma laranja partida em 4 pedaços. Cada pedaço são **15 mi
 
 ```compare
 [
-  { "title": "Quarter past ⏩ (depois da hora)", "rows": [
-    { "label": "3:15", "value": "it's quarter past three", "highlight": true },
-    { "label": "Quando?", "value": "15 minutos DEPOIS da hora certa" },
-    { "label": "Ponteiro grande", "value": "está no número 3 do relógio" }
-  ] },
-  { "title": "Quarter to ⏪ (para a hora seguinte)", "rows": [
-    { "label": "3:45", "value": "it's quarter to four", "highlight": true },
-    { "label": "Quando?", "value": "faltam 15 minutos PARA a hora seguinte" },
-    { "label": "Ponteiro grande", "value": "está no número 9 do relógio" }
-  ] }
+  {
+    "title": "Quarter past ⏩ (depois da hora)",
+    "rows": [
+      {
+        "label": "3:15",
+        "value": "it's quarter past three",
+        "highlight": true
+      },
+      {
+        "label": "Quando?",
+        "value": "15 minutos DEPOIS da hora certa"
+      },
+      {
+        "label": "Ponteiro grande",
+        "value": "está no número 3 do relógio"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Quarter to ⏪ (para a hora seguinte)",
+    "rows": [
+      {
+        "label": "3:45",
+        "value": "it's quarter to four",
+        "highlight": true
+      },
+      {
+        "label": "Quando?",
+        "value": "faltam 15 minutos PARA a hora seguinte"
+      },
+      {
+        "label": "Ponteiro grande",
+        "value": "está no número 9 do relógio"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -70,11 +134,31 @@ Em inglês, perguntamos e respondemos sempre da mesma maneira. Decora estas fras
 
 ```keyvalue
 [
-  { "k": "What time is it?", "v": "Que horas são? ❓" },
-  { "k": "It's ... o'clock.", "v": "São ... horas certas 🕐" },
-  { "k": "It's half past ...", "v": "São ... e meia 🕧" },
-  { "k": "It's quarter past ...", "v": "São ... e um quarto ⏩" },
-  { "k": "It's quarter to ...", "v": "Falta um quarto para as ... ⏪" }
+  {
+    "k": "What time is it?",
+    "v": "Que horas são? ❓",
+    "lang": "en-US"
+  },
+  {
+    "k": "It's ... o'clock.",
+    "v": "São ... horas certas 🕐",
+    "lang": "en-US"
+  },
+  {
+    "k": "It's half past ...",
+    "v": "São ... e meia 🕧",
+    "lang": "en-US"
+  },
+  {
+    "k": "It's quarter past ...",
+    "v": "São ... e um quarto ⏩",
+    "lang": "en-US"
+  },
+  {
+    "k": "It's quarter to ...",
+    "v": "Falta um quarto para as ... ⏪",
+    "lang": "en-US"
+  }
 ]
 ```
 

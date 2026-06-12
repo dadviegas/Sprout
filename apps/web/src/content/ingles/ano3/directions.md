@@ -25,12 +25,36 @@ Estas são as três direções mais importantes. Ouve bem e aponta com a mão en
 
 ```keyvalue
 [
-  { "k": "left ⬅️", "v": "esquerda" },
-  { "k": "right ➡️", "v": "direita" },
-  { "k": "straight on ⬆️", "v": "em frente / a direito" },
-  { "k": "turn 🔄", "v": "virar" },
-  { "k": "stop 🛑", "v": "parar" },
-  { "k": "go ✅", "v": "avançar / ir" }
+  {
+    "k": "left ⬅️",
+    "v": "esquerda",
+    "lang": "en-US"
+  },
+  {
+    "k": "right ➡️",
+    "v": "direita",
+    "lang": "en-US"
+  },
+  {
+    "k": "straight on ⬆️",
+    "v": "em frente / a direito",
+    "lang": "en-US"
+  },
+  {
+    "k": "turn 🔄",
+    "v": "virar",
+    "lang": "en-US"
+  },
+  {
+    "k": "stop 🛑",
+    "v": "parar",
+    "lang": "en-US"
+  },
+  {
+    "k": "go ✅",
+    "v": "avançar / ir",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -40,11 +64,31 @@ Para mandar alguém virar, juntas **turn** (virar) com a direção. E para manda
 
 ```keyvalue
 [
-  { "k": "Turn left ⬅️", "v": "Vira à esquerda" },
-  { "k": "Turn right ➡️", "v": "Vira à direita" },
-  { "k": "Go straight on ⬆️", "v": "Segue em frente" },
-  { "k": "Stop here 🛑", "v": "Para aqui" },
-  { "k": "Go! ✅", "v": "Avança! / Vai!" }
+  {
+    "k": "Turn left ⬅️",
+    "v": "Vira à esquerda",
+    "lang": "en-US"
+  },
+  {
+    "k": "Turn right ➡️",
+    "v": "Vira à direita",
+    "lang": "en-US"
+  },
+  {
+    "k": "Go straight on ⬆️",
+    "v": "Segue em frente",
+    "lang": "en-US"
+  },
+  {
+    "k": "Stop here 🛑",
+    "v": "Para aqui",
+    "lang": "en-US"
+  },
+  {
+    "k": "Go! ✅",
+    "v": "Avança! / Vai!",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -56,10 +100,26 @@ Para mandar alguém virar, juntas **turn** (virar) com a direção. E para manda
 
 ```keyvalue
 [
-  { "k": "next to 👉", "v": "ao lado de" },
-  { "k": "behind 🙈", "v": "atrás de" },
-  { "k": "in front of 🧍", "v": "à frente de" },
-  { "k": "between 🤝", "v": "entre (no meio de duas coisas)" }
+  {
+    "k": "next to 👉",
+    "v": "ao lado de",
+    "lang": "en-US"
+  },
+  {
+    "k": "behind 🙈",
+    "v": "atrás de",
+    "lang": "en-US"
+  },
+  {
+    "k": "in front of 🧍",
+    "v": "à frente de",
+    "lang": "en-US"
+  },
+  {
+    "k": "between 🤝",
+    "v": "entre (no meio de duas coisas)",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -71,18 +131,52 @@ Vamos juntar tudo! De um lado, as palavras para **dar um caminho**. Do outro, as
 
 ```compare
 [
-  { "title": "Dar o caminho 🚶", "rows": [
-    { "label": "Turn left", "value": "Vira à esquerda ⬅️", "highlight": true },
-    { "label": "Turn right", "value": "Vira à direita ➡️" },
-    { "label": "Go straight on", "value": "Segue em frente ⬆️" },
-    { "label": "Stop", "value": "Para 🛑" }
-  ] },
-  { "title": "Dizer onde está 📍", "rows": [
-    { "label": "next to", "value": "ao lado de 👉", "highlight": true },
-    { "label": "behind", "value": "atrás de 🙈" },
-    { "label": "in front of", "value": "à frente de 🧍" },
-    { "label": "between", "value": "entre 🤝" }
-  ] }
+  {
+    "title": "Dar o caminho 🚶",
+    "rows": [
+      {
+        "label": "Turn left",
+        "value": "Vira à esquerda ⬅️",
+        "highlight": true
+      },
+      {
+        "label": "Turn right",
+        "value": "Vira à direita ➡️"
+      },
+      {
+        "label": "Go straight on",
+        "value": "Segue em frente ⬆️"
+      },
+      {
+        "label": "Stop",
+        "value": "Para 🛑"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Dizer onde está 📍",
+    "rows": [
+      {
+        "label": "next to",
+        "value": "ao lado de 👉",
+        "highlight": true
+      },
+      {
+        "label": "behind",
+        "value": "atrás de 🙈"
+      },
+      {
+        "label": "in front of",
+        "value": "à frente de 🧍"
+      },
+      {
+        "label": "between",
+        "value": "entre 🤝"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 

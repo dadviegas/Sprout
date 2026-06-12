@@ -6,10 +6,26 @@ Listening is not understanding every single word. It is catching the important w
 
 ```keyvalue
 [
-  { "k": "Hello!", "v": "Hi! How are you?" },
-  { "k": "Can I help you?", "v": "Yes, please. I need a pencil." },
-  { "k": "Where is the library?", "v": "It is next to the classroom." },
-  { "k": "What time is it?", "v": "It is half past nine." }
+  {
+    "k": "Hello!",
+    "v": "Hi! How are you?",
+    "lang": "en-US"
+  },
+  {
+    "k": "Can I help you?",
+    "v": "Yes, please. I need a pencil.",
+    "lang": "en-US"
+  },
+  {
+    "k": "Where is the library?",
+    "v": "It is next to the classroom.",
+    "lang": "en-US"
+  },
+  {
+    "k": "What time is it?",
+    "v": "It is half past nine.",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -30,14 +46,36 @@ Listening is not understanding every single word. It is catching the important w
 
 ```compare
 [
-  { "title": "Question", "rows": [
-    { "label": "A", "value": "What is your favourite subject?", "highlight": true },
-    { "label": "B", "value": "My favourite subject is Science.", "highlight": true }
-  ] },
-  { "title": "New answer", "rows": [
-    { "label": "B", "value": "My favourite subject is English." },
-    { "label": "B", "value": "My favourite subject is Maths." }
-  ] }
+  {
+    "title": "Question",
+    "rows": [
+      {
+        "label": "A",
+        "value": "What is your favourite subject?",
+        "highlight": true
+      },
+      {
+        "label": "B",
+        "value": "My favourite subject is Science.",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "New answer",
+    "rows": [
+      {
+        "label": "B",
+        "value": "My favourite subject is English."
+      },
+      {
+        "label": "B",
+        "value": "My favourite subject is Maths."
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 

@@ -43,15 +43,40 @@ Para dizeres de que passatempo gostas, usas **like / love / enjoy** + verbo com 
 
 ```compare
 [
-  { "title": "Gosto 💗", "rows": [
-    { "label": "I like reading.", "value": "Gosto de ler 📖", "highlight": true },
-    { "label": "I love dancing!", "value": "Adoro dançar! 💃" },
-    { "label": "I enjoy cycling.", "value": "Gosto de andar de bicicleta 🚲" }
-  ] },
-  { "title": "Não gosto 🙅", "rows": [
-    { "label": "I don't like running.", "value": "Não gosto de correr 🏃", "highlight": true },
-    { "label": "I hate cleaning.", "value": "Detesto limpar 🧹" }
-  ] }
+  {
+    "title": "Gosto 💗",
+    "rows": [
+      {
+        "label": "I like reading.",
+        "value": "Gosto de ler 📖",
+        "highlight": true
+      },
+      {
+        "label": "I love dancing!",
+        "value": "Adoro dançar! 💃"
+      },
+      {
+        "label": "I enjoy cycling.",
+        "value": "Gosto de andar de bicicleta 🚲"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Não gosto 🙅",
+    "rows": [
+      {
+        "label": "I don't like running.",
+        "value": "Não gosto de correr 🏃",
+        "highlight": true
+      },
+      {
+        "label": "I hate cleaning.",
+        "value": "Detesto limpar 🧹"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -63,10 +88,26 @@ Para dizeres que és **bom** ou **mau** a algo, usas **good at** / **bad at**:
 
 ```keyvalue
 [
-  { "k": "I'm good at football. ⚽", "v": "Sou bom a futebol." },
-  { "k": "I'm bad at drawing. ✏️", "v": "Sou mau a desenhar." },
-  { "k": "Are you good at chess? ♟️", "v": "És bom a xadrez?" },
-  { "k": "She's great at swimming! 🏊", "v": "Ela é ótima a nadar!" }
+  {
+    "k": "I'm good at football. ⚽",
+    "v": "Sou bom a futebol.",
+    "lang": "en-US"
+  },
+  {
+    "k": "I'm bad at drawing. ✏️",
+    "v": "Sou mau a desenhar.",
+    "lang": "en-US"
+  },
+  {
+    "k": "Are you good at chess? ♟️",
+    "v": "És bom a xadrez?",
+    "lang": "en-US"
+  },
+  {
+    "k": "She's great at swimming! 🏊",
+    "v": "Ela é ótima a nadar!",
+    "lang": "en-US"
+  }
 ]
 ```
 

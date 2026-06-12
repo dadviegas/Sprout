@@ -6,11 +6,31 @@ Question words are clues. They tell you what kind of answer you need.
 
 ```keyvalue
 [
-  { "k": "Who?", "v": "a person: Who is she? She is my sister." },
-  { "k": "Where?", "v": "a place: Where is the bank? It is near the park." },
-  { "k": "When?", "v": "a time: When is the test? On Monday." },
-  { "k": "How much?", "v": "a price: How much is it? It is five euros." },
-  { "k": "Why?", "v": "a reason: Why are you tired? Because I ran." }
+  {
+    "k": "Who?",
+    "v": "a person: Who is she? She is my sister.",
+    "lang": "en-US"
+  },
+  {
+    "k": "Where?",
+    "v": "a place: Where is the bank? It is near the park.",
+    "lang": "en-US"
+  },
+  {
+    "k": "When?",
+    "v": "a time: When is the test? On Monday.",
+    "lang": "en-US"
+  },
+  {
+    "k": "How much?",
+    "v": "a price: How much is it? It is five euros.",
+    "lang": "en-US"
+  },
+  {
+    "k": "Why?",
+    "v": "a reason: Why are you tired? Because I ran.",
+    "lang": "en-US"
+  }
 ]
 ```
 

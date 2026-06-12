@@ -31,12 +31,36 @@ Para dizer **como** viajas, o inglês usa a palavrinha **by** + o transporte. E 
 
 ```keyvalue
 [
-  { "k": "by plane ✈️", "v": "de avião" },
-  { "k": "by car 🚗", "v": "de carro" },
-  { "k": "by train 🚆", "v": "de comboio" },
-  { "k": "by bus 🚌", "v": "de autocarro" },
-  { "k": "by boat 🚢", "v": "de barco" },
-  { "k": "on foot 🚶", "v": "a pé (este é a exceção — não 'by foot'!)" }
+  {
+    "k": "by plane ✈️",
+    "v": "de avião",
+    "lang": "en-US"
+  },
+  {
+    "k": "by car 🚗",
+    "v": "de carro",
+    "lang": "en-US"
+  },
+  {
+    "k": "by train 🚆",
+    "v": "de comboio",
+    "lang": "en-US"
+  },
+  {
+    "k": "by bus 🚌",
+    "v": "de autocarro",
+    "lang": "en-US"
+  },
+  {
+    "k": "by boat 🚢",
+    "v": "de barco",
+    "lang": "en-US"
+  },
+  {
+    "k": "on foot 🚶",
+    "v": "a pé (este é a exceção — não 'by foot'!)",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -48,16 +72,44 @@ Como as férias **já passaram**, contas tudo no **past simple** (lembras-te? -e
 
 ```compare
 [
-  { "title": "Onde e como 🗺️", "rows": [
-    { "label": "I went to Spain.", "value": "Fui a Espanha 🇪🇸", "highlight": true },
-    { "label": "We travelled by plane.", "value": "Viajámos de avião ✈️" },
-    { "label": "We stayed in a hotel.", "value": "Ficámos num hotel 🏨" }
-  ] },
-  { "title": "O que fizeste 🏄", "rows": [
-    { "label": "I swam in the sea.", "value": "Nadei no mar 🌊", "highlight": true },
-    { "label": "We visited a museum.", "value": "Visitámos um museu 🏛️" },
-    { "label": "I ate ice cream!", "value": "Comi gelado! 🍦" }
-  ] }
+  {
+    "title": "Onde e como 🗺️",
+    "rows": [
+      {
+        "label": "I went to Spain.",
+        "value": "Fui a Espanha 🇪🇸",
+        "highlight": true
+      },
+      {
+        "label": "We travelled by plane.",
+        "value": "Viajámos de avião ✈️"
+      },
+      {
+        "label": "We stayed in a hotel.",
+        "value": "Ficámos num hotel 🏨"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "O que fizeste 🏄",
+    "rows": [
+      {
+        "label": "I swam in the sea.",
+        "value": "Nadei no mar 🌊",
+        "highlight": true
+      },
+      {
+        "label": "We visited a museum.",
+        "value": "Visitámos um museu 🏛️"
+      },
+      {
+        "label": "I ate ice cream!",
+        "value": "Comi gelado! 🍦"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 

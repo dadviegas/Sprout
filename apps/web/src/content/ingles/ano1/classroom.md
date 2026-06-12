@@ -30,11 +30,31 @@ Agora as coisas maiores — a mochila, a mesa, a cadeira e o quadro. Olha para a
 
 ```keyvalue
 [
-  { "k": "bag 🎒", "v": "mochila" },
-  { "k": "desk 🪑", "v": "carteira / mesa da escola" },
-  { "k": "chair 🪑", "v": "cadeira" },
-  { "k": "board 🟩", "v": "quadro" },
-  { "k": "teacher 👩‍🏫", "v": "professor / professora" }
+  {
+    "k": "bag 🎒",
+    "v": "mochila",
+    "lang": "en-US"
+  },
+  {
+    "k": "desk 🪑",
+    "v": "carteira / mesa da escola",
+    "lang": "en-US"
+  },
+  {
+    "k": "chair 🪑",
+    "v": "cadeira",
+    "lang": "en-US"
+  },
+  {
+    "k": "board 🟩",
+    "v": "quadro",
+    "lang": "en-US"
+  },
+  {
+    "k": "teacher 👩‍🏫",
+    "v": "professor / professora",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -44,16 +64,44 @@ Algumas coisas da sala são pequeninas e cabem na mão; outras são grandes. Com
 
 ```compare
 [
-  { "title": "Small things 🤏", "rows": [
-    { "label": "pen 🖊️", "value": "caneta" },
-    { "label": "pencil ✏️", "value": "lápis" },
-    { "label": "rubber 🧽", "value": "borracha", "highlight": true }
-  ] },
-  { "title": "Big things 🙌", "rows": [
-    { "label": "desk 🪑", "value": "mesa da escola" },
-    { "label": "board 🟩", "value": "quadro" },
-    { "label": "bag 🎒", "value": "mochila", "highlight": true }
-  ] }
+  {
+    "title": "Small things 🤏",
+    "rows": [
+      {
+        "label": "pen 🖊️",
+        "value": "caneta"
+      },
+      {
+        "label": "pencil ✏️",
+        "value": "lápis"
+      },
+      {
+        "label": "rubber 🧽",
+        "value": "borracha",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Big things 🙌",
+    "rows": [
+      {
+        "label": "desk 🪑",
+        "value": "mesa da escola"
+      },
+      {
+        "label": "board 🟩",
+        "value": "quadro"
+      },
+      {
+        "label": "bag 🎒",
+        "value": "mochila",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -63,11 +111,31 @@ Na aula, a **teacher** (professora) diz frases curtinhas para tu fazeres coisas.
 
 ```keyvalue
 [
-  { "k": "Sit down! 🪑", "v": "Senta-te!" },
-  { "k": "Stand up! 🧍", "v": "Levanta-te!" },
-  { "k": "Open your book! 📖", "v": "Abre o livro!" },
-  { "k": "Listen! 👂", "v": "Ouve!" },
-  { "k": "Look! 👀", "v": "Olha!" }
+  {
+    "k": "Sit down! 🪑",
+    "v": "Senta-te!",
+    "lang": "en-US"
+  },
+  {
+    "k": "Stand up! 🧍",
+    "v": "Levanta-te!",
+    "lang": "en-US"
+  },
+  {
+    "k": "Open your book! 📖",
+    "v": "Abre o livro!",
+    "lang": "en-US"
+  },
+  {
+    "k": "Listen! 👂",
+    "v": "Ouve!",
+    "lang": "en-US"
+  },
+  {
+    "k": "Look! 👀",
+    "v": "Olha!",
+    "lang": "en-US"
+  }
 ]
 ```
 

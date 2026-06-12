@@ -1228,13 +1228,28 @@ function ParentCalendar({
         ) : (
           <>
             {planned.map((m) => (
-              <div key={m.id} className="parent-mission">
+              <button
+                key={m.id}
+                type="button"
+                className="parent-mission"
+                onClick={() => {
+                  window.location.hash = viewToHash({
+                    kind: m.kind === "repetir" ? "test" : "lesson",
+                    year: lessonMeta.get(m.lessonId)!.year,
+                    subjectId: m.subjectId,
+                    lessonId: m.lessonId,
+                  });
+                }}
+              >
                 <span className={`parent-mission__st ${m.done ? "ok" : future ? "plan" : "miss"}`}>
                   <Icon name={m.done ? "check" : future ? "calendar" : "close"} size={14} />
                 </span>
-                <span className="parent-mission__tx">{m.title}</span>
+                <span className="parent-mission__tx">
+                  <strong>{m.title}</strong>
+                  <small>{m.detail}</small>
+                </span>
                 <span className="parent-mission__lbl">{m.done ? "feita" : future ? "planeada" : "por fazer"}</span>
-              </div>
+              </button>
             ))}
             {!future && tests && tests.items.length > 0 && (
               <p className="parent-plan__extra">

@@ -29,11 +29,25 @@ O **to be** muda conforme o sujeito; o **-ing** cola-se sempre ao verbo principa
 
 ```compare
 [
-  { "title": "to be (a 1.ª peça) 🔧", "rows": [
-    { "label": "I am", "value": "→ I am playing 🎮", "highlight": true },
-    { "label": "He / She / It is", "value": "→ She is singing 🎤" },
-    { "label": "You / We / They are", "value": "→ They are dancing 💃" }
-  ] }
+  {
+    "title": "to be (a 1.ª peça) 🔧",
+    "rows": [
+      {
+        "label": "I am",
+        "value": "→ I am playing 🎮",
+        "highlight": true
+      },
+      {
+        "label": "He / She / It is",
+        "value": "→ She is singing 🎤"
+      },
+      {
+        "label": "You / We / They are",
+        "value": "→ They are dancing 💃"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -58,16 +72,44 @@ A grande boa notícia: aqui **não** precisas de *do/does*! Para a negativa, põ
 
 ```compare
 [
-  { "title": "Negativa: to be + not 🚫", "rows": [
-    { "label": "I am not playing", "value": "Não estou a jogar (I'm not)", "highlight": true },
-    { "label": "She is not eating", "value": "Ela não está a comer (isn't)" },
-    { "label": "They are not running", "value": "Não estão a correr (aren't)" }
-  ] },
-  { "title": "Pergunta: to be à frente ❓", "rows": [
-    { "label": "Are you playing?", "value": "Estás a jogar? → Yes, I am.", "highlight": true },
-    { "label": "Is she eating?", "value": "Ela está a comer? → No, she isn't." },
-    { "label": "What are they doing?", "value": "O que estão a fazer?" }
-  ] }
+  {
+    "title": "Negativa: to be + not 🚫",
+    "rows": [
+      {
+        "label": "I am not playing",
+        "value": "Não estou a jogar (I'm not)",
+        "highlight": true
+      },
+      {
+        "label": "She is not eating",
+        "value": "Ela não está a comer (isn't)"
+      },
+      {
+        "label": "They are not running",
+        "value": "Não estão a correr (aren't)"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Pergunta: to be à frente ❓",
+    "rows": [
+      {
+        "label": "Are you playing?",
+        "value": "Estás a jogar? → Yes, I am.",
+        "highlight": true
+      },
+      {
+        "label": "Is she eating?",
+        "value": "Ela está a comer? → No, she isn't."
+      },
+      {
+        "label": "What are they doing?",
+        "value": "O que estão a fazer?"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -79,14 +121,36 @@ Este é o segredo do 6.º ano! O **present simple** é para **rotinas** (todos o
 
 ```compare
 [
-  { "title": "Present simple 🔁 (sempre / rotina)", "rows": [
-    { "label": "I play football every day.", "value": "Jogo todos os dias ⚽" },
-    { "label": "She reads at night.", "value": "Ela lê à noite 🌙", "highlight": true }
-  ] },
-  { "title": "Present continuous 🏃 (agora)", "rows": [
-    { "label": "I am playing football now.", "value": "Estou a jogar agora ⚽" },
-    { "label": "She is reading right now.", "value": "Ela está a ler agora mesmo 📖", "highlight": true }
-  ] }
+  {
+    "title": "Present simple 🔁 (sempre / rotina)",
+    "rows": [
+      {
+        "label": "I play football every day.",
+        "value": "Jogo todos os dias ⚽"
+      },
+      {
+        "label": "She reads at night.",
+        "value": "Ela lê à noite 🌙",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Present continuous 🏃 (agora)",
+    "rows": [
+      {
+        "label": "I am playing football now.",
+        "value": "Estou a jogar agora ⚽"
+      },
+      {
+        "label": "She is reading right now.",
+        "value": "Ela está a ler agora mesmo 📖",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 

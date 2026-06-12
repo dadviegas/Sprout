@@ -29,12 +29,36 @@ A família pode ser ainda maior — e os amigos também contam!
 
 ```keyvalue
 [
-  { "k": "son 👦", "v": "filho" },
-  { "k": "daughter 👧", "v": "filha" },
-  { "k": "nephew / niece 🧒", "v": "sobrinho / sobrinha" },
-  { "k": "friend 🙂", "v": "amigo / amiga" },
-  { "k": "best friend 💯", "v": "melhor amigo(a)" },
-  { "k": "neighbour 🏘️", "v": "vizinho(a)" }
+  {
+    "k": "son 👦",
+    "v": "filho",
+    "lang": "en-US"
+  },
+  {
+    "k": "daughter 👧",
+    "v": "filha",
+    "lang": "en-US"
+  },
+  {
+    "k": "nephew / niece 🧒",
+    "v": "sobrinho / sobrinha",
+    "lang": "en-US"
+  },
+  {
+    "k": "friend 🙂",
+    "v": "amigo / amiga",
+    "lang": "en-US"
+  },
+  {
+    "k": "best friend 💯",
+    "v": "melhor amigo(a)",
+    "lang": "en-US"
+  },
+  {
+    "k": "neighbour 🏘️",
+    "v": "vizinho(a)",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -44,14 +68,37 @@ Para dizer **de quem** é uma coisa ou pessoa, usamos os **possessivos**. Olha p
 
 ```compare
 [
-  { "title": "Possessivo 🗝️", "rows": [
-    { "label": "my", "value": "o meu / a minha 🙋" },
-    { "label": "your", "value": "o teu / a tua 👉", "highlight": true },
-    { "label": "his", "value": "dele 👦" },
-    { "label": "her", "value": "dela 👧" },
-    { "label": "our", "value": "o nosso / a nossa 👨‍👩‍👧" },
-    { "label": "their", "value": "deles / delas 👫" }
-  ] }
+  {
+    "title": "Possessivo 🗝️",
+    "rows": [
+      {
+        "label": "my",
+        "value": "o meu / a minha 🙋"
+      },
+      {
+        "label": "your",
+        "value": "o teu / a tua 👉",
+        "highlight": true
+      },
+      {
+        "label": "his",
+        "value": "dele 👦"
+      },
+      {
+        "label": "her",
+        "value": "dela 👧"
+      },
+      {
+        "label": "our",
+        "value": "o nosso / a nossa 👨‍👩‍👧"
+      },
+      {
+        "label": "their",
+        "value": "deles / delas 👫"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 

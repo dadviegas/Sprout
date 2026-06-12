@@ -28,16 +28,44 @@ Para dizeres que é **o melhor de TODOS** (não só de dois), pões **the** à f
 
 ```compare
 [
-  { "title": "Comparativo (de 2) 🆚", "rows": [
-    { "label": "taller than", "value": "mais alto do que 📏", "highlight": true },
-    { "label": "faster than", "value": "mais rápido do que 🏃" },
-    { "label": "bigger than", "value": "maior do que 🐘" }
-  ] },
-  { "title": "Superlativo (de todos) 🏆", "rows": [
-    { "label": "the tallest", "value": "o mais alto de todos 📏", "highlight": true },
-    { "label": "the fastest", "value": "o mais rápido de todos 🏃" },
-    { "label": "the biggest", "value": "o maior de todos 🐘" }
-  ] }
+  {
+    "title": "Comparativo (de 2) 🆚",
+    "rows": [
+      {
+        "label": "taller than",
+        "value": "mais alto do que 📏",
+        "highlight": true
+      },
+      {
+        "label": "faster than",
+        "value": "mais rápido do que 🏃"
+      },
+      {
+        "label": "bigger than",
+        "value": "maior do que 🐘"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Superlativo (de todos) 🏆",
+    "rows": [
+      {
+        "label": "the tallest",
+        "value": "o mais alto de todos 📏",
+        "highlight": true
+      },
+      {
+        "label": "the fastest",
+        "value": "o mais rápido de todos 🏃"
+      },
+      {
+        "label": "the biggest",
+        "value": "o maior de todos 🐘"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -62,10 +90,26 @@ Para adjetivos **compridos** (2 sílabas ou mais, como *beautiful, expensive, in
 
 ```keyvalue
 [
-  { "k": "more beautiful than 🌸", "v": "mais bonito do que (não 'beautifuller'!)" },
-  { "k": "the most beautiful 🌸", "v": "o mais bonito de todos" },
-  { "k": "more expensive than 💰", "v": "mais caro do que" },
-  { "k": "the most interesting 🤩", "v": "o mais interessante de todos" }
+  {
+    "k": "more beautiful than 🌸",
+    "v": "mais bonito do que (não 'beautifuller'!)",
+    "lang": "en-US"
+  },
+  {
+    "k": "the most beautiful 🌸",
+    "v": "o mais bonito de todos",
+    "lang": "en-US"
+  },
+  {
+    "k": "more expensive than 💰",
+    "v": "mais caro do que",
+    "lang": "en-US"
+  },
+  {
+    "k": "the most interesting 🤩",
+    "v": "o mais interessante de todos",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -77,16 +121,44 @@ Três adjetivos super comuns fazem tudo à maneira deles — tens mesmo de os de
 
 ```compare
 [
-  { "title": "Adjetivo", "rows": [
-    { "label": "good 👍", "value": "bom" },
-    { "label": "bad 👎", "value": "mau", "highlight": true },
-    { "label": "far 🛣️", "value": "longe" }
-  ] },
-  { "title": "Comparativo / Superlativo", "rows": [
-    { "label": "better / the best", "value": "melhor / o melhor 🏆" },
-    { "label": "worse / the worst", "value": "pior / o pior 😬", "highlight": true },
-    { "label": "farther / the farthest", "value": "mais longe / o mais longe 🗺️" }
-  ] }
+  {
+    "title": "Adjetivo",
+    "rows": [
+      {
+        "label": "good 👍",
+        "value": "bom"
+      },
+      {
+        "label": "bad 👎",
+        "value": "mau",
+        "highlight": true
+      },
+      {
+        "label": "far 🛣️",
+        "value": "longe"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Comparativo / Superlativo",
+    "rows": [
+      {
+        "label": "better / the best",
+        "value": "melhor / o melhor 🏆"
+      },
+      {
+        "label": "worse / the worst",
+        "value": "pior / o pior 😬",
+        "highlight": true
+      },
+      {
+        "label": "farther / the farthest",
+        "value": "mais longe / o mais longe 🗺️"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 

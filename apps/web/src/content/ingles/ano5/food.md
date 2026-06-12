@@ -29,12 +29,36 @@ Aqui está um cardápio de palavras úteis. Quantas já conhecias?
 
 ```keyvalue
 [
-  { "k": "bread 🍞", "v": "pão" },
-  { "k": "cheese 🧀", "v": "queijo" },
-  { "k": "apple 🍎", "v": "maçã" },
-  { "k": "milk 🥛", "v": "leite" },
-  { "k": "rice 🍚", "v": "arroz" },
-  { "k": "water 💧", "v": "água" }
+  {
+    "k": "bread 🍞",
+    "v": "pão",
+    "lang": "en-US"
+  },
+  {
+    "k": "cheese 🧀",
+    "v": "queijo",
+    "lang": "en-US"
+  },
+  {
+    "k": "apple 🍎",
+    "v": "maçã",
+    "lang": "en-US"
+  },
+  {
+    "k": "milk 🥛",
+    "v": "leite",
+    "lang": "en-US"
+  },
+  {
+    "k": "rice 🍚",
+    "v": "arroz",
+    "lang": "en-US"
+  },
+  {
+    "k": "water 💧",
+    "v": "água",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -44,16 +68,44 @@ Aqui está o truque do 5.º ano! Algumas comidas podes **contar** uma a uma (1 m
 
 ```compare
 [
-  { "title": "Contáveis (conta-se) 🔢", "rows": [
-    { "label": "an apple", "value": "uma maçã 🍎", "highlight": true },
-    { "label": "a banana", "value": "uma banana 🍌" },
-    { "label": "two eggs", "value": "dois ovos 🥚🥚" }
-  ] },
-  { "title": "Incontáveis (não se conta) 🌊", "rows": [
-    { "label": "some rice", "value": "arroz 🍚", "highlight": true },
-    { "label": "some milk", "value": "leite 🥛" },
-    { "label": "some water", "value": "água 💧" }
-  ] }
+  {
+    "title": "Contáveis (conta-se) 🔢",
+    "rows": [
+      {
+        "label": "an apple",
+        "value": "uma maçã 🍎",
+        "highlight": true
+      },
+      {
+        "label": "a banana",
+        "value": "uma banana 🍌"
+      },
+      {
+        "label": "two eggs",
+        "value": "dois ovos 🥚🥚"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Incontáveis (não se conta) 🌊",
+    "rows": [
+      {
+        "label": "some rice",
+        "value": "arroz 🍚",
+        "highlight": true
+      },
+      {
+        "label": "some milk",
+        "value": "leite 🥛"
+      },
+      {
+        "label": "some water",
+        "value": "água 💧"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -65,14 +117,36 @@ Para dizeres o que gostas de comer:
 
 ```compare
 [
-  { "title": "Gosto 💗", "rows": [
-    { "label": "I like pizza.", "value": "Gosto de piza 🍕", "highlight": true },
-    { "label": "I love chocolate!", "value": "Adoro chocolate! 🍫" }
-  ] },
-  { "title": "Não gosto 🙅", "rows": [
-    { "label": "I don't like fish.", "value": "Não gosto de peixe 🐟", "highlight": true },
-    { "label": "I hate onions.", "value": "Detesto cebolas 🧅" }
-  ] }
+  {
+    "title": "Gosto 💗",
+    "rows": [
+      {
+        "label": "I like pizza.",
+        "value": "Gosto de piza 🍕",
+        "highlight": true
+      },
+      {
+        "label": "I love chocolate!",
+        "value": "Adoro chocolate! 🍫"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Não gosto 🙅",
+    "rows": [
+      {
+        "label": "I don't like fish.",
+        "value": "Não gosto de peixe 🐟",
+        "highlight": true
+      },
+      {
+        "label": "I hate onions.",
+        "value": "Detesto cebolas 🧅"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -82,10 +156,26 @@ Num café ou restaurante, pedes com educação assim:
 
 ```keyvalue
 [
-  { "k": "Can I have a sandwich, please? 🥪", "v": "Pode dar-me uma sandes, por favor?" },
-  { "k": "I'd like an orange juice. 🧃", "v": "Queria um sumo de laranja." },
-  { "k": "How much is it? 💶", "v": "Quanto é (custa)?" },
-  { "k": "Here you are. / Thank you! 🙏", "v": "Aqui tem. / Obrigado!" }
+  {
+    "k": "Can I have a sandwich, please? 🥪",
+    "v": "Pode dar-me uma sandes, por favor?",
+    "lang": "en-US"
+  },
+  {
+    "k": "I'd like an orange juice. 🧃",
+    "v": "Queria um sumo de laranja.",
+    "lang": "en-US"
+  },
+  {
+    "k": "How much is it? 💶",
+    "v": "Quanto é (custa)?",
+    "lang": "en-US"
+  },
+  {
+    "k": "Here you are. / Thank you! 🙏",
+    "v": "Aqui tem. / Obrigado!",
+    "lang": "en-US"
+  }
 ]
 ```
 

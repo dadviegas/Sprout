@@ -29,14 +29,36 @@ Conforme a **hora do dia**, mudas o cumprimento. A receita é sempre **good + pa
 
 ```compare
 [
-  { "title": "De dia ☀️", "rows": [
-    { "label": "Good morning!", "value": "Bom dia! (até ao almoço)" },
-    { "label": "Good afternoon!", "value": "Boa tarde! (depois do almoço)", "highlight": true }
-  ] },
-  { "title": "À noite 🌙", "rows": [
-    { "label": "Good evening!", "value": "Boa noite! (quando chegas)" },
-    { "label": "Good night!", "value": "Boa noite! (quando vais dormir 😴)", "highlight": true }
-  ] }
+  {
+    "title": "De dia ☀️",
+    "rows": [
+      {
+        "label": "Good morning!",
+        "value": "Bom dia! (até ao almoço)"
+      },
+      {
+        "label": "Good afternoon!",
+        "value": "Boa tarde! (depois do almoço)",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "À noite 🌙",
+    "rows": [
+      {
+        "label": "Good evening!",
+        "value": "Boa noite! (quando chegas)"
+      },
+      {
+        "label": "Good night!",
+        "value": "Boa noite! (quando vais dormir 😴)",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -67,12 +89,36 @@ Numa língua nova, a primeira coisa é dizer o nome. Depois aprendes a apresenta
 
 ```keyvalue
 [
-  { "k": "What's your name? 🙋", "v": "Como te chamas?" },
-  { "k": "My name is… / I'm… 😊", "v": "O meu nome é… / Eu sou…" },
-  { "k": "Nice to meet you! 🤝", "v": "Muito prazer!" },
-  { "k": "This is my friend Ana. 👫", "v": "Esta é a minha amiga Ana." },
-  { "k": "Where are you from? 🌍", "v": "De onde és?" },
-  { "k": "I'm from Portugal. 🇵🇹", "v": "Sou de Portugal." }
+  {
+    "k": "What's your name? 🙋",
+    "v": "Como te chamas?",
+    "lang": "en-US"
+  },
+  {
+    "k": "My name is… / I'm… 😊",
+    "v": "O meu nome é… / Eu sou…",
+    "lang": "en-US"
+  },
+  {
+    "k": "Nice to meet you! 🤝",
+    "v": "Muito prazer!",
+    "lang": "en-US"
+  },
+  {
+    "k": "This is my friend Ana. 👫",
+    "v": "Esta é a minha amiga Ana.",
+    "lang": "en-US"
+  },
+  {
+    "k": "Where are you from? 🌍",
+    "v": "De onde és?",
+    "lang": "en-US"
+  },
+  {
+    "k": "I'm from Portugal. 🇵🇹",
+    "v": "Sou de Portugal.",
+    "lang": "en-US"
+  }
 ]
 ```
 

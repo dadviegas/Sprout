@@ -10,14 +10,36 @@ Para dizer a idade em inglês há um truque que confunde muita gente: usamos o v
 
 ```compare
 [
-  { "title": "Inglês 🇬🇧", "rows": [
-    { "label": "How old are you?", "value": "🎂", "highlight": true },
-    { "label": "I am 10 (years old).", "value": "✅" }
-  ] },
-  { "title": "Português 🇵🇹", "rows": [
-    { "label": "Quantos anos tens?", "value": "🎂", "highlight": true },
-    { "label": "Tenho 10 anos.", "value": "✅" }
-  ] }
+  {
+    "title": "Inglês 🇬🇧",
+    "rows": [
+      {
+        "label": "How old are you?",
+        "value": "🎂",
+        "highlight": true
+      },
+      {
+        "label": "I am 10 (years old).",
+        "value": "✅"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Português 🇵🇹",
+    "rows": [
+      {
+        "label": "Quantos anos tens?",
+        "value": "🎂",
+        "highlight": true
+      },
+      {
+        "label": "Tenho 10 anos.",
+        "value": "✅"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -50,12 +72,36 @@ Estas são as frases para dares a tua informação. Repara como começam quase t
 
 ```keyvalue
 [
-  { "k": "I'm 10 years old. 🎂", "v": "Tenho 10 anos." },
-  { "k": "I'm Portuguese. 🇵🇹", "v": "Sou português(a). (nacionalidade)" },
-  { "k": "I live in Lisbon. 🏙️", "v": "Vivo em Lisboa." },
-  { "k": "My address is… 🏠", "v": "A minha morada é…" },
-  { "k": "My phone number is… 📱", "v": "O meu número de telefone é…" },
-  { "k": "My email is… 📧", "v": "O meu email é…" }
+  {
+    "k": "I'm 10 years old. 🎂",
+    "v": "Tenho 10 anos.",
+    "lang": "en-US"
+  },
+  {
+    "k": "I'm Portuguese. 🇵🇹",
+    "v": "Sou português(a). (nacionalidade)",
+    "lang": "en-US"
+  },
+  {
+    "k": "I live in Lisbon. 🏙️",
+    "v": "Vivo em Lisboa.",
+    "lang": "en-US"
+  },
+  {
+    "k": "My address is… 🏠",
+    "v": "A minha morada é…",
+    "lang": "en-US"
+  },
+  {
+    "k": "My phone number is… 📱",
+    "v": "O meu número de telefone é…",
+    "lang": "en-US"
+  },
+  {
+    "k": "My email is… 📧",
+    "v": "O meu email é…",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -65,18 +111,52 @@ Repara: o **país** e a **nacionalidade** são parecidos, mas a nacionalidade mu
 
 ```compare
 [
-  { "title": "Country (país) 🗺️", "rows": [
-    { "label": "Portugal 🇵🇹", "value": "Portuguese" },
-    { "label": "Spain 🇪🇸", "value": "Spanish", "highlight": true },
-    { "label": "England 🏴", "value": "English" },
-    { "label": "Brazil 🇧🇷", "value": "Brazilian" }
-  ] },
-  { "title": "Nationality (nacionalidade) 🧑", "rows": [
-    { "label": "português(a)", "value": "Portuguese" },
-    { "label": "espanhol(a)", "value": "Spanish", "highlight": true },
-    { "label": "inglês/inglesa", "value": "English" },
-    { "label": "brasileiro(a)", "value": "Brazilian" }
-  ] }
+  {
+    "title": "Country (país) 🗺️",
+    "rows": [
+      {
+        "label": "Portugal 🇵🇹",
+        "value": "Portuguese"
+      },
+      {
+        "label": "Spain 🇪🇸",
+        "value": "Spanish",
+        "highlight": true
+      },
+      {
+        "label": "England 🏴",
+        "value": "English"
+      },
+      {
+        "label": "Brazil 🇧🇷",
+        "value": "Brazilian"
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "Nationality (nacionalidade) 🧑",
+    "rows": [
+      {
+        "label": "português(a)",
+        "value": "Portuguese"
+      },
+      {
+        "label": "espanhol(a)",
+        "value": "Spanish",
+        "highlight": true
+      },
+      {
+        "label": "inglês/inglesa",
+        "value": "English"
+      },
+      {
+        "label": "brasileiro(a)",
+        "value": "Brazilian"
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 

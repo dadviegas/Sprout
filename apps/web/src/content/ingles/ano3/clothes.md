@@ -30,12 +30,36 @@ Há muitas mais peças! Olha para esta tabela — de um lado a palavra em inglê
 
 ```keyvalue
 [
-  { "k": "socks 🧦", "v": "meias" },
-  { "k": "coat 🧥", "v": "casaco grosso (do frio)" },
-  { "k": "jacket 🧥", "v": "casaco / blusão" },
-  { "k": "skirt 👗", "v": "saia" },
-  { "k": "shorts 🩳", "v": "calções" },
-  { "k": "jumper 🧶", "v": "camisola de lã" }
+  {
+    "k": "socks 🧦",
+    "v": "meias",
+    "lang": "en-US"
+  },
+  {
+    "k": "coat 🧥",
+    "v": "casaco grosso (do frio)",
+    "lang": "en-US"
+  },
+  {
+    "k": "jacket 🧥",
+    "v": "casaco / blusão",
+    "lang": "en-US"
+  },
+  {
+    "k": "skirt 👗",
+    "v": "saia",
+    "lang": "en-US"
+  },
+  {
+    "k": "shorts 🩳",
+    "v": "calções",
+    "lang": "en-US"
+  },
+  {
+    "k": "jumper 🧶",
+    "v": "camisola de lã",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -45,10 +69,26 @@ A frase mais importante de hoje! **"I'm wearing..."** quer dizer **"Estou a usar
 
 ```keyvalue
 [
-  { "k": "I'm wearing a t-shirt.", "v": "Estou a usar uma t-shirt. 👕" },
-  { "k": "She's wearing a dress.", "v": "Ela está a usar um vestido. 👗" },
-  { "k": "He's wearing shoes.", "v": "Ele está a usar sapatos. 👟" },
-  { "k": "What are you wearing?", "v": "O que estás a vestir? 🤔" }
+  {
+    "k": "I'm wearing a t-shirt.",
+    "v": "Estou a usar uma t-shirt. 👕",
+    "lang": "en-US"
+  },
+  {
+    "k": "She's wearing a dress.",
+    "v": "Ela está a usar um vestido. 👗",
+    "lang": "en-US"
+  },
+  {
+    "k": "He's wearing shoes.",
+    "v": "Ele está a usar sapatos. 👟",
+    "lang": "en-US"
+  },
+  {
+    "k": "What are you wearing?",
+    "v": "O que estás a vestir? 🤔",
+    "lang": "en-US"
+  }
 ]
 ```
 
@@ -60,16 +100,44 @@ A roupa que vestimos muda com o tempo lá fora! Compara o que vestes quando est�
 
 ```compare
 [
-  { "title": "When it's hot ☀️", "rows": [
-    { "label": "t-shirt 👕", "value": "uma camisola fina" },
-    { "label": "shorts 🩳", "value": "calções" },
-    { "label": "sandals 👡", "value": "sandálias", "highlight": true }
-  ] },
-  { "title": "When it's cold ❄️", "rows": [
-    { "label": "coat 🧥", "value": "casaco grosso" },
-    { "label": "scarf 🧣", "value": "cachecol" },
-    { "label": "boots 👢", "value": "botas", "highlight": true }
-  ] }
+  {
+    "title": "When it's hot ☀️",
+    "rows": [
+      {
+        "label": "t-shirt 👕",
+        "value": "uma camisola fina"
+      },
+      {
+        "label": "shorts 🩳",
+        "value": "calções"
+      },
+      {
+        "label": "sandals 👡",
+        "value": "sandálias",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  },
+  {
+    "title": "When it's cold ❄️",
+    "rows": [
+      {
+        "label": "coat 🧥",
+        "value": "casaco grosso"
+      },
+      {
+        "label": "scarf 🧣",
+        "value": "cachecol"
+      },
+      {
+        "label": "boots 👢",
+        "value": "botas",
+        "highlight": true
+      }
+    ],
+    "lang": "en-US"
+  }
 ]
 ```
 

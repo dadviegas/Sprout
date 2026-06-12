@@ -29,12 +29,36 @@ Para dizer a **hora** de uma ação, usas **at** + a hora. E lembra-te: primeiro
 
 ```keyvalue
 [
-  { "k": "I wake up at 7. ⏰", "v": "Acordo às 7." },
-  { "k": "I have breakfast at half past 7. 🥣", "v": "Tomo o pequeno-almoço às 7 e meia." },
-  { "k": "I go to school at 8. 🎒", "v": "Vou para a escola às 8." },
-  { "k": "I have lunch at midday. 🍝", "v": "Almoço ao meio-dia." },
-  { "k": "I do homework at 5. ✏️", "v": "Faço os TPC às 5." },
-  { "k": "I go to bed at 9. 🛏️", "v": "Vou para a cama às 9." }
+  {
+    "k": "I wake up at 7. ⏰",
+    "v": "Acordo às 7.",
+    "lang": "en-US"
+  },
+  {
+    "k": "I have breakfast at half past 7. 🥣",
+    "v": "Tomo o pequeno-almoço às 7 e meia.",
+    "lang": "en-US"
+  },
+  {
+    "k": "I go to school at 8. 🎒",
+    "v": "Vou para a escola às 8.",
+    "lang": "en-US"
+  },
+  {
+    "k": "I have lunch at midday. 🍝",
+    "v": "Almoço ao meio-dia.",
+    "lang": "en-US"
+  },
+  {
+    "k": "I do homework at 5. ✏️",
+    "v": "Faço os TPC às 5.",
+    "lang": "en-US"
+  },
+  {
+    "k": "I go to bed at 9. 🛏️",
+    "v": "Vou para a cama às 9.",
+    "lang": "en-US"
+  }
 ]
 ```
 

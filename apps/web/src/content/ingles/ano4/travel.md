@@ -10,6 +10,7 @@ Estes são os transportes que vês todos os dias. Ouve bem cada palavra e repete
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "Transport in English",
   "items": [
     { "label": "plane", "say": "plane", "hint": "avião ✈️" },

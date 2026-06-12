@@ -10,6 +10,7 @@ Ouve bem o nome de cada refeição. Repara que para «tomar» uma refeição usa
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "Meals of the day",
   "items": [
     { "label": "breakfast", "say": "breakfast", "hint": "pequeno-almoço 🥣" },

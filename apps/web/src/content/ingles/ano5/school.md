@@ -10,6 +10,7 @@ Ouve bem cada disciplina. Repara que muitas são parecidas com o português!
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "School subjects",
   "items": [
     { "label": "Maths", "say": "Maths", "hint": "Matemática ➗" },

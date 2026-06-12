@@ -10,6 +10,7 @@ O que vais fazer no fim de semana? E nas próximas férias? 🗓️ Para falar d
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "Going to (future plans)",
   "items": [
     { "label": "I'm going to study", "say": "I am going to study", "hint": "Vou estudar 📚" },

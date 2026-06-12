@@ -511,6 +511,14 @@ function doneTodayIds(plan: StudyPlan, achievements: Achievement[], today: numbe
   );
 }
 
+/** Steps passed today but not already visible in today's packed chunk. These
+ *  are "adiantadas": the child jumped ahead, so today must show the credit
+ *  and future days must adapt around it. */
+function todayExtraDoneSteps(plan: StudyPlan, chunk: PlanStep[], doneToday: Set<string>): PlanStep[] {
+  const shown = new Set(chunk.map((s) => s.lessonId));
+  return plan.queue.filter((s) => doneToday.has(s.lessonId) && !shown.has(s.lessonId));
+}
+
 /** The plan's NEW-MATTER steps for one day — derived, nothing stored. Today
  *  serves the front of the undone queue; future days show the projected
  *  continuation; past days return [] (the calendar shows real activity
@@ -527,13 +535,19 @@ export function feriasStepsForDay(
   if (day < today || !isNewMatterDay(day)) return [];
   const done = doneStepIds(plan, progress);
   const doneToday = doneTodayIds(plan, achievements, today);
-  // The serving queue: undone steps, plus today's freshly-done ones in place.
-  const serving = plan.queue.filter((s) => !done.has(s.lessonId) || doneToday.has(s.lessonId));
+  const servingToday = plan.queue.filter((s) => !done.has(s.lessonId) || doneToday.has(s.lessonId));
+  const todayChunk = packDay(servingToday, 0);
+  const todaySteps = [...todayChunk, ...todayExtraDoneSteps(plan, todayChunk, doneToday)];
+  if (day === today) {
+    return todaySteps.map((step) => ({ step, done: doneToday.has(step.lessonId) }));
+  }
+  const scheduledToday = new Set(todayChunk.map((s) => s.lessonId));
+  const serving = plan.queue.filter((s) => !done.has(s.lessonId) && !scheduledToday.has(s.lessonId));
   let from = 0;
-  for (let d = today; d <= day && from < serving.length; d = nextDay(d)) {
+  for (let d = nextDay(today); d <= day && from < serving.length; d = nextDay(d)) {
     if (!isNewMatterDay(d)) continue;
     const chunk = packDay(serving, from);
-    if (d === day) return chunk.map((step) => ({ step, done: doneToday.has(step.lessonId) }));
+    if (d === day) return chunk.map((step) => ({ step, done: false }));
     from += chunk.length;
   }
   return [];
@@ -579,11 +593,24 @@ export function feriasFullSchedule(
     startOfDay(plan.startedAt),
     () => "done",
   );
-  // Ahead: the serving queue from today (today first, then the projection).
+  // Today: the planned front of the queue PLUS anything extra passed today.
+  const servingToday = plan.queue.filter((s) => !done.has(s.lessonId) || doneToday.has(s.lessonId));
+  const todayChunk = packDay(servingToday, 0);
+  const todaySteps = [...todayChunk, ...todayExtraDoneSteps(plan, todayChunk, doneToday)];
+  if (todaySteps.length && isNewMatterDay(today)) {
+    days.push({
+      n: days.length + 1,
+      date: today,
+      steps: todaySteps.map((step) => ({ step, state: doneToday.has(step.lessonId) ? "done" : "today" })),
+    });
+  }
+  // Ahead: project as if today's planned front is being handled today, while
+  // today's extra done steps simply disappear from the future.
+  const scheduledToday = new Set(todayChunk.map((s) => s.lessonId));
   pack(
-    plan.queue.filter((s) => !done.has(s.lessonId) || doneToday.has(s.lessonId)),
-    today,
-    (s, d) => (doneToday.has(s.lessonId) ? "done" : d === today ? "today" : "future"),
+    plan.queue.filter((s) => !done.has(s.lessonId) && !scheduledToday.has(s.lessonId)),
+    nextDay(today),
+    () => "future",
   );
   return days;
 }

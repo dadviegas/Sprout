@@ -10,6 +10,7 @@ Para comparar **duas** coisas, transformas o adjetivo e juntas **than** (= «do 
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "Comparatives (-er + than)",
   "items": [
     { "label": "tall → taller", "say": "taller", "hint": "mais alto 📏" },

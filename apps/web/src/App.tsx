@@ -857,8 +857,8 @@ function Home({
       {tabletToday > 0 && (
         <div className="home-reward">
           <span className="home-reward__ic"><Icon name="device" size={18} /></span>
-          <span>Hoje já ganhaste <strong>{tabletToday} min</strong> de tablet!</span>
-          <Speaker text={`Boa! Hoje já ganhaste ${tabletToday} minutos de tablet!`} className="home-reward__say" label="Ouvir" size={16} />
+          <span>Hoje já ganhaste <strong>{tabletToday} min</strong> de tempo!</span>
+          <Speaker text={`Boa! Hoje já ganhaste ${tabletToday} minutos de tempo!`} className="home-reward__say" label="Ouvir" size={16} />
         </div>
       )}
 

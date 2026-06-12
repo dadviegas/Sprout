@@ -10,6 +10,7 @@ Estas são as palavras mais importantes para falares da tua família em inglês.
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "My family in English",
   "items": [
     { "label": "mother", "say": "mother", "hint": "mãe 👩" },

@@ -10,6 +10,7 @@ Ouve bem cada sítio. Repara que muitos parecem-se com o português!
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "Places in town",
   "items": [
     { "label": "hospital", "say": "hospital", "hint": "hospital 🏥" },

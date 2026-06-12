@@ -10,6 +10,7 @@ Ouve bem cada palavra de viagem:
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "Travel words",
   "items": [
     { "label": "plane", "say": "plane", "hint": "avião ✈️" },

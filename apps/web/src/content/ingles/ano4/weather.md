@@ -10,6 +10,7 @@ Estas são as palavras mais importantes para falar do tempo em inglês. Repete c
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "The weather in English",
   "items": [
     { "label": "sunny", "say": "sunny", "hint": "sol ☀️" },

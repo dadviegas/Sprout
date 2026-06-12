@@ -10,6 +10,7 @@ Estas são as palavras mais importantes. Ouve cada uma e aponta para essa parte 
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "My body in English",
   "items": [
     { "label": "head", "say": "head", "hint": "cabeça 🧠" },

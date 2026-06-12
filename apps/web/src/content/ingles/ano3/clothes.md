@@ -10,6 +10,7 @@ Vamos começar pelas peças que vestes quase todos os dias. Ouve bem cada palavr
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "Clothes in English",
   "items": [
     { "label": "t-shirt", "say": "t-shirt", "hint": "t-shirt / camisola 👕" },

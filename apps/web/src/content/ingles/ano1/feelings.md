@@ -10,6 +10,7 @@ Estas são as palavras mais importantes de hoje. Ouve bem cada uma e olha para a
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "Feelings in English",
   "items": [
     { "label": "happy", "say": "happy", "hint": "feliz 😀" },

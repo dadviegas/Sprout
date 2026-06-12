@@ -10,6 +10,7 @@ Estas são as coisas pequeninas que usas para escrever e desenhar. Ouve bem cada
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "On my desk",
   "items": [
     { "label": "pen", "say": "pen", "hint": "caneta 🖊️" },

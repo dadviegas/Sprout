@@ -8,7 +8,9 @@
    2) if no European-Portuguese voice exists, a Brazilian (pt-BR) voice still
       reads Portuguese far better than a default English voice. */
 
-let cachedVoice: SpeechSynthesisVoice | null = null;
+export type SpeechLang = "pt-PT" | "en-US";
+
+let cachedVoices: Partial<Record<SpeechLang, SpeechSynthesisVoice | null>> = {};
 
 /* Voice quality signals (in the voice NAME — the only metadata Web Speech
    gives us). Rationale: within Portuguese voices, the right language variant
@@ -19,6 +21,8 @@ const QUALITY = /enhanced|premium|natural|neural|melhorada/i; // OS "better voic
 const VENDOR = /google|microsoft|online/i; // cloud-backed voices read pt well
 const KNOWN_GOOD = /joana|catarina|duarte|raquel|fernanda/i; // good pt-PT voices by name
 const LOW_QUALITY = /compact|eloquence|espeak|grandma|grandpa|novelty/i; // robotic/joke voices
+
+const EN_GOOD = /samantha|daniel|serena|ava|allison|google us english|microsoft/i;
 
 /** Higher = better fit for European Portuguese. 0 = not Portuguese. */
 function ptScore(v: SpeechSynthesisVoice): number {
@@ -33,16 +37,30 @@ function ptScore(v: SpeechSynthesisVoice): number {
   return Math.max(1, score); // any Portuguese voice still beats none at all
 }
 
-function pickVoice(): SpeechSynthesisVoice | null {
-  if (cachedVoice) return cachedVoice;
+/** Higher = better fit for English. 0 = not English. */
+function enScore(v: SpeechSynthesisVoice): number {
+  const lang = (v.lang || "").toLowerCase().replace("_", "-");
+  if (!lang.startsWith("en")) return 0;
+  let score = lang === "en-us" ? 4 : lang === "en-gb" ? 3 : 2;
+  const name = v.name || "";
+  if (QUALITY.test(name)) score += 2;
+  if (VENDOR.test(name)) score += 2;
+  if (EN_GOOD.test(name)) score += 2;
+  if (LOW_QUALITY.test(name)) score -= 3;
+  return Math.max(1, score);
+}
+
+function pickVoice(lang: SpeechLang): SpeechSynthesisVoice | null {
+  if (cachedVoices[lang] !== undefined) return cachedVoices[lang] ?? null;
   if (typeof window === "undefined" || !window.speechSynthesis) return null;
+  const score = lang === "en-US" ? enScore : ptScore;
   const best = window.speechSynthesis
     .getVoices()
-    .map((v) => [ptScore(v), v] as const)
+    .map((v) => [score(v), v] as const)
     .filter(([s]) => s > 0)
     .sort((a, b) => b[0] - a[0])[0];
-  cachedVoice = best ? best[1] : null;
-  return cachedVoice;
+  cachedVoices[lang] = best ? best[1] : null;
+  return cachedVoices[lang] ?? null;
 }
 
 export function canSpeak(): boolean {
@@ -174,19 +192,19 @@ export function stop(): void {
   setPlaying(null);
 }
 
-function makeUtterance(text: string): SpeechSynthesisUtterance {
+function makeUtterance(text: string, lang: SpeechLang): SpeechSynthesisUtterance {
   const u = new SpeechSynthesisUtterance(text);
-  const v = pickVoice();
+  const v = pickVoice(lang);
   if (v) u.voice = v;
-  // Set lang to the chosen voice's lang (or pt-PT) so the engine still tries
-  // Portuguese pronunciation even when no explicit voice is available.
-  u.lang = v?.lang || "pt-PT";
-  u.rate = 0.92;
+  // Set lang to the chosen voice's lang (or the requested language) so the
+  // engine still tries the right pronunciation without an explicit voice.
+  u.lang = v?.lang || lang;
+  u.rate = lang === "en-US" ? 0.9 : 0.92;
   u.pitch = 1.05;
   return u;
 }
 
-function utterAll(parts: string[], token: number): void {
+function utterAll(parts: string[], token: number, lang: SpeechLang): void {
   const synth = window.speechSynthesis;
   // cancel() and speak() in the SAME tick wedges Chrome's engine (every new
   // utterance dies instantly with "canceled" and `speaking` sticks at true,
@@ -197,11 +215,11 @@ function utterAll(parts: string[], token: number): void {
   setPlaying(token); // button flips to "parar" immediately
   window.setTimeout(() => {
     if (playingToken !== token) return; // a newer tap or stop() superseded us
-    reallyUtter(parts, token);
+    reallyUtter(parts, token, lang);
   }, 120);
 }
 
-function reallyUtter(parts: string[], token: number): void {
+function reallyUtter(parts: string[], token: number, lang: SpeechLang): void {
   const synth = window.speechSynthesis;
   // Mark the playback done only when THIS token is still the active one (a
   // newer tap, or stop(), will have moved it on — don't clobber that).
@@ -209,7 +227,7 @@ function reallyUtter(parts: string[], token: number): void {
     if (playingToken === token) setPlaying(null);
     clearWatchdog();
   };
-  const utterances = parts.map(makeUtterance);
+  const utterances = parts.map((part) => makeUtterance(part, lang));
   // Queue each part as its own utterance: the gap between utterances gives a
   // natural pause, so a list (e.g. a tabuada) is read line by line, not run-on.
   // Only the LAST utterance signals completion — an `error` on an EARLIER one
@@ -236,7 +254,7 @@ function whenReady(fn: () => void): void {
   const run = () => {
     if (done) return;
     done = true;
-    cachedVoice = null;
+      cachedVoices = {};
     fn();
   };
   window.speechSynthesis.addEventListener("voiceschanged", run, { once: true });
@@ -249,8 +267,8 @@ function whenReady(fn: () => void): void {
 /** Speak one piece of text (math symbols read as words). Returns a token that
  *  identifies this playback (for showing a "parar" control), or null if nothing
  *  will be spoken. */
-export function speak(text: string): number | null {
-  return speakSequence([text]); // one-part sequence — same cleanup, same queue
+export function speak(text: string, lang: SpeechLang = "pt-PT"): number | null {
+  return speakSequence([text], lang); // one-part sequence — same cleanup, same queue
 }
 
 /** Speak several pieces in order, with a short pause between each — for lists
@@ -258,12 +276,12 @@ export function speak(text: string): number | null {
  *  Returns the playback token (or null if nothing will be spoken).
  *  This is the single gate to the engine: speak() funnels here too, so every
  *  utterance is normalised by speakable() exactly once. */
-export function speakSequence(parts: string[]): number | null {
+export function speakSequence(parts: string[], lang: SpeechLang = "pt-PT"): number | null {
   if (!canSpeak()) return null;
   const clean = parts.map(speakable).filter(Boolean);
   if (!clean.length) return null;
   const token = ++nextToken;
-  whenReady(() => utterAll(clean, token));
+  whenReady(() => utterAll(clean, token, lang));
   return token;
 }
 
@@ -271,6 +289,6 @@ if (canSpeak()) {
   // Warm up the voice list and refresh the cached choice when it changes.
   window.speechSynthesis.getVoices();
   window.speechSynthesis.addEventListener?.("voiceschanged", () => {
-    cachedVoice = null;
+    cachedVoices = {};
   });
 }

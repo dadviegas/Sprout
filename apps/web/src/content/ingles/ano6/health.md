@@ -10,6 +10,7 @@ Ouve bem o nome de cada parte do corpo:
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "Parts of the body",
   "items": [
     { "label": "head", "say": "head", "hint": "cabeça 🗣️" },

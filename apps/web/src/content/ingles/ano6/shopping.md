@@ -10,6 +10,7 @@ Ouve bem o nome de cada peça:
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "Clothes",
   "items": [
     { "label": "shirt", "say": "shirt", "hint": "camisa 👔" },

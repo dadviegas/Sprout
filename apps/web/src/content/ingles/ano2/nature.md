@@ -10,6 +10,7 @@ Estas são coisas da natureza que vês quando olhas à tua volta, ali no chão. 
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "Nature on the ground",
   "items": [
     { "label": "tree", "say": "tree", "hint": "árvore 🌳" },
@@ -28,6 +29,7 @@ Agora olha para cima! No céu há coisas lindas, de dia e de noite. Ouve cada pa
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "Nature in the sky",
   "items": [
     { "label": "sun", "say": "sun", "hint": "sol ☀️" },

@@ -10,6 +10,7 @@ Ouve bem cada palavra. Repara como muitas começam por **grand-** (avós) ou aca
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "The extended family",
   "items": [
     { "label": "grandmother", "say": "grandmother", "hint": "avó 👵" },

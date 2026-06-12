@@ -10,6 +10,7 @@ Ouve bem cada passatempo. Quais são os teus?
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "Hobbies",
   "items": [
     { "label": "reading", "say": "reading", "hint": "ler 📖" },

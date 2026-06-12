@@ -10,6 +10,7 @@ Estas são as palavras mais importantes. Carrega no altifalante e ouve como se d
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "My toys in English",
   "items": [
     { "label": "ball", "say": "ball", "hint": "bola ⚽" },

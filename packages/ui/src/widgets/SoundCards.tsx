@@ -1,5 +1,6 @@
 import { Icon, type IconName } from "@sprout/icons";
 import { useSpeaker } from "../Speaker";
+import type { SpeechLang } from "../speak";
 
 export interface SoundItem {
   /** optional icon from @sprout/icons; if omitted the label is shown big */
@@ -10,24 +11,29 @@ export interface SoundItem {
   say?: string;
   /** a small hint under the label (e.g. translation) */
   hint?: string;
+  /** speech language for this card; defaults to the widget's language */
+  lang?: SpeechLang;
 }
 
 export interface SoundCardsSpec {
   title?: string;
+  /** speech language for all cards; use "en-US" in English lessons */
+  lang?: SpeechLang;
   items: SoundItem[];
 }
 
 /* One card: tap to hear its word; while it plays the corner icon turns into the
    "parar" (stop) square and tapping again stops it — the same read/stop control
    used everywhere (see Speaker). */
-function SoundCard({ item }: { item: SoundItem }) {
+function SoundCard({ item, lang }: { item: SoundItem; lang: SpeechLang }) {
   const { playing, toggle } = useSpeaker();
   const say = item.say ?? item.label;
+  const speechLang = item.lang ?? lang;
   return (
     <button
       className="soundcard"
       data-playing={playing || undefined}
-      onClick={() => toggle(say)}
+      onClick={() => toggle(say, speechLang)}
       aria-label={playing ? "Parar" : `Ouvir: ${say}`}
     >
       {item.icon ? (
@@ -46,6 +52,7 @@ function SoundCard({ item }: { item: SoundItem }) {
    letter/word) plus the word, and reads it aloud in Portuguese when tapped.
    See · hear · repeat. */
 export function SoundCards({ spec }: { spec: SoundCardsSpec }) {
+  const lang = spec.lang ?? "pt-PT";
   return (
     <div className="widget soundcards-widget">
       <div className="w-head">
@@ -57,7 +64,7 @@ export function SoundCards({ spec }: { spec: SoundCardsSpec }) {
       </div>
       <div className="soundcards">
         {spec.items.map((it, i) => (
-          <SoundCard key={i} item={it} />
+          <SoundCard key={i} item={it} lang={lang} />
         ))}
       </div>
     </div>

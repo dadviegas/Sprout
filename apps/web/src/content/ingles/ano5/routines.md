@@ -10,6 +10,7 @@ Ouve bem cada ação. Estas são as peças da tua rotina!
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "Daily actions",
   "items": [
     { "label": "wake up", "say": "wake up", "hint": "acordar ⏰" },

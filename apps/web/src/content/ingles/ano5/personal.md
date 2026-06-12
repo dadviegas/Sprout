@@ -29,6 +29,7 @@ O **to be** é o verbo mais importante para falares de ti. Muda conforme quem fa
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "to be — am / is / are",
   "items": [
     { "label": "I am (I'm)", "say": "I am", "hint": "eu sou / estou 🙋" },

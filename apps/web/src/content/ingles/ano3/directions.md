@@ -10,6 +10,7 @@ Estas são as três direções mais importantes. Ouve bem e aponta com a mão en
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "Directions in English",
   "items": [
     { "label": "left", "say": "left", "hint": "esquerda ⬅️" },

@@ -10,6 +10,7 @@ Estes são alguns dos desportos mais divertidos! Ouve bem cada palavra e repete 
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "Sports in English",
   "items": [
     { "label": "football", "say": "football", "hint": "futebol ⚽" },

@@ -10,6 +10,7 @@ Para a maioria dos verbos, é só colar **-ed** no fim. Funciona para **todos os
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "Regular verbs in the past",
   "items": [
     { "label": "play → played", "say": "played", "hint": "joguei / jogou 🎮" },

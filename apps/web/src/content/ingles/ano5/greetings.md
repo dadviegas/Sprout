@@ -10,6 +10,7 @@ Em inglês há cumprimentos para **amigos** (informais) e cumprimentos mais **ed
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "Hellos & goodbyes",
   "items": [
     { "label": "Hello!", "say": "Hello", "hint": "Olá! (serve sempre) 👋" },
@@ -45,6 +46,7 @@ Depois do olá, perguntamos como a pessoa está. E agora já podes responder de 
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "How are you? — perguntas e respostas",
   "items": [
     { "label": "How are you?", "say": "How are you?", "hint": "Como estás? 🙂" },

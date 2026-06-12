@@ -10,6 +10,7 @@ O present continuous tem sempre **duas peças**: o verbo **to be** (am / is / ar
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "Present continuous in action",
   "items": [
     { "label": "I am running", "say": "I am running", "hint": "Estou a correr 🏃" },

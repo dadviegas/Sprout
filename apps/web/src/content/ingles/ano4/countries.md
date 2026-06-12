@@ -10,6 +10,7 @@ Ouve e repete o nome de cada país em inglês:
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "Countries in English",
   "items": [
     { "label": "Portugal", "say": "Portugal", "hint": "🇵🇹" },
@@ -58,6 +59,7 @@ Já sabes contar até 20. Para chegar a 100 só precisas das **dezenas** — qua
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "The tens",
   "items": [
     { "label": "20 twenty", "say": "twenty", "hint": "vinte" },
@@ -94,6 +96,7 @@ E os números do meio? **Dezena + hífen + unidade** — como montar LEGO:
 
 ```soundcards
 {
+  "lang": "en-US",
   "title": "Celebration words",
   "items": [
     { "label": "Christmas", "say": "Christmas", "hint": "Natal 🎄" },

@@ -6,14 +6,19 @@
 > `MATERIA_EM_FALTA.md` e `COVERAGE.md`; o plano de execução vive em
 > `PLANO-ESTUDO.md`.
 
-> **🏁 Auditoria fechada (2026-06-12).** Todas as linhas ❌ e os ⚠️ principais
-> foram resolvidos entre 2026-06-10 e 2026-06-12 (Fases 1–4 e 20B/20C — 585
-> lições no validador). Restam apenas aprofundamentos opcionais, marcados ⚠️
-> nas tabelas: estratégias de ×/÷ no 3.º, ciclo estatístico completo no 4.º,
-> dividir por 10/100/1000 (verificar em `calculo-mental`), primos < 100
-> (verificar em `mdc-mmc`), sólidos no 1.º (aceitável no 2.º) e planificações
-> de prismas variados (🟢). Nada disto bloqueia um ano letivo completo na app.
-> Reauditar quando as novas AE (EduQA) forem homologadas.
+> **🏁 Auditoria fechada e a 100% (2026-06-12).** Todas as linhas ❌ e ⚠️ foram
+> resolvidas entre 2026-06-10 e 2026-06-12 (Fases 1–4, 20B/20C e 21 — 585
+> lições no validador). A Fase 21 fechou os últimos aprofundamentos opcionais:
+> estratégias de ×/÷ no 3.º (5×28; 135÷5), ciclo estatístico completo no 4.º,
+> dividir por 10/100/1000 em `calculo-mental`, primos < 100 (crivo de
+> Eratóstenes em `mdc-mmc`), sólidos no 1.º (`formas`) e planificações de
+> prisma triangular + pirâmide (`mat-2-solidos`) — **zero pendentes**. Restam
+> só extras voluntários, fora das AE ou de polimento: experiências de som/luz
+> mais fundas no Estudo do Meio (3.º), planificações de prismas exóticos,
+> uma lição dedicada de cálculo mental no 2.º (hoje implícito e coberto no
+> 4.º) e escrita guiada no 1.º. Na mesma fase, os testes finais das 10 lições
+> mais usadas ganharam `hint`/`level` em todas as perguntas. Reauditar quando
+> as novas AE (EduQA) forem homologadas.
 
 ## Resumo executivo
 
@@ -72,7 +77,7 @@ prevista a partir de 2027/28) — reauditar quando for homologada.
 | Álgebra: sequências de repetição | ✅ `mat-1-padroes` (2026-06-11): cores/formas/sons batidos, "o que vem a seguir?" (crescimento fica no 2.º) |
 | Dados: pictogramas, gráficos de pontos | ✅ `mat-1-pictogramas` (2026-06-11): contar filas, ler pictograma, "qual tem mais?", 1.ª barra (`chart`) |
 | GM: orientação espacial (posições, itinerários) | ✅ `mat-1-orientacao` (2026-06-11): posições, esquerda/direita (truque do coração), itinerários em grelha |
-| GM: sólidos + figuras planas, compor/decompor | ⚠️ `formas` cobre figuras planas; sólidos só no 2.º (aceitável) |
+| GM: sólidos + figuras planas, compor/decompor | ✅ secção "Os sólidos à tua volta" em `formas` (2026-06-12): cubo/esfera/cilindro como dado/bola/lata, compor formas (casinha/autocarro) + 2 perguntas; o aprofundamento (faces/arestas/vértices) fica no 2.º |
 | GM: comprimento com unidades não convencionais | ✅ secção "passos e palmos" em `mat-1-orientacao` (2026-06-11) |
 | GM: tempo (dia, semana, sequências) | ✅ `tempo` |
 | Ordinais, comparar/ordenar | ✅ (`ordinais`, `comparar`) |
@@ -99,8 +104,8 @@ prevista a partir de 2027/28) — reauditar quando for homologada.
 | Números até **10 000** | ✅ `mat-3-numeros-10000` (2026-06-11): milhares, decompor, comparar, arredondar à centena |
 | Tabuadas do **6, 8, 9 e 7** | ✅ `mat-3-tabuadas-altas` (2026-06-11): truques 5+1, dobro do 4, 10−1 + dedos |
 | **Algoritmos da adição e subtração** | ✅ `mat-3-contas-armadas` (2026-06-11): «vai um» e «pede emprestado» com 3 algarismos |
-| Multiplicação/divisão por estratégias (5×28; 135:5) | ⚠️ parcial (`multiplicacao`, `divisao`) |
-| Frações: equivalências simples (1/2=2/4) | ⚠️ `fracoes` cobre 1/2,1/3,1/4; equivalências fracas |
+| Multiplicação/divisão por estratégias (5×28; 135:5) | ✅ secções "Estratégias espertas" em `multiplicacao` e `divisao` (2026-06-12): 5×28 = 5×20 + 5×8 (distributiva) e 135÷5 = 100÷5 + 35÷5 (partir o dividendo), com steps reveal + 2 perguntas cada |
+| Frações: equivalências simples (1/2=2/4) | ✅ verificado (2026-06-12): `fracoes` já tem a secção "Frações equivalentes" (`fractionstrips`, truque da dobradura) + perguntas no treino e no teste final |
 | **Ângulos** (reto/agudo/obtuso, sem graus) | ✅ `mat-3-angulos` (2026-06-11): reto/agudo/obtuso/raso sem graus, crocodilo + canto da folha |
 | km e mm; massa kg/g | ✅ `mat-3-medidas-2` (2026-06-11): km (Lisboa–Porto ≈ 300 km), mm, g + escada de conversões |
 | Relógios analógicos **e digitais**; h/min/s | ✅ `mat-3-relogio-digital` (2026-06-11): digital vs ponteiros, 24 h (truque ±12), 1 h = 60 min, durações |
@@ -115,19 +120,19 @@ prevista a partir de 2027/28) — reauditar quando for homologada.
 | AE 2021 | Estado na app |
 |---|---|
 | Números até 1 000 000; arredondamentos | ✅ (`numeros-milhao`, `estimar`) |
-| Dividir por 10/100/1000 | ⚠️ verificar em `calculo-mental` |
+| Dividir por 10/100/1000 | ✅ verificado — não existia; secção "Estratégia 5" em `calculo-mental` (2026-06-12): truque dos zeros (340 ÷ 10 = 34) e a vírgula a andar (35 ÷ 10 = 3,5; 35 ÷ 100 = 0,35) + 2 perguntas |
 | Decimais (décimas/centésimas/milésimas) | ✅ `decimais` + `fracoes-decimais` |
 | **Percentagens de referência** (50%, 25%, 10%…) | ✅ `mat-4-percentagens` (2026-06-11): 100/75/50/25/10% com números amigos |
 | Algoritmos: ×3×2 algarismos; ÷ com divisor de 2 algarismos; **resto interpretado** | ✅ `contas-armadas` (mecânica) + `mat-4-problemas-2` (2026-06-11): resto em contexto |
 | **Problemas de 2–3 passos** com conversões, troco, fração de quantidade, dados de tabela | ✅ `mat-4-problemas-2` (2026-06-11): copos/água, troco, resto, fração de quantidade, armadilhas explicadas |
 | Capacidade: l, **cl**, ml (33 cl, 200 ml como referências) | ✅ cl na lição `volume` (2026-06-11: 1 l = 100 cl, lata 33 cl, pacote 20 cl) + treino em `mat-4-problemas-2` |
-| **Planificações de prismas/pirâmides** | 🟢 planificação do cubo/caixa (secção em `mat-2-solidos`, 2026-06-11, com 2 perguntas); prismas/pirâmides variados ficam para aprofundar |
+| **Planificações de prismas/pirâmides** | ✅ secção "Planificações" de `mat-2-solidos` estendida (2026-06-12): prisma triangular (3 retângulos + 2 triângulos) e pirâmide (base + 4 triângulos em estrela), comparados + 2 perguntas; cubo/caixa já lá estavam (2026-06-11) |
 | Quadriláteros (classificação); paralelas/perpendiculares | ✅ `mat-4-quadrilateros` (2026-06-11): quadrado/retângulo/losango/paralelogramo/trapézio + retas |
 | **Círculo vs circunferência, raio/diâmetro** | ✅ `mat-4-circulo` (2026-06-11): raio/diâmetro (d = 2r), compasso; π fica para o 6.º |
 | Simetria de **rotação** | ✅ secção em `mat-4-quadrilateros` (2026-06-11): quadrado a 90°, retângulo/losango a 180°, trapézio sem rotação; 2 perguntas |
 | **Dinheiro: orçamentos (receitas/despesas/saldo)**, publicidade | ✅ `mat-4-percentagens` (2026-06-11): orçamento da mesada + callout "publicidade enganosa?" |
 | Área cm²/m², fórmula do retângulo | ✅ `area` |
-| Dados: estudos estatísticos completos | ⚠️ `dados` lê gráficos; falta o ciclo completo |
+| Dados: estudos estatísticos completos | ✅ secção "O teu estudo de estatística" em `graficos-tabelas` (2026-06-12): pergunta → recolher (risquinhos/tally) → tabela → gráfico → concluir, com o exemplo dos animais preferidos da turma (`chart`) + 2 perguntas |
 
 ### 5.º/6.º ano (resumo)
 
@@ -139,7 +144,9 @@ prevista a partir de 2027/28) — reauditar quando for homologada.
   ✅ áreas do **paralelogramo e do triângulo** + construção de triângulos
   (régua e compasso, desigualdade triangular) — `mat-5-areas` (2026-06-11):
   recortar-e-deslizar → b × h; triângulo = metade → b × h ÷ 2; armadilha da
-  altura ⊥. Em falta ainda: números primos < 100 (⚠️ verificar em `mdc-mmc`).
+  altura ⊥. ✅ números primos < 100 — `mdc-mmc` ganhou (2026-06-12) o **crivo
+  de Eratóstenes** simplificado, os primos até 30 de cor, os «disfarçados»
+  (91 = 7 × 13) e o teste do 2/3/5/7 até 100 + 2 perguntas no teste final.
 - 6.º: `inteiros` e `equacoes` **saíram do programa** (AE 2021 → 3.º ciclo).
   ✅ Marcados em 2026-06-11 como "Matéria extra — espreitadela ao 7.º ano"
   (callout de abertura + tag no cartão), sem apagar nada. ✅ **probabilidade**
@@ -340,10 +347,35 @@ passos/palmos), `mat-1-pictogramas`, `mat-3-relogio-digital` (com lista de
 compras) e `mat-5-areas`; secções novas "Simetria de rotação" em
 `mat-4-quadrilateros` e "Planificações" em `mat-2-solidos`. As lições novas
 estreiam os campos `hint`/`level` do Quiz (fase 20A) — pistas e dificuldade
-1–3 em todas as perguntas. Em Matemática ficam só os ⚠️ "parciais" das tabelas
+1–3 em todas as perguntas. Em Matemática ficaram só os ⚠️ "parciais" das tabelas
 (estratégias de ×/÷ no 3.º, equivalências de frações, dividir por 10/100/1000
 no 4.º, ciclo estatístico completo, cálculo mental sem lição no 2.º, primos
-< 100 no 5.º) e o aprofundar das planificações de prismas/pirâmides.
+< 100 no 5.º) e o aprofundar das planificações de prismas/pirâmides — fechados
+na Fase 21 (abaixo).
+
+## Fase 21 (2026-06-12) — os últimos aprofundamentos, zero pendentes
+
+Só edições a lições existentes (nenhuma lição nova, nenhum id novo):
+
+- `mat-4` `calculo-mental`: "Estratégia 5 — dividir por 10/100/1000" (truque
+  dos zeros + vírgula a andar: 35 ÷ 10 = 3,5) + 2 perguntas.
+- `mat-5` `mdc-mmc`: crivo de Eratóstenes simplificado, primos até 30 de cor,
+  os disfarçados (91 = 7 × 13), teste 2/3/5/7 + 2 perguntas.
+- `mat-3` `multiplicacao`/`divisao`: secções "Estratégias espertas" — 5 × 28
+  pela distributiva e 135 ÷ 5 a partir o dividendo, em steps reveal + 2
+  perguntas cada.
+- `mat-4` `graficos-tabelas`: "O teu estudo de estatística" — o ciclo completo
+  (pergunta → tally → tabela → gráfico → conclusão) com os animais preferidos
+  da turma + 2 perguntas.
+- `mat-1` `formas`: "Os sólidos à tua volta" (cubo/esfera/cilindro, compor
+  formas) + 2 perguntas; equivalências de frações confirmadas em `mat-3`
+  `fracoes` (já existiam).
+- `mat-2` `solidos`: planificações de prisma triangular e pirâmide
+  (comparadas com o cubo/caixa) + 2 perguntas.
+- Passe de `hint`/`level` nos testes finais das 10 lições mais usadas:
+  `mat1-n10/n20/somar`, `pt1-vogais/silabas`, `mat2-tab`, `mat3-frac`,
+  `mat4-dec/prob2`, `mat-4-volume-capacidade` — pistas que ajudam a pensar
+  sem dar a resposta.
 
 ## Fontes
 

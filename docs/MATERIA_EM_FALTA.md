@@ -7,9 +7,19 @@ crianças.
 Importante: uma disciplina pode existir na app e, mesmo assim, faltar matéria
 concreta, mais prática ou mais visível dentro dela.
 
-Estado atual: a app já tem **577 lições válidas**, todas com questionário final.
+Estado atual: a app já tem **585 lições válidas**, todas com questionário final.
 Já não há placeholders de matéria no currículo. O trabalho agora é sobretudo
 aprofundar, tornar visual e aproximar as páginas de situações reais de estudo.
+
+> **Atualização 2026-06-12 (Fase 21)** — fechados os últimos ⚠️ da auditoria
+> (`AUDITORIA-CURRICULO.md` está a 100%), só com secções em lições existentes:
+> **dividir por 10/100/1000** em `mat-4` `calculo-mental`; **crivo de
+> Eratóstenes + primos até 30** em `mat-5` `mdc-mmc`; **estratégias espertas
+> de ×/÷** (5×28 distributiva; 135÷5 a partir o dividendo) no 3.º; **ciclo
+> estatístico completo** (pergunta → tally → tabela → gráfico → conclusão) em
+> `mat-4` `graficos-tabelas`; **sólidos no 1.º** (`formas`) e **planificações
+> de prisma triangular + pirâmide** em `mat-2-solidos`. Os testes finais das
+> 10 lições mais usadas ganharam `hint`/`level` em todas as perguntas.
 
 > **Atualização 2026-06-11 (Fase 20B)** — Matemática fechada vs.
 > `AUDITORIA-CURRICULO.md`: no **1.º ano**, factos básicos (`mat-1-factos`),
@@ -126,7 +136,9 @@ O que ainda falta reforçar:
 - problemas curtos dentro de mais lições, não concentrados só nas páginas de
   problemas;
 - explicação escrita do raciocínio;
-- perguntas que obriguem a escolher a estratégia antes da conta;
+- perguntas que obriguem a escolher a estratégia antes da conta (arrancou em
+  2026-06-12 com as secções "Estratégias espertas" de `multiplicacao`/`divisao`
+  do 3.º e a "Estratégia 5" de `calculo-mental` — alargar a mais lições);
 - pequenos desafios com dados reais: horários, dinheiro, medidas, gráficos.
 
 ### Português

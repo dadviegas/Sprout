@@ -95,7 +95,7 @@ Ler gráficos é bom — mas **fazer um estudo do zero** é ainda melhor! Um est
 ```steps
 [
   { "title": "1. A pergunta", "body": "decide o que queres descobrir: «Qual é o animal preferido da turma?» 🐾", "icon": "❓" },
-  { "title": "2. Recolher os dados", "body": "pergunta a todos e marca risquinhos (tally): cão 𝍩𝍩𝍩𝍩𝍩 ||| , gato 𝍩𝍩𝍩𝍩𝍩 |, peixe |||, coelho |||| ✏️", "icon": "📝" },
+  { "title": "2. Recolher os dados", "body": "pergunta a todos e marca risquinhos: cão um grupo de 5 e mais 3, gato um grupo de 5 e mais 1, peixe 3, coelho 4 ✏️", "icon": "📝" },
   { "title": "3. Organizar numa tabela", "body": "conta os risquinhos e escreve: cão 8, gato 6, peixe 3, coelho 4 🗂️", "icon": "🗂️" },
   { "title": "4. Fazer o gráfico", "body": "desenha uma barra por animal — vê-se logo quem ganha 📊", "icon": "📊" },
   { "title": "5. Concluir", "body": "responde à pergunta: «O animal preferido é o cão (a moda), com 8 votos em 21.» 🏁", "icon": "✅" }
@@ -111,7 +111,7 @@ E aqui está o gráfico do passo 4, feito com os dados da turma:
   "say": "O cão teve oito votos, o gato seis, o peixe três e o coelho quatro. O preferido da turma é o cão!" }
 ```
 
-> [!TIP] Os **risquinhos** (contagem de tally) fazem-se em grupos de 5: quatro em pé e o quinto deitado por cima — 𝍩𝍩𝍩𝍩𝍩. Assim contas de 5 em 5 num instante! Na conclusão, responde **sempre à pergunta inicial** com uma frase — um gráfico sem conclusão é um estudo a meio. ✏️
+> [!TIP] Os **risquinhos** (contagem de tally) fazem-se em grupos de 5: quatro risquinhos em pé e o quinto deitado por cima, a fechar o grupo. Assim contas de 5 em 5 num instante! Na conclusão, responde **sempre à pergunta inicial** com uma frase — um gráfico sem conclusão é um estudo a meio. ✏️
 
 ## Um exemplo passo a passo 🔍
 
@@ -227,7 +227,7 @@ Olha para esta tabela sempre que precisares — é a mesma votação da turma!
       "hint": "Sem saberes o que queres descobrir, não há nada para contar.",
       "options": [ { "t": "a pergunta", "emoji": "❓", "correct": true }, { "t": "o gráfico" }, { "t": "a conclusão" } ],
       "explain": "Primeiro a pergunta, depois recolher → tabela → gráfico → concluir." },
-    { "q": "Marcaste 𝍩𝍩𝍩𝍩𝍩 ||| risquinhos para o cão. Quantos votos são?", "layout": "grid", "level": 3,
+    { "q": "Para o cão marcaste um grupo fechado de risquinhos e mais 3 soltos. Quantos votos são?", "layout": "grid", "level": 3,
       "hint": "Cada grupo fechado de risquinhos vale 5.",
       "options": [ { "t": "8", "emoji": "🐶", "correct": true }, { "t": "6" }, { "t": "53" } ],
       "explain": "Um grupo de 5 + 3 risquinhos soltos = 8 votos." }

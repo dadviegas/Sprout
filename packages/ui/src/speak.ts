@@ -254,7 +254,7 @@ function whenReady(fn: () => void): void {
   const run = () => {
     if (done) return;
     done = true;
-      cachedVoices = {};
+    cachedVoices = {};
     fn();
   };
   window.speechSynthesis.addEventListener("voiceschanged", run, { once: true });

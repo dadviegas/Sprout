@@ -49,8 +49,8 @@ function SoundCard({ item, lang }: { item: SoundItem; lang: SpeechLang }) {
 }
 
 /* SoundCards — for early readers (1.º ano): each card shows an icon (or a big
-   letter/word) plus the word, and reads it aloud in Portuguese when tapped.
-   See · hear · repeat. */
+   letter/word) plus the word, and reads it aloud in the block's language when
+   tapped. See · hear · repeat. */
 export function SoundCards({ spec }: { spec: SoundCardsSpec }) {
   const lang = spec.lang ?? "pt-PT";
   return (

@@ -1,6 +1,6 @@
 import { useCallback, useRef, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
 import { Icon } from "@sprout/icons";
-import { speak, speakSequence, stop, canSpeak, subscribeSpeaking, speakingToken, type SpeechLang } from "./speak";
+import { speak, speakMixed, speakSequence, stop, canSpeak, subscribeSpeaking, speakingToken, type SpeechLang, type SpeechPart } from "./speak";
 
 /* Speaker — the one read-aloud button used everywhere. Tap to hear the text;
    while it plays the icon turns into a "parar" (stop) square and tapping again
@@ -8,17 +8,23 @@ import { speak, speakSequence, stop, canSpeak, subscribeSpeaking, speakingToken,
    The child can't read, so this is how they reach almost everything. */
 
 /** Track whether THIS button's playback is the one currently sounding. */
-export function useSpeaker(): { playing: boolean; toggle: (arg: string | string[], lang?: SpeechLang) => void } {
+type SpeakArg = string | string[] | SpeechPart[];
+
+function isMixed(arg: SpeakArg): arg is SpeechPart[] {
+  return Array.isArray(arg) && arg.some((p) => typeof p === "object" && p !== null && "text" in p);
+}
+
+export function useSpeaker(): { playing: boolean; toggle: (arg: SpeakArg, lang?: SpeechLang) => void } {
   const active = useSyncExternalStore(subscribeSpeaking, speakingToken, () => null);
   const mine = useRef<number | null>(null);
   const playing = mine.current !== null && active === mine.current;
-  const toggle = useCallback((arg: string | string[], lang: SpeechLang = "pt-PT") => {
+  const toggle = useCallback((arg: SpeakArg, lang: SpeechLang = "pt-PT") => {
     // Read live state (not the render-time `playing`) so the click is never stale.
     if (mine.current !== null && speakingToken() === mine.current) {
       stop();
       return;
     }
-    mine.current = Array.isArray(arg) ? speakSequence(arg, lang) : speak(arg, lang);
+    mine.current = isMixed(arg) ? speakMixed(arg) : Array.isArray(arg) ? speakSequence(arg, lang) : speak(arg, lang);
   }, []);
   return { playing, toggle };
 }
@@ -27,7 +33,7 @@ export interface SpeakerProps {
   /** text to read (math symbols are read as words) */
   text?: string;
   /** several lines read in order, with a pause between (e.g. a tabuada) */
-  parts?: string[];
+  parts?: string[] | SpeechPart[];
   /** accessible label for the idle (play) state */
   label?: string;
   className?: string;

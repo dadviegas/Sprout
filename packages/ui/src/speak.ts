@@ -9,6 +9,10 @@
       reads Portuguese far better than a default English voice. */
 
 export type SpeechLang = "pt-PT" | "en-US";
+export interface SpeechPart {
+  text: string;
+  lang?: SpeechLang;
+}
 
 let cachedVoices: Partial<Record<SpeechLang, SpeechSynthesisVoice | null>> = {};
 
@@ -204,7 +208,7 @@ function makeUtterance(text: string, lang: SpeechLang): SpeechSynthesisUtterance
   return u;
 }
 
-function utterAll(parts: string[], token: number, lang: SpeechLang): void {
+function utterAll(parts: Required<SpeechPart>[], token: number): void {
   const synth = window.speechSynthesis;
   // cancel() and speak() in the SAME tick wedges Chrome's engine (every new
   // utterance dies instantly with "canceled" and `speaking` sticks at true,
@@ -215,11 +219,11 @@ function utterAll(parts: string[], token: number, lang: SpeechLang): void {
   setPlaying(token); // button flips to "parar" immediately
   window.setTimeout(() => {
     if (playingToken !== token) return; // a newer tap or stop() superseded us
-    reallyUtter(parts, token, lang);
+    reallyUtter(parts, token);
   }, 120);
 }
 
-function reallyUtter(parts: string[], token: number, lang: SpeechLang): void {
+function reallyUtter(parts: Required<SpeechPart>[], token: number): void {
   const synth = window.speechSynthesis;
   // Mark the playback done only when THIS token is still the active one (a
   // newer tap, or stop(), will have moved it on — don't clobber that).
@@ -227,7 +231,7 @@ function reallyUtter(parts: string[], token: number, lang: SpeechLang): void {
     if (playingToken === token) setPlaying(null);
     clearWatchdog();
   };
-  const utterances = parts.map((part) => makeUtterance(part, lang));
+  const utterances = parts.map((part) => makeUtterance(part.text, part.lang));
   // Queue each part as its own utterance: the gap between utterances gives a
   // natural pause, so a list (e.g. a tabuada) is read line by line, not run-on.
   // Only the LAST utterance signals completion — an `error` on an EARLIER one
@@ -278,10 +282,23 @@ export function speak(text: string, lang: SpeechLang = "pt-PT"): number | null {
  *  utterance is normalised by speakable() exactly once. */
 export function speakSequence(parts: string[], lang: SpeechLang = "pt-PT"): number | null {
   if (!canSpeak()) return null;
-  const clean = parts.map(speakable).filter(Boolean);
+  const clean = parts.map(speakable).filter(Boolean).map((text) => ({ text, lang }));
   if (!clean.length) return null;
   const token = ++nextToken;
-  whenReady(() => utterAll(clean, token, lang));
+  whenReady(() => utterAll(clean, token));
+  return token;
+}
+
+/** Speak a mixed-language sequence, e.g. an English word followed by its
+ *  Portuguese meaning. Each part keeps its own voice/language. */
+export function speakMixed(parts: SpeechPart[]): number | null {
+  if (!canSpeak()) return null;
+  const clean = parts
+    .map((p) => ({ text: speakable(p.text), lang: p.lang ?? "pt-PT" }))
+    .filter((p): p is Required<SpeechPart> => Boolean(p.text));
+  if (!clean.length) return null;
+  const token = ++nextToken;
+  whenReady(() => utterAll(clean, token));
   return token;
 }
 

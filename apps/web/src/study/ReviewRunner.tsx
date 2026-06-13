@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { CSSProperties } from "react";
 import { Icon, SUBJECT_ICONS, type IconName } from "@sprout/icons";
 import { Speaker } from "@sprout/ui";
@@ -105,12 +105,23 @@ export function ReviewRunner({ onGo }: { onGo: (view: View) => void }) {
   const review = useReview();
   const [answered, setAnswered] = useState<Record<string, { correct: boolean; picked: string; explain?: string }>>({});
   const [lastAnswer, setLastAnswer] = useState<{ correct: boolean; title: string; picked: string; explain?: string } | null>(null);
+  const [session, setSession] = useState<ReviewQuestion[] | null>(null);
+  const [step, setStep] = useState(0);
   const now = Date.now();
   const due = useMemo(() => dueReviews(review, now), [review, now]);
   const groups = useMemo(() => groupDue(due), [due]);
-  const reviewQuestions = useMemo(() => resolveDueQuestions(due).filter((q) => !answered[q.item.id]).slice(0, 5), [due, answered]);
+  const availableQuestions = useMemo(() => resolveDueQuestions(due), [due]);
+  useEffect(() => {
+    if (!session && availableQuestions.length > 0) setSession(availableQuestions.slice(0, 5));
+  }, [availableQuestions, session]);
   const total = due.length;
   const first = groups[0];
+  const current = session?.[step] ?? null;
+  const sessionDone = !!session && step >= session.length;
+  const sessionAnswered = session?.filter((q) => answered[q.item.id]).length ?? 0;
+  const sessionCorrect = session?.filter((q) => answered[q.item.id]?.correct).length ?? 0;
+  const visibleTotal = session?.length ?? total;
+  const leadTitle = first?.title ?? session?.[0]?.title ?? "esta revisão";
 
   const choose = (rq: ReviewQuestion, optionIndex: number) => {
     const option = rq.question.options?.[optionIndex];
@@ -127,7 +138,12 @@ export function ReviewRunner({ onGo }: { onGo: (view: View) => void }) {
     }));
   };
 
-  if (total === 0) {
+  const nextQuestion = () => {
+    if (!session) return;
+    setStep((s) => Math.min(s + 1, session.length));
+  };
+
+  if (total === 0 && !session) {
     return (
       <main className="review-runner">
         <section className="review-hero review-hero--empty">
@@ -145,7 +161,7 @@ export function ReviewRunner({ onGo }: { onGo: (view: View) => void }) {
     );
   }
 
-  const say = `Revisão de erros. Tens ${total} ${total === 1 ? "pergunta" : "perguntas"} para vencer. Começa por ${first.title}.`;
+  const say = `Revisão de erros. Tens ${visibleTotal} ${visibleTotal === 1 ? "pergunta" : "perguntas"} para vencer. Começa por ${leadTitle}.`;
 
   return (
     <main className="review-runner">
@@ -154,7 +170,7 @@ export function ReviewRunner({ onGo }: { onGo: (view: View) => void }) {
         <div>
           <h1>Revisão de erros</h1>
           <p>
-            {total === 1 ? "Tens 1 pergunta vencida." : `Tens ${total} perguntas vencidas.`} Começa pela matéria com mais erros e volta ao teste para as fechar.
+            {visibleTotal === 1 ? "Tens 1 pergunta nesta sessão." : `Tens ${visibleTotal} perguntas nesta sessão.`} Responde uma de cada vez e o plano ajusta-se no fim.
           </p>
         </div>
         {first && (
@@ -179,22 +195,29 @@ export function ReviewRunner({ onGo }: { onGo: (view: View) => void }) {
         </aside>
       )}
 
-      {reviewQuestions.length > 0 && (
-        <section className="review-questions" aria-label="Perguntas da revisão">
-          {reviewQuestions.map((rq) => {
-            const result = answered[rq.item.id];
+      {session && current && (
+        <section className="review-session" aria-label="Sessão curta de revisão">
+          <div className="review-session__meta">
+            <strong>Pergunta {step + 1} de {session.length}</strong>
+            <span>{sessionAnswered}/{session.length} respondidas · {sessionCorrect} fechadas</span>
+          </div>
+          <div className="review-session__bar" aria-hidden="true">
+            <span style={{ width: `${(sessionAnswered / session.length) * 100}%` }} />
+          </div>
+          {(() => {
+            const result = answered[current.item.id];
             return (
-              <article className={`review-question ${result ? (result.correct ? "is-ok" : "is-no") : ""}`} key={rq.item.id}>
+              <article className={`review-question ${result ? (result.correct ? "is-ok" : "is-no") : ""}`} key={current.item.id}>
                 <div className="review-question__head">
-                  <span>{rq.subjectTitle}</span>
-                  <strong>{rq.title}</strong>
-                  {rq.fromSnapshot && <em>guardada</em>}
-                  <Speaker text={`${rq.question.q}. ${rq.question.options?.map((o) => o.t).join(". ") ?? ""}`} className="review-question__say" size={17} />
+                  <span>{current.subjectTitle}</span>
+                  <strong>{current.title}</strong>
+                  {current.fromSnapshot && <em>guardada</em>}
+                  <Speaker text={`${current.question.q}. ${current.question.options.map((o) => o.t).join(". ")}`} className="review-question__say" size={17} />
                 </div>
-                <p className="review-question__q">{rq.question.q}</p>
+                <p className="review-question__q">{current.question.q}</p>
                 <div className="review-question__options">
-                  {rq.question.options?.map((option, optionIndex) => (
-                    <button key={`${rq.item.id}-${optionIndex}`} disabled={!!result} onClick={() => choose(rq, optionIndex)}>
+                  {current.question.options.map((option, optionIndex) => (
+                    <button key={`${current.item.id}-${optionIndex}`} disabled={!!result} onClick={() => choose(current, optionIndex)}>
                       {option.emoji && <span aria-hidden>{option.emoji}</span>}
                       {option.t}
                     </button>
@@ -206,9 +229,27 @@ export function ReviewRunner({ onGo }: { onGo: (view: View) => void }) {
                     {result.explain && <span>{result.explain}</span>}
                   </div>
                 )}
+                <div className="review-question__foot">
+                  <button className="btn primary" disabled={!result} onClick={nextQuestion}>
+                    {step + 1 >= session.length ? "Ver resumo" : "Próxima"} <Icon name="forward" size={18} />
+                  </button>
+                </div>
               </article>
             );
-          })}
+          })()}
+        </section>
+      )}
+
+      {sessionDone && (
+        <section className="review-summary" aria-label="Resumo da revisão">
+          <span className="review-summary__icon"><Icon name="star" size={30} /></span>
+          <div>
+            <h2>Revisão feita</h2>
+            <p>Fechaste {sessionCorrect} de {session.length} {session.length === 1 ? "pergunta" : "perguntas"}. As que ainda precisam voltam no plano.</p>
+          </div>
+          <button className="btn primary" onClick={() => onGo({ kind: "plano" })}>
+            <Icon name="calendar" size={18} /> Voltar ao plano
+          </button>
         </section>
       )}
 

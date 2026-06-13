@@ -3469,7 +3469,29 @@ button.hm-cell:hover { transform: scale(1.18); }
 .review-last div { display: grid; gap: 2px; }
 .review-last strong { font-family: var(--font-display); font-weight: 900; }
 .review-last span { color: var(--ink-2); }
-.review-questions { display: grid; gap: 12px; }
+.review-session { display: grid; gap: 10px; }
+.review-session__meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--ink-2);
+}
+.review-session__meta strong { color: var(--ink); font-family: var(--font-display); font-weight: 900; }
+.review-session__bar {
+  height: 9px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+.review-session__bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent);
+  transition: width var(--dur);
+}
 .review-question {
   position: relative;
   display: grid;
@@ -3536,6 +3558,35 @@ button.hm-cell:hover { transform: scale(1.18); }
 }
 .review-question__feedback strong { font-family: var(--font-display); font-weight: 900; }
 .review-question__feedback span { color: var(--ink-2); }
+.review-question__foot {
+  display: flex;
+  justify-content: flex-end;
+}
+.review-question__foot .btn:disabled {
+  opacity: .5;
+  cursor: default;
+  transform: none;
+}
+.review-summary {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--good) 13%, var(--surface));
+  border: 2px solid color-mix(in srgb, var(--good) 48%, var(--border));
+}
+.review-summary__icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 52px; height: 52px; border-radius: 16px;
+  color: #fff; background: var(--good);
+}
+.review-summary h2 {
+  margin: 0 0 4px;
+  font: 900 1.45rem/1 var(--font-display);
+}
+.review-summary p { margin: 0; color: var(--ink-2); }
 .review-list { display: grid; gap: 10px; }
 .review-row {
   display: grid;
@@ -3595,8 +3646,11 @@ button.hm-cell:hover { transform: scale(1.18); }
   }
   .review-row__actions button { flex: 1; }
   .review-question__options { grid-template-columns: 1fr; }
+  .review-session__meta { display: grid; gap: 2px; }
   .review-question__head { display: grid; gap: 2px; }
   .review-question__head span::after { content: ""; margin: 0; }
+  .review-summary { grid-template-columns: auto minmax(0, 1fr); }
+  .review-summary .btn { grid-column: 1 / -1; justify-self: start; }
 }
 
 /* "Plano de férias" (§4.8): the offer card (pick a year) and, once active,

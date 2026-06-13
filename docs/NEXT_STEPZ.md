@@ -48,8 +48,10 @@ Estado:
   alimenta o mesmo banco de revisão.
 - Feito em 2026-06-12: o banco guarda um snapshot da pergunta no momento da
   resposta, para sobreviver a alterações futuras no markdown ou no id do bloco.
-- Próximo passo desta fase: transformar a revisão numa sessão guiada de 3-5
-  perguntas, com "próxima", fim claro e resumo do que ficou fechado.
+- Feito em 2026-06-12: a revisão virou sessão guiada de até 5 perguntas, com
+  uma pergunta de cada vez, botão "próxima", barra de progresso e resumo final.
+- Próximo passo: começar a Fase 2, adicionando feedback adaptativo por tipo de
+  erro nas perguntas principais.
 
 ## Fase 2 — Feedback adaptativo no Quiz
 

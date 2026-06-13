@@ -81,7 +81,7 @@ function resolveDueQuestions(items: ReviewItem[]): ReviewQuestion[] {
       liveQuestion = {
         q: found.question.q,
         emoji: found.question.emoji,
-        options: found.question.options.map((o) => ({ t: o.t, emoji: o.emoji, correct: o.correct })),
+            options: found.question.options.map((o) => ({ t: o.t, emoji: o.emoji, correct: o.correct, feedback: o.feedback, tag: o.tag })),
         explain: found.question.explain,
         level: found.question.level,
       };
@@ -131,10 +131,11 @@ export function ReviewRunner({ onGo }: { onGo: (view: View) => void }) {
       level: rq.question.level ?? rq.item.level ?? 2,
       snapshot: rq.question,
     });
-    setLastAnswer({ correct, title: rq.title, picked: option.t, explain: rq.question.explain });
+    const explain = correct ? rq.question.explain : option.feedback ?? rq.question.explain;
+    setLastAnswer({ correct, title: rq.title, picked: option.t, explain });
     setAnswered((prev) => ({
       ...prev,
-      [rq.item.id]: { correct, picked: option.t, explain: rq.question.explain },
+      [rq.item.id]: { correct, picked: option.t, explain },
     }));
   };
 

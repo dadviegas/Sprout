@@ -61,7 +61,7 @@ export interface ReviewItem {
 export interface ReviewQuestionSnapshot {
   q: string;
   emoji?: string;
-  options: { t: string; emoji?: string; correct?: boolean }[];
+  options: { t: string; emoji?: string; correct?: boolean; feedback?: string; tag?: string }[];
   explain?: string;
   level?: number;
 }

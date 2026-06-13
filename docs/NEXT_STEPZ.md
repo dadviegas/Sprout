@@ -71,6 +71,18 @@ Exemplo:
 Critério de pronto:
 - Nas lições centrais, errar ensina algo específico.
 
+Estado:
+- Feito em 2026-06-13: `QuizOption` aceita `feedback` e `tag`; quando a criança
+  escolhe uma opção errada com feedback próprio, o Quiz mostra essa explicação
+  em vez da explicação geral.
+- Feito em 2026-06-13: snapshots do banco de erros preservam também
+  `feedback`/`tag`, e o ReviewRunner mostra o feedback específico na revisão.
+- Feito em 2026-06-13: primeira aplicação em Matemática 4.º ano,
+  `decimais.md`, com erros típicos de vírgula, dinheiro, décimas/centésimas e
+  quartos/metades.
+- Próximo passo desta fase: aplicar `feedback`/`tag` às 10-20 perguntas mais
+  importantes de medidas, frações, problemas de vários passos e Inglês.
+
 ## Fase 3 — Plano adaptativo explicável
 
 Problema:

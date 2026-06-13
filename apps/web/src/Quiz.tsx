@@ -10,6 +10,10 @@ export interface QuizOption {
   t: string;
   emoji?: string;
   correct?: boolean;
+  /** Specific teaching message for this option, usually on common wrong picks. */
+  feedback?: string;
+  /** Optional error family for analytics/adaptive plans. */
+  tag?: string;
 }
 /** Recipe for a question built fresh at run time (a new one on every retry),
  *  so practice never repeats the same numbers. Today only fraction-naming. */
@@ -159,6 +163,8 @@ export function Quiz({
   );
   const question = questions[i];
   const options = question.options ?? [];
+  const pickedOption = picked !== null ? options[picked] : null;
+  const adaptiveFeedback = pickedOption && !pickedOption.correct ? pickedOption.feedback : undefined;
   const correctCount = questions.reduce((sum, q, idx) => {
     const answer = answers[idx];
     return sum + (answer !== null && q.options?.[answer]?.correct ? 1 : 0);
@@ -209,7 +215,7 @@ export function Quiz({
           ? {
               q: question.q,
               emoji: question.emoji,
-              options: question.options.map((o) => ({ t: o.t, emoji: o.emoji, correct: o.correct })),
+              options: question.options.map((o) => ({ t: o.t, emoji: o.emoji, correct: o.correct, feedback: o.feedback, tag: o.tag })),
               explain: question.explain,
               level: question.level ?? 2,
             }
@@ -431,9 +437,9 @@ export function Quiz({
         <>
           <div className={`feedback ${isCorrect ? "good" : "bad"}`}>
             <Icon name={isCorrect ? "check" : "info"} size={20} />
-            <span>{isCorrect ? "Certo!" : "Quase!"} {question.explain ?? ""}</span>
+            <span>{isCorrect ? "Certo!" : "Quase!"} {adaptiveFeedback ?? question.explain ?? ""}</span>
             <Speaker
-              text={`${isCorrect ? "Certo!" : "Quase!"} ${question.explain ?? ""}`}
+              text={`${isCorrect ? "Certo!" : "Quase!"} ${adaptiveFeedback ?? question.explain ?? ""}`}
               className="prose-speak"
               size={20}
               label="Ouvir"

@@ -55,6 +55,10 @@ export function FractionFigure({
         {Array.from({ length: parts }, (_, i) => (
           <rect key={i} x={i * seg} y={2} width={seg} height={BAR_H - 4} strokeWidth={1.5} {...cell(i)} />
         ))}
+        {Array.from({ length: Math.max(parts - 1, 0) }, (_, i) => {
+          const x = (i + 1) * seg;
+          return <line key={`divider-${i}`} x1={x} x2={x} y1={4} y2={BAR_H - 4} stroke="var(--surface)" strokeWidth={2.5} />;
+        })}
         <rect x={1} y={2} width={BAR_W - 2} height={BAR_H - 4} rx={9} fill="none" stroke={tint} strokeWidth={2.5} />
       </svg>
     );

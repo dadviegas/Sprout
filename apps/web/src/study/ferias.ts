@@ -511,6 +511,20 @@ function doneTodayIds(plan: StudyPlan, achievements: Achievement[], today: numbe
   );
 }
 
+/** Real completion date per queue lesson. When the child jumps ahead, this is
+ *  the date that must show the credit in the full plan/calendar. */
+function doneDayByLesson(plan: StudyPlan, achievements: Achievement[]): Map<string, number> {
+  const inQueue = new Set(plan.queue.map((s) => s.lessonId));
+  const out = new Map<string, number>();
+  for (const a of achievements) {
+    if (a.pct < TEST_PASS_PCT || !inQueue.has(a.lessonId)) continue;
+    const day = startOfDay(a.at);
+    const prev = out.get(a.lessonId);
+    if (prev == null || day < prev) out.set(a.lessonId, day);
+  }
+  return out;
+}
+
 /** Steps passed today but not already visible in today's packed chunk. These
  *  are "adiantadas": the child jumped ahead, so today must show the credit
  *  and future days must adapt around it. */
@@ -560,7 +574,7 @@ export interface PlanDay {
   n: number;
   /** start-of-day epoch of the (planned) date */
   date: number;
-  steps: { step: PlanStep; state: "done" | "today" | "future" }[];
+  steps: { step: PlanStep; state: "advanced" | "done" | "today" | "future" }[];
 }
 
 /** The WHOLE plan as a list of days: the matter already done packed from the
@@ -577,33 +591,54 @@ export function feriasFullSchedule(
 ): PlanDay[] {
   const done = doneStepIds(plan, progress);
   const doneToday = doneTodayIds(plan, achievements, today);
-  const days: PlanDay[] = [];
+  const doneDay = doneDayByLesson(plan, achievements);
+  const plannedDay = new Map<string, number>();
+  let plannedFrom = 0;
+  for (let d = startOfDay(plan.startedAt); plannedFrom < plan.queue.length; d = nextDay(d)) {
+    if (!isNewMatterDay(d)) continue;
+    const chunk = packDay(plan.queue, plannedFrom);
+    for (const step of chunk) plannedDay.set(step.lessonId, d);
+    plannedFrom += chunk.length;
+  }
+  const byDate = new Map<number, PlanDay["steps"]>();
+  const add = (date: number, step: PlanStep, state: PlanDay["steps"][number]["state"]) => {
+    const steps = byDate.get(date) ?? [];
+    if (!steps.some((s) => s.step.lessonId === step.lessonId)) steps.push({ step, state });
+    byDate.set(date, steps);
+  };
   const pack = (steps: PlanStep[], start: number, state: (s: PlanStep, day: number) => "done" | "today" | "future") => {
     let from = 0;
     for (let d = start; from < steps.length; d = nextDay(d)) {
       if (!isNewMatterDay(d)) continue;
       const chunk = packDay(steps, from);
-      days.push({ n: days.length + 1, date: d, steps: chunk.map((step) => ({ step, state: state(step, d) })) });
+      for (const step of chunk) add(d, step, state(step, d));
       from += chunk.length;
     }
   };
-  // Behind: what's already done (today's passes stay in today's list below).
-  pack(
-    plan.queue.filter((s) => done.has(s.lessonId) && !doneToday.has(s.lessonId)),
-    startOfDay(plan.startedAt),
-    () => "done",
-  );
+
+  // Behind: completed work belongs to the REAL day it was passed. That is what
+  // makes "did extra today" visible today and removes it from its old future
+  // slot. Legacy done steps without an achievement date keep the old packed
+  // fallback so old plans still show completed matter.
+  const legacyDone: PlanStep[] = [];
+  for (const step of plan.queue) {
+    if (!done.has(step.lessonId) || doneToday.has(step.lessonId)) continue;
+    const day = doneDay.get(step.lessonId);
+    const planned = plannedDay.get(step.lessonId);
+    if (day != null) add(day, step, planned != null && day < planned ? "advanced" : "done");
+    else legacyDone.push(step);
+  }
+  pack(legacyDone, startOfDay(plan.startedAt), () => "done");
+
   // Today: the planned front of the queue PLUS anything extra passed today.
   const servingToday = plan.queue.filter((s) => !done.has(s.lessonId) || doneToday.has(s.lessonId));
-  const todayChunk = packDay(servingToday, 0);
+  const todayChunk = isNewMatterDay(today) ? packDay(servingToday, 0) : [];
   const todaySteps = [...todayChunk, ...todayExtraDoneSteps(plan, todayChunk, doneToday)];
-  if (todaySteps.length && isNewMatterDay(today)) {
-    days.push({
-      n: days.length + 1,
-      date: today,
-      steps: todaySteps.map((step) => ({ step, state: doneToday.has(step.lessonId) ? "done" : "today" })),
-    });
+  for (const step of todaySteps) {
+    const planned = plannedDay.get(step.lessonId);
+    add(today, step, doneToday.has(step.lessonId) ? (planned != null && today < planned ? "advanced" : "done") : "today");
   }
+
   // Ahead: project as if today's planned front is being handled today, while
   // today's extra done steps simply disappear from the future.
   const scheduledToday = new Set(todayChunk.map((s) => s.lessonId));
@@ -612,7 +647,9 @@ export function feriasFullSchedule(
     nextDay(today),
     () => "future",
   );
-  return days;
+  return [...byDate.entries()]
+    .sort(([a], [b]) => a - b)
+    .map(([date, steps], i) => ({ n: i + 1, date, steps }));
 }
 
 /** Index a schedule by date (date → PlanDay) — shared by the full-plan month

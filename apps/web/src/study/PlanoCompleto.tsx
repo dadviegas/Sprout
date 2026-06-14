@@ -85,11 +85,11 @@ export function PlanDayMarks({ pd }: { pd: PlanDay }) {
 
 /* ---- one day's lesson rows (shared by the panel and the list) --------- */
 
-const STATE_LABEL = { done: "feita", today: "hoje", future: "futura" } as const;
+const STATE_LABEL = { advanced: "adiantada", done: "feita", today: "hoje", future: "futura" } as const;
 
 interface StepRow {
   step: PlanDay["steps"][number]["step"];
-  state: "done" | "today" | "future";
+  state: PlanDay["steps"][number]["state"];
   meta: NonNullable<ReturnType<typeof lessonMeta.get>>;
   summary: string | null;
 }
@@ -126,7 +126,7 @@ function StepRows({ rows, onGo }: { rows: StepRow[]; onGo: (v: View) => void }) 
           </span>
           <span className="plano-full-step__min">≈ {step.minutes} min</span>
           <span className="plano-full-step__st">
-            {state === "done" && <Icon name="check" size={13} />} {STATE_LABEL[state]}
+            {(state === "done" || state === "advanced") && <Icon name="check" size={13} />} {STATE_LABEL[state]}
           </span>
         </button>
       ))}

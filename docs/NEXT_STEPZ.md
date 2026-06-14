@@ -97,6 +97,14 @@ Construir:
 Critério de pronto:
 - Pais e criança percebem por que a ordem mudou.
 
+Estado:
+- Feito em 2026-06-14: no plano completo, uma lição concluída antes do dia
+  previsto aparece no dia real em que foi feita como `adiantada` e sai da
+  projeção futura. A fila recalcula os próximos dias sem duplicar matéria já
+  concluída.
+- Próximo passo desta fase: mostrar no topo do plano uma frase curta do tipo
+  "fizeste X a mais; o plano puxou a próxima matéria para amanhã".
+
 ## Fase 4 — Inglês com áudio bilingue completo
 
 Problema:

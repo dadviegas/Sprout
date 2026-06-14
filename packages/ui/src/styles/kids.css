@@ -3869,6 +3869,11 @@ button.hm-cell:hover { transform: scale(1.18); }
 .plano-full-step__st { display: inline-flex; align-items: center; gap: 3px; font-size: .68em; font-weight: 800; color: var(--ink-3); text-transform: uppercase; letter-spacing: .03em; white-space: nowrap; }
 .plano-full-step.is-done { opacity: .72; }
 .plano-full-step.is-done .plano-full-step__st { color: var(--primary); }
+.plano-full-step.is-advanced {
+  border-color: color-mix(in srgb, var(--good) 55%, var(--border));
+  background: color-mix(in srgb, var(--good) 8%, var(--surface));
+}
+.plano-full-step.is-advanced .plano-full-step__st { color: var(--good); }
 .plano-full-step.is-today { border-color: var(--primary); }
 @media (max-width: 560px) {
   .plano-full-step { flex-wrap: wrap; }

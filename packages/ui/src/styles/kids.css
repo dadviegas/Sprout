@@ -3668,6 +3668,16 @@ button.hm-cell:hover { transform: scale(1.18); }
 }
 .plan-ferias__head strong { font-family: var(--font-display); font-weight: 800; font-size: 1.08em; }
 .plan-ferias__head p { margin: 2px 0 0; color: var(--ink-2); font-size: .88em; line-height: 1.45; }
+.plan-ferias__head .plan-ferias__adapt {
+  display: inline-flex;
+  margin-top: 8px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--good) 12%, var(--surface));
+  color: var(--good);
+  border: 1px solid color-mix(in srgb, var(--good) 35%, var(--border));
+  font-weight: 800;
+}
 .plan-ferias__say { position: absolute; top: 12px; right: 12px; }
 .plan-ferias__years { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .plan-ferias__year {

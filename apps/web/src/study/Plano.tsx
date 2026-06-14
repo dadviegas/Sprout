@@ -221,6 +221,17 @@ function FeriasOfferCard({
   );
 }
 
+function todayAdvanceLine(plan: StudyPlan, progress: ProgressMap, achievements: Achievement[], today: number): string | null {
+  const todayPlan = feriasFullSchedule(plan, progress, achievements, today).find((d) => d.date === today);
+  const advanced = todayPlan?.steps.filter((s) => s.state === "advanced") ?? [];
+  if (advanced.length === 0) return null;
+  const n = advanced.length;
+  const title = n === 1 ? lessonMeta.get(advanced[0].step.lessonId)?.title : null;
+  return n === 1 && title
+    ? `Fizeste "${title}" adiantada; o plano já ajustou os próximos dias.`
+    : `Fizeste ${n} lições adiantadas; o plano já ajustou os próximos dias.`;
+}
+
 /** The active plan's progress strip: week N of M, % of the matter, pace —
  *  plus discreet "Terminar plano" / "Mudar de ano", each with inline confirm.
  *  Switching KEEPS this year's plan (one plan per year — §4.8); only
@@ -229,6 +240,7 @@ function FeriasStrip({
   plan,
   plans,
   progress,
+  achievements,
   today,
   onEnd,
   onSwitch,
@@ -237,6 +249,7 @@ function FeriasStrip({
   plan: StudyPlan;
   plans: Partial<Record<YearN, StudyPlan>>;
   progress: ProgressMap;
+  achievements: Achievement[];
   today: number;
   onEnd: () => void;
   onSwitch: (year: YearN) => void;
@@ -245,6 +258,7 @@ function FeriasStrip({
   const [confirm, setConfirm] = useState<"end" | "switch" | null>(null);
   const p = feriasProgress(plan, progress, today);
   const line = feriasStatusLine(p);
+  const advanceLine = useMemo(() => todayAdvanceLine(plan, progress, achievements, today), [plan, progress, achievements, today]);
   const finish = p.finishAt
     ? `Fim previsto: ${new Date(p.finishAt).toLocaleDateString("pt-PT", { day: "numeric", month: "long" })}.`
     : "Matéria toda concluída — és incrível!";
@@ -255,10 +269,11 @@ function FeriasStrip({
         <div>
           <strong>Plano de férias · {yearLabel(plan.year)}</strong>
           <p>{line}. {finish}</p>
+          {advanceLine && <p className="plan-ferias__adapt">{advanceLine}</p>}
         </div>
       </div>
       <Speaker
-        text={`Plano de férias do ${yearLabel(plan.year)}. ${line}. ${finish}`}
+        text={`Plano de férias do ${yearLabel(plan.year)}. ${line}. ${finish} ${advanceLine ?? ""}`}
         className="plan-ferias__say"
         size={18}
         label="Ouvir: plano de férias"
@@ -569,6 +584,7 @@ export function Plano({ onGo }: { onGo: (v: View) => void }) {
           plan={ferias}
           plans={plans}
           progress={progress}
+          achievements={achievements}
           today={today}
           onEnd={() => archiveFeriasPlan(progress)}
           onSwitch={(y) => startFeriasPlan(y)}

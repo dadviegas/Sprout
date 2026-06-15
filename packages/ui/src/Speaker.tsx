@@ -1,6 +1,6 @@
 import { useCallback, useRef, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
 import { Icon } from "@sprout/icons";
-import { speak, speakMixed, speakSequence, stop, canSpeak, subscribeSpeaking, speakingToken, type SpeechLang, type SpeechPart } from "./speak";
+import { speak, speakMixed, speakSequence, stop, canSpeak, subscribeSpeaking, speakingToken, type SpeechLang, type SpeechOptions, type SpeechPart } from "./speak";
 
 /* Speaker — the one read-aloud button used everywhere. Tap to hear the text;
    while it plays the icon turns into a "parar" (stop) square and tapping again
@@ -14,17 +14,17 @@ function isMixed(arg: SpeakArg): arg is SpeechPart[] {
   return Array.isArray(arg) && arg.some((p) => typeof p === "object" && p !== null && "text" in p);
 }
 
-export function useSpeaker(): { playing: boolean; toggle: (arg: SpeakArg, lang?: SpeechLang) => void } {
+export function useSpeaker(): { playing: boolean; toggle: (arg: SpeakArg, lang?: SpeechLang, opts?: SpeechOptions) => void } {
   const active = useSyncExternalStore(subscribeSpeaking, speakingToken, () => null);
   const mine = useRef<number | null>(null);
   const playing = mine.current !== null && active === mine.current;
-  const toggle = useCallback((arg: SpeakArg, lang: SpeechLang = "pt-PT") => {
+  const toggle = useCallback((arg: SpeakArg, lang: SpeechLang = "pt-PT", opts: SpeechOptions = {}) => {
     // Read live state (not the render-time `playing`) so the click is never stale.
     if (mine.current !== null && speakingToken() === mine.current) {
       stop();
       return;
     }
-    mine.current = isMixed(arg) ? speakMixed(arg) : Array.isArray(arg) ? speakSequence(arg, lang) : speak(arg, lang);
+    mine.current = isMixed(arg) ? speakMixed(arg, opts) : Array.isArray(arg) ? speakSequence(arg, lang, opts) : speak(arg, lang, opts);
   }, []);
   return { playing, toggle };
 }
@@ -41,11 +41,13 @@ export interface SpeakerProps {
   style?: CSSProperties;
   /** speech language; defaults to European Portuguese */
   lang?: SpeechLang;
+  /** optional absolute speech rate, e.g. 0.68 for "devagar" */
+  rate?: number;
   /** optional visible text after the icon (e.g. "Ouvir") */
   children?: ReactNode;
 }
 
-export function Speaker({ text, parts, label = "Ouvir", className = "prose-speak", size = 18, style, lang = "pt-PT", children }: SpeakerProps) {
+export function Speaker({ text, parts, label = "Ouvir", className = "prose-speak", size = 18, style, lang = "pt-PT", rate, children }: SpeakerProps) {
   const { playing, toggle } = useSpeaker();
   const arg = parts ?? text ?? "";
   const empty = Array.isArray(arg) ? arg.length === 0 : !arg.trim();
@@ -56,7 +58,7 @@ export function Speaker({ text, parts, label = "Ouvir", className = "prose-speak
       className={className}
       style={style}
       data-playing={playing || undefined}
-      onClick={() => toggle(arg, lang)}
+      onClick={() => toggle(arg, lang, { rate })}
       aria-label={playing ? "Parar" : label}
       title={playing ? "Parar" : label}
     >

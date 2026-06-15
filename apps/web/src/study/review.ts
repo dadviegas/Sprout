@@ -3,6 +3,7 @@ import { store } from "../storage";
 import { lessonMeta } from "../content/curriculum";
 import { DAY, startOfDay } from "./calendar";
 import { EXPECTED_SECS_PER_QUESTION } from "./alerts";
+import type { SpeechLang } from "@sprout/ui";
 
 /* ------------------------------------------------------------------ *
  * Banco de erros + revisão espaçada (PLANO-ESTUDO §4.2).
@@ -60,8 +61,10 @@ export interface ReviewItem {
 
 export interface ReviewQuestionSnapshot {
   q: string;
+  lang?: SpeechLang;
+  optionLang?: SpeechLang;
   emoji?: string;
-  options: { t: string; emoji?: string; correct?: boolean; feedback?: string; tag?: string }[];
+  options: { t: string; emoji?: string; correct?: boolean; lang?: SpeechLang; feedback?: string; tag?: string }[];
   explain?: string;
   level?: number;
 }

@@ -213,7 +213,7 @@ Queres dizer: **«Para a semana, ela vai aprender a nadar.»** (é um plano!) Co
       "options": [ { "t": "She isn't going to come.", "emoji": "🚫", "correct": true }, { "t": "She doesn't going to come." }, { "t": "She not going to come." } ],
       "explain": "Pões not no to be: isn't going to (não precisas de doesn't!). 🚫" },
     { "q": "É hora de jantar e decides agora: «I'm hungry. I ___ make a sandwich.»", "layout": "grid",
-      "options": [ { "t": "will", "emoji": "⚡", "correct": true }, { "t": "am going to (já tinha planeado)" }, { "t": "went" } ],
+      "options": [ { "t": "will", "emoji": "⚡", "correct": true }, { "t": "am going to" }, { "t": "went" } ],
       "explain": "Decisão na hora → will. (going to seria um plano antigo). ⚡" },
     { "q": "Qual destes é um PLANO já decidido (going to)?", "layout": "list",
       "options": [ { "t": "I'm going to study medicine. (já decidi há tempo)", "emoji": "🩺", "correct": true }, { "t": "OK, I'll help you. (decido agora)" }, { "t": "It's cold, I'll close the door. (decido agora)" } ],

@@ -80,8 +80,51 @@ Estado:
 - Feito em 2026-06-13: primeira aplicação em Matemática 4.º ano,
   `decimais.md`, com erros típicos de vírgula, dinheiro, décimas/centésimas e
   quartos/metades.
-- Próximo passo desta fase: aplicar `feedback`/`tag` às 10-20 perguntas mais
-  importantes de medidas, frações, problemas de vários passos e Inglês.
+- Feito em 2026-06-15: `volume-capacidade.md` (capacidade vs massa, conversões
+  l/cl/ml, volume soma vs multiplicação).
+- Feito em 2026-06-15: `problemas-varios-passos.md` — as 14 perguntas (prática
+  + final) ganham feedback ligado a cada armadilha: respondeu só ao 1.º passo,
+  trocou a unidade, esqueceu a conversão, leu a pergunta trocada, e o resto
+  (arredondar para cima vs deitar fora).
+- Feito em 2026-06-15: `fracoes.md` (3.º ano) — frações invertidas, leitura
+  «junta» dos algarismos, «mais partes = maior», metade/quarto e equivalências.
+- Feito em 2026-06-15: medidas — `comprimento-massa.md` e `medidas-km-mm-g.md`
+  (fator de conversão errado, sem converter, unidade/grandeza errada,
+  instrumento errado, juntar unidades, comparar sem converter, estimativa).
+- Feito em 2026-06-15: Inglês 1.º ano — `colours.md` e `numbers.md`, com
+  feedback que ensina nos dois sentidos (a opção errada diz o que aquela
+  palavra/número significa e qual era o certo): `en-cor-trocada`,
+  `en-numero-trocado`, `en-numero-sequencia`, `en-frase-trocada`.
+- Feito em 2026-06-15: Inglês 2.º–3.º ano — `animals.md`, `food-basics.md` e
+  `routines.md`, com feedback para trocas de vocabulário, comida/bebida,
+  sons de animais, plurais, rotinas, manhã/tarde/noite e `she + -s`
+  (`en-animal-trocado`, `en-som-animal`, `en-comida-trocada`,
+  `en-comida-bebida`, `en-plural`, `en-rotina-trocada`,
+  `en-tempo-trocado`, `en-present-simple-s`).
+- Feito em 2026-06-15: Inglês 2.º–3.º ano — `sports.md`, `nature.md`,
+  `my-house.md`, `clothes.md` e `directions.md`, com feedback para desportos,
+  natureza/localização, divisões e objetos da casa, `there is/are`,
+  `on/under`, roupa, frio/calor, pronomes, direções e posições
+  (`en-desporto-trocado`, `en-sufixo-trocado`, `en-natureza-trocada`,
+  `en-natureza-local`, `en-casa-trocada`, `en-there-is-are`,
+  `en-preposicao-trocada`, `en-roupa-trocada`, `en-roupa-tempo`,
+  `en-pronome-trocado`, `en-direcao-trocada`, `en-posicao-trocada`).
+- Feito em 2026-06-15: Inglês 3.º ano — `toys.md` e `food.md`, com feedback
+  para brinquedos trocados, `I have`/`I like`/`I am`, plural com `-s`,
+  números parecidos, comida/bebida, fome/sede, pedidos educados e nomes não
+  contáveis (`en-brinquedo-trocado`, `en-comida-trocada`,
+  `en-comida-bebida`, `en-frase-trocada`, `en-plural`,
+  `en-numero-trocado`).
+- Feito em 2026-06-15: frações/decimais 4.º–5.º ano —
+  `fracoes-decimais.md`, `decimais.md` e `fracoes.md`, com feedback para
+  equivalências fração-decimal, décimas/centésimas/milésimas, comparação,
+  leitura posicional, reta numérica, contas com vírgula alinhada,
+  multiplicar por 10/100, arredondamento, troco, dízimas, frações
+  equivalentes, simplificação, denominador comum, soma de denominadores,
+  fração de uma quantidade e fração imprópria.
+- Próximo passo desta fase: procurar mais lições centrais sem `feedback` em
+  Matemática 5.º–6.º e Português, reutilizando as famílias de `tag` já criadas
+  (`problema-*`, `fracao-*`, `medidas-*`, `en-*`).
 
 ## Fase 3 — Plano adaptativo explicável
 
@@ -106,8 +149,10 @@ Estado:
   trabalho adiantado hoje, explicando que os próximos dias já foram ajustados.
 - Feito em 2026-06-14: a Área dos Pais mostra a mesma explicação curta no cartão
   do Plano de férias, indicando que a matéria adiantada saiu dos dias futuros.
-- Próximo passo desta fase: explicar também quando o plano puxa revisões por
-  erros recentes.
+- Feito em 2026-06-15: o plano diário e a Área dos Pais explicam quando uma
+  revisão foi puxada por erros recentes no banco de erros.
+- Próximo passo desta fase: guardar/mostrar mais motivos de adaptação além de
+  revisões e matéria adiantada, se surgirem no motor do plano.
 
 ## Fase 4 — Inglês com áudio bilingue completo
 
@@ -123,6 +168,21 @@ Construir:
 Critério de pronto:
 - "plane" é lido como inglês; "avião" como português.
 - As opções de quiz em Inglês também respeitam o idioma.
+
+Estado:
+- Feito em 2026-06-15: o `Speaker` expõe os tipos de fala mista e o Quiz
+  aceita `lang`/`optionLang` em perguntas e opções. Nas lições de Inglês, as
+  opções passam a ser lidas em inglês quando a pergunta pede resposta "em
+  inglês", e explicações do tipo `Book = livro` são lidas como sequência
+  bilingue.
+- Feito em 2026-06-15: snapshots do banco de erros preservam `lang` e
+  `optionLang`, e o ReviewRunner também lê perguntas/opções com áudio misto.
+- Feito em 2026-06-15: `Speaker` aceita `rate`, as partes de fala podem definir
+  ritmo próprio, e o Quiz mostra um botão "Devagar" nas perguntas de Inglês.
+- Feito em 2026-06-15: a inferência automática de opções em inglês cobre também
+  lacunas, perguntas em inglês, "Completa" e "How many", no Quiz e na revisão.
+- Próximo passo desta fase: aplicar `lang`/`optionLang` explicitamente às
+  perguntas de Inglês que não seguem os padrões automáticos.
 
 ## Fase 5 — Interação em vez de texto
 

@@ -2,6 +2,7 @@
 // Styles are exposed as a subpath: import "@sprout/ui/styles/tokens.css".
 
 export { speak, speakSequence, speakable, canSpeak, stop, subscribeSpeaking, speakingToken } from "./speak";
+export type { SpeechLang, SpeechOptions, SpeechPart } from "./speak";
 export { Speaker, useSpeaker } from "./Speaker";
 export type { SpeakerProps } from "./Speaker";
 

@@ -41,6 +41,12 @@ export interface Mission {
   done: boolean;
 }
 
+export interface PlanReason {
+  kind: "review";
+  text: string;
+  say: string;
+}
+
 /** The child's school year, inferred from where they actually work (mode of
  *  the school-subject lessons in history + achievements). Defaults to 1. */
 export function inferYear(history: string[], achievements: Achievement[]): YearN {
@@ -326,4 +332,18 @@ export function missionsForDay(
     if (l) push(mission("nova", l.id, `Lição nova: ${l.title}`, `${subject.label} — aprende e faz o teste.`, isDone(l.id)));
   }
   return [...priority, ...out];
+}
+
+/** Short, explainable reason for plan changes visible to child + parents.
+ *  Today this covers review-bank pulls; future reasons can join the same API. */
+export function planReasonForMissions(missions: Mission[]): PlanReason | null {
+  const review = missions.find((m) => m.kind === "rever" && !m.done);
+  if (!review) return null;
+  const title = review.title.replace(/^Corrigir os erros:\s*/, "").replace(/^Rever e repetir:\s*/, "");
+  const text = `O plano puxou revisão por erros recentes em «${title}».`;
+  return {
+    kind: "review",
+    text,
+    say: `${text} Primeiro vencemos estas perguntas, depois o plano continua.`,
+  };
 }

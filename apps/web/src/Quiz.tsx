@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Icon, type IconName } from "@sprout/icons";
-import { Speaker, Confetti, FractionFigure, stop as stopSpeech, type FractionFigureSpec } from "@sprout/ui";
+import { Speaker, Confetti, FractionFigure, stop as stopSpeech, type FractionFigureSpec, type SpeechLang, type SpeechPart } from "@sprout/ui";
 import { starsForPct, useLessonId, useProgress, TEST_PASS_PCT } from "./progress";
 import { lessonMeta } from "./content/curriculum";
 import { recordReviewAnswer } from "./study/review";
@@ -10,6 +10,8 @@ export interface QuizOption {
   t: string;
   emoji?: string;
   correct?: boolean;
+  /** Optional read-aloud language for this option, useful in English lessons. */
+  lang?: SpeechLang;
   /** Specific teaching message for this option, usually on common wrong picks. */
   feedback?: string;
   /** Optional error family for analytics/adaptive plans. */
@@ -24,6 +26,10 @@ export interface QuizGen {
 }
 export interface QuizQuestion {
   q?: string; // optional when `gen` builds the question
+  /** Optional read-aloud language for the question text. */
+  lang?: SpeechLang;
+  /** Optional default read-aloud language for all options. */
+  optionLang?: SpeechLang;
   emoji?: string;
   layout?: "grid" | "list";
   options?: QuizOption[]; // optional when `gen` builds the options
@@ -96,6 +102,47 @@ function resolveQuestion(raw: QuizQuestion, seed: number): QuizQuestion {
   // while the question is on screen and re-rolls on every retry.
   if (raw.options && raw.options.length > 1) return { ...raw, options: shuffle(raw.options, mulberry32(seed)) };
   return raw;
+}
+
+function englishOptionByQuestion(q: string | undefined): boolean {
+  if (!q) return false;
+  const text = q.trim();
+  const asksForEnglish =
+    /\b(Como se diz|Como dizes|Como perguntas|Como respondes|Que cor é|Que número é|Conta|Quantos|Como se escreve)\b.*\bem inglês\b/i.test(text) ||
+    /\bpara perguntar\b.*\bdizes\b/i.test(text) ||
+    /^Para dizer(?:es)?\b/i.test(text) ||
+    /^Como dizes\b/i.test(text) ||
+    /^Como respondes\b/i.test(text);
+  return (
+    asksForEnglish ||
+    /\bHow many\b/i.test(text) ||
+    /\bCompleta\b/i.test(text) ||
+    /_{2,}/.test(text) ||
+    /^(Where|Who|When|What|Which|How)\b/i.test(text)
+  );
+}
+
+function speechPartsForQuestion(question: QuizQuestion, options: QuizOption[], englishLesson: boolean): SpeechPart[] {
+  const parts: SpeechPart[] = [];
+  if (question.q) parts.push({ text: question.q, lang: question.lang ?? "pt-PT" });
+  if (options.length) parts.push({ text: "As opções são:", lang: "pt-PT" });
+  const inferredOptionLang: SpeechLang = englishLesson && englishOptionByQuestion(question.q) ? "en-US" : "pt-PT";
+  for (const opt of options) {
+    if (!opt.t) continue;
+    parts.push({ text: opt.t, lang: opt.lang ?? question.optionLang ?? inferredOptionLang });
+  }
+  return parts;
+}
+
+function speechPartsForFeedback(text: string, englishLesson: boolean): SpeechPart[] {
+  const trimmed = text.trim();
+  if (!englishLesson) return [{ text: trimmed, lang: "pt-PT" }];
+  const m = trimmed.match(/^([A-Za-z][A-Za-z\s!'?.-]*?)\s*=\s*(.+)$/);
+  if (!m) return [{ text: trimmed, lang: "pt-PT" }];
+  return [
+    { text: m[1], lang: "en-US" },
+    { text: `quer dizer ${m[2]}`, lang: "pt-PT" },
+  ];
 }
 export interface QuizSpec {
   id?: string;
@@ -214,8 +261,10 @@ export function Quiz({
         snapshot: question.q && question.options?.length
           ? {
               q: question.q,
+              lang: question.lang,
+              optionLang: question.optionLang,
               emoji: question.emoji,
-              options: question.options.map((o) => ({ t: o.t, emoji: o.emoji, correct: o.correct, feedback: o.feedback, tag: o.tag })),
+              options: question.options.map((o) => ({ t: o.t, emoji: o.emoji, correct: o.correct, lang: o.lang, feedback: o.feedback, tag: o.tag })),
               explain: question.explain,
               level: question.level ?? 2,
             }
@@ -317,12 +366,12 @@ export function Quiz({
   // Pre-reader mode (§4.10): when every option carries an emoji, prefer the
   // big tappable grid so a non-reader can answer by image alone.
   const meta = lessonMeta.get(lessonId);
+  const englishLesson = meta?.subjectId === "ingles";
   const preReader = !!meta && preReaderActive(meta.subjectId, meta.year);
   const grid = question.layout === "grid" || (preReader && options.length > 0 && options.every((o) => o.emoji));
   // Read-aloud of the question PLUS the options, for non-readers navigating by
   // keyboard or who need to hear the choices.
-  const optionsText = options.map((o) => o.t).filter(Boolean).join(", ");
-  const questionSpeech = optionsText ? `${question.q}. As opções são: ${optionsText}.` : question.q ?? "";
+  const questionSpeech = speechPartsForQuestion(question, options, englishLesson);
 
   // Help ladder (§4.5): each press unlocks the next rung — 1 pista (skipped
   // when the author wrote none) → 2 risca uma opção errada → 3 revela a
@@ -376,7 +425,12 @@ export function Quiz({
       <div className="question">
         {question.emoji && <span className="qemoji">{question.emoji}</span>}
         <span>{question.q}</span>
-        <Speaker text={questionSpeech} className="prose-speak" size={20} label="Ouvir a pergunta e as opções" />
+        <Speaker parts={questionSpeech} className="prose-speak" size={20} label="Ouvir a pergunta e as opções" />
+        {englishLesson && (
+          <Speaker parts={questionSpeech} className="quiz-slow-speak" size={16} rate={0.68} label="Ouvir devagar">
+            Devagar
+          </Speaker>
+        )}
       </div>
 
       {question.figure && (
@@ -439,7 +493,10 @@ export function Quiz({
             <Icon name={isCorrect ? "check" : "info"} size={20} />
             <span>{isCorrect ? "Certo!" : "Quase!"} {adaptiveFeedback ?? question.explain ?? ""}</span>
             <Speaker
-              text={`${isCorrect ? "Certo!" : "Quase!"} ${adaptiveFeedback ?? question.explain ?? ""}`}
+              parts={[
+                { text: isCorrect ? "Certo!" : "Quase!", lang: "pt-PT" },
+                ...speechPartsForFeedback(adaptiveFeedback ?? question.explain ?? "", englishLesson),
+              ]}
               className="prose-speak"
               size={20}
               label="Ouvir"

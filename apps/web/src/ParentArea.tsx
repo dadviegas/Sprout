@@ -20,7 +20,7 @@ import {
   DAY, startOfDay, isRestDay, aggregateByDay, aggregateSessionsByDay, minutesOf,
   sessionEngagement, ENGAGEMENT_LABEL, type DayAgg,
 } from "./study/calendar";
-import { missionsForDay } from "./study/plan";
+import { missionsForDay, planReasonForMissions, type PlanReason } from "./study/plan";
 import { useFeriasState, activePlan, feriasFullSchedule, feriasProgress, feriasStatusLine, planRecordLabel, type StudyPlan, type PlanRecord } from "./study/ferias";
 import { buildAlerts, paceOf, slowestTests } from "./study/alerts";
 import { usageStats, sessionsPerDay, sessionsByHour, hiddenSecsOf, sessionSegments } from "./study/usage";
@@ -308,6 +308,7 @@ function Dashboard() {
     () => missionsForDay(today, today, progress, achievements, history, Object.values(review), ferias, tpcs),
     [today, progress, achievements, history, review, ferias, tpcs],
   );
+  const todayPlanReason = useMemo(() => planReasonForMissions(todayMissions), [todayMissions]);
 
   return (
     <>
@@ -344,7 +345,7 @@ function Dashboard() {
         {tab === "estudo" && (
           <>
             <NextActionCard review={review} now={now} tpcs={tpcs} achievements={achievements} todayMissions={todayMissions} />
-            {ferias && <FeriasInfoCard plan={ferias} progress={progress} achievements={achievements} today={today} />}
+            {ferias && <FeriasInfoCard plan={ferias} progress={progress} achievements={achievements} today={today} reason={todayPlanReason} />}
             <DiagnosticoCard />
             <TpcCard tpcs={tpcs} achievements={achievements} today={today} planYear={ferias?.year ?? null} />
             <PlanAdherenceCard grade={grade} hasPlan={!!ferias} />
@@ -916,7 +917,19 @@ function parentAdvanceLine(plan: StudyPlan, progress: ProgressMap, achievements:
     : `Hoje foram feitas ${n} lições adiantadas. O plano já retirou essas lições dos dias futuros.`;
 }
 
-function FeriasInfoCard({ plan, progress, achievements, today }: { plan: StudyPlan; progress: ProgressMap; achievements: Achievement[]; today: number }) {
+function FeriasInfoCard({
+  plan,
+  progress,
+  achievements,
+  today,
+  reason,
+}: {
+  plan: StudyPlan;
+  progress: ProgressMap;
+  achievements: Achievement[];
+  today: number;
+  reason: PlanReason | null;
+}) {
   const p = feriasProgress(plan, progress, today);
   const advanceLine = useMemo(() => parentAdvanceLine(plan, progress, achievements, today), [plan, progress, achievements, today]);
   return (
@@ -924,6 +937,7 @@ function FeriasInfoCard({ plan, progress, achievements, today }: { plan: StudyPl
       <CardHead icon="sun" title="Plano de férias" aside={yearLabel(plan.year)} />
       <p className="parent-plan__extra">{feriasStatusLine(p)}.</p>
       {advanceLine && <p className="parent-plan__extra parent-plan__extra--good">{advanceLine}</p>}
+      {reason && <p className="parent-plan__extra parent-plan__extra--review">{reason.text} A revisão curta fica antes da matéria nova.</p>}
       <p className="parent-plan__extra">
         {p.finishAt
           ? `Fim previsto: ${new Date(p.finishAt).toLocaleDateString("pt-PT", { day: "numeric", month: "long" })}.`

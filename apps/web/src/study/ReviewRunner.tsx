@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { CSSProperties } from "react";
 import { Icon, SUBJECT_ICONS, type IconName } from "@sprout/icons";
-import { Speaker } from "@sprout/ui";
+import { Speaker, type SpeechLang, type SpeechPart } from "@sprout/ui";
 import { findLesson, lessonMeta, subjectById, type YearN } from "../content/curriculum";
 import type { View } from "../nav";
 import { findQuizQuestion } from "../quiz-content";
@@ -80,8 +80,10 @@ function resolveDueQuestions(items: ReviewItem[]): ReviewQuestion[] {
     if (found?.question.q && found.question.options?.length) {
       liveQuestion = {
         q: found.question.q,
+        lang: found.question.lang,
+        optionLang: found.question.optionLang,
         emoji: found.question.emoji,
-            options: found.question.options.map((o) => ({ t: o.t, emoji: o.emoji, correct: o.correct, feedback: o.feedback, tag: o.tag })),
+        options: found.question.options.map((o) => ({ t: o.t, emoji: o.emoji, correct: o.correct, lang: o.lang, feedback: o.feedback, tag: o.tag })),
         explain: found.question.explain,
         level: found.question.level,
       };
@@ -99,6 +101,35 @@ function resolveDueQuestions(items: ReviewItem[]): ReviewQuestion[] {
     });
   }
   return out;
+}
+
+function englishOptionByQuestion(q: string | undefined): boolean {
+  if (!q) return false;
+  const text = q.trim();
+  const asksForEnglish =
+    /\b(Como se diz|Como dizes|Como perguntas|Como respondes|Que cor é|Que número é|Conta|Quantos|Como se escreve)\b.*\bem inglês\b/i.test(text) ||
+    /\bpara perguntar\b.*\bdizes\b/i.test(text) ||
+    /^Para dizer(?:es)?\b/i.test(text) ||
+    /^Como dizes\b/i.test(text) ||
+    /^Como respondes\b/i.test(text);
+  return (
+    asksForEnglish ||
+    /\bHow many\b/i.test(text) ||
+    /\bCompleta\b/i.test(text) ||
+    /_{2,}/.test(text) ||
+    /^(Where|Who|When|What|Which|How)\b/i.test(text)
+  );
+}
+
+function speechPartsForReview(question: ReviewQuestionSnapshot, englishLesson: boolean): SpeechPart[] {
+  const parts: SpeechPart[] = [{ text: question.q, lang: question.lang ?? "pt-PT" }];
+  if (question.options.length) parts.push({ text: "As opções são:", lang: "pt-PT" });
+  const inferredOptionLang: SpeechLang = englishLesson && englishOptionByQuestion(question.q) ? "en-US" : "pt-PT";
+  for (const opt of question.options) {
+    if (!opt.t) continue;
+    parts.push({ text: opt.t, lang: opt.lang ?? question.optionLang ?? inferredOptionLang });
+  }
+  return parts;
 }
 
 export function ReviewRunner({ onGo }: { onGo: (view: View) => void }) {
@@ -207,13 +238,14 @@ export function ReviewRunner({ onGo }: { onGo: (view: View) => void }) {
           </div>
           {(() => {
             const result = answered[current.item.id];
+            const englishLesson = current.item.subjectId === "ingles";
             return (
               <article className={`review-question ${result ? (result.correct ? "is-ok" : "is-no") : ""}`} key={current.item.id}>
                 <div className="review-question__head">
                   <span>{current.subjectTitle}</span>
                   <strong>{current.title}</strong>
                   {current.fromSnapshot && <em>guardada</em>}
-                  <Speaker text={`${current.question.q}. ${current.question.options.map((o) => o.t).join(". ")}`} className="review-question__say" size={17} />
+                  <Speaker parts={speechPartsForReview(current.question, englishLesson)} className="review-question__say" size={17} />
                 </div>
                 <p className="review-question__q">{current.question.q}</p>
                 <div className="review-question__options">

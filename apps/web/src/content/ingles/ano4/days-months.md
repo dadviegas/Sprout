@@ -267,7 +267,7 @@ Imagina que o teu amigo inglês pergunta: *«When is your birthday?»* (Quando �
       "options": [ { "t": "dezembro", "emoji": "🎄", "correct": true }, { "t": "março" }, { "t": "agosto" } ],
       "explain": "December = dezembro, o mês do Natal." },
     { "q": "Em inglês, escreve-se 'Friday' ou 'friday'?", "layout": "grid",
-      "options": [ { "t": "Friday (com maiúscula)", "correct": true }, { "t": "friday (com letra pequena)" } ],
+      "options": [ { "t": "Friday", "correct": true }, { "t": "friday" } ],
       "explain": "Em inglês os dias começam sempre por maiúscula." },
     { "q": "'Saturday' e 'Sunday' formam o...", "layout": "grid",
       "options": [ { "t": "weekend (fim de semana)", "emoji": "🥳", "correct": true }, { "t": "weekday (dia de escola)" } ],

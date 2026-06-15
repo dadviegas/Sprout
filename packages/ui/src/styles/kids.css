@@ -441,9 +441,27 @@
 .quiz .question {
   font-family: var(--font-display); font-weight: 700;
   font-size: 1.3em; line-height: 1.3; margin: 6px 0 4px;
-  display: flex; gap: 10px; align-items: flex-start;
+  display: flex; gap: 10px; align-items: flex-start; flex-wrap: wrap;
 }
 .quiz .qemoji { font-size: 1.6em; line-height: 1; }
+.quiz-slow-speak {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 30px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--primary) 35%, var(--border));
+  background: color-mix(in srgb, var(--primary) 10%, var(--surface));
+  color: var(--primary);
+  cursor: pointer;
+  font: 800 .72rem/1 var(--font-display);
+  transition: transform .12s, background .12s;
+}
+.quiz-slow-speak:hover { transform: translateY(-1px); background: var(--primary); color: #fff; }
+.quiz-slow-speak:active { transform: scale(.96); }
+.quiz-slow-speak[data-playing] { background: var(--primary); color: #fff; }
 .quiz .options {
   display: grid; gap: 12px; margin-top: 16px;
   grid-template-columns: 1fr;
@@ -3678,6 +3696,11 @@ button.hm-cell:hover { transform: scale(1.18); }
   border: 1px solid color-mix(in srgb, var(--good) 35%, var(--border));
   font-weight: 800;
 }
+.plan-ferias__head .plan-ferias__adapt.is-review {
+  background: color-mix(in srgb, var(--primary) 12%, var(--surface));
+  color: var(--primary);
+  border-color: color-mix(in srgb, var(--primary) 35%, var(--border));
+}
 .plan-ferias__say { position: absolute; top: 12px; right: 12px; }
 .plan-ferias__years { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .plan-ferias__year {
@@ -3718,6 +3741,24 @@ button.hm-cell:hover { transform: scale(1.18); }
 .plan-history__t { display: inline-flex; align-items: center; gap: 6px; font-weight: 800; font-size: .8em; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
 .plan-history ul { margin: 6px 0 0; padding: 0; list-style: none; display: grid; gap: 4px; }
 .plan-history li { font-weight: 600; font-size: .9em; color: var(--ink-2); }
+
+.plan-reason {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 6px;
+  padding: 9px 46px 9px 12px;
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--primary) 10%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--primary) 32%, var(--border));
+  color: var(--ink);
+  font-size: .88em;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.plan-reason > svg { flex-shrink: 0; color: var(--primary); }
+.plan-reason__say { position: absolute; top: 50%; right: 8px; transform: translateY(-50%); }
 
 /* The nota banner inside the exame modal (0–20, tiered message). */
 .exame-nota {
@@ -3947,6 +3988,14 @@ button.hm-cell:hover { transform: scale(1.18); }
   color: var(--good);
   background: color-mix(in srgb, var(--good) 10%, var(--surface));
   border: 1px solid color-mix(in srgb, var(--good) 32%, var(--border));
+  font-weight: 800;
+}
+.parent-plan__extra--review {
+  padding: 7px 9px;
+  border-radius: 10px;
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 10%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--primary) 32%, var(--border));
   font-weight: 800;
 }
 

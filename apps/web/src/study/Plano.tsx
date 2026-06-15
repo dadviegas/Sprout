@@ -13,7 +13,7 @@ import {
   minutesOf,
   GOOD_DAY_SECS,
 } from "./calendar";
-import { missionsForDay, DAILY_TARGET_MINUTES, type Mission } from "./plan";
+import { missionsForDay, planReasonForMissions, DAILY_TARGET_MINUTES, type Mission, type PlanReason } from "./plan";
 import {
   useFeriasState,
   activePlan,
@@ -245,12 +245,14 @@ function FeriasStrip({
   onEnd,
   onSwitch,
   onFull,
+  reason,
 }: {
   plan: StudyPlan;
   plans: Partial<Record<YearN, StudyPlan>>;
   progress: ProgressMap;
   achievements: Achievement[];
   today: number;
+  reason: PlanReason | null;
   onEnd: () => void;
   onSwitch: (year: YearN) => void;
   onFull: () => void;
@@ -270,10 +272,11 @@ function FeriasStrip({
           <strong>Plano de férias · {yearLabel(plan.year)}</strong>
           <p>{line}. {finish}</p>
           {advanceLine && <p className="plan-ferias__adapt">{advanceLine}</p>}
+          {reason && <p className={`plan-ferias__adapt is-${reason.kind}`}>{reason.text}</p>}
         </div>
       </div>
       <Speaker
-        text={`Plano de férias do ${yearLabel(plan.year)}. ${line}. ${finish} ${advanceLine ?? ""}`}
+        text={`Plano de férias do ${yearLabel(plan.year)}. ${line}. ${finish} ${advanceLine ?? ""} ${reason?.say ?? ""}`}
         className="plan-ferias__say"
         size={18}
         label="Ouvir: plano de férias"
@@ -539,6 +542,7 @@ export function Plano({ onGo }: { onGo: (v: View) => void }) {
     () => missionsForDay(today, today, progress, achievements, history, reviewItems, ferias, tpcs),
     [today, progress, achievements, history, reviewItems, ferias, tpcs],
   );
+  const planReason = useMemo(() => planReasonForMissions(missions), [missions]);
   const doneCount = missions.filter((m) => m.done).length;
   const minutesToday = minutesOf(aggregateSessionsByDay(sessions).get(today));
 
@@ -586,6 +590,7 @@ export function Plano({ onGo }: { onGo: (v: View) => void }) {
           progress={progress}
           achievements={achievements}
           today={today}
+          reason={planReason}
           onEnd={() => archiveFeriasPlan(progress)}
           onSwitch={(y) => startFeriasPlan(y)}
           onFull={() => onGo({ kind: "plano-completo" })}
@@ -618,6 +623,13 @@ export function Plano({ onGo }: { onGo: (v: View) => void }) {
             <ProgressBar pct={Math.min(1, minutesToday / DAILY_TARGET_MINUTES)} color="var(--primary)" />
             <span>{minutesToday} de {DAILY_TARGET_MINUTES} min de estudo</span>
           </div>
+          {planReason && (
+            <div className={`plan-reason is-${planReason.kind}`}>
+              <Icon name="target" size={16} />
+              <span>{planReason.text} Primeiro vencemos estas perguntas, depois o plano continua.</span>
+              <Speaker text={planReason.say} className="plan-reason__say" size={16} label="Ouvir: motivo do plano" />
+            </div>
+          )}
           <MissionCards missions={missions} onGo={onGo} />
           <ReviewBankCard due={due} onGo={onGo} />
         </>

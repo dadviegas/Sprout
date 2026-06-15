@@ -104,7 +104,10 @@ Estado:
   concluída.
 - Feito em 2026-06-14: o topo do plano mostra uma frase curta quando houve
   trabalho adiantado hoje, explicando que os próximos dias já foram ajustados.
-- Próximo passo desta fase: levar a mesma explicação curta para a Área dos Pais.
+- Feito em 2026-06-14: a Área dos Pais mostra a mesma explicação curta no cartão
+  do Plano de férias, indicando que a matéria adiantada saiu dos dias futuros.
+- Próximo passo desta fase: explicar também quando o plano puxa revisões por
+  erros recentes.
 
 ## Fase 4 — Inglês com áudio bilingue completo
 

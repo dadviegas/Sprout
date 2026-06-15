@@ -3941,6 +3941,14 @@ button.hm-cell:hover { transform: scale(1.18); }
 .parent-mission__tx small { color: var(--ink-3); line-height: 1.25; }
 .parent-mission__lbl { font-size: .72rem; font-weight: 700; color: var(--ink-3); }
 .parent-plan__extra { margin: 8px 0 0; font-size: .78rem; color: var(--ink-3); }
+.parent-plan__extra--good {
+  padding: 7px 9px;
+  border-radius: 10px;
+  color: var(--good);
+  background: color-mix(in srgb, var(--good) 10%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--good) 32%, var(--border));
+  font-weight: 800;
+}
 
 /* Time-based difficulty chip on a test row. */
 .parent-pace { font-size: .68rem; font-weight: 700; padding: 1px 7px; border-radius: 999px; white-space: nowrap; }

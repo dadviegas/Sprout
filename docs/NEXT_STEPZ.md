@@ -128,9 +128,16 @@ Estado:
   conjugação, tempo, pessoa e modo verbal, pretérito perfeito/imperfeito,
   sujeito vs predicado, complemento direto/indireto, sujeito subentendido e
   frases impessoais.
-- Próximo passo desta fase: procurar mais lições centrais sem `feedback` em
-  Matemática 5.º–6.º e Português 6.º, reutilizando as famílias de `tag` já
-  criadas (`problema-*`, `fracao-*`, `medidas-*`, `en-*`, `pt-*`).
+- Feito em 2026-06-19: Português 6.º ano — `classes.md` (Classes de palavras II),
+  com feedback nas duas listas (prática + final) para determinante vs pronome,
+  preposição vs conjunção, subtipos de determinante (artigo/demonstrativo/
+  possessivo), variável/invariável e contrações. Reutiliza as famílias do 5.º
+  (`pt-pronome-determinante`, `pt-conjuncao-preposicao`, `pt-variavel-invariavel`,
+  `pt-classe-*`) e acrescenta `pt-determinante-tipo` e `pt-contracao`.
+- Próximo passo desta fase: continuar em Português 6.º (`verbos.md` ainda sem
+  `feedback`) e procurar lições centrais sem `feedback` em Matemática 5.º–6.º,
+  reutilizando as famílias de `tag` já criadas (`problema-*`, `fracao-*`,
+  `medidas-*`, `en-*`, `pt-*`).
 
 ## Fase 3 — Plano adaptativo explicável
 

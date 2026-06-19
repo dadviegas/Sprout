@@ -1,8 +1,8 @@
 import { subjectById, findLesson, type YearN } from "./content/curriculum";
 import { store } from "./storage";
 
-/** The three rooms of the playful "Diversão" area (grade-less, just for fun). */
-export type DiversaoRoom = "jardim" | "jogos" | "caixa";
+/** The playful "Diversão" rooms (grade-less, just for fun). */
+export type DiversaoRoom = "jardim" | "afterimage" | "jogos" | "caixa";
 
 /** Top-level home areas. The home is a grid of these; each opens a page that
  *  groups what used to be loose home sections (see HOME_AREAS_COMMAND_CENTER). */
@@ -61,7 +61,7 @@ export function loadView(): View {
     if (v.kind === "review") return { kind: "review" };
     if (v.kind === "pais") return { kind: "pais" };
     if (v.kind === "diversao") {
-      const room = v.room === "jardim" || v.room === "jogos" || v.room === "caixa" ? v.room : undefined;
+      const room = v.room === "jardim" || v.room === "afterimage" || v.room === "jogos" || v.room === "caixa" ? v.room : undefined;
       return room ? { kind: "diversao", room } : { kind: "diversao" };
     }
     if (v.kind === "year" && isYear(v.year)) return { kind: "year", year: v.year };
@@ -88,7 +88,7 @@ export function loadView(): View {
  * and opened directly (e.g. `#/ano/3/mat/folha-calculo`). The hash is the URL
  * representation of a View; storage still keeps the last view as a fallback. */
 
-const ROOM_VALUES: DiversaoRoom[] = ["jardim", "jogos", "caixa"];
+const ROOM_VALUES: DiversaoRoom[] = ["jardim", "afterimage", "jogos", "caixa"];
 
 /** Serialize a View to a shareable URL hash (always starts with `#/`). */
 export function viewToHash(view: View): string {

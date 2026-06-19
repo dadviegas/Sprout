@@ -9,6 +9,7 @@ import type { DiversaoRoom } from "../nav";
  * on demand (Diversão itself is already lazy-loaded from App.tsx). */
 
 const Jardim = lazy(() => import("./Jardim").then((m) => ({ default: m.Jardim })));
+const AfterimageGarden = lazy(() => import("./AfterimageGarden").then((m) => ({ default: m.AfterimageGarden })));
 const Jogos = lazy(() => import("./Jogos").then((m) => ({ default: m.Jogos })));
 const CaixaDeBrincar = lazy(() => import("./CaixaDeBrincar").then((m) => ({ default: m.CaixaDeBrincar })));
 
@@ -58,6 +59,23 @@ const ART_JOGOS = (
   </g>
 );
 
+// Afterimage Garden — soft coloured splats forming a bridge over water.
+const ART_AFTERIMAGE = (
+  <g>
+    <rect x="5" y="30" width="38" height="10" rx="5" fill="#69c7d4" opacity="0.55" />
+    <path d="M9 30c6-8 24-8 30 0" fill="none" style={{ stroke: "var(--c)" }} strokeWidth="4" strokeLinecap="round" />
+    <g opacity="0.92">
+      <circle cx="12" cy="18" r="4.8" fill="#ffcf5a" />
+      <circle cx="19" cy="14" r="3.9" fill="#f47a8f" />
+      <circle cx="27" cy="17" r="5.4" style={{ fill: "var(--c)" }} />
+      <circle cx="35" cy="21" r="4.1" fill="#3fbf9b" />
+      <circle cx="22" cy="25" r="3.4" fill="#ffffff" opacity="0.9" />
+    </g>
+    {sparkle(40, 10, 0.16, "#ffffff")}
+    {sparkle(8, 12, 0.14, "#ffce3a")}
+  </g>
+);
+
 // Caixa de brincar — an open toy box with colourful balls bouncing out.
 const ART_CAIXA = (
   <g>
@@ -75,6 +93,7 @@ const ART_CAIXA = (
 // config (site.config.yaml), so the hub and the home cards stay one source.
 const ROOM_ART: Record<DiversaoRoom, ReactNode> = {
   jardim: ART_JARDIM,
+  afterimage: ART_AFTERIMAGE,
   jogos: ART_JOGOS,
   caixa: ART_CAIXA,
 };
@@ -90,6 +109,7 @@ export function Diversao({
     return (
       <Suspense fallback={<div className="lesson-loading">A preparar…</div>}>
         {room === "jardim" && <Jardim />}
+        {room === "afterimage" && <AfterimageGarden />}
         {room === "jogos" && <Jogos />}
         {room === "caixa" && <CaixaDeBrincar />}
       </Suspense>
@@ -104,7 +124,7 @@ function DiversaoHub({ onOpenRoom }: { onOpenRoom: (room: DiversaoRoom) => void 
   return (
     <div>
       <Mascot
-        message="Bem-vindo à Diversão! Escolhe: o teu jardim, os jogos ou a caixa de brincar."
+        message="Bem-vindo à Diversão! Escolhe: o teu jardim, o jogo dos splats, os jogos ou a caixa de brincar."
         mood="cheer"
       />
       <div className="dv-rooms">

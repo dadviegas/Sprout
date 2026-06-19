@@ -104,6 +104,11 @@ diversao:
       blurb: "Cada lição que acabas faz crescer uma planta nova."
       icon: plant
       accent: "--primary"
+    - id: afterimage
+      label: Afterimage Garden
+      blurb: "Roda a vista, foca os splats e descobre memórias escondidas."
+      icon: sparkle
+      accent: "--subj-ev"
     - id: jogos
       label: Jogos
       blurb: "Memória, apanha e conta — joga e aprende."

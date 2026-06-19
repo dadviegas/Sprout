@@ -372,6 +372,135 @@
   cursor: grabbing;
 }
 
+/* ---- Afterimage Garden — a WebGL "diet splats" perception game ---- */
+.ag-room {
+  --ag-ink: #eef8ee;
+}
+.ag-toolbar {
+  align-items: stretch;
+}
+.ag-focus {
+  background: linear-gradient(180deg, #f3b454, #e96f72);
+  border-color: rgba(233, 111, 114, 0.75);
+  color: #fff;
+}
+.ag-focus.is-active {
+  color: #fff;
+  background: linear-gradient(180deg, #f8d67a, #ea6f8a);
+  border-color: #ffd86d;
+  box-shadow: 0 0 0 3px rgba(255, 216, 109, 0.24);
+}
+.ag-readout {
+  min-height: 46px;
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: min(360px, 100%);
+  padding: 0 14px;
+  border: 1px solid color-mix(in srgb, var(--subj-ev) 45%, var(--border));
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--subj-ev-soft) 45%, var(--surface));
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 750;
+}
+.ag-readout span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ag-readout strong {
+  color: var(--subj-ev);
+  font-size: 1.15rem;
+}
+.ag-stage {
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(circle at 30% 18%, rgba(255, 197, 90, 0.22), transparent 28%),
+    radial-gradient(circle at 78% 22%, rgba(72, 193, 164, 0.18), transparent 30%),
+    linear-gradient(180deg, #14242b, #0a1118 72%);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+.ag-canvas {
+  height: clamp(420px, 72vh, 820px);
+  border-color: color-mix(in srgb, var(--subj-ev) 50%, rgba(255, 255, 255, 0.18));
+  background: #0d171d;
+  cursor: grab;
+}
+.ag-canvas:active {
+  cursor: grabbing;
+}
+.ag-start {
+  background:
+    linear-gradient(180deg, rgba(7, 12, 18, 0.32), rgba(7, 12, 18, 0.72)),
+    radial-gradient(circle at 50% 34%, rgba(244, 190, 96, 0.28), transparent 34%);
+  backdrop-filter: blur(3px);
+}
+.ag-start .dv-overlay__sub {
+  max-width: 48ch;
+}
+.ag-complete {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transform: translateX(-50%);
+  padding: 10px 14px;
+  border-radius: 999px;
+  color: #1b2430;
+  background: rgba(255, 238, 169, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  box-shadow: var(--shadow-md);
+  font-family: var(--font-display);
+  font-weight: 800;
+  pointer-events: none;
+}
+.ag-progress {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.ag-mark {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink-2);
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  font-weight: 750;
+}
+.ag-mark.is-active {
+  border-color: var(--subj-ev);
+  color: var(--subj-ev);
+  background: var(--subj-ev-soft);
+}
+.ag-mark.is-solved {
+  border-color: #42ad80;
+  color: #19724f;
+  background: rgba(91, 207, 151, 0.18);
+}
+@media (max-width: 680px) {
+  .ag-readout {
+    order: 10;
+    width: 100%;
+    margin-left: 0;
+  }
+  .ag-canvas {
+    height: min(68vh, 620px);
+  }
+}
+
 .dv-hint {
   color: var(--ink-2);
   text-align: center;

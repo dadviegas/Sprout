@@ -72,7 +72,7 @@ export interface SiteConfig {
   diversao: {
     sectionTitle: string;
     sectionSub: string;
-    rooms: { id: "jardim" | "jogos" | "caixa"; label: string; blurb: string; icon: string; accent: string }[];
+    rooms: { id: "jardim" | "afterimage" | "jogos" | "caixa"; label: string; blurb: string; icon: string; accent: string }[];
   };
   /** "O Dicionário" — cross-cutting reference area copy (word meanings by letter). */
   dicionario: {

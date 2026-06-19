@@ -7,12 +7,13 @@ import { viewToHash } from "../nav";
 import { fitCanvas, pointerPos, prefersReducedMotion, cssVar } from "./canvas";
 import { supportsDrawElement, drawHtmlInto } from "./canvas-html";
 
-/* O teu jardim — a hillside that grows with the child's real progress: one plant
- * for every lesson finished. Easier lessons sprout as flowers and the harder
- * goals (4.º ano and up) grow into trees, so a glance shows how far the child has
- * climbed. The garden is a mountain slope, so it has room for hundreds of plants:
- * they lay out in receding rows — big and spaced in front, small and dense up the
- * hill toward the peaks. Every lesson gets its own shape (7 flowers, 3 trees) so
+/* O teu jardim — a moonlit learning garden that grows with the child's real
+ * progress: one plant for every lesson finished. Easier lessons sprout as
+ * flowers and the harder goals (4.º ano and up) grow into trees, so a glance
+ * shows how far the child has climbed. The garden starts as a composed little
+ * place (beds, path, shrubs and a fence) and then expands into receding rows as
+ * more lessons arrive, so it still looks intentional with one or two plants and
+ * has room for hundreds later. Every lesson gets its own shape (7 flowers, 3 trees) so
  * the slope is varied, not a field of clones; the colour comes from the subject,
  * so areas still read as colour families. Plants sway, butterflies flutter and
  * clouds drift (unless reduced-motion); tapping a plant reads aloud which lesson
@@ -238,8 +239,8 @@ export function Jardim() {
         <Speaker
           text={
             empty
-              ? "Este é o teu jardim na montanha. Acaba uma lição e nasce a tua primeira flor! Depois, toca numa flor para a ouvires."
-              : `O teu jardim tem ${plants.length} ${plants.length === 1 ? "planta" : "plantas"} na encosta. Toca numa flor ou árvore para saberes que lição plantaste.`
+              ? "Este é o teu jardim. Acaba uma lição e nasce a tua primeira flor! Depois, toca numa flor para a ouvires."
+              : `O teu jardim tem ${plants.length} ${plants.length === 1 ? "planta" : "plantas"}. Toca numa flor ou árvore para saberes que lição plantaste.`
           }
           className="dv-tool"
           label="Ouvir sobre o jardim"
@@ -264,7 +265,7 @@ export function Jardim() {
       )}
 
       <div className="dv-garden">
-        <canvas ref={canvasRef} className="dv-canvas dv-canvas--garden" aria-label="O teu jardim na montanha — uma planta por cada lição que acabaste">
+        <canvas ref={canvasRef} className="dv-canvas dv-canvas--garden" aria-label="O teu jardim — uma planta por cada lição que acabaste">
           {/* Progressive enhancement only (HTML-in-Canvas, Chrome+flag). Invisible
               in every normal browser; drawn into the scene where the API exists. */}
           {hasHtmlCanvas && (
@@ -284,7 +285,7 @@ export function Jardim() {
 
       <p className="dv-hint">
         {empty
-          ? "Cada lição que acabas nasce na encosta — uma flor, ou uma árvore se for difícil."
+          ? "Cada lição que acabas nasce no jardim — uma flor, ou uma árvore se for difícil."
           : "Toca numa flor ou árvore para ouvires que lição plantaste. Rega para soprar o vento!"}
       </p>
 
@@ -369,16 +370,13 @@ function drawGarden(
   ctx.fillStyle = sky;
   ctx.fillRect(0, 0, w, h);
 
-  const hillTop = h * 0.45;
-  if (dark) drawStars(ctx, w, hillTop, time);
+  const gardenTop = h * 0.42;
+  if (dark) drawStars(ctx, w, gardenTop, time);
   if (dark) drawMoon(ctx, w - 56, 58);
   else drawSun(ctx, w - 54, 54, time, sunCol);
   drawClouds(ctx, w, time, dark ? "rgba(255,255,255,0.10)" : "rgba(255,255,255,0.72)");
 
-  // Layered mountain ridges (far, hazy → near, tall and snow-capped), then the
-  // grassy hill they sit behind.
-  drawMountains(ctx, w, hillTop, h, peakCol, skyTop, dark ? "rgba(226,232,248,0.95)" : "#ffffff");
-  drawHill(ctx, w, h, hillTop, green, skyBottom);
+  drawGardenScenery(ctx, w, h, gardenTop, peakCol, green, soilCol, skyTop, skyBottom, dark ? "rgba(226,232,248,0.95)" : "#ffffff");
 
   // Plants, laid out across the receding slope and drawn back-to-front.
   const spots: Spot[] = [];
@@ -398,7 +396,7 @@ function drawGarden(
     spots.push({ ...spot, i: pl.i });
   }
 
-  drawButterflies(ctx, w, hillTop, time, sunCol, resolveColor(canvas, "var(--joy)"));
+  drawButterflies(ctx, w, gardenTop, time, sunCol, resolveColor(canvas, "var(--joy)"));
   if (gust > 0) drawWindPetals(ctx, w, h, age, gust);
 
   // Progressive enhancement: draw the live HTML plaque (no-op where unsupported).
@@ -412,8 +410,31 @@ function drawGarden(
  * (no per-frame jitter) and every plant is placed, however many there are. */
 function computeLayout(w: number, h: number, n: number): Placement[] {
   if (n <= 0) return [];
+  if (n <= 10) {
+    const beds: [number, number, number][] = [
+      [0.5, 0.78, 1.35],
+      [0.36, 0.8, 1.16],
+      [0.64, 0.8, 1.16],
+      [0.22, 0.72, 0.95],
+      [0.78, 0.72, 0.95],
+      [0.5, 0.66, 0.86],
+      [0.16, 0.86, 1.02],
+      [0.84, 0.86, 1.02],
+      [0.32, 0.64, 0.78],
+      [0.68, 0.64, 0.78],
+    ];
+    return Array.from({ length: n }, (_, i) => {
+      const [fx, fy, scale] = beds[i];
+      return {
+        i,
+        x: w * fx + (hash01(i, 41) - 0.5) * 18 * scale,
+        y: h * fy + (hash01(i, 42) - 0.5) * 10 * scale,
+        scale,
+      };
+    }).sort((a, b) => b.y - a.y);
+  }
   const frontY = h * 0.95;
-  const backY = h * 0.49;
+  const backY = h * 0.56;
   const rows = Math.min(14, Math.max(1, Math.ceil(Math.sqrt(n * 0.6))));
 
   // Heavier weight toward the back, so distant rows hold more (small) plants.
@@ -614,6 +635,170 @@ function drawMoon(ctx: CanvasRenderingContext2D, x: number, y: number) {
   ctx.restore();
 }
 
+function drawGardenScenery(
+  ctx: CanvasRenderingContext2D,
+  w: number,
+  h: number,
+  gardenTop: number,
+  peakCol: string,
+  green: string,
+  soilCol: string,
+  skyTop: string,
+  skyBottom: string,
+  snowCol: string,
+) {
+  // Keep a distant fairytale ridge for depth, but make the reward read as a
+  // garden first: low horizon, beds, path, fence and layered grass.
+  drawMountains(ctx, w, gardenTop + h * 0.05, h, mix(peakCol, skyTop, 0.26), skyTop, snowCol);
+
+  const horizon = gardenTop + h * 0.11;
+  const grass = ctx.createLinearGradient(0, horizon, 0, h);
+  grass.addColorStop(0, mix(green, skyBottom, 0.2));
+  grass.addColorStop(0.62, green);
+  grass.addColorStop(1, mix(green, "#ffffff", 0.16));
+  ctx.fillStyle = grass;
+  ctx.beginPath();
+  ctx.moveTo(0, horizon + 10);
+  ctx.bezierCurveTo(w * 0.22, horizon - 8, w * 0.62, horizon + 24, w, horizon + 2);
+  ctx.lineTo(w, h);
+  ctx.lineTo(0, h);
+  ctx.closePath();
+  ctx.fill();
+
+  drawFence(ctx, w, horizon + 18, mix(soilCol, "#ffffff", 0.18));
+  drawGardenPath(ctx, w, h, horizon, mix(soilCol, "#ffffff", 0.28));
+  drawGardenBeds(ctx, w, h, horizon, soilCol, green);
+  drawGrassTexture(ctx, w, h, horizon, green);
+  drawGardenDecor(ctx, w, h, horizon, green, soilCol);
+}
+
+function drawFence(ctx: CanvasRenderingContext2D, w: number, y: number, col: string) {
+  ctx.save();
+  ctx.globalAlpha = 0.42;
+  ctx.strokeStyle = col;
+  ctx.lineWidth = 4;
+  ctx.lineCap = "round";
+  for (let rail = 0; rail < 2; rail++) {
+    ctx.beginPath();
+    ctx.moveTo(0, y + rail * 22);
+    ctx.lineTo(w, y + rail * 22);
+    ctx.stroke();
+  }
+  ctx.fillStyle = col;
+  for (let x = 16; x < w; x += 44) {
+    ctx.beginPath();
+    ctx.roundRect(x - 4, y - 22, 8, 62, 3);
+    ctx.fill();
+  }
+  ctx.restore();
+}
+
+function drawGardenPath(ctx: CanvasRenderingContext2D, w: number, h: number, horizon: number, col: string) {
+  ctx.save();
+  const path = ctx.createLinearGradient(0, horizon, 0, h);
+  path.addColorStop(0, mix(col, "#ffffff", 0.15));
+  path.addColorStop(1, mix(col, "#000000", 0.12));
+  ctx.fillStyle = path;
+  ctx.beginPath();
+  ctx.moveTo(w * 0.46, horizon + 28);
+  ctx.bezierCurveTo(w * 0.42, h * 0.62, w * 0.36, h * 0.78, w * 0.28, h);
+  ctx.lineTo(w * 0.7, h);
+  ctx.bezierCurveTo(w * 0.58, h * 0.78, w * 0.55, h * 0.62, w * 0.54, horizon + 28);
+  ctx.closePath();
+  ctx.fill();
+  ctx.globalAlpha = 0.14;
+  ctx.strokeStyle = "#ffffff";
+  ctx.lineWidth = 2;
+  for (let i = 0; i < 8; i++) {
+    const yy = horizon + 70 + i * 54;
+    ctx.beginPath();
+    ctx.ellipse(w * 0.5 + Math.sin(i) * 12, yy, 28 + i * 7, 7 + i * 0.6, -0.08, 0, TAU);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function drawGardenBeds(ctx: CanvasRenderingContext2D, w: number, h: number, horizon: number, soilCol: string, green: string) {
+  const beds: [number, number, number, number, number][] = [
+    [w * 0.25, h * 0.78, w * 0.24, h * 0.08, -0.12],
+    [w * 0.75, h * 0.78, w * 0.24, h * 0.08, 0.12],
+    [w * 0.5, h * 0.66, w * 0.2, h * 0.055, 0],
+    [w * 0.18, h * 0.9, w * 0.2, h * 0.06, 0.1],
+    [w * 0.82, h * 0.9, w * 0.2, h * 0.06, -0.1],
+  ];
+  for (const [x, y, rx, ry, rot] of beds) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(rot);
+    ctx.fillStyle = mix(soilCol, "#000000", 0.08);
+    ctx.beginPath();
+    ctx.ellipse(0, 0, rx, ry, 0, 0, TAU);
+    ctx.fill();
+    ctx.strokeStyle = "rgba(255,255,255,0.16)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, rx * 0.92, ry * 0.72, 0, 0, TAU);
+    ctx.stroke();
+    ctx.fillStyle = mix(green, "#ffffff", 0.12);
+    for (let i = 0; i < 18; i++) {
+      const a = hash01(i + Math.round(x), 71) * TAU;
+      const rr = Math.sqrt(hash01(i + Math.round(y), 72));
+      dot(ctx, Math.cos(a) * rx * 0.78 * rr, Math.sin(a) * ry * 0.6 * rr, 2.1 + hash01(i, 73) * 2, ctx.fillStyle as string);
+    }
+    ctx.restore();
+  }
+  ctx.save();
+  ctx.globalAlpha = 0.2;
+  ctx.fillStyle = mix(green, "#ffffff", 0.22);
+  ctx.fillRect(0, horizon, w, 18);
+  ctx.restore();
+}
+
+function drawGrassTexture(ctx: CanvasRenderingContext2D, w: number, h: number, horizon: number, green: string) {
+  ctx.save();
+  ctx.strokeStyle = mix(green, "#ffffff", 0.26);
+  ctx.lineWidth = 1.4;
+  ctx.globalAlpha = 0.32;
+  for (let i = 0; i < 120; i++) {
+    const x = hash01(i, 81) * w;
+    const y = horizon + 24 + hash01(i, 82) * (h - horizon - 30);
+    const len = 5 + hash01(i, 83) * 10;
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x + (hash01(i, 84) - 0.5) * 5, y - len);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function drawGardenDecor(ctx: CanvasRenderingContext2D, w: number, h: number, horizon: number, green: string, soilCol: string) {
+  // Shrubs and stones make the empty state feel inhabited, even before many
+  // lessons have been planted.
+  ctx.save();
+  const shrub = mix(green, "#000000", 0.12);
+  for (const [x, y, s] of [
+    [w * 0.08, horizon + 78, 0.9],
+    [w * 0.91, horizon + 92, 1.05],
+    [w * 0.12, h * 0.68, 0.72],
+    [w * 0.88, h * 0.66, 0.72],
+  ] as [number, number, number][]) {
+    dot(ctx, x, y, 18 * s, shrub);
+    dot(ctx, x + 16 * s, y + 3 * s, 14 * s, shrub);
+    dot(ctx, x - 16 * s, y + 5 * s, 13 * s, shrub);
+  }
+  ctx.fillStyle = mix(soilCol, "#ffffff", 0.38);
+  for (const [x, y, s] of [
+    [w * 0.38, h * 0.9, 1],
+    [w * 0.63, h * 0.9, 0.8],
+    [w * 0.57, h * 0.72, 0.65],
+  ] as [number, number, number][]) {
+    ctx.beginPath();
+    ctx.ellipse(x, y, 10 * s, 5 * s, -0.2, 0, TAU);
+    ctx.fill();
+  }
+  ctx.restore();
+}
+
 /* ---- tiny colour utilities (for theming the mountains/sky) ---- */
 
 function parseColor(col: string): [number, number, number] {
@@ -636,26 +821,6 @@ function mix(a: string, b: string, t: number): string {
   const ca = parseColor(a);
   const cb = parseColor(b);
   return `rgb(${Math.round(ca[0] + (cb[0] - ca[0]) * t)}, ${Math.round(ca[1] + (cb[1] - ca[1]) * t)}, ${Math.round(ca[2] + (cb[2] - ca[2]) * t)})`;
-}
-
-function drawHill(ctx: CanvasRenderingContext2D, w: number, h: number, hillTop: number, green: string, haze: string) {
-  ctx.fillStyle = green;
-  ctx.beginPath();
-  ctx.moveTo(0, hillTop + 14);
-  ctx.quadraticCurveTo(w * 0.5, hillTop - 14, w, hillTop + 14);
-  ctx.lineTo(w, h);
-  ctx.lineTo(0, h);
-  ctx.closePath();
-  ctx.fill();
-  // atmospheric haze: fade the far (top) of the hill toward the sky for depth
-  const g = ctx.createLinearGradient(0, hillTop, 0, hillTop + h * 0.22);
-  g.addColorStop(0, haze);
-  g.addColorStop(1, "rgba(0,0,0,0)");
-  ctx.save();
-  ctx.globalAlpha = 0.45;
-  ctx.fillStyle = g;
-  ctx.fillRect(0, hillTop - 14, w, h * 0.24);
-  ctx.restore();
 }
 
 function drawButterflies(ctx: CanvasRenderingContext2D, w: number, hillTop: number, time: number, c1: string, c2: string) {
@@ -815,28 +980,32 @@ function drawTreePlant(
   style: number,
   lod: boolean,
 ): Spot {
-  const trunkH = 80 * scale * growth; // trees stand a little taller than the flowers
+  const visualGrowth = Math.max(0.42, Math.min(2, growth));
+  const trunkH = 82 * scale * visualGrowth; // trees stand a little taller than the flowers
   const topX = x + sway;
   const crownY = baseY - trunkH;
-  const cr = (30 + Math.max(0, stars) * 2) * scale * Math.max(0.3, growth); // bigger crown for more stars
+  const cr = (34 + Math.max(0, stars) * 2.5) * scale * Math.max(0.58, visualGrowth * 0.72); // visible even while sprouting
 
-  groundShadow(ctx, x, baseY, 20 * scale * Math.max(0.3, growth));
+  groundShadow(ctx, x, baseY, 24 * scale * Math.max(0.45, visualGrowth * 0.7));
 
   if (lod) {
     ctx.fillStyle = bark;
-    ctx.fillRect(x - 2 * scale, crownY, 4 * scale, trunkH);
+    ctx.fillRect(x - 2.5 * scale, crownY, 5 * scale, trunkH);
     if (style === 1) {
       // a tiny conifer triangle
       ctx.fillStyle = leafCol;
       tri(ctx, topX, crownY - cr, cr * 0.8, cr * 1.6);
     } else {
-      dot(ctx, topX, crownY - cr * 0.2, cr * 0.8, leafCol);
+      drawLeafCluster(ctx, topX, crownY - cr * 0.18, cr * 0.88, leafCol, leafCol, leafCol, style);
     }
     return { x: topX, y: crownY - cr * 0.3, r: cr, i: 0 };
   }
 
   // tapered trunk leaning with the wind (shared by all crowns)
-  const tw = 7 * scale;
+  const tw = 8 * scale * Math.min(1.2, visualGrowth);
+  drawBranch(ctx, x, baseY - trunkH * 0.56, topX - cr * 0.36, crownY - cr * 0.18, tw * 0.32, bark);
+  drawBranch(ctx, x, baseY - trunkH * 0.62, topX + cr * 0.34, crownY - cr * 0.1, tw * 0.28, bark);
+  drawBranch(ctx, x + sway * 0.18, baseY - trunkH * 0.74, topX + cr * 0.06, crownY - cr * 0.42, tw * 0.22, bark);
   ctx.fillStyle = bark;
   ctx.beginPath();
   ctx.moveTo(x - tw, baseY);
@@ -845,6 +1014,12 @@ function drawTreePlant(
   ctx.lineTo(topX - tw * 0.4, crownY);
   ctx.quadraticCurveTo(x + sway * 0.5 - tw * 0.4, crownY + trunkH * 0.4, x - tw, baseY);
   ctx.fill();
+  ctx.strokeStyle = "rgba(255,255,255,0.16)";
+  ctx.lineWidth = Math.max(1, 1.6 * scale);
+  ctx.beginPath();
+  ctx.moveTo(x - tw * 0.2, baseY - trunkH * 0.08);
+  ctx.quadraticCurveTo(x + sway * 0.35, baseY - trunkH * 0.45, topX + tw * 0.08, crownY + trunkH * 0.08);
+  ctx.stroke();
 
   let spotY = crownY;
   let spotR = cr * 1.1;
@@ -859,30 +1034,81 @@ function drawTreePlant(
     spotY = crownY - cr * 0.4;
     spotR = cr * 1.2;
   } else if (style === 2) {
-    // cipreste — a tall, narrow flame of foliage
-    ctx.fillStyle = leafCol;
-    ctx.beginPath();
-    ctx.ellipse(topX, crownY - cr * 0.6, cr * 0.55, cr * 1.5, 0, 0, TAU);
-    ctx.fill();
-    fruit(ctx, topX, crownY - cr * 0.6, cr * 0.4, stars, accent, scale);
-    spotY = crownY - cr * 0.6;
-    spotR = cr * 1.4;
+    // oliveira / árvore oval larga — soft irregular clumps, not a single lollipop.
+    const leafLight = mix(leafCol, "#ffffff", 0.18);
+    const leafDark = mix(leafCol, "#000000", 0.12);
+    drawLeafCluster(ctx, topX, crownY - cr * 0.18, cr * 0.98, leafCol, leafLight, leafDark, 2);
+    drawFruitCluster(ctx, topX, crownY - cr * 0.18, cr * 0.7, stars, accent, scale, 2);
+    spotY = crownY - cr * 0.2;
+    spotR = cr * 1.22;
   } else {
     // árvore redonda — a cluster of leafy blobs
-    ctx.fillStyle = leafCol;
-    for (const [dx, dy, rr] of [
-      [0, -cr * 0.2, 0.7],
-      [-cr * 0.55, cr * 0.1, 0.55],
-      [cr * 0.55, cr * 0.1, 0.55],
-      [-cr * 0.2, cr * 0.45, 0.5],
-      [cr * 0.25, cr * 0.4, 0.5],
-    ] as [number, number, number][]) {
-      dot(ctx, topX + dx, crownY + dy, cr * rr, leafCol);
-    }
-    fruit(ctx, topX, crownY, cr * 0.5, stars, accent, scale);
+    const leafLight = mix(leafCol, "#ffffff", 0.16);
+    const leafDark = mix(leafCol, "#000000", 0.08);
+    drawLeafCluster(ctx, topX, crownY, cr, leafCol, leafLight, leafDark, 0);
+    drawFruitCluster(ctx, topX, crownY, cr * 0.7, stars, accent, scale, 0);
   }
 
   return { x: topX, y: spotY, r: spotR, i: 0 };
+}
+
+function drawBranch(ctx: CanvasRenderingContext2D, x1: number, y1: number, x2: number, y2: number, width: number, color: string) {
+  ctx.save();
+  ctx.strokeStyle = color;
+  ctx.lineWidth = Math.max(1, width);
+  ctx.lineCap = "round";
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.quadraticCurveTo((x1 + x2) / 2, y1 - Math.abs(x2 - x1) * 0.18, x2, y2);
+  ctx.stroke();
+  ctx.restore();
+}
+
+function drawLeafCluster(ctx: CanvasRenderingContext2D, cx: number, cy: number, r: number, leaf: string, light: string, dark: string, style: number) {
+  const blobs: [number, number, number, string][] =
+    style === 2
+      ? [
+          [-0.72, -0.05, 0.52, dark],
+          [-0.38, -0.42, 0.62, light],
+          [0.05, -0.48, 0.7, light],
+          [0.45, -0.3, 0.58, leaf],
+          [0.74, 0.04, 0.46, dark],
+          [-0.28, 0.18, 0.64, leaf],
+          [0.22, 0.16, 0.62, dark],
+        ]
+      : [
+          [0, -0.55, 0.62, light],
+          [-0.5, -0.28, 0.58, leaf],
+          [0.48, -0.22, 0.56, leaf],
+          [-0.35, 0.22, 0.54, dark],
+          [0.34, 0.24, 0.56, dark],
+          [0, 0, 0.72, leaf],
+        ];
+  for (const [dx, dy, rr, col] of blobs) dot(ctx, cx + dx * r, cy + dy * r, rr * r, col);
+  ctx.save();
+  ctx.globalAlpha = 0.18;
+  ctx.fillStyle = "#ffffff";
+  ctx.beginPath();
+  ctx.ellipse(cx - r * 0.2, cy - r * 0.38, r * 0.34, r * 0.16, -0.45, 0, TAU);
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawFruitCluster(ctx: CanvasRenderingContext2D, cx: number, cy: number, spread: number, stars: number, accent: string, scale: number, style: number) {
+  const n = Math.min(7, Math.max(1, stars));
+  const pts: [number, number][] = [
+    [-0.36, -0.16],
+    [0.28, -0.32],
+    [0.05, 0.18],
+    [0.52, 0.08],
+    [-0.58, 0.18],
+    [-0.08, -0.48],
+    [0.22, 0.42],
+  ];
+  for (let k = 0; k < n; k++) {
+    const [px, py] = pts[(k + style) % pts.length];
+    dot(ctx, cx + px * spread, cy + py * spread, 3.8 * scale, accent);
+  }
 }
 
 /* Blossoms / fruit in the subject colour — one per star, so a hard, well-done

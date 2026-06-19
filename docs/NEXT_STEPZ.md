@@ -122,9 +122,15 @@ Estado:
   multiplicar por 10/100, arredondamento, troco, dízimas, frações
   equivalentes, simplificação, denominador comum, soma de denominadores,
   fração de uma quantidade e fração imprópria.
+- Feito em 2026-06-19: Português 5.º ano — `classes.md`, `verbos.md` e
+  `funcoes.md`, com feedback para classe vs função, verbo/nome/adjetivo,
+  conjunção vs preposição, variável/invariável, pronome/determinante,
+  conjugação, tempo, pessoa e modo verbal, pretérito perfeito/imperfeito,
+  sujeito vs predicado, complemento direto/indireto, sujeito subentendido e
+  frases impessoais.
 - Próximo passo desta fase: procurar mais lições centrais sem `feedback` em
-  Matemática 5.º–6.º e Português, reutilizando as famílias de `tag` já criadas
-  (`problema-*`, `fracao-*`, `medidas-*`, `en-*`).
+  Matemática 5.º–6.º e Português 6.º, reutilizando as famílias de `tag` já
+  criadas (`problema-*`, `fracao-*`, `medidas-*`, `en-*`, `pt-*`).
 
 ## Fase 3 — Plano adaptativo explicável
 

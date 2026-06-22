@@ -110,7 +110,7 @@ Entre o cm³ (pequenino) e o m³ (gigante) vive o **decímetro cúbico (dm³)** 
   "id": "mat-6-volumes-dm3",
   "questions": [
     { "q": "Uma caixa tem 5 dm³ de volume. Quantos litros de água leva?", "layout": "grid",
-      "options": [ { "t": "5 L", "emoji": "🥛", "correct": true }, { "t": "500 L" }, { "t": "0,5 L" } ],
+      "options": [ { "t": "5 L", "emoji": "🥛", "correct": true }, { "t": "500 L", "feedback": "Não há zeros para cortar entre dm³ e litros. 1 dm³ = 1 L, por isso 5 dm³ = 5 L.", "tag": "volume-vs-capacidade" }, { "t": "0,5 L", "feedback": "Não se divide nada: a conversão dm³ ↔ litro é direta. 5 dm³ = 5 L.", "tag": "volume-vs-capacidade" } ],
       "explain": "1 dm³ = 1 L — a conversão é direta: 5 dm³ = 5 L." }
   ]
 }
@@ -154,25 +154,25 @@ Entre o cm³ (pequenino) e o m³ (gigante) vive o **decímetro cúbico (dm³)** 
   "id": "mat-6-volumes-pratica",
   "questions": [
     { "q": "O volume mede o…", "layout": "grid",
-      "options": [ { "t": "espaço que um sólido ocupa", "emoji": "🧊", "correct": true }, { "t": "comprimento de uma linha" }, { "t": "peso de um objeto" } ],
+      "options": [ { "t": "espaço que um sólido ocupa", "emoji": "🧊", "correct": true }, { "t": "comprimento de uma linha", "feedback": "O comprimento de uma linha é só 1 dimensão (cm). O volume mede o espaço a 3 dimensões.", "tag": "volume-dimensoes" }, { "t": "peso de um objeto", "feedback": "O peso é outra coisa (mede-se em gramas/quilos). O volume é o espaço que o sólido ocupa.", "tag": "volume-dimensoes" } ],
       "explain": "Volume é o espaço a 3 dimensões." },
     { "q": "Em que unidade se mede o volume?", "layout": "grid",
-      "options": [ { "t": "cm³", "emoji": "🎲", "correct": true }, { "t": "cm" }, { "t": "cm²" } ],
+      "options": [ { "t": "cm³", "emoji": "🎲", "correct": true }, { "t": "cm", "feedback": "cm (sem expoente) é comprimento, 1 dimensão. O volume é 3D, por isso usa cm³.", "tag": "volume-unidade" }, { "t": "cm²", "feedback": "cm² é área, 2 dimensões. O volume tem 3 dimensões, por isso usa cm³.", "tag": "volume-unidade" } ],
       "explain": "Volume é 3D → centímetros cúbicos." },
     { "q": "Volume de uma caixa 5 × 2 × 3 cm?", "layout": "grid",
-      "options": [ { "t": "30 cm³", "emoji": "📦", "correct": true }, { "t": "10 cm³" }, { "t": "15 cm³" } ],
+      "options": [ { "t": "30 cm³", "emoji": "📦", "correct": true }, { "t": "10 cm³", "feedback": "10 é 5 + 2 + 3 (uma soma). O volume multiplica as três medidas: 5 × 2 × 3 = 30 cm³.", "tag": "volume-soma-vs-multiplicacao" }, { "t": "15 cm³", "feedback": "15 é só 5 × 3 — faltou a outra medida. O volume usa as três: 5 × 2 × 3 = 30 cm³.", "tag": "volume-calculo" } ],
       "explain": "5 × 2 × 3 = 30 cm³." },
     { "q": "Volume de um cubo de aresta 4?", "layout": "grid",
-      "options": [ { "t": "64 cm³", "emoji": "🎲", "correct": true }, { "t": "12 cm³" }, { "t": "16 cm³" } ],
+      "options": [ { "t": "64 cm³", "emoji": "🎲", "correct": true }, { "t": "12 cm³", "feedback": "12 é 4 × 3 (como se a aresta se multiplicasse pelo 3). O cubo é aresta × aresta × aresta: 4 × 4 × 4 = 64 cm³.", "tag": "volume-calculo" }, { "t": "16 cm³", "feedback": "16 é só 4 × 4 (isso é a área de uma face). O volume usa as três arestas: 4 × 4 × 4 = 64 cm³.", "tag": "volume-calculo" } ],
       "explain": "4 × 4 × 4 = 4³ = 64 cm³." },
     { "q": "1 litro corresponde a…", "layout": "grid",
-      "options": [ { "t": "1000 cm³", "emoji": "💧", "correct": true }, { "t": "100 cm³" }, { "t": "10 cm³" } ],
+      "options": [ { "t": "1000 cm³", "emoji": "💧", "correct": true }, { "t": "100 cm³", "feedback": "100 cm³ é pouco — só um copinho. 1 litro são 1000 cm³ (um cubo de 10 × 10 × 10).", "tag": "volume-vs-capacidade" }, { "t": "10 cm³", "feedback": "10 cm³ são umas gotas. 1 litro são 1000 cm³.", "tag": "volume-vs-capacidade" } ],
       "explain": "1 L = 1000 cm³ (e 1 cm³ = 1 mL)." },
     { "q": "Uma caixa de 5000 cm³ leva quantos litros?", "layout": "grid",
-      "options": [ { "t": "5 L", "emoji": "🥤", "correct": true }, { "t": "50 L" }, { "t": "0,5 L" } ],
+      "options": [ { "t": "5 L", "emoji": "🥤", "correct": true }, { "t": "50 L", "feedback": "Cortaste só 2 zeros. De cm³ para litros divide-se por 1000 (3 zeros): 5000 ÷ 1000 = 5 L.", "tag": "volume-vs-capacidade" }, { "t": "0,5 L", "feedback": "0,5 L seria dividir por 10 000. De cm³ para litros divide-se por 1000: 5000 ÷ 1000 = 5 L.", "tag": "volume-vs-capacidade" } ],
       "explain": "Divide por 1000: 5000 ÷ 1000 = 5 L." },
     { "q": "A fórmula do volume do paralelepípedo é…", "layout": "grid",
-      "options": [ { "t": "comprimento × largura × altura", "emoji": "📐", "correct": true }, { "t": "comprimento + largura + altura" }, { "t": "lado × lado" } ],
+      "options": [ { "t": "comprimento × largura × altura", "emoji": "📐", "correct": true }, { "t": "comprimento + largura + altura", "feedback": "Somar as medidas não dá o volume. Multiplicam-se as três: comprimento × largura × altura.", "tag": "volume-soma-vs-multiplicacao" }, { "t": "lado × lado", "feedback": "Lado × lado é a área de um quadrado (só 2 medidas). O volume precisa das 3: comprimento × largura × altura.", "tag": "volume-calculo" } ],
       "explain": "V = c × l × a." }
   ]
 }
@@ -187,28 +187,28 @@ Entre o cm³ (pequenino) e o m³ (gigante) vive o **decímetro cúbico (dm³)** 
   "title": "Volumes de sólidos",
   "questions": [
     { "q": "O volume é uma medida a…", "layout": "grid",
-      "options": [ { "t": "três dimensões (3D)", "emoji": "🧊", "correct": true }, { "t": "uma dimensão" }, { "t": "duas dimensões" } ],
+      "options": [ { "t": "três dimensões (3D)", "emoji": "🧊", "correct": true }, { "t": "uma dimensão", "feedback": "Uma dimensão é o comprimento (uma linha, em cm). O volume tem 3 dimensões: comprimento, largura e altura.", "tag": "volume-dimensoes" }, { "t": "duas dimensões", "feedback": "Duas dimensões é a área (uma superfície, em cm²). O volume tem 3 dimensões.", "tag": "volume-dimensoes" } ],
       "explain": "Comprimento × largura × altura: 3 dimensões." },
     { "q": "Para contar o volume usamos…", "layout": "grid",
-      "options": [ { "t": "cubos unitários (1×1×1)", "emoji": "🎲", "correct": true }, { "t": "quadrados" }, { "t": "réguas" } ],
+      "options": [ { "t": "cubos unitários (1×1×1)", "emoji": "🎲", "correct": true }, { "t": "quadrados", "feedback": "Quadrados (2D) servem para a área. O volume é 3D, por isso conta-se com cubos unitários.", "tag": "volume-dimensoes" }, { "t": "réguas", "feedback": "A régua mede só comprimento (1D). Para o volume contam-se cubos de 1×1×1.", "tag": "volume-dimensoes" } ],
       "explain": "Quantos cubinhos de 1 cm³ cabem lá dentro." },
     { "q": "Volume de uma caixa 6 × 4 × 2 cm?", "layout": "grid",
-      "options": [ { "t": "48 cm³", "emoji": "📦", "correct": true }, { "t": "12 cm³" }, { "t": "24 cm³" } ],
+      "options": [ { "t": "48 cm³", "emoji": "📦", "correct": true }, { "t": "12 cm³", "feedback": "12 é 6 + 4 + 2 (uma soma). O volume multiplica as três medidas: 6 × 4 × 2 = 48 cm³.", "tag": "volume-soma-vs-multiplicacao" }, { "t": "24 cm³", "feedback": "24 é a área da base (6 × 4), mas o volume precisa das 3 dimensões: 6 × 4 × 2 = 48 cm³.", "tag": "volume-calculo" } ],
       "explain": "6 × 4 × 2 = 48 cm³." },
     { "q": "Volume de um cubo de aresta 5?", "layout": "grid",
-      "options": [ { "t": "125 cm³", "emoji": "🎲", "correct": true }, { "t": "15 cm³" }, { "t": "25 cm³" } ],
+      "options": [ { "t": "125 cm³", "emoji": "🎲", "correct": true }, { "t": "15 cm³", "feedback": "15 é 5 × 3 (como se a aresta se multiplicasse pelo 3). O cubo é aresta × aresta × aresta: 5 × 5 × 5 = 125 cm³.", "tag": "volume-calculo" }, { "t": "25 cm³", "feedback": "25 é só 5 × 5 (a área de uma face). O volume usa as três arestas: 5 × 5 × 5 = 125 cm³.", "tag": "volume-calculo" } ],
       "explain": "5³ = 5 × 5 × 5 = 125 cm³." },
     { "q": "Um cubo de 10 × 10 × 10 cm leva…", "layout": "grid",
-      "options": [ { "t": "1 litro", "emoji": "💧", "correct": true }, { "t": "10 litros" }, { "t": "100 litros" } ],
+      "options": [ { "t": "1 litro", "emoji": "💧", "correct": true }, { "t": "10 litros", "feedback": "10 × 10 × 10 = 1000 cm³, e 1000 cm³ são exatamente 1 litro, não 10.", "tag": "volume-vs-capacidade" }, { "t": "100 litros", "feedback": "O cubo tem 1000 cm³, que dão 1 litro (1 L = 1000 cm³), não 100.", "tag": "volume-vs-capacidade" } ],
       "explain": "1000 cm³ = exatamente 1 litro." },
     { "q": "Um aquário de 30 × 20 × 25 cm leva quantos litros?", "layout": "grid",
-      "options": [ { "t": "15 L", "emoji": "🐠", "correct": true }, { "t": "75 L" }, { "t": "1,5 L" } ],
+      "options": [ { "t": "15 L", "emoji": "🐠", "correct": true }, { "t": "75 L", "feedback": "75 esquece a passagem a litros (÷ 1000). O volume é 30 × 20 × 25 = 15 000 cm³ = 15 L.", "tag": "volume-vs-capacidade" }, { "t": "1,5 L", "feedback": "1,5 cortou um zero a mais. 15 000 cm³ ÷ 1000 = 15 L.", "tag": "volume-vs-capacidade" } ],
       "explain": "30×20×25 = 15 000 cm³ = 15 L." },
     { "q": "1 mL é o mesmo que…", "layout": "grid",
-      "options": [ { "t": "1 cm³", "emoji": "💧", "correct": true }, { "t": "1 litro" }, { "t": "1 cm" } ],
+      "options": [ { "t": "1 cm³", "emoji": "💧", "correct": true }, { "t": "1 litro", "feedback": "1 litro são 1000 mL — muito mais. 1 mL é igual a 1 cm³ (uma gota grande).", "tag": "volume-vs-capacidade" }, { "t": "1 cm", "feedback": "1 cm é comprimento (1D), não cabe líquido. 1 mL é igual a 1 cm³ (volume).", "tag": "volume-vs-capacidade" } ],
       "explain": "1 cm³ = 1 mililitro." },
     { "q": "O erro mais comum no volume é…", "layout": "list",
-      "options": [ { "t": "esquecer o ³ na unidade (cm³)", "emoji": "🚫", "correct": true }, { "t": "multiplicar de mais" }, { "t": "usar litros" } ],
+      "options": [ { "t": "esquecer o ³ na unidade (cm³)", "emoji": "🚫", "correct": true }, { "t": "multiplicar de mais", "feedback": "Multiplicar as três medidas é o certo. O erro comum é esquecer o ³ na unidade (escrever cm em vez de cm³).", "tag": "volume-unidade" }, { "t": "usar litros", "feedback": "Os litros são úteis (1 L = 1000 cm³). O erro comum é esquecer o ³ na unidade do volume.", "tag": "volume-unidade" } ],
       "explain": "Volume mede-se em cm³, não em cm nem cm²." }
   ]
 }

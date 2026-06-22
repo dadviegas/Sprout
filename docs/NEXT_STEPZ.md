@@ -141,10 +141,30 @@ Estado:
   («fui»). Reutiliza `pt-verbo-conjugacao`, `pt-verbo-tempo`, `pt-verbo-modo`,
   `pt-preterito-perfeito-imperfeito` e `pt-verbo-mais-que-perfeito`, e acrescenta
   `pt-verbo-irregular`, `pt-verbo-forma-nominal` e `pt-verbo-ser-ir`.
-- Próximo passo desta fase: procurar lições centrais sem `feedback` em
-  Matemática 5.º–6.º (e rever Português 6.º à procura de outras lições centrais),
-  reutilizando as famílias de `tag` já criadas (`problema-*`, `fracao-*`,
-  `medidas-*`, `en-*`, `pt-*`).
+- Feito em 2026-06-22: Matemática 5.º ano — feedback adaptativo em TODAS as
+  lições que ainda não o tinham: `area-perimetro.md`, `percentagens.md`,
+  `angulos-poligonos.md`, `areas-paralelogramo-triangulo.md`, `naturais.md`,
+  `mdc-mmc.md`, `potencias.md`, `solidos.md`, `dados.md` e
+  `dados-a-mais-ou-a-menos.md`. Reutiliza famílias existentes (`perimetro-vs-area`,
+  `area-calculo`, `area-unidade`, `angulo-*`, `valor-posicional`, `comparar-numeros`,
+  `multiplo-*`, `problema-*`) e cria novas: `percent-*` (significado/decimal/
+  calculo/desconto), `poligono-*`, `triangulo-*`, `quadrilatero-*`, `solido-*`,
+  `area-paralelogramo`, `area-triangulo-base-altura`, `divisor-vs-multiplo`,
+  `mdc-vs-mmc`, `mmc-calculo`/`mdc-calculo`, `primo-*`, `potencia-*`,
+  `ordem-operacoes`, `vocabulario-*`, `dados-*`.
+- Feito em 2026-06-22: Matemática 6.º ano — feedback adaptativo em TODAS as
+  lições sem ele: `circulo.md`, `equacoes.md`, `fracoes-operacoes.md`,
+  `graficos.md`, `inteiros.md`, `percentagens.md`, `potencias.md`,
+  `probabilidade.md`, `proporcionalidade.md`, `volumes.md`. Reutiliza `fracao-*`,
+  `percent-*`, `volume-*`, `potencia-*` e cria `inteiro-*`, `equacao-*`,
+  `circulo-*`, `proporcao-*`, `probabilidade-*`, `grafico-*`,
+  `fracao-dividir-*`/`fracao-multiplicar-encolhe`, `percent-quanto-por-cento`.
+- Cobertura: todas as lições de Matemática 5.º–6.º e de Português 5.º–6.º
+  (classes/verbos/funcoes) com quizzes têm agora `feedback`+`tag` em cada opção
+  errada (validado por `pnpm validate`).
+- Próximo passo desta fase: alargar a Português 4.º (`classes-palavras.md`,
+  verbos) e a Matemática/Estudo do Meio de 1.º–4.º ainda sem `feedback`,
+  reutilizando as famílias `pt-*`/`mat`-* e `problema-*` já criadas.
 
 ## Fase 3 — Plano adaptativo explicável
 

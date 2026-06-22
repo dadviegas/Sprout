@@ -10,6 +10,7 @@ import {
   Scene,
   StandardMaterial,
   Texture,
+  TransformNode,
   Vector3,
   VertexBuffer,
   VertexData,
@@ -42,12 +43,21 @@ interface Dab {
   kind: number;
 }
 
+interface AvatarRig {
+  root: TransformNode;
+  leftArm: Mesh;
+  rightArm: Mesh;
+  leftLeg: Mesh;
+  rightLeg: Mesh;
+  shadow: Mesh;
+}
+
 const TAU = Math.PI * 2;
 const TOTAL_SEEDS = 12;
 const ROUND_TIME = 90;
 const PLAYER_SPEED = 4.1;
 const START_TEXT =
-  "Corre pelo jardim e apanha 12 sementes de luz. Cada semente explode em splats mágicos. Usa WASD, setas ou o manípulo no iPad.";
+  "Corre pelo jardim e apanha 12 sementes de luz. Usa WASD ou setas para andar, botão direito do rato para rodar a câmara, roda para zoom, ou o manípulo no iPad.";
 
 export function AfterimageGarden() {
   const reduced = prefersReducedMotion();
@@ -171,9 +181,9 @@ export function AfterimageGarden() {
               <h3 className="dv-overlay__title">Splat Garden Run</h3>
               <p className="dv-overlay__sub">{START_TEXT}</p>
               <div className="ag-how">
-                <span>1. Corre</span>
-                <span>2. Apanha luzes</span>
-                <span>3. Enche a barra</span>
+                <span>WASD para andar</span>
+                <span>Botão direito para olhar</span>
+                <span>Apanha 12 luzes</span>
               </div>
               <button className="dv-tool dv-tool--wide ag-start-btn" onClick={begin}>
                 <Icon name="forward" size={20} />
@@ -200,9 +210,20 @@ class SplatGardenGame {
   private engine: Engine;
   private scene: Scene;
   private camera: ArcRotateCamera;
-  private player: Mesh;
+  private player: TransformNode;
   private playerShadow: Mesh;
-  private playerPos = new Vector3(0, 0.38, 2.75);
+  private leftArm: Mesh;
+  private rightArm: Mesh;
+  private leftLeg: Mesh;
+  private rightLeg: Mesh;
+  private playerPos = new Vector3(0, 0.04, 2.75);
+  private camYaw = -0.95;
+  private camPitch = 1.08;
+  private camRadius = 7.5;
+  private draggingCamera = false;
+  private cameraPointerId: number | null = null;
+  private lastPointerX = 0;
+  private lastPointerY = 0;
   private seeds: Seed[] = [];
   private dabs: Dab[] = [];
   private dabMesh: Mesh;
@@ -226,27 +247,25 @@ class SplatGardenGame {
   ];
 
   constructor(
-    canvas: HTMLCanvasElement,
+    private canvas: HTMLCanvasElement,
     private opts: { reduced: boolean; onState: (hud: HudState) => void },
   ) {
     this.engine = new Engine(canvas, true, { preserveDrawingBuffer: false, stencil: false, antialias: true }, true);
     this.engine.setHardwareScalingLevel(1 / Math.max(1, Math.min(window.devicePixelRatio || 1, 1.5)));
     this.scene = new Scene(this.engine);
     this.scene.clearColor = new Color4(0.68, 0.86, 0.97, 1);
-    this.camera = new ArcRotateCamera("ag-camera", -0.95, 1.1, 7.5, this.playerPos.add(new Vector3(0, 1.05, 0)), this.scene);
-    this.camera.attachControl(canvas, true);
-    this.camera.lowerRadiusLimit = 5.5;
-    this.camera.upperRadiusLimit = 9;
-    this.camera.lowerBetaLimit = 0.82;
-    this.camera.upperBetaLimit = 1.35;
-    this.camera.wheelPrecision = 70;
-    this.camera.pinchPrecision = 90;
+    this.camera = new ArcRotateCamera("ag-camera", this.camYaw, this.camPitch, this.camRadius, this.playerPos.add(new Vector3(0, 1.05, 0)), this.scene);
+    this.camera.inputs.clear();
     this.camera.inertia = 0.72;
 
     new HemisphericLight("ag-light", new Vector3(-0.35, 1, 0.45), this.scene).intensity = 1.18;
     this.buildWorld();
     const player = this.buildPlayer();
-    this.player = player.body;
+    this.player = player.root;
+    this.leftArm = player.leftArm;
+    this.rightArm = player.rightArm;
+    this.leftLeg = player.leftLeg;
+    this.rightLeg = player.rightLeg;
     this.playerShadow = player.shadow;
     this.seeds = this.buildSeeds();
     this.dabs = makeDabs();
@@ -257,6 +276,12 @@ class SplatGardenGame {
 
     this.frameObserver = this.scene.onBeforeRenderObservable.add(() => this.tick());
     this.engine.runRenderLoop(() => this.scene.render());
+    canvas.addEventListener("pointerdown", this.onCameraPointerDown);
+    canvas.addEventListener("pointermove", this.onCameraPointerMove);
+    canvas.addEventListener("pointerup", this.onCameraPointerUp);
+    canvas.addEventListener("pointercancel", this.onCameraPointerUp);
+    canvas.addEventListener("wheel", this.onWheel, { passive: false });
+    canvas.addEventListener("contextmenu", this.onContextMenu);
     window.addEventListener("keydown", this.onKeyDown);
     window.addEventListener("keyup", this.onKeyUp);
     this.resize();
@@ -274,7 +299,10 @@ class SplatGardenGame {
     this.timeLeft = ROUND_TIME;
     this.streak = 0;
     this.lastCollect = 0;
-    this.playerPos.copyFromFloats(0, 0.38, 2.75);
+    this.playerPos.copyFromFloats(0, 0.04, 2.75);
+    this.camYaw = -0.95;
+    this.camPitch = 1.08;
+    this.camRadius = 7.5;
     this.seeds.forEach((s) => {
       s.taken = false;
       s.mesh.setEnabled(true);
@@ -293,6 +321,12 @@ class SplatGardenGame {
 
   dispose() {
     if (this.frameObserver) this.scene.onBeforeRenderObservable.remove(this.frameObserver);
+    this.canvas.removeEventListener("pointerdown", this.onCameraPointerDown);
+    this.canvas.removeEventListener("pointermove", this.onCameraPointerMove);
+    this.canvas.removeEventListener("pointerup", this.onCameraPointerUp);
+    this.canvas.removeEventListener("pointercancel", this.onCameraPointerUp);
+    this.canvas.removeEventListener("wheel", this.onWheel);
+    this.canvas.removeEventListener("contextmenu", this.onContextMenu);
     window.removeEventListener("keydown", this.onKeyDown);
     window.removeEventListener("keyup", this.onKeyUp);
     this.scene.dispose();
@@ -312,6 +346,42 @@ class SplatGardenGame {
 
   private onKeyUp = (e: KeyboardEvent) => {
     this.keys.delete(e.code);
+  };
+
+  private onCameraPointerDown = (e: PointerEvent) => {
+    if (e.pointerType === "mouse" && e.button !== 2) return;
+    e.preventDefault();
+    this.draggingCamera = true;
+    this.cameraPointerId = e.pointerId;
+    this.lastPointerX = e.clientX;
+    this.lastPointerY = e.clientY;
+    this.canvas.setPointerCapture?.(e.pointerId);
+  };
+
+  private onCameraPointerMove = (e: PointerEvent) => {
+    if (!this.draggingCamera || this.cameraPointerId !== e.pointerId) return;
+    e.preventDefault();
+    const dx = e.clientX - this.lastPointerX;
+    const dy = e.clientY - this.lastPointerY;
+    this.lastPointerX = e.clientX;
+    this.lastPointerY = e.clientY;
+    this.camYaw -= dx * 0.006;
+    this.camPitch = clamp(this.camPitch + dy * 0.004, 0.82, 1.24);
+  };
+
+  private onCameraPointerUp = (e: PointerEvent) => {
+    if (this.cameraPointerId !== e.pointerId) return;
+    this.draggingCamera = false;
+    this.cameraPointerId = null;
+  };
+
+  private onWheel = (e: WheelEvent) => {
+    e.preventDefault();
+    this.camRadius = clamp(this.camRadius + e.deltaY * 0.004, 6.2, 8.8);
+  };
+
+  private onContextMenu = (e: Event) => {
+    e.preventDefault();
   };
 
   private buildWorld() {
@@ -375,19 +445,47 @@ class SplatGardenGame {
     }
   }
 
-  private buildPlayer() {
-    const body = MeshBuilder.CreateSphere("ag-player", { diameter: 0.48, segments: 18 }, this.scene);
-    const bodyMat = mat(this.scene, "player", new Color3(0.95, 0.48, 0.18), 1, new Color3(1, 0.82, 0.34));
-    bodyMat.emissiveColor = new Color3(0.18, 0.06, 0.02);
-    body.material = bodyMat;
-    body.isPickable = false;
+  private buildPlayer(): AvatarRig {
+    const root = new TransformNode("ag-avatar", this.scene);
+    const skin = mat(this.scene, "avatar-skin", new Color3(0.96, 0.73, 0.46), 1, new Color3(0.38, 0.28, 0.18));
+    const shirt = mat(this.scene, "avatar-shirt", new Color3(0.07, 0.46, 0.88), 1, new Color3(0.3, 0.5, 0.78));
+    const pants = mat(this.scene, "avatar-pants", new Color3(0.12, 0.2, 0.42), 1, new Color3(0.24, 0.3, 0.48));
+    const shoe = mat(this.scene, "avatar-shoe", new Color3(0.08, 0.08, 0.09), 1, new Color3(0.18, 0.18, 0.2));
+    const cap = mat(this.scene, "avatar-cap", new Color3(0.93, 0.36, 0.18), 1, new Color3(0.86, 0.52, 0.22));
+    const pack = mat(this.scene, "avatar-pack", new Color3(0.95, 0.68, 0.2), 1, new Color3(0.9, 0.72, 0.34));
 
-    const shadow = MeshBuilder.CreateDisc("ag-player-shadow", { radius: 0.34, tessellation: 24 }, this.scene);
+    const part = (name: string, size: { width: number; height: number; depth: number }, pos: Vector3, material: StandardMaterial) => {
+      const mesh = MeshBuilder.CreateBox(name, size, this.scene);
+      mesh.position.copyFrom(pos);
+      mesh.material = material;
+      mesh.parent = root;
+      mesh.isPickable = false;
+      return mesh;
+    };
+
+    part("ag-avatar-torso", { width: 0.58, height: 0.76, depth: 0.34 }, new Vector3(0, 0.88, 0), shirt);
+    part("ag-avatar-head", { width: 0.52, height: 0.52, depth: 0.52 }, new Vector3(0, 1.55, 0), skin);
+    part("ag-avatar-cap", { width: 0.56, height: 0.13, depth: 0.58 }, new Vector3(0, 1.88, 0.02), cap);
+    part("ag-avatar-cap-brim", { width: 0.44, height: 0.06, depth: 0.32 }, new Vector3(0, 1.8, 0.38), cap);
+    part("ag-avatar-pack", { width: 0.42, height: 0.54, depth: 0.14 }, new Vector3(0, 0.88, -0.28), pack);
+    const leftArm = part("ag-avatar-left-arm", { width: 0.22, height: 0.68, depth: 0.24 }, new Vector3(-0.45, 0.86, 0), skin);
+    const rightArm = part("ag-avatar-right-arm", { width: 0.22, height: 0.68, depth: 0.24 }, new Vector3(0.45, 0.86, 0), skin);
+    const leftLeg = part("ag-avatar-left-leg", { width: 0.24, height: 0.62, depth: 0.25 }, new Vector3(-0.16, 0.26, 0), pants);
+    const rightLeg = part("ag-avatar-right-leg", { width: 0.24, height: 0.62, depth: 0.25 }, new Vector3(0.16, 0.26, 0), pants);
+    part("ag-avatar-left-shoe", { width: 0.27, height: 0.11, depth: 0.34 }, new Vector3(-0.16, -0.07, 0.04), shoe);
+    part("ag-avatar-right-shoe", { width: 0.27, height: 0.11, depth: 0.34 }, new Vector3(0.16, -0.07, 0.04), shoe);
+
+    const eyeMat = mat(this.scene, "avatar-eye", new Color3(0.08, 0.08, 0.08));
+    part("ag-avatar-eye-left", { width: 0.06, height: 0.075, depth: 0.026 }, new Vector3(-0.11, 1.58, 0.274), eyeMat);
+    part("ag-avatar-eye-right", { width: 0.06, height: 0.075, depth: 0.026 }, new Vector3(0.11, 1.58, 0.274), eyeMat);
+    part("ag-avatar-smile", { width: 0.18, height: 0.035, depth: 0.026 }, new Vector3(0, 1.43, 0.276), eyeMat);
+
+    const shadow = MeshBuilder.CreateDisc("ag-player-shadow", { radius: 0.42, tessellation: 24 }, this.scene);
     const shadowMat = mat(this.scene, "player-shadow", new Color3(0.05, 0.08, 0.06), 0.24);
     shadow.rotation.x = Math.PI / 2;
     shadow.material = shadowMat;
     shadow.isPickable = false;
-    return { body, shadow };
+    return { root, leftArm, rightArm, leftLeg, rightLeg, shadow };
   }
 
   private buildSeeds() {
@@ -454,36 +552,40 @@ class SplatGardenGame {
       this.emit();
     } else {
       this.idlePlayer(time);
+      this.updateCamera();
       this.updateSeeds(time);
     }
     this.writeDabs();
   }
 
   private updatePlayer(dt: number, time: number) {
+    this.updateCamera();
     const keyX = (this.keys.has("KeyD") || this.keys.has("ArrowRight") ? 1 : 0) - (this.keys.has("KeyA") || this.keys.has("ArrowLeft") ? 1 : 0);
     const keyZ = (this.keys.has("KeyW") || this.keys.has("ArrowUp") ? 1 : 0) - (this.keys.has("KeyS") || this.keys.has("ArrowDown") ? 1 : 0);
     const ix = Math.abs(this.moveX) > 0.05 ? this.moveX : keyX;
     const iz = Math.abs(this.moveZ) > 0.05 ? this.moveZ : keyZ;
     const len = Math.hypot(ix, iz);
     if (len > 0.02) {
-      const forward = this.camera.getForwardRay().direction;
+      const forward = this.camera.target.subtract(this.camera.position);
       forward.y = 0;
       forward.normalize();
-      const right = Vector3.Cross(forward, Vector3.Up()).normalize();
+      const right = Vector3.Cross(Vector3.Up(), forward).normalize();
       const move = forward.scale(iz / Math.max(1, len)).add(right.scale(ix / Math.max(1, len))).scale(PLAYER_SPEED * dt);
       this.playerPos.addInPlace(move);
       this.playerPos.x = clamp(this.playerPos.x, -5.6, 5.6);
       this.playerPos.z = clamp(this.playerPos.z, -4.05, 3.5);
       this.player.rotation.y = Math.atan2(move.x, move.z);
     }
-    const bob = this.opts.reduced ? 0 : Math.sin(time * 9) * 0.035;
+    const walking = len > 0.02;
+    const bob = this.opts.reduced ? 0 : Math.sin(time * 9) * (walking ? 0.045 : 0.018);
+    this.animateAvatar(walking, time);
     this.player.position.copyFromFloats(this.playerPos.x, this.playerPos.y + bob, this.playerPos.z);
     this.playerShadow.position.copyFromFloats(this.playerPos.x, 0.071, this.playerPos.z);
-    this.camera.target = Vector3.Lerp(this.camera.target, this.playerPos.add(new Vector3(0, 1.05, 0)), 0.14);
+    this.updateCamera();
 
     for (const s of this.seeds) {
       if (s.taken) continue;
-      if (Vector3.Distance(this.player.position, s.mesh.position) < 0.64) {
+      if (Math.hypot(this.playerPos.x - s.mesh.position.x, this.playerPos.z - s.mesh.position.z) < 0.68) {
         s.taken = true;
         s.mesh.setEnabled(false);
         this.score += 1;
@@ -495,8 +597,24 @@ class SplatGardenGame {
   }
 
   private idlePlayer(time: number) {
+    this.animateAvatar(false, time);
     this.player.position.copyFromFloats(this.playerPos.x, this.playerPos.y + Math.sin(time * 2.2) * 0.025, this.playerPos.z);
     this.playerShadow.position.copyFromFloats(this.playerPos.x, 0.071, this.playerPos.z);
+  }
+
+  private animateAvatar(walking: boolean, time: number) {
+    const swing = this.opts.reduced ? 0 : walking ? Math.sin(time * 10.5) * 0.42 : Math.sin(time * 2.4) * 0.08;
+    this.leftArm.rotation.x = swing;
+    this.rightArm.rotation.x = -swing;
+    this.leftLeg.rotation.x = -swing * 0.72;
+    this.rightLeg.rotation.x = swing * 0.72;
+  }
+
+  private updateCamera() {
+    this.camera.alpha = this.camYaw;
+    this.camera.beta = this.camPitch;
+    this.camera.radius = this.camRadius;
+    this.camera.target.copyFrom(this.playerPos.add(new Vector3(0, 1.08, 0)));
   }
 
   private updateSeeds(time: number) {

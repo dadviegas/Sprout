@@ -469,10 +469,10 @@
   height: clamp(420px, 72vh, 820px);
   border-color: rgba(255, 255, 255, 0.72);
   background: #9bc7e7;
-  cursor: grab;
+  cursor: default;
 }
 .ag-canvas:active {
-  cursor: grabbing;
+  cursor: move;
 }
 .ag-start {
   background:

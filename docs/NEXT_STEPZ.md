@@ -134,8 +134,15 @@ Estado:
   possessivo), variável/invariável e contrações. Reutiliza as famílias do 5.º
   (`pt-pronome-determinante`, `pt-conjuncao-preposicao`, `pt-variavel-invariavel`,
   `pt-classe-*`) e acrescenta `pt-determinante-tipo` e `pt-contracao`.
-- Próximo passo desta fase: continuar em Português 6.º (`verbos.md` ainda sem
-  `feedback`) e procurar lições centrais sem `feedback` em Matemática 5.º–6.º,
+- Feito em 2026-06-19: Português 6.º ano — `verbos.md` (Conjugar verbos), com
+  feedback nas duas listas para conjugação (-ar/-er/-ir), perfeito vs imperfeito,
+  mais-que-perfeito, modo (indicativo/imperativo/conjuntivo), tempo, regular vs
+  irregular, formas nominais (infinitivo/gerúndio/particípio) e o par ser/ir
+  («fui»). Reutiliza `pt-verbo-conjugacao`, `pt-verbo-tempo`, `pt-verbo-modo`,
+  `pt-preterito-perfeito-imperfeito` e `pt-verbo-mais-que-perfeito`, e acrescenta
+  `pt-verbo-irregular`, `pt-verbo-forma-nominal` e `pt-verbo-ser-ir`.
+- Próximo passo desta fase: procurar lições centrais sem `feedback` em
+  Matemática 5.º–6.º (e rever Português 6.º à procura de outras lições centrais),
   reutilizando as famílias de `tag` já criadas (`problema-*`, `fracao-*`,
   `medidas-*`, `en-*`, `pt-*`).
 

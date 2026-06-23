@@ -3,7 +3,9 @@ import {
   ArcRotateCamera,
   Color3,
   Color4,
+  DirectionalLight,
   Engine,
+  GlowLayer,
   HemisphericLight,
   Mesh,
   MeshBuilder,
@@ -31,6 +33,7 @@ interface HudState {
 
 interface Seed {
   mesh: Mesh;
+  ring: Mesh;
   baseY: number;
   taken: boolean;
 }
@@ -56,6 +59,7 @@ const TAU = Math.PI * 2;
 const TOTAL_SEEDS = 12;
 const ROUND_TIME = 90;
 const PLAYER_SPEED = 4.1;
+const CAMERA_KEY_SPEED = 2.4;
 const START_TEXT =
   "Corre pelo jardim e apanha 12 sementes de luz. Usa WASD ou setas para andar, botão direito do rato para rodar a câmara, roda para zoom, ou o manípulo no iPad.";
 
@@ -258,7 +262,11 @@ class SplatGardenGame {
     this.camera.inputs.clear();
     this.camera.inertia = 0.72;
 
-    new HemisphericLight("ag-light", new Vector3(-0.35, 1, 0.45), this.scene).intensity = 1.18;
+    new HemisphericLight("ag-hemi", new Vector3(-0.35, 1, 0.45), this.scene).intensity = 0.9;
+    const sun = new DirectionalLight("ag-sun", new Vector3(-0.55, -1, 0.45), this.scene);
+    sun.intensity = 0.82;
+    const glow = new GlowLayer("ag-glow", this.scene);
+    glow.intensity = 0.48;
     this.buildWorld();
     const player = this.buildPlayer();
     this.player = player.root;
@@ -284,6 +292,7 @@ class SplatGardenGame {
     canvas.addEventListener("contextmenu", this.onContextMenu);
     window.addEventListener("keydown", this.onKeyDown);
     window.addEventListener("keyup", this.onKeyUp);
+    window.addEventListener("pointerup", this.onCameraPointerUp);
     this.resize();
     this.emit();
   }
@@ -306,6 +315,7 @@ class SplatGardenGame {
     this.seeds.forEach((s) => {
       s.taken = false;
       s.mesh.setEnabled(true);
+      s.ring.setEnabled(true);
     });
     this.emit();
   }
@@ -329,6 +339,7 @@ class SplatGardenGame {
     this.canvas.removeEventListener("contextmenu", this.onContextMenu);
     window.removeEventListener("keydown", this.onKeyDown);
     window.removeEventListener("keyup", this.onKeyUp);
+    window.removeEventListener("pointerup", this.onCameraPointerUp);
     this.scene.dispose();
     this.engine.dispose();
   }
@@ -338,9 +349,12 @@ class SplatGardenGame {
   }
 
   private onKeyDown = (e: KeyboardEvent) => {
-    if (["KeyW", "KeyA", "KeyS", "KeyD", "ArrowUp", "ArrowLeft", "ArrowDown", "ArrowRight"].includes(e.code)) {
+    if (["KeyW", "KeyA", "KeyS", "KeyD", "ArrowUp", "ArrowLeft", "ArrowDown", "ArrowRight", "KeyQ", "KeyE"].includes(e.code)) {
       e.preventDefault();
       this.keys.add(e.code);
+    } else if (e.code === "KeyR") {
+      e.preventDefault();
+      this.recenterCamera();
     }
   };
 
@@ -373,6 +387,7 @@ class SplatGardenGame {
     if (this.cameraPointerId !== e.pointerId) return;
     this.draggingCamera = false;
     this.cameraPointerId = null;
+    if (this.canvas.hasPointerCapture?.(e.pointerId)) this.canvas.releasePointerCapture(e.pointerId);
   };
 
   private onWheel = (e: WheelEvent) => {
@@ -392,6 +407,9 @@ class SplatGardenGame {
     const leafMat = mat(this.scene, "leaves", new Color3(0.24, 0.54, 0.28));
     const rockMat = mat(this.scene, "rock", new Color3(0.5, 0.52, 0.5));
     const flowerMat = mat(this.scene, "flower", new Color3(0.88, 0.42, 0.55));
+    const bridgeMat = mat(this.scene, "bridge", new Color3(0.62, 0.42, 0.24));
+    const fenceMat = mat(this.scene, "fence", new Color3(0.82, 0.68, 0.48));
+    const cloudMat = mat(this.scene, "cloud", new Color3(1, 0.97, 0.9), 0.88);
 
     const ground = MeshBuilder.CreateGround("ag-ground", { width: 13, height: 9.5, subdivisions: 2 }, this.scene);
     ground.position.z = -0.35;
@@ -402,6 +420,14 @@ class SplatGardenGame {
     pond.position.set(0.15, 0.04, 0.55);
     pond.material = waterMat;
     pond.freezeWorldMatrix();
+
+    for (let i = 0; i < 9; i++) {
+      const plank = MeshBuilder.CreateBox(`ag-bridge-plank-${i}`, { width: 0.52, height: 0.08, depth: 0.42 }, this.scene);
+      plank.position.set((i - 4) * 0.46, 0.16 + Math.sin((i / 8) * Math.PI) * 0.15, 0.45);
+      plank.rotation.z = (i - 4) * -0.035;
+      plank.material = bridgeMat;
+      plank.freezeWorldMatrix();
+    }
 
     for (let i = 0; i < 15; i++) {
       const stone = MeshBuilder.CreateCylinder(`ag-stone-${i}`, { height: 0.06, diameter: 0.52 + hash01(i, 1) * 0.16, tessellation: 16 }, this.scene);
@@ -442,6 +468,37 @@ class SplatGardenGame {
       flower.position.set(side * (2.15 + hash01(i, 13) * 2.7), 0.18, 1.3 + (hash01(i, 14) - 0.5) * 2.4);
       flower.material = flowerMat;
       flower.freezeWorldMatrix();
+    }
+
+    for (let i = 0; i < 18; i++) {
+      const x = -6 + i * 0.7;
+      for (const z of [4.15, -4.9]) {
+        const post = MeshBuilder.CreateBox(`ag-fence-post-${i}-${z}`, { width: 0.12, height: 0.54, depth: 0.1 }, this.scene);
+        post.position.set(x, 0.27, z);
+        post.material = fenceMat;
+        post.freezeWorldMatrix();
+      }
+    }
+    for (const z of [4.15, -4.9]) {
+      for (const y of [0.23, 0.43]) {
+        const rail = MeshBuilder.CreateBox(`ag-fence-rail-${z}-${y}`, { width: 12.6, height: 0.08, depth: 0.08 }, this.scene);
+        rail.position.set(0, y, z);
+        rail.material = fenceMat;
+        rail.freezeWorldMatrix();
+      }
+    }
+
+    for (let c = 0; c < 5; c++) {
+      const cx = -4.6 + c * 2.3;
+      const cz = -5.2 - hash01(c, 71) * 1.2;
+      const cy = 4.2 + hash01(c, 72) * 0.8;
+      for (let p = 0; p < 4; p++) {
+        const cloud = MeshBuilder.CreateSphere(`ag-cloud-${c}-${p}`, { diameter: 0.72 + hash01(c * 5 + p, 73) * 0.4, segments: 10 }, this.scene);
+        cloud.position.set(cx + (p - 1.5) * 0.38, cy + Math.sin(p) * 0.08, cz);
+        cloud.scaling.y = 0.55;
+        cloud.material = cloudMat;
+        cloud.freezeWorldMatrix();
+      }
     }
   }
 
@@ -489,19 +546,26 @@ class SplatGardenGame {
   }
 
   private buildSeeds() {
-    const seedMat = mat(this.scene, "seed", new Color3(1, 0.82, 0.24), 1, new Color3(1, 0.95, 0.38));
-    seedMat.emissiveColor = new Color3(0.9, 0.58, 0.08);
+    const seedMat = mat(this.scene, "seed", new Color3(1, 0.78, 0.2), 1, new Color3(1, 0.95, 0.38));
+    seedMat.emissiveColor = new Color3(1, 0.62, 0.08);
+    const ringMat = mat(this.scene, "seed-ring", new Color3(1, 0.9, 0.35), 0.72, Color3.Black());
+    ringMat.emissiveColor = new Color3(0.86, 0.58, 0.08);
     const points = [
       [-2.9, 0.9], [-1.4, 2.25], [1.6, 2.25], [3.1, 0.8],
       [4.2, -1.45], [2.4, -3.0], [0.1, -3.45], [-2.4, -3.0],
       [-4.2, -1.35], [-3.6, 1.75], [0.2, 0.55], [2.7, -0.85],
     ];
     return points.map(([x, z], i) => {
-      const seed = MeshBuilder.CreateSphere(`ag-seed-${i}`, { diameter: 0.36, segments: 16 }, this.scene);
+      const seed = MeshBuilder.CreatePolyhedron(`ag-seed-${i}`, { type: 1, size: 0.32 }, this.scene);
       seed.position.set(x, 0.58, z);
       seed.material = seedMat;
       seed.isPickable = false;
-      return { mesh: seed, baseY: seed.position.y, taken: false };
+      const ring = MeshBuilder.CreateTorus(`ag-seed-ring-${i}`, { diameter: 0.72, thickness: 0.035, tessellation: 28 }, this.scene);
+      ring.position.copyFrom(seed.position);
+      ring.rotation.x = Math.PI / 2;
+      ring.material = ringMat;
+      ring.isPickable = false;
+      return { mesh: seed, ring, baseY: seed.position.y, taken: false };
     });
   }
 
@@ -544,6 +608,7 @@ class SplatGardenGame {
   private tick() {
     const dt = Math.min(0.045, this.engine.getDeltaTime() / 1000);
     const time = performance.now() / 1000;
+    this.updateCameraKeys(dt);
     if (this.phase === "playing") {
       this.timeLeft = Math.max(0, this.timeLeft - dt);
       this.updatePlayer(dt, time);
@@ -588,12 +653,24 @@ class SplatGardenGame {
       if (Math.hypot(this.playerPos.x - s.mesh.position.x, this.playerPos.z - s.mesh.position.z) < 0.68) {
         s.taken = true;
         s.mesh.setEnabled(false);
+        s.ring.setEnabled(false);
         this.score += 1;
         this.streak = time - this.lastCollect < 4 ? this.streak + 1 : 1;
         this.lastCollect = time;
         this.burstAt(s.mesh.position);
       }
     }
+  }
+
+  private updateCameraKeys(dt: number) {
+    const rotate = (this.keys.has("KeyE") ? 1 : 0) - (this.keys.has("KeyQ") ? 1 : 0);
+    if (rotate) this.camYaw -= rotate * CAMERA_KEY_SPEED * dt;
+  }
+
+  private recenterCamera() {
+    this.camPitch = 1.08;
+    this.camRadius = 7.5;
+    this.camYaw = this.player.rotation.y;
   }
 
   private idlePlayer(time: number) {
@@ -622,7 +699,11 @@ class SplatGardenGame {
       const s = this.seeds[i];
       if (s.taken) continue;
       s.mesh.position.y = s.baseY + Math.sin(time * 2.6 + i) * 0.09;
-      s.mesh.rotation.y += 0.035;
+      s.mesh.rotation.y += 0.04;
+      s.mesh.rotation.x += 0.018;
+      s.ring.position.copyFrom(s.mesh.position);
+      s.ring.rotation.z += 0.035;
+      s.ring.scaling.setAll(1 + Math.sin(time * 3 + i) * 0.05);
     }
   }
 

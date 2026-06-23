@@ -88,8 +88,8 @@ Vamos arredondar 234 à centena mais próxima.
       "layout": "grid",
       "options": [
         { "t": "Dar uma resposta aproximada e rápida", "correct": true },
-        { "t": "Fazer sempre a conta exata" },
-        { "t": "Apagar o número" }
+        { "t": "Fazer sempre a conta exata", "feedback": "Fazer a conta exata é o contrário de estimar — demora mais. Estimar é dar uma resposta aproximada e rápida.", "tag": "estimar-conceito" },
+        { "t": "Apagar o número", "feedback": "Estimar não apaga nada! É só dar uma resposta aproximada, sem fazer a conta certinha.", "tag": "estimar-conceito" }
       ],
       "explain": "Estimar é dar uma resposta aproximada, sem fazer a conta certinha."
     },
@@ -99,8 +99,8 @@ Vamos arredondar 234 à centena mais próxima.
       "layout": "grid",
       "options": [
         { "t": "50", "correct": true },
-        { "t": "40" },
-        { "t": "47" }
+        { "t": "40", "feedback": "Arredondaste para baixo, mas o algarismo seguinte é 7 (5 ou mais), por isso SOBE. Fica 50, não 40.", "tag": "arredondar" },
+        { "t": "47", "feedback": "47 é o número original — arredondar é aproximá-lo à dezena. Como o 7 é 5 ou mais, sobe para 50.", "tag": "arredondar" }
       ],
       "explain": "O algarismo a seguir é o 7 (5 ou mais), por isso sobe para 50."
     },
@@ -110,8 +110,8 @@ Vamos arredondar 234 à centena mais próxima.
       "layout": "grid",
       "options": [
         { "t": "Arredondas para baixo", "correct": true },
-        { "t": "Arredondas para cima" },
-        { "t": "Ficas igual para sempre" }
+        { "t": "Arredondas para cima", "feedback": "Só sobes com 5 ou mais. O 3 é menor que 5, por isso arredondas para BAIXO.", "tag": "arredondar" },
+        { "t": "Ficas igual para sempre", "feedback": "Arredondar muda o número para a dezena/centena mais perto. Com o 3 (menos de 5), arredondas para baixo.", "tag": "arredondar" }
       ],
       "explain": "3 é menor que 5, por isso arredondas para baixo."
     },
@@ -121,8 +121,8 @@ Vamos arredondar 234 à centena mais próxima.
       "layout": "grid",
       "options": [
         { "t": "200", "correct": true },
-        { "t": "300" },
-        { "t": "240" }
+        { "t": "300", "feedback": "300 seria arredondar para cima, mas o algarismo das dezenas é 3 (menos de 5), por isso fica 200.", "tag": "arredondar" },
+        { "t": "240", "feedback": "240 é arredondar à dezena, não à centena. À centena olhas as dezenas (3, menos de 5) e fica 200.", "tag": "arredondar" }
       ],
       "explain": "O algarismo das dezenas é 3 (menos de 5), por isso fica 200."
     },
@@ -132,8 +132,8 @@ Vamos arredondar 234 à centena mais próxima.
       "layout": "grid",
       "options": [
         { "t": "2000", "correct": true },
-        { "t": "1000" },
-        { "t": "1700" }
+        { "t": "1000", "feedback": "1000 seria arredondar para baixo, mas o algarismo das centenas é 7 (5 ou mais), por isso sobe para 2000.", "tag": "arredondar" },
+        { "t": "1700", "feedback": "1700 é arredondar à centena, não ao milhar. Ao milhar olhas as centenas (7) e sobe para 2000.", "tag": "arredondar" }
       ],
       "explain": "O algarismo das centenas é 7 (5 ou mais), por isso sobe para 2000."
     },
@@ -143,8 +143,8 @@ Vamos arredondar 234 à centena mais próxima.
       "layout": "grid",
       "options": [
         { "t": "5 ou mais, sobe; menos de 5, fica", "correct": true },
-        { "t": "Sobe sempre" },
-        { "t": "Fica sempre igual" }
+        { "t": "Sobe sempre", "feedback": "Nem sempre se sobe! Com menos de 5 (0,1,2,3,4) arredondas para baixo. A regra é: 5 ou mais sobe, menos de 5 fica.", "tag": "arredondar" },
+        { "t": "Fica sempre igual", "feedback": "Nem sempre fica igual: com 5 ou mais arredondas para cima. A regra é 5 ou mais sobe, menos de 5 fica.", "tag": "arredondar" }
       ],
       "explain": "Olhas para o algarismo seguinte: 5 ou mais sobe, menos de 5 fica."
     },
@@ -154,8 +154,8 @@ Vamos arredondar 234 à centena mais próxima.
       "layout": "grid",
       "options": [
         { "t": "Ver depressa se o dinheiro chega", "correct": true },
-        { "t": "Pagar a mais de propósito" },
-        { "t": "Esconder o dinheiro" }
+        { "t": "Pagar a mais de propósito", "feedback": "Estimar não é pagar a mais — é o contrário! Serve para ver depressa se o dinheiro chega para tudo.", "tag": "estimar-conceito" },
+        { "t": "Esconder o dinheiro", "feedback": "Estimar nada tem a ver com esconder dinheiro. Serve para saber rapidamente se o dinheiro chega.", "tag": "estimar-conceito" }
       ],
       "explain": "Estimar ajuda-te a saber rapidamente se o dinheiro chega."
     },
@@ -165,8 +165,8 @@ Vamos arredondar 234 à centena mais próxima.
       "layout": "grid",
       "options": [
         { "t": "80", "correct": true },
-        { "t": "90" },
-        { "t": "100" }
+        { "t": "90", "feedback": "90 seria subir, mas o algarismo seguinte é 1 (menos de 5), por isso fica 80.", "tag": "arredondar" },
+        { "t": "100", "feedback": "100 é arredondar à centena, e demais. À dezena, 81 com o 1 (menos de 5) fica 80.", "tag": "arredondar" }
       ],
       "explain": "O algarismo seguinte é 1 (menos de 5), por isso fica 80."
     }
@@ -188,8 +188,8 @@ Vamos arredondar 234 à centena mais próxima.
       "layout": "grid",
       "options": [
         { "t": "Aproximada e rápida", "correct": true },
-        { "t": "Sempre exata e lenta" },
-        { "t": "Errada de propósito" }
+        { "t": "Sempre exata e lenta", "feedback": "Exata e lenta é a conta normal — o contrário de estimar. Estimar dá uma resposta aproximada e rápida.", "tag": "estimar-conceito" },
+        { "t": "Errada de propósito", "feedback": "Estimar não é errar de propósito! É dar uma resposta aproximada que faz sentido, só que depressa.", "tag": "estimar-conceito" }
       ],
       "explain": "Estimar é dar uma resposta aproximada e rápida."
     },
@@ -199,8 +199,8 @@ Vamos arredondar 234 à centena mais próxima.
       "layout": "grid",
       "options": [
         { "t": "60", "correct": true },
-        { "t": "70" },
-        { "t": "62" }
+        { "t": "70", "feedback": "70 seria subir, mas o algarismo seguinte é 2 (menos de 5), por isso fica 60.", "tag": "arredondar" },
+        { "t": "62", "feedback": "62 é o número original. Arredondar à dezena com o 2 (menos de 5) dá 60.", "tag": "arredondar" }
       ],
       "explain": "O algarismo seguinte é 2 (menos de 5), por isso fica 60."
     },
@@ -210,8 +210,8 @@ Vamos arredondar 234 à centena mais próxima.
       "layout": "grid",
       "options": [
         { "t": "400", "correct": true },
-        { "t": "300" },
-        { "t": "350" }
+        { "t": "300", "feedback": "300 seria arredondar para baixo, mas o algarismo das dezenas é 5 — e com 5 sobe-se. Fica 400.", "tag": "arredondar" },
+        { "t": "350", "feedback": "350 é o número original. À centena olhas as dezenas (5) e, como é 5 ou mais, sobe para 400.", "tag": "arredondar" }
       ],
       "explain": "O algarismo das dezenas é 5, e 5 ou mais sobe: fica 400."
     },
@@ -221,8 +221,8 @@ Vamos arredondar 234 à centena mais próxima.
       "layout": "grid",
       "options": [
         { "t": "2000", "correct": true },
-        { "t": "3000" },
-        { "t": "2500" }
+        { "t": "3000", "feedback": "3000 seria subir, mas o algarismo das centenas é 4 (menos de 5), por isso fica 2000.", "tag": "arredondar" },
+        { "t": "2500", "feedback": "2500 é arredondar à centena, não ao milhar. Ao milhar olhas as centenas (4, menos de 5) e fica 2000.", "tag": "arredondar" }
       ],
       "explain": "O algarismo das centenas é 4 (menos de 5), por isso fica 2000."
     },
@@ -232,8 +232,8 @@ Vamos arredondar 234 à centena mais próxima.
       "layout": "grid",
       "options": [
         { "t": "Para cima", "correct": true },
-        { "t": "Para baixo" },
-        { "t": "Não arredondas" }
+        { "t": "Para baixo", "feedback": "Só vais para baixo com menos de 5. O 8 é 5 ou mais, por isso arredondas para CIMA.", "tag": "arredondar" },
+        { "t": "Não arredondas", "feedback": "Com 8 arredondas sim — e para cima, porque é 5 ou mais.", "tag": "arredondar" }
       ],
       "explain": "8 é 5 ou mais, por isso arredondas para cima."
     },
@@ -243,8 +243,8 @@ Vamos arredondar 234 à centena mais próxima.
       "layout": "grid",
       "options": [
         { "t": "Excesso", "correct": true },
-        { "t": "Defeito" },
-        { "t": "Engano" }
+        { "t": "Defeito", "feedback": "Trocaste: por defeito é arredondar para BAIXO. Para cima é por excesso.", "tag": "arredondar" },
+        { "t": "Engano", "feedback": "«Engano» não é um nome de arredondamento. Para cima é por excesso, para baixo por defeito.", "tag": "arredondar" }
       ],
       "explain": "Para cima é por excesso; para baixo é por defeito."
     },
@@ -254,8 +254,8 @@ Vamos arredondar 234 à centena mais próxima.
       "layout": "grid",
       "options": [
         { "t": "Cerca de 100 €", "correct": true },
-        { "t": "Cerca de 50 €" },
-        { "t": "Cerca de 300 €" }
+        { "t": "Cerca de 50 €", "feedback": "50 € é pouco — só o 48 já fica perto disso. Arredonda cada um: 20 + 30 + 50 = cerca de 100 €.", "tag": "estimar-valor" },
+        { "t": "Cerca de 300 €", "feedback": "300 € é demais — três vezes a mais. Arredondando à dezena: 20 + 30 + 50 = cerca de 100 €.", "tag": "estimar-valor" }
       ],
       "explain": "20 + 30 + 50 = 100 €, uma boa estimativa."
     },
@@ -265,8 +265,8 @@ Vamos arredondar 234 à centena mais próxima.
       "layout": "grid",
       "options": [
         { "t": "Ver se a resposta está mais ou menos certa", "correct": true },
-        { "t": "Estragar a calculadora" },
-        { "t": "Mudar os números todos" }
+        { "t": "Estragar a calculadora", "feedback": "Estimar não estraga nada! Serve para veres se a resposta da calculadora está mais ou menos certa.", "tag": "estimar-conceito" },
+        { "t": "Mudar os números todos", "feedback": "Estimar não muda os números da conta — é só uma verificação rápida para ver se o resultado faz sentido.", "tag": "estimar-conceito" }
       ],
       "explain": "A estimativa ajuda-te a verificar se a calculadora deu um resultado razoável."
     }
